@@ -1,0 +1,158 @@
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace JoostMod.Projectiles
+{
+    public class VileCactusWorm : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Vile Cactus Worm");
+            ProjectileID.Sets.DontAttachHideToAlpha[projectile.type] = true;
+            Main.projFrames[projectile.type] = 3;
+        }
+        public override void SetDefaults()
+        {
+            projectile.width = 28;
+            projectile.height = 28;
+            projectile.aiStyle = -1;
+            projectile.friendly = true;
+            projectile.magic = true;
+            projectile.hide = true;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 300;
+            projectile.tileCollide = false;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
+        }
+        int ai = 0;
+        int soundDelay = 0;
+        public override void AI()
+        {
+            projectile.frame = (int)projectile.ai[0];
+            Player player = Main.player[projectile.owner];
+            Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            if (ai <= 0 && Main.netMode != 1 && projectile.ai[0] <= 0)
+            {
+                int latestProj = projectile.whoAmI;
+                int cactusWormLength = 4;
+                for (int i = 0; i < cactusWormLength; ++i)
+                {
+                    latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 1, latestProj);
+                }
+                latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 2, latestProj);
+                ai = 1;
+                projectile.netUpdate = true;
+            }
+            bool solid = false;
+            for (int i = (int)(projectile.position.X / 16); i < (int)((projectile.position.X + projectile.width) / 16); i++)
+            {
+                for (int j = (int)(projectile.Center.Y / 16); j < (int)((projectile.position.Y + projectile.height) / 16); j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.active() && Main.tileSolid[(int)tile.type])
+                    {
+                        solid = true;
+                        break;
+                    }
+                }
+            }
+            if (Main.myPlayer == projectile.owner && projectile.ai[0] <= 0)
+            {
+                bool channeling = player.channel && !player.noItems && !player.CCed && ai == 1;
+                if (channeling)
+                {
+                    float scaleFactor = 1f;
+                    if (player.inventory[player.selectedItem].shoot == projectile.type)
+                    {
+                        scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                    }
+                    Vector2 dir = Main.MouseWorld - projectile.Center;
+                    float length = scaleFactor / dir.Length();
+                    dir *= length;
+                    if (dir.X != projectile.velocity.X || dir.Y != projectile.velocity.Y)
+                    {
+                        projectile.netUpdate = true;
+                    }
+                    projectile.velocity.X = (projectile.velocity.X * 20 + dir.X) / 21;
+                    if (solid)
+                    {
+                        projectile.velocity.Y = (projectile.velocity.Y * 20 + dir.Y) / 21;
+                        Point pos = projectile.Center.ToTileCoordinates();
+                        Tile tileSafely = Framing.GetTileSafely(pos.X, pos.Y);
+                        Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
+                        soundDelay++;
+                        if (soundDelay > 15)
+                        {
+                            Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                            soundDelay = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (projectile.velocity.Y < 10)
+                        {
+                            projectile.velocity.Y += 0.2f;
+                        }
+                    }
+                    projectile.timeLeft = 300;
+                }
+                else
+                {
+                    ai = 2;
+                    if (solid)
+                    {
+                        if (projectile.velocity.Y > -10)
+                        {
+                            projectile.velocity.Y -= 0.2f;
+                        }
+                        soundDelay++;
+                        if (soundDelay > 15)
+                        {
+                            Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                            soundDelay = 0;
+                        }
+                    }
+                    else if (projectile.velocity.Y < 10)
+                    {
+                        projectile.velocity.Y += 0.2f;
+                    }
+                }
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            }
+            else
+            {
+                if (!Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].owner != projectile.owner || Main.projectile[(int)projectile.ai[1]].type != projectile.type)
+                {
+                    projectile.Kill();
+                }
+                if (projectile.ai[1] < (double)Main.projectile.Length)
+                {
+                    projectile.timeLeft = Main.projectile[(int)projectile.ai[1]].timeLeft;
+                    float dirX = Main.projectile[(int)projectile.ai[1]].Center.X - projectile.Center.X;
+                    float dirY = Main.projectile[(int)projectile.ai[1]].Center.Y - projectile.Center.Y;
+                    projectile.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
+                    float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
+                    float dist = (length - (float)projectile.width) / length;
+                    if (Main.projectile[(int)projectile.ai[1]].ai[0] == 0)
+                    {
+                        dist = (length - projectile.width / 2) / length;
+                    }
+                    float posX = dirX * dist;
+                    float posY = dirY * dist;
+                    projectile.velocity = Vector2.Zero;
+                    projectile.position.X = projectile.position.X + posX;
+                    projectile.position.Y = projectile.position.Y + posY;
+                }
+            }
+        }
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindprojectilesAndTiles, List<int> drawCacheProjsBehindprojectiles, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindprojectilesAndTiles.Add(index);
+        }
+    }
+}
