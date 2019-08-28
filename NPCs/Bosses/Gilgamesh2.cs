@@ -659,7 +659,7 @@ namespace JoostMod.NPCs.Bosses
                 masamuneOffset.Y += 2;
                 gunBladeOffset.Y += 2;
             }
-            if (npc.ai[3] < 2)
+            if (npc.ai[3] < 4)
             {
                 spriteBatch.Draw(excalipoorTex, npc.Center - Main.screenPosition + new Vector2(npc.scale * npc.direction * excalipoorOffset.X, npc.scale * excalipoorOffset.Y), new Rectangle?(excalipoorRect), color, excalipoorRotation, excalipoorVect, npc.scale, excalipoorEffects, 0f);
             }
