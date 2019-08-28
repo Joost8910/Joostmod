@@ -1,0 +1,9 @@
+author = Joost8910
+version = 0.7.2.12
+displayName = JoostMod
+homepage = http://forums.terraria.org/index.php?threads/the-joostmod.42879/
+includePDB = true
+hideCode = false
+includeSource = true
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, *.pdn
+weakReferences = UnuBattleRods@1.1
