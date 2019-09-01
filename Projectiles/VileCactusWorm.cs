@@ -26,8 +26,8 @@ namespace JoostMod.Projectiles
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.tileCollide = false;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 50;
         }
         int ai = 0;
         int soundDelay = 0;
@@ -70,8 +70,20 @@ namespace JoostMod.Projectiles
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
                     {
                         scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        player.itemAnimation = player.inventory[player.selectedItem].useTime;
+                        player.itemTime = player.inventory[player.selectedItem].useTime;
                     }
                     Vector2 dir = Main.MouseWorld - projectile.Center;
+                    Vector2 rot = player.DirectionTo(Main.MouseWorld);
+                    if (rot.X < 0)
+                    {
+                        player.ChangeDir(-1);
+                    }
+                    if (rot.X > 0)
+                    {
+                        player.ChangeDir(1);
+                    }
+                    player.itemRotation = (float)Math.Atan2((double)(rot.Y * (float)player.direction), (double)(rot.X * (float)player.direction));
                     float length = scaleFactor / dir.Length();
                     dir *= length;
                     if (dir.X != projectile.velocity.X || dir.Y != projectile.velocity.Y)

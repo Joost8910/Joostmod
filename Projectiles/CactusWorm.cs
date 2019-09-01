@@ -20,7 +20,7 @@ namespace JoostMod.Projectiles
             projectile.friendly = true;
             projectile.minion = true;
             projectile.penetrate = 15;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 200;
             projectile.tileCollide = false;
             projectile.hide = true;
             projectile.ignoreWater = true;

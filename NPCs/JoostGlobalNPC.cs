@@ -130,8 +130,8 @@ namespace JoostMod.NPCs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 25;
-                damage = 25;
+                npc.lifeRegen -= 50;
+                damage = 50;
             }
             if (infectedGreen)
             {
@@ -139,8 +139,8 @@ namespace JoostMod.NPCs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 25;
-                damage = 25;
+                npc.lifeRegen -= 50;
+                damage = 50;
             }
             if (infectedBlue)
             {
@@ -148,8 +148,8 @@ namespace JoostMod.NPCs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 25;
-                damage = 25;
+                npc.lifeRegen -= 50;
+                damage = 50;
             }
             if (infectedYellow)
             {
@@ -157,8 +157,8 @@ namespace JoostMod.NPCs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 25;
-                damage = 25;
+                npc.lifeRegen -= 50;
+                damage = 50;
             }
         }
         public override bool CheckDead(NPC npc)

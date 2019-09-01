@@ -32,13 +32,19 @@ namespace JoostMod.Projectiles
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            width = 30;
-            height = 30;
+            width = (int)(30 * projectile.scale);
+            height = (int)(30 * projectile.scale);
             return true;
         }
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
+            if (player.inventory[player.selectedItem].shoot == projectile.type)
+            {
+                projectile.scale = player.inventory[player.selectedItem].scale;
+            }
+            projectile.width = (int)(38 * projectile.scale);
+            projectile.height = (int)(38 * projectile.scale);
             if (player.dead)
             {
                 projectile.Kill();
@@ -212,7 +218,7 @@ namespace JoostMod.Projectiles
             }
             Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
             Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
-            float num1 = (float)texture.Height;
+            float num1 = (float)texture.Height * projectile.scale;
             Vector2 vector2_4 = playerCenter - position;
             float rotation = (float)Math.Atan2((double)vector2_4.Y, (double)vector2_4.X) - 1.57f;
             bool flag = true;
@@ -234,11 +240,20 @@ namespace JoostMod.Projectiles
                     vector2_4 = playerCenter - position;
                     Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
                     color2 = projectile.GetAlpha(color2);
-                    Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, projectile.scale, SpriteEffects.None, 0.0f);
                 }
             }
 
-            return true;
+            Texture2D tex = Main.projectileTexture[projectile.type];
+            SpriteEffects effects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+            {
+                effects = SpriteEffects.FlipHorizontally;
+            }
+            Color color = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16.0));
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
+            return false;
+
         }
     }
 }

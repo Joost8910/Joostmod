@@ -20,7 +20,7 @@ public override void SetStaticDefaults()
 			item.height = 16;
             item.value = Item.buyPrice(0, 7, 50, 0); 
 			item.rare = 2;
-            item.defense = 6;
+            item.defense = 7;
 		}
         public override bool IsArmorSet(Item head, Item body, Item legs)
 		{

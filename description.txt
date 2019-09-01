@@ -47,6 +47,7 @@ Version 0.8
 - Reduced damage Legendary Weapons get from killing Wall of Flesh and Moon Lord
 - Reduced attack speed and projectile count of Toxic Bucket and Bloody Bucket
 - Reduced attack speed of the Ember and Frost Ember Minions'
+- Reduced attack speed of Vile Cactus Worm
 - Reduced attack speed of Boook's Bullet Hell
 - Reduced attack speed of Larkus's Tome Spirit of Power
 - Reduced attack speed of Warhammer of Grognak 
@@ -57,7 +58,7 @@ Version 0.8
 - Reduced knockback of 100 needles spell from 1 to 0.5
 - Reduced knockback of 1000 needles spell from 3 to 1.5
 - Reduced knockback of hungering arrow from 3 to 0
-- Reduced thorns effect of Catuar Shield from 20x to 15x
+- Reduced thorns effect of Cactuar Shield from 20x to 11x
 - Reduced Cactus Worm Spawnrate
 - Reduced Cactuar Spawnrate
 - Reduced Earth Elemental Spawnrate
@@ -71,6 +72,7 @@ Version 0.8
 - Increased attack speed of Cactuar minions
 - Increased attack speed of Water Balloon
 - Increased attack speed of Sapling - Hatchet
+- Increased attack speed of Cactus Banner
 - Increased amount of dungeon spirits spawned by Spectre on death
 - Increased damage of Deathbringer from 56 to 86
 - Increased damage of Lesser Elemental Weapon Set projectile multipliers
@@ -81,6 +83,7 @@ Version 0.8
 - Increased damage of Warhammer of Grognak's shockwave 
 - Increased hit cooldown of Succulent Throw from 10 to 12 ticks
 - Increased hit cooldown of Hungering Arrow from 5 to 6 ticks
+- Increased immunity frames granted by the Tomato Head
 - Increased spread of 100 needles spell and 1000 needles spell
 - Increased mana consumption rate of Needle Wrath
 - Increased mana cost of crystal staff from 12 to 20
@@ -102,8 +105,10 @@ Version 0.8
 - Cactus Balls fired by the Grand Cactus Worm now stick to tiles instead of popping into spikes
 - Cactus Person now leaves a trail of protective cactus as they walk on sand/cactus
 - Cactus Person now makes nearby Cactoids friendly and nearby Cactuars passive
-- Crimson Genji Armor set bonus grants ranged damage based on amount of sacrificed defense instead of an additive 100%
 - Decisive changed from -20% damage and +40% crit chance to just +20% crit chance, so it is more comparable to Demonic
+- Azure Genji Armor set bonus ability now consumes all your mana
+- Crimson Genji Armor set bonus grants ranged damage based on amount of sacrificed defense instead of an additive 100%
+- Veridian Genji Armor now grants 50% increased throwing damage and velocity after dodging using its set bonus ability
 - Grabby Swingy hook now drags you better so it is less likely to unhook from fast enemies
 - Grand Cactus Worm body segments now takes 60% damage from piercing projectiles instead of 50% damage;
 This no longer affects projectiles with a penetrate value of 2
@@ -123,7 +128,6 @@ This no longer affects projectiles with a penetrate value of 2
 - Terra Spear, True Gungnir, and True Dark Lance's release their beams at the peak rather than the beginning of their thrust
 - Terra Spear, True Gungnir, and True Dark Lance's beams no longer goes through tiles
 - Treasure Goblin now has a 1% chance to drop one of the legendary stones in expert mode
-- Azure Genji Armor set bonus ability now consumes all your mana
-- Veridian Genji Armor now grants 50% increased throwing damage and crit chance after dodging using its set bonus ability
+- Vile Cactus worm now uses a local npc hit cooldown rather than id static hit cooldown
 - Warhammer of Grognak's shockwave now is bigger and goes further but shrinks over distance
 - X Shield now creates different colors of X Parasites that spread infection to enemies

@@ -18,8 +18,8 @@ namespace JoostMod.Items.Weapons
             item.mana = 14;
 			item.width = 50;
 			item.height = 50;
-			item.useTime = 18;
-			item.useAnimation = 18;
+			item.useTime = 28;
+			item.useAnimation = 28;
             item.reuseDelay = 5;
 			item.useStyle = 5;
             Item.staff[item.type] = true;
@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons
 			item.value = 60000;
 			item.rare = 2;
 			item.UseSound = SoundID.Item8;
-			item.autoReuse = false;
+			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("VileCactusWorm");
 			item.shootSpeed = 10f;
         }

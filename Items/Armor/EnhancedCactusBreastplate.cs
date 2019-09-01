@@ -17,7 +17,7 @@ namespace JoostMod.Items.Armor
             item.height = 18;
             item.value = Item.buyPrice(0, 10, 0, 0);
             item.rare = 2;
-            item.defense = 7;
+            item.defense = 8;
         }
         public override void UpdateEquip(Player player)
         {
