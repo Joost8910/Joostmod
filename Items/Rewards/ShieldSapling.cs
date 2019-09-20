@@ -13,7 +13,8 @@ namespace JoostMod.Items.Rewards
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sapling - Shield");
-		}
+            Tooltip.SetDefault("Tries to block attackers behind you\n" + "Cannot block projectiles that deal more than " + (Main.expertMode ? "60" : "30") + " damage");
+        }
 		public override void SetDefaults()
 		{
 			item.width = 26;
@@ -21,8 +22,12 @@ namespace JoostMod.Items.Rewards
 			item.value = 20000;
 			item.rare = 3;
             item.accessory = true;
-            item.defense = 3;
-		}
+            //item.defense = 4;
+        }
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.GetModPlayer<JoostPlayer>(mod).shieldSapling = true;
+        }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)

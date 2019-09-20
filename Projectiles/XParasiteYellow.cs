@@ -134,9 +134,13 @@ namespace JoostMod.Projectiles
                 {
                     projectile.timeLeft -= 2;
                 }
-                if (projectile.timeLeft < 14)
+                if (projectile.timeLeft < 20)
                 {
-                    projectile.scale -= projectile.timeLeft * 0.05f;
+                    projectile.scale -= 0.05f;
+                    if (projectile.scale <= 0.1f)
+                    {
+                        projectile.Kill();
+                    }
                 }
                 projectile.ai[1]++;
                 if (projectile.ai[1] > 30)

@@ -20,7 +20,7 @@ namespace JoostMod.Projectiles.Minions
 		{
 		}
 
-		public virtual void SelectFrame()
+		public virtual void SelectFrame(Vector2 tPos)
 		{
 		}
 
@@ -51,7 +51,7 @@ namespace JoostMod.Projectiles.Minions
 					}
 				}
 			}
-			Vector2 targetPos = projectile.position;
+			Vector2 targetPos = projectile.Center + new Vector2(projectile.direction, 0) + projectile.velocity;
 			float targetDist = viewDist;
 			bool target = false;
 			projectile.tileCollide = true;
@@ -154,9 +154,7 @@ namespace JoostMod.Projectiles.Minions
 				}
 			}
 			projectile.rotation = projectile.velocity.X * 0.05f;
-			SelectFrame();
-			CreateDust();
-			if (projectile.velocity.X > 0f)
+            if (projectile.velocity.X > 0f)
 			{
 				projectile.spriteDirection = (projectile.direction = -1);
 			}
@@ -208,8 +206,10 @@ namespace JoostMod.Projectiles.Minions
 						}
 					}
 				}
-			}
-		}
+            }
+            SelectFrame(targetPos);
+            CreateDust();
+        }
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{

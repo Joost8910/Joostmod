@@ -12,12 +12,12 @@ namespace JoostMod.NPCs.Bosses
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enkidu");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 5;
         }
         public override void SetDefaults()
         {
-            npc.width = 100;
-            npc.height = 160;
+            npc.width = 60;
+            npc.height = 120;
             npc.damage = 150;
             npc.defense = 38;
             npc.lifeMax = 280000;
@@ -103,12 +103,12 @@ namespace JoostMod.NPCs.Bosses
                 {
                     if (npc.ai[1] % 60 == 0)
                     {
-                        npc.velocity = npc.DirectionTo(P.Center) * 18;
+                        npc.velocity = npc.DirectionTo(P.Center) * (npc.Distance(P.Center) / 15);
                     }
                 }
                 else
                 {
-                    npc.velocity = npc.DirectionTo(P.Center) * 7;
+                    npc.velocity = npc.DirectionTo(P.Center) * (npc.Distance(P.Center) / 30);
                 }
             }
             if (((!NPC.AnyNPCs(mod.NPCType("Gilgamesh")) && !NPC.AnyNPCs(mod.NPCType("Gilgamesh2"))) || npc.ai[1] >= 900))
@@ -116,7 +116,7 @@ namespace JoostMod.NPCs.Bosses
                 float Speed = npc.Center.X > P.Center.X ? -10 : 10;
                 if (NPC.AnyNPCs(mod.NPCType("Gilgamesh")) || NPC.AnyNPCs(mod.NPCType("Gilgamesh2")))
                 {
-                    npc.velocity = npc.DirectionTo(P.Center) * 2;
+                    npc.velocity = npc.DirectionTo(P.Center + new Vector2(0, -300)) * (npc.Distance(P.Center + new Vector2(0, -300)) / 50);
                     npc.ai[2] = 0;
                     Speed *= 0.75f;
                 }
@@ -125,7 +125,7 @@ namespace JoostMod.NPCs.Bosses
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-15, 15) * npc.width), npc.Center.Y - (npc.width * 8), Speed, Math.Abs(Speed), mod.ProjectileType("EnkiduWind"), 50, 15f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-15, 15) * 120), npc.Center.Y - (120 * 8), Speed, Math.Abs(Speed), mod.ProjectileType("EnkiduWind"), 50, 15f, Main.myPlayer);
                     }
                 }
             }
@@ -133,35 +133,45 @@ namespace JoostMod.NPCs.Bosses
             {
                 npc.ai[1] = 0;
                 npc.ai[2] = 0;
-            }
-            npc.ai[3]++;
-            if (npc.ai[3] >= 90 && (npc.ai[1] < 900 || (!NPC.AnyNPCs(mod.NPCType("Gilgamesh")) && !NPC.AnyNPCs(mod.NPCType("Gilgamesh2")))))
-            {
-                float Speed = 15f;
-                int damage = 50;
-                int type = mod.ProjectileType("EnkiduWind");
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 32);
-                float rotation = (float)Math.Atan2(npc.Center.Y - P.Center.Y, npc.Center.X - P.Center.X);
-                float spread = 45f * 0.0174f;
-                float baseSpeed = (float)Math.Sqrt((float)((Math.Cos(rotation) * Speed) * -1) * (float)((Math.Cos(rotation) * Speed) * -1) + (float)((Math.Sin(rotation) * Speed) * -1) * (float)((Math.Sin(rotation) * Speed) * -1));
-                double startAngle = Math.Atan2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1)) - spread / 3;
-                double deltaAngle = spread / 3;
-                double offsetAngle;
-                if (Main.netMode != 1)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * i;
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 15f, Main.myPlayer);
-                    }
-                }
                 npc.ai[3] = 0;
             }
-            if(npc.Distance(P.Center) > 800)
+            npc.rotation = npc.velocity.X * 0.0174f * 2.5f;
+            npc.ai[3]++;
+            if ((npc.ai[1] < 875 || (!NPC.AnyNPCs(mod.NPCType("Gilgamesh")) && !NPC.AnyNPCs(mod.NPCType("Gilgamesh2")))))
             {
-                npc.velocity = npc.DirectionTo(P.Center) * (npc.Distance(P.Center) / 50);
+                if (npc.ai[3] >= 90)
+                {
+                    float Speed = 10f + npc.velocity.Length();
+                    int damage = 50;
+                    int type = mod.ProjectileType("EnkiduWind");
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 32);
+                    float rotation = (float)Math.Atan2(npc.Center.Y - P.Center.Y, npc.Center.X - P.Center.X);
+                    float spread = 45f * 0.0174f;
+                    float baseSpeed = (float)Math.Sqrt((float)((Math.Cos(rotation) * Speed) * -1) * (float)((Math.Cos(rotation) * Speed) * -1) + (float)((Math.Sin(rotation) * Speed) * -1) * (float)((Math.Sin(rotation) * Speed) * -1));
+                    double startAngle = Math.Atan2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1)) - spread / 3;
+                    double deltaAngle = spread / 3;
+                    double offsetAngle;
+                    if (Main.netMode != 1)
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            offsetAngle = startAngle + deltaAngle * i;
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 15f, Main.myPlayer);
+                        }
+                    }
+                    npc.ai[3] = 0;
+                }
+                if (npc.ai[3] > 75)
+                {
+                    npc.velocity = npc.DirectionTo(P.Center) * (npc.Distance(P.Center) / 50);
+                    npc.rotation = npc.direction * 0.0174f * -10f;
+                }
+                if (npc.ai[3] < 15)
+                {
+                    npc.velocity = npc.DirectionTo(P.Center) * -4;
+                    npc.rotation = npc.velocity.X * 0.0174f * 2.5f;
+                }
             }
-
         }
         public override bool CheckDead()
         {
@@ -170,25 +180,34 @@ namespace JoostMod.NPCs.Bosses
                 Main.NewText("<Enkidu> I'm out of here.", 25, 225, 25);
                 Main.NewText("<Gilgamesh> Hey! Sidekicks are NOT to abandon the hero!", 225, 25, 25);
             }
-            for (int i = 0; i < npc.width / 8; i++)
+            for (int i = 0; i < 80; i++)
             {
-                for (int j = 0; j < npc.height / 8; j++)
-                {
-                    Dust.NewDust(npc.position + new Vector2(i, j), 8, 8, DustID.Smoke, 0, 0, 0, Color.Green, 2);
-                }
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Smoke, 0, 0, 0, Color.Green, 2);
             }
             return true;
         }
 
         public override void FindFrame(int frameHeight)
         {
+            if ((npc.ai[1] < 875 || (!NPC.AnyNPCs(mod.NPCType("Gilgamesh")) && !NPC.AnyNPCs(mod.NPCType("Gilgamesh2")))))
+            {
+                if (npc.ai[3] > 75)
+                {
+                    npc.frame.Y = 0;
+                    npc.frameCounter = 5;
+                }
+                if (npc.ai[3] < 15)
+                {
+                    npc.frameCounter++;
+                }
+            }
             npc.frameCounter++;
-            if (npc.frameCounter > 7)
+            if (npc.frameCounter > 6)
             {
                 npc.frameCounter = 0;
                 npc.frame.Y = (npc.frame.Y + 160);
             }
-            if (npc.frame.Y >= 640)
+            if (npc.frame.Y >= 800)
             {
                 npc.frame.Y = 0;
             }

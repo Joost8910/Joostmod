@@ -20,7 +20,7 @@ namespace JoostMod.NPCs.Bosses
 			npc.height = 300;
 			npc.scale = 2f;
 			npc.damage = 150;
-			npc.defense = 20;
+			npc.defense = 30;
 			npc.lifeMax = 300000;
 			npc.boss = true;
 			npc.lavaImmune = true;
@@ -58,7 +58,7 @@ namespace JoostMod.NPCs.Bosses
 		{
 			npc.spriteDirection = npc.direction;
 			npc.frameCounter++;
-			if (npc.ai[2] <= 0)
+			if (npc.ai[2] <= 0 && !(npc.ai[1] % 400 >= 380 && npc.ai[1] < 1500))
 			{
 				if (npc.frameCounter >= 8)
 				{
@@ -76,12 +76,12 @@ namespace JoostMod.NPCs.Bosses
 			}
 			if (npc.ai[2] >= 15 || (npc.ai[1] % 400 >= 380 && npc.ai[1] < 1500))
 			{
-				if (npc.frameCounter >= 8)
+				if (npc.frameCounter >= 4)
 				{
 					npc.frameCounter = 0;	
 					npc.frame.Y = (npc.frame.Y + 384);		
 				}
-				if (npc.frame.Y >= 1920)
+				if (npc.frame.Y >= 1920 || npc.frame.Y < 1152)
 				{
 					npc.frame.Y = 1152;	
 				}
@@ -162,9 +162,9 @@ namespace JoostMod.NPCs.Bosses
                 {
                     npc.velocity.Y = 0;
                 }
-                if (npc.velocity.Y > 6f)
+                if (npc.velocity.Y > 8f)
                 {
-                    npc.velocity.Y = 6f;
+                    npc.velocity.Y = 8f;
                 }
             }
             else
@@ -184,25 +184,36 @@ namespace JoostMod.NPCs.Bosses
                     if (npc.velocity.Y > 0f)
                     {
                         npc.velocity.Y = 0f;
+                        if (P.position.Y < npc.position.Y - 500)
+                        {
+                            npc.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs(P.position.Y - (npc.position.Y + npc.height)));
+                        }
                     }
-                    npc.velocity.Y -= 0.125f;
-                    if (npc.velocity.Y < -2f)
+                    else
                     {
-                        npc.velocity.Y = -2f;
+                        npc.velocity.Y -= 0.125f;
+                        if (npc.velocity.Y < -3f)
+                        {
+                            npc.velocity.Y = -3f;
+                        }
+                        if (P.position.Y < npc.position.Y - 400 && npc.velocity.Y > -8)
+                        {
+                            npc.velocity.Y = -8f;
+                        }
                     }
                 }
                 else
                 {
-                    if (npc.velocity.Y == 0)
+                    /*if (npc.velocity.Y == 0)
                     {
                         npc.velocity.Y -= 17.77f;
-                    }
+                    }*/
                     npc.velocity.Y += 0.5f;
                 }
             }
-			if (npc.velocity.Y > 15f)
+			if (npc.velocity.Y > 20f)
 			{
-				npc.velocity.Y = 15f;
+				npc.velocity.Y = 20f;
 			}
 			
 			if (npc.ai[2] <= 0)

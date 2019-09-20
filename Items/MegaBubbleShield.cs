@@ -12,7 +12,7 @@ namespace JoostMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mega Bubble Shield");
-			Tooltip.SetDefault("Creates a powerful bubble the knocks back enemies");
+			Tooltip.SetDefault("Creates a powerful bubble that knocks back enemies");
 		}
 		public override void SetDefaults()
 		{
@@ -26,10 +26,23 @@ namespace JoostMod.Items
 			item.knockBack = 18.5f;
 		}
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria")
+                {
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
+                    {
+                        line2.overrideColor = Color.DarkGray;
+                    }
+                }
+            }
+        }
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-		player.GetModPlayer<JoostPlayer>(mod).megaBubbleShield = true;
+		    player.GetModPlayer<JoostPlayer>(mod).megaBubbleShield = true;
 		}
 
 

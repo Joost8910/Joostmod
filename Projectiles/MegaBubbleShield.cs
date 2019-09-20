@@ -33,8 +33,8 @@ namespace JoostMod.Projectiles
 		} 
 		public override void AI()
 		{
-			projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width/2;
-			projectile.position.Y = Main.player[projectile.owner].Center.Y - projectile.height/2;
+			projectile.position.X = Main.player[projectile.owner].MountedCenter.X - projectile.width/2;
+			projectile.position.Y = Main.player[projectile.owner].MountedCenter.Y - projectile.height/2;
 			projectile.velocity.Y = 0;
 			projectile.rotation = 0;
 		}

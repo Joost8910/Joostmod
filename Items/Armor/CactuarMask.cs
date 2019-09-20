@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +15,7 @@ public override void SetStaticDefaults()
 			item.width = 16;
 			item.height = 26;
 			item.vanity = true;
-			item.value = 10000;
+			item.value = 5000;
 			item.rare = 2;
 		}
         public override bool DrawHead()

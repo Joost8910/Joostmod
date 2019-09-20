@@ -27,7 +27,7 @@ public override void SetStaticDefaults()
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Grants 1 more defense for every 500 blocks of dirt in your inventory";
+			player.setBonus = "Grants 1 more defense for every 666 blocks of dirt in your inventory";
             int dirt = 0;
             for (int i = 0; i < 58; i++)
             {
@@ -36,9 +36,9 @@ public override void SetStaticDefaults()
                     dirt += player.inventory[i].stack;
                 }
             }
-            player.statDefense += dirt/500;
+            player.statDefense += dirt/666;
 		}
-public override void ModifyTooltips(List<TooltipLine> list)
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
@@ -51,7 +51,7 @@ public override void ModifyTooltips(List<TooltipLine> list)
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock, 500);
+            recipe.AddIngredient(ItemID.DirtBlock, 666);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

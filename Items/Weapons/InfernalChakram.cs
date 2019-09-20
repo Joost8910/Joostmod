@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +16,7 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 41;
+			item.damage = 36;
 			item.thrown = true;
 			item.width = 38;
 			item.height = 38;

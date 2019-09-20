@@ -48,7 +48,7 @@ namespace JoostMod.Projectiles
             }
             else
             {
-                projectile.ai[0] += 1.65f;
+                projectile.ai[0] += 1.5f;
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
             if (projectile.spriteDirection == -1)

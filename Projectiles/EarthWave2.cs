@@ -100,10 +100,10 @@ namespace JoostMod.Projectiles
 		}*/
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.velocity.Y -= projectile.knockBack * target.knockBackResist;
             if (target.knockBackResist > 0)
             {
                 target.velocity.X = 0;
+                target.velocity.Y -= projectile.knockBack * target.knockBackResist;
             }
         }
         public override void OnHitPvp(Player target, int damage, bool crit)

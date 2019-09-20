@@ -9,7 +9,7 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gale Boomerang");
-			Tooltip.SetDefault("A piercing boomerang that picks up items");
+			Tooltip.SetDefault("A piercing boomerang that picks up enemies and items");
 		}
 		public override void SetDefaults()
 		{
@@ -20,7 +20,7 @@ namespace JoostMod.Items.Weapons
 			item.useTime = 15;
 			item.useAnimation = 15;
 			item.useStyle = 1;
-			item.knockBack = 2;
+			item.knockBack = 7f;
 			item.value = 50000;
 			item.rare = 4;
 			item.noMelee = true;
@@ -30,14 +30,14 @@ namespace JoostMod.Items.Weapons
 			item.shoot = mod.ProjectileType("GaleBoomerang");
 			item.shootSpeed = 7f;
 		}
-		public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player)
         {
- 		if ((player.ownedProjectileCounts[item.shoot]) >= item.stack) 
-	               {
-                    return false;
-                }
+            if ((player.ownedProjectileCounts[item.shoot]) >= item.stack)
+            {
+                return false;
+            }
             else return true;
-		}
+        }
 		public override void AddRecipes()
 		{
 				ModRecipe recipe = new ModRecipe(mod);

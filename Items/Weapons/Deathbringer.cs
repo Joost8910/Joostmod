@@ -11,7 +11,7 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Deathbringer");
-			Tooltip.SetDefault("Critical hits have a chance to instantly kill enemies\n" + "Enemies with over 9000 life are immune to this effect");
+			Tooltip.SetDefault("Critical hits have a chance to instantly kill enemies\n" + "Enemies with over 5000 life are immune to this effect");
 		}
 		public override void SetDefaults()
 		{
@@ -38,7 +38,7 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			if(target.life <= 9000 && crit && Main.rand.Next(5) <= 1)
+			if(target.life <= 5000 && crit && Main.rand.Next(5) <= 1)
 			{
 				damage += target.life + target.defense;
                 knockback = 55;

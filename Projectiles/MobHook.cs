@@ -309,6 +309,7 @@ namespace JoostMod.Projectiles
                 {
                     wingTime = player.wingTime;
                 }
+                player.GetModPlayer<JoostPlayer>(mod).hoverBootsTimer = 0;
                 player.wingTime = 0f;
                 player.rocketDelay = 0;
                 player.rocketFrame = false;

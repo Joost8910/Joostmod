@@ -246,7 +246,9 @@ namespace JoostMod.NPCs.Bosses
                             Main.PlaySound(SoundLoader.customSoundType, npc.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
                             if (Main.netMode != 1)
                             {
+                                Projectile.NewProjectile(gunCenter + (aim * 10 * npc.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
                                 Projectile.NewProjectile(gunCenter + (aim * 10 * npc.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(gunCenter + (aim * 10 * npc.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
                             }
                         }
                         if (npc.ai[0] > 45)
@@ -335,7 +337,9 @@ namespace JoostMod.NPCs.Bosses
                             Main.PlaySound(SoundLoader.customSoundType, npc.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
                             if (Main.netMode != 1)
                             {
+                                Projectile.NewProjectile(gunCenter + (aim * 10 * npc.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
                                 Projectile.NewProjectile(gunCenter + (aim * 10 * npc.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(gunCenter + (aim * 10 * npc.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
                             }
                         }
                         if (npc.ai[0] > 150)

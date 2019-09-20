@@ -30,12 +30,12 @@ namespace JoostMod.Projectiles
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
 		}
-	public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
-		{
-			width = 36;
-			height = 36;
-			return true;
-		}
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            width = 36;
+            height = 36;
+            return true;
+        }
 		public override void AI()
 		{
             projectile.rotation = projectile.timeLeft * -projectile.direction;
@@ -45,10 +45,13 @@ namespace JoostMod.Projectiles
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
-		{
-            projectile.velocity.X *= -1;
-		    projectile.velocity.Y *= -1;
-		}
+        {
+            projectile.velocity *= -1;
+        }
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            projectile.velocity *= -1;
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.velocity.X != oldVelocity.X)
@@ -63,10 +66,10 @@ namespace JoostMod.Projectiles
         }
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * 1f, 33, (int)(projectile.damage * 1f), 7, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * -1f, 33, (int)(projectile.damage * 1f), 7, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * -1f, Main.rand.Next(-10, -5) * 1f, 33, (int)(projectile.damage * 1f), 7, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * -1f, Main.rand.Next(-10, -5) * -1f, 33, (int)(projectile.damage * 1f), 7, projectile.owner);	
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * 1f, 33, (int)(projectile.damage * 1f), projectile.knockBack / 2, projectile.owner);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * -1f, 33, (int)(projectile.damage * 1f), projectile.knockBack / 2, projectile.owner);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * -1f, Main.rand.Next(-10, -5) * 1f, 33, (int)(projectile.damage * 1f), projectile.knockBack / 2, projectile.owner);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * -1f, Main.rand.Next(-10, -5) * -1f, 33, (int)(projectile.damage * 1f), projectile.knockBack / 2, projectile.owner);	
 		}
 
 	}

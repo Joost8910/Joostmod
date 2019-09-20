@@ -61,8 +61,8 @@ namespace JoostMod.Projectiles
 			}
 			if (projectile.timeLeft % 30 == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Fires"), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI);	
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Fires2"), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI);	
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Fires"), projectile.damage, projectile.knockBack / 3, projectile.owner, projectile.whoAmI);	
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Fires2"), projectile.damage, projectile.knockBack / 3, projectile.owner, projectile.whoAmI);	
 			}
 			if (projectile.timeLeft <= 1760)
 			{
@@ -70,12 +70,23 @@ namespace JoostMod.Projectiles
 				projectile.tileCollide = false;
 			}
 		}
-		public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Player owner = Main.player[projectile.owner];
-			n.AddBuff(24, 300);
-		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
+			target.AddBuff(BuffID.OnFire, 300);
+            if (projectile.aiStyle != 3)
+            {
+                projectile.velocity *= -1;
+            }
+        }
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+            if (projectile.aiStyle != 3)
+            {
+                projectile.velocity *= -1;
+            }
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.velocity.X != oldVelocity.X)
 			{

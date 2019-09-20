@@ -159,6 +159,11 @@ namespace JoostMod.NPCs.Hunts
                     }
                     if (npc.ai[0] == 140)
                     {
+                        if (npc.soundDelay <= 0)
+                        {
+                            npc.soundDelay = 30;
+                            Main.PlaySound(0, (int)npc.Center.X, (int)npc.Center.Y, -1, 0.275f * npc.scale, 0.3f - (0.5f * (npc.scale - 1)));
+                        }
                         npc.position.X += npc.direction * 8;
                         npc.direction = npc.velocity.X > 0 ? 1 : -1;
                     }

@@ -20,7 +20,7 @@ namespace JoostMod.NPCs.Bosses
             npc.width = 90;
             npc.height = 166;
             npc.damage = 140;
-            npc.defense = 50;
+            npc.defense = 75;
             npc.lifeMax = 400000;
             npc.boss = true;
             npc.lavaImmune = true;
@@ -28,12 +28,13 @@ namespace JoostMod.NPCs.Bosses
             npc.DeathSound = SoundID.NPCDeath3;
             npc.value = Item.buyPrice(30, 0, 0, 0);
             npc.knockBackResist = 0f;
-            npc.aiStyle = 0;
-            npc.buffImmune[BuffID.Ichor] = true;
+            npc.aiStyle = -1;
+            npc.buffImmune[BuffID.Confused] = true;
             bossBag = mod.ItemType("GilgBag");
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ClashOnTheBigBridge");
             npc.frameCounter = 0;
             musicPriority = MusicPriority.BossHigh;
+            npc.noGravity = true;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -122,6 +123,38 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if ((int)npc.ai[3] % 2 == 1)
+            {
+                damage = damage / 4;
+                crit = false;
+            }
+        }
+        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        {
+            if ((int)npc.ai[3] % 2 == 1)
+            {
+                damage = damage / 4;
+                crit = false;
+            }
+        }
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            if ((int)npc.ai[3] % 2 == 1)
+            {
+                damage = damage / 4;
+                crit = false;
+            }
+        }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if ((int)npc.ai[3] % 2 == 1)
+            {
+                damage = damage / 4;
+                crit = false;
+            }
+        }
         public override void AI()
         {
             npc.netUpdate = true;
@@ -136,6 +169,18 @@ namespace JoostMod.NPCs.Bosses
                     npc.active = false;
                 }
             }
+            if (npc.velocity.X > 0)
+            {
+                npc.direction = 1;
+            }
+            if (npc.velocity.X < 0)
+            {
+                npc.direction = -1;
+            }
+            if (npc.velocity.X == 0)
+            {
+                npc.direction = npc.Center.X < P.Center.X ? 1 : -1;
+            }
             float moveSpeed = 0;
             if (Math.Abs(P.Center.X - npc.Center.X) > 80)
             {
@@ -149,8 +194,122 @@ namespace JoostMod.NPCs.Bosses
                     break;
                 }
             }
-            if (npc.ai[2] <= 0)
+            if (npc.ai[3] >= 1 && npc.ai[3] < 2)
             {
+                if (npc.ai[0] < 300 && npc.ai[0] >= 190)
+                {
+                    if (npc.ai[0] == 210)
+                    {
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
+                        if (npc.Center.Y < P.position.Y)
+                        {
+                            npc.velocity.Y = (Math.Abs((P.position.Y) - (npc.position.Y + npc.height)) / 30) - (0.4f * 30 / 2);
+                        }
+                        else
+                        {
+                            npc.velocity.Y = -(float)Math.Sqrt(2 * 0.4f * Math.Abs((P.position.Y) - (npc.position.Y + npc.height)));
+                        }
+                        float vel = moveSpeed + Math.Abs(P.velocity.X);
+                        npc.velocity.X = npc.Center.X < P.Center.X ? vel : -vel;
+                    }
+                    if (npc.ai[0] > 250 || npc.ai[0] < 210)
+                    {
+                        if (P.Center.X > npc.Center.X + 10)
+                        {
+                            npc.velocity.X = moveSpeed;
+                        }
+                        if (P.Center.X < npc.Center.X - 10)
+                        {
+                            npc.velocity.X = -moveSpeed;
+                        }
+                    }
+                    if (npc.velocity.Y == 0 && npc.ai[0] > 250)
+                    {
+                        npc.ai[0] = 300;
+                    }
+                }
+                else
+                {
+                    npc.velocity.X = 0;
+                    npc.velocity.Y = 15;
+                }
+                npc.ai[0]++;
+                npc.localAI[0] = 0;
+                npc.localAI[1] = 0;
+                npc.localAI[2] = 0;
+                npc.localAI[3] = 0;
+                if (npc.ai[0] == 0)
+                {
+                    Main.NewText("<Gilgamesh> Now that it's mine,", 225, 25, 25);
+                }
+                if (npc.ai[0] == 80)
+                {
+                    Main.NewText("let's see how good this Excalibur really is!", 225, 25, 25);
+                }
+                if (npc.ai[0] == 190)
+                {
+                    Main.NewText("Have at you!", 225, 25, 25);
+                    npc.velocity.Y = -20;
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
+                }
+                if (npc.ai[0] == 235)
+                {
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
+                    float Speed = 24f + npc.velocity.Length();
+                    Vector2 arm = npc.Center + new Vector2(-26 * npc.direction, -46);
+                    Vector2 pos = PredictiveAim(Speed, arm);
+                    float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
+                    int type = mod.ProjectileType("GilgExcalipoorBeam");
+                    int damage = 1;
+                    if (Main.netMode != 1)
+                    {
+                        Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10f, Main.myPlayer, npc.whoAmI);
+                    }
+                }
+                if (npc.ai[0] == 400)
+                {
+                    Main.NewText("Ehhh!? Why, I've been had!", 225, 25, 25);
+                }
+                if (npc.ai[0] == 500)
+                {
+                    Main.NewText("This is far from the strongest of swords!", 225, 25, 25);
+                }
+                if (npc.ai[0] == 600)
+                {
+                    Main.NewText("Nyeh!", 225, 25, 25);
+                    float Speed = 12f;
+                    Vector2 arm = npc.Center + new Vector2(-26 * npc.direction, -46);
+                    Vector2 pos = P.MountedCenter;
+                    Vector2 dir = new Vector2(npc.direction * Speed, -1.5f);
+                    int type = mod.ProjectileType("GilgExcalipoor");
+                    int damage = 1;
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
+                    if (Main.netMode != 1)
+                    {
+                        Projectile.NewProjectile(arm, dir, type, damage, 0f, Main.myPlayer, npc.whoAmI);
+                    }
+                }
+                if (npc.ai[0] > 630)
+                {
+                    npc.ai[3] = 1.5f;
+                }
+                if (npc.ai[0] > 700)
+                {
+                    npc.ai[3] = 2;
+                    npc.ai[0] = 0;
+                }
+            }
+            else if (npc.ai[2] <= 0)
+            {
+                if (npc.life < npc.lifeMax * 0.9f && npc.ai[3] < 1 && npc.velocity.Y == 0)
+                {
+                    npc.ai[3]++;
+                    npc.ai[0] = -30;
+                    npc.localAI[0] = 0;
+                    npc.localAI[1] = 0;
+                    npc.localAI[2] = 0;
+                    npc.localAI[3] = 0;
+                }
                 npc.ai[0]++;
                 npc.localAI[0]++;
                 npc.localAI[1]++;
@@ -159,7 +318,8 @@ namespace JoostMod.NPCs.Bosses
 
                 if (npc.Center.Y > P.Center.Y + 100 && npc.velocity.Y == 0)
                 {
-                    npc.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs(P.position.Y - (npc.position.Y + npc.height)));
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
+                    npc.velocity.Y = -(float)Math.Sqrt(2 * 0.4f * Math.Abs(P.position.Y - (npc.position.Y + npc.height)));
                 }
                 if (npc.Center.Y < P.Center.Y - 150)
                 {
@@ -180,7 +340,6 @@ namespace JoostMod.NPCs.Bosses
                 
                 if (npc.localAI[0] > 90 && npc.Distance(P.MountedCenter) < 300)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
                     float Speed = 18f;
                     Vector2 arm = npc.Center + new Vector2(35 * npc.direction, -28);
                     Vector2 pos = P.MountedCenter;
@@ -198,9 +357,13 @@ namespace JoostMod.NPCs.Bosses
                             break;
                         }
                     }
-                    if (Main.netMode != 1 && flag)
+                    if (flag)
                     {
-                        Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 7f, Main.myPlayer, npc.whoAmI, 4f);
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
+                        if (Main.netMode != 1)
+                        {
+                            Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 7f, Main.myPlayer, npc.whoAmI, 4f);
+                        }
                     }
                     npc.localAI[0] = 0;
                 }
@@ -242,12 +405,12 @@ namespace JoostMod.NPCs.Bosses
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
                     float Speed = 18f + npc.velocity.Length();
                     Vector2 arm = npc.Center + new Vector2(39 * npc.direction, -38);
-                    Vector2 pos =P.MountedCenter;
-                    if (Main.expertMode)
+                    Vector2 pos = P.MountedCenter;
+                    if (Main.expertMode || Math.Abs(npc.Center.Y - P.MountedCenter.Y) < 200)
                     {
                         pos = PredictiveAim(Speed, arm);
                     }
-                    float rotation = (float)Math.Atan2(npc.Center.Y - pos.Y, npc.Center.X - pos.X);
+                    float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     int type = mod.ProjectileType("GilgAxe");
                     int damage = 50;
                     if (Main.netMode != 1)
@@ -256,15 +419,19 @@ namespace JoostMod.NPCs.Bosses
                     }
                     npc.localAI[2] = 0;
                 }
-                if (npc.localAI[3] > 90)
+                if (npc.ai[0] % 90 == 0)
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 19);
                     float Speed = 12f + npc.velocity.Length();
                     Vector2 arm = npc.Center + new Vector2(-27 * npc.direction, -37);
                     Vector2 pos = P.MountedCenter;
-                    float rotation = (float)Math.Atan2(npc.Center.Y - pos.Y, npc.Center.X - pos.X);
+                    if (Math.Abs(npc.Center.Y - P.MountedCenter.Y) < 200)
+                    {
+                        pos = PredictiveAim(Speed, arm);
+                    }
+                    float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     int type = mod.ProjectileType("GilgKunai");
-                    int damage = 40;
+                    int damage = 42;
                     if (Main.netMode != 1)
                     {
                         float spread = 45f * 0.0174f;
@@ -278,7 +445,6 @@ namespace JoostMod.NPCs.Bosses
                             Projectile.NewProjectile(arm.X, arm.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 5f, Main.myPlayer);
                         }
                     }
-                    npc.localAI[3] = 0;
                 }
             }
             if (npc.velocity.Y < 0 && npc.position.Y > P.position.Y)
@@ -327,7 +493,12 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[2] = 0;
                 npc.netUpdate = true;
             }
-
+            npc.noGravity = true;
+            npc.velocity.Y += 0.4f;
+            if (npc.velocity.Y > 20)
+            {
+                npc.velocity.Y = 20;
+            }
         }
         private Vector2 PredictiveAim(float speed, Vector2 origin)
         {
@@ -498,6 +669,18 @@ namespace JoostMod.NPCs.Bosses
                 shieldOffset.Y += 2;
             }
 
+            ribbonOffset = ribbonOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            flailOffset = flailOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            naginataOffset = naginataOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            axeOffset = axeOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            shieldOffset = shieldOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+
+            ribbonRotation += npc.rotation;
+            flailRotation += npc.rotation;
+            naginataRotation += npc.rotation;
+            axeRotation += npc.rotation;
+            shieldRotation += npc.rotation;
+
             spriteBatch.Draw(ribbonTex, npc.Center - Main.screenPosition + new Vector2(npc.scale * npc.direction * ribbonOffset.X, npc.scale * ribbonOffset.Y), new Rectangle?(ribbonRect), color, ribbonRotation, ribbonVect, npc.scale, ribbonEffects, 0f);
             spriteBatch.Draw(flailTex, npc.Center - Main.screenPosition + new Vector2(npc.scale * npc.direction * flailOffset.X, npc.scale * flailOffset.Y), new Rectangle?(flailRect), color, flailRotation, flailVect, npc.scale, effects, 0f);
             spriteBatch.Draw(naginataTex, npc.Center - Main.screenPosition + new Vector2(npc.scale * npc.direction * naginataOffset.X, npc.scale * naginataOffset.Y), new Rectangle?(naginataRect), color, naginataRotation, naginataVect, npc.scale, effects, 0f);
@@ -511,7 +694,12 @@ namespace JoostMod.NPCs.Bosses
         {
             SpriteEffects kunaiEffects = SpriteEffects.None;
             int dir = npc.direction;
-            if (npc.localAI[3] > 45 || npc.localAI[3] < 15)
+            float kun = npc.ai[0] % 90;
+            if ((int)npc.ai[3] % 2 == 1)
+            {
+                kun = 15;
+            }
+            if (kun > 45 || kun < 15)
             {
                 dir *= -1;
             }
@@ -534,22 +722,26 @@ namespace JoostMod.NPCs.Bosses
             Player player = Main.player[npc.target];
             Vector2 arm = npc.Center + new Vector2(kunaiOffset.X * npc.direction, kunaiOffset.Y);
             Vector2 pos = player.MountedCenter;
+            float Speed = 12f + npc.velocity.Length();
+            if (Math.Abs(npc.Center.Y - player.MountedCenter.Y) < 200)
+            {
+                pos = PredictiveAim(Speed, arm);
+            }
             float rotation = (float)Math.Atan2(npc.Center.Y - pos.Y, npc.Center.X - pos.X);
             if (npc.direction == 1)
             {
                 rotation += 3.14f;
             }
-
-            if (npc.localAI[3] > 45 && npc.localAI[3] <= 90)
+            if (kun > 45 && kun <= 90)
             {
-                kunaiRotation = ((npc.localAI[3] - 45f) * 3 * 0.0174f * -npc.direction) + rotation;
-                if (npc.localAI[3] > 80)
+                kunaiRotation = ((kun - 45f) * 3 * 0.0174f * -npc.direction) + rotation;
+                if (kun > 80)
                 {
                     kunaiFrame = 1;
-                    kunaiRotation = ((105 * 0.0174f * -npc.direction) + rotation) - ((npc.localAI[3] - 80f) * 10.5f * 0.0174f * -npc.direction);
+                    kunaiRotation = ((105 * 0.0174f * -npc.direction) + rotation) - ((kun - 80f) * 10.5f * 0.0174f * -npc.direction);
                 }
             }
-            if (npc.localAI[3] < 15)
+            if (kun < 15)
             {
                 kunaiRotation = rotation;
                 kunaiFrame = 2;
@@ -574,6 +766,45 @@ namespace JoostMod.NPCs.Bosses
             int excalipoorFrame = 0;
             float excalipoorRotation = 0;
             Vector2 excalipoorOffset = new Vector2(-26, -46);
+
+            if (npc.ai[3] >= 1 && npc.ai[3] < 1.5f)
+            {
+                if (npc.ai[0] > 210)
+                {
+                    excalipoorRotation = (npc.ai[0] - 210) * 0.0174f * 8 * -npc.direction;
+                }
+                if (npc.ai[0] > 235)
+                {
+                    excalipoorRotation = ((25 * 0.0174f * 8) - (npc.ai[0] - 235) * 0.0174f * 13f) * -npc.direction;
+                }
+                if (npc.ai[0] > 250)
+                {
+                    excalipoorRotation = 0;
+                }
+                if (npc.ai[0] > 335)
+                {
+                    excalipoorRotation = (npc.ai[0] - 335) * 0.0174f * 6f * -npc.direction;
+                }
+                if (npc.ai[0] > 350)
+                {
+                    excalipoorRotation = 90 * 0.0174f * -npc.direction;
+                }
+
+                if (npc.ai[0] > 580)
+                {
+                    excalipoorRotation = ((90 * 0.0174f) + (npc.ai[0] - 580) * 0.0174f * 11) * -npc.direction;
+                }
+                if (npc.ai[0] > 590)
+                {
+                    excalipoorRotation = ((25 * 0.0174f * 10) - (npc.ai[0] - 590) * 0.0174f * 11.5f) * -npc.direction;
+                }
+                if (npc.ai[0] > 600)
+                {
+                    excalipoorRotation = 135f * 0.0174f * -npc.direction;
+                    excalipoorFrame = 1;
+                }
+            }
+
 
             Rectangle excalipoorRect = new Rectangle(0, excalipoorFrame * (excalipoorTex.Height / totalExcalipoorFrames), (excalipoorTex.Width), (excalipoorTex.Height / totalExcalipoorFrames));
             Vector2 excalipoorVect = new Vector2((float)excalipoorTex.Width / 2, (float)excalipoorTex.Height / (2 * totalExcalipoorFrames));
@@ -615,6 +846,34 @@ namespace JoostMod.NPCs.Bosses
             float masamuneRotation = 0;
             Vector2 masamuneOffset = new Vector2(-24, -43);
 
+            if (npc.ai[3] >= 1.5f && npc.ai[3] < 2)
+            {
+                if (npc.ai[0] > 630)
+                {
+                    masamuneRotation = ((135f * 0.014f) + (npc.ai[0] - 630) * 0.0174f * 6f) * -npc.direction;
+                    masamuneFrame = 1;
+                }
+                if (npc.ai[0] > 645)
+                {
+                    masamuneRotation = ((225 * 0.0174f) - (npc.ai[0] - 645) * 0.0174f * 15f) * -npc.direction;
+                    masamuneFrame = 2;
+                }
+                if (npc.ai[0] > 651)
+                {
+                    masamuneRotation = 135f * 0.0174f * -npc.direction;
+                    masamuneFrame = 2;
+                }
+                if (npc.ai[0] > 685)
+                {
+                    masamuneRotation = ((135f * 0.0174f) - (npc.ai[0] - 685) * 0.0174f * 9f) * -npc.direction;
+                    masamuneFrame = 2;
+                }
+            }
+            if (npc.ai[3] >= 2)
+            {
+                masamuneFrame = 2;
+            }
+
             Rectangle masamuneRect = new Rectangle(0, masamuneFrame * (masamuneTex.Height / totalMasamuneFrames), (masamuneTex.Width), (masamuneTex.Height / totalMasamuneFrames));
             Vector2 masamuneVect = new Vector2((float)masamuneTex.Width / 2, (float)masamuneTex.Height / (2 * totalMasamuneFrames));
 
@@ -644,6 +903,7 @@ namespace JoostMod.NPCs.Bosses
                 excalipoorOffset.Y -= 8;
                 masamuneOffset.Y -= 8;
                 gunBladeOffset.Y -= 8;
+                busterSwordOffset.Y -= 8;
             }
             if (npc.frame.Y == 196 * 2 || npc.frame.Y == 196 * 5)
             {
@@ -651,6 +911,7 @@ namespace JoostMod.NPCs.Bosses
                 excalipoorOffset.Y -= 2;
                 masamuneOffset.Y -= 2;
                 gunBladeOffset.Y -= 2;
+                busterSwordOffset.Y -= 2;
             }
             if (npc.frame.Y == 0 || npc.frame.Y == 196 * 3)
             {
@@ -658,8 +919,21 @@ namespace JoostMod.NPCs.Bosses
                 excalipoorOffset.Y += 2;
                 masamuneOffset.Y += 2;
                 gunBladeOffset.Y += 2;
+                busterSwordOffset.Y += 2;
             }
-            if (npc.ai[3] < 4)
+            kunaiOffset = kunaiOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            excalipoorOffset = excalipoorOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            masamuneOffset = masamuneOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            gunBladeOffset = gunBladeOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+            busterSwordOffset = busterSwordOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+
+            kunaiRotation += npc.rotation;
+            excalipoorRotation += npc.rotation;
+            masamuneRotation += npc.rotation;
+            gunBladeRotation += npc.rotation;
+            busterSwordRotation += npc.rotation;
+
+            if (npc.ai[3] < 1.5f)
             {
                 spriteBatch.Draw(excalipoorTex, npc.Center - Main.screenPosition + new Vector2(npc.scale * npc.direction * excalipoorOffset.X, npc.scale * excalipoorOffset.Y), new Rectangle?(excalipoorRect), color, excalipoorRotation, excalipoorVect, npc.scale, excalipoorEffects, 0f);
             }
@@ -676,23 +950,56 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CheckDead()
         {
-            if (NPC.AnyNPCs(mod.NPCType("Enkidu")))
+            if (!npc.dontTakeDamage)
             {
-                Main.NewText("<Gilgamesh> Ack! Uh, up to you now Enkidu!", 225, 25, 25);
-                Main.NewText("<Enkidu> Now you've gone and made me angry.", 25, 225, 25);
+                Main.PlaySound(SoundLoader.customSoundType, npc.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Gilgamesh"));
+                npc.ai[0] = 120;
+                npc.frame.Y = 0;
+                npc.velocity.X = npc.direction * -32;
+                npc.velocity.Y = -8;
+                npc.damage = 0;
+                npc.life = npc.lifeMax;
+                npc.dontTakeDamage = true;
+                npc.netUpdate = true;
+                npc.NPCLoot();
+                return false;
             }
             else
             {
-                Main.NewText("<Gilgamesh> Ack! How could we have lost!?", 225, 25, 25);
-            }
-            for (int i = 0; i < npc.width / 8; i++)
-            {
-                for (int j = 0; j < npc.height / 8; j++)
+                if (NPC.AnyNPCs(mod.NPCType("Enkidu")))
                 {
-                    Dust.NewDust(npc.position + new Vector2(i, j), 8, 8, DustID.Smoke, 0, 0, 0, Color.OrangeRed, 2);
+                    //Main.NewText("<Gilgamesh> Ack! Uh, up to you now Enkidu!", 225, 25, 25);
+                    Main.NewText("<Enkidu> Now you've gone and made me angry.", 25, 225, 25);
+                }/*
+                else
+                {
+                    Main.NewText("<Gilgamesh> Ack! How could we have lost!?", 225, 25, 25);
+                }*/
+                for (int i = 0; i < 80; i++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Smoke, 0, 0, 0, Color.OrangeRed, 2);
                 }
+                npc.active = false;
             }
-            return true;
+            return false;
+        }
+        public override bool PreAI()
+        {
+            if (npc.dontTakeDamage)
+            {
+                npc.ai[0]--;
+                npc.velocity.X = npc.direction * -32;
+                npc.velocity.Y = -8;
+                npc.rotation = 12 * 0.0174f * npc.ai[0] * npc.direction;
+                if (npc.ai[0] < 0)
+                {
+                    npc.life = 0;
+                    npc.HitEffect(0, 0);
+                    npc.checkDead();
+                }
+                return false;
+            }
+            return base.PreAI();
         }
     }
 }

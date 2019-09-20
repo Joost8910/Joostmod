@@ -70,9 +70,9 @@ namespace JoostMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "IceCoreX", 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ItemID.HallowedBar, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 5);
+            recipe.SetResult(this, 10);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "BrokenExcalipoor", 1);

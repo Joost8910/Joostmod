@@ -31,13 +31,14 @@ namespace JoostMod.Projectiles
 
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("CopperHatchet2"), (int)(projectile.damage * 1f), 3, projectile.owner);
 				
-		}        public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
+		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/CopperFlail_Chain");
 
             Vector2 position = projectile.Center;
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Microsoft.Xna.Framework.Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
+            Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
             Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
             float num1 = (float)texture.Height;
             Vector2 vector2_4 = mountedCenter - position;

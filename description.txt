@@ -10,9 +10,11 @@ The Joostmod has to offer
 
 Version 0.8
 - Resprited Desert Golem
+- Resprited Gameraiders101 Mask
 - Resprited Spectre
 - Resprited Terra Spear
 - Resprited Genji Armor
+- Resprited Spectral Orbs
 - Resprited X Shield
 - Revamped the Spectre, now has Dark Souls references for attacks!
 - Revamped Cactuar AI, they now run and jump instead of hopping like mimics; regular and hallowed ones run away when low on health
@@ -24,6 +26,7 @@ Version 0.8
 - Added Soul Spear
 - Added Endless Soul Arrow
 - Added Enhanced Cactus Armor, sold by the Cactus person
+- Added Mooshroom Costume
 - Added Lunar Cactus Booster
 - Added Sandstone Furnace
 - Added Frost Furnace
@@ -32,21 +35,25 @@ Version 0.8
 - Added Wonder Waffle
 - Added Yonade
 - Added Joostmod's Third Anniversary, chance to drop from Deranged mutant killer monster snow goons, Death Knights or Spectres
-- Reduced defense of Sapling - shield from 4 to 3
 - Reduced defense bonuses granted by the Genji Armors
 - Reduced health bonuses granted by the Genji Armors
 - Reduced minion bonus granted by Silver Genji Armor from 8 to 7
 - Reduced damage of Hungering arrow from 11 to 8
 - Reduced damage of Cactus Gloves's thorns to 60% of the base damage
 - Reduced damage of Cactus Staff from 300 to 200
+- Reduced damage of Greater Elemental Weapon set from 51 to 48
+- Reduced damage of Ice beam from 500 to 200 but it can hit enemies 3 times at once per attack
 - Reduced damage of Ice Core-X Staff from 450 to 300
+- Reduced damage of Infernal Chakram from 41 to 36
 - Reduced damage of Larkus's Tome from 6 to 5
 - Reduced damage of Jumbo Cactuar Weapon Set projectile multipliers
-- Reduced damage of SA-X Weapon Set from 720 to 500 and tweaked projecitle multipliers
-- Reduced damage of Tome of Manipulation
+- Reduced damage of SA-X Weapon Set from 720 to 500 and tweaked projectile multipliers
+- Reduced damage of Tome of Manipulation but increased its tick rate
 - Reduced damage Legendary Weapons get from killing Wall of Flesh and Moon Lord
+- Reduced hit cooldown of Gale Boomerang from 10 to 9
 - Reduced attack speed and projectile count of Toxic Bucket and Bloody Bucket
-- Reduced attack speed of the Ember and Frost Ember Minions'
+- Reduced attack speed of the Ember, Frost Ember, and Soil Spirit Minions'
+- Reduced attack speed of Ice Core-X minion but it can hit enemies 3 times at once per attack
 - Reduced attack speed of Vile Cactus Worm
 - Reduced attack speed of Boook's Bullet Hell
 - Reduced attack speed of Larkus's Tome Spirit of Power
@@ -58,7 +65,6 @@ Version 0.8
 - Reduced knockback of 100 needles spell from 1 to 0.5
 - Reduced knockback of 1000 needles spell from 3 to 1.5
 - Reduced knockback of hungering arrow from 3 to 0
-- Reduced thorns effect of Cactuar Shield from 20x to 11x
 - Reduced Cactus Worm Spawnrate
 - Reduced Cactuar Spawnrate
 - Reduced Earth Elemental Spawnrate
@@ -75,19 +81,19 @@ Version 0.8
 - Increased attack speed of Cactus Banner
 - Increased amount of dungeon spirits spawned by Spectre on death
 - Increased damage of Deathbringer from 56 to 86
+- Increased damage of Earthen hammer from 34 to 69 but its shockwave deals standard damage instead of double
 - Increased damage of Lesser Elemental Weapon Set projectile multipliers
 - Increased damage of Power Bomb from 220 to 500
 - Increased damage of Rock from 135 to 165
 - Increased damage of Twilight Staff from 36 to 40
 - Increased damage of Succulent Throw from 22 to 24
-- Increased damage of Warhammer of Grognak's shockwave 
+- Increased knockback of Gale Boomerang from 2 to 7
 - Increased hit cooldown of Succulent Throw from 10 to 12 ticks
 - Increased hit cooldown of Hungering Arrow from 5 to 6 ticks
 - Increased immunity frames granted by the Tomato Head
 - Increased spread of 100 needles spell and 1000 needles spell
 - Increased mana consumption rate of Needle Wrath
 - Increased mana cost of crystal staff from 12 to 20
-- Increased instant-death health cap of the Deathbringer from 5000 to 9000 and can now affect bosses
 - Increased Jumbo Cactuar's Expert Mode health from 375,000 to 420,000
 - Tweaked Grand Cactus Worm AI in various places
 - Tweaked various money values of items and NPCs
@@ -96,33 +102,41 @@ Version 0.8
 - Tweaked Tail Whip Behavior
 - Tweaked Tao Armor Sprite
 - Tweaked Incandescence Sprite
+- Tweaked Roc Wings gliding
 - Fixed bug where minions would fire at extremely rapid speeds when targetting an enemy at the edge of their follow range
 - Fixed bug where worldgen would get stuck if the jungle spawned at the edge of the world
 - Fixed bug where fishing damage weapons would gain too much of a damage bonus with Unusacies Battlerods loaded
 - 1000 needles, 100 needles, and Mutated Arm Cannons now fire in a randomized spread rather than a uniform spread
-- All Joostmod Flails now can be controlled with mouse movement
+- All Joostmod Flails can now be controlled with mouse movement
+- All Joostmod Flails can now receive more prefixes
 - Boomerang bullets now only have a 1 out of 10 chance of coming back rather than a 1 out of 3
 - Cactus Balls fired by the Grand Cactus Worm now stick to tiles instead of popping into spikes
 - Cactus Person now leaves a trail of protective cactus as they walk on sand/cactus
 - Cactus Person now makes nearby Cactoids friendly and nearby Cactuars passive
 - Decisive changed from -20% damage and +40% crit chance to just +20% crit chance, so it is more comparable to Demonic
+- Excalipoor and Infect Arm Cannon now require 20 bars but make 10 items
+- Gale Boomerang now carries enemies better, improving its crowd-control capabilities
+It also will launch enemies away if it's returning to the user
 - Azure Genji Armor set bonus ability now consumes all your mana
 - Crimson Genji Armor set bonus grants ranged damage based on amount of sacrificed defense instead of an additive 100%
 - Veridian Genji Armor now grants 50% increased throwing damage and velocity after dodging using its set bonus ability
 - Grabby Swingy hook now drags you better so it is less likely to unhook from fast enemies
-- Grand Cactus Worm body segments now takes 60% damage from piercing projectiles instead of 50% damage;
+- Grand Cactus Worm body segments now take 60% damage from piercing projectiles instead of 50% damage;
 This no longer affects projectiles with a penetrate value of 2
 - Jumbow now is charged up then released and deals more damage fully charged than before
 - Mighty Bamboo Shoot, Ascended Bamboo Shoot, Mutated Arm Cannons, Stone fist, and Tomato Head are now affected by melee speed and can receive more prefixes
 - Mutated Arm Cannons now only grants immunity frames on a successful hit
-- Mutated Arm Cannons ans Stone Fist now have limits to their dash speed
+- Mutated Arm Cannons and Stone Fist now have limits to their dash speed
+- Sapling - Bow no longer requires arrows to craft and instead uses arrows from your inventory
+- Sapling - Shield changed from granting defense to blocking attackers from behind (with a small hitbox)
 - Sunfish beam now follows the cursor at a slow speed rather than being directly on the cursor
-- Soil armor and weapons now require 500 dirt instead of 100/200 dirt for their recipes and bonuses :eeugh:
+- Soil armor and weapons now require 666 dirt instead of 100/200 dirt for their recipes and bonuses :eeugh:
 - Succulent throw no longer bounces around uncontrollably when grabbing an enemy
 - Rock deals less damage and knockback after each bounce
 - Power Bomb no longer explodes on contact and can only have 1 active at a time
 - Power Bomb now uses the Metroid Fusion explosion sound effect and visuals
 - The Nails now do an upward slash on releasing the charge early, so less clicking needed
+- The Deathbringer's instant-death ability can now affect bosses (still has the health limit of 5000)
 - The Stone of Death is now able to spawn deeper in the dungeon
 - The Stone of Fire has more variance to where it can spawn in the Underworld
 - Terra Spear, True Gungnir, and True Dark Lance's release their beams at the peak rather than the beginning of their thrust

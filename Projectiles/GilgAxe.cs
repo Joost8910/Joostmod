@@ -60,6 +60,7 @@ namespace JoostMod.Projectiles
                     projectile.Kill();
                 }
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - 1.57f;
+                projectile.spriteDirection = -projectile.direction;
                 projectile.tileCollide = false;
             }
             else

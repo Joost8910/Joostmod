@@ -17,13 +17,13 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 51;
+			item.damage = 48;
 			item.thrown = true;
 			item.width = 46;
 			item.height = 64;
 			item.useTime = 22;
 			item.useAnimation = 22;
-			item.useStyle = 5;
+			item.useStyle = 1;
 			item.noMelee = true; 
 			item.knockBack = 7;
 			item.value = 200000;
@@ -39,23 +39,23 @@ namespace JoostMod.Items.Weapons
         {
             return ((player.ownedProjectileCounts[mod.ProjectileType("EarthenHammer")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave1")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave2")] <= 0) || (player.ownedProjectileCounts[mod.ProjectileType("GaleBoomerang")] <= 0) || (player.ownedProjectileCounts[mod.ProjectileType("Boomerain")] <= 0) || (player.ownedProjectileCounts[mod.ProjectileType("InfernalChakram")] + player.ownedProjectileCounts[mod.ProjectileType("DousedChakram")] <= 0));
         }
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			 if (player.ownedProjectileCounts[mod.ProjectileType("EarthenHammer")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave1")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave2")] <= 0)
 			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 1.2f), (speedY * 1.2f), mod.ProjectileType("EarthenHammer"), (int)(damage * 0.7f), (knockBack * 2), player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (speedX * 1.2f), (speedY * 1.2f), mod.ProjectileType("EarthenHammer"), (int)(damage * 1.44f), (knockBack * 2.16f), player.whoAmI);
 			}
 			else if (player.ownedProjectileCounts[mod.ProjectileType("GaleBoomerang")] <= 0)
 			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GaleBoomerang"), damage, (knockBack * 0.3f), player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GaleBoomerang"), damage, knockBack, player.whoAmI);
 			}
 			else if (player.ownedProjectileCounts[mod.ProjectileType("Boomerain")] <= 0)
 			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), mod.ProjectileType("Boomerain"), (int)(damage * 0.65f), knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), mod.ProjectileType("Boomerain"), (int)(damage * 0.65f), knockBack * 1.16f, player.whoAmI);
 			}
 			else if (player.ownedProjectileCounts[mod.ProjectileType("InfernalChakram")] + player.ownedProjectileCounts[mod.ProjectileType("DousedChakram")] <= 0)
 			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 1.4f), (speedY * 1.4f), mod.ProjectileType("InfernalChakram"), (int)(damage * 0.85f), knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (speedX * 1.4f), (speedY * 1.4f), mod.ProjectileType("InfernalChakram"), (int)(damage * 0.75f), knockBack, player.whoAmI);
 			}
 			return false;
 		}

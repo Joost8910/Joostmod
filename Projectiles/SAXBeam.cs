@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,12 +11,11 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Beam");
-            Main.projFrames[projectile.type] = 8;
         }
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 80;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.aiStyle = 1;
             projectile.hostile = true;
             projectile.penetrate = -1;
@@ -25,13 +25,6 @@ namespace JoostMod.Projectiles
             projectile.light = 0.75f;
             projectile.coldDamage = true;
             aiType = ProjectileID.Bullet;
-        }
-        public override void ModifyDamageHitbox(ref Rectangle hitbox)
-        {
-            hitbox.X += 16;
-            hitbox.Y += 16;
-            hitbox.Width = 48;
-            hitbox.Height = 48;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -47,11 +40,27 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
+            if (projectile.ai[0] != 0)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 8;
+                if (projectile.localAI[0] == 0)
+                {
+                    projectile.localAI[0] = projectile.position.X;
+                }
+                if (projectile.localAI[1] == 0)
+                {
+                    projectile.localAI[1] = projectile.position.Y;
+                }
+                float freq = 0.15f;
+                float mag = 30f;
+                int time = 1200 - projectile.timeLeft;
+                Vector2 pos = new Vector2(projectile.localAI[0], projectile.localAI[1]);
+                Vector2 dir = projectile.velocity;
+                dir.Normalize();
+                Vector2 axis = dir.RotatedBy(90 * projectile.ai[0] * 0.0174f);
+                Vector2 wave = axis * (float)Math.Sin(time * freq) * mag;
+                projectile.position = pos + wave;
+                projectile.localAI[0] = projectile.position.X - wave.X + projectile.velocity.X;
+                projectile.localAI[1] = projectile.position.Y - wave.Y + projectile.velocity.Y;
             }
         }
     }

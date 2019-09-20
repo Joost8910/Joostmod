@@ -32,9 +32,16 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.mod == "Terraria")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    if (line2.Name == "ItemName")
+                    {
+                        line2.overrideColor = new Color(230, 204, 128);
+                    }
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
+                    {
+                        line2.overrideColor = Color.DarkGray;
+                    }
                 }
             }
         }

@@ -119,8 +119,9 @@ namespace JoostMod.Projectiles
                 {
                     dir = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"),
-                        projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"), projectile.damage, projectile.knockBack, projectile.owner, 1);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"), projectile.damage, projectile.knockBack, projectile.owner, -1);
                 Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
             }
             else
@@ -131,8 +132,9 @@ namespace JoostMod.Projectiles
                 {
                     dir = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"),
-                        projectile.damage * 8, projectile.knockBack * 8, projectile.owner);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner, 1);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner, -1);
                 Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
 
             }

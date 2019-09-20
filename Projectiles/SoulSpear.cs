@@ -21,7 +21,7 @@ namespace JoostMod.Projectiles
 			projectile.height = 58;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
-			projectile.penetrate = 15;
+			projectile.penetrate = 20;
 			projectile.timeLeft = 180;
 			projectile.tileCollide = false;
 			projectile.light = 0.75f;

@@ -27,7 +27,15 @@ namespace JoostMod.Projectiles
 			projectile.alpha = 150;
 			aiType = ProjectileID.Bullet;
 		}
-		public override void AI()
+        public override bool CanHitPlayer(Player target)
+        {
+            if (projectile.timeLeft > 980)
+            {
+                return false;
+            }
+            return base.CanHitPlayer(target);
+        }
+        public override void AI()
 		{
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 4)

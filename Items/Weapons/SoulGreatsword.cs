@@ -16,7 +16,7 @@ namespace JoostMod.Items.Weapons
         }
 		public override void SetDefaults()
 		{
-			item.damage = 300;
+			item.damage = 270;
 			item.melee = true;
             item.mana = 40;
 			item.width = 160;

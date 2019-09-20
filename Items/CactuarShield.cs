@@ -9,7 +9,7 @@ namespace JoostMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cactuar Shield");
-			Tooltip.SetDefault("Inflicts 11 times enemy contact damage back to the attacker");
+			Tooltip.SetDefault("Inflicts 20 times enemy contact damage back to the attacker");
 		}
 		public override void SetDefaults()
 		{
@@ -24,7 +24,7 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.thorns += 11f;
+			player.thorns += 20f;
 		}
 	}
 }

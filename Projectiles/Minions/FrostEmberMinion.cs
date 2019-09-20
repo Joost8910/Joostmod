@@ -29,9 +29,9 @@ namespace JoostMod.Projectiles.Minions
 			projectile.tileCollide = false;
 			projectile.ignoreWater = false;
 			inertia = 20f;
-            shootCool = 150f;
+            shootCool = 110f;
             shoot = mod.ProjectileType("FrostFlameSummon");
-			shootSpeed = 10f;
+			shootSpeed = 9f;
 			chaseDist = 70f;
 		}
 		public override void CheckActive()
@@ -53,9 +53,9 @@ namespace JoostMod.Projectiles.Minions
 			{	
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
 			}
-		}
-		public override void SelectFrame()
-		{
+        }
+        public override void SelectFrame(Microsoft.Xna.Framework.Vector2 dir)
+        {
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 5)
 			{

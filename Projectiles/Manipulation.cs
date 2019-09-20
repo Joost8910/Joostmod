@@ -21,7 +21,7 @@ namespace JoostMod.Projectiles
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 8;
+            projectile.idStaticNPCHitCooldown = 4;
         }
         public override bool CanHitPvp(Player target)
         {

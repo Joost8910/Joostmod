@@ -263,6 +263,7 @@ namespace JoostMod.Projectiles
                 }
                 float targetrotation = (float)Math.Atan2(((projectile.Center.Y - player.Center.Y) * player.direction), ((projectile.Center.X - player.Center.X) * player.direction));
                 grappleRotation = targetrotation;
+                player.GetModPlayer<JoostPlayer>(mod).hoverBootsTimer = 0;
                 player.wingTime = 0f;
                 player.rocketTime = player.rocketTimeMax;
                 player.rocketDelay = 0;

@@ -24,6 +24,14 @@ namespace JoostMod.Projectiles
 			projectile.penetrate = -1;
 			projectile.timeLeft = 40;
         }
+        public override bool CanHitPlayer(Player target)
+        {
+            if (projectile.timeLeft > 25)
+            {
+                return false;
+            }
+            return base.CanHitPlayer(target);
+        }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.expertMode)
@@ -40,13 +48,15 @@ namespace JoostMod.Projectiles
             Vector2 arm = host.Center + new Vector2(35 * host.direction, -28);
             projectile.position = arm - new Vector2(projectile.width/2, projectile.height/2);
 			projectile.position += projectile.velocity * projectile.ai[1];
-            if (projectile.timeLeft == 15)
+            projectile.direction = host.direction;
+            projectile.spriteDirection = -projectile.direction;
+            if (projectile.timeLeft == 25)
             {
                 Main.PlaySound(SoundID.Item1, projectile.Center);
             }
             if (projectile.timeLeft > 25)
             {
-                projectile.velocity = projectile.DirectionTo(Main.player[host.target].MountedCenter) * projectile.velocity.Length();
+                projectile.velocity = Vector2.Normalize(Main.player[host.target].MountedCenter - arm) * projectile.velocity.Length();
                 projectile.ai[1] -= 0.2f;
             }
 			else if (projectile.timeLeft < 15)

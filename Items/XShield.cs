@@ -16,7 +16,7 @@ namespace JoostMod.Items
                 "Green parasites make the target drop an energy orb and are scaled by throwing damage\n" + 
                 "Blue parasites make the target drop mana stars and are scaled by magic damage\n" + 
                 "Yellow parasites make the target drop more money and are scaled by melee damage\n" + 
-                "Grans immunity to infection");
+                "Grants immunity to infection");
 		}
 		public override void SetDefaults()
 		{

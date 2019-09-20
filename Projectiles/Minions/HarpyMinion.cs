@@ -51,9 +51,9 @@ namespace JoostMod.Projectiles.Minions
 			{
 				projectile.timeLeft = 2;
 			}
-		}
-		public override void SelectFrame()
-		{
+        }
+        public override void SelectFrame(Microsoft.Xna.Framework.Vector2 dir)
+        {
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 6)
 			{

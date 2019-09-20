@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles.Minions
 			projectile.tileCollide = false;
 			projectile.ignoreWater = false;
 			inertia = 30f;
-            shootCool = 100f;
+            shootCool = 150f;
             shoot = mod.ProjectileType("DirtBoltSummon");
 			shootSpeed = 5.5f;
 			chaseDist = 150f;
@@ -54,7 +54,7 @@ namespace JoostMod.Projectiles.Minions
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 0);
 			}
 		}
-		public override void SelectFrame()
+		public override void SelectFrame(Microsoft.Xna.Framework.Vector2 dir)
 		{
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 8)

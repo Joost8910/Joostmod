@@ -1,6 +1,3 @@
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,8 +38,8 @@ namespace JoostMod.Projectiles
 				dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-12, -6)*0.4f;
 			}
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 70);	
-			Projectile.NewProjectile(projectile.Center.X, projectile.position.Y - 16, 4f, 0f, mod.ProjectileType("EarthWave"), (int)(projectile.damage * 2), projectile.knockBack, projectile.owner);					
-			Projectile.NewProjectile(projectile.Center.X, projectile.position.Y - 16, -4f, 0f, mod.ProjectileType("EarthWave"), (int)(projectile.damage * 2), projectile.knockBack, projectile.owner);					
+			Projectile.NewProjectile(projectile.Center.X, projectile.position.Y - 16, 4f, 0f, mod.ProjectileType("EarthWave"), (int)(projectile.damage), projectile.knockBack, projectile.owner);					
+			Projectile.NewProjectile(projectile.Center.X, projectile.position.Y - 16, -4f, 0f, mod.ProjectileType("EarthWave"), (int)(projectile.damage), projectile.knockBack, projectile.owner);					
 		}
 	}
 }

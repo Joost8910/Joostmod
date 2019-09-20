@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +15,7 @@ namespace JoostMod.Items.Armor
 			item.width = 18;
 			item.height = 18;
 			item.vanity = true;
-			item.value = 10000;
+			item.value = 7500;
 			item.rare = 2;
 		}
 		public override bool DrawLegs()
@@ -27,7 +25,7 @@ namespace JoostMod.Items.Armor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Cactus, 10);
+			recipe.AddIngredient(ItemID.Cactus, 15);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

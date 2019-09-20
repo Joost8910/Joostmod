@@ -52,6 +52,11 @@ namespace JoostMod.Items
             {
                 length = 600 + Main.rand.Next(600);
             }*/
+            while (buffID == BuffID.DrillMount && !NPC.downedGolemBoss)
+            {
+                Main.NewText("You can't get the drill containment unit from the Wonder Waffle until after beating the Golem", Color.OrangeRed);
+                buffID = Main.rand.Next(buffCount);
+            }
             player.AddBuff(buffID, length, false);
             return true;
         }

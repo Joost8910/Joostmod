@@ -97,6 +97,10 @@ namespace JoostMod.NPCs.Bosses
                 {
                     damage = damage / 2;
                 }
+                else if (Main.player[projectile.owner].heldProj == projectile.whoAmI)
+                {
+                    damage = damage / 3;
+                }
                 else
                 {
                     damage = damage / 5;
@@ -115,7 +119,7 @@ namespace JoostMod.NPCs.Bosses
         {
             if (npc.ai[0] < 56)
             {
-                damage = damage / 4;
+                damage = damage / 3;
                 crit = false;
                 npc.ai[2] += 1 + (damage / 2 * (Main.expertMode ? 2 : 1));
             }
@@ -206,7 +210,9 @@ namespace JoostMod.NPCs.Bosses
                     float rotation = npc.rotation;
                     if (Main.netMode != 1)
                     {
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
                 if (npc.ai[0] > 240)
@@ -269,7 +275,9 @@ namespace JoostMod.NPCs.Bosses
                     float rotation = npc.rotation;
                     if (Main.netMode != 1)
                     {
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
                 if (npc.ai[0] >= 200)

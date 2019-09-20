@@ -11,7 +11,9 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gale Boomerang");
-			Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
@@ -23,12 +25,13 @@ namespace JoostMod.Projectiles
 			projectile.penetrate = -1;
 			projectile.timeLeft = 1800;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			projectile.idStaticNPCHitCooldown = 9;
 			aiType = ProjectileID.Bullet;
 		}
 		public override void AI()
-		{
-			projectile.rotation = 0;
+        {
+            Player player = Main.player[projectile.owner];
+            projectile.rotation = 0;
 			if (projectile.timeLeft % 5 == 0)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
@@ -73,28 +76,83 @@ namespace JoostMod.Projectiles
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % 6;
 			}
+            for (int n = 0; n < 200; n++)
+            {
+                NPC target = Main.npc[n];
+                if (projectile.Colliding(projectile.getRect(), target.getRect()))
+                {
+                    bool tooClose = player.Distance(projectile.Center) < 80 && player.Distance(projectile.Center) < player.Distance(projectile.oldPosition + projectile.Size / 2);
+                    if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
+                    {
+                        if (target.knockBackResist > 1f - projectile.knockBack / 10)
+                        {
+                            if (tooClose)
+                            {
+                                target.velocity = new Vector2(projectile.knockBack * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                            }
+                            else
+                            {
+                                target.velocity = projectile.velocity;
+                                target.velocity.Y -= target.noGravity || projectile.aiStyle == 3 || player.Distance(projectile.Center) < 80 ? 0 : 0.4f;
+                            }
+                        }
+                        else
+                        {
+                            if (tooClose)
+                            {
+                                target.velocity = new Vector2(projectile.knockBack * target.knockBackResist * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * target.knockBackResist * projectile.velocity.Length() * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                            }
+                            else
+                            {
+                                target.velocity = projectile.velocity * target.knockBackResist;
+                                target.velocity.Y -= target.noGravity || projectile.aiStyle == 3 || player.Distance(projectile.Center) < 80 ? 0 : 0.4f * target.knockBackResist;
+                            }
+                        }
+                    }
+                }
+            }
 		}
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
 			width = 20;
 			height = 20;
 			return true;
-		}
-		public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        }
+        /*
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (n.active && !n.friendly && !n.dontTakeDamage && n.type != 488 && !n.boss)
-			{
-				if (n.knockBackResist > 0.5f - knockback/10)
-				{
-					n.velocity = projectile.velocity;
-				}
-				else
-				{
-					n.velocity = projectile.velocity * n.knockBackResist;
-				}
-			}
+            Player player = Main.player[projectile.owner];
+            bool tooClose = player.Distance(projectile.Center) < 80 && player.Distance(projectile.Center) < player.Distance(projectile.oldPosition + projectile.Size / 2);
+            if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
+            {
+                if (target.knockBackResist > 1f - projectile.knockBack / 10)
+                {
+                    if (tooClose)
+                    {
+                        target.velocity = new Vector2(projectile.knockBack * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                    }
+                    else
+                    {
+                        target.velocity = projectile.velocity;
+                        target.velocity.Y -= target.noGravity || projectile.aiStyle == 3 || player.Distance(projectile.Center) < 80 ? 0 : 0.4f;
+                    }
+                }
+                else
+                {
+                    if (tooClose)
+                    {
+                        target.velocity = new Vector2(projectile.knockBack * target.knockBackResist * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * target.knockBackResist * projectile.velocity.Length() * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                    }
+                    else
+                    {
+                        target.velocity = projectile.velocity * target.knockBackResist;
+                        target.velocity.Y -= target.noGravity || projectile.aiStyle == 3 || player.Distance(projectile.Center) < 80 ? 0 : 0.4f * target.knockBackResist;
+                    }
+                }
+            }
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        */
+        public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.velocity.X != oldVelocity.X)
 			{

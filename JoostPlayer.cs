@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using JoostMod.Items;
 using Terraria.Graphics.Shaders;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JoostMod
 {
@@ -40,8 +41,12 @@ namespace JoostMod
         private int megaBubbleShieldTimer = 30;
         public bool hoverBoots = false;
         public bool spaceJump = false;
-        private int hoverBootsTimer = 900;
+        public int hoverBootsTimer = 900;
         private int hoverBootsStart = 0;
+        private float hoverWing = 0;
+        private int hoverRocket = 0;
+        private bool hoverJump = false;
+        public bool hovering = false;
         public bool GMagic = false;
         private int GMagicTimer = 63;
         public bool HavocPendant = false;
@@ -62,6 +67,7 @@ namespace JoostMod
         public bool bowSapling = false;
         private int bowSaplingTimer = 27;
         public bool fishingSapling = false;
+        public bool shieldSapling = false;
         public int spelunky = 0;
         public bool spelunkGlow = false;
         private int spelunkerTimer = 0;
@@ -122,6 +128,7 @@ namespace JoostMod
             bubbleShield = false;
             megaBubbleShield = false;
             hoverBoots = false;
+            hovering = false;
             spaceJump = false;
             HavocPendant = false;
             HarmonyPendant = false;
@@ -135,6 +142,7 @@ namespace JoostMod
             staffSapling = false;
             bowSapling = false;
             fishingSapling = false;
+            shieldSapling = false;
             spelunky = 0;
             spelunkGlow = false;
             enemyIgnoreDefenseDamage = 0;
@@ -579,7 +587,9 @@ namespace JoostMod
             {
                 if (player.ownedProjectileCounts[mod.ProjectileType("EnkiduMinion")] <= 0)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("EnkiduMinion"), (int)(600 * player.minionDamage), 10f, player.whoAmI);
+                    int damage = (int)(600 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    float knockback = 10f + player.minionKB;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("EnkiduMinion"), damage, knockback, player.whoAmI);
                 }
             }
             if (XShield)
@@ -778,20 +788,9 @@ namespace JoostMod
                 cactusBootsTimer -= Math.Abs(player.velocity.X);
                 if (cactusBootsTimer < 0)
                 {
-                    bool cflag = false;
-                    int c = 3;
-                    for (c = 3; c < 8 + player.extraAccessorySlots; c++)
-                    {
-                        if (player.armor[c].type == mod.ItemType("CactusBoots"))
-                        {
-                            cflag = true;
-                            break;
-                        }
-                    }
-                    if (cflag)
-                    {
-                        Projectile.NewProjectile(player.Center.X, player.position.Y, 0, 7, mod.ProjectileType("BootCactus"), player.GetWeaponDamage(player.armor[c]), player.GetWeaponKnockback(player.armor[c], player.armor[c].knockBack), player.whoAmI);
-                    }
+                    int damage = (int)(18 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    float knockback = 0f;
+                    Projectile.NewProjectile(player.Center.X, player.position.Y, 0, 7, mod.ProjectileType("BootCactus"), damage, knockback, player.whoAmI);
                     cactusBootsTimer = 40;
                 }
             }
@@ -804,21 +803,10 @@ namespace JoostMod
                 SpectreOrbTimer--;
                 if (SpectreOrbTimer < 0)
                 {
-                    bool sflag = false;
-                    int s = 3;
-                    for (s = 3; s < 8 + player.extraAccessorySlots; s++)
-                    {
-                        if (player.armor[s].type == mod.ItemType("SpectralOrb"))
-                        {
-                            sflag = true;
-                            break;
-                        }
-                    }
-                    if (sflag)
-                    {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, mod.ProjectileType("SpectreOrb"), player.GetWeaponDamage(player.armor[s]), player.GetWeaponKnockback(player.armor[s], player.armor[s].knockBack), player.whoAmI);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, mod.ProjectileType("SpectreOrb"), player.GetWeaponDamage(player.armor[s]), player.GetWeaponKnockback(player.armor[s], player.armor[s].knockBack), player.whoAmI, 0f, 180f);
-                    }
+                    int damage = (int)(100 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    float knockback = 6.4f + player.minionKB;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, mod.ProjectileType("SpectreOrb"), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, mod.ProjectileType("SpectreOrb"), damage, knockback, player.whoAmI, 0f, 180f);
                     SpectreOrbTimer = 40;
                 }
             }
@@ -835,23 +823,12 @@ namespace JoostMod
                 }
                 if (SkullSigilTimer < 0)
                 {
-                    bool skflag = false;
-                    int sk = 3;
-                    for (sk = 3; sk < 8 + player.extraAccessorySlots; sk++)
-                    {
-                        if (player.armor[sk].type == mod.ItemType("SigilofSkulls") || player.armor[sk].type == mod.ItemType("ScrollofDeath"))
-                        {
-                            skflag = true;
-                            break;
-                        }
-                    }
-                    if (skflag)
-                    {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 2f, 2f, mod.ProjectileType("Skull"), player.GetWeaponDamage(player.armor[sk]), player.GetWeaponKnockback(player.armor[sk], player.armor[sk].knockBack), player.whoAmI, 45f);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 2f, -2f, mod.ProjectileType("Skull"), player.GetWeaponDamage(player.armor[sk]), player.GetWeaponKnockback(player.armor[sk], player.armor[sk].knockBack), player.whoAmI, 135f);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, -2f, 2f, mod.ProjectileType("Skull"), player.GetWeaponDamage(player.armor[sk]), player.GetWeaponKnockback(player.armor[sk], player.armor[sk].knockBack), player.whoAmI, 225f);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, -2f, -2f, mod.ProjectileType("Skull"), player.GetWeaponDamage(player.armor[sk]), player.GetWeaponKnockback(player.armor[sk], player.armor[sk].knockBack), player.whoAmI, 315f);
-                    }
+                    int damage = (int)(125 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    float knockback = 5.5f + player.minionKB;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 2f, 2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 45f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 2f, -2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 135f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -2f, 2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 225f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -2f, -2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 315f);
                     SkullSigilTimer = 180;
                 }
             }
@@ -915,6 +892,13 @@ namespace JoostMod
                     }
                 }
             }
+            if (shieldSapling)
+            {
+                if (player.ownedProjectileCounts[mod.ProjectileType("ShieldSapling")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, mod.ProjectileType("ShieldSapling"), 1, 2 + player.minionKB, player.whoAmI);
+                }
+            }
             if (swordSapling)
             {
                 bool target = false;
@@ -934,20 +918,10 @@ namespace JoostMod
                 swordSaplingTimer--;
                 if (swordSaplingTimer < 0 && target)
                 {
-                    bool flag = false;
-                    int s = 3;
-                    for (s = 3; s < 8 + player.extraAccessorySlots; s++)
-                    {
-                        if (player.armor[s].type == mod.ItemType("SwordSapling"))
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (flag && player.ownedProjectileCounts[mod.ProjectileType("SaplingSword")] < 1)
+                    if (player.ownedProjectileCounts[mod.ProjectileType("SaplingSword")] < 1)
                     {
                         Main.PlaySound(2, player.Center, 1);
-                        Projectile.NewProjectile(player.Center.X + 16*player.direction, player.Center.Y, shoot.X * 3, shoot.Y * 3, mod.ProjectileType("SaplingSword"), player.GetWeaponDamage(player.armor[s]), player.GetWeaponKnockback(player.armor[s], player.armor[s].knockBack), player.whoAmI);
+                        Projectile.NewProjectile(player.Center.X + 16*player.direction, player.Center.Y, shoot.X * 3, shoot.Y * 3, mod.ProjectileType("SaplingSword"), (int)(12 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult), 4f * (player.kbGlove ? 2 : 1) * (player.kbBuff ? 1.5f : 1), player.whoAmI);
                     }
                     swordSaplingTimer = 9;
                 }
@@ -975,20 +949,10 @@ namespace JoostMod
                 hatchetSaplingTimer--;
                 if (hatchetSaplingTimer < 0 && target)
                 {
-                    bool flag = false;
-                    int s = 3;
-                    for (s = 3; s < 8 + player.extraAccessorySlots; s++)
-                    {
-                        if (player.armor[s].type == mod.ItemType("HatchetSapling"))
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (flag && player.ownedProjectileCounts[mod.ProjectileType("CopperHatchet")] + player.ownedProjectileCounts[mod.ProjectileType("CopperHatchet2")] < 3)
+                    if (player.ownedProjectileCounts[mod.ProjectileType("CopperHatchet")] + player.ownedProjectileCounts[mod.ProjectileType("CopperHatchet2")] < 3)
                     {
                         Main.PlaySound(2, player.Center, 19);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 12 * player.thrownVelocity, shoot.Y * 12 * player.thrownVelocity, mod.ProjectileType("CopperHatchet"), player.GetWeaponDamage(player.armor[s]), player.GetWeaponKnockback(player.armor[s], player.armor[s].knockBack), player.whoAmI);
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 12 * player.thrownVelocity, shoot.Y * 12 * player.thrownVelocity, mod.ProjectileType("CopperHatchet"), (int)(7 * player.allDamageMult * (player.allDamage + player.thrownDamage - 1f) * player.thrownDamageMult), 3f, player.whoAmI);
                     }
                     hatchetSaplingTimer = 15;
                 }
@@ -1016,20 +980,37 @@ namespace JoostMod
                 bowSaplingTimer--;
                 if (bowSaplingTimer < 0 && target)
                 {
+                    int damage = (int)(7 * player.allDamageMult * (player.allDamage + player.rangedDamage - 1f) * player.rangedDamageMult);
+                    float knockback = 2;
+                    int proj = ProjectileID.WoodenArrowFriendly;
+                    float speed = 9.6f;
                     bool flag = false;
-                    int s = 3;
-                    for (s = 3; s < 8 + player.extraAccessorySlots; s++)
+                    for (int i = 0; i < 58; i++)
                     {
-                        if (player.armor[s].type == mod.ItemType("BowSapling"))
+                        Item item = player.inventory[i];
+                        if (item.ammo == AmmoID.Arrow && item.stack > 0)
                         {
                             flag = true;
+                            damage += item.damage;
+                            knockback += item.knockBack;
+                            proj = item.shoot;
+                            speed += item.shootSpeed;
+                            if (item.consumable)
+                            {
+                                item.stack--;
+                                if (item.stack <= 0)
+                                {
+                                    item.active = false;
+                                    item.TurnToAir();
+                                }
+                            }
                             break;
                         }
                     }
                     if (flag)
                     {
                         Main.PlaySound(2, player.Center, 5);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 9.6f, shoot.Y * 9.6f, 1, player.GetWeaponDamage(player.armor[s]), player.GetWeaponKnockback(player.armor[s], player.armor[s].knockBack), player.whoAmI);
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * speed, shoot.Y * speed, proj, damage, knockback, player.whoAmI);
                     }
                     bowSaplingTimer = 27;
                 }
@@ -1057,20 +1038,9 @@ namespace JoostMod
                 staffSaplingTimer--;
                 if (staffSaplingTimer < 0 && target)
                 {
-                    bool flag = false;
-                    int s = 3;
-                    for (s = 3; s < 8 + player.extraAccessorySlots; s++)
-                    {
-                        if (player.armor[s].type == mod.ItemType("StaffSapling"))
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (flag)
-                    {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, 121, player.GetWeaponDamage(player.armor[s]), player.GetWeaponKnockback(player.armor[s], player.armor[s].knockBack), player.whoAmI);
-                    }
+                    int damage = (int)(15 * player.allDamageMult * (player.allDamage + player.magicDamage - 1f) * player.magicDamageMult);
+                    float knockback = 3.5f;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, 121, damage, knockback, player.whoAmI);
                     staffSaplingTimer = 37;
                 }
             }
@@ -1088,21 +1058,10 @@ namespace JoostMod
                 bubbleShieldTimer--;
                 if (bubbleShieldTimer < 0)
                 {
-                    bool bflag = false;
-                    int b = 3;
-                    for (b = 3; b < 8 + player.extraAccessorySlots; b++)
-                    {
-                        if (player.armor[b].type == mod.ItemType("BubbleShield"))
-                        {
-                            bflag = true;
-                            break;
-                        }
-                    }
-                    if (bflag)
-                    {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 1f, 0f, mod.ProjectileType("BubbleShield"), player.GetWeaponDamage(player.armor[b]), player.GetWeaponKnockback(player.armor[b], player.armor[b].knockBack), player.whoAmI);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, -1f, 0f, mod.ProjectileType("BubbleShield"), player.GetWeaponDamage(player.armor[b]), player.GetWeaponKnockback(player.armor[b], player.armor[b].knockBack), player.whoAmI);
-                    }
+                    int damage = (int)(10 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    float knockback = 8f + player.minionKB;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 1f, 0f, mod.ProjectileType("BubbleShield"), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -1f, 0f, mod.ProjectileType("BubbleShield"), damage,knockback, player.whoAmI);
                     bubbleShieldTimer = 90;
                 }
             }
@@ -1115,61 +1074,16 @@ namespace JoostMod
                 megaBubbleShieldTimer--;
                 if (megaBubbleShieldTimer < 0)
                 {
-                    bool mbflag = false;
-                    int mb = 3;
-                    for (mb = 3; mb < 8 + player.extraAccessorySlots; mb++)
-                    {
-                        if (player.armor[mb].type == mod.ItemType("MegaBubbleShield"))
-                        {
-                            mbflag = true;
-                            break;
-                        }
-                    }
-                    if (mbflag)
-                    {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 1f, 0f, mod.ProjectileType("MegaBubbleShield"), player.GetWeaponDamage(player.armor[mb]), player.GetWeaponKnockback(player.armor[mb], player.armor[mb].knockBack), player.whoAmI);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, -1f, 0f, mod.ProjectileType("MegaBubbleShield"), player.GetWeaponDamage(player.armor[mb]), player.GetWeaponKnockback(player.armor[mb], player.armor[mb].knockBack), player.whoAmI);
-                    }
+                    int damage = (int)(90 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    float knockback = 18.5f + player.minionKB;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 1f, 0f, mod.ProjectileType("MegaBubbleShield"), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -1f, 0f, mod.ProjectileType("MegaBubbleShield"), damage, knockback, player.whoAmI);
                     megaBubbleShieldTimer = 30;
                 }
             }
             else
             {
                 megaBubbleShieldTimer = 30;
-            }
-            if (hoverBoots && player.velocity.Y != 0 && hoverBootsTimer > 0 && (player.controlLeft || player.controlRight) && !player.controlDown)
-            {
-                player.fallStart = (int)(player.position.Y / 16f);
-                hoverBootsTimer--;
-                player.slowFall = false;
-                float num = player.gravity;
-                if (player.gravDir == 1f && player.velocity.Y > -num)
-                {
-                    player.velocity.Y = -(num + 1E-06f);
-                    if (hoverBootsStart <= 0)
-                    {
-                        hoverBootsStart = 1;
-                        player.velocity.Y -= num;
-                    }
-                    player.slippy2 = true;
-                    player.maxRunSpeed *= 1.75f;
-                }
-                else if (player.gravDir == -1f && player.velocity.Y < num)
-                {
-                    player.velocity.Y = num + 1E-06f;
-                    if (hoverBootsStart <= 0)
-                    {
-                        hoverBootsStart = 1;
-                        player.velocity.Y += num;
-                    }
-                    player.slippy2 = true;
-                    player.maxRunSpeed *= 1.75f;
-                }
-            }
-            if (hoverBoots && player.velocity.Y == 0 && hoverBootsTimer < 900)
-            {
-                hoverBootsTimer += 10;
-                hoverBootsStart = 0;
             }
             if (player.velocity.Y != 0 && spaceJump)
             {
@@ -1199,6 +1113,7 @@ namespace JoostMod
                     }
                 }
             }
+            bool noHooks = player.ownedProjectileCounts[mod.ProjectileType("SwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("MobHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedSwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("CactusHook")] <= 0;
             if (spinTimer > 0)
             {
                 spinTimer--;
@@ -1214,9 +1129,9 @@ namespace JoostMod
                     spinTimer = 0;
                 }
             }
-            else if (rocWings && player.ownedProjectileCounts[mod.ProjectileType("SwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("MobHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedSwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("CactusHook")] <= 0 && player.velocity.Y != 0 && !player.mount.Active && player.controlUp && !player.controlJump && !player.pulley && player.itemAnimation == 0)
+            else if (rocWings && noHooks && player.velocity.Y != 0 && !player.mount.Active && player.controlUp && !player.controlJump && !player.pulley && player.itemAnimation == 0)
             {
-                int rotSpeed = 5;
+                int rotSpeed = 6;
                 if (player.wet)
                 {
                     if (player.honeyWet)
@@ -1286,7 +1201,7 @@ namespace JoostMod
                 player.fullRotationOrigin = player.Center - player.position;
                 float speed = player.velocity.Length();
                 player.velocity.X = (float)Math.Cos(player.fullRotation) * speed * player.direction;
-                if (speed > 3)
+                if (speed > player.maxFallSpeed / 3 || rot > 0)
                 {
                     player.velocity.Y = ((float)Math.Sin(player.fullRotation) * speed * player.direction);
                     if (player.velocity.Y * player.gravDir >= 0 && player.velocity.Y * player.gravDir < player.gravity)
@@ -1294,30 +1209,9 @@ namespace JoostMod
                         player.velocity.Y = player.gravity * player.gravDir;
                     }
                 }
-                else if (rot < 90)
+                else
                 {
-                    if (player.direction == 1)
-                    {
-                        if (!player.controlLeft)
-                        {
-                            rot += rotSpeed;
-                        }
-                        else
-                        {
-                            player.direction = -1;
-                        }
-                    }
-                    else
-                    {
-                        if (!player.controlRight)
-                        {
-                            rot += rotSpeed;
-                        }
-                        else
-                        {
-                            player.direction = 1;
-                        }
-                    }
+                    player.maxFallSpeed /= 10;
                 }
                 player.slowFall = false;
                 player.controlLeft = false;
@@ -1327,6 +1221,103 @@ namespace JoostMod
             {
                 rot = 0;
                 player.fullRotation = 0f;
+            }
+            else
+            {
+                int hX = (int)(player.position.X / 16f);
+                int hX2 = (int)((player.position.X + player.width - 0.5f) / 16f);
+                int hY = (int)((player.position.Y + player.height + 1) / 16f);
+                bool tile = SolidGround(hX, hX2, hY, hY);
+                if (hoverBoots && hoverBootsTimer > 0 && player.jump <= 0 && !player.pulley)
+                {
+                    if ((player.controlLeft || player.controlRight) && !player.controlDown)
+                    {
+                        int height = player.height;
+                        if (player.onTrack)
+                        {
+                            height = player.height - 10;
+                        }
+                        Vector2 arg_69_0 = Collision.TileCollision(player.position, player.velocity, player.width, height, false, false, (int)player.gravDir);
+                        float num = player.velocity.Length();
+                        Vector2 value = Vector2.Normalize(player.velocity);
+                        if (arg_69_0.Y == 0f)
+                        {
+                            value.Y = 0f;
+                        }
+                        if (player.position.Y != (int)player.position.Y)
+                        {
+                            player.position.Y = (int)player.position.Y;
+                        }
+                        float num2 = num;
+                        if (num2 > 16f)
+                        {
+                            num2 = 16f;
+                        }
+                        Vector2 velocity = value * num2;
+                        if (player.gravDir == -1f)
+                        {
+                            if ((player.velocity.Y <= player.gravity) && !player.controlUp)
+                            {
+                                Collision.StepUp(ref player.position, ref velocity, player.width, player.height, ref player.stepSpeed, ref player.gfxOffY, (int)player.gravDir, true, 0);
+                            }
+                        }
+                        else if (player.velocity.Y >= player.gravity && !player.controlDown && !player.mount.Cart)
+                        {
+                            Collision.StepUp(ref player.position, ref velocity, player.width, player.height, ref player.stepSpeed, ref player.gfxOffY, (int)player.gravDir, true, 0);
+                        }
+                    }
+                    if (!tile)
+                    {
+                        bool flight = (player.wingTime > 0 || player.rocketTime > 0) && player.controlJump;
+                        if ((player.controlLeft || player.controlRight) && !player.controlDown)
+                        {
+                            if (!flight)
+                            {
+                                hoverWing = player.wingTime;
+                                hoverRocket = player.rocketTime;
+                                player.fallStart = (int)(player.position.Y / 16f);
+                                hoverBootsTimer--;
+                                player.slowFall = false;
+                                player.autoJump = false;
+                                hoverJump = player.controlJump;
+                                player.controlJump = false;
+                                player.releaseJump = false;
+                                player.wingTime = 0;
+                                player.rocketTime = 0;
+                                player.velocity.Y = 0;
+                                hovering = true;
+                                /*
+                                if (hoverBootsStart == 0)
+                                {
+                                    hoverBootsStart++;
+                                    player.velocity.Y = (player.gravity + 1E-06f) * -player.gravDir;
+                                }
+                                */
+                                player.gravity = 0;
+                                int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + 2f), player.width + 8, 4, 16, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, Color.Gold * 1.2f, 1.5f);
+                                Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+                                Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+                                Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                            }
+                            player.canRocket = true;
+                            player.rocketRelease = true;
+                        }
+                        else if (player.velocity.Y == 0)
+                        {
+                            player.velocity.Y += (1E-06f) * player.gravDir;
+                        }
+                        Player.jumpHeight = 0;
+                        if (!flight)
+                        {
+                            Player.jumpSpeed = 0;
+                        }
+                    }
+                }
+                if (hoverBoots && tile)
+                {
+                    hoverBootsTimer = 450;
+                    hoverBootsStart = 0;
+                }
             }
             if (planeMount && player.velocity.Y != 0 && player.itemAnimation == 0)
             {
@@ -1346,7 +1337,7 @@ namespace JoostMod
                 fleshShieldTimer++;
                 if (fleshShieldTimer > 2 + (int)(((float)player.statLife / (float)player.statLifeMax2) * 200f))
                 {
-                    Projectile.NewProjectile(player.Center.X + player.direction * 20, player.Center.Y, player.direction * 10, 0, mod.ProjectileType("Leech"), (int)(20 * player.meleeDamage), 1, player.whoAmI);
+                    Projectile.NewProjectile(player.Center.X + player.direction * 20, player.Center.Y, player.direction * 10, 0, mod.ProjectileType("Leech"), (int)(20 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult), 1, player.whoAmI);
                     fleshShieldTimer = 0;
                 }
             }
@@ -1358,6 +1349,51 @@ namespace JoostMod
             {
                 Dash();
             }
+        }
+        public override void PostUpdate()
+        {
+            if (hoverBoots)
+            {
+                if (hovering)
+                {
+                    player.wingTime = hoverWing;
+                    player.rocketTime = hoverRocket;
+                }
+            }
+        }
+        private static bool SolidGround(int startX, int endX, int startY, int endY)
+        {
+            if (startX < 0)
+            {
+                return true;
+            }
+            if (endX >= Main.maxTilesX)
+            {
+                return true;
+            }
+            if (startY < 0)
+            {
+                return true;
+            }
+            if (endY >= Main.maxTilesY)
+            {
+                return true;
+            }
+            for (int i = startX; i < endX + 1; i++)
+            {
+                for (int j = startY; j < endY + 1; j++)
+                {
+                    if (Main.tile[i, j] == null)
+                    {
+                        return false;
+                    }
+                    if (Main.tile[i, j].active() && !Main.tile[i, j].inActive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type]))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         public override void UpdateDead()
         {
@@ -1424,6 +1460,21 @@ namespace JoostMod
                 infectedYellow = false;
             }
         }
+        public override bool CanBeHitByProjectile(Projectile proj)
+        {
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile projectile = Main.projectile[i];
+                if (projectile.type == mod.ProjectileType("ShieldSapling") && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
+                {
+                    //Main.NewText(proj.damage, Color.DarkGreen);
+                    proj.Kill();
+                    Main.PlaySound(3, projectile.Center, 4);
+                    return false;
+                }
+            }
+            return base.CanBeHitByProjectile(proj);
+        }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit,
                     ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -1435,25 +1486,14 @@ namespace JoostMod
             enemyIgnoreDefenseDamage = 0;
             if (sporgan)
             {
-                bool sflag = false;
-                int s = 3;
-                for (s = 3; s < 8 + player.extraAccessorySlots; s++)
+                int sdamage = (int)(12 * (player.allDamage + player.minionDamage - 1) * player.minionDamageMult * player.allDamageMult);
+                float knockback = 0.1f + player.minionKB;
+                int num = 10;
+                double deltaAngle = (float)(Math.PI * 2) / num;
+                for (int i = 0; i < num; i++)
                 {
-                    if (player.armor[s].type == mod.ItemType("Sporgan"))
-                    {
-                        sflag = true;
-                        break;
-                    }
-                }
-                if (sflag)
-                {
-                    int num = 10;
-                    double deltaAngle = (float)(Math.PI * 2) / num;
-                    for (int i = 0; i < num; i++)
-                    {
-                        double offsetAngle = (float)(Math.PI / 2) + deltaAngle * i;
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), 228, player.GetWeaponDamage(player.armor[s]), 0, player.whoAmI);
-                    }
+                    double offsetAngle = (float)(Math.PI / 2) + deltaAngle * i;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), 228, sdamage, knockback, player.whoAmI);
                 }
             }
             if (player.HasBuff(mod.BuffType("gThrownDodge")))
