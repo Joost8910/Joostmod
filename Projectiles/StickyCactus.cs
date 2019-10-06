@@ -68,9 +68,9 @@ namespace JoostMod.Projectiles
             }
             else if (projectile.timeLeft < 560)
             {
+                rot += projectile.direction * projectile.velocity.Length() * 0.0174f;
                 projectile.velocity.Y = projectile.velocity.Y + 0.15f;
                 projectile.velocity.X = projectile.velocity.X * 0.99f;
-                rot += projectile.direction * projectile.velocity.Length() * 0.0174f;
             }
             projectile.rotation = rot;
         }

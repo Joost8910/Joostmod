@@ -1,7 +1,4 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +14,8 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
+            projectile.width = 6;
+			projectile.height = 6;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;

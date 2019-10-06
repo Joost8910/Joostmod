@@ -12,8 +12,8 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -21,6 +21,7 @@ namespace JoostMod.Projectiles
             projectile.timeLeft = 399;
             projectile.alpha = 5;
             projectile.extraUpdates = 1;
+            projectile.scale = 1.5f;
             aiType = ProjectileID.Bullet;
         }
 

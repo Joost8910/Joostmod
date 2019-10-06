@@ -267,13 +267,13 @@ namespace JoostMod.NPCs.Town
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
 			projType = 54;
-			attackDelay = 15;
+			attackDelay = 20;
 		}
 
 		public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
 		{
 			multiplier = 12f;
-            gravityCorrection = 0.6f;
+            gravityCorrection = 32f;
 		}
 	}
 }

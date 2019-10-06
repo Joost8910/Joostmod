@@ -15,7 +15,7 @@ namespace JoostMod.NPCs.Bosses
 			DisplayName.SetDefault("Gilgamesh");
 			Main.npcFrameCount[npc.type] = 4;
             NPCID.Sets.TrailingMode[npc.type] = 0;
-            NPCID.Sets.TrailCacheLength[npc.type] = 8;
+            NPCID.Sets.TrailCacheLength[npc.type] = 6;
         }
 		public override void SetDefaults()
 		{
@@ -55,39 +55,55 @@ namespace JoostMod.NPCs.Bosses
         public override void FindFrame(int frameHeight)
 		{
 			npc.spriteDirection = npc.direction;
-			if (npc.velocity.Y == 0)
-			{
-                if (npc.velocity.X == 0)
+            if (npc.dontTakeDamage && npc.ai[0] < 40)
+            {
+                npc.frameCounter++;
+                if (npc.frameCounter > 4)
                 {
-                    npc.frame.Y = 0;
-                }
-                else
-                {
-                    npc.frameCounter += Math.Abs(npc.velocity.X);
-                    if (npc.frameCounter > 44)
+                    npc.frameCounter = 0;
+                    npc.frame.Y = (npc.frame.Y + 148);
+                    if (npc.frame.Y > 148)
                     {
-                        npc.frameCounter = 0;
-                        npc.frame.Y = (npc.frame.Y + 148);
-                    }
-                    if (npc.frame.Y <= 0)
-                    {
-                        npc.frame.Y = 148;
-                    }
-                    if (npc.frame.Y >= 592)
-                    {
-                        npc.frame.Y = 148;
+                        npc.frame.Y = 0;
                     }
                 }
-			}
+            }
             else
             {
-                if (npc.velocity.Y > 0)
+                if (npc.velocity.Y == 0)
                 {
-                    npc.frame.Y = 296;
+                    if (npc.velocity.X == 0)
+                    {
+                        npc.frame.Y = 0;
+                    }
+                    else
+                    {
+                        npc.frameCounter += Math.Abs(npc.velocity.X);
+                        if (npc.frameCounter > 44)
+                        {
+                            npc.frameCounter = 0;
+                            npc.frame.Y = (npc.frame.Y + 148);
+                        }
+                        if (npc.frame.Y <= 0)
+                        {
+                            npc.frame.Y = 148;
+                        }
+                        if (npc.frame.Y >= 592)
+                        {
+                            npc.frame.Y = 148;
+                        }
+                    }
                 }
                 else
                 {
-                    npc.frame.Y = 444;
+                    if (npc.velocity.Y > 0)
+                    {
+                        npc.frame.Y = 296;
+                    }
+                    else
+                    {
+                        npc.frame.Y = 444;
+                    }
                 }
             }
 		}
@@ -163,7 +179,7 @@ namespace JoostMod.NPCs.Bosses
             }
             if (naginataReady && npc.ai[2] <= 0 && npc.ai[1] > 50)
             {
-                if (npc.Distance(P.MountedCenter) < 200)
+                if (npc.Distance(P.MountedCenter) < 250)
                 {
                     float Speed = 18f;
                     int damage = 50;
@@ -190,7 +206,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.ai[2] == 45)
                 {
                     float Speed = 12f + npc.velocity.Length();
-                    int damage = 45;
+                    int damage = 40;
                     Vector2 arm = npc.Center + new Vector2(-20 * npc.direction, -32);
                     Vector2 pos = P.MountedCenter;
                     if (Math.Abs(npc.Center.Y - P.MountedCenter.Y) < 200)
@@ -207,7 +223,7 @@ namespace JoostMod.NPCs.Bosses
                 }
                 if (npc.ai[2] == 60)
                 {
-                    int damage = 45;
+                    int damage = 40;
                     Vector2 pos = P.MountedCenter;
                     Vector2 arm = npc.Center + new Vector2(17 * npc.direction, -39);
                     float Speed = 12f + npc.velocity.Length();
@@ -488,7 +504,10 @@ namespace JoostMod.NPCs.Bosses
                     }
                 }
             }
-
+            if (npc.dontTakeDamage && npc.ai[0] < 40)
+            {
+                return false;
+            }
             Rectangle handRect = new Rectangle(0, handFrame * (handTex.Height / totalHandFrames), (handTex.Width), (handTex.Height / totalHandFrames));
             Vector2 handVect = new Vector2((float)handTex.Width / 2, (float)handTex.Height / (2 * totalHandFrames));
 
@@ -639,22 +658,42 @@ namespace JoostMod.NPCs.Bosses
             Vector2 handVect = new Vector2((float)handTex.Width / 2, (float)handTex.Height / (2 * totalHandFrames));
 
             Color color = Lighting.GetColor((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16));
-            if (npc.ai[3] >= 1)
+
+            if (npc.dontTakeDamage && npc.ai[0] < 40)
             {
-                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (Main.npcTexture[npc.type].Height * 0.5f) / Main.npcFrameCount[npc.type]);
+                Texture2D tex = mod.GetTexture("NPCs/Bosses/Gilgamesh_SpinToWin");
+                if (npc.ai[0] < 20)
+                {
+                    tex = mod.GetTexture("NPCs/Bosses/Gilgamesh2_SpinToWin");
+                }
+                Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height * 0.5f) / 2);
                 for (int i = 0; i < npc.oldPos.Length; i++)
                 {
                     Color color2 = drawColor * ((npc.oldPos.Length - i) / (float)npc.oldPos.Length) * 0.8f;
-                    Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2) + new Vector2(0f, npc.gfxOffY);
-                    Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]) * (npc.frame.Y / 148), Main.npcTexture[npc.type].Width, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]));
-                    spriteBatch.Draw(shoulderTex, shoulderPos - npc.Center + drawPos, new Rectangle?(shoulderRect), color2, shoulderRotation, shoulderVect, npc.scale, spriteEffects, 0f);
-                    spriteBatch.Draw(forearmTex, forearmPos - npc.Center + drawPos, new Rectangle?(forearmRect), color2, forearmRotation, forearmVect, npc.scale, spriteEffects, 0f);
-                    spriteBatch.Draw(handTex, handPos - npc.Center + drawPos, new Rectangle?(handRect), color2, handRotation, handVect, npc.scale, spriteEffects, 0f);
+                    Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2) + new Vector2(0f, (npc.height / 2) - (drawOrigin.Y));
+                    Rectangle? rect = new Rectangle?(new Rectangle(0, (tex.Height / 2) * ((npc.frame.Y / 148) % 2), tex.Width, tex.Height / 2));
+                    spriteBatch.Draw(tex, drawPos, rect, color2, npc.rotation, drawOrigin, npc.scale, spriteEffects, 0f);
                 }
             }
-            spriteBatch.Draw(shoulderTex, shoulderPos - Main.screenPosition, new Rectangle?(shoulderRect), color, shoulderRotation, shoulderVect, npc.scale, spriteEffects, 0f);
-            spriteBatch.Draw(forearmTex, forearmPos - Main.screenPosition, new Rectangle?(forearmRect), color, forearmRotation, forearmVect, npc.scale, spriteEffects, 0f);
-            spriteBatch.Draw(handTex, handPos - Main.screenPosition, new Rectangle?(handRect), color, handRotation, handVect, npc.scale, spriteEffects, 0f);
+            else
+            {
+                if (npc.ai[3] >= 1)
+                {
+                    Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (Main.npcTexture[npc.type].Height * 0.5f) / Main.npcFrameCount[npc.type]);
+                    for (int i = 0; i < npc.oldPos.Length; i++)
+                    {
+                        Color color2 = drawColor * ((npc.oldPos.Length - i) / (float)npc.oldPos.Length) * 0.8f;
+                        Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2) + new Vector2(0f, npc.gfxOffY);
+                        Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]) * (npc.frame.Y / 148), Main.npcTexture[npc.type].Width, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]));
+                        spriteBatch.Draw(shoulderTex, shoulderPos - npc.Center + drawPos, new Rectangle?(shoulderRect), color2, shoulderRotation, shoulderVect, npc.scale, spriteEffects, 0f);
+                        spriteBatch.Draw(forearmTex, forearmPos - npc.Center + drawPos, new Rectangle?(forearmRect), color2, forearmRotation, forearmVect, npc.scale, spriteEffects, 0f);
+                        spriteBatch.Draw(handTex, handPos - npc.Center + drawPos, new Rectangle?(handRect), color2, handRotation, handVect, npc.scale, spriteEffects, 0f);
+                    }
+                }
+                spriteBatch.Draw(shoulderTex, shoulderPos - Main.screenPosition, new Rectangle?(shoulderRect), color, shoulderRotation, shoulderVect, npc.scale, spriteEffects, 0f);
+                spriteBatch.Draw(forearmTex, forearmPos - Main.screenPosition, new Rectangle?(forearmRect), color, forearmRotation, forearmVect, npc.scale, spriteEffects, 0f);
+                spriteBatch.Draw(handTex, handPos - Main.screenPosition, new Rectangle?(handRect), color, handRotation, handVect, npc.scale, spriteEffects, 0f);
+            }
         }
         public override bool CheckDead()
         {

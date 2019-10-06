@@ -9,6 +9,7 @@ The Joostmod has to offer
 2 new town npcs
 
 Version 0.8
+- Resprited Balancerang
 - Resprited Desert Golem
 - Resprited Gameraiders101 Mask
 - Resprited Spectre

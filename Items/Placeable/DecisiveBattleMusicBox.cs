@@ -7,7 +7,7 @@ namespace JoostMod.Items.Placeable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Music Box (The Decisive Battle)");
-			Tooltip.SetDefault("From Final Fantasy V");
+			Tooltip.SetDefault("From Final Fantasy VI");
 		}
         public override void SetDefaults()
         {

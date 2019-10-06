@@ -13,7 +13,7 @@ namespace JoostMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Veridian Genji Armor");
-            Tooltip.SetDefault("20% Increased throwing crit chance\n" + "Max Life increased by 175");
+            Tooltip.SetDefault("20% Increased throwing crit chance\n" + "Max Life increased by 225");
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace JoostMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.statLifeMax2 += 175;
+            player.statLifeMax2 += 225;
             player.thrownCrit += 20;
         }
 

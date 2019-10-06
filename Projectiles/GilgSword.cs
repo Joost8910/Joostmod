@@ -7,44 +7,79 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
 {
-    public class GilgTomahawk : ModProjectile
+    public class GilgSword : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Tomahawk");
+            DisplayName.SetDefault("a thousand swords");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
+            projectile.width = 48;
+            projectile.height = 48;
             projectile.aiStyle = -1;
             projectile.hostile = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 400;
+            projectile.extraUpdates = 1;
+        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (projectile.ai[0] == 0)
+            {
+                float rot = projectile.rotation;
+                Vector2 unit = rot.ToRotationVector2();
+                Vector2 vector = projectile.Center + (unit * -projectile.width / 2);
+                float point = 0f;
+                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), vector, vector + unit * 68, 16, ref point))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.expertMode)
             {
-                target.wingTime -= 30;
-                target.rocketTime -= 30;
+                target.velocity *= 0.9f;
+                target.wingTime -= 5;
             }
+            target.immuneTime = 1;
+        }
+        public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
+        {
+            player.GetModPlayer<JoostPlayer>(mod).enemyIgnoreDefenseDamage = projectile.damage;
         }
         public override void AI()
         {
             projectile.direction = (projectile.velocity.X < 0 ? -1 : 1);
             projectile.spriteDirection = projectile.direction;
-            projectile.rotation = projectile.timeLeft * 0.0174f * 14f * -projectile.direction;
-            if (projectile.timeLeft % 9 == 0)
+            projectile.rotation = projectile.velocity.ToRotation() + 2.355f + (projectile.direction > 0 ? 0 : -1.57f);
+            if (projectile.velocity.Y < 10 && projectile.timeLeft < 150)
             {
-                Main.PlaySound(SoundID.Item7, projectile.Center);
+                projectile.velocity.Y += 0.15f;
+                projectile.rotation = projectile.timeLeft * 0.0174f * 15f * -projectile.direction;
+                if (projectile.timeLeft % 9 == 0)
+                {
+                    Main.PlaySound(SoundID.Item7, projectile.Center);
+                }
             }
-            if (projectile.velocity.Y < 10 && projectile.timeLeft < 240)
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.timeLeft -= 48;
+            if (projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.Y += 0.3f;
+                projectile.velocity.X = -oldVelocity.X * 0.8f;
             }
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y * 0.8f;
+            }
+            return false;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

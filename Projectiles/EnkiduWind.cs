@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enkidu");
+			DisplayName.SetDefault("Enkidu's Wind");
 			Main.projFrames[projectile.type] = 6;
 		}
 		public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace JoostMod.Projectiles
 			projectile.hostile = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 1000;
+			projectile.timeLeft = 600;
 			projectile.alpha = 150;
 			aiType = ProjectileID.Bullet;
 		}

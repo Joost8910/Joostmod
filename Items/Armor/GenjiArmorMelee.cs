@@ -11,7 +11,7 @@ namespace JoostMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Golden Genji Armor");
-            Tooltip.SetDefault("Enemies are most likely to target you\n" + "Max Life increased by 200");
+            Tooltip.SetDefault("Enemies are most likely to target you\n" + "Max Life increased by 250");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.statLifeMax2 += 200;
+            player.statLifeMax2 += 250;
             player.aggro += 300;
         }
 

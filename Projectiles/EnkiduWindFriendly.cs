@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +8,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enkidu");
+			DisplayName.SetDefault("Enkidu's Wind");
 			Main.projFrames[projectile.type] = 6;
 		}
 		public override void SetDefaults()

@@ -10,7 +10,10 @@ namespace JoostMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tome of Greater Manipulation");
-            Tooltip.SetDefault("--Cheat Item--\n" + "Allows you to pick up and move NPCs\n" + "Right click while holding the NPC to rapidly damage the NPC");
+            Tooltip.SetDefault("--Cheat Item--\n" + 
+                "Allows you to pick up and move NPCs\n" +
+                "Right click while holding the NPC to rapidly damage the NPC\n" +
+                "Life regenerates and infinite immunity frames while held");
         }
         public override void SetDefaults()
         {

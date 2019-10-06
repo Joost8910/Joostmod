@@ -10,7 +10,7 @@ namespace JoostMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("X Shield");
-			Tooltip.SetDefault("Creates X Parasites periodically or when struck\n" +
+			Tooltip.SetDefault("Creates X Parasites periodically\n" +
                 "X Parasites infect the target, dealing damage over time and making them create more x parasites on death\n" + 
                 "Red parasites make the target drop hearts and are scaled by ranged damage\n" + 
                 "Green parasites make the target drop an energy orb and are scaled by throwing damage\n" + 

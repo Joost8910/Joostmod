@@ -373,13 +373,13 @@ namespace JoostMod.NPCs.Town
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
 			projType = mod.ProjectileType("StickyCactus");
-			attackDelay = 30;
+			attackDelay = 20;
 		}
 
 		public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
 		{
 			multiplier = 14f;
-            gravityCorrection = 0.3f;
+            gravityCorrection = 16f;
         }
 	}
 }
