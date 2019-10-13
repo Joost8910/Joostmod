@@ -27,7 +27,10 @@ namespace JoostMod.Projectiles
             projectile.scale = 1.5f;
             aiType = ProjectileID.Bullet;
         }
-
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            projectile.velocity *= -1;
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.timeLeft -= 1000;

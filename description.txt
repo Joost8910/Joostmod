@@ -81,6 +81,7 @@ Version 0.8
 - Increased attack speed of Sapling - Hatchet
 - Increased attack speed of Cactus Banner
 - Increased amount of dungeon spirits spawned by Spectre on death
+- Increased amount of Excalipoors and Infected Arm Cannons crafted by their recipes from 5 to 10
 - Increased damage of Deathbringer from 56 to 86
 - Increased damage of Earthen hammer from 34 to 69 but its shockwave deals standard damage instead of double
 - Increased damage of Lesser Elemental Weapon Set projectile multipliers
@@ -115,7 +116,6 @@ Version 0.8
 - Cactus Person now leaves a trail of protective cactus as they walk on sand/cactus
 - Cactus Person now makes nearby Cactoids friendly and nearby Cactuars passive
 - Decisive changed from -20% damage and +40% crit chance to just +20% crit chance, so it is more comparable to Demonic
-- Excalipoor and Infect Arm Cannon now require 20 bars but make 10 items
 - Gale Boomerang now carries enemies better, improving its crowd-control capabilities
 It also will launch enemies away if it's returning to the user
 - Azure Genji Armor set bonus ability now consumes all your mana
