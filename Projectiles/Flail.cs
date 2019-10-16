@@ -29,12 +29,17 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            //Making player variable "p" set as the projectile's owner
-
-            //Factors for calculations
+            if (projectile.localAI[0] < 180)
+            {
+                projectile.localAI[0] += 3f;
+            }
             double deg = (double)projectile.ai[1]; //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
             double rad = deg * (Math.PI / 180); //Convert degrees to radians
-            double dist = 128; //Distance away from the player
+            double dist = projectile.localAI[0]; //Distance away from the player
+            if (projectile.timeLeft < 60)
+            {
+                dist = projectile.timeLeft * 3f;
+            }
 
             /*Position the player based on where the player is, the Sin/Cos of the angle times the /
             /distance for the desired distance away from the player minus the projectile's width   /

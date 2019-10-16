@@ -44,8 +44,7 @@ namespace JoostMod.Projectiles
         {
             if (Main.expertMode)
             {
-                target.velocity *= 0.9f;
-                target.wingTime -= 5;
+                target.velocity *= 0.95f;
             }
             target.immuneTime = 1;
         }

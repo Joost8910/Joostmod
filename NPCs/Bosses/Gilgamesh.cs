@@ -307,7 +307,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.velocity.Y = -(float)Math.Sqrt(2 * 0.4f * Math.Abs(P.position.Y - (npc.position.Y + npc.height)));
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
                 }
-                if (P.position.Y > npc.position.Y + npc.height)
+                if (npc.position.Y + npc.height + npc.velocity.Y < P.position.Y && npc.velocity.Y >= 0)
                 {
                     npc.position.Y++;
                 }
@@ -331,9 +331,9 @@ namespace JoostMod.NPCs.Bosses
             }
             npc.noGravity = true;
             npc.velocity.Y += 0.4f;
-            if (npc.velocity.Y > 20)
+            if (npc.velocity.Y > 15)
             {
-                npc.velocity.Y = 20;
+                npc.velocity.Y = 15;
             }
         }
         private Vector2 PredictiveAim(float speed, Vector2 origin)
@@ -711,9 +711,19 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                if (Main.netMode != 1)
+                if (JoostWorld.downedGilgamesh)
                 {
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 10, mod.NPCType("Gilgamesh2"));
+                    if (Main.netMode != 1)
+                    {
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 10, mod.NPCType("Gilgamesh2"), 0, 510, 0, 0, 1);
+                    }
+                }
+                else
+                {
+                    if (Main.netMode != 1)
+                    {
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 10, mod.NPCType("Gilgamesh2"));
+                    }
                 }
                 for (int i = 0; i < 80; i++)
                 {

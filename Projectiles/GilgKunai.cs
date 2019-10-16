@@ -28,8 +28,8 @@ namespace JoostMod.Projectiles
         {
             if (Main.expertMode)
             {
-                target.wingTime = 0;
-                target.rocketTime = 0;
+                target.wingTime -= 60;
+                target.rocketTime -= 60;
                 target.mount.Dismount(target);
                 target.velocity.Y += projectile.knockBack;
             }

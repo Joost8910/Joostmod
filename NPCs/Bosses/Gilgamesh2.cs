@@ -433,7 +433,7 @@ namespace JoostMod.NPCs.Bosses
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
                     npc.velocity.Y = -(float)Math.Sqrt(2 * 0.4f * Math.Abs(P.position.Y - (npc.position.Y + npc.height)));
                 }
-                if (npc.position.Y + npc.height + npc.velocity.Y < P.position.Y)
+                if (npc.position.Y + npc.height + npc.velocity.Y < P.position.Y && npc.velocity.Y >= 0)
                 {
                     npc.position.Y++;
                 }
@@ -583,7 +583,7 @@ namespace JoostMod.NPCs.Bosses
                         for (int i = 0; i < 3; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(arm.X, arm.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 5f, Main.myPlayer);
+                            Projectile.NewProjectile(arm.X, arm.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 1f, Main.myPlayer);
                         }
                     }
                 }
@@ -599,7 +599,7 @@ namespace JoostMod.NPCs.Bosses
                     }
                     float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     int type = mod.ProjectileType("GilgBullet");
-                    int damage = 45;
+                    int damage = 40;
                     if (Main.netMode != 1)
                     {
                         Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 1f, Main.myPlayer, npc.whoAmI);
@@ -822,7 +822,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.ai[0] == 60)
                 {
                     float speed = npc.Distance(P.MountedCenter) / 15;
-                    npc.velocity = npc.DirectionTo(PredictiveAim(speed, P.MountedCenter, false)) * speed;
+                    npc.velocity = npc.DirectionTo(P.MountedCenter) * speed;
                     Main.PlaySound(42, npc.Center, 216);
                     npc.noTileCollide = true;
                     if (Main.netMode != 1)
@@ -1056,9 +1056,9 @@ namespace JoostMod.NPCs.Bosses
             }
             npc.noGravity = true;
             npc.velocity.Y += 0.4f;
-            if (npc.velocity.Y > 20)
+            if (npc.velocity.Y > 15)
             {
-                npc.velocity.Y = 20;
+                npc.velocity.Y = 15;
             }
         }
         private Vector2 PredictiveAim(float speed, Vector2 origin, bool ignoreY)

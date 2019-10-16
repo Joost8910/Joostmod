@@ -11,9 +11,7 @@ namespace JoostMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adamantite Chained-Chainsaw");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            DisplayName.SetDefault("Axe");
         }
         public override void SetDefaults()
         {
@@ -21,10 +19,18 @@ namespace JoostMod.Projectiles
             projectile.height = 52;
             projectile.aiStyle = 1;
             projectile.friendly = true;
-            projectile.melee = true;
+            projectile.thrown = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 40;
-
+            projectile.timeLeft = 60;
+            projectile.extraUpdates = 1;
+        }
+        public override void AI()
+        {
+            projectile.rotation = projectile.timeLeft * 0.0174f * 14f * -projectile.direction;
+            if (projectile.timeLeft % 18 == 0)
+            {
+                Main.PlaySound(SoundID.Item7, projectile.Center);
+            }
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
@@ -75,7 +81,7 @@ namespace JoostMod.Projectiles
         public override void Kill(int timeLeft)
         {
 
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Axe2"), (int)(projectile.damage * 0.5f), 3, projectile.owner);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -projectile.velocity.X / 2, -projectile.velocity.Y / 2, mod.ProjectileType("Axe2"), (int)(projectile.damage * 0.5f), projectile.knockBack / 3, projectile.owner);
 
         }
 

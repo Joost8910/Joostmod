@@ -55,9 +55,9 @@ namespace JoostMod.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Cactustoken", 1);
             recipe.AddIngredient(ItemID.FrostCore, 1);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 10);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
     }

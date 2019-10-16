@@ -1,10 +1,6 @@
-using System;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -53,7 +49,7 @@ namespace JoostMod.Items
             Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
             if (JoostWorld.downedGilgamesh)
             {
-                Main.NewText("<Gilgamesh> Oho, you want a rematch?", 225, 25, 25);
+                Main.NewText("<Gilgamesh> Oh, so you want to go again?", 225, 25, 25);
                 Main.NewText("Then let us fight! This won't go as easily as last time!", 225, 25, 25);
                 Main.NewText("<Enkidu> It probably will though.", 25, 225, 25);
             }
@@ -70,16 +66,18 @@ namespace JoostMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "IceCoreX", 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ItemID.HallowedBar, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 10);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
+            /*
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "BrokenExcalipoor", 1);
-            recipe.AddIngredient(ItemID.HallowedBar);
+            recipe.AddIngredient(ItemID.HallowedBar, 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+            */
         }
     }
 }

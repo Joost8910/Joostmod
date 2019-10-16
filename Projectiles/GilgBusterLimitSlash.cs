@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Buster Sword");
+            DisplayName.SetDefault("Gilgamesh's Buster Sword");
             Main.projFrames[projectile.type] = 9;
         }
         public override void SetDefaults()

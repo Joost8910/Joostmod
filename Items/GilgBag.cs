@@ -31,10 +31,10 @@ namespace JoostMod.Items
             player.TryGettingDevArmor();
             player.TryGettingDevArmor();
             player.TryGettingDevArmor();
-
+            
             player.QuickSpawnItem(mod.ItemType("COTBBMusicBox"));
             player.QuickSpawnItem(mod.ItemType("Gilgameshset"));
-            player.QuickSpawnItem(mod.ItemType("GenjiToken"), 1 + Main.rand.Next(2) + Main.rand.Next(2));
+            player.QuickSpawnItem(mod.ItemType("GenjiToken"), 2 + Main.rand.Next(2));
             if (Main.rand.Next(2) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("GilgameshMask"));

@@ -19,7 +19,7 @@ namespace JoostMod.NPCs.Bosses
             npc.width = 60;
             npc.height = 120;
             npc.damage = 150;
-            npc.defense = 38;
+            npc.defense = 20;
             npc.lifeMax = 280000;
             npc.HitSound = SoundID.NPCHit6;
             npc.DeathSound = SoundID.NPCDeath3;

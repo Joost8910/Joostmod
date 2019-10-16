@@ -46,8 +46,8 @@ namespace JoostMod
                 //14 is the value BossChecklist gives to Moonlord.
                 bossChecklist.Call("AddBossWithInfo", "Alpha Cactus Worm", 5.7f, (Func<bool>)(() => JoostWorld.downedCactusWorm), "Quest from the Hunt Master, found in the underground desert. Or, use a [i:" + ItemType("CactusBait") + "] in the underground desert");
                 bossChecklist.Call("AddBossWithInfo", "Jumbo Cactuar", 14.6f, (Func<bool>)(() => JoostWorld.downedJumboCactuar), "Use a [i:" + ItemType("Cactusofdoom") + "] in the desert");
-                bossChecklist.Call("AddBossWithInfo", "SA-X", 15.9f, (Func<bool>)(() => JoostWorld.downedSAX), "Use an [i:" + ItemType("InfectedArmCannon") + "] anywhere");
-                bossChecklist.Call("AddBossWithInfo", "Gilgamesh and Enkidu", 16.5f, (Func<bool>)(() => JoostWorld.downedGilgamesh), "Use an [i:" + ItemType("Excalipoor") + "] anywhere");
+                bossChecklist.Call("AddBossWithInfo", "SA-X", 15.3f, (Func<bool>)(() => JoostWorld.downedSAX), "Use an [i:" + ItemType("InfectedArmCannon") + "] anywhere");
+                bossChecklist.Call("AddBossWithInfo", "Gilgamesh and Enkidu", 16f, (Func<bool>)(() => JoostWorld.downedGilgamesh), "Use an [i:" + ItemType("Excalipoor") + "] anywhere");
             }
             InitializeHunts();
         }

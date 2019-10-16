@@ -25,7 +25,7 @@ namespace JoostMod.Items
 			item.useAnimation = 20;
 			item.useStyle = 2;
 			item.knockBack = 5;
-			item.value = 100000;
+			item.value = 250000;
 			item.rare = 9;
 			item.UseSound = SoundID.Item3;
 			item.buffTime = 54000;

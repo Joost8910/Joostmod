@@ -11,9 +11,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Adamantite Chained-Chainsaw");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			DisplayName.SetDefault("Axe");
 		}
 		public override void SetDefaults()
 		{
@@ -21,14 +19,20 @@ namespace JoostMod.Projectiles
 			projectile.height = 52;
 			projectile.aiStyle = 3;
 			projectile.friendly = true;
-			projectile.melee = true;
+			projectile.thrown = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 900;
             projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 10;
-
-		}
-  // Now this is where the chain magic happens. You don't have to try to figure this whole thing out.
+            projectile.extraUpdates = 1;
+        }
+        public override void AI()
+        {
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - 1.57f;
+            projectile.direction = (projectile.velocity.X < 0 ? -1 : 1);
+            projectile.spriteDirection = -projectile.direction;
+        }
+        // Now this is where the chain magic happens. You don't have to try to figure this whole thing out.
         // Just make sure that you edit the first line (which starts with 'Texture2D texture') correctly.
         public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
         {

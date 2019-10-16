@@ -351,6 +351,11 @@ namespace JoostMod.NPCs.Town
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("EnhancedCactusLeggings"));
             nextSlot++;
+            if (JoostWorld.downedJumboCactuar)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("JoostJuice"));
+                nextSlot++;
+            }
         }
 
 		public override void NPCLoot()
