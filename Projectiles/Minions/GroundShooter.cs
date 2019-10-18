@@ -15,6 +15,7 @@ namespace JoostMod.Projectiles.Minions
 		protected float shootCool = 90f;
 		protected float shootSpeed;
 		protected int shoot;
+        protected bool predict = false;
 
 		public virtual void CreateDust()
 		{
@@ -58,7 +59,14 @@ namespace JoostMod.Projectiles.Minions
 				{
 					targetDist = Vector2.Distance(projectile.Center, targetPos);
 					targetPos = npc.Center;
-					target = true;
+                    if (predict)
+                    {
+                        Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, projectile.Center) / shootSpeed));
+                        predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, projectile.Center) / shootSpeed));
+                        targetDist = Vector2.Distance(projectile.Center, predictedPos);
+                        targetPos = predictedPos;
+                    }
+                    target = true;
 				}
 			}
 			else for (int k = 0; k < 200; k++)
@@ -71,11 +79,18 @@ namespace JoostMod.Projectiles.Minions
 					{
 						targetDist = distance;
 						targetPos = npc.Center;
+                        if (predict)
+                        {
+                            Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, projectile.Center) / shootSpeed));
+                            predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, projectile.Center) / shootSpeed));
+                            targetDist = Vector2.Distance(projectile.Center, predictedPos);
+                            targetPos = predictedPos;
+                        }
 						target = true;
 					}
 				}
 			}
-			if (Vector2.Distance(player.Center, projectile.Center) > (target ? 1500f : 750f))
+			if (Vector2.Distance(player.Center, projectile.Center) > (target ? 1000f : 750f))
 			{
 				projectile.ai[0] = 1f;
 				projectile.netUpdate = true;
@@ -139,11 +154,10 @@ namespace JoostMod.Projectiles.Minions
 				}
 				float speed = 6f;
 				if (projectile.ai[0] == 1f)
-				{
-					speed = 15f;
-				}
+                {
+                    speed = projectile.Distance(player.Center) / 30;
+                }
 				
-				projectile.ai[1] = 1f;
 				projectile.netUpdate = true;
 
 				direction.X -= (float)((10 + num * 40) * player.direction);
@@ -184,45 +198,42 @@ namespace JoostMod.Projectiles.Minions
 				{
 					projectile.ai[1] += 1f;
 				}
-			}
-			if (projectile.ai[0] == 0f)
-			{
-				if (target)
+            }
+            if (target)
+            {
+                if (projectile.ai[1] > shootCool)
                 {
-                    if (projectile.ai[1] > shootCool)
+                    projectile.ai[1] = 0f;
+                    projectile.netUpdate = true;
+                }
+                if ((targetPos - projectile.Center).X > 0f)
+                {
+                    projectile.spriteDirection = (projectile.direction = -1);
+                }
+                else if ((targetPos - projectile.Center).X < 0f)
+                {
+                    projectile.spriteDirection = (projectile.direction = 1);
+                }
+                if (projectile.ai[1] == 0f)
+                {
+                    projectile.ai[1] = 1f;
+                    if (Main.myPlayer == projectile.owner)
                     {
-                        projectile.ai[1] = 0f;
+                        Vector2 shootVel = targetPos - projectile.Center;
+                        if (shootVel == Vector2.Zero)
+                        {
+                            shootVel = new Vector2(0f, 1f);
+                        }
+                        shootVel.Normalize();
+                        shootVel *= shootSpeed;
+                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, shootVel.X, shootVel.Y, shoot, projectile.damage, projectile.knockBack, Main.myPlayer);
+                        Main.projectile[proj].timeLeft = 300;
+                        Main.projectile[proj].netUpdate = true;
                         projectile.netUpdate = true;
                     }
-                    if ((targetPos - projectile.Center).X > 0f)
-					{
-						projectile.spriteDirection = (projectile.direction = -1);
-					}
-					else if ((targetPos - projectile.Center).X < 0f)
-					{
-						projectile.spriteDirection = (projectile.direction = 1);
-					}
-					if (projectile.ai[1] == 0f)
-					{
-						projectile.ai[1] = 1f;
-						if (Main.myPlayer == projectile.owner)
-						{
-							Vector2 shootVel = targetPos - projectile.Center;
-							if (shootVel == Vector2.Zero)
-							{
-								shootVel = new Vector2(0f, 1f);
-							}
-							shootVel.Normalize();
-							shootVel *= shootSpeed;
-							int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, shootVel.X, shootVel.Y, shoot, projectile.damage, projectile.knockBack, Main.myPlayer);
-							Main.projectile[proj].timeLeft = 300;
-							Main.projectile[proj].netUpdate = true;
-							projectile.netUpdate = true;
-						}
-					}
-				}
-			}
-		}
+                }
+            }
+        }
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{

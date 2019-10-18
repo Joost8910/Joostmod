@@ -40,12 +40,12 @@ namespace JoostMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Press the Armor Ability key to sacrifice all your defense for increased ranged ability";
-            player.GetModPlayer<JoostPlayer>(mod).gRanged = true;
+            player.GetModPlayer<JoostPlayer>().gRanged = true;
         }
         public override void UpdateEquip(Player player)
         {
             player.rangedDamage += 0.50f;
-            player.GetModPlayer<JoostModPlayer>(mod).ammoNone = true;
+            player.GetModPlayer<JoostModPlayer>().ammoNone = true;
 
         }
         public override void ArmorSetShadows(Player player)

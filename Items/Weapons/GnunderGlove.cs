@@ -62,7 +62,7 @@ namespace JoostMod.Items.Weapons
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<JoostPlayer>(mod).legendOwn = true;
+            player.GetModPlayer<JoostPlayer>().legendOwn = true;
         }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
@@ -75,7 +75,7 @@ namespace JoostMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>(mod);
+            JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
             if (player.altFunctionUse == 2 && modPlayer.GnunderCool <= 0)
             {
                 modPlayer.GnunderCool = 240;

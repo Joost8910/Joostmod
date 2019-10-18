@@ -209,7 +209,7 @@ namespace JoostMod.Items
     {
         public override bool ConsumeAmmo(Item item, Player player)
         {
-            if (player.GetModPlayer<JoostModPlayer>(mod).ammo50 && Main.rand.NextFloat() < .5f)
+            if (player.GetModPlayer<JoostModPlayer>().ammo50 && Main.rand.NextFloat() < .5f)
             {
                 return false;
             }
@@ -230,7 +230,7 @@ namespace JoostMod.Items
     {
         public override bool ConsumeAmmo(Item item, Player player)
         {
-            if (player.GetModPlayer<JoostModPlayer>(mod).ammoNone)
+            if (player.GetModPlayer<JoostModPlayer>().ammoNone)
             {
                 return false;
             }
@@ -241,7 +241,7 @@ namespace JoostMod.Items
     {
         public override bool ConsumeItem(Item item, Player player)
         {
-            if (player.GetModPlayer<JoostModPlayer>(mod).throwNone && item.thrown)
+            if (player.GetModPlayer<JoostModPlayer>().throwNone && item.thrown)
             {
                 return false;
             }
@@ -252,7 +252,7 @@ namespace JoostMod.Items
     {
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (player.GetModPlayer<JoostModPlayer>(mod).crimsonPommel)
+            if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
                 if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("LifeDrink")))
                 {
@@ -264,7 +264,7 @@ namespace JoostMod.Items
                 }
                 target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
             }
-            if (player.GetModPlayer<JoostModPlayer>(mod).corruptPommel)
+            if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
             {
                 if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("CorruptSoul")))
                 {
@@ -279,7 +279,7 @@ namespace JoostMod.Items
         }
         public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
         {
-            if (player.GetModPlayer<JoostModPlayer>(mod).crimsonPommel)
+            if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
                 if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("LifeDrink")))
                 {
@@ -291,7 +291,7 @@ namespace JoostMod.Items
                 }
                 target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
             }
-            if (player.GetModPlayer<JoostModPlayer>(mod).corruptPommel)
+            if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
             {
                 if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
                 {

@@ -35,11 +35,11 @@ namespace JoostMod.Items
         }
         public override bool OnPickup(Player player)
         {
-            player.AddBuff(mod.BuffType("EnergyBuff"), 300);
-            player.statLife += 5;
-            player.statMana += 5;
-            player.HealEffect(5, true);
-            player.ManaEffect(5);
+            player.AddBuff(mod.BuffType("EnergyBuff"), 600);
+            player.statLife += 10;
+            player.statMana += 10;
+            player.HealEffect(10, true);
+            player.ManaEffect(10);
             Main.PlaySound(2, player.Center, 8);
             Main.PlaySound(7, player.Center);
             return false;

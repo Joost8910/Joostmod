@@ -30,9 +30,9 @@ namespace JoostMod.Items.Rewards
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>(mod).fleshShield = true;
-            player.GetModPlayer<JoostPlayer>(mod).dashType = 1;
-            player.GetModPlayer<JoostPlayer>(mod).dashDamage = (int)(40 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult);
+            player.GetModPlayer<JoostPlayer>().fleshShield = true;
+            player.GetModPlayer<JoostPlayer>().dashType = 1;
+            player.GetModPlayer<JoostPlayer>().dashDamage = (int)(40 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult);
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

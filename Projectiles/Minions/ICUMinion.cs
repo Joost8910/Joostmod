@@ -39,7 +39,7 @@ namespace JoostMod.Projectiles.Minions
         public override void CheckActive()
 		{
 			Player player = Main.player[projectile.owner];
-			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>(mod);
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
 				modPlayer.icuMinion = false;

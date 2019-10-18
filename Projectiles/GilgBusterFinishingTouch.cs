@@ -73,7 +73,7 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
         {
-            player.GetModPlayer<JoostPlayer>(mod).enemyIgnoreDefenseDamage = projectile.damage;
+            player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = projectile.damage;
         }
         /*
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

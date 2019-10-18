@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 		}
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<JoostPlayer>(mod).corruptSoul = true;
+            player.GetModPlayer<JoostPlayer>().corruptSoul = true;
             if (Main.rand.Next(5) == 0)
             {
                 Dust.NewDust(player.position, player.width, player.height, 14, Main.rand.Next(-20, 20) * 0.01f, 3f, 0, default(Color), (6 + Main.rand.Next(5)) * 0.1f);
@@ -23,7 +23,7 @@ namespace JoostMod.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<NPCs.JoostGlobalNPC>(mod).corruptSoul = true;
+            npc.GetGlobalNPC<NPCs.JoostGlobalNPC>().corruptSoul = true;
 			if (Main.rand.Next(5) == 0)
 			{
             	Dust.NewDust(npc.position, npc.width, npc.height, 14, Main.rand.Next(-20, 20) * 0.01f, 3f, 0, default(Color), (6+Main.rand.Next(5)) * 0.1f);

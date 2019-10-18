@@ -260,7 +260,7 @@ namespace JoostMod.NPCs
             {
                 player = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
             }
-            JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>(mod);
+            JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
             if (Main.rand.Next(500) == 0 && modPlayer.isLegend && !modPlayer.legendOwn && !npc.SpawnedFromStatue)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EvilStone"), 1);

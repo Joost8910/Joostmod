@@ -31,7 +31,7 @@ public override void SetStaticDefaults()
 		public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Throwing weapons buffet enemies with sand";
-			player.GetModPlayer<JoostPlayer>(mod).sandStorm = true;
+			player.GetModPlayer<JoostPlayer>().sandStorm = true;
 
 		}
 		public override void UpdateEquip(Player player)

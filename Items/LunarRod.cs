@@ -29,7 +29,7 @@ namespace JoostMod.Items
 		}
 		public override void HoldItem (Player player)
 		{
-			player.GetModPlayer<JoostPlayer>(mod).lunarRod = true;
+			player.GetModPlayer<JoostPlayer>().lunarRod = true;
 		}
 		public override void AddRecipes()
 		{

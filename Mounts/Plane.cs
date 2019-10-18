@@ -63,7 +63,7 @@ namespace JoostMod.Mounts
 			//player.fullRotation = (float)(player.velocity.Y * 2.5f * 0.0174f * player.direction * player.gravDir);
 			//player.fullRotation = (float)(Math.Atan2(player.velocity.Y, player.velocity.X) / (2 * Math.PI));
            	//player.fullRotationOrigin = player.Center - player.position;
-			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>(mod);
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			modPlayer.planeMount = true;
         }
 	}

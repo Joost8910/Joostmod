@@ -24,7 +24,7 @@ namespace JoostMod.Items.Rewards
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>(mod).sporgan = true;
+            player.GetModPlayer<JoostPlayer>().sporgan = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

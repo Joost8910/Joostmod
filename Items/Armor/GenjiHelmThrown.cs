@@ -42,11 +42,11 @@ namespace JoostMod.Items.Armor
         {
             player.setBonus = "Press the Armor ability key to activate Counter Dodge, 20 sec cooldown\n" + 
                 "Throwing ability increases after a successful dodge";
-            player.GetModPlayer<JoostPlayer>(mod).gThrown = true;
+            player.GetModPlayer<JoostPlayer>().gThrown = true;
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<JoostModPlayer>(mod).throwNone = true;
+            player.GetModPlayer<JoostModPlayer>().throwNone = true;
             player.thrownVelocity *= 1.60f;
             player.thrownDamage += 0.60f;
         }

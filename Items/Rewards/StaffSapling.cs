@@ -29,7 +29,7 @@ namespace JoostMod.Items.Rewards
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.manaCost -= 0.05f;
-            player.GetModPlayer<JoostPlayer>(mod).staffSapling = true;
+            player.GetModPlayer<JoostPlayer>().staffSapling = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

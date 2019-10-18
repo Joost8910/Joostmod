@@ -22,7 +22,7 @@ namespace JoostMod.Items
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>(mod).hoverBoots = true;
+            player.GetModPlayer<JoostPlayer>().hoverBoots = true;
         }
     }
 }

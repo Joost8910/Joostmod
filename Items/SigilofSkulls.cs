@@ -42,7 +42,7 @@ namespace JoostMod.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.maxMinions++;
-			player.GetModPlayer<JoostPlayer>(mod).SkullSigil = true;
+			player.GetModPlayer<JoostPlayer>().SkullSigil = true;
 		}
 	}
 }

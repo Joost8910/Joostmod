@@ -148,11 +148,11 @@ namespace JoostMod.Projectiles
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 70);	
             if (player.gravDir == -1)
             {
-                Projectile.NewProjectile(player.Center.X + 48 * projectile.direction * projectile.scale, projectile.Center.Y, projectile.direction * 8f, 0f, mod.ProjectileType("GrogWaveFlipped"), (int)(projectile.damage * 1.25f), projectile.knockBack * 2.5f, projectile.owner);
+                Projectile.NewProjectile(player.Center.X + 48 * projectile.direction * projectile.scale, projectile.Center.Y, projectile.direction * 8f, 0f, mod.ProjectileType("GrogWaveFlipped"), (int)(projectile.damage * 1.33f), projectile.knockBack * 2.5f, projectile.owner);
             }
             else
             {
-			    Projectile.NewProjectile(player.Center.X + 48 * projectile.direction * projectile.scale, projectile.Center.Y, projectile.direction * 8f, 0f, mod.ProjectileType("GrogWave"), (int)(projectile.damage * 1.25f), projectile.knockBack * 2.5f, projectile.owner);			
+			    Projectile.NewProjectile(player.Center.X + 48 * projectile.direction * projectile.scale, projectile.Center.Y, projectile.direction * 8f, 0f, mod.ProjectileType("GrogWave"), (int)(projectile.damage * 1.67f), projectile.knockBack * 2.5f, projectile.owner);			
             }
             player.fullRotation = 0f;		
 		}

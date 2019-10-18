@@ -95,7 +95,7 @@ namespace JoostMod.Projectiles
             }
             if (isHooked)
             {
-                player.GetModPlayer<JoostPlayer>(mod).hoverBootsTimer = 0;
+                player.GetModPlayer<JoostPlayer>().hoverBootsTimer = 0;
                 player.rocketTime = player.rocketTimeMax;
                 player.rocketDelay = 0;
                 player.rocketFrame = false;

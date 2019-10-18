@@ -17,6 +17,7 @@ namespace JoostMod.Projectiles.Minions
 		protected int shoot;
 		protected int shootNum;
 		protected float shootSpread;
+        protected bool predict = false;
 
 		public virtual void CreateDust()
 		{
@@ -64,7 +65,14 @@ namespace JoostMod.Projectiles.Minions
 				{
 					targetDist = Vector2.Distance(projectile.Center, targetPos);
 					targetPos = npc.Center;
-					target = true;
+                    if (predict)
+                    {
+                        Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, projectile.Center) / shootSpeed));
+                        predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, projectile.Center) / shootSpeed));
+                        targetDist = Vector2.Distance(projectile.Center, predictedPos);
+                        targetPos = predictedPos;
+                    }
+                    target = true;
 				}
 			}
 			else for (int k = 0; k < 200; k++)
@@ -77,11 +85,18 @@ namespace JoostMod.Projectiles.Minions
 					{
 						targetDist = distance;
 						targetPos = npc.Center;
+                        if (predict)
+                        {
+                            Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, projectile.Center) / shootSpeed));
+                            predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, projectile.Center) / shootSpeed));
+                            targetDist = Vector2.Distance(projectile.Center, predictedPos);
+                            targetPos = predictedPos;
+                        }
 						target = true;
 					}
 				}
 			}
-			if (Vector2.Distance(player.Center, projectile.Center) > (target ? 1500f : 750f))
+			if (Vector2.Distance(player.Center, projectile.Center) > 750f)
 			{
 				projectile.ai[0] = 1f;
 				projectile.netUpdate = true;
@@ -111,12 +126,11 @@ namespace JoostMod.Projectiles.Minions
 				}
 				float speed = 6f;
 				if (projectile.ai[0] == 1f)
-				{
-					speed = 15f;
-				}
+                {
+                    speed = projectile.Distance(player.Center) / 60;
+                }
 				Vector2 center = projectile.Center;
 				Vector2 direction = player.Center - center;
-				projectile.ai[1] = 1f;
 				projectile.netUpdate = true;
 				int num = 1;
 				for (int k = 0; k < projectile.whoAmI; k++)
@@ -173,56 +187,53 @@ namespace JoostMod.Projectiles.Minions
 				{
 					projectile.ai[1] += 1f;
 				}
-			}
-			if (projectile.ai[0] == 0f)
-			{
-				if (target)
+            }
+            if (target)
+            {
+                if (projectile.ai[1] > shootCool)
                 {
-                    if (projectile.ai[1] > shootCool)
+                    projectile.ai[1] = 0f;
+                    projectile.netUpdate = true;
+                }
+                if ((targetPos - projectile.Center).X > 0f)
+                {
+                    projectile.spriteDirection = (projectile.direction = -1);
+                }
+                else if ((targetPos - projectile.Center).X < 0f)
+                {
+                    projectile.spriteDirection = (projectile.direction = 1);
+                }
+                if (projectile.ai[1] == 0f)
+                {
+                    projectile.ai[1] = 1f;
+                    if (Main.myPlayer == projectile.owner)
                     {
-                        projectile.ai[1] = 0f;
+                        Vector2 shootVel = targetPos - projectile.Center;
+                        if (shootVel == Vector2.Zero)
+                        {
+                            shootVel = new Vector2(0f, 1f);
+                        }
+                        shootVel.Normalize();
+                        shootVel *= shootSpeed;
+                        float spread = shootSpread * 0.0174f;
+                        float baseSpeed = (float)Math.Sqrt(shootVel.X * shootVel.X + shootVel.Y * shootVel.Y);
+                        double startAngle = Math.Atan2(shootVel.X, shootVel.Y) - spread / shootNum;
+                        double deltaAngle = spread / shootNum;
+                        double offsetAngle;
+                        int i;
+                        for (i = 0; i < shootNum; i++)
+                        {
+                            offsetAngle = startAngle + deltaAngle * i;
+                            int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
+                        }
+                        //int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, shootVel.X, shootVel.Y, shoot, projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
+                        //Main.projectile[proj].timeLeft = 300;
+                        //Main.projectile[proj].netUpdate = true;
                         projectile.netUpdate = true;
                     }
-                    if ((targetPos - projectile.Center).X > 0f)
-					{
-						projectile.spriteDirection = (projectile.direction = -1);
-					}
-					else if ((targetPos - projectile.Center).X < 0f)
-					{
-						projectile.spriteDirection = (projectile.direction = 1);
-					}
-					if (projectile.ai[1] == 0f)
-					{
-						projectile.ai[1] = 1f;
-						if (Main.myPlayer == projectile.owner)
-						{
-							Vector2 shootVel = targetPos - projectile.Center;
-							if (shootVel == Vector2.Zero)
-							{
-								shootVel = new Vector2(0f, 1f);
-							}
-							shootVel.Normalize();
-							shootVel *= shootSpeed;
-							    float spread = shootSpread * 0.0174f;
-							float baseSpeed = (float)Math.Sqrt(shootVel.X * shootVel.X + shootVel.Y * shootVel.Y);
-							double startAngle = Math.Atan2(shootVel.X, shootVel.Y)- spread/shootNum;
-							double deltaAngle = spread/shootNum;
-							double offsetAngle;
-							int i;
-							for (i = 0; i < shootNum;i++ )
-							{
-								offsetAngle = startAngle + deltaAngle * i;
-								int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), shoot, projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
-							}
-							//int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, shootVel.X, shootVel.Y, shoot, projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
-							//Main.projectile[proj].timeLeft = 300;
-							//Main.projectile[proj].netUpdate = true;
-							projectile.netUpdate = true;
-						}
-					}
-				}
-			}
-		}
+                }
+            }
+        }
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{

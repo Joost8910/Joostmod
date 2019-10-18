@@ -16,7 +16,7 @@ namespace JoostMod.Items
                 "Green parasites make the target drop an energy orb and are scaled by throwing damage\n" + 
                 "Blue parasites make the target drop mana stars and are scaled by magic damage\n" + 
                 "Yellow parasites make the target drop more money and are scaled by melee damage\n" + 
-                "Grants immunity to infection");
+                "Grants immunity to knockback and infection");
 		}
 		public override void SetDefaults()
 		{
@@ -31,11 +31,12 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-		    player.GetModPlayer<JoostPlayer>(mod).XShield = true;
+		    player.GetModPlayer<JoostPlayer>().XShield = true;
             player.buffImmune[mod.BuffType("InfectedRed")] = true;
             player.buffImmune[mod.BuffType("InfectedGreen")] = true;
             player.buffImmune[mod.BuffType("InfectedBlue")] = true;
             player.buffImmune[mod.BuffType("InfectedYellow")] = true;
+            player.noKnockback = true;
         }
 	}
 }

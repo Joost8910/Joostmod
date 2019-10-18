@@ -58,7 +58,7 @@ namespace JoostMod.Items.Weapons
 			player.immuneNoBlink = true;
 			player.immuneTime = 20;
             player.noFallDmg = true;
-			player.GetModPlayer<JoostPlayer>(mod).SaitamaOwn = true;
+			player.GetModPlayer<JoostPlayer>().SaitamaOwn = true;
 			player.statLife++;
 		}
         /*public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)

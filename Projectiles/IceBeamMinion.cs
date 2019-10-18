@@ -20,10 +20,9 @@ namespace JoostMod.Projectiles
             projectile.friendly = true;
             projectile.minion = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
+            projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 20;
             projectile.tileCollide = false;
             projectile.light = 0.75f;
             aiType = ProjectileID.Bullet;
@@ -46,9 +45,9 @@ namespace JoostMod.Projectiles
                 {
                     projectile.localAI[1] = projectile.position.Y;
                 }
-                float freq = 0.15f;
+                float freq = 0.3f;
                 float mag = 30f;
-                int time = 600 - projectile.timeLeft;
+                int time = 300 - projectile.timeLeft;
                 Vector2 pos = new Vector2(projectile.localAI[0], projectile.localAI[1]);
                 Vector2 dir = projectile.velocity;
                 dir.Normalize();

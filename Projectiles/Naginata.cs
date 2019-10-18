@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles
 				projectile.ai[0] = 1f;
 				projectile.netUpdate = true;
 			}
-			if (Main.player[projectile.owner].itemAnimation < Main.player[projectile.owner].itemAnimationMax / 2)
+			if (projectile.timeLeft < 10)
 			{
 				projectile.ai[0] -= 1.9f;
 			}

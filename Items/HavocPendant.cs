@@ -25,7 +25,7 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-		player.GetModPlayer<JoostPlayer>(mod).HavocPendant = true;
+		player.GetModPlayer<JoostPlayer>().HavocPendant = true;
 		}
 			public override void AddRecipes()
 		{

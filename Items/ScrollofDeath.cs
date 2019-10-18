@@ -47,7 +47,7 @@ namespace JoostMod.Items
 			player.maxMinions += 2;
 			player.minionKB += 3f;
 			player.minionDamage += 0.15f;
-			player.GetModPlayer<JoostPlayer>(mod).SkullSigil = true;
+			player.GetModPlayer<JoostPlayer>().SkullSigil = true;
 		}
 		public override void AddRecipes()
 		{

@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,7 +13,7 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 150;
             item.magic = true;
             item.width = 24;
             item.height = 12;
@@ -30,6 +31,15 @@ namespace JoostMod.Items.Weapons
             item.UseSound = SoundID.Item7;
             item.shoot = mod.ProjectileType("IceBeamCannon");
             item.shootSpeed = 16f;
+            item.autoReuse = true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            if ((player.ownedProjectileCounts[item.shoot]) >= item.stack)
+            {
+                return false;
+            }
+            return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {

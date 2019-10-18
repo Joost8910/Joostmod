@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles
             projectile.timeLeft = 11;
 			projectile.tileCollide = false;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			projectile.idStaticNPCHitCooldown = 20;
 		}
         public override bool PreAI()
         {

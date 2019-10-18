@@ -41,7 +41,7 @@ namespace JoostMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Swing the Masamune when you hit an enemy with a melee weapon";
-            player.GetModPlayer<JoostPlayer>(mod).gMelee = true;
+            player.GetModPlayer<JoostPlayer>().gMelee = true;
         }
         public override void ArmorSetShadows(Player player)
         {

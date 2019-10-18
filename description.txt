@@ -43,7 +43,7 @@ Version 0.8
 - Reduced damage of Cactus Gloves's thorns to 60% of the base damage
 - Reduced damage of Cactus Staff from 300 to 200
 - Reduced damage of Greater Elemental Weapon set from 51 to 48
-- Reduced damage of Ice beam from 500 to 200 but it can hit enemies 3 times at once per attack
+- Reduced damage of Ice beam from 500 to 150 but it can hit enemies 3 times at once per attack
 - Reduced damage of Ice Core-X Staff from 450 to 300
 - Reduced damage of Infernal Chakram from 41 to 36
 - Reduced damage of Larkus's Tome from 6 to 5
@@ -53,13 +53,14 @@ Version 0.8
 - Reduced damage Legendary Weapons get from killing Wall of Flesh and Moon Lord
 - Reduced hit cooldown of Gale Boomerang from 10 to 9
 - Reduced attack speed and projectile count of Toxic Bucket and Bloody Bucket
-- Reduced attack speed of the Ember, Frost Ember, and Soil Spirit Minions'
+- Reduced attack speed of the Enkidu, Ember, Frost Ember, and Soil Spirit Minions
 - Reduced attack speed of Ice Core-X minion but it can hit enemies 3 times at once per attack
+- Reduced attack speed of Super Missile Launcher
 - Reduced attack speed of Vile Cactus Worm
 - Reduced attack speed of Boook's Bullet Hell
 - Reduced attack speed of Larkus's Tome Spirit of Power
-- Reduced attack speed of Warhammer of Grognak 
 - Reduced attack speed of Uncle Carius's Fishing Pole
+- Reduced attack speed of Warhammer of Grognak 
 - Reduced velocity of hungering arrow
 - Reduced Needle attack speed from 20 times a second to 15 times a second
 - Reduced Needle and Giant Needle accuracy
@@ -82,12 +83,15 @@ Version 0.8
 - Increased attack speed of Cactus Banner
 - Increased amount of dungeon spirits spawned by Spectre on death
 - Increased amount of Excalipoors and Infected Arm Cannons crafted by their recipes from 5 to 20 but they each cost 20 bars
+- Increased damage of the Enkidu Minion
 - Increased damage of Deathbringer from 56 to 86
 - Increased damage of Earthen hammer from 34 to 69 but its shockwave deals standard damage instead of double
 - Increased damage of Lesser Elemental Weapon Set projectile multipliers
+- Increased damage of Mutated Arm Cannons from 450 to 550
 - Increased damage of Power Bomb from 220 to 500
 - Increased damage of Rock from 135 to 165
 - Increased damage of Twilight Staff from 36 to 40
+- Increased damage of The Mustache from 300 to 350
 - Increased damage of Succulent Throw from 22 to 24
 - Increased knockback of Gale Boomerang from 2 to 7
 - Increased hit cooldown of Succulent Throw from 10 to 12 ticks
@@ -112,6 +116,7 @@ Version 0.8
 - All Joostmod Flails can now be controlled with mouse movement
 - All Joostmod Flails can now receive more prefixes
 - Boomerang bullets now only have a 1 out of 10 chance of coming back rather than a 1 out of 3
+- Cactuar Shield and X Shield now grant immunity to knockback
 - Cactus Balls fired by the Grand Cactus Worm now stick to tiles instead of popping into spikes
 - Cactus Person now leaves a trail of protective cactus as they walk on sand/cactus
 - Cactus Person now makes nearby Cactoids friendly and nearby Cactuars passive
@@ -130,7 +135,7 @@ This no longer affects projectiles with a penetrate value of 2
 - Mutated Arm Cannons now only grants immunity frames on a successful hit
 - Mutated Arm Cannons and Stone Fist now have limits to their dash speed
 - Sapling - Bow no longer requires arrows to craft and instead uses arrows from your inventory
-- Sapling - Shield changed from granting defense to blocking attackers from behind (with a small hitbox)
+- Sapling - Shield changed from granting defense to blocking attackers and projectiles from behind (with a small hitbox)
 - Sunfish beam now follows the cursor at a slow speed rather than being directly on the cursor
 - Soil armor and weapons now require 666 dirt instead of 100/200 dirt for their recipes and bonuses :eeugh:
 - Succulent throw no longer bounces around uncontrollably when grabbing an enemy

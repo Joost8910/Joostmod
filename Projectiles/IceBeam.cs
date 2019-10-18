@@ -27,7 +27,7 @@ namespace JoostMod.Projectiles
             projectile.light = 0.75f;
             aiType = ProjectileID.Bullet;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 20;
             projectile.coldDamage = true;
         }
         public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)

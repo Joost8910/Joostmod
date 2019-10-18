@@ -43,7 +43,10 @@ namespace JoostMod.Items.Weapons
             randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
             speedX = baseSpeed * (float)Math.Sin(randomAngle);
             speedY = baseSpeed * (float)Math.Cos(randomAngle);
-            Main.PlaySound(2, position, 7);
+            if (player.itemAnimation % 4 == 0)
+            {
+                Main.PlaySound(2, position, 7);
+            }
 
             return true;
         }

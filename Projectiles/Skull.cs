@@ -12,8 +12,6 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skull");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			Main.projFrames[projectile.type] = 3;
 		}
 		public override void SetDefaults()

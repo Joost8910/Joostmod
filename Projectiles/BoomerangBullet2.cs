@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			int item = Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType<Items.Weapons.BoomerangBullet>(), 1, false, 0, false, false);
+			int item = Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.Weapons.BoomerangBullet>(), 1, false, 0, false, false);
 			if (Main.netMode == 1 && item >= 0)
 			{
 				NetMessage.SendData(Terraria.ID.MessageID.SyncItem, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);

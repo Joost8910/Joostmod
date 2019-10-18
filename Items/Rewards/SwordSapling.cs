@@ -29,7 +29,7 @@ namespace JoostMod.Items.Rewards
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.meleeSpeed += 0.05f;
-            player.GetModPlayer<JoostPlayer>(mod).swordSapling = true;
+            player.GetModPlayer<JoostPlayer>().swordSapling = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

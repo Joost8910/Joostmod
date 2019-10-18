@@ -29,7 +29,7 @@ namespace JoostMod.Items.Rewards
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.rangedCrit += 5;
-            player.GetModPlayer<JoostPlayer>(mod).bowSapling = true;
+            player.GetModPlayer<JoostPlayer>().bowSapling = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

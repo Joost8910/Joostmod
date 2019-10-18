@@ -128,7 +128,7 @@ namespace JoostMod.NPCs
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (target.GetModPlayer<JoostPlayer>(mod).cactoidCommendation)
+            if (target.GetModPlayer<JoostPlayer>().cactoidCommendation)
             {
                 return false;
             }
@@ -141,7 +141,7 @@ namespace JoostMod.NPCs
             {
                 npc.TargetClosest(false);
             }
-            bool playerCactoid = (player.GetModPlayer<JoostPlayer>(mod).cactoidCommendation || player.HasBuff(mod.BuffType("CactoidFriend")));
+            bool playerCactoid = (player.GetModPlayer<JoostPlayer>().cactoidCommendation || player.HasBuff(mod.BuffType("CactoidFriend")));
             bool cactusPersonNear = false;
             int cactusPerson = -1;
             if (!playerCactoid)
@@ -149,7 +149,7 @@ namespace JoostMod.NPCs
                 float num = 0f;
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>(mod).cactoidCommendation || Main.player[i].HasBuff(mod.BuffType("CactoidFriend"))))
+                    if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>().cactoidCommendation || Main.player[i].HasBuff(mod.BuffType("CactoidFriend"))))
                     {
                         float num4 = Math.Abs(Main.player[i].Center.X - npc.Center.X + Math.Abs(Main.player[i].Center.Y - npc.Center.Y));
                         if (num4 < num)

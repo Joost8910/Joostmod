@@ -63,7 +63,7 @@ namespace JoostMod.Items.Weapons
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<JoostPlayer>(mod).legendOwn = true;
+            player.GetModPlayer<JoostPlayer>().legendOwn = true;
         }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {

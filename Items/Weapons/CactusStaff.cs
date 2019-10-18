@@ -19,8 +19,8 @@ namespace JoostMod.Items.Weapons
 			item.mana = 10;
 			item.width = 58;
 			item.height = 58;
-			item.useTime = 36;
-			item.useAnimation = 36;
+			item.useTime = 18;
+			item.useAnimation = 18;
 			item.useStyle = 1;
 			item.noMelee = true;
 			item.knockBack = 7;

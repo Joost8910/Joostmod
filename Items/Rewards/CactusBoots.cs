@@ -26,7 +26,7 @@ namespace JoostMod.Items.Rewards
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>(mod).cactusBoots = true;
+            player.GetModPlayer<JoostPlayer>().cactusBoots = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

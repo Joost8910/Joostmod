@@ -14,11 +14,11 @@ namespace JoostMod.Buffs
 		}
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<NPCs.JoostGlobalNPC>(mod).bonesHurt = true;
+            npc.GetGlobalNPC<NPCs.JoostGlobalNPC>().bonesHurt = true;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<JoostPlayer>(mod).bonesHurt = true;
+            player.GetModPlayer<JoostPlayer>().bonesHurt = true;
         }
     }
 }

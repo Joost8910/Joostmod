@@ -36,7 +36,7 @@ namespace JoostMod.Items
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetModPlayer<JoostPlayer>(mod).spaceJump = true;
+			player.GetModPlayer<JoostPlayer>().spaceJump = true;
 		}
 
 	}

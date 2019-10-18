@@ -45,7 +45,7 @@ namespace JoostMod.Items.Placeable
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<JoostPlayer>(mod).legendOwn = true;
+            player.GetModPlayer<JoostPlayer>().legendOwn = true;
             if (WorldGen.crimson)
             {
                 player.AddBuff(BuffID.Wrath, 3);

@@ -294,7 +294,6 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[0]++;
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
-                npc.localAI[2] = 0;
                 if (npc.ai[0] == 0)
                 {
                     Main.NewText("<Gilgamesh> Now that it's mine,", 225, 25, 25);
@@ -353,7 +352,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.ai[0] > 700)
                 {
                     npc.ai[3] = 2;
-                    npc.ai[0] = 0;
+                    npc.ai[0] = 300;
                 }
             }
             else if (npc.ai[3] == 3)
@@ -364,7 +363,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.ai[0] > 100)
                 {
                     npc.ai[3] = 4;
-                    npc.ai[0] = 0;
+                    npc.ai[0] = 400;
                 }
             }
             else if (npc.ai[3] == 5)
@@ -375,7 +374,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.ai[0] > 95)
                 {
                     npc.ai[3] = 6;
-                    npc.ai[0] = 0;
+                    npc.ai[0] = 400;
                 }
             }
             else if (npc.ai[3] == 7)
@@ -386,7 +385,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.ai[0] > 95)
                 {
                     npc.ai[3] = 8;
-                    npc.ai[0] = 0;
+                    npc.ai[0] = 400;
                 }
             }
             else if (npc.ai[2] <= 0)
@@ -397,7 +396,6 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = -30;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
-                    npc.localAI[2] = 0;
                 }
                 if (npc.life < npc.lifeMax * 0.7f && npc.ai[3] == 2 && npc.velocity.Y == 0)
                 {
@@ -405,7 +403,6 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = 0;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
-                    npc.localAI[2] = 0;
                 }
                 if (npc.life < npc.lifeMax * 0.5f && npc.ai[3] == 4 && npc.velocity.Y == 0)
                 {
@@ -413,7 +410,6 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = 0;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
-                    npc.localAI[2] = 0;
                 }
                 if (npc.life < npc.lifeMax * 0.3f && npc.ai[3] == 6 && npc.velocity.Y == 0)
                 {
@@ -421,12 +417,10 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = 0;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
-                    npc.localAI[2] = 0;
                 }
                 npc.ai[0]++;
                 npc.localAI[0]++;
                 npc.localAI[1]++;
-                npc.localAI[2]++;
 
                 if (npc.Center.Y > P.Center.Y + 100 && npc.velocity.Y == 0)
                 {
@@ -530,18 +524,18 @@ namespace JoostMod.NPCs.Bosses
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 15f, Main.myPlayer, npc.whoAmI, npc.direction);
                     }
                 }
-                if (npc.localAI[2] > 40)
+                if (npc.localAI[1] > 40)
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
                         Projectile projectile = Main.projectile[i];
                         if (Main.projectile[i].type == mod.ProjectileType("GilgAxe") && projectile.active)
                         {
-                            npc.localAI[2] = 40;
+                            npc.localAI[1] = 40;
                         }
                     }
                 }
-                if (npc.localAI[2] > 90)
+                if (npc.localAI[1] > 90)
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
                     float Speed = 18f + npc.velocity.Length();
@@ -558,7 +552,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10f, Main.myPlayer, npc.whoAmI);
                     }
-                    npc.localAI[2] = 0;
+                    npc.localAI[1] = 0;
                 }
                 if (npc.ai[0] % 90 == 0)
                 {
@@ -646,7 +640,31 @@ namespace JoostMod.NPCs.Bosses
                     {
                         r++;
                     }
-                    npc.ai[2] = Main.rand.Next(r) + 1;
+                    int rand = Main.rand.Next(r) + 1;
+                    if ((int)npc.localAI[2] >= Math.Pow(2, r) - 1)
+                    {
+                        npc.localAI[2] = 0;
+                    }
+                    var bit1 = (int)npc.localAI[2] & (1 << 1 - 1);
+                    var bit2 = (int)npc.localAI[2] & (1 << 2 - 1);
+                    var bit3 = (int)npc.localAI[2] & (1 << 3 - 1);
+                    var bit4 = (int)npc.localAI[2] & (1 << 4 - 1);
+                    var bit5 = (int)npc.localAI[2] & (1 << 5 - 1);
+                    if (bit1 > 0 && bit2 > 0 && bit3 > 0 && bit4 > 0 && bit5 > 0)
+                    {
+                        npc.localAI[2] = 0;
+                    }
+                    else
+                    {
+                        int i = 0;
+                        while (i < 100 && ((bit1 > 0 && rand == 1) || (bit2 > 0 && rand == 2) || (bit3 > 0 && rand == 3) || (bit4 > 0 && rand == 4) || (bit5 > 0 && rand == 5)))
+                        {
+                            rand = Main.rand.Next(r) + 1;
+                            i++;
+                        }
+                    }
+
+                    npc.ai[2] = rand;
                     npc.ai[0] = 0;
                     npc.ai[1] = 0;
                     npc.netUpdate = true;
@@ -656,7 +674,6 @@ namespace JoostMod.NPCs.Bosses
             {
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
-                npc.localAI[2] = 0;
                 if (npc.velocity.Y == 0 || npc.ai[0] > 0)
                 {
                     npc.ai[0]++;
@@ -724,6 +741,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[2] = 0;
                     npc.ai[0] = 0;
                     npc.rotation = 0;
+                    npc.localAI[2] += 1;
                 }
             }
             if (npc.ai[2] == 2)
@@ -734,7 +752,6 @@ namespace JoostMod.NPCs.Bosses
                 }
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
-                npc.localAI[2] = 0;
                 if (npc.ai[0] < 15)
                 {
                     npc.velocity.X = 0;
@@ -802,6 +819,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     npc.ai[2] = 0;
                     npc.ai[0] = 0;
+                    npc.localAI[2] += 2;
                 }
             }
             if (npc.ai[2] == 3)
@@ -809,7 +827,6 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[0]++;
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
-                npc.localAI[2] = 0;
                 if (npc.ai[0] == 10)
                 {
                     npc.velocity.Y = 0;
@@ -889,6 +906,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[2] = 0;
                     npc.localAI[3] = 0;
                     npc.ai[0] = 0;
+                    npc.localAI[2] += 4;
                 }
             }
             if (npc.ai[2] == 4)
@@ -896,7 +914,6 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[0]++;
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
-                npc.localAI[2] = 0;
 
                 if (Math.Abs(P.Center.X - npc.Center.X) > 150)
                 {
@@ -949,6 +966,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     npc.ai[2] = 0;
                     npc.ai[0] = 0;
+                    npc.localAI[2] += 8;
                 }
             }
             if (npc.ai[2] == 5)
@@ -956,7 +974,6 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[0]++;
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
-                npc.localAI[2] = 0;
                 if (npc.ai[0] < 100)
                 {
                     npc.velocity.X = 5 * npc.direction;
@@ -1047,6 +1064,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     npc.ai[2] = 0;
                     npc.ai[0] = 0;
+                    npc.localAI[2] += 16;
                 }
             }
             if (npc.ai[2] >= 6)
@@ -1176,13 +1194,13 @@ namespace JoostMod.NPCs.Bosses
                 rotation += 3.14f;
             }
 
-            if (npc.localAI[2] > 45 && npc.localAI[2] <= 90)
+            if (npc.localAI[1] > 45 && npc.localAI[1] <= 90)
             {
-                axeRotation = ((npc.localAI[2] - 45f) * 3 * 0.0174f * -npc.direction) + rotation;
-                if (npc.localAI[2] > 80)
+                axeRotation = ((npc.localAI[1] - 45f) * 3 * 0.0174f * -npc.direction) + rotation;
+                if (npc.localAI[1] > 80)
                 {
                     axeFrame = 1;
-                    axeRotation = ((105 * 0.0174f * -npc.direction) + rotation) - ((npc.localAI[2] - 80f) * 10.5f * 0.0174f * -npc.direction);
+                    axeRotation = ((105 * 0.0174f * -npc.direction) + rotation) - ((npc.localAI[1] - 80f) * 10.5f * 0.0174f * -npc.direction);
                 }
             }
             for (int i = 0; i < Main.projectile.Length; i++)

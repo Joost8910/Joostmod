@@ -31,8 +31,9 @@ namespace JoostMod.Projectiles.Minions
 			projectile.ignoreWater = true;
 			inertia = 20f;
 			shoot = mod.ProjectileType("IceBeamMinionStart");
-			shootSpeed = 8f;
+			shootSpeed = 16f;
 			shootCool = 204f;
+            predict = true;
 		}
 
         public override void SelectFrame(Vector2 targetPos)
@@ -79,7 +80,7 @@ namespace JoostMod.Projectiles.Minions
         public override void CheckActive()
 		{
 			Player player = Main.player[projectile.owner];
-			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>(mod);
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
 				modPlayer.IceXMinion = false;

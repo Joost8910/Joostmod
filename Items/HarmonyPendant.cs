@@ -25,7 +25,7 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-		player.GetModPlayer<JoostPlayer>(mod).HarmonyPendant = true;
+		player.GetModPlayer<JoostPlayer>().HarmonyPendant = true;
 		}
 			public override void AddRecipes()
 		{

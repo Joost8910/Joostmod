@@ -49,10 +49,10 @@ namespace JoostMod.Items
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<JoostPlayer>(mod).eastStone = true;
-            player.GetModPlayer<JoostPlayer>(mod).westStone = true;
-            player.GetModPlayer<JoostPlayer>(mod).highStone = true;
-            player.GetModPlayer<JoostPlayer>(mod).deepStone = true;
+            player.GetModPlayer<JoostPlayer>().eastStone = true;
+            player.GetModPlayer<JoostPlayer>().westStone = true;
+            player.GetModPlayer<JoostPlayer>().highStone = true;
+            player.GetModPlayer<JoostPlayer>().deepStone = true;
         }
         private int getDamage()
         {
@@ -115,11 +115,11 @@ namespace JoostMod.Items
         }
         public float BattleRodsFishingDamage
         {
-            get { Player player = Main.player[Main.myPlayer]; return player.GetModPlayer<UnuBattleRods.FishPlayer>(ModLoader.GetMod("UnuBattleRods")).bobberDamage; }
+            get { Player player = Main.player[Main.myPlayer]; return player.GetModPlayer<UnuBattleRods.FishPlayer>().bobberDamage; }
         }
         public int BattleRodsCrit
         {
-            get { Player player = Main.player[Main.myPlayer]; return player.GetModPlayer<UnuBattleRods.FishPlayer>(ModLoader.GetMod("UnuBattleRods")).bobberCrit; }
+            get { Player player = Main.player[Main.myPlayer]; return player.GetModPlayer<UnuBattleRods.FishPlayer>().bobberCrit; }
         }
         public override bool AltFunctionUse(Player player)
         {

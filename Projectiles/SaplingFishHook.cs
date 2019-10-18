@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             projectile.timeLeft = 60;
-            if (player.HeldItem.fishingPole == 0 || player.CCed || player.noItems || player.pulley || player.dead || !player.active || !player.GetModPlayer<JoostPlayer>(mod).fishingSapling)
+            if (player.HeldItem.fishingPole == 0 || player.CCed || player.noItems || player.pulley || player.dead || !player.active || !player.GetModPlayer<JoostPlayer>().fishingSapling)
             {
                 projectile.Kill();
             }

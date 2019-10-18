@@ -26,7 +26,7 @@ namespace JoostMod.Items.Rewards
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>(mod).shieldSapling = true;
+            player.GetModPlayer<JoostPlayer>().shieldSapling = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

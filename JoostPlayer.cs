@@ -322,7 +322,7 @@ namespace JoostMod
             Player player = Main.player[projectile.owner];
             if (projectile.melee && player.heldProj == projectile.whoAmI)
             {
-                if (player.GetModPlayer<JoostModPlayer>(mod).crimsonPommel)
+                if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
                 {
                     if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("LifeDrink")))
                     {
@@ -334,7 +334,7 @@ namespace JoostMod
                     }
                     target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
                 }
-                if (player.GetModPlayer<JoostModPlayer>(mod).corruptPommel)
+                if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
                 {
                     if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("CorruptSoul")))
                     {
@@ -388,7 +388,7 @@ namespace JoostMod
             Player player = Main.player[projectile.owner];
             if (projectile.melee && player.heldProj == projectile.whoAmI)
             {
-                if (player.GetModPlayer<JoostModPlayer>(mod).crimsonPommel)
+                if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
                 {
                     if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("LifeDrink")))
                     {
@@ -400,7 +400,7 @@ namespace JoostMod
                     }
                     target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
                 }
-                if (player.GetModPlayer<JoostModPlayer>(mod).corruptPommel)
+                if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
                 {
                     if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
                     {
@@ -587,7 +587,7 @@ namespace JoostMod
             {
                 if (player.ownedProjectileCounts[mod.ProjectileType("EnkiduMinion")] <= 0)
                 {
-                    int damage = (int)(600 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    int damage = (int)(1500 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
                     float knockback = 10f + player.minionKB;
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("EnkiduMinion"), damage, knockback, player.whoAmI);
                 }

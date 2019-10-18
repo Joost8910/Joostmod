@@ -37,9 +37,10 @@ namespace JoostMod.Projectiles.Minions
 			chaseDist = 120f;
 			shoot = mod.ProjectileType("EnkiduWindFriendly");
 			shootSpeed = 20f;
-			shootCool = 40f;
+			shootCool = 90f;
 			shootNum = 3;
 			shootSpread = 45f;
+            predict = true;
 		}
 
 		public override void CheckActive()

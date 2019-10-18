@@ -18,7 +18,7 @@ namespace JoostMod.Projectiles
 			projectile.friendly = true;
 			projectile.minion = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 200;
+			projectile.timeLeft = 400;
 			projectile.alpha = 255;
 			aiType = ProjectileID.Bullet;
 		}

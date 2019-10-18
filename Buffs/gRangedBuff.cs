@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 		{
 			//player.rangedDamage += 1f;
             Dust.NewDust(player.position, player.width, player.width, 258);
-            if (!player.GetModPlayer<JoostPlayer>(mod).gRangedIsActive)
+            if (!player.GetModPlayer<JoostPlayer>().gRangedIsActive)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

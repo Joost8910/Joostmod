@@ -34,15 +34,16 @@ namespace JoostMod.Projectiles.Minions
 			spacingMult = 2f;
 			chaseAccel = 7f;
 			chaseDist = 10f;
-			shootCool = 40f;
+			shootCool = 35f;
 			shoot = mod.ProjectileType("Needle7");
 			shootSpeed = 15f;
+            predict = true;
 		}
 
 		public override void CheckActive()
 		{
 			Player player = Main.player[projectile.owner];
-			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>(mod);
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
 				modPlayer.cactuarMinions = false;

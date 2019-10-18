@@ -102,7 +102,7 @@ namespace JoostMod.Projectiles
 			projectile.rotation = 0;
             projectile.position = projectile.Center.RotatedBy(player.fullRotation, player.MountedCenter) + new Vector2(-projectile.width/2, -projectile.height/2);
             projectile.velocity = projectile.velocity.RotatedBy(player.fullRotation);
-            if (player.GetModPlayer<JoostPlayer>(mod).shieldSapling && !player.dead)
+            if (player.GetModPlayer<JoostPlayer>().shieldSapling && !player.dead)
             {
                 projectile.timeLeft = 4;
             }

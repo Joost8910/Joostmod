@@ -24,7 +24,7 @@ namespace JoostMod.Items.Rewards
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostModPlayer>(mod).crimsonPommel = true;
+            player.GetModPlayer<JoostModPlayer>().crimsonPommel = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

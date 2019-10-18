@@ -27,8 +27,8 @@ namespace JoostMod.Items.Rewards
 		public override void UpdateAccessory(Player player, bool hideVisual)
         {
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.position.Y / 16f), 1.05f, 0.95f, 0.55f);
-            player.GetModPlayer<JoostPlayer>(mod).spelunky = 30;
-            player.GetModPlayer<JoostPlayer>(mod).spelunkGlow = true;
+            player.GetModPlayer<JoostPlayer>().spelunky = 30;
+            player.GetModPlayer<JoostPlayer>().spelunkGlow = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

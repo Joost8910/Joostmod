@@ -65,7 +65,7 @@ namespace JoostMod.Items.Weapons
         }
         public override void UpdateInventory (Player player)
 		{
-			player.GetModPlayer<JoostPlayer>(mod).legendOwn = true;
+			player.GetModPlayer<JoostPlayer>().legendOwn = true;
 		}
 		public override Vector2? HoldoutOffset()
 		{

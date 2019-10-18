@@ -68,7 +68,7 @@ namespace JoostMod.Items.Weapons
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<JoostPlayer>(mod).legendOwn = true;
+            player.GetModPlayer<JoostPlayer>().legendOwn = true;
         }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
@@ -82,7 +82,7 @@ namespace JoostMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(player.position.X, player.position.Y, speedX, speedY, mod.ProjectileType("GrognakHammer"), damage * 2, knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.position.X, player.position.Y, speedX, speedY, mod.ProjectileType("GrognakHammer"), damage * 3, knockBack, player.whoAmI);
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 return false;

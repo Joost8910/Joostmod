@@ -46,8 +46,8 @@ namespace JoostMod
                 //14 is the value BossChecklist gives to Moonlord.
                 bossChecklist.Call("AddBossWithInfo", "Alpha Cactus Worm", 5.7f, (Func<bool>)(() => JoostWorld.downedCactusWorm), "Quest from the Hunt Master, found in the underground desert. Or, use a [i:" + ItemType("CactusBait") + "] in the underground desert");
                 bossChecklist.Call("AddBossWithInfo", "Jumbo Cactuar", 14.6f, (Func<bool>)(() => JoostWorld.downedJumboCactuar), "Use a [i:" + ItemType("Cactusofdoom") + "] in the desert");
-                bossChecklist.Call("AddBossWithInfo", "SA-X", 15.3f, (Func<bool>)(() => JoostWorld.downedSAX), "Use an [i:" + ItemType("InfectedArmCannon") + "] anywhere");
-                bossChecklist.Call("AddBossWithInfo", "Gilgamesh and Enkidu", 16f, (Func<bool>)(() => JoostWorld.downedGilgamesh), "Use an [i:" + ItemType("Excalipoor") + "] anywhere");
+                bossChecklist.Call("AddBossWithInfo", "SA-X", 15.1f, (Func<bool>)(() => JoostWorld.downedSAX), "Use an [i:" + ItemType("InfectedArmCannon") + "] anywhere");
+                bossChecklist.Call("AddBossWithInfo", "Gilgamesh and Enkidu", 15.9f, (Func<bool>)(() => JoostWorld.downedGilgamesh), "Use an [i:" + ItemType("Excalipoor") + "] anywhere");
             }
             InitializeHunts();
         }
@@ -433,12 +433,12 @@ namespace JoostMod
         {
             public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
             {
-                if (player.GetModPlayer<JoostPlayer>(mod).HavocPendant)
+                if (player.GetModPlayer<JoostPlayer>().HavocPendant)
                 {
                     spawnRate = (int)(spawnRate / 5f);
                     maxSpawns = (int)(maxSpawns * 5f);
                 }
-                if (player.GetModPlayer<JoostPlayer>(mod).HarmonyPendant)
+                if (player.GetModPlayer<JoostPlayer>().HarmonyPendant)
                 {
                     spawnRate = (int)(spawnRate * 5f);
                     maxSpawns = (int)(maxSpawns / 5f);

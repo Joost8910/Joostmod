@@ -44,7 +44,7 @@ namespace JoostMod.Items.Placeable
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<JoostPlayer>(mod).westStone = true;
+            player.GetModPlayer<JoostPlayer>().westStone = true;
             player.AddBuff(BuffID.Sonar, 3);
         }
         public override void PostDrawInInventory(SpriteBatch sb, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

@@ -16,7 +16,7 @@ namespace JoostMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<JoostPlayer>(mod).infectedBlue = true;
+            player.GetModPlayer<JoostPlayer>().infectedBlue = true;
             if (Main.rand.Next(30) == 0)
             {
                 Dust.NewDust(player.position, player.width, player.height, 4, 0, 0, 0, Color.Blue, (1 + Main.rand.Next(5)) * 0.1f);
@@ -24,7 +24,7 @@ namespace JoostMod.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<NPCs.JoostGlobalNPC>(mod).infectedBlue = true;
+            npc.GetGlobalNPC<NPCs.JoostGlobalNPC>().infectedBlue = true;
             if (Main.rand.Next(30) == 0)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 4, 0, 0, 0, Color.Blue, (1 + Main.rand.Next(5)) * 0.1f);
