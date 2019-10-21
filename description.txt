@@ -20,6 +20,8 @@ Version 0.8
 - Revamped the Spectre, now has Dark Souls references for attacks!
 - Revamped Cactuar AI, they now run and jump instead of hopping like mimics; regular and hallowed ones run away when low on health
 - Revamped the SA-X, now a much tougher fight with many attacks!
+- Revamped Gilgamesh, many new attacks! Happy dodging!
+- Added Flower Collar, part of your starting inventory
 - Added Focus Souls
 - Added Homing Soulmass
 - Added Soul Arrow

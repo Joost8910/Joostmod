@@ -17,6 +17,7 @@ namespace JoostMod
         private const int saveVersion = 0;
         public bool cactuarMinions = false;
         public bool lunarRod = false;
+        public bool stormy = false;
         public bool powerSpirit = false;
         public bool IceXMinion = false;
         public bool WindMinion = false;
@@ -107,6 +108,7 @@ namespace JoostMod
         public bool deepStone = false;
         public override void ResetEffects()
         {
+            stormy = false;
             cactuarMinions = false;
             lunarRod = false;
             powerSpirit = false;
@@ -164,6 +166,12 @@ namespace JoostMod
             fleshShield = false;
             dashType = 0;
             dashDamage = 0;
+        }
+        public override void SetupStartInventory(IList<Item> items, bool mediumCoreDeath)
+        {
+            Item item = new Item();
+            item.SetDefaults(mod.ItemType("StormyCollar"));
+            items.Add(item);
         }
         public override void UpdateBadLifeRegen()
         {
