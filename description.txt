@@ -133,7 +133,7 @@ It also will launch enemies away if it's returning to the user
 - Grand Cactus Worm body segments now take 60% damage from piercing projectiles instead of 50% damage;
 This no longer affects projectiles with a penetrate value of 2
 - Jumbow now is charged up then released and deals more damage fully charged than before
-- Mighty Bamboo Shoot, Ascended Bamboo Shoot, Mutated Arm Cannons, Stone fist, and Tomato Head are now affected by melee speed and can receive more prefixes
+- Mighty Bamboo Shoot, Ascended Bamboo Shoot, Mutated Arm Cannons, Pet Eyeball, Stone fist, and Tomato Head are now affected by melee speed and can receive more prefixes
 - Mutated Arm Cannons now only grants immunity frames on a successful hit
 - Mutated Arm Cannons and Stone Fist now have limits to their dash speed
 - Sapling - Bow no longer requires arrows to craft and instead uses arrows from your inventory

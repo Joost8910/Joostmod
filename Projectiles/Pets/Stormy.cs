@@ -21,6 +21,7 @@ namespace JoostMod.Projectiles.Pets
 			aiType = ProjectileID.Puppy;
             projectile.width = 86;
             projectile.height = 54;
+            projectile.scale = 0.75f;
         }
 
 		public override bool PreAI()
@@ -32,7 +33,7 @@ namespace JoostMod.Projectiles.Pets
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             width = 56;
-            height = 56;
+            height = 54;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
         public override void PostAI()

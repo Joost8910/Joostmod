@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("TomatoHead");
+			DisplayName.SetDefault("Tomato Head");
             Main.projFrames[projectile.type] = 3;
 		}
         public override void SetDefaults()
@@ -116,7 +116,12 @@ namespace JoostMod.Projectiles
                 if (projectile.soundDelay <= 0)
                 {
                     projectile.soundDelay = (int)(15f / projectile.localAI[1]);
-                    Main.PlaySound(0, (int)projectile.Center.X, (int)projectile.Center.Y, -1, 0.275f * projectile.scale, 0.3f - (0.5f * (projectile.scale - 1)));
+                    Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 2, 0.3f * projectile.scale, -0.3f - (0.5f * (projectile.scale - 1)));
+                    for (int i = 0; i < 6 * projectile.scale; i++)
+                    {
+                        int dust = Dust.NewDust(projectile.Center - new Vector2(12 * projectile.scale, 12 * projectile.scale), (int)(24 * projectile.scale), (int)(24 * projectile.scale), 247, projectile.velocity.X, projectile.velocity.Y, 150, Color.LightBlue);
+                        Main.dust[dust].noGravity = true;
+                    }
                 }
                 projectile.frame = 2;
                 player.velocity.Y = ((projectile.ai[0] > 0 && player.velocity.Y > -speed) || projectile.velocity.Y > 0) ? player.velocity.Y + projectile.velocity.Y * accel : player.velocity.Y;

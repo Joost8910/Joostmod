@@ -25,6 +25,13 @@ namespace JoostMod.Projectiles
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
         }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = (int)(44f * projectile.scale);
+            hitbox.Height = (int)(44f * projectile.scale);
+            hitbox.X -= (int)(((44f * projectile.scale) - 44f) * 0.5f);
+            hitbox.Y -= (int)(((44f * projectile.scale) - 44f) * 0.5f);
+        }
         public override bool? CanHitNPC(NPC target)
 		{
 			return !target.friendly && projectile.ai[1] >= 10;
@@ -35,8 +42,8 @@ namespace JoostMod.Projectiles
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            width = 30;
-            height = 30;
+            width = (int)(30f * projectile.scale);
+            height = (int)(30f * projectile.scale);
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -54,6 +61,7 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            projectile.localAI[1] = 1;
             bool channeling = player.channel && !player.noItems && !player.CCed;
             if (channeling)
             {
@@ -62,10 +70,12 @@ namespace JoostMod.Projectiles
                     float scaleFactor = 1f;
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
                     {
-                        scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        projectile.scale = player.inventory[player.selectedItem].scale;
+                        projectile.localAI[1] = (10f / (float)player.inventory[player.selectedItem].useTime) / player.meleeSpeed;
+                        scaleFactor = player.inventory[player.selectedItem].shootSpeed;
                     }
                     Vector2 dir = Main.MouseWorld - projectile.Center;
-                    dir = dir.RotatedByRandom(MathHelper.ToRadians(45));
+                    dir = dir.RotatedByRandom(MathHelper.ToRadians(60));
                     dir.Normalize();
                     if (dir.HasNaNs())
                     {
@@ -96,12 +106,13 @@ namespace JoostMod.Projectiles
                     projectile.Kill();
                 }
             }
-        
+            projectile.localNPCHitCooldown = (int)(10f / projectile.localAI[1]);
+
             if (projectile.ai[1] == 0)
             {
                 projectile.ai[0] = 0;
             }
-            projectile.ai[1] = projectile.ai[1] < 15 ? projectile.ai[1]+1 : 0;
+            projectile.ai[1] = projectile.ai[1] < 15 ? projectile.ai[1] + projectile.localAI[1] : 0;
             if (projectile.ai[1] < 5)
             {
                 projectile.frame = 0;
@@ -113,6 +124,16 @@ namespace JoostMod.Projectiles
             else
             {
                 projectile.frame = 2;
+                if (projectile.soundDelay <= 0)
+                {
+                    projectile.soundDelay = (int)(10f / projectile.localAI[1]);
+                    Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 2, 0.275f * projectile.scale, 0.3f - (0.5f * (projectile.scale - 1)));
+                    for (int i = 0; i < 6 * projectile.scale; i++)
+                    {
+                        int dust = Dust.NewDust(projectile.Center - new Vector2(12 * projectile.scale, 12 * projectile.scale), (int)(24 * projectile.scale), (int)(24 * projectile.scale), 247, projectile.velocity.X * 0.3f * projectile.scale, projectile.velocity.Y * 0.3f * projectile.scale, 150, Color.LightBlue);
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
             }
             if (projectile.Distance(playerPos) > 250)
             {
