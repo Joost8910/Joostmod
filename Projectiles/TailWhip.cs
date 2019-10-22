@@ -197,9 +197,9 @@ namespace JoostMod.Projectiles
             projectile.ai[0]++;
             projectile.ai[1]++;
             bool channeling = player.channel && !player.noItems && !player.CCed;
-            if (Main.myPlayer == projectile.owner)
+            if (channeling)
             {
-                if (channeling)
+                if (Main.myPlayer == projectile.owner)
                 {
                     if (Main.MouseWorld.X > player.Center.X)
                     {
@@ -216,27 +216,28 @@ namespace JoostMod.Projectiles
                         }
                     }
                 }
-                if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
-                {
-                    playerCenter.X += 8 * player.direction;
-                    playerCenter.Y += 2 * player.gravDir;
-                }
-                else if (player.bodyFrame.Y == player.bodyFrame.Height * 2)
-                {
-                    playerCenter.X += 6 * player.direction;
-                    playerCenter.Y += -12 * player.gravDir;
-                }
-                else if (player.bodyFrame.Y == player.bodyFrame.Height * 4)
-                {
-                    playerCenter.X += 6 * player.direction;
-                    playerCenter.Y += 8 * player.gravDir;
-                }
-                else if (player.bodyFrame.Y == player.bodyFrame.Height)
-                {
-                    playerCenter.X += -10 * player.direction;
-                    playerCenter.Y += -14 * player.gravDir;
-                }
             }
+            if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
+            {
+                playerCenter.X += 8 * player.direction;
+                playerCenter.Y += 2 * player.gravDir;
+            }
+            else if (player.bodyFrame.Y == player.bodyFrame.Height * 2)
+            {
+                playerCenter.X += 6 * player.direction;
+                playerCenter.Y += -12 * player.gravDir;
+            }
+            else if (player.bodyFrame.Y == player.bodyFrame.Height * 4)
+            {
+                playerCenter.X += 6 * player.direction;
+                playerCenter.Y += 8 * player.gravDir;
+            }
+            else if (player.bodyFrame.Y == player.bodyFrame.Height)
+            {
+                playerCenter.X += -10 * player.direction;
+                playerCenter.Y += -14 * player.gravDir;
+            }
+        
             projectile.rotation = projectile.DirectionFrom(playerCenter).ToRotation() + 1.57f;
             if (projectile.ai[1] > 4)
             {

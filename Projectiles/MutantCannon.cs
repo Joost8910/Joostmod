@@ -43,14 +43,14 @@ namespace JoostMod.Projectiles
             projectile.width = (int)((float)64 * projectile.scale);
             projectile.height = (int)((float)64 * projectile.scale);
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if(Main.myPlayer == projectile.owner)
+            if (!player.noItems && !player.CCed)
             {
-                if(!player.noItems && !player.CCed)
+                if (Main.myPlayer == projectile.owner)
                 {
                     float scaleFactor6 = 1f;
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
                     {
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale * (projectile.ai[1]+0.75f);
+                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale * (projectile.ai[1] + 0.75f);
                     }
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();
@@ -65,11 +65,11 @@ namespace JoostMod.Projectiles
                     }
                     projectile.velocity = vector13;
                 }
-                else
-                {
-                    projectile.Kill();
-                }
             }
+            else
+            {
+                projectile.Kill();
+            } 
             if (player.channel)
             {
                 if (projectile.ai[0] >= 1 && projectile.soundDelay >= 0)

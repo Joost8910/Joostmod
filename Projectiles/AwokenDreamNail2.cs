@@ -34,14 +34,14 @@ namespace JoostMod.Projectiles
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
-           Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-           projectile.ai[0]++;
-            if(Main.myPlayer == projectile.owner)
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            projectile.ai[0]++;
+            bool channeling = player.itemAnimation > 1 && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = player.itemAnimation > 1 && !player.noItems && !player.CCed;
-                if(channeling)
+                if (player.itemAnimation <= 1)
                 {
-                    if (player.itemAnimation <= 1)
+                    if (Main.myPlayer == projectile.owner)
                     {
                         float scaleFactor6 = 1f;
                         if (player.inventory[player.selectedItem].shoot == projectile.type)
@@ -61,15 +61,15 @@ namespace JoostMod.Projectiles
                         }
                         projectile.velocity = vector13;
                     }
-                    if (projectile.ai[0] < 20)
-                    {
-                        Dust.NewDust(projectile.position, projectile.width,projectile.height, 71, projectile.velocity.X/3, projectile.velocity.Y/3, 100, default(Color), (0.7f + (Main.rand.Next(5)/10)));
-                    }
                 }
-                else
+                if (projectile.ai[0] < 20)
                 {
-                    projectile.Kill();
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 71, projectile.velocity.X / 3, projectile.velocity.Y / 3, 100, default(Color), (0.7f + (Main.rand.Next(5) / 10)));
                 }
+            }
+            else
+            {
+                projectile.Kill();
             }
             if (player.itemAnimation > (int)(7 * (float)player.itemAnimationMax / 8))
             {

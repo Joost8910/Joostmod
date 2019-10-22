@@ -22,7 +22,6 @@ namespace JoostMod.Projectiles
             projectile.tileCollide = true;
             projectile.melee = true;
             projectile.ignoreWater = false;
-            projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
         }
@@ -55,10 +54,10 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (Main.myPlayer == projectile.owner)
+            bool channeling = player.channel && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = player.channel && !player.noItems && !player.CCed;
-                if(channeling)
+                if (Main.myPlayer == projectile.owner)
                 {
                     float scaleFactor = 1f;
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
@@ -66,7 +65,7 @@ namespace JoostMod.Projectiles
                         scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
                     }
                     Vector2 dir = Main.MouseWorld - projectile.Center;
-                    dir = dir.RotatedByRandom(MathHelper.ToRadians(35));
+                    dir = dir.RotatedByRandom(MathHelper.ToRadians(45));
                     dir.Normalize();
                     if (dir.HasNaNs())
                     {
@@ -81,22 +80,23 @@ namespace JoostMod.Projectiles
                         projectile.netUpdate = true;
                     }
                     projectile.velocity = dir * scaleFactor;
-                    if (Collision.SolidCollision(projectile.Center + new Vector2(-4, -4), 8, 8))
-                    {
-                        projectile.velocity = projectile.DirectionTo(playerPos) * 9;
-                        projectile.position += projectile.velocity;
-                    }
                 }
-                else
+                if (Collision.SolidCollision(projectile.Center + new Vector2(-4, -4), 8, 8))
                 {
-                    projectile.velocity = projectile.DirectionTo(playerPos) * 18;
-                    projectile.tileCollide = false;
-                    if (projectile.Distance(playerPos) < 20 || projectile.Distance(playerPos) > 800)
-                    {
-                        projectile.Kill();
-                    }
+                    projectile.velocity = projectile.DirectionTo(playerPos) * 9;
+                    projectile.position += projectile.velocity;
                 }
-			}
+            }
+            else
+            {
+                projectile.velocity = projectile.DirectionTo(playerPos) * 18;
+                projectile.tileCollide = false;
+                if (projectile.Distance(playerPos) < 20 || projectile.Distance(playerPos) > 800)
+                {
+                    projectile.Kill();
+                }
+            }
+        
             if (projectile.ai[1] == 0)
             {
                 projectile.ai[0] = 0;
@@ -138,13 +138,14 @@ namespace JoostMod.Projectiles
                     }
                 }
             }
-            projectile.rotation = projectile.DirectionFrom(playerPos).ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
             projectile.spriteDirection = projectile.direction;
             player.ChangeDir(projectile.direction);
             player.heldProj = projectile.whoAmI;
             player.itemTime = 10;
             player.itemAnimation = 10;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            Vector2 direction = player.DirectionTo(projectile.Center);
+            player.itemRotation = (float)Math.Atan2((double)(direction.Y * (float)projectile.direction), (double)(direction.X * (float)projectile.direction));
             return false;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -49,7 +49,7 @@ namespace JoostMod.Projectiles
                 projectile.netUpdate = true;
             }
             bool channeling = player.channel && !player.noItems && !player.CCed;
-            if (channeling)
+            if (channeling && Main.myPlayer == projectile.owner)
             {
                 Vector2 vector13 = Main.MouseWorld - center;
                 vector13.Normalize();

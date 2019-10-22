@@ -50,10 +50,6 @@ namespace JoostMod.Projectiles
                 projectile.position = Main.MouseWorld;
                 projectile.netUpdate = true;
             }
-            else
-            {
-                projectile.Kill();
-            }
             for (int i = 0; i < Main.item.Length; i++)
             {
                 if (Main.item[i].active)

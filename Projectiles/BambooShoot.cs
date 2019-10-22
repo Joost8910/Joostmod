@@ -106,10 +106,10 @@ namespace JoostMod.Projectiles
             projectile.scale = player.inventory[player.selectedItem].scale;
             projectile.width = (int)(projectile.scale * 100);
             projectile.height = (int)(projectile.scale * 12);
-            if (Main.myPlayer == projectile.owner)
+            bool channeling = !player.dead && ((player.controlUseItem && projectile.ai[0] == 0 && (!player.controlUseTile || projectile.localAI[1] == 0)) || (player.controlUseTile && projectile.ai[0] > 0) || (projectile.localAI[1] != 0 && !(projectile.localAI[1] <= -20 && projectile.localAI[1] > -26) && projectile.ai[0] == 0)) && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = !player.dead && ((player.controlUseItem && projectile.ai[0] == 0 && (!player.controlUseTile || projectile.localAI[1] == 0)) || (player.controlUseTile && projectile.ai[0] > 0) || (projectile.localAI[1] != 0 && !(projectile.localAI[1] <= -20 && projectile.localAI[1] > -26) && projectile.ai[0] == 0)) && !player.noItems && !player.CCed;
-                if (channeling)
+                if (Main.myPlayer == projectile.owner)
                 {
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();
@@ -123,11 +123,11 @@ namespace JoostMod.Projectiles
                     }
                     projectile.velocity = vector13;
                 }
-                else
-                {
-                    projectile.Kill();
-                }
-			}
+            }
+            else
+            {
+                projectile.Kill();
+            }
             if (projectile.velocity.X < 0)
             {
                 projectile.direction = -1;
@@ -168,7 +168,7 @@ namespace JoostMod.Projectiles
                 {
                     projectile.localAI[1] += speed * player.meleeSpeed;
                 }
-                if (projectile.localAI[1] > 30 && player.inventory.Any(item=>item.ammo==AmmoID.Dart&&item.stack>0))
+                if (projectile.localAI[1] > 30 && player.inventory.Any(item => item.ammo == AmmoID.Dart && item.stack > 0))
                 {
                     projectile.localAI[1] = 0;
                     projectile.localAI[0]++;

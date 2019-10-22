@@ -34,14 +34,14 @@ namespace JoostMod.Projectiles
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
-           Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-           projectile.ai[0]++;
-            if(Main.myPlayer == projectile.owner)
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            projectile.ai[0]++;
+            bool channeling = (player.itemAnimation > 1 || player.channel) && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = (player.itemAnimation > 1 || player.channel) && !player.noItems && !player.CCed;
-                if(channeling)
+                if (player.itemAnimation <= 1)
                 {
-                    if (player.itemAnimation <= 1)
+                    if (Main.myPlayer == projectile.owner)
                     {
                         float scaleFactor6 = 1f;
                         if (player.inventory[player.selectedItem].shoot == projectile.type)
@@ -61,79 +61,79 @@ namespace JoostMod.Projectiles
                         }
                         projectile.velocity = vector13;
                     }
-                    if (projectile.ai[0] < 20)
-                    {
-                        Dust.NewDust(projectile.position, projectile.width,projectile.height, 71, projectile.velocity.X/3, projectile.velocity.Y/3, 100, default(Color), (0.7f + (Main.rand.Next(5)/10)));
-                    }
-                    if (projectile.ai[0] >= 20 && projectile.ai[0] < 60)
-                    {
-                        if (projectile.ai[0] % 20 == 0)
-                        {
-                            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);	
-                        }
-                        int dust = Dust.NewDust(player.position, player.width, player.height, 71);
-                        Main.dust[dust].noGravity = true;
-                    }
-                    if (projectile.ai[0] == 60)
-                    {
-                         Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
-                        Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 164);
-                    }
-                    if (projectile.ai[0] > 60)
-                    {
-                        if (projectile.ai[0] % 6 == 0)
-                        {
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
-                        }
-                        int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height/2 * player.gravDir), 1, 1, 71, 8, -3*player.gravDir, 0, default(Color), 1);
-                        Main.dust[dust2].noGravity = true;
-                        int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height/2 * player.gravDir), 1, 1, 71, -8, -3*player.gravDir, 0, default(Color), 1);
-                        Main.dust[dust3].noGravity = true;
-                    }
                 }
-                else
+                if (projectile.ai[0] < 20)
                 {
-                    projectile.Kill();
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 71, projectile.velocity.X / 3, projectile.velocity.Y / 3, 100, default(Color), (0.7f + (Main.rand.Next(5) / 10)));
                 }
-			}
-			if (player.itemAnimation > (int)(8*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 0;
-			}
-            else if (player.itemAnimation > (int)(7*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 1;
-			}
-            else if (player.itemAnimation > (int)(6*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 2;
-			}
-            else if (player.itemAnimation > (int)(5*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 3;
-			}
-            else if (player.itemAnimation > (int)(4*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 4;
-			}
-            else if (player.itemAnimation > (int)(3*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 5;
-			}
-            else if (player.itemAnimation > (int)(2*(float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 6;
-			}
-            else if (player.itemAnimation > (int)((float)player.itemAnimationMax/9))
-			{
-				projectile.frame = 7;
-			}
+                if (projectile.ai[0] >= 20 && projectile.ai[0] < 60)
+                {
+                    if (projectile.ai[0] % 20 == 0)
+                    {
+                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
+                    }
+                    int dust = Dust.NewDust(player.position, player.width, player.height, 71);
+                    Main.dust[dust].noGravity = true;
+                }
+                if (projectile.ai[0] == 60)
+                {
+                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
+                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 164);
+                }
+                if (projectile.ai[0] > 60)
+                {
+                    if (projectile.ai[0] % 6 == 0)
+                    {
+                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
+                    }
+                    int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 71, 8, -3 * player.gravDir, 0, default(Color), 1);
+                    Main.dust[dust2].noGravity = true;
+                    int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 71, -8, -3 * player.gravDir, 0, default(Color), 1);
+                    Main.dust[dust3].noGravity = true;
+                }
+            }
             else
-			{
-				projectile.frame = 8;
+            {
+                projectile.Kill();
+            }
+            if (player.itemAnimation > (int)(8 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 0;
+            }
+            else if (player.itemAnimation > (int)(7 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 1;
+            }
+            else if (player.itemAnimation > (int)(6 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 2;
+            }
+            else if (player.itemAnimation > (int)(5 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 3;
+            }
+            else if (player.itemAnimation > (int)(4 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 4;
+            }
+            else if (player.itemAnimation > (int)(3 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 5;
+            }
+            else if (player.itemAnimation > (int)(2 * (float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 6;
+            }
+            else if (player.itemAnimation > (int)((float)player.itemAnimationMax / 9))
+            {
+                projectile.frame = 7;
+            }
+            else
+            {
+                projectile.frame = 8;
                 player.itemTime = 1;
                 player.itemAnimation = 1;
-			}
+            }
             projectile.position = (projectile.velocity + vector) - projectile.Size / 2f;
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
             projectile.spriteDirection = projectile.direction;

@@ -388,6 +388,7 @@ namespace JoostMod.NPCs.Bosses
                         npc.height = 78;
                         npc.position.Y -= 50;
                     }
+                    npc.netUpdate = true;
                 }
                 if (npc.ai[1] >= 1)
                 {

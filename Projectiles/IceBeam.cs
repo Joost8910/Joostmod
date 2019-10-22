@@ -24,11 +24,19 @@ namespace JoostMod.Projectiles
             projectile.timeLeft = 600;
             projectile.extraUpdates = 1;
             projectile.tileCollide = false;
-            projectile.light = 0.75f;
+            //projectile.light = 0.75f;
             aiType = ProjectileID.Bullet;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
             projectile.coldDamage = true;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = Main.projectileTexture[projectile.type];
+            SpriteEffects effects = SpriteEffects.None;
+            Color color = Color.White;
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
+            return false;
         }
         public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
         {

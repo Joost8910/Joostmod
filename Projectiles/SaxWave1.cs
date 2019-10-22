@@ -46,7 +46,7 @@ namespace JoostMod.Projectiles
 				Tile tileSafely2 = Framing.GetTileSafely(pos.X, pos.Y - 1);
 				if ((!tileSafely2.active() || !Main.tileSolid[(int)tileSafely2.type] || Main.tileSolidTop[(int)tileSafely2.type]))
 				{
-					for (int d = 0; d < 6; d++)
+					for (int d = 0; d < 3; d++)
 					{
 						Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
 						dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat();

@@ -32,39 +32,36 @@ namespace JoostMod.Projectiles
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
-           Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if(Main.myPlayer == projectile.owner)
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            bool channeling = player.itemAnimation > 0 && !player.noItems && !player.CCed;
+            /*if(channeling)
             {
-                bool channeling = player.itemAnimation > 0 && !player.noItems && !player.CCed;
-                /*if(channeling)
+                float scaleFactor6 = 1f;
+                if (player.inventory[player.selectedItem].shoot == projectile.type)
                 {
-                    float scaleFactor6 = 1f;
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
-                    {
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
-                    }
-                    Vector2 vector13 = Main.MouseWorld - vector;
-                    vector13.Normalize();
-                    if (vector13.HasNaNs())
-                    {
-                        vector13 = Vector2.UnitX * (float)player.direction;
-                    }
-                    vector13 *= scaleFactor6;
-                    if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
-                    {
-                        projectile.netUpdate = true;
-                    }
-                    projectile.velocity = vector13;
+                    scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
                 }
-                else
+                Vector2 vector13 = Main.MouseWorld - vector;
+                vector13.Normalize();
+                if (vector13.HasNaNs())
                 {
-                    projectile.Kill();
-                }*/
-                if (!channeling)
-                {
-                    projectile.Kill();
+                    vector13 = Vector2.UnitX * (float)player.direction;
                 }
-			}
+                vector13 *= scaleFactor6;
+                if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                {
+                    projectile.netUpdate = true;
+                }
+                projectile.velocity = vector13;
+            }
+            else
+            {
+                projectile.Kill();
+            }*/
+            if (!channeling)
+            {
+                projectile.Kill();
+            } 
 			if (player.itemAnimation > (int)(8*(float)player.itemAnimationMax/9))
 			{
 				projectile.frame = 0;

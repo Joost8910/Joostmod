@@ -50,10 +50,10 @@ namespace JoostMod.Projectiles
             Player player = Main.player[projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             projectile.localAI[1] = 1;
-            if (Main.myPlayer == projectile.owner)
+            bool channeling = player.channel && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = player.channel && !player.noItems && !player.CCed;
-                if(channeling)
+                if (Main.myPlayer == projectile.owner)
                 {
                     float scaleFactor6 = 1f;
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
@@ -75,15 +75,12 @@ namespace JoostMod.Projectiles
                     }
                     projectile.velocity = vector13;
                 }
-                else
-                {
-                    projectile.Kill();
-                }
-                if (!channeling)
-                {
-                    projectile.Kill();
-                }
             }
+            else
+            {
+                projectile.Kill();
+            }
+        
             if (projectile.ai[1] == 0)
             {
                 projectile.ai[0] = 0;

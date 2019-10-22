@@ -1,5 +1,5 @@
 The Joostmod has to offer
-400 new items
+405 new items
 10 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes

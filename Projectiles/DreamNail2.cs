@@ -7,11 +7,11 @@ namespace JoostMod.Projectiles
 {
     public class DreamNail2 : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dream Nail");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dream Nail");
             Main.projFrames[projectile.type] = 8;
-		}
+        }
         public override void SetDefaults()
         {
             projectile.width = 110;
@@ -24,24 +24,24 @@ namespace JoostMod.Projectiles
             projectile.ignoreWater = true;
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -1;
+            projectile.localNPCHitCooldown = -1;
         }
         public override bool? CanHitNPC(NPC target)
-		{
+        {
             Player player = Main.player[projectile.owner];
-			return !target.friendly && player.itemAnimation > 1;
-		}
+            return !target.friendly && player.itemAnimation > 1;
+        }
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
-           Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-           projectile.ai[0]++;
-            if(Main.myPlayer == projectile.owner)
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            projectile.ai[0]++;
+            bool channeling = player.itemAnimation > 1 && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = player.itemAnimation > 1 && !player.noItems && !player.CCed;
-                if(channeling)
+                if (player.itemAnimation <= 1)
                 {
-                    if (player.itemAnimation <= 1)
+                    if (Main.myPlayer == projectile.owner)
                     {
                         float scaleFactor6 = 1f;
                         if (player.inventory[player.selectedItem].shoot == projectile.type)
@@ -62,11 +62,12 @@ namespace JoostMod.Projectiles
                         projectile.velocity = vector13;
                     }
                 }
-                else
-                {
-                    projectile.Kill();
-                }
             }
+            else
+            {
+                projectile.Kill();
+            }
+        
             if (player.itemAnimation > (int)(7 * (float)player.itemAnimationMax / 8))
             {
                 projectile.frame = 0;

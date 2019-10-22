@@ -79,7 +79,7 @@ namespace JoostMod.Projectiles.Pets
             }
             else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f && Vector2.Distance(playerPos, projectile.Center) > 80)
             {
-                projectile.velocity.Y -= 6f;
+                projectile.velocity.Y -= 4f;
             }
 
             if (projectile.velocity.Y == 0)
@@ -87,9 +87,13 @@ namespace JoostMod.Projectiles.Pets
                 projectile.frameCounter++;
                 if (Math.Abs(projectile.velocity.X) > 0f)
                 {
-                    if (projectile.frame > 16 && projectile.frameCounter >= 2)
+                    if (projectile.frame > 16)
                     {
-                        projectile.frame--;
+                        if (projectile.frameCounter >= 2)
+                        {
+                            projectile.frame--;
+                            projectile.frameCounter = 0;
+                        }
                         if (projectile.frame > 25)
                         {
                             projectile.frame = 25;
@@ -129,6 +133,10 @@ namespace JoostMod.Projectiles.Pets
                     bool facing = projectile.direction != player.direction && ((player.Center.X < projectile.Center.X - 20 && projectile.direction == -1) || (player.Center.X > projectile.Center.X + 20 && projectile.direction == 1));
                     if (projectile.frameCounter >= ((projectile.frame >= 25) ? (facing ? 4 : 6) : 2))
                     {
+                        if (facing && projectile.Distance(player.Center) < 60)
+                        {
+                            player.AddBuff(BuffID.Regeneration, 10);
+                        }
                         projectile.frameCounter = 0;
                         projectile.frame++;
                         if (projectile.frame < 16)

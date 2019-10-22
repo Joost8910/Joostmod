@@ -62,12 +62,12 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (Main.myPlayer == projectile.owner)
+            bool channeling = !player.dead && projectile.localAI[0] < 20 && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = !player.dead && projectile.localAI[0] < 20 && !player.noItems && !player.CCed;
-                if (channeling)
+                if (projectile.localAI[0] <= 5)
                 {
-                    if (projectile.localAI[0] <= 5)
+                    if (Main.myPlayer == projectile.owner)
                     {
                         Vector2 vector13 = Main.MouseWorld - vector;
                         vector13.Normalize();
@@ -89,17 +89,17 @@ namespace JoostMod.Projectiles
                             projectile.direction = 1;
                         }
                     }
-                    else if (projectile.localAI[0] < 10)
-                    {
-                        float rot = projectile.velocity.ToRotation();
-                        rot -= 15f * 0.0174f * projectile.direction;
-                        projectile.velocity = rot.ToRotationVector2();
-                    }
                 }
-                else
+                else if (projectile.localAI[0] < 10)
                 {
-                    projectile.Kill();
+                    float rot = projectile.velocity.ToRotation();
+                    rot -= 15f * 0.0174f * projectile.direction;
+                    projectile.velocity = rot.ToRotationVector2();
                 }
+            }
+            else
+            {
+                projectile.Kill();
             }
             projectile.localAI[0]++;
             if (projectile.localAI[0] == 5)

@@ -31,9 +31,9 @@ namespace JoostMod.Projectiles
             Vector2 center = player.RotatedRelativePoint(player.MountedCenter, true);
             projectile.velocity = Vector2.Zero;
             projectile.localAI[0]++;
-            if (Main.myPlayer == projectile.owner)
+            if (!player.noItems && !player.CCed)
             {
-                if (!player.noItems && !player.CCed)
+                if (Main.myPlayer == projectile.owner)
                 {
                     //projectile.ai[0]++;
                     float scaleFactor6 = 1f;
@@ -99,6 +99,7 @@ namespace JoostMod.Projectiles
                 Projectile.NewProjectile(pos2, dir2, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
                 Projectile.NewProjectile(pos3, dir3, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
                 Projectile.NewProjectile(pos4, dir4, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
+                projectile.netUpdate = true;
             }
             if (projectile.localAI[0] == 60)
             {

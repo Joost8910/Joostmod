@@ -34,7 +34,7 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (Main.myPlayer == projectile.owner && Main.mouseRight)
+            if (player.controlUseTile)
             {
                 projectile.ai[0] = 0;
                 projectile.netUpdate = true;

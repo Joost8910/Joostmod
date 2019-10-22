@@ -41,6 +41,12 @@ namespace JoostMod.Projectiles
                 projectile.tileCollide = true;
             }
         }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            width = 30;
+            height = 30;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+        }
         public override bool PreDraw(SpriteBatch sb, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

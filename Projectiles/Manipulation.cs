@@ -49,10 +49,6 @@ namespace JoostMod.Projectiles
                 projectile.position = Main.MouseWorld;
                 projectile.netUpdate = true;
             }
-            else
-            {
-                projectile.Kill();
-            }
             if (enpc >= 0)
             {
                 NPC target = Main.npc[enpc];

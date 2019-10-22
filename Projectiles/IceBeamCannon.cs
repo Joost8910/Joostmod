@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles
             projectile.tileCollide = false;
             projectile.magic = true;
             projectile.ignoreWater = true;
-            projectile.light = 0.50f;
+            //projectile.light = 0.50f;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 10;
             projectile.coldDamage = true;
@@ -35,16 +35,16 @@ namespace JoostMod.Projectiles
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (Main.myPlayer == projectile.owner)
+            bool channeling = player.channel && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = player.channel && !player.noItems && !player.CCed;
-                if (channeling)
+                if (projectile.ai[0] % 8 < 1 && projectile.ai[0] < 48 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
                 {
-                    if (projectile.ai[0] % 8 < 1 && projectile.ai[0] < 48 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
-                    {
-                        projectile.Kill();
-                    }
-                    projectile.ai[0]++;
+                    projectile.Kill();
+                }
+                projectile.ai[0]++;
+                if (Main.myPlayer == projectile.owner)
+                {
                     float scaleFactor6 = 1f;
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
                     {
@@ -63,37 +63,39 @@ namespace JoostMod.Projectiles
                     }
                     projectile.velocity = vector13;
                 }
-                else
-                {
-                    projectile.Kill();
-                }
-                if (projectile.ai[0] == 1)
-                {
-                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart"));
-                }
-                if (projectile.ai[0] == 25)
-                {
-                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart2"));
-                }
-                if (projectile.ai[0] == 48)
-                {
-                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
-                }
-                if (projectile.ai[0] == 63)
-                {
-                    projectile.ai[0] = 48;
-                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
-                }
-                if ((projectile.ai[0] % 4) == 0 && projectile.ai[0] < 48)
-                {
-                    projectile.frame = (projectile.frame + 1) % 12;
-                }
-                if (projectile.ai[0] >= 48 && (projectile.ai[0] % 4) == 0)
-                {
-                    projectile.frame = (projectile.frame % 3) + 10;
-                }
-
             }
+            else
+            {
+                projectile.Kill();
+            }
+            if (projectile.ai[0] == 1)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart"));
+            }
+            if (projectile.ai[0] == 25)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart2"));
+            }
+            if (projectile.ai[0] == 48)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
+            }
+            if (projectile.ai[0] == 63)
+            {
+                projectile.ai[0] = 48;
+                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
+            }
+            if ((projectile.ai[0] % 4) == 0 && projectile.ai[0] < 48)
+            {
+                projectile.frame = (projectile.frame + 1) % 12;
+            }
+            if (projectile.ai[0] >= 48 && (projectile.ai[0] % 4) == 0)
+            {
+                projectile.frame = (projectile.frame % 3) + 10;
+            }
+            float light = (projectile.ai[0] > 48 ? 48 : projectile.ai[0]) / 48f;
+            Lighting.AddLight(projectile.Center, light * 0.5f, light, light);
+        
 
             projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f + Vector2.Normalize(projectile.velocity) * 24;
             projectile.rotation = projectile.velocity.ToRotation() + num;

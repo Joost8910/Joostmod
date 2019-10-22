@@ -29,11 +29,11 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             //float num = 1.57079637f;          
-           Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if(Main.myPlayer == projectile.owner)
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            bool channeling = player.channel && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = player.channel && !player.noItems && !player.CCed;
-                if(channeling)
+                if (Main.myPlayer == projectile.owner)
                 {
                     //projectile.ai[0]++;
                     float scaleFactor6 = 1f;
@@ -54,11 +54,12 @@ namespace JoostMod.Projectiles
                     }
                     projectile.velocity = vector13;
                 }
-                else
-                {
-                    projectile.Kill();
-                }
-			}
+            }
+            else
+            {
+                projectile.Kill();
+            }
+        
         
             projectile.position = (projectile.velocity + vector) - projectile.Size / 2f;
             projectile.rotation = projectile.velocity.ToRotation() + 2.355f;

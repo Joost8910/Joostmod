@@ -28,24 +28,21 @@ namespace JoostMod.Projectiles
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = -1;
         }
-public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage += (int)(target.defense / 2);
-		}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage += (int)(target.defense / 2);
+        }
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             projectile.ai[0]++;
-            if(Main.myPlayer == projectile.owner)
+            bool channeling = projectile.ai[0] < 25 && !player.noItems && !player.CCed;
+            if (!channeling)
             {
-                bool channeling = projectile.ai[0] < 25 && !player.noItems && !player.CCed;
-                if (!channeling)
-                {
-                    projectile.Kill();
-                }
-			}
-			if (projectile.ai[0] < 3)
+                projectile.Kill();
+            }
+            if (projectile.ai[0] < 3)
 			{
 				projectile.frame = 0;
 			}

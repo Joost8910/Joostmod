@@ -210,9 +210,11 @@ namespace JoostMod.NPCs.Bosses
                     float rotation = npc.rotation;
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
+                        //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation - 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation - 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
+                        //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation + 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation + 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
+                        //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
                 if (npc.ai[0] > 240)

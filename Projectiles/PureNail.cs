@@ -34,14 +34,14 @@ namespace JoostMod.Projectiles
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
-           Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-           projectile.ai[0]++;
-            if(Main.myPlayer == projectile.owner)
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            projectile.ai[0]++;
+            bool channeling = (player.itemAnimation > 1 || player.channel) && !player.noItems && !player.CCed;
+            if (channeling)
             {
-                bool channeling = (player.itemAnimation > 1 || player.channel) && !player.noItems && !player.CCed;
-                if(channeling)
+                if (player.itemAnimation <= 1)
                 {
-                    if (player.itemAnimation <= 1)
+                    if (Main.myPlayer == projectile.owner)
                     {
                         float scaleFactor6 = 1f;
                         if (player.inventory[player.selectedItem].shoot == projectile.type)
@@ -61,36 +61,37 @@ namespace JoostMod.Projectiles
                         }
                         projectile.velocity = vector13;
                     }
-                    if (projectile.ai[0] >= 30 && projectile.ai[0] < 90)
-                    {
-                        if (projectile.ai[0] % 15 == 0)
-                        {
-                            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);	
-                        }
-                        int dust = Dust.NewDust(player.position, player.width, player.height, 261);
-                        Main.dust[dust].noGravity = true;
-                    }
-                    if (projectile.ai[0] == 90)
-                    {
-                        Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
-                    }
-                    if (projectile.ai[0] > 90)
-                    {
-                        if (projectile.ai[0] % 6 == 0)
-                        {
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
-                        }
-                        int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height/2 * player.gravDir), 1, 1, 261, 5, -3*player.gravDir, 0, default(Color), 1);
-                        Main.dust[dust2].noGravity = true;
-                        int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height/2 * player.gravDir), 1, 1, 261, -5, -3*player.gravDir, 0, default(Color), 1);
-                        Main.dust[dust3].noGravity = true;
-                    }
                 }
-                else
+                if (projectile.ai[0] >= 30 && projectile.ai[0] < 90)
                 {
-                    projectile.Kill();
+                    if (projectile.ai[0] % 15 == 0)
+                    {
+                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
+                    }
+                    int dust = Dust.NewDust(player.position, player.width, player.height, 261);
+                    Main.dust[dust].noGravity = true;
                 }
-			}
+                if (projectile.ai[0] == 90)
+                {
+                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
+                }
+                if (projectile.ai[0] > 90)
+                {
+                    if (projectile.ai[0] % 6 == 0)
+                    {
+                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
+                    }
+                    int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 261, 5, -3 * player.gravDir, 0, default(Color), 1);
+                    Main.dust[dust2].noGravity = true;
+                    int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 261, -5, -3 * player.gravDir, 0, default(Color), 1);
+                    Main.dust[dust3].noGravity = true;
+                }
+            }
+            else
+            {
+                projectile.Kill();
+            }
+        
 			if (player.itemAnimation > (int)(8*(float)player.itemAnimationMax/9))
 			{
 				projectile.frame = 0;

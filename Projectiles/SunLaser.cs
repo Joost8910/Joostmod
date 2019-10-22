@@ -134,12 +134,12 @@ namespace JoostMod.Projectiles
 			player.heldProj = projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			#endregion
+            #endregion
 
-			#region Charging process
-			// Kill the projectile if the player stops channeling
-			if (!player.channel)
-			{
+            #region Charging process
+            // Kill the projectile if the player stops channeling
+            if (!player.channel || player.dead || !player.active || player.noItems || player.CCed)
+            {
 				projectile.Kill();
 			}
 			else

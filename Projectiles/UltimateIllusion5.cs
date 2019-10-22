@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    for (int j = 0; j < 15; j++)
+                    for (int j = 0; j < 12; j++)
                     {
                         Dust.NewDust(new Vector2((int)projectile.position.X + (i * 40), (int)projectile.position.Y + (j * 40)), 8, 8, Main.rand.Next(2), 0, 0, 0, default(Color), 1f + (Main.rand.Next(30) / 10f));
                     }

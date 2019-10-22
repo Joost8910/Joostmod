@@ -143,7 +143,7 @@ namespace JoostMod.Projectiles
 
 			#region Charging process
 			// Kill the projectile if the player stops channeling
-			if (!player.channel)
+			if (!player.channel || player.dead || !player.active || player.noItems || player.CCed)
 			{
 				projectile.Kill();
 			}

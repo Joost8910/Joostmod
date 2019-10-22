@@ -61,10 +61,10 @@ namespace JoostMod.Projectiles
                     }
                 }
             }
-            if (Main.myPlayer == projectile.owner && projectile.ai[0] <= 0)
+            if (projectile.ai[0] <= 0)
             {
                 bool channeling = player.channel && !player.noItems && !player.CCed && ai == 1;
-                if (channeling)
+                if (Main.myPlayer == projectile.owner && channeling)
                 {
                     float scaleFactor = 1f;
                     if (player.inventory[player.selectedItem].shoot == projectile.type)
