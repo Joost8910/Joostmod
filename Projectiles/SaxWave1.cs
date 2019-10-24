@@ -45,13 +45,10 @@ namespace JoostMod.Projectiles
 			{
 				Tile tileSafely2 = Framing.GetTileSafely(pos.X, pos.Y - 1);
 				if ((!tileSafely2.active() || !Main.tileSolid[(int)tileSafely2.type] || Main.tileSolidTop[(int)tileSafely2.type]))
-				{
-					for (int d = 0; d < 3; d++)
-					{
-						Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
-						dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat();
-					}
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);	
+                {
+                    Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
+                    dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat();
+                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);	
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 8, 0, 0, mod.ProjectileType("SaxWave2"), projectile.damage, projectile.knockBack, projectile.owner);					
 				}
 			}

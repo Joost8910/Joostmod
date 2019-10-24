@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -107,6 +108,7 @@ namespace JoostMod.NPCs.Bosses
                 }
                 crit = false;
                 npc.ai[2] += 1 + (damage / 2 * (Main.expertMode ? 2 : 1));
+                npc.netUpdate = true;
             }
             else
             {
@@ -122,11 +124,27 @@ namespace JoostMod.NPCs.Bosses
                 damage = damage / 3;
                 crit = false;
                 npc.ai[2] += 1 + (damage / 2 * (Main.expertMode ? 2 : 1));
+                npc.netUpdate = true;
             }
             else
             {
                 Main.PlaySound(SoundID.NPCHit18, npc.Center);
             }
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((int)npc.localAI[0]);
+            writer.Write((int)npc.localAI[1]);
+            writer.Write((int)npc.localAI[2]);
+            writer.Write((int)npc.localAI[3]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.localAI[0] = reader.ReadInt32();
+            npc.localAI[1] = reader.ReadInt32();
+            npc.localAI[2] = reader.ReadInt32();
+            npc.localAI[3] = reader.ReadInt32();
         }
         public override void AI()
         {

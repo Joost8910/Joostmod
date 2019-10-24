@@ -15,7 +15,8 @@ namespace JoostMod.Items.Weapons
 			Tooltip.SetDefault("'Crazy Gun Contraption of the legendary Boook'\n" +
 			"Does more damage as you kill bosses throughout the game\n" +
 			"Fires a crazy amount of bullets\n" + 
-            "Right click to fire arrows");
+            "Right click to fire arrows\n" + 
+            "Does 20% reduced damage when using Chlorophyte Bullets");
 		}
 		public override void SetDefaults()
 		{
@@ -25,7 +26,7 @@ namespace JoostMod.Items.Weapons
 			item.height = 48;
 			item.useTime = 2;
 			item.useAnimation = 16;
-			item.reuseDelay = 10;
+			item.reuseDelay = 12;
 			item.useStyle = 5;
 			item.noMelee = true; 
 			item.knockBack = 5;
@@ -73,7 +74,7 @@ namespace JoostMod.Items.Weapons
 		}
 		public override bool ConsumeAmmo(Player player)
 		{
-			return player.itemAnimation % 4 == 0;
+			return player.itemAnimation < item.useAnimation / 2;
 		}
         public override bool AltFunctionUse(Player player)
         {
@@ -101,6 +102,10 @@ namespace JoostMod.Items.Weapons
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
             {
                 position += muzzleOffset;
+            }
+            if (type == ProjectileID.ChlorophyteBullet)
+            {
+                damage = (int)(damage * 0.8f);
             }
             float spread = 180f * 0.0174f;
 			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);

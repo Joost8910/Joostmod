@@ -111,13 +111,13 @@ namespace JoostMod.Projectiles
                 if (projectile.localAI[1] > 0)
                 {
                     projectile.localAI[1]++;
-                    if (projectile.localAI[1] % 4 == 0)
+                    if (projectile.localAI[1] % 8 == 0)
                     {
                         float Speed = 5 + Main.rand.Next(70) * 0.1f;
                         float randRot = Main.rand.Next(360);
                         Vector2 vel = new Vector2((float)((Math.Cos(randRot) * Speed) * -1), (float)((Math.Sin(randRot) * Speed) * -1));
                         int type = ProjectileID.CultistBossLightningOrbArc;
-                        int p = Projectile.NewProjectile(projectile.Center, vel, type, projectile.damage / 3, 0, Main.myPlayer, randRot * 0.0174f);
+                        int p = Projectile.NewProjectile(projectile.Center, vel, type, projectile.damage / 2, 0, Main.myPlayer, randRot * 0.0174f);
                         Main.projectile[p].tileCollide = false;
                         Main.projectile[p].netUpdate = true;
                     }

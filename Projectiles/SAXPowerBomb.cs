@@ -74,7 +74,7 @@ namespace JoostMod.Projectiles
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("SAXPowerBombExplosion"), projectile.damage, projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("SAXPowerBombExplosion"), projectile.damage, projectile.knockBack);
             Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/FusionPowerBombExplosion"));
         }
     }

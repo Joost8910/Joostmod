@@ -75,7 +75,7 @@ namespace JoostMod.Projectiles
                         scaleFactor = player.inventory[player.selectedItem].shootSpeed;
                     }
                     Vector2 dir = Main.MouseWorld - projectile.Center;
-                    dir = dir.RotatedByRandom(MathHelper.ToRadians(60));
+                    dir = dir.RotatedByRandom(MathHelper.ToRadians(40));
                     dir.Normalize();
                     if (dir.HasNaNs())
                     {
@@ -83,7 +83,7 @@ namespace JoostMod.Projectiles
                     }
                     if (projectile.Distance(Main.MouseWorld) < 72)
                     {
-                        scaleFactor = projectile.Distance(Main.MouseWorld) / 4f;
+                        scaleFactor = projectile.Distance(Main.MouseWorld) / 2f;
                     }
                     if (dir.X * scaleFactor != projectile.velocity.X || dir.Y * scaleFactor != projectile.velocity.Y)
                     {

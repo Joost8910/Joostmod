@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -55,6 +56,21 @@ namespace JoostMod.NPCs.Bosses
         }
 
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((int)npc.localAI[0]);
+            writer.Write((int)npc.localAI[1]);
+            writer.Write((int)npc.localAI[2]);
+            writer.Write((int)npc.localAI[3]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.localAI[0] = reader.ReadInt32();
+            npc.localAI[1] = reader.ReadInt32();
+            npc.localAI[2] = reader.ReadInt32();
+            npc.localAI[3] = reader.ReadInt32();
+        }
         public override void FindFrame(int frameHeight)
         {
             npc.spriteDirection = npc.direction;

@@ -118,6 +118,7 @@ Version 0.8
 - All Joostmod Flails can now be controlled with mouse movement
 - All Joostmod Flails can now receive more prefixes
 - Boomerang bullets now only have a 1 out of 10 chance of coming back rather than a 1 out of 3
+- Boook's Bullet Hell deals 20% reduced damage with Chlorophyte Bullets
 - Cactuar Shield and X Shield now grant immunity to knockback
 - Cactus Balls fired by the Grand Cactus Worm now stick to tiles instead of popping into spikes
 - Cactus Person now leaves a trail of protective cactus as they walk on sand/cactus

@@ -97,7 +97,7 @@ namespace JoostMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("PowerBombExplosion2"), (int)(projectile.damage * 0.25f), projectile.knockBack, projectile.owner);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("PowerBombExplosion2"), (int)(projectile.damage * 0.25f), projectile.knockBack, projectile.owner);
 		}
 	}
 }

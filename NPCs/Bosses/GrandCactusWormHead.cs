@@ -148,7 +148,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.netUpdate = true;
                 }
             }
-            npc.localAI[2] = 0;
+            npc.ai[2] = 0;
             if (npc.life < npc.lifeMax/7 && npc.ai[0] != 0 && Main.expertMode)
             {
                 npc.ai[0] = 2;
@@ -166,7 +166,7 @@ namespace JoostMod.NPCs.Bosses
                 npc.life = npc.life < npc.lifeMax ? npc.life + 1 + (int)((float)npc.lifeMax * 0.001f) : npc.lifeMax;
                 targetPos = npc.Center + new Vector2((float)Math.Cos(npc.rotation - 1.585f) * 160, (float)Math.Sin(npc.rotation - 1.585f) * 160);
                 npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
-                npc.localAI[2] = 0;
+                npc.ai[2] = 0;
                 if (Vector2.Distance(npc.Center, P.MountedCenter) < 700 && P.active && !P.dead)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 300, P.MountedCenter.Y - 300);
@@ -242,7 +242,7 @@ namespace JoostMod.NPCs.Bosses
                     targetPos = new Vector2(npc.Center.X, npc.Center.Y + 400);
                     npc.rotation = (float)Math.PI;
                     speed = 16;
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                     npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
                 }
                 if (npc.ai[1] >= 600 && npc.ai[1] < 624)
@@ -286,51 +286,51 @@ namespace JoostMod.NPCs.Bosses
                     targetPos = new Vector2(npc.Center.X, npc.Center.Y - 400);
                     speed = 16;
                     npc.rotation = 0;
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                     npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
                 }
                 if (npc.ai[1] >= 995 && npc.ai[1] < 1020)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 400, P.MountedCenter.Y - 300);
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                     speed = 10;
                 }
                 if (npc.ai[1] == 1020)
                 {
                     targetPos = new Vector2(P.MountedCenter.X + 200 * npc.direction, P.MountedCenter.Y + 300);
                     speed = 14;
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                     npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
                 }
                 if (npc.ai[1] >= 1050 && npc.ai[1] < 1080)
                 {
                     targetPos = new Vector2(P.MountedCenter.X + 200 * npc.direction, P.MountedCenter.Y - 300);
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                     speed = 2;
                 }
                 if (npc.ai[1] == 1080)
                 {
                     targetPos = new Vector2(P.MountedCenter.X + 200 * npc.direction, P.MountedCenter.Y - 300);
                     speed = 14;
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                     npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
                 }
                 if (npc.ai[1] >= 1111 && npc.ai[1] < 1140)
                 {
                     targetPos = new Vector2(P.MountedCenter.X + 100 * npc.direction, P.MountedCenter.Y);
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                     speed = 5;
                 }
                 if (npc.ai[1] == 1140)
                 {
                     targetPos = new Vector2(P.MountedCenter.X + 200, P.MountedCenter.Y - 100);
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                     speed = 14;
                 }
                 if (npc.ai[1] == 1160)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 200, P.MountedCenter.Y - 100);
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                     speed = 14;
                 }
                 if (npc.ai[1] == 1180)
@@ -351,7 +351,7 @@ namespace JoostMod.NPCs.Bosses
                     speed = -2;
                     Vector2 dir = npc.DirectionTo(P.MountedCenter);
                     npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                     npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
                 }
                 if (npc.ai[1] == 1240 || npc.ai[1] == 1290 || npc.ai[1] == 1340 || npc.ai[1] == 1390)
@@ -362,7 +362,7 @@ namespace JoostMod.NPCs.Bosses
                 }
                 if (npc.ai[1] >= 1240 && npc.ai[1] <= 1390)
                 {
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                 }
                 if (npc.ai[1] == 1440)
                 {
@@ -372,7 +372,7 @@ namespace JoostMod.NPCs.Bosses
                 }
                 if (npc.ai[1] >= 1440 && npc.ai[1] < 1460)
                 {
-                    npc.localAI[2] = -1;
+                    npc.ai[2] = -1;
                 }
                 if (npc.ai[1] >= 1460 && npc.ai[1] <= 1620)
                 {
@@ -400,7 +400,7 @@ namespace JoostMod.NPCs.Bosses
                     float rotation = npc.ai[1] * 0.0174f * 9;
                     targetPos = P.MountedCenter + (new Vector2((float)(Math.Cos(rotation) * 100), (float)(Math.Sin(rotation) * 100)));
                     speed = 4;
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                 }
                 if (npc.ai[1] >= 1820 && npc.ai[1] < 1945)
                 {
@@ -436,7 +436,7 @@ namespace JoostMod.NPCs.Bosses
                     float rotation = npc.ai[1] * 0.0174f * 9;
                     targetPos = P.MountedCenter + (new Vector2((float)(Math.Cos(rotation) * 100), (float)(Math.Sin(rotation) * 100)));
                     speed = 4;
-                    npc.localAI[2] = 1;
+                    npc.ai[2] = 1;
                 }
                 if (npc.ai[1] >= 2215 && npc.ai[1] < 2340)
                 {
@@ -473,11 +473,11 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[1] = 0;
                 }
             }
-            if (npc.localAI[2] == 0 && (targetPos == P.MountedCenter || npc.Distance(targetPos) < 100))
+            if (npc.ai[2] == 0 && (targetPos == P.MountedCenter || npc.Distance(targetPos) < 100))
             {
-                npc.localAI[2] = 1;
+                npc.ai[2] = 1;
             }
-            if (npc.localAI[2] > 0)
+            if (npc.ai[2] > 0)
             {
                 float home = 20f;
                 Vector2 move = targetPos - npc.Center;
@@ -491,7 +491,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.velocity *= (float)(speed / npc.velocity.Length());
                 }
             }
-            else if (npc.localAI[2] == 0)
+            else if (npc.ai[2] == 0)
             {
                 npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
             }

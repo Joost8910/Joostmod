@@ -128,7 +128,6 @@ namespace JoostMod.NPCs.Bosses
 		}
 		public override void AI()
 		{
-			npc.ai[0]++;
 			npc.netUpdate = true;
 			Player P = Main.player[npc.target];
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -305,8 +304,8 @@ namespace JoostMod.NPCs.Bosses
 			{
 				npc.ai[3] = 0;
 			}
-			npc.localAI[1]++;
-			if (Main.expertMode && npc.localAI[1] >= 700)
+			npc.ai[0]++;
+			if (Main.expertMode && npc.ai[0] >= 700)
 			{
 				if (Main.rand.Next(4) == 0 && npc.localAI[2] <= 0)
 				{
@@ -370,7 +369,7 @@ namespace JoostMod.NPCs.Bosses
 					if (npc.localAI[2] > 180)
 					{
                         npc.localAI[2] = 0;
-                        npc.localAI[1] = 0;
+                        npc.ai[0] = 0;
 					}
 				}
 				else
@@ -390,7 +389,7 @@ namespace JoostMod.NPCs.Bosses
                             NPC.NewNPC((int)npc.position.X + 240, (int)npc.position.Y - 70, mod.NPCType("GiantNeedle"), 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
                         }
                     }
-                    npc.localAI[1] = 0;
+                    npc.ai[0] = 0;
 				}
 			}
 			if (npc.ai[1] < 1500)
