@@ -12,5 +12,10 @@ namespace JoostMod.Buffs
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
-	}
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.npcTypeNoAggro[mod.NPCType("Cactoid")] = true;
+            player.npcTypeNoAggro[mod.NPCType("Cactite")] = true;
+        }
+    }
 }

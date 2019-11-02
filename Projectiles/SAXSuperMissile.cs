@@ -42,8 +42,11 @@ namespace JoostMod.Projectiles
         }
         public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("SAXExplosion"), projectile.damage, projectile.knockBack, projectile.owner);
-			Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y,  mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));				
+            if (Main.netMode != 1)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("SAXExplosion"), projectile.damage, projectile.knockBack, projectile.owner);
+            }
+            Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y,  mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));				
 		}
 	}
 }

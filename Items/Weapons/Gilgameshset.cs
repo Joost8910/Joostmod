@@ -123,7 +123,10 @@ namespace JoostMod.Items.Weapons
             }
             if (Gilgwep == 0)
             {
+                float Speed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                 Projectile.NewProjectile(position.X, position.Y, (speedX * 1.5f), (speedY * 1.5f), mod.ProjectileType("Tomahawk"), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, (speedX * 1.2f), (speedY * 1.2f), mod.ProjectileType("Tomahawk"), damage, knockBack, player.whoAmI, 1, Speed * 1.2f);
+
             }
             return false;
         }

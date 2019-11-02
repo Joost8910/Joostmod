@@ -157,10 +157,10 @@ namespace JoostMod.Projectiles
                     num219 = num212 / num219;
                     num217 *= num219;
                     num218 *= num219;
-                    projectile.velocity.X = projectile.velocity.X * 0.98f;
-                    projectile.velocity.Y = projectile.velocity.Y * 0.98f;
-                    projectile.velocity.X = projectile.velocity.X + num217;
-                    projectile.velocity.Y = projectile.velocity.Y + num218;
+                    projectile.velocity.X = projectile.velocity.X * (0.96f + projectile.localAI[0] * 2);
+                    projectile.velocity.Y = projectile.velocity.Y * (0.96f + projectile.localAI[0] * 2);
+                    projectile.velocity.X = projectile.velocity.X + num217 * (1.5f - projectile.localAI[0] * 50);
+                    projectile.velocity.Y = projectile.velocity.Y + num218 * (1.5f - projectile.localAI[0] * 50);
                     if (projectile.localAI[1] <= 0)
                     {
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("TerraFuryBeam"), (int)(projectile.damage * 1.0f), 0, projectile.owner);
@@ -175,22 +175,35 @@ namespace JoostMod.Projectiles
                 {
                     if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 6f)
                     {
-                        projectile.velocity.X = projectile.velocity.X * 0.96f;
+                        projectile.velocity.X = projectile.velocity.X * (0.92f + projectile.localAI[0] * 4);
                         projectile.velocity.Y = projectile.velocity.Y + 0.2f;
                     }
                     if (Main.player[projectile.owner].velocity.X == 0f)
                     {
-                        projectile.velocity.X = projectile.velocity.X * 0.96f;
+                        projectile.velocity.X = projectile.velocity.X * (0.92f + projectile.localAI[0] * 4);
                     }
                 }
+            }
+            else
+            {
+                projectile.ai[0] = 0;
+                projectile.localAI[0] = 0.01f;
             }
             if (projectile.velocity.X < 0f)
             {
                 projectile.rotation -= (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f;
+                if (player.direction < 0)
+                {
+                    player.heldProj = projectile.whoAmI;
+                }
             }
             else
             {
                 projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f;
+                if (player.direction > 0)
+                {
+                    player.heldProj = projectile.whoAmI;
+                }
             }
             return false;
         }

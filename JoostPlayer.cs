@@ -497,6 +497,11 @@ namespace JoostMod
                     caughtType = mod.ItemType("Sunfish");
                 }
             }
+            if (liquidType == 0 && Main.rand.Next(Math.Max(20, 1000 / power)) == 0 && Main.hardMode && cactoidCommendation && player.ZoneDesert)
+            {
+                caughtType = mod.ItemType("CactoidCompact");
+            }
+
             if (lunarRod && Main.rand.Next(4) == 0)
             {
                 caughtType = 3456 + Main.rand.Next(4);
@@ -766,6 +771,8 @@ namespace JoostMod
             }
             if (cactoidCommendation)
             {
+                player.npcTypeNoAggro[mod.NPCType("Cactoid")] = true;
+                player.npcTypeNoAggro[mod.NPCType("Cactite")] = true;
                 cactoidCommendationTimer -= 1 + Main.rand.Next(2);
                 if (cactoidCommendationTimer <= 0)
                 {

@@ -45,9 +45,24 @@ namespace JoostMod.NPCs.Bosses
                 npc.frame.Y = 0;
             }
         }
+        private ModPacket GetPacket()
+        {
+            ModPacket packet = mod.GetPacket();
+            packet.Write((byte)JoostModMessageType.KillNPC);
+            packet.Write(npc.whoAmI);
+            return packet;
+        }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            npc.localAI[3] = 15;
+            npc.DeathSound = SoundID.NPCDeath19;
+            target.AddBuff(mod.BuffType("InfectedRed"), 900);
+            npc.life = 0;
+            npc.checkDead();
+            if (Main.netMode != 0)
+            {
+                ModPacket netMessage = GetPacket();
+                netMessage.Send();
+            }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -72,7 +87,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void AI()
         {
-            if (npc.ai[0] < 1)
+            if (npc.ai[0] == 0)
             {
                 npc.scale = 0.8f + (Main.rand.Next(7) * 0.05f);
                 npc.width = (int)(28 * npc.scale);
@@ -81,8 +96,9 @@ namespace JoostMod.NPCs.Bosses
                 npc.life = (int)(1000 * npc.scale * (Main.expertMode ? 2 : 1));
                 npc.lifeMax = npc.life;
                 npc.velocity = new Vector2(Main.rand.Next(11) - 5, Main.rand.Next(11) - 5);
+                npc.ai[0]++;
+                npc.netUpdate = true;
             }
-            npc.ai[0]++;
             Player P = Main.player[npc.target];
             if (npc.target < 0 || npc.target == 255 || P.dead || !P.active)
             {
@@ -116,22 +132,28 @@ namespace JoostMod.NPCs.Bosses
             if (npc.ai[1] > 90)
             {
                 npc.ai[1] = 0;
-            }
-            if (npc.localAI[3] > 10)
+            }/*
+            if (npc.ai[2] > 10)
             {
                 npc.DeathSound = SoundID.NPCDeath19;
                 npc.damage = 0;
                 npc.dontTakeDamage = true;
                 npc.position = P.MountedCenter - new Vector2(npc.width / 2, 28 - npc.scale * 14);
                 npc.velocity = P.velocity;
-                npc.scale -= 0.05f;
-                if (npc.scale <= 0.1f)
+                npc.ai[0] -= 0.05f;
+                npc.scale = npc.ai[0];
+                if (npc.ai[0] <= 0.1f)
                 {
                     P.AddBuff(mod.BuffType("InfectedRed"), 900);
                     npc.life = 0;
+                    npc.active = false;
                     npc.checkDead();
+                    if (Main.netMode != 0)
+                    {
+                        NetMessage.SendData(23, -1, -1, null, npc.whoAmI);
+                    }
                 }
-            }
+            }*/
         }
     }
 }

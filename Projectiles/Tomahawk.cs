@@ -27,11 +27,13 @@ namespace JoostMod.Projectiles
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
+            /*
             if (projectile.ai[0] == 0)
             {
                 projectile.ai[0] += 11;
                 Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.8f, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 1, projectile.velocity.Length() * 0.8f);
             }
+            */
             if (projectile.ai[0] > 0 && projectile.ai[0] < 8)
             {
                 projectile.velocity = Vector2.Zero;
@@ -43,10 +45,10 @@ namespace JoostMod.Projectiles
                 projectile.ai[0]++;
                 Main.PlaySound(SoundID.Item19, projectile.Center);
                 Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-                if (Main.myPlayer == projectile.owner)
+                bool channeling = !player.dead && !player.noItems && !player.CCed;
+                if (channeling)
                 {
-                    bool channeling = !player.dead && !player.noItems && !player.CCed;
-                    if (channeling)
+                    if (Main.myPlayer == projectile.owner)
                     {
                         float scaleFactor6 = projectile.ai[1];
                         Vector2 vector13 = Main.MouseWorld - vector;
@@ -62,10 +64,10 @@ namespace JoostMod.Projectiles
                         }
                         projectile.velocity = vector13;
                     }
-                    else
-                    {
-                        projectile.Kill();
-                    }
+                }
+                else
+                {
+                    projectile.Kill();
                 }
             }
             projectile.direction = (projectile.velocity.X < 0 ? -1 : 1);

@@ -68,6 +68,8 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write((int)npc.width);
+            writer.Write((int)npc.height);
             writer.Write((int)npc.localAI[0]);
             writer.Write((int)npc.localAI[1]);
             writer.Write((int)npc.localAI[2]);
@@ -76,6 +78,8 @@ namespace JoostMod.NPCs.Bosses
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            npc.width = reader.ReadInt32();
+            npc.height = reader.ReadInt32();
             npc.localAI[0] = reader.ReadInt32();
             npc.localAI[1] = reader.ReadInt32();
             npc.localAI[2] = reader.ReadInt32();

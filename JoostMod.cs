@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 using System.IO;
+using JoostMod.NPCs.Bosses;
 
 namespace JoostMod
 {
@@ -90,6 +91,18 @@ namespace JoostMod
                 case JoostModMessageType.ActiveQuest:
                     int quest = reader.ReadInt32();
                     JoostWorld.activeQuest = quest;
+                    break;
+                case JoostModMessageType.SAXCore:
+                    SAXCoreX sax = Main.npc[reader.ReadInt32()].modNPC as SAXCoreX;
+                    if (sax != null && sax.npc.active)
+                    {
+                        sax.HandlePacket(reader);
+                    }
+                    break;
+                case JoostModMessageType.KillNPC:
+                    int b = reader.ReadInt32();
+                    Main.npc[b].life = 0;
+                    Main.npc[b].checkDead();
                     break;
                 default:
                     ErrorLogger.Log("JoostMod: Unknown Message type: " + msgType);
@@ -450,7 +463,9 @@ namespace JoostMod
     }
     enum JoostModMessageType : byte
     {
-        ActiveQuest
+        ActiveQuest,
+        SAXCore,
+        KillNPC
     }
     public class HuntInfo
     {

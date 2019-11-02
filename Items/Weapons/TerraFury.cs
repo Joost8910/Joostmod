@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             position.Y -= (item.scale * 42) - 42;
-            Projectile.NewProjectile(position.X, position.Y, -speedX, -speedY, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, -speedX, -speedY, type, damage, knockBack, player.whoAmI, 2f);
             return true;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

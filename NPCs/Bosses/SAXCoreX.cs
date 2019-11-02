@@ -107,8 +107,8 @@ namespace JoostMod.NPCs.Bosses
                     damage = damage / 5;
                 }
                 crit = false;
-                npc.ai[2] += 1 + (damage / 2 * (Main.expertMode ? 2 : 1));
-                npc.netUpdate = true;
+                //npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                //npc.netUpdate = true;
             }
             else
             {
@@ -123,28 +123,86 @@ namespace JoostMod.NPCs.Bosses
             {
                 damage = damage / 3;
                 crit = false;
-                npc.ai[2] += 1 + (damage / 2 * (Main.expertMode ? 2 : 1));
-                npc.netUpdate = true;
+                //npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                //npc.netUpdate = true;
             }
             else
             {
                 Main.PlaySound(SoundID.NPCHit18, npc.Center);
             }
         }
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
+            if (npc.ai[0] < 56)
+            {
+                npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                if (Main.netMode != 0)
+                {
+                    ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
+                    netMessage.Write((int)npc.ai[2]);
+                    if (Main.netMode == 1)
+                    {
+                        netMessage.Write(Main.myPlayer);
+                    }
+                    netMessage.Send();
+                }
+            }
+        }
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            Vector2 vect = npc.velocity;
+            vect.Normalize();
+            Rectangle eye = new Rectangle((int)(npc.Center.X + (vect.X * 24)) - 16, (int)(npc.Center.Y + (vect.Y * 24)) - 16, 32, 32);
+            if (npc.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
+            {
+                npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                if (Main.netMode != 0)
+                {
+                    ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
+                    netMessage.Write((int)npc.ai[2]);
+                    if (Main.netMode == 1)
+                    {
+                        netMessage.Write(Main.myPlayer);
+                    }
+                    netMessage.Send();
+                }
+            }
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((int)npc.localAI[0]);
             writer.Write((int)npc.localAI[1]);
-            writer.Write((int)npc.localAI[2]);
-            writer.Write((int)npc.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.localAI[0] = reader.ReadInt32();
             npc.localAI[1] = reader.ReadInt32();
-            npc.localAI[2] = reader.ReadInt32();
-            npc.localAI[3] = reader.ReadInt32();
+        }
+
+        private ModPacket GetPacket(SAXCoreMessageType type)
+        {
+            ModPacket packet = mod.GetPacket();
+            packet.Write((byte)JoostModMessageType.SAXCore);
+            packet.Write(npc.whoAmI);
+            packet.Write((byte)type);
+            return packet;
+        }
+        public void HandlePacket(BinaryReader reader)
+        {
+            SAXCoreMessageType type = (SAXCoreMessageType)reader.ReadByte();
+            if (type == SAXCoreMessageType.ShellHit)
+            {
+                int ai2 = reader.ReadInt32();
+                npc.ai[2] = ai2;
+                if (Main.netMode == 2)
+                {
+                    ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
+                    int ignore = reader.ReadInt32();
+                    netMessage.Write(ai2);
+                    netMessage.Send(-1, ignore);
+                }
+            }
         }
         public override void AI()
         {
@@ -161,14 +219,14 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
             npc.direction = 1;
-            npc.localAI[1] = 3;
+            float moveSpeed = 3;
             if (npc.Distance(P.MountedCenter) > 120)
             {
-                npc.localAI[1] = 3 + (npc.Distance(P.MountedCenter) - 120) / 40;
+                moveSpeed = 3 + (npc.Distance(P.MountedCenter) - 120) / 40;
             }
             if (npc.ai[0] < 56)
             {
-                npc.velocity = npc.DirectionTo(P.Center) * npc.localAI[1];
+                npc.velocity = npc.DirectionTo(P.Center) * moveSpeed;
                 npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
             }
             if (npc.ai[0] % 5 == 0)
@@ -179,7 +237,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.localAI[0] = 0;
                 }
             }
-            if (npc.localAI[3] > 0 && npc.ai[0] > 90)
+            if (npc.ai[1] > 0 && npc.ai[0] > 90)
             {
                 if (npc.ai[0] == 100)
                 {
@@ -192,7 +250,7 @@ namespace JoostMod.NPCs.Bosses
                 npc.velocity = Vector2.Zero;
                 if (npc.ai[0] < 200)
                 {
-                    npc.localAI[2] += 0.1f;
+                    npc.localAI[1] += 0.1f;
                 }
                 Vector2 vect = npc.velocity;
                 vect.Normalize();
@@ -214,7 +272,7 @@ namespace JoostMod.NPCs.Bosses
                     Dust dust = Main.dust[dustIndex];
                     dust.noGravity = true;
                 }
-                npc.rotation = npc.ai[0] * 0.0174f * npc.localAI[2];
+                npc.rotation = npc.ai[0] * 0.0174f * npc.localAI[1];
                 if (npc.ai[0] == 180)
                 {
                     Main.PlaySound(42, npc.Center, 44);
@@ -239,8 +297,8 @@ namespace JoostMod.NPCs.Bosses
                 {
                     npc.ai[0] = -150;
                     npc.ai[3] = 0;
-                    npc.localAI[2] = 0;
-                    npc.localAI[3] = 0;
+                    npc.localAI[1] = 0;
+                    npc.ai[1] = 0;
                 }
             }
             else
@@ -252,7 +310,7 @@ namespace JoostMod.NPCs.Bosses
                     predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, npc.Center) / speed));
                     predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, npc.Center) / speed));
                     Vector2 dir = npc.DirectionTo(predictedPos);
-                    npc.velocity = dir * npc.localAI[1];
+                    npc.velocity = dir * moveSpeed;
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
                 }
                 if (npc.ai[0] > 90 && npc.ai[0] < 200)
@@ -310,7 +368,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[3]++;
                     if (npc.ai[3] > 20)
                     {
-                        npc.localAI[3] = 1;
+                        npc.ai[1] = 1;
                     }
                 }
             }
@@ -336,7 +394,7 @@ namespace JoostMod.NPCs.Bosses
                     }
                         
                 }
-                npc.ai[2] = 0;
+                npc.ai[2] = 1;
                 npc.ai[3]++;
             }
         }
@@ -408,6 +466,10 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
+    }
+    enum SAXCoreMessageType : byte
+    {
+        ShellHit
     }
 }
 

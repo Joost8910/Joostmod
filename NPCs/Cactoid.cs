@@ -19,7 +19,7 @@ namespace JoostMod.NPCs
 			npc.height = 70;
 			npc.damage = 0;
 			npc.defense = 5;
-			if(Main.expertMode)
+			if (Main.expertMode)
 			{
                 if (Main.hardMode)
                 {
@@ -29,28 +29,41 @@ namespace JoostMod.NPCs
                 {
                     npc.lifeMax = 150;
                 }
-			}
+                npc.defense = 10;
+            }
 			else
 			{
 				npc.lifeMax = 75;
-			}
+            }
+            if (NPC.downedPlantBoss)
+            {
+                if (Main.expertMode)
+                {
+                    npc.lifeMax = 450;
+                }
+                else
+                {
+                    npc.lifeMax = 225;
+                }
+                npc.defense = 20;
+            }
             if (NPC.downedMoonlord)
             {
                 if (Main.expertMode)
                 {
-                    npc.lifeMax = 1200;
+                    npc.lifeMax = 1800;
                 }
                 else
                 {
-                    npc.lifeMax = 600;
+                    npc.lifeMax = 900;
                 }
-                npc.defense = 20;
+                npc.defense = 30;
             }
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
             npc.value = Item.buyPrice(0, 0, 0, 90);
             npc.knockBackResist = 0.4f;
-			npc.aiStyle = 0;
+			npc.aiStyle = -1;
 			npc.frameCounter = 0;
 			banner = npc.type;
 			bannerItem = mod.ItemType("CactoidBanner");  
@@ -123,7 +136,7 @@ namespace JoostMod.NPCs
 			}
             if (npc.friendly)
             {
-                npc.ai[3] = 20;
+                npc.ai[3] = 45;
             }
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -136,17 +149,17 @@ namespace JoostMod.NPCs
         }
         public override void AI()
 		{
-            Player player = Main.player[npc.target];
             if (!npc.friendly && (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active))
             {
                 npc.TargetClosest(false);
             }
+            Player player = Main.player[npc.target];
             bool playerCactoid = (player.GetModPlayer<JoostPlayer>().cactoidCommendation || player.HasBuff(mod.BuffType("CactoidFriend")));
             bool cactusPersonNear = false;
             int cactusPerson = -1;
             if (!playerCactoid)
             {
-                float num = 0f;
+                float num = 600f;
                 for (int i = 0; i < 255; i++)
                 {
                     if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>().cactoidCommendation || Main.player[i].HasBuff(mod.BuffType("CactoidFriend"))))
@@ -239,9 +252,13 @@ namespace JoostMod.NPCs
                 int num = 1;
                 for (int k = 0; k < npc.whoAmI; k++)
                 {
-                    if (Main.npc[k].active && Main.npc[k].target == npc.target && (Main.npc[k].type == npc.type || Main.npc[k].type == mod.NPCType("Cactoid")))
+                    if (Main.npc[k].active && Main.npc[k].target == npc.target && (Main.npc[k].type == npc.type || Main.npc[k].type == mod.NPCType("Cactite")))
                     {
                         num++;
+                        if (num > 40)
+                        {
+                            num = 0;
+                        }
                     }
                 }
                 if (npc.velocity.X > 0f)
@@ -280,19 +297,17 @@ namespace JoostMod.NPCs
                 if (player.HasMinionAttackTargetNPC && playerCactoid)
                 {
                     NPC N = Main.npc[player.MinionAttackTargetNPC];
-                    if (Collision.CanHitLine(npc.position, npc.width, npc.height, N.position, N.width, N.height))
-                    {
-                        targetDist = Vector2.Distance(npc.Center, targetPos);
-                        targetPos = N.Center;
-                        target = true;
-                    }
+                    targetDist = Vector2.Distance(npc.Center, targetPos);
+                    targetPos = N.Center;
+                    target = true;
+                    npc.ai[0] = 0;
                 }
                 else
                 {
                     for (int k = 0; k < 200; k++)
                     {
                         NPC N = Main.npc[k];
-                        if (N.active && !N.friendly && !N.dontTakeDamage && N.damage > 0)
+                        if (N.active && !N.friendly && !N.dontTakeDamage && N.lifeMax > 5 && N.chaseable && !N.immortal)
                         {
                             float distance = Vector2.Distance(npc.Center, N.Center);
                             if ((distance < targetDist || !target) && Collision.CanHitLine(npc.position, npc.width, npc.height, N.position, N.width, N.height))
@@ -300,6 +315,7 @@ namespace JoostMod.NPCs
                                 targetDist = distance;
                                 targetPos = N.Center;
                                 target = true;
+                                npc.ai[0] = 0;
                             }
                         }
                     }
@@ -308,7 +324,7 @@ namespace JoostMod.NPCs
                 {
                     npc.ai[0] = 1f;
                 }
-                if (Vector2.Distance(Main.npc[cactusPerson].Center, npc.Center) > 600f && cactusPersonNear && !playerCactoid)
+                if (cactusPerson > -1 && Vector2.Distance(Main.npc[cactusPerson].Center, npc.Center) > 600f && cactusPersonNear && !playerCactoid)
                 {
                     npc.ai[0] = 1f;
                 }
@@ -320,6 +336,10 @@ namespace JoostMod.NPCs
                     direction.Normalize();
                     npc.direction = direction.X < 0 ? -1 : 1;
                     npc.velocity.X = (npc.velocity.X * inertia + direction.X * chaseAccel) / (inertia + 1);
+                    if (Math.Abs(npc.velocity.X) < 0.5f)
+                    {
+                        npc.velocity.X = 0;
+                    }
                     if (targetPos.Y + 60 < npc.position.Y && npc.velocity.Y == 0)
                     {
                         npc.velocity.Y = -10;
@@ -360,11 +380,15 @@ namespace JoostMod.NPCs
                     {
                         npc.direction = Main.player[npc.target].direction;
                         npc.velocity.X *= (float)Math.Pow(0.9, 40.0 / inertia);
+                        if (Math.Abs(npc.velocity.X) < 0.5f)
+                        {
+                            npc.velocity.X = 0;
+                        }
                     }
                 }
-                else if (Vector2.Distance(Main.npc[cactusPerson].Center, npc.Center) > 600f && cactusPersonNear)
+                else if (cactusPerson > -1 && Vector2.Distance(Main.npc[cactusPerson].Center, npc.Center) > 600f && cactusPersonNear)
                 {
-                    if (npc.Center.X > Main.npc[cactusPerson].Center.X)
+                    if (cactusPerson > -1 && npc.Center.X > Main.npc[cactusPerson].Center.X)
                     {
                         npc.direction = -1;
                     }
@@ -380,7 +404,7 @@ namespace JoostMod.NPCs
                 }
                 else
                 {
-                    if (cactusPersonNear && Vector2.Distance(Main.npc[cactusPerson].Center, npc.Center) < 400f)
+                    if (cactusPerson > -1 && cactusPersonNear && Vector2.Distance(Main.npc[cactusPerson].Center, npc.Center) < 400f)
                     {
                         npc.ai[0] = 0;
                     }
@@ -411,9 +435,14 @@ namespace JoostMod.NPCs
             {
                 if (npc.ai[2] < 1)
                 {
-                    npc.aiStyle = 0;
+                    npc.aiStyle = -1;
                     npc.damage = 0;
                     npc.ai[1] += 1 + Main.rand.Next(5);
+                    npc.netUpdate = true;
+                    if (npc.direction == 0)
+                    {
+                        npc.direction = -1;
+                    }
                     if (npc.ai[1] > 900)
                     {
                         if (npc.velocity.X == 0 && npc.velocity.Y == 0)

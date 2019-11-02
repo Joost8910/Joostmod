@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles
 		}
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type == mod.NPCType("Cactoid") || target.type == mod.NPCType("Cactite") || target.damage == 0)
+            if (target.type == mod.NPCType("Cactoid") || target.type == mod.NPCType("Cactite") || target.friendly || target.lifeMax <= 5 || !target.chaseable)
             {
                 return false;
             }
