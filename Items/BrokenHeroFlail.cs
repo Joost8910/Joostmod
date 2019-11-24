@@ -1,6 +1,3 @@
-using System; 
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items
@@ -16,7 +13,7 @@ namespace JoostMod.Items
 			item.maxStack = 999;
 			item.width = 26;
 			item.height = 26;
-			item.value = 1000000;
+			item.value = 100000;
 			item.rare = 8;
 		}
 

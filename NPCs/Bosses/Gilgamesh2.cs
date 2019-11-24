@@ -1948,7 +1948,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CheckDead()
         {
-            if (!npc.dontTakeDamage)
+            if (npc.ai[3] != 100)
             {
                 Main.PlaySound(SoundLoader.customSoundType, npc.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/Gilgamesh"));
                 npc.ai[0] = 120;
@@ -1956,7 +1956,8 @@ namespace JoostMod.NPCs.Bosses
                 npc.velocity.X = npc.direction * -32;
                 npc.velocity.Y = -8;
                 npc.damage = 0;
-                npc.life = npc.lifeMax;
+                npc.ai[3] = 100;
+                npc.life = 1;
                 npc.dontTakeDamage = true;
                 npc.netUpdate = true;
                 npc.NPCLoot();
@@ -1983,8 +1984,9 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool PreAI()
         {
-            if (npc.dontTakeDamage)
+            if (npc.ai[3] == 100)
             {
+                npc.dontTakeDamage = true;
                 npc.ai[0]--;
                 npc.velocity.X = npc.direction * -32;
                 npc.velocity.Y = -8;

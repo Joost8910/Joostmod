@@ -24,7 +24,12 @@ namespace JoostMod.Tiles
             name.SetDefault("Shrine of Legends");
             AddMapEntry(new Color(0, 145, 100), name);
             dustType = 42;
-            mineResist = 100;
+            minPick = 100;
+            mineResist = 3f;
+        }
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

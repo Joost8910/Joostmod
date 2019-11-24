@@ -57,6 +57,11 @@ namespace JoostMod.Items
                 Main.NewText("You can't get the drill containment unit from the Wonder Waffle until after beating the Golem", Color.OrangeRed);
                 buffID = Main.rand.Next(buffCount);
             }
+            while (ModContent.GetModBuff(buffID).Name == "PrimordiaCurse")
+            {
+                Main.NewText("Prevented " + Lang.GetBuffName(buffID) + " from crashing the game", Color.OrangeRed);
+                buffID = Main.rand.Next(buffCount);
+            }
             player.AddBuff(buffID, length, false);
             return true;
         }

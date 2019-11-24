@@ -157,7 +157,7 @@ namespace JoostMod.Projectiles
                 Player player = Main.player[projectile.owner];
                 Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);	
-                if (Math.Abs(player.velocity.X) > 7 && player.velocity.X * projectile.velocity.X > 0 && Math.Abs(projectile.velocity.Y) < 3)
+                if (Math.Abs(player.velocity.X) >= 6 && player.velocity.X * projectile.velocity.X > 0 && Math.Abs(projectile.velocity.Y) < 3)
                 {
                     Projectile.NewProjectile(pos.X, pos.Y, player.direction * 40, 0, mod.ProjectileType("DashSlash"), projectile.damage * 9, projectile.knockBack * 5, projectile.owner);
                     player.velocity.X += 7 * player.direction;

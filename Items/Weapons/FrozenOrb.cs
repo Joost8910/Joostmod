@@ -25,7 +25,7 @@ namespace JoostMod.Items.Weapons
 			item.height = 50;
 			item.useTime = 60;
 			item.useAnimation = 60;
-			item.useStyle = 1;
+			item.useStyle = 5;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.knockBack = 4;

@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
             item.useStyle = 1;
             item.consumable = true;
             item.rare = 3;
-            item.value = Item.buyPrice(10, 0, 0, 0);
+            item.value = Item.buyPrice(0, 0, 3, 0);
             item.createTile = mod.TileType("FrostFurnace");
             item.placeStyle = 0;
         }

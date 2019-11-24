@@ -18,7 +18,8 @@ namespace JoostMod.Items.Weapons
 		{
 			item.damage = 72;
 			item.summon = true;
-			item.mana = 20;
+            item.magic = true;
+            item.mana = 20;
 			item.width = 36;
 			item.height = 36;
 			item.useTime = 35;
@@ -34,11 +35,13 @@ namespace JoostMod.Items.Weapons
 			item.shoot = mod.ProjectileType("HomingSoulmass");
 			item.shootSpeed = 0f;
         }
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.magicDamage - 1f);
             mult *= player.magicDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.magicCrit;

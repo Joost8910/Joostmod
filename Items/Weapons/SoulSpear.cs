@@ -18,7 +18,8 @@ namespace JoostMod.Items.Weapons
 		{
 			item.damage = 225;
 			item.thrown = true;
-			item.mana = 20;
+            item.magic = true;
+            item.mana = 20;
 			item.width = 36;
 			item.height = 36;
 			item.useTime = 20;
@@ -34,14 +35,16 @@ namespace JoostMod.Items.Weapons
 			item.shoot = mod.ProjectileType("SoulSpear");
 			item.shootSpeed = 15f;
         }
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.magicDamage - 1f);
             mult *= player.magicDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
-            crit += player.magicCrit;
+            crit += player.thrownCrit;
             crit /= 2;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

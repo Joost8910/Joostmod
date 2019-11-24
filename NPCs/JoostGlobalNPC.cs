@@ -189,31 +189,63 @@ namespace JoostMod.NPCs
             if (infectedRed)
             {
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
-                Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasiteRed"), (int)(300 * (player.allDamage + player.meleeDamage - 1) * player.allDamageMult * player.meleeDamageMult), 3, player.whoAmI);
-                Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasiteRed"), (int)(300 * (player.allDamage + player.meleeDamage - 1) * player.allDamageMult * player.meleeDamageMult), 3, player.whoAmI);
+                if (npc.friendly)
+                {
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("RedXParasite"));
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("RedXParasite"));
+                }
+                else
+                {
+                    Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasiteRed"), (int)(300 * (player.allDamage + player.meleeDamage - 1) * player.allDamageMult * player.meleeDamageMult), 3, player.whoAmI);
+                    Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasiteRed"), (int)(300 * (player.allDamage + player.meleeDamage - 1) * player.allDamageMult * player.meleeDamageMult), 3, player.whoAmI);
+                }
                 Item.NewItem(npc.Center, ItemID.Heart);
                 Item.NewItem(npc.Center, ItemID.Heart);
             }
             if (infectedGreen)
             {
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
-                Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasiteGreen"), (int)(300 * (player.allDamage + player.rangedDamage - 1) * player.allDamageMult * player.rangedDamageMult), 3, player.whoAmI);
-                Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasiteGreen"), (int)(300 * (player.allDamage + player.rangedDamage - 1) * player.allDamageMult * player.rangedDamageMult), 3, player.whoAmI);
+                if (npc.friendly)
+                {
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GreenXParasite"));
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GreenXParasite"));
+                }
+                else
+                {
+                    Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasiteGreen"), (int)(300 * (player.allDamage + player.rangedDamage - 1) * player.allDamageMult * player.rangedDamageMult), 3, player.whoAmI);
+                    Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasiteGreen"), (int)(300 * (player.allDamage + player.rangedDamage - 1) * player.allDamageMult * player.rangedDamageMult), 3, player.whoAmI);
+                }
                 Item.NewItem(npc.Center, mod.ItemType("EnergyFragment"));
             }
             if (infectedBlue)
             {
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
-                Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasite"), (int)(300 * (player.allDamage + player.magicDamage - 1) * player.allDamageMult * player.magicDamageMult), 3, player.whoAmI);
-                Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasite"), (int)(300 * (player.allDamage + player.magicDamage - 1) * player.allDamageMult * player.magicDamageMult), 3, player.whoAmI);
+                if (npc.friendly)
+                {
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("IceXParasite"));
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("IceXParasite"));
+                }
+                else
+                {
+                    Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasite"), (int)(300 * (player.allDamage + player.magicDamage - 1) * player.allDamageMult * player.magicDamageMult), 3, player.whoAmI);
+                    Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasite"), (int)(300 * (player.allDamage + player.magicDamage - 1) * player.allDamageMult * player.magicDamageMult), 3, player.whoAmI);
+                }
                 Item.NewItem(npc.Center, ItemID.Star);
                 Item.NewItem(npc.Center, ItemID.Star);
             }
             if (infectedYellow)
             {
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
-                Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasiteYellow"), (int)(300 * (player.allDamage + player.thrownDamage - 1) * player.allDamageMult * player.thrownDamageMult), 3, player.whoAmI);
-                Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasiteYellow"), (int)(300 * (player.allDamage + player.thrownDamage - 1) * player.allDamageMult * player.thrownDamageMult), 3, player.whoAmI);
+                if (npc.friendly)
+                {
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("XParasite"));
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("XParasite"));
+                }
+                else
+                {
+                    Projectile.NewProjectile(npc.Center, dir, mod.ProjectileType("XParasiteYellow"), (int)(300 * (player.allDamage + player.thrownDamage - 1) * player.allDamageMult * player.thrownDamageMult), 3, player.whoAmI);
+                    Projectile.NewProjectile(npc.Center, -dir, mod.ProjectileType("XParasiteYellow"), (int)(300 * (player.allDamage + player.thrownDamage - 1) * player.allDamageMult * player.thrownDamageMult), 3, player.whoAmI);
+                }
                 Item.NewItem(npc.Center, ItemID.GoldCoin, 1 + (int)(npc.value / 10000f));
             }
             return base.CheckDead(npc);

@@ -236,12 +236,12 @@ namespace JoostMod
             for (int i = x - 3; i <= x + 4; i++)
             {
                 WorldGen.KillTile(i, y + 3);
-                WorldGen.PlaceTile(i, y + 3, 179);
-                WorldGen.paintTile(i, y + 3, 18);
+                WorldGen.PlaceTile(i, y + 3, mod.TileType("AncientMossyStone"));
+                //WorldGen.paintTile(i, y + 3, 18);
 
                 WorldGen.KillTile(i, y - 3);
-                WorldGen.PlaceTile(i, y - 3, 179);
-                WorldGen.paintTile(i, y - 3, 18);
+                WorldGen.PlaceTile(i, y - 3, mod.TileType("AncientMossyStone"));
+                //WorldGen.paintTile(i, y - 3, 18);
 
                 for (int j = y - 2; j <= y + 2; j++)
                 {
@@ -255,44 +255,44 @@ namespace JoostMod
                 }
             }
             WorldGen.KillTile(x - 4, y + 3);
-            WorldGen.PlaceTile(x - 4, y + 3, 179);
-            WorldGen.paintTile(x - 4, y + 3, 18);
+            WorldGen.PlaceTile(x - 4, y + 3, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x - 4, y + 3, 18);
 
             WorldGen.KillTile(x + 5, y + 3);
-            WorldGen.PlaceTile(x + 5, y + 3, 179);
-            WorldGen.paintTile(x + 5, y + 3, 18);
+            WorldGen.PlaceTile(x + 5, y + 3, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x + 5, y + 3, 18);
 
             WorldGen.KillTile(x - 3, y - 2);
             WorldGen.KillWall(x - 3, y - 2);
-            WorldGen.PlaceTile(x - 3, y - 2, 179);
-            WorldGen.paintTile(x - 3, y - 2, 18);
+            WorldGen.PlaceTile(x - 3, y - 2, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x - 3, y - 2, 18);
             Main.tile[x - 3, y - 2].slope(3);
 
             WorldGen.KillTile(x + 4, y - 2);
             WorldGen.KillWall(x + 4, y - 2);
-            WorldGen.PlaceTile(x + 4, y - 2, 179);
-            WorldGen.paintTile(x + 4, y - 2, 18);
+            WorldGen.PlaceTile(x + 4, y - 2, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x + 4, y - 2, 18);
             Main.tile[x + 4, y - 2].slope(4);
 
             WorldGen.KillTile(x - 4, y - 2);
-            WorldGen.PlaceTile(x - 4, y - 2, 179);
-            WorldGen.paintTile(x - 4, y - 2, 18);
+            WorldGen.PlaceTile(x - 4, y - 2, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x - 4, y - 2, 18);
             Main.tile[x - 4, y - 2].slope(2);
 
             WorldGen.KillTile(x - 4, y - 1);
-            WorldGen.PlaceTile(x - 4, y - 1, 179);
-            WorldGen.paintTile(x - 4, y - 1, 18);
+            WorldGen.PlaceTile(x - 4, y - 1, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x - 4, y - 1, 18);
 
             Main.tile[x - 3, y - 3].slope(2);
 
             WorldGen.KillTile(x + 5, y - 2);
-            WorldGen.PlaceTile(x + 5, y - 2, 179);
-            WorldGen.paintTile(x + 5, y - 2, 18);
+            WorldGen.PlaceTile(x + 5, y - 2, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x + 5, y - 2, 18);
             Main.tile[x + 5, y - 2].slope(1);
 
             WorldGen.KillTile(x + 5, y - 1);
-            WorldGen.PlaceTile(x + 5, y - 1, 179);
-            WorldGen.paintTile(x + 5, y - 1, 18);
+            WorldGen.PlaceTile(x + 5, y - 1, mod.TileType("AncientMossyStone"));
+            //WorldGen.paintTile(x + 5, y - 1, 18);
 
             Main.tile[x + 4, y - 3].slope(1);
 

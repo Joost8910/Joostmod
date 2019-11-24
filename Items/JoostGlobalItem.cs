@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using System.IO;
+using Microsoft.Xna.Framework;
+using Terraria.Enums;
 
 namespace JoostMod.Items
 {
@@ -203,6 +205,28 @@ namespace JoostMod.Items
             (JoostWorld.downedSAX ? 15f : 0f) + //50
             (JoostWorld.downedGilgamesh ? 15f : 0f); //65
             return damageMult;
+        }
+    }
+    public class AncientStoneMoss : GlobalItem
+    {
+        public override bool UseItem(Item item, Player player)
+        {
+            if (item.type == ItemID.StaffofRegrowth && player.controlUseItem)
+            {
+                int i = Player.tileTargetX;
+                int j = Player.tileTargetY;
+                if (Main.tile[i, j] != null && Main.tile[i, j].type == mod.TileType("AncientStone"))
+                {
+                    Main.PlaySound(0, i * 16, j * 16);
+                    Main.tile[i, j].type = (ushort)mod.TileType("AncientMossyStone");
+                    WorldGen.SquareTileFrame(i, j, true);
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+                    }
+                }
+            }
+            return base.UseItem(item, player);
         }
     }
     public class Ammohalf : GlobalItem

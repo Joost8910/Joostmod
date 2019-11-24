@@ -16,6 +16,7 @@ namespace JoostMod.Items.Weapons
         {
             item.maxStack = 999;
             item.ranged = true;
+            item.magic = true;
             item.damage = 14;
             item.width = 30;
             item.height = 60;
@@ -27,11 +28,13 @@ namespace JoostMod.Items.Weapons
             item.shootSpeed = 9f;
             item.ammo = AmmoID.Arrow;
         }
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.magicDamage - 1f);
             mult *= player.magicDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.magicCrit;

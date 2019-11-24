@@ -13,7 +13,7 @@ namespace JoostMod.Items.Rewards
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sapling - Shield");
-            Tooltip.SetDefault("Tries to block attackers behind you\n" + "Cannot block projectiles that deal more than " + (Main.expertMode ? "60" : "30") + " damage");
+            Tooltip.SetDefault("Tries to block attackers behind you\n" + "Cannot block projectiles that deal more than 30 damage (60 in Expert Mode)");
         }
 		public override void SetDefaults()
 		{

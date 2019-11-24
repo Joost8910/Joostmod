@@ -166,10 +166,18 @@ namespace JoostMod.Projectiles
             if (projectile.velocity.X < 0f)
             {
                 projectile.rotation -= (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f;
+                if (player.direction < 0)
+                {
+                    player.heldProj = projectile.whoAmI;
+                }
             }
             else
             {
                 projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f;
+                if (player.direction > 0)
+                {
+                    player.heldProj = projectile.whoAmI;
+                }
             }
             return false;
         }

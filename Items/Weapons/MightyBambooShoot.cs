@@ -20,6 +20,7 @@ namespace JoostMod.Items.Weapons
 		{
 			item.damage = 17;
 			item.melee = true;
+            item.ranged = true;
 			item.width = 100;
 			item.height = 12;
 			item.noMelee = true;
@@ -36,11 +37,13 @@ namespace JoostMod.Items.Weapons
 			item.shoot = 10;
 			item.shootSpeed = 11f;
         }
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.rangedDamage - 1f);
             mult *= player.rangedDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.rangedCrit;

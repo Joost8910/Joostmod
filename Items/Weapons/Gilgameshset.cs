@@ -21,6 +21,7 @@ namespace JoostMod.Items.Weapons
         {
             item.damage = 800;
             item.melee = true;
+            item.thrown = true;
             item.width = 36;
             item.height = 60;
             item.useTime = 24;
@@ -39,11 +40,13 @@ namespace JoostMod.Items.Weapons
             item.shootSpeed = 8f;
 
         }
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.thrownDamage - 1f);
             mult *= player.thrownDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.thrownCrit;

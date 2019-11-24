@@ -82,7 +82,7 @@ namespace JoostMod
         public bool planeMount = false;
         public int enemyIgnoreDefenseDamage = 0;
         public bool cactoidCommendation = false;
-        private int cactoidCommendationTimer = 4500;
+        private int cactoidCommendationTimer = 7200;
         public bool sporgan = false;
         public bool rocWings = false;
         private int rot = 0;
@@ -784,7 +784,7 @@ namespace JoostMod
                     {
                         NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Cactite"));
                     }
-                    cactoidCommendationTimer = 4500;
+                    cactoidCommendationTimer = 7200;
                 }
                 for (int i = 0; i < 255; i++)
                 {
@@ -796,7 +796,7 @@ namespace JoostMod
             }
             else
             {
-                cactoidCommendationTimer = 4500;
+                cactoidCommendationTimer = 7200;
             }
             if (cactusBoots && player.velocity.Y == 0)
             {

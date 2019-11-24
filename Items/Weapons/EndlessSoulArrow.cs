@@ -16,6 +16,7 @@ namespace JoostMod.Items.Weapons
         {
             item.maxStack = 1;
             item.ranged = true;
+            item.magic = true;
             item.damage = 14;
             item.width = 32;
             item.height = 32;
@@ -35,11 +36,13 @@ namespace JoostMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.magicDamage - 1f);
             mult *= player.magicDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.magicCrit;

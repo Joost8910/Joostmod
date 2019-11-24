@@ -1,5 +1,5 @@
 author = Joost8910
-version = 0.8.0.1
+version = 0.8.0.2
 displayName = JoostMod
 homepage = http://forums.terraria.org/index.php?threads/the-joostmod.42879/
 includePDB = true

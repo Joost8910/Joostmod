@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	{
 public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("White Knight Mask");
+			DisplayName.SetDefault("The Knight's Mask");
 		}
 		public override void SetDefaults()
 		{

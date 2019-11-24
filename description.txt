@@ -1,5 +1,5 @@
 The Joostmod has to offer
-405 new items
+406 new items
 10 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -7,6 +7,25 @@ The Joostmod has to offer
 9 new minibosses
 4 new bosses
 2 new town npcs
+
+Version 0.8.0.2
+- Added Ancient Stone
+- Fixed The Rose not counting as a held projectile
+- Fixed the Sapling - Shield's tooltip to be more accurate
+- Fixed the Sandstone Furnace and Frost Furnace being worth multiple platinum coins
+- Fixed Gilgamesh being unkillable with The Antiaris enabled
+- Fixed potential Wonder Waffle crash with Shadows of Abaddon
+- Increased damage of Sharpened Nail from 14 to 18
+- Increased damage of Channeled nail from 22 to 27
+- Reduced speed required to perform the Dash Slash nail art
+- Reduced Treasure Goblin Defense from 40 to 20
+- Reduced Cactoid Commendation spawn frequency from every 37-75 seconds to every 60-120 seconds 
+- Tweaked TARDIS Chest sprite
+- The Shrine of Legends is no longer unmineable - it now requires at least 100% pickaxe power to mine
+- The Shrine of Legends now generates on Ancient Stone - also requires at least 100% pickaxe power to mine
+- The dual damage type weapons now properly count as both damage types at a technical level
+- Treasure goblin now creates a portal to escape from instead of going through tiles when hitting a wall
+- Renamed White Knight Mask to The Knight's Mask
 
 Version 0.8.0.1
 - Added Cactoid Compact

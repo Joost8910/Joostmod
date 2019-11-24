@@ -18,6 +18,7 @@ namespace JoostMod.Items.Weapons
 		{
 			item.damage = 270;
 			item.melee = true;
+            item.magic = true;
             item.mana = 40;
 			item.width = 160;
 			item.height = 160;
@@ -44,12 +45,13 @@ namespace JoostMod.Items.Weapons
             }
             return base.CanUseItem(player);
         }
-
+        /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += (player.magicDamage - 1f);
             mult *= player.magicDamageMult;
         }
+        */
         public override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.magicCrit;

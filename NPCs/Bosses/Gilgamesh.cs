@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -697,15 +698,16 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CheckDead()
         {
-            if (!npc.dontTakeDamage)
+            if (npc.ai[3] != -100)
             {
                 npc.ai[0] = 440;
                 npc.frame.Y = 0;
                 npc.velocity.X = 0;
                 npc.velocity.Y = 10;
                 npc.damage = 0;
-                npc.life = npc.lifeMax;
+                npc.life = 1;
                 npc.dontTakeDamage = true;
+                npc.ai[3] = -100;
                 npc.netUpdate = true;
                 return false;
             }
@@ -734,12 +736,12 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool PreAI()
         {
-            if (npc.dontTakeDamage)
+            if (npc.ai[3] == -100)
             {
+                npc.dontTakeDamage = true;
                 npc.ai[0]--;
                 npc.ai[1] = 0;
                 npc.ai[2] = 0;
-                npc.ai[3] = 0;
                 npc.velocity.X = 0;
                 npc.velocity.Y = 10;
                 if (npc.ai[0] < 0)
