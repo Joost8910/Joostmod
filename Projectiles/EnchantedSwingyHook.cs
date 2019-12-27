@@ -259,7 +259,6 @@ namespace JoostMod.Projectiles
                     Main.projectile[num118].Kill();
                 }
             }
-            int tweak2 = 0;
             if (grappleSwing >= 0)
             {
                 if (player.mount.Active)
@@ -354,7 +353,6 @@ namespace JoostMod.Projectiles
                 if (up || down)
                 {
                     player.velocity = vect;
-                    tweak2 = 2;
                 }
                 else
                 {
@@ -368,14 +366,6 @@ namespace JoostMod.Projectiles
                         }
                         player.velocity += vect;
                     }
-                }
-                if (tweak2 > 0)
-                {
-                    if (!up && !down)
-                    {
-                        player.velocity *= 0;
-                    }
-                    tweak2--;
                 }
                 if (player.releaseJump)
                 {

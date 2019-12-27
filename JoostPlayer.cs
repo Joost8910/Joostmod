@@ -1477,15 +1477,18 @@ namespace JoostMod
         }
         public override bool CanBeHitByProjectile(Projectile proj)
         {
-            for (int i = 0; i < Main.projectile.Length; i++)
+            if (shieldSapling)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.type == mod.ProjectileType("ShieldSapling") && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
+                for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    //Main.NewText(proj.damage, Color.DarkGreen);
-                    proj.Kill();
-                    Main.PlaySound(3, projectile.Center, 4);
-                    return false;
+                    Projectile projectile = Main.projectile[i];
+                    if (projectile.type == mod.ProjectileType("ShieldSapling") && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
+                    {
+                        //Main.NewText(proj.damage, Color.DarkGreen);
+                        proj.Kill();
+                        Main.PlaySound(3, projectile.Center, 4);
+                        return false;
+                    }
                 }
             }
             return base.CanBeHitByProjectile(proj);

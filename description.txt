@@ -8,6 +8,16 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Version 0.8.0.3
+- Added Enchanted Grabby Swingy Hook
+- Added support for new Boss Checklist update
+- Fixed Soil Weapons listing their damage as every 500 blocks of dirt. It's actually every 666 blocks.
+- Fixed Shield Sapling making checks when not equipped. This caused performance issues during high amounts of projectiles
+- Fixed the Doom Cannon firing when the player is killed while charging
+- Imp Lord's big Fire Blast now ignores Burning Spheres and has a slightly larger hitbox
+- Gilgamesh's Treasure Bag now has a tiny chance to drop one of the Legendary Stones
+
+
 Version 0.8.0.2
 - Added Ancient Stone
 - Fixed The Rose not counting as a held projectile

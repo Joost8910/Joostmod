@@ -6,7 +6,7 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Grand Cactus Worm Trophy");
+			DisplayName.SetDefault("Cactus Worm Trophy");
 		}
 		public override void SetDefaults()
 		{

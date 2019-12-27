@@ -44,6 +44,39 @@ namespace JoostMod.Items
                 player.QuickSpawnItem(mod.ItemType("GilgameshTrophy"));
             }
 
+
+            if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("SkullStone"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("JungleStone"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("InfernoStone"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("EvilStone"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("SeaStoneDeep"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("SeaStoneEast"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("SeaStoneHigh"));
+            }
+            else if (Main.rand.NextBool(100))
+            {
+                player.QuickSpawnItem(mod.ItemType("SeaStoneWest"));
+            }
         }
     }
 }

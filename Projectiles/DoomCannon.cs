@@ -200,7 +200,7 @@ namespace JoostMod.Projectiles
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[projectile.owner];
-            if (Main.myPlayer == projectile.owner && !Main.mouseRight && projectile.ai[0] >= 60)
+            if (Main.myPlayer == projectile.owner && !player.dead && !Main.mouseRight && projectile.ai[0] >= 60)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
                 Vector2 pos = projectile.Center + projectile.velocity * 26;

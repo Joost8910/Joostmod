@@ -15,8 +15,8 @@ namespace JoostMod.NPCs.Hunts
         }
         public override void SetDefaults()
         {
-            npc.width = 60;
-            npc.height = 60;
+            npc.width = 68;
+            npc.height = 68;
             npc.defense = 9999;
             npc.lifeMax = 6;
             npc.damage = 50;
@@ -92,6 +92,7 @@ namespace JoostMod.NPCs.Hunts
             {
                 npc.life = 2;
             }
+            npc.lifeRegen = 0;
         }
         public override void FindFrame(int frameHeight)
         {
@@ -111,7 +112,7 @@ namespace JoostMod.NPCs.Hunts
         {
             if (target.type == NPCID.BurningSphere)
             {
-                return false;
+                return true;
             }
             return base.CanHitNPC(target);
         }

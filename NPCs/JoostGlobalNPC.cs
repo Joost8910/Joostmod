@@ -379,5 +379,13 @@ namespace JoostMod.NPCs
                 }
             }
         }
+        public override bool? CanHitNPC(NPC npc, NPC target)
+        {
+            if (npc.type == NPCID.BurningSphere && target.type == mod.NPCType("FireBall"))
+            {
+                return false;
+            }
+            return base.CanHitNPC(npc, target);
+        }
     }
 }

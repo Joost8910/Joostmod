@@ -13,7 +13,7 @@ namespace JoostMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soil Bow");
-            Tooltip.SetDefault("Does 1 more damage for every 500 blocks of dirt in your inventory");
+            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory");
         }
         public override void SetDefaults()
         {
