@@ -8,7 +8,7 @@ namespace JoostMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Whirlwind");
-			Description.SetDefault("Defense increased by 25");
+			Description.SetDefault("Defense increased by 20");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.statDefense += 25;
+			player.statDefense += 20;
 		}
 
 	}

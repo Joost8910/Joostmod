@@ -9,6 +9,7 @@ using JoostMod.Items;
 using Terraria.Graphics.Shaders;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace JoostMod
 {
@@ -98,6 +99,12 @@ namespace JoostMod
         private float cactusBootsTimer = 40;
         public bool fleshShield = false;
         private int fleshShieldTimer = 0;
+        public bool havelShield = false;
+        public bool havelBlocking = false;
+        public bool havelArmor = false;
+        public bool havelArmorActive = false;
+        private int havelArmorTimer = -1;
+        public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
         private bool[] dashHit = new bool[200];
@@ -164,6 +171,10 @@ namespace JoostMod
             }
             cactusBoots = false;
             fleshShield = false;
+            havelShield = false;
+            havelBlocking = false;
+            havelArmor = false;
+            accRunSpeedMult = 1;
             dashType = 0;
             dashDamage = 0;
         }
@@ -273,7 +284,188 @@ namespace JoostMod
             {
                 player.handoff = (sbyte)mod.GetEquipSlot("MutantCannon", EquipType.HandsOff);
             }
+
+            if (havelBlocking)
+            {
+                player.shield = (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield);
+            }
         }
+        public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        {
+            for (int i = 0; i < layers.Count; i++)
+            {
+                if (player.shield == (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield) && !havelBlocking)
+                {
+                    if (layers[i] == PlayerLayer.ShieldAcc)
+                    {
+                        layers[i].visible = false;
+                    }
+                    if (layers[i] == PlayerLayer.Wings)
+                    {
+                        layers.Insert(i + 1, shieldDownLayer);
+                        shieldDownLayer.visible = true;
+                    }
+                }
+                if (havelArmorActive)
+                {
+                    if (layers[i] == PlayerLayer.Legs)
+                    {
+                        layers.Insert(i + 1, stoneLegs);
+                        stoneLegs.visible = true;
+                    }
+                    if (layers[i] == PlayerLayer.Body)
+                    {
+                        layers.Insert(i + 1, stoneBody);
+                        stoneBody.visible = true;
+                    }
+                    if (layers[i] == PlayerLayer.Head)
+                    {
+                        layers.Insert(i + 1, stoneHead);
+                        stoneHead.visible = true;
+                    }
+                    if (layers[i] == PlayerLayer.Arms)
+                    {
+                        layers.Insert(i + 1, stoneArms);
+                        stoneArms.visible = true;
+                    }
+                }
+            }
+        }
+        public static readonly PlayerLayer shieldDownLayer = new PlayerLayer("JoostMod", "shieldDownLayer", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.shield == (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield))
+            {
+                Texture2D tex = mod.GetTexture("Items/HavelsGreatshield_ShieldDown");
+                Rectangle frame = new Rectangle(drawPlayer.bodyFrame.X-1, drawPlayer.bodyFrame.Y, drawPlayer.bodyFrame.Width+6, drawPlayer.bodyFrame.Height);
+                float rot = drawPlayer.bodyRotation;
+                Vector2 drawPos = drawPlayer.bodyPosition;
+                Vector2 origin = drawInfo.bodyOrigin;
+                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.shieldShader;
+                Main.playerDrawData.Add(data);
+            }
+        });
+        public static readonly PlayerLayer stoneHead = new PlayerLayer("JoostMod", "stoneHead", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            {
+                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Head");
+                Rectangle frame = drawPlayer.bodyFrame;
+                float rot = drawPlayer.headRotation;
+                Vector2 drawPos = drawPlayer.bodyPosition;
+                Vector2 origin = drawInfo.headOrigin;
+                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.headArmorShader;
+                Main.playerDrawData.Add(data);
+            }
+        });
+        public static readonly PlayerLayer stoneArms = new PlayerLayer("JoostMod", "stoneArms", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            {
+                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Arms");
+                Rectangle frame = drawPlayer.bodyFrame;
+                float rot = drawPlayer.bodyRotation;
+                Vector2 drawPos = drawPlayer.bodyPosition;
+                Vector2 origin = drawInfo.bodyOrigin;
+                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.bodyArmorShader;
+                Main.playerDrawData.Add(data);
+            }
+        });
+        public static readonly PlayerLayer stoneBody = new PlayerLayer("JoostMod", "stoneBody", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            {
+                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Body");
+                Rectangle frame = drawPlayer.bodyFrame;
+                float rot = drawPlayer.bodyRotation;
+                Vector2 drawPos = drawPlayer.bodyPosition;
+                Vector2 origin = drawInfo.bodyOrigin;
+                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.bodyArmorShader;
+                Main.playerDrawData.Add(data);
+            }
+        });
+        public static readonly PlayerLayer stoneLegs = new PlayerLayer("JoostMod", "stoneLegs", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            {
+                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Legs");
+                Rectangle frame = drawPlayer.legFrame;
+                float rot = drawPlayer.legRotation;
+                Vector2 drawPos = drawPlayer.legPosition;
+                Vector2 origin = drawInfo.legOrigin;
+                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.legArmorShader;
+                Main.playerDrawData.Add(data);
+            }
+        });
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (JoostMod.ArmorAbilityHotKey.JustPressed)
@@ -305,6 +497,27 @@ namespace JoostMod
                         Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("BitterEndFriendly"), (int)(2000 * player.magicDamage), 20f, player.whoAmI);
                         player.manaRegenDelay = 180 * (2+player.manaRegenDelayBonus);
                         player.statMana *= 0;
+                    }
+                }
+                if (havelArmor && havelArmorTimer < 0)
+                {
+                    if (!havelArmorActive)
+                    {
+                        havelArmorTimer = 25;
+                        Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 230, 1, -0.3f);
+                        for (int d = 0; d < 40; d++)
+                        {
+                            int dust = Dust.NewDust(player.position - new Vector2(10, 10), player.width+20, player.height+20, 1, player.velocity.X * 0.8f, player.velocity.Y * 0.8f, 0, default(Color), 1.5f);
+                            Vector2 vel = player.MountedCenter - Main.dust[dust].position;
+                            vel.Normalize();
+                            Main.dust[dust].velocity = vel + player.velocity * 0.8f;
+                            Main.dust[dust].noGravity = true;
+                        }
+                    }
+                    else
+                    {
+                        havelArmorTimer = 20;
+                        Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.3f);
                     }
                 }
             }
@@ -568,9 +781,71 @@ namespace JoostMod
                     player.statDefense = 0;
                 }
             }
-            if (!gRanged)
+            else
             {
                 gRangedIsActive = false;
+            }
+            if (havelArmor)
+            {
+                if (havelArmorTimer > 0)
+                {
+                    havelArmorTimer--;
+                    player.velocity *= 0.8f;
+                }
+                else if (havelArmorTimer == 0)
+                {
+                    havelArmorTimer = -1;
+                    if (!havelArmorActive)
+                    {
+                        havelArmorActive = true;
+                        Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 211, 1, -0.2f);
+                    }
+                    else
+                    {
+                        havelArmorActive = false;
+                        Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 207, 1, -0.2f);
+                        for (int d = 0; d < 30; d++)
+                        {
+                            int dust = Dust.NewDust(player.position, player.width, player.height, 1, 0, 0, 0, default(Color), 1.5f);
+                            Vector2 vel = Main.dust[dust].position - player.MountedCenter;
+                            vel.Normalize();
+                            Main.dust[dust].velocity = vel;
+                        }
+                    }
+                }
+                if (havelArmorActive)
+                {
+                    player.AddBuff(mod.BuffType("HavelBuff"), 2);
+                    player.accRunSpeed = 0;
+                    player.wingTime--;
+                    player.maxFallSpeed += 10;
+                    if (player.velocity.Y != 0)
+                    {
+                        player.velocity.Y += 0.3f * player.gravDir;
+                    }
+                    player.jumpSpeedBoost = -1;
+                    player.jumpBoost = false;
+                    if (Math.Abs(player.velocity.X) < player.maxRunSpeed * 1.2f)
+                    {
+                        if (player.velocity.X > player.maxRunSpeed)
+                        {
+                            player.velocity.X = player.maxRunSpeed;
+                        }
+                        if (player.velocity.X < -player.maxRunSpeed)
+                        {
+                            player.velocity.X = -player.maxRunSpeed;
+                        }
+                    }
+                    else
+                    {
+                        player.velocity.X *= 0.9f;
+                    }
+                }
+            }
+            else
+            {
+                havelArmorActive = false;
+                havelArmorTimer = -1;
             }
             if (sandStorm)
             {
@@ -1364,6 +1639,34 @@ namespace JoostMod
             {
                 Dash();
             }
+            if (havelShield && (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0 || (player.controlUseTile && player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(player.HeldItem, player))))
+            {
+                player.noItems = true;
+                havelBlocking = true;
+                if (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, mod.ProjectileType("HavelShield"), (int)(50 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult), 8f * (player.kbGlove ? 2 : 1) * (player.kbBuff ? 1.5f : 1), player.whoAmI);
+                }
+                if (Math.Abs(player.velocity.X) < player.maxRunSpeed * 1.2f)
+                {
+                    if (player.velocity.X > player.maxRunSpeed)
+                    {
+                        player.velocity.X = player.maxRunSpeed;
+                    }
+                    if (player.velocity.X < -player.maxRunSpeed)
+                    {
+                        player.velocity.X = -player.maxRunSpeed;
+                    }
+                }
+                else
+                {
+                    player.velocity.X *= 0.95f;
+                }
+            }
+        }
+        public override void PostUpdateRunSpeeds()
+        {
+            player.accRunSpeed *= accRunSpeedMult;
         }
         public override void PostUpdate()
         {
@@ -1549,7 +1852,69 @@ namespace JoostMod
             {
                 XShieldTimer -= damage;
             }
+            if (havelArmorActive)
+            {
+                damage = (int)(damage * 0.6f);
+                playSound = false;
+                genGore = false;
+                Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.5f);
+                for (int d = 0; d < 10; d++)
+                {
+                    Dust.NewDust(player.position, player.width, player.height, 1);
+                }
+            }
             return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+        }
+        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        {
+            if (havelArmorActive && npc.knockBackResist > 0)
+            {
+                float KB = 3;
+                int dir = player.direction;
+                if (npc.Center.X > player.Center.X)
+                {
+                    dir = 1;
+                }
+                else
+                {
+                    dir = -1;
+                }
+                if (player.velocity.X * dir > 0)
+                {
+                    KB += Math.Abs(player.velocity.X);
+                }
+                npc.velocity.X = dir * KB;
+                npc.velocity.Y--;
+            }
+        }
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
+            if (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0)
+            {
+                float x = player.MountedCenter.X - 9 + (player.direction * 11);
+                float y = player.position.Y + (player.height / 2) - 23;
+                Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
+                if (rect.Intersects(npc.getRect()))
+                {
+                    damage = (int)(damage * 0.2f);
+                    Main.PlaySound(21, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, -0.4f);
+                }
+            }
+        }
+        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        {
+            if (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0)
+            {
+                float x = player.MountedCenter.X - 9 + (player.direction * 11);
+                float y = player.position.Y + (player.height / 2) - 23;
+                Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
+                if (proj.Colliding(proj.getRect(), rect))
+                {
+                    damage = (int)(damage * 0.2f);
+                    proj.penetrate--;
+                    Main.PlaySound(21, (int)proj.Center.X, (int)proj.Center.Y, 1, 1, -0.4f);
+                }
+            }
         }
         public void Dash()
         {

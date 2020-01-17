@@ -9,7 +9,7 @@ namespace JoostMod.Items
         {
             //clone and modify the ones we want to copy
             item.CloneDefaults(ItemID.AmethystHook);
-            item.rare = 2;
+            item.rare = 3;
             item.shootSpeed = 18f; // how quickly the hook is shot.
             item.shoot = mod.ProjectileType("EnchantedMobHook");
         }

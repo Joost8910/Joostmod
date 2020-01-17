@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,7 +11,7 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Whirlwind");
-			Tooltip.SetDefault("Increases defense by 25 while in use");
+			Tooltip.SetDefault("Increases defense by 20 while in use");
 		}
 		public override void SetDefaults()
 		{

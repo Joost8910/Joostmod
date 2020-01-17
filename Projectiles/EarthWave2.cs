@@ -1,6 +1,3 @@
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +23,8 @@ namespace JoostMod.Projectiles
 			projectile.tileCollide = false;
 			aiType = ProjectileID.Bullet;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			projectile.idStaticNPCHitCooldown = 5;
+            projectile.extraUpdates = 1;
 		}
 
 		public override void AI()

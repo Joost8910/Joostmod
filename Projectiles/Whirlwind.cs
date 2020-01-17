@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles
         public override void SetDefaults()
         {
             projectile.width = 150;
-            projectile.height = 130;
+            projectile.height = 100;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -22,11 +22,10 @@ namespace JoostMod.Projectiles
 		    projectile.alpha = 80;
             projectile.extraUpdates = 1;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 7;
+			projectile.idStaticNPCHitCooldown = 8;
             projectile.ignoreWater = true;
             drawHeldProjInFrontOfHeldItemAndArms = true;
         }
-
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
@@ -36,46 +35,27 @@ namespace JoostMod.Projectiles
             {
                 projectile.ai[0]++;
                 player.AddBuff(mod.BuffType("Whirlwind"), 2);
-                float scaleFactor6 = 1f;
-                if (player.inventory[player.selectedItem].shoot == projectile.type)
-                {
-                    scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
-                }
-                /*Vector2 vector13 = Main.MouseWorld - vector;
-                vector13.Normalize();
-                if (vector13.HasNaNs())
-                {
-                    vector13 = Vector2.UnitX * (float)player.direction;
-                }
-                vector13 *= scaleFactor6;
-                if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
-                {
-                    projectile.netUpdate = true;
-                }
-                projectile.velocity = vector13;*/
             }
             else
             {
                 projectile.Kill();
             }
-            if (projectile.ai[0] % 14 <= 0)
+            if (projectile.ai[0] % 16 <= 0)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 18);
             }
             projectile.frameCounter++;
-            if (projectile.frameCounter >= 5)
+            if (projectile.frameCounter >= 8)
             {
                 projectile.frameCounter = 0;
                 projectile.frame = (projectile.frame + 1) % 6;
             }
-
-        
-          
             projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
+            projectile.position.Y -= 11;
             projectile.rotation = 0f;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction * (projectile.ai[0] % 28 <= 14 ? 1 : -1));
+            player.ChangeDir(projectile.direction * (projectile.ai[0] % 32 <= 16 ? 1 : -1));
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
