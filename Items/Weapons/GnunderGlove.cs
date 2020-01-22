@@ -36,7 +36,7 @@ namespace JoostMod.Items.Weapons
             item.noUseGraphic = true;
             item.shoot = mod.ProjectileType("Gnunderken");
             item.shootSpeed = 20f;
-            item.value = 200000;
+            item.value = 300000;
         }
         public override void AddRecipes()
         {

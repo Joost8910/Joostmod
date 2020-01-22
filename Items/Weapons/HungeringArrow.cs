@@ -21,22 +21,22 @@ namespace JoostMod.Items.Weapons
 			item.height = 44;
 			item.consumable = false;
 			item.knockBack = 0f;
-			item.value = 100000;
+			item.value = 300000;
 			item.rare = 3;
 			item.shoot = mod.ProjectileType("HungeringArrow");
 			item.shootSpeed = 7f;
 			item.ammo = AmmoID.Arrow;
 		}
-		    public override void ModifyTooltips(List<TooltipLine> list)
-    {
-        foreach (TooltipLine line2 in list)
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
-            if (line2.mod == "Terraria" && line2.Name == "ItemName")
+            foreach (TooltipLine line2 in list)
             {
-                line2.overrideColor = new Color(255, 128, 0);
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(255, 128, 0);
+                }
             }
         }
-    }
 	}
 }
 

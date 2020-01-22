@@ -25,7 +25,7 @@ namespace JoostMod.Items.Weapons
 			item.reuseDelay = 5;
 			item.useStyle = 3;
 			item.knockBack = 4;
-			item.value = 100000;
+			item.value = 300000;
 			item.rare = 3;
 			item.noUseGraphic = true;
 			item.channel = true;

@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons
 			item.useStyle = 5;
 			item.noMelee = true; 
 			item.knockBack = 5;
-            item.value = 200000;
+            item.value = 300000;
             item.rare = 9;
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = true;

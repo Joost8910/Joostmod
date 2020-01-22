@@ -19,7 +19,7 @@ namespace JoostMod.Items.Armor
         {
             item.width = 22;
             item.height = 18;
-            item.value = 50000;
+            item.value = 225000;
             item.rare = 5;
             item.defense = 18;
         }

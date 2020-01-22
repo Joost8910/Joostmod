@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +25,7 @@ namespace JoostMod.Items.Weapons
 			item.useStyle = 5;
 			item.noMelee = true; 
 			item.knockBack = 2;
-			item.value = 100000;
+			item.value = 230000;
 			item.rare = 6;
 			item.UseSound = SoundID.Item43;
 			item.autoReuse = true;

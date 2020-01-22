@@ -25,7 +25,7 @@ namespace JoostMod.Items.Weapons
 			item.reuseDelay = 5;
 			item.useStyle = 1;
 			item.knockBack = 15;
-			item.value = 50000;
+			item.value = 250000;
 			item.rare = 5;
 			item.UseSound = SoundID.Item7;
 			item.autoReuse = true;

@@ -280,6 +280,10 @@ namespace JoostMod
             {
                 player.handoff = (sbyte)mod.GetEquipSlot("OnePunch", EquipType.HandsOff);
             }
+            if (player.HeldItem.type == mod.ItemType("SandGlove"))
+            {
+                player.handon = (sbyte)mod.GetEquipSlot("SandGlove", EquipType.HandsOn);
+            }
             if (player.HeldItem.type == mod.ItemType("MutantCannon"))
             {
                 player.handoff = (sbyte)mod.GetEquipSlot("MutantCannon", EquipType.HandsOff);

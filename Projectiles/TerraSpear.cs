@@ -36,7 +36,8 @@ namespace JoostMod.Projectiles
 			Main.player[projectile.owner].itemTime = Main.player[projectile.owner].itemAnimation;
 			projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
 			projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
-			projectile.position += projectile.velocity * projectile.ai[0]; if (projectile.ai[0] == 0f)
+			projectile.position += projectile.velocity * projectile.ai[0];
+            if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[0] = 3f;
 				projectile.netUpdate = true;

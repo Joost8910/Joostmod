@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 30;
             item.shoot = mod.ProjectileType("DavidLaser");
-            item.value = 200000;
+            item.value = 300000;
         }
 
         public override void AddRecipes()

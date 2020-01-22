@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 4;
-            item.value = 200000;
+            item.value = 300000;
             item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.shoot = mod.ProjectileType("PowerSpirit");

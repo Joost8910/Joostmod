@@ -22,7 +22,7 @@ namespace JoostMod.Items
 		{
 			item.width = 30;
 			item.height = 46;
-            item.value = 50000;
+            item.value = 225000;
             item.rare = 5;
 			item.accessory = true;
 			item.defense = 5;

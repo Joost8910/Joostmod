@@ -19,7 +19,7 @@ namespace JoostMod.Items.Weapons
             item.useTime = 9;
             item.useAnimation = 36;
             item.knockBack = 9;
-            item.value = 100000;
+            item.value = 500000;
             item.rare = 8;
             item.UseSound = SoundID.Item1;
             item.hammer = 100;

@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons
             item.rare = 9;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = 200000;
+            item.value = 300000;
             item.shootSpeed = 9f;
             item.shoot = mod.ProjectileType("GrognakBeam");
         }
