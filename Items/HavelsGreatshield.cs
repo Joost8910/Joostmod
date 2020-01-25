@@ -13,7 +13,6 @@ namespace JoostMod.Items
 		{
 			DisplayName.SetDefault("Havel's Greatshield");
 			Tooltip.SetDefault("Reduces movement speed by 5%\n" +
-                "Grants immunity to knockback\n" + 
                 "Right click to block attacks in front of you\n" + 
                 "Blocking an attack reduces its damage by 80%\n" + 
                 "Left click while blocking to shield bash");
@@ -33,7 +32,6 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.noKnockback = true;
             player.moveSpeed *= 0.95f;
             player.maxRunSpeed *= 0.95f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.95f;

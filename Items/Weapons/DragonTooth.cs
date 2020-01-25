@@ -10,7 +10,7 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dragon Tooth");
-			Tooltip.SetDefault("Increases defense by 5 while held\n" + 
+			Tooltip.SetDefault("Increases defense by 10 while held\n" + 
                 "Hold attack to charge the swing\n" +
                 "Unleash a charged swing while falling to do a plunging attack");
 		}
@@ -37,7 +37,7 @@ namespace JoostMod.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            player.statDefense += 5;
+            player.statDefense += 10;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +12,7 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Treasure Goblin");
-            Main.npcFrameCount[npc.type] = 30;
+            Main.npcFrameCount[npc.type] = 40;
         }
         public override void SetDefaults()
         {
@@ -215,7 +216,7 @@ namespace JoostMod.NPCs
                 {
                     npc.frame.Y = 10 * frameHeight;
                 }
-                if (npc.ai[3] % 10 == 0 && npc.frame.Y < frameHeight * 29)
+                if (npc.ai[3] % 8 == 0 && npc.frame.Y < frameHeight * 39)
                 {
                     npc.frame.Y = (npc.frame.Y + frameHeight);
                 }
@@ -408,20 +409,53 @@ namespace JoostMod.NPCs
                     npc.ai[3]++;
                     npc.noGravity = true;
                 }
-                if (npc.ai[3] == 90)
+                if (npc.ai[3] == 8)
+                {
+                    Main.PlaySound(0, npc.Center);
+                    Dust.NewDustDirect(new Vector2(npc.Center.X + 20 * npc.direction, npc.Center.Y + 6), 1, 1, 16);
+                }
+                if (npc.ai[3] == 24)
+                {
+                    Main.PlaySound(16, npc.Center);
+                }
+                if (npc.ai[3] == 32 || npc.ai[3] == 48 || npc.ai[3] == 64)
+                {
+                    Main.PlaySound(6, npc.Center);
+                }
+                if (npc.ai[3] == 16 || npc.ai[3] == 40 || npc.ai[3] == 72)
+                {
+                    Main.PlaySound(18, npc.Center);
+                }
+                if (npc.ai[3] == 56)
+                {
+                    Main.PlaySound(13, npc.Center);
+                }
+                if (npc.ai[3] == 80)
+                {
+                    Main.PlaySound(7, npc.Center);
+                }
+                if (npc.ai[3] == 88 || npc.ai[3] == 112)
+                {
+                    Main.PlaySound(2, npc.Center, 7);
+                }
+                if (npc.ai[3] == 116)
                 {
                     Main.PlaySound(18, npc.Center);
                     Main.PlaySound(0, npc.Center);
                 }
-                if (npc.ai[3] == 120)
+                if (npc.ai[3] == 156)
+                {
+                    Main.PlaySound(7, npc.Center);
+                }
+                if (npc.ai[3] == 176)
                 {
                     Main.PlaySound(2, npc.Center, 8);
                 }
-                if (npc.ai[3] >= 180)
+                if (npc.ai[3] >= 224)
                 {
                     npc.dontTakeDamage = true;
                 }
-                if (npc.ai[3] >= 200)
+                if (npc.ai[3] >= 240)
                 {
                     Item.NewItem((int)npc.Center.X + 36 * npc.direction, (int)npc.Center.Y + 6, 12, 12, ItemID.GoldCoin);
                     npc.active = false;

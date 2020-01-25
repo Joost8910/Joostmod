@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -19,7 +18,7 @@ namespace JoostMod.Items.Weapons
 			item.damage = 270;
 			item.melee = true;
             item.magic = true;
-            item.mana = 40;
+            item.mana = 30;
 			item.width = 160;
 			item.height = 160;
 			item.useTime = 50;
