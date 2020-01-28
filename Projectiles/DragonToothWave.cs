@@ -52,7 +52,7 @@ namespace JoostMod.Projectiles
 						Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
 						dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat() * grav;
 					}
-					Projectile.NewProjectile(projectile.Center.X, (pos.Y*16) - 8*grav, projectile.velocity.X*15, -5* grav, mod.ProjectileType("DragonToothWave2"), projectile.damage, projectile.knockBack, projectile.owner);					
+					Projectile.NewProjectile(projectile.Center.X, (pos.Y*16) - 8*grav, projectile.velocity.X*15, -6* grav, mod.ProjectileType("DragonToothWave2"), projectile.damage, projectile.knockBack, projectile.owner);					
 				}
 			}
 		}

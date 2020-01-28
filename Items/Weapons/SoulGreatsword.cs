@@ -18,7 +18,7 @@ namespace JoostMod.Items.Weapons
 			item.damage = 270;
 			item.melee = true;
             item.magic = true;
-            item.mana = 30;
+            item.mana = 25;
 			item.width = 160;
 			item.height = 160;
 			item.useTime = 50;

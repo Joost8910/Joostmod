@@ -35,6 +35,25 @@ namespace JoostMod.Projectiles
             {
                 projectile.ai[0]++;
                 player.AddBuff(mod.BuffType("Whirlwind"), 2);
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Vector2 vector13 = Main.MouseWorld - vector;
+                    vector13.Normalize();
+                    if (vector13.HasNaNs())
+                    {
+                        vector13 = Vector2.UnitX * (float)player.direction;
+                    }
+                    if (vector13.X > 0)
+                    {
+                        projectile.direction = (int)player.gravDir;
+                        projectile.netUpdate = true;
+                    }
+                    else
+                    {
+                        projectile.direction = -(int)player.gravDir;
+                        projectile.netUpdate = true;
+                    }
+                }
             }
             else
             {
@@ -51,6 +70,8 @@ namespace JoostMod.Projectiles
                 projectile.frame = (projectile.frame + 1) % 6;
             }
             projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
+            projectile.velocity.X = projectile.direction;
+            projectile.position.X -= projectile.velocity.X;
             projectile.position.Y -= 11;
             projectile.rotation = 0f;
             projectile.spriteDirection = projectile.direction;

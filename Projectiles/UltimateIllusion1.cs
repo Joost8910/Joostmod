@@ -26,7 +26,12 @@ namespace JoostMod.Projectiles
 		{
 			return false;
 		}
-		public override void Kill(int timeLeft)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            fallThrough = false;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+        }
+        public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);	
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("UltimateIllusion2"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);					

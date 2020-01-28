@@ -16,13 +16,13 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 150;
+			item.damage = 160;
 			item.melee = true;
 			item.width = 106;
 			item.height = 110;
-			item.useTime = 45;
-			item.useAnimation = 45;
-			item.reuseDelay = 5;
+			item.useTime = 42;
+			item.useAnimation = 42;
+			item.reuseDelay = 2;
 			item.useStyle = 1;
 			item.knockBack = 15;
 			item.value = 250000;

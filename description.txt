@@ -17,7 +17,7 @@ Version 0.8.1
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
-- Reduced Mana Cost of Soul Greatsword from 40 to 30
+- Reduced Mana Cost of Soul Greatsword from 40 to 25
 - Reduced Defense granted by Whirlwind from 25 to 20
 - Reduced Whirlwind attack speed from 8.5 times a second to 7.5 times a second
 - Stone Fist and the Elemental Boomerangs now requires Cobalt, Mythril, and Adamantite like the other Elemental Weapons

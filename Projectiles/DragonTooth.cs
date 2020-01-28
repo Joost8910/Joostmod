@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles
 			projectile.aiStyle = 0;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 104;
+			projectile.timeLeft = 124;
             projectile.tileCollide = false;
             projectile.melee = true;
             projectile.ignoreWater = true;
@@ -118,19 +118,19 @@ namespace JoostMod.Projectiles
             if (projectile.ai[0] <= 32)
             {
                 projectile.ai[0] += speed;
-                projectile.timeLeft = 92;
+                projectile.timeLeft = 122;
             }
             else if (projectile.soundDelay != -10)
             {
                 projectile.soundDelay = -10;
                 Main.PlaySound(42, projectile.Center, 214);
             }
-            if (projectile.timeLeft <= 90)
+            if (projectile.timeLeft <= 120)
             {
                 if (projectile.localAI[1] > 0)
                 {
                     player.mount.Dismount(player);
-                    if (projectile.ai[1] > 160 && projectile.localAI[1] < 10)
+                    if (projectile.ai[1] > 150 && projectile.localAI[1] < 10)
                     {
                         if (player.velocity.Y == 0)
                         {
@@ -150,18 +150,31 @@ namespace JoostMod.Projectiles
                         }
                         else
                         {
-                            projectile.timeLeft = 90;
-                            projectile.ai[1] = 160;
+                            projectile.timeLeft = 110;
+                            projectile.ai[1] = 150;
                         }
                     }
-                    else if (projectile.ai[1] < 180)
+                    else if (projectile.ai[1] < 160)
                     {
-                        projectile.timeLeft = 90;
+                        projectile.timeLeft = 110;
                         projectile.ai[1] += 10 * speed * (projectile.localAI[0] + 1);
                     }
-                    if (player.velocity.Y == 0)
+                    if (player.gravDir == -1)
                     {
-                        player.velocity.X *= 0.9f;
+                        player.fullRotation = 3.14f + (projectile.ai[1] * 0.00174f * player.direction);
+                    }
+                    else
+                    {
+                        player.fullRotation = (projectile.ai[1] * 0.00174f * player.direction);
+                    }
+                    player.fullRotationOrigin = player.Center - player.position;
+                    if (projectile.localAI[1] >= 10)
+                    {
+                        player.velocity.X = 0;
+                        player.velocity.Y = 10f;
+                        player.controlJump = false;
+                        player.controlLeft = false;
+                        player.controlRight = false;
                     }
                 }
                 else
