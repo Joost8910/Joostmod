@@ -85,30 +85,31 @@ namespace JoostMod.Projectiles
             }
             else if (channelling && projectile.localAI[0] > 0)
             {
-                projectile.ai[1]++;
-                if (projectile.ai[1] >= 15 && projectile.ai[1] < 90)
+                if (projectile.localAI[1] <= 0)
+                    projectile.ai[1]++;
+                if (projectile.ai[1] >= 15 && projectile.ai[1] < 120)
                 {
                     if (projectile.ai[1] % 15 == 0)
                     {
                         Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
                     }
-                    if (Main.rand.NextBool(15 - (int)(projectile.ai[1] / 6)))
+                    if (Main.rand.NextBool(Math.Max(20 - (int)(projectile.ai[1] / 6), 1)))
                     {
                         Dust.NewDustDirect(projectile.Center + projectile.velocity * 30 * projectile.scale - new Vector2(12, 12), 12, 12, 6).noGravity = true;
                     }
                 }
-                if (projectile.ai[1] == 90)
+                if (projectile.ai[1] == 120)
                 {
                     Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 218);
                 }
-                if (projectile.ai[1] >= 90)
+                if (projectile.ai[1] >= 120)
                 {
                     Dust.NewDustDirect(projectile.Center + projectile.velocity * 30 * projectile.scale - new Vector2(12, 12), 12, 12, 6).noGravity = true;
                 }
             }
             else if (projectile.localAI[0] <= 0)
             {
-                if (projectile.ai[1] < 90)
+                if (projectile.ai[1] < 120)
                 {
                     int type = 0;
                     Item item = new Item();
@@ -138,33 +139,37 @@ namespace JoostMod.Projectiles
                     }
                     if (canShoot)
                     {
-                        shootSpeed += item.shootSpeed;
+                        shootSpeed += item.shootSpeed + (int)(projectile.ai[1] / 30);
                         type = item.shoot;
                         if (item.consumable)
                         {
                             player.ConsumeItem(item.type);
                         }
-                        Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, type, projectile.damage + item.damage, projectile.knockBack + item.knockBack, projectile.owner);
+                        Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, type, projectile.damage + item.damage + (int)(projectile.ai[1] / 3), projectile.knockBack + item.knockBack + (int)(projectile.ai[1] / 30), projectile.owner);
                         Main.PlaySound(2, projectile.Center, 41);
                     }
                     else
                     {
                         Main.PlaySound(SoundLoader.customSoundType, projectile.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
                     }
+                    projectile.localAI[1] = speed;
+                    projectile.localAI[0] = 1;
                 }
                 else
                 {
-                    //Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, mod.ProjectileType("DragonBlast"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center + projectile.velocity * 30 * projectile.scale + projectile.velocity * 64, projectile.velocity * shootSpeed * 0.5f, mod.ProjectileType("DragonBlast"), projectile.damage * 5, projectile.knockBack * 5, projectile.owner);
+                    Main.PlaySound(2, projectile.Center, 14);
                     Main.PlaySound(42, projectile.Center, 217);
+                    projectile.localAI[1] = speed * 5;
+                    projectile.localAI[0] = 5;
                 }
-                projectile.localAI[0] = 1;
-                projectile.localAI[1] = speed;
                 projectile.ai[1] = 2;
             }
             if (projectile.localAI[1] > 0 && projectile.localAI[0] > 0)
             {
                 projectile.localAI[1]--;
-                float kick = (projectile.localAI[1] < speed * 0.66f) ? projectile.localAI[1] : speed - projectile.localAI[1];
+                float len = projectile.localAI[0] * speed;
+                float kick = (projectile.localAI[1] < len * 0.66f) ? projectile.localAI[1] / 2 : len - projectile.localAI[1];
                 float rot = projectile.velocity.ToRotation() - (5f * 0.0174f * projectile.direction * kick);
                 projectile.rotation = rot + (projectile.direction == -1 ? 3.14f : 0);
             }
@@ -176,16 +181,17 @@ namespace JoostMod.Projectiles
             {
                 projectile.localAI[0] = 0;
             }
-            projectile.position = (vector + projectile.velocity * 11 * (projectile.ai[0] * 0.8f + 0.5f)) - projectile.Size / 2f;
+            projectile.position = (vector + projectile.velocity * 14 * (projectile.ai[0] * 0.7f + 0.5f)) - projectile.Size / 2f;
             projectile.spriteDirection = projectile.direction;
             player.ChangeDir(projectile.direction);
             if (projectile.ai[0] == 0)
             {
                 player.heldProj = projectile.whoAmI;
+                player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+
             }
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
             return false;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
