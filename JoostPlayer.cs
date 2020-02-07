@@ -104,6 +104,8 @@ namespace JoostMod
         public bool havelArmor = false;
         public bool havelArmorActive = false;
         private int havelArmorTimer = -1;
+        public bool fireArmor = false;
+        public bool fireArmorIsActive = false;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
@@ -174,6 +176,7 @@ namespace JoostMod
             havelShield = false;
             havelBlocking = false;
             havelArmor = false;
+            fireArmor = false;
             accRunSpeedMult = 1;
             dashType = 0;
             dashDamage = 0;
@@ -244,6 +247,15 @@ namespace JoostMod
                 }
                 player.lifeRegenTime = 0;
                 player.lifeRegen -= 5;
+            }
+            if (fireArmorIsActive)
+            {
+                if (player.lifeRegen > 0)
+                {
+                    player.lifeRegen = 0;
+                }
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 8;
             }
         }
         public override void FrameEffects()
@@ -524,6 +536,18 @@ namespace JoostMod
                         Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.3f);
                     }
                 }
+                if (fireArmor)
+                {
+                    player.AddBuff(mod.BuffType("fireArmorBuff"), 2);
+                    if (!fireArmorIsActive)
+                    {
+                        fireArmorIsActive = true;
+                    }
+                    else
+                    {
+                        fireArmorIsActive = false;
+                    }
+                }
             }
         }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
@@ -577,6 +601,13 @@ namespace JoostMod
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
                 }
             }
+            if (projectile.ranged)
+            {
+                if (fireArmorIsActive)
+                {
+                    target.AddBuff(BuffID.OnFire, 600);
+                }
+            }
             if (sandStorm && projectile.thrown)
             {
                 int erg = 80;
@@ -601,7 +632,7 @@ namespace JoostMod
                 speedY *= dir * 150 * player.thrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(22 * player.thrownDamage), 1, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * player.thrownDamage), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -643,6 +674,13 @@ namespace JoostMod
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
                 }
             }
+            if (projectile.ranged)
+            {
+                if (fireArmorIsActive)
+                {
+                    target.AddBuff(BuffID.OnFire, 600);
+                }
+            }
             if (sandStorm && projectile.thrown)
             {
                 int erg = 80;
@@ -667,7 +705,7 @@ namespace JoostMod
                 speedY *= dir * 150 * player.thrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(22 * player.thrownDamage), 1, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * player.thrownDamage), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -788,6 +826,23 @@ namespace JoostMod
             else
             {
                 gRangedIsActive = false;
+            }
+            if (fireArmor)
+            {
+                if (fireArmorIsActive)
+                {
+                    player.AddBuff(mod.BuffType("fireArmorBuff"), 2);
+                    player.rangedDamageMult *= 1.4f;
+                    player.moveSpeed *= 1.4f;
+                    player.maxRunSpeed *= 1.4f;
+                    player.accRunSpeed *= 1.4f;
+                    player.onFire = true;
+                    Dust.NewDust(player.position, player.width, player.width, 6, 0, 0, 0, default, Main.rand.NextFloat() + 1);
+                }
+            }
+            else
+            {
+                fireArmorIsActive = false;
             }
             if (havelArmor)
             {
@@ -1889,6 +1944,10 @@ namespace JoostMod
                 }
                 npc.velocity.X = dir * KB;
                 npc.velocity.Y--;
+            }
+            if (fireArmorIsActive)
+            {
+                npc.AddBuff(BuffID.OnFire, 600);
             }
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)

@@ -1,6 +1,6 @@
 The Joostmod has to offer
-406 new items
-10 new armor sets
+411 new items
+12 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
 14 new regular enemies
@@ -12,54 +12,21 @@ Version 0.8.1
 - Added Dragon Tooth
 - Added Havel's Armor
 - Added Havel's Greatshield
+- Added Smoldering Armor
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
+- Tweaked Sparkle Staff Behavior
+- Reduced Sparkle Staff mana cost from 30 to 24
+- Reduced Sparkle Staff attack rate
+- Reduced base damage of Sandstorm Armor's sand from 22 to 20
 - Reduced Mana Cost of Soul Greatsword from 40 to 25
 - Reduced Defense granted by Whirlwind from 25 to 20
 - Reduced Whirlwind attack speed from 8.5 times a second to 7.5 times a second
+- Tweaked Whirlwind so you can change the direction of knockback with the mouse
+- Fixed issue where the Rogue Tomato would sometimes fall through the world after killing the player
+- Hungering arrow is now destroyed when it fails the additional pierce check instead of reducing its penetrate by 1
+- Rocks now only lose 30 damage with each bounce instead of 50 
 - Stone Fist and the Elemental Boomerangs now requires Cobalt, Mythril, and Adamantite like the other Elemental Weapons
-
-Version 0.8.0.3
-- Added Enchanted Grabby Swingy Hook
-- Added support for new Boss Checklist update
-- Fixed Soil Weapons listing their damage as every 500 blocks of dirt. It's actually every 666 blocks.
-- Fixed Shield Sapling making checks when not equipped. This caused performance issues during high amounts of projectiles
-- Fixed the Doom Cannon firing when the player is killed while charging
-- Imp Lord's big Fire Blast now ignores Burning Spheres and has a slightly larger hitbox
-- Gilgamesh's Treasure Bag now has a tiny chance to drop one of the Legendary Stones
-
-
-Version 0.8.0.2
-- Added Ancient Stone
-- Fixed The Rose not counting as a held projectile
-- Fixed the Sapling - Shield's tooltip to be more accurate
-- Fixed the Sandstone Furnace and Frost Furnace being worth multiple platinum coins
-- Fixed Gilgamesh being unkillable with The Antiaris enabled
-- Fixed potential Wonder Waffle crash with Shadows of Abaddon
-- Increased damage of Sharpened Nail from 14 to 18
-- Increased damage of Channeled nail from 22 to 27
-- Reduced speed required to perform the Dash Slash nail art
-- Reduced Treasure Goblin Defense from 40 to 20
-- Reduced Cactoid Commendation spawn frequency from every 37-75 seconds to every 60-120 seconds 
-- Tweaked TARDIS Chest sprite
-- The Shrine of Legends is no longer unmineable - it now requires at least 100% pickaxe power to mine
-- The Shrine of Legends now generates on Ancient Stone - also requires at least 100% pickaxe power to mine
-- The dual damage type weapons now properly count as both damage types at a technical level
-- Treasure goblin now creates a portal to escape from instead of going through tiles when hitting a wall
-- Renamed White Knight Mask to The Knight's Mask
-
-Version 0.8.0.1
-- Added Cactoid Compact
-- Fixed Cactites and Cactoids despawning when using the Cactoid Commendation
-- (Hopefully) Fixed SA-X issues in multiplayer
-- Increased Post-Moonlord health and defense of Cactoids and Cactites
-- Increased health and defense of Cactoids and Cactites after defeating Plantera
-- Increased immunity time of friendly Cactoids and Cactites from 1/3rd of a second to 3/4ths of a second 
-- Tweaked Terra Fury movement
-- While swinging forward, Joostmod Flails count as held projectiles for purposes like the Corrupt Pommel
-
-Version 0.8
-- Check the homepage or discord, it's over 100 lines

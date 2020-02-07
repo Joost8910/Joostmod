@@ -81,6 +81,7 @@ namespace JoostMod.NPCs.Hunts
             }
             if (npc.ai[0] < 1)
             {
+                npc.noTileCollide = false;
                 npc.ai[1] = 0;
                 npc.ai[2] = 0;
                 npc.ai[3] = 0;

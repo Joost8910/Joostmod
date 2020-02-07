@@ -26,8 +26,8 @@ namespace JoostMod.Projectiles
 		}
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.damage -= 50;
-            projectile.knockBack *= 0.75f;
+            projectile.damage -= 30;
+            projectile.knockBack *= 0.8f;
             if (projectile.damage <= 0)
             {
                 projectile.Kill();

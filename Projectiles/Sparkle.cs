@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +10,6 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sparkle");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
@@ -22,19 +19,36 @@ namespace JoostMod.Projectiles
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 30;
+			projectile.timeLeft = 105;
 			projectile.light = 0.3f;
 			projectile.ignoreWater = false;
 			projectile.alpha = 128;
-			projectile.extraUpdates = 1;
 			aiType = ProjectileID.Bullet;
 			projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 10;
 		}
-		public override void Kill(int timeLeft)
-		{
-	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 1f, mod.ProjectileType("Sparkle2"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);
-		}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.velocity = Vector2.Zero;
+            return false;
+        }
+        public override void AI()
+        {
+            if (projectile.timeLeft == 90)
+            {
+                projectile.velocity = Vector2.Zero;
+            }
+            if (projectile.timeLeft < 90)
+            {
+                projectile.velocity.X += Main.rand.NextFloat(-0.1f, 0.1f);
+                projectile.velocity.Y += Main.rand.NextFloat(-0.1f, 0.1f);
+                projectile.scale = projectile.timeLeft / 90f;
+            }
+        }
+        public override void Kill(int timeLeft)
+        {
+            //Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Sparkle2"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);
+        }
 
 
 	}

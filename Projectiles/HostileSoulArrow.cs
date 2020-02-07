@@ -102,7 +102,7 @@ namespace JoostMod.Projectiles
                 int dustIndex = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 92);
                 Main.dust[dustIndex].noGravity = true;
             }
-            Main.PlaySound(0, projectile.Center);
+            Main.PlaySound(2, projectile.Center, 8);
         }
     }
 }

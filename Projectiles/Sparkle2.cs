@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +9,6 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sparkle");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
@@ -22,7 +18,7 @@ namespace JoostMod.Projectiles
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 60;
+			projectile.timeLeft = 90;
 			projectile.light = 0.3f;
 			projectile.ignoreWater = false;
 			projectile.tileCollide = false;
@@ -31,7 +27,12 @@ namespace JoostMod.Projectiles
 			projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 10;
 		}
+        public override void AI()
+        {
+            projectile.velocity.X += Main.rand.NextFloat(-0.1f, 0.1f);
+            projectile.velocity.Y += Main.rand.NextFloat(-0.1f, 0.1f);
+            projectile.scale = projectile.timeLeft / 90f;
+        }
 
-
-	}
+    }
 }

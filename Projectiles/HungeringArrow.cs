@@ -31,6 +31,14 @@ namespace JoostMod.Projectiles
             {
                 projectile.penetrate++;
             }
+            else
+            {
+                projectile.Kill();
+            }
+        }
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(0, projectile.Center);
         }
 
         public override void AI()
