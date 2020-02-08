@@ -28,7 +28,7 @@ namespace JoostMod.Projectiles
             projectile.scale = 1f;
             projectile.ranged = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 75;
+            projectile.localNPCHitCooldown = 40;
             projectile.extraUpdates = 2;
         }
         public override void AI()
@@ -123,8 +123,8 @@ namespace JoostMod.Projectiles
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            width = 40;
-            height = 40;
+            width = 34;
+            height = 34;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

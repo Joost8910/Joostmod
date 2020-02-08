@@ -12,15 +12,20 @@ Version 0.8.1
 - Added Dragon Tooth
 - Added Havel's Armor
 - Added Havel's Greatshield
+- Added Dragon Blasters
+- Added Blazing Anklets
 - Added Smoldering Armor
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
+- Increased damage of Napalm Launcher from 25 to 30
 - Tweaked Sparkle Staff Behavior
 - Reduced Sparkle Staff mana cost from 30 to 24
 - Reduced Sparkle Staff attack rate
+- Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
+- Reduced Napalm Launcher's attack speed
 - Reduced base damage of Sandstorm Armor's sand from 22 to 20
 - Reduced Mana Cost of Soul Greatsword from 40 to 25
 - Reduced Defense granted by Whirlwind from 25 to 20

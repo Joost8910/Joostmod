@@ -106,6 +106,7 @@ namespace JoostMod
         private int havelArmorTimer = -1;
         public bool fireArmor = false;
         public bool fireArmorIsActive = false;
+        public bool blazeAnklet = false;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
@@ -177,6 +178,7 @@ namespace JoostMod
             havelBlocking = false;
             havelArmor = false;
             fireArmor = false;
+            blazeAnklet = false;
             accRunSpeedMult = 1;
             dashType = 0;
             dashDamage = 0;
@@ -255,7 +257,7 @@ namespace JoostMod
                     player.lifeRegen = 0;
                 }
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
+                player.lifeRegen -= 12;
             }
         }
         public override void FrameEffects()
@@ -632,7 +634,7 @@ namespace JoostMod
                 speedY *= dir * 150 * player.thrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * player.thrownDamage), 1, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * (player.allDamage + player.thrownDamage - 1) * player.thrownDamageMult * player.allDamageMult), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -705,7 +707,7 @@ namespace JoostMod
                 speedY *= dir * 150 * player.thrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * player.thrownDamage), 1, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * (player.allDamage + player.thrownDamage - 1) * player.thrownDamageMult * player.allDamageMult), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -1720,6 +1722,43 @@ namespace JoostMod
                 else
                 {
                     player.velocity.X *= 0.95f;
+                }
+            }
+            if (blazeAnklet)
+            {
+                int num = (int)(player.Center.X / 16f);
+                int num2 = (int)((player.position.Y + player.height) / 16f);
+                if (player.gravDir == -1f)
+                {
+                    num2 = (int)(player.position.Y - 0.1f) / 16;
+                }
+                int type = -1;
+                if (Main.tile[num, num2].nactive() && Main.tileSolid[Main.tile[num, num2].type])
+                {
+                    type = Main.tile[num, num2].type;
+                }
+                else if (Main.tile[num - 1, num2].nactive() && Main.tileSolid[Main.tile[num - 1, num2].type])
+                {
+                    type = Main.tile[num - 1, num2].type;
+                }
+                else if (Main.tile[num + 1, num2].nactive() && Main.tileSolid[Main.tile[num + 1, num2].type])
+                {
+                    type = Main.tile[num + 1, num2].type;
+                }
+                if (type != -1 && TileID.Sets.TouchDamageHot[type] != 0)
+                {
+                    player.maxRunSpeed *= 5f;
+                    player.runAcceleration *= 2f;
+                    player.runSlowdown *= 2f;
+                    Dust.NewDustDirect(new Vector2(player.position.X, num2 * 16 - 10 * player.gravDir), player.width, 10, 6).noGravity = true;
+                }
+                player.rangedCrit += (int)Math.Round(Math.Abs(player.velocity.X / 2));
+                if (fireArmorIsActive && player.velocity.Y == 0 && Math.Abs(player.velocity.X) > 5)
+                {
+                    for (int i = 0; i <= Math.Round(Math.Abs(player.velocity.X) / 16f); i++)
+                    {
+                        Projectile.NewProjectile((num + i * player.direction) * 16, num2 * 16, 0, 0, mod.ProjectileType("Flame2"), (int)(25 * (player.allDamage + player.rangedDamage - 1) * player.rangedDamageMult * player.allDamageMult), 0, player.whoAmI);
+                    }
                 }
             }
         }

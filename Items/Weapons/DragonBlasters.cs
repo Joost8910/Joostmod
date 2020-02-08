@@ -12,7 +12,8 @@ namespace JoostMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Dragon Blasters");
 			Tooltip.SetDefault("Left and right click to fire each gun\n" +
-                "Hold the attack down to charge a blast of fire");
+                "Hold the attack down to charge a blast of fire\n" +
+                "35% chance to not consume ammo");
 		}
 		public override void SetDefaults()
 		{
@@ -33,6 +34,10 @@ namespace JoostMod.Items.Weapons
 			item.noMelee = true;
 			item.shoot = mod.ProjectileType("DragonBlaster");
 			item.shootSpeed = 13f;
+        }
+        public override bool ConsumeAmmo(Player player)
+        {
+            return Main.rand.NextFloat() > 0.35f;
         }
         public override bool CanUseItem(Player player)
         {

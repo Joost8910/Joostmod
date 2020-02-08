@@ -11,16 +11,17 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Napalm Launcher");
-			Tooltip.SetDefault("Uses napalms for ammo\n" + "50% chance to not consume ammo");
+			Tooltip.SetDefault("Uses napalms for ammo\n" + 
+                "25% chance to not consume ammo");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 25;
+			item.damage = 30;
 			item.ranged = true;
 			item.width = 64;
 			item.height = 64;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			item.useTime = 18;
+			item.useAnimation = 18;
 			item.useStyle = 5;
 			item.noMelee = true; 
 			item.knockBack = 1;
@@ -32,10 +33,13 @@ namespace JoostMod.Items.Weapons
 			item.shootSpeed = 8f;
 			item.useAmmo = mod.ItemType("Napalm");
 		}
-
-public override bool ConsumeAmmo(Player player)
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-12, 0);
+        }
+        public override bool ConsumeAmmo(Player player)
 		{
-			return Main.rand.NextFloat() > .50f;
+			return Main.rand.NextFloat() > .25f;
 		}
 		public override void AddRecipes()
 		{

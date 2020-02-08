@@ -104,6 +104,7 @@ namespace JoostMod.Projectiles
                 }
                 if (projectile.ai[1] >= 120)
                 {
+                    player.velocity.X *= 0.99f;
                     Dust.NewDustDirect(projectile.Center + projectile.velocity * 30 * projectile.scale - new Vector2(12, 12), 12, 12, 6).noGravity = true;
                 }
             }
@@ -145,7 +146,7 @@ namespace JoostMod.Projectiles
                         {
                             player.ConsumeItem(item.type);
                         }
-                        Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, type, projectile.damage + item.damage + (int)(projectile.ai[1] / 3), projectile.knockBack + item.knockBack + (int)(projectile.ai[1] / 30), projectile.owner);
+                        Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, type, (projectile.damage + item.damage) + (projectile.damage * (int)(projectile.ai[1] / 30)), projectile.knockBack + item.knockBack + (int)(projectile.ai[1] / 30), projectile.owner);
                         Main.PlaySound(2, projectile.Center, 41);
                     }
                     else
@@ -157,7 +158,19 @@ namespace JoostMod.Projectiles
                 }
                 else
                 {
-                    Projectile.NewProjectile(projectile.Center + projectile.velocity * 30 * projectile.scale + projectile.velocity * 64, projectile.velocity * shootSpeed * 0.5f, mod.ProjectileType("DragonBlast"), projectile.damage * 5, projectile.knockBack * 5, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center + projectile.velocity * 30 * projectile.scale + projectile.velocity * 24, projectile.velocity * shootSpeed * 0.5f, mod.ProjectileType("DragonBlast"), projectile.damage * 7, projectile.knockBack * 7, projectile.owner);
+
+                    Vector2 dir = -projectile.velocity;
+                    dir.Normalize();
+                    dir = dir * shootSpeed;
+                    if (player.velocity.X * dir.X <= 0 || (player.velocity.X * dir.X > 0 && Math.Abs(player.velocity.X) < Math.Abs(dir.X)))
+                    {
+                        player.velocity.X = dir.X;
+                    }
+                    if (player.velocity.Y * dir.Y <= 0 || (player.velocity.Y * dir.Y > 0 && Math.Abs(player.velocity.Y) < Math.Abs(dir.Y)))
+                    {
+                        player.velocity.Y = dir.Y;
+                    }
                     Main.PlaySound(2, projectile.Center, 14);
                     Main.PlaySound(42, projectile.Center, 217);
                     projectile.localAI[1] = speed * 5;
@@ -169,8 +182,8 @@ namespace JoostMod.Projectiles
             {
                 projectile.localAI[1]--;
                 float len = projectile.localAI[0] * speed;
-                float kick = (projectile.localAI[1] < len * 0.66f) ? projectile.localAI[1] / 2 : len - projectile.localAI[1];
-                float rot = projectile.velocity.ToRotation() - (5f * 0.0174f * projectile.direction * kick);
+                float kick = (projectile.localAI[1] < len * 0.75f) ? projectile.localAI[1] / 3 : len - projectile.localAI[1];
+                float rot = projectile.velocity.ToRotation() - (7f * 0.0174f * projectile.direction * kick);
                 projectile.rotation = rot + (projectile.direction == -1 ? 3.14f : 0);
             }
             else
