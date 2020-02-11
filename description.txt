@@ -20,10 +20,13 @@ Version 0.8.1
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
+- Increased damage of Soul Greatsword from 270 to 320
+- Increased damage of Stone Fist from 300 to 333
 - Increased damage of Napalm Launcher from 25 to 30
 - Tweaked Sparkle Staff Behavior
 - Reduced Sparkle Staff mana cost from 30 to 24
-- Reduced Sparkle Staff attack rate
+- Reduced Sparkle Staff attack speed
+- Reduced Stone Fist attack speed
 - Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
 - Reduced Napalm Launcher's attack speed
 - Reduced base damage of Sandstorm Armor's sand from 22 to 20

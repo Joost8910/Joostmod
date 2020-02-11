@@ -15,7 +15,7 @@ namespace JoostMod.Items.Weapons
         }
 		public override void SetDefaults()
 		{
-			item.damage = 270;
+			item.damage = 320;
 			item.melee = true;
             item.magic = true;
             item.mana = 25;

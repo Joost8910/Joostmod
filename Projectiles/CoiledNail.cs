@@ -62,24 +62,33 @@ namespace JoostMod.Projectiles
                         projectile.velocity = vector13;
                     }
                 }
-                if (projectile.ai[0] >= 35 && projectile.ai[0] < 100)
+                if (projectile.ai[0] == 20)
                 {
-                    if (projectile.ai[0] % 15 == 0)
-                    {
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
-                    }
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_charge_initiate_1"));
+                }
+                if (projectile.ai[0] == 60)
+                {
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_charge_initiate_2"));
+                }
+                if (projectile.ai[0] >= 20 && projectile.ai[0] < 100)
+                {
                     int dust = Dust.NewDust(player.position, player.width, player.height, 261);
                     Main.dust[dust].noGravity = true;
                 }
                 if (projectile.ai[0] == 100)
                 {
-                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_charge_complete"));
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_charge_loop_1"));
                 }
                 if (projectile.ai[0] > 100)
                 {
-                    if (projectile.ai[0] % 6 == 0)
+                    if ((projectile.ai[0] + 20) % 80 == 40)
                     {
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
+                        Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_charge_loop_1"));
+                    }
+                    if ((projectile.ai[0] + 20) % 80 == 0)
+                    {
+                        Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_charge_loop_2"));
                     }
                     int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 261, 5, -3 * player.gravDir, 0, default(Color), 1);
                     Main.dust[dust2].noGravity = true;
@@ -149,23 +158,24 @@ namespace JoostMod.Projectiles
 		}
         public override void Kill(int timeLeft)
         {
-            if(projectile.ai[0] > 100)
+            if (projectile.ai[0] > 100)
             {
                 Player player = Main.player[projectile.owner];
-                Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);	
-                if (Math.Abs(player.velocity.X) >= 6 && player.velocity.X * projectile.velocity.X > 0 && Math.Abs(projectile.velocity.Y) < 4)
+                Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);
+                if (player.controlUp || player.controlDown)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_cyclone_slash_1"));
+                    Projectile.NewProjectile(pos.X, pos.Y, player.direction, 0, mod.ProjectileType("SpinSlash"), projectile.damage, projectile.knockBack, projectile.owner);
+                }
+                else if (Math.Abs(player.velocity.X) >= 6 && player.velocity.X * projectile.velocity.X > 0 && Math.Abs(projectile.velocity.Y) < 4)
+                {
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_great_slash"));
                     Projectile.NewProjectile(pos.X, pos.Y, player.direction * 40, 0, mod.ProjectileType("DashSlash"), projectile.damage * 9, projectile.knockBack * 5, projectile.owner);
                     player.velocity.X += 7 * player.direction;
                 }
-                else if (player.controlUp || player.controlDown)
-                {
-                     Projectile.NewProjectile(pos.X, pos.Y, player.direction, 0, mod.ProjectileType("SpinSlash"), projectile.damage, projectile.knockBack, projectile.owner);
-                }
                 else
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+                    Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_great_slash"));
                     Projectile.NewProjectile(pos.X, pos.Y, projectile.velocity.X * 2, projectile.velocity.Y * 2, mod.ProjectileType("GreatSlash"), projectile.damage * 9, projectile.knockBack * 5, projectile.owner);
                 }
             }

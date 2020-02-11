@@ -543,10 +543,16 @@ namespace JoostMod
                     player.AddBuff(mod.BuffType("fireArmorBuff"), 2);
                     if (!fireArmorIsActive)
                     {
+                        Main.PlaySound(42, player.Center, 198);
+                        for (int i = 0; i < 30; i++)
+                            Dust.NewDustDirect(player.position, player.width, player.height, 6, player.velocity.X, player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
                         fireArmorIsActive = true;
                     }
                     else
                     {
+                        Main.PlaySound(2, player.Center, 13);
+                        for (int i = 0; i < 30; i++)
+                            Dust.NewDust(player.position, player.width, player.height, 31, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
                         fireArmorIsActive = false;
                     }
                 }

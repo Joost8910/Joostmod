@@ -34,10 +34,11 @@ namespace JoostMod.Items.Weapons
 			item.noMelee = true;
 			item.shoot = mod.ProjectileType("DragonBlaster");
 			item.shootSpeed = 13f;
+            item.useAmmo = AmmoID.Bullet;
         }
         public override bool ConsumeAmmo(Player player)
         {
-            return Main.rand.NextFloat() > 0.35f;
+            return false;
         }
         public override bool CanUseItem(Player player)
         {
@@ -53,6 +54,7 @@ namespace JoostMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            type = mod.ProjectileType("DragonBlaster");
             if (player.altFunctionUse == 2)
             {
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 1);

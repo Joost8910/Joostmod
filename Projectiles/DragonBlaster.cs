@@ -142,7 +142,7 @@ namespace JoostMod.Projectiles
                     {
                         shootSpeed += item.shootSpeed + (int)(projectile.ai[1] / 30);
                         type = item.shoot;
-                        if (item.consumable)
+                        if (item.consumable && Main.rand.NextFloat() > 0.35f)
                         {
                             player.ConsumeItem(item.type);
                         }
