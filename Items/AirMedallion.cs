@@ -3,16 +3,13 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items
 {
-	[AutoloadEquip(EquipType.Shoes)]
-	public class BlazingAnklet : ModItem
+	public class AirMedallion : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blazing Anklets");
-			Tooltip.SetDefault("Increases running speed by 25%\n" +
-                "For every 10mph you're running at, ranged crit chance increases by 1%\n" +
-                "Greatly increases running speed while on fire blocks\n" + 
-                "Grants immunity to fire blocks");
+			DisplayName.SetDefault("Gust Medallion");
+			Tooltip.SetDefault("Increases movement speed by 10%\n" +
+                "Your summon attacks have a 10% chance to create a gust of wind");
 		}
 		public override void SetDefaults()
 		{
@@ -26,16 +23,15 @@ namespace JoostMod.Items
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.fireWalk = true;
-            player.moveSpeed *= 1.25f;
-            player.maxRunSpeed *= 1.25f;
-            if (!player.mount.Active)
-                player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 1.25f;
-            player.GetModPlayer<JoostPlayer>().blazeAnklet = true;
+            player.moveSpeed *= 1.1f;
+            player.maxRunSpeed *= 1.1f;
+            player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 1.1f;
+            player.GetModPlayer<JoostPlayer>().airMedallion = true;
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FireEssence", 50);
+            recipe.AddIngredient(null, "TinyTwister", 50);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
             recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);

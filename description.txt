@@ -15,8 +15,11 @@ Version 0.8.1
 - Added Dragon Blasters
 - Added Blazing Anklets
 - Added Smoldering Armor
+- Added Tornado Armor
+- Added Whirlwind Sphere
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
+- Added Sandstone Kunai
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
@@ -38,3 +41,4 @@ Version 0.8.1
 - Hungering arrow is now destroyed when it fails the additional pierce check instead of reducing its penetrate by 1
 - Rocks now only lose 30 damage with each bounce instead of 50 
 - Stone Fist and the Elemental Boomerangs now requires Cobalt, Mythril, and Adamantite like the other Elemental Weapons
+- The Nails now use their original sound effects for the nail arts

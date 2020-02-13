@@ -107,6 +107,10 @@ namespace JoostMod
         public bool fireArmor = false;
         public bool fireArmorIsActive = false;
         public bool blazeAnklet = false;
+        public bool airArmor = false;
+        public bool airArmorIsActive = false;
+        private int airArmorDodgeTimer = -1;
+        public bool airMedallion = false;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
@@ -179,6 +183,9 @@ namespace JoostMod
             havelArmor = false;
             fireArmor = false;
             blazeAnklet = false;
+            airArmor = false;
+            airArmorIsActive = false;
+            airMedallion = false;
             accRunSpeedMult = 1;
             dashType = 0;
             dashDamage = 0;
@@ -258,6 +265,14 @@ namespace JoostMod
                 }
                 player.lifeRegenTime = 0;
                 player.lifeRegen -= 12;
+            }
+        }
+        public override void UpdateLifeRegen()
+        {
+            if (airArmorIsActive)
+            {
+                player.lifeRegenTime += 10;
+                player.lifeRegen += 3;
             }
         }
         public override void FrameEffects()
@@ -556,6 +571,36 @@ namespace JoostMod
                         fireArmorIsActive = false;
                     }
                 }
+                if (airArmor)
+                {
+                    float count = 0;
+                    for (int i = 0; i < Main.maxProjectiles; i++)
+                    {
+                        Projectile proj = Main.projectile[i];
+                        if (proj.owner == player.whoAmI && proj.active && proj.minionSlots > 0)
+                        {
+                            proj.Kill();
+                            count += proj.minionSlots;
+                            for (int d = 0; d < 10; d++)
+                                Dust.NewDust(proj.position, proj.width, proj.height, 31, 0, 0, 0, Color.White, Main.rand.NextFloat() + 1);
+                        }
+                    }
+                    int duration = (int)(count * 2 * 60);
+
+                    if (duration > 0)
+                    {
+                        if (airArmorDodgeTimer <= 0 && player.immuneTime < 40)
+                        {
+                            airArmorDodgeTimer = 180;
+                            player.immune = true;
+                            player.immuneTime = 45;
+                        }
+                        player.AddBuff(mod.BuffType("AirArmorBuff"), duration);
+                        Main.PlaySound(42, player.Center, 203);
+                        for (int i = 0; i < 30; i++)
+                            Dust.NewDust(player.position, player.width, player.height, 31, -4 * player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
+                    }
+                }
             }
         }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
@@ -605,7 +650,7 @@ namespace JoostMod
                 }
                 if (gMelee && player.ownedProjectileCounts[mod.ProjectileType("Masamune")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), (int)(500 * player.meleeDamage), 10f, player.whoAmI);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), (int)(500 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult), 10f, player.whoAmI);
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
                 }
             }
@@ -614,6 +659,14 @@ namespace JoostMod
                 if (fireArmorIsActive)
                 {
                     target.AddBuff(BuffID.OnFire, 600);
+                }
+            }
+            if (projectile.minion)
+            {
+                if (airMedallion && projectile.type != mod.ProjectileType("AirBlast") && Main.rand.NextBool(10))
+                {
+                    Main.PlaySound(2, target.Center, 7);
+                    Projectile.NewProjectile(target.Center.X, target.position.Y + target.height, 0, -10f, mod.ProjectileType("AirBlast"), (int)(25 * (player.allDamage + player.minionDamage - 1) * player.minionDamageMult * player.allDamageMult), 0, player.whoAmI);
                 }
             }
             if (sandStorm && projectile.thrown)
@@ -1766,6 +1819,60 @@ namespace JoostMod
                         Projectile.NewProjectile((num + i * player.direction) * 16, num2 * 16, 0, 0, mod.ProjectileType("Flame2"), (int)(25 * (player.allDamage + player.rangedDamage - 1) * player.rangedDamageMult * player.allDamageMult), 0, player.whoAmI);
                     }
                 }
+            }
+            if (airArmorIsActive)
+            {
+                player.maxRunSpeed *= 1.5f;
+                accRunSpeedMult *= 1.5f;
+                player.runAcceleration *= 2f;
+                player.runSlowdown *= 3f;
+                player.jumpSpeedBoost += 5f;
+                player.noFallDmg = true;
+                if (player.controlRight && player.velocity.X < player.maxRunSpeed)
+                {
+                    player.velocity.X += 0.3f;
+                }
+                if (player.controlLeft && player.velocity.X > -player.maxRunSpeed)
+                {
+                    player.velocity.X -= 0.3f;
+                }
+                if (player.gravDir > 0)
+                {
+                    if (player.controlJump && player.velocity.Y > -player.maxRunSpeed)
+                    {
+                        player.velocity.Y -= 0.25f;
+                    }
+                    if (player.controlDown && player.velocity.Y < player.maxRunSpeed)
+                    {
+                        player.velocity.Y += 0.25f;
+                    }
+                }
+                else
+                {
+                    if (player.controlJump && player.velocity.Y < player.maxRunSpeed)
+                    {
+                        player.velocity.Y += 0.25f;
+                    }
+                    if (player.controlDown && player.velocity.Y > -player.maxRunSpeed)
+                    {
+                        player.velocity.Y -= 0.25f;
+                    }
+                }
+                Dust.NewDust(player.position, player.width, player.height, 31, -4 * player.direction, 0f, 0, Color.White, 1f);
+            }
+            if (airArmorDodgeTimer > 0)
+            {
+                airArmorDodgeTimer--;
+            }
+            else if (airArmor)
+            {
+                if (airArmorDodgeTimer == 0)
+                {
+                    airArmorDodgeTimer--;
+                    Main.PlaySound(2, player.Center, 18);
+                }
+                if (Main.rand.NextBool(2))
+                    Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + (player.height / 2 * player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
             }
         }
         public override void PostUpdateRunSpeeds()
