@@ -46,7 +46,7 @@ namespace JoostMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FireEssence", 50);
+            recipe.AddIngredient(null, "TinyTwister", 50);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
             recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);

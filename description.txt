@@ -15,6 +15,8 @@ Version 0.8.1
 - Added Dragon Blasters
 - Added Blazing Anklets
 - Added Smoldering Armor
+- Added Chimes of the Wind
+- Added Gust Medallion
 - Added Tornado Armor
 - Added Whirlwind Sphere
 - Added Sandstorm Glove
@@ -23,6 +25,7 @@ Version 0.8.1
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
+- Tweaked Staff of the Sea and Tornado rod sprites
 - Increased damage of Soul Greatsword from 270 to 320
 - Increased damage of Stone Fist from 300 to 333
 - Increased damage of Napalm Launcher from 25 to 30
@@ -32,6 +35,7 @@ Version 0.8.1
 - Reduced Stone Fist attack speed
 - Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
 - Reduced Napalm Launcher's attack speed
+- Reduced damage of Yin Yang charm from 35 to 25
 - Reduced base damage of Sandstorm Armor's sand from 22 to 20
 - Reduced Mana Cost of Soul Greatsword from 40 to 25
 - Reduced Defense granted by Whirlwind from 25 to 20

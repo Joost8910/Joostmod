@@ -17,9 +17,9 @@ namespace JoostMod.Mounts
 			mountData.dashSpeed = 11f;
 			mountData.flightTimeMax = 120;
 			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 12;
+			mountData.jumpHeight = 6;
 			mountData.acceleration = 0.25f;
-			mountData.jumpSpeed = 8f;
+			mountData.jumpSpeed = 6f;
 			mountData.blockExtraJumps = false;
 			mountData.totalFrames = 4;
 			mountData.constantJump = true;
@@ -30,7 +30,8 @@ namespace JoostMod.Mounts
 			}
 			mountData.playerYOffsets = array;
 			mountData.xOffset = 10;
-			mountData.yOffset = 2;
+            mountData.bodyFrame = 6;
+            mountData.yOffset = 2;
 			mountData.playerHeadOffset = 22;
 			mountData.standingFrameCount = 4;
 			mountData.standingFrameDelay = 8;

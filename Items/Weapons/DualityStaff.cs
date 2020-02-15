@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons
 			item.useStyle = 5;
 			//Item.staff[item.type] = true; 
 			item.knockBack = 0;
-			item.value = 50000;
+			item.value = 144000;
 			item.rare = 5;
 			item.noMelee = true;
 			item.magic = true;

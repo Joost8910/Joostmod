@@ -18,7 +18,7 @@ public override void SetStaticDefaults()
 		{
 			item.width = 18;
 			item.height = 18;
-			item.value = 10000;
+			item.value = 14400;
 			item.rare = 5;
 			item.defense = 15;
 		}

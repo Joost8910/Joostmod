@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Air Blast");
+			DisplayName.SetDefault("Gust of Air");
 		}
 		public override void SetDefaults()
 		{

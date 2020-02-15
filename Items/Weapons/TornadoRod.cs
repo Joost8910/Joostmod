@@ -32,10 +32,10 @@ namespace JoostMod.Items.Weapons
 			item.buffType = mod.BuffType("WindMinion");
 			item.buffTime = 3600;
 		}
-				public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

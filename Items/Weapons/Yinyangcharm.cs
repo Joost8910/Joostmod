@@ -13,7 +13,7 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 35;
+			item.damage = 25;
 			item.summon = true;
 			item.mana = 15;
 			item.width = 42;
@@ -22,7 +22,7 @@ namespace JoostMod.Items.Weapons
 			item.useAnimation = 40;
 			item.useStyle = 4;
 			item.knockBack = 4;
-			item.value = 50000;
+			item.value = 144000;
 			item.rare = 5;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item43;
