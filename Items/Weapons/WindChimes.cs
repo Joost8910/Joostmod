@@ -22,7 +22,7 @@ namespace JoostMod.Items.Weapons
 			item.height = 42;
 			item.useTime = 10;
 			item.useAnimation = 20;
-			item.useStyle = 4;
+			item.useStyle =4;
 			item.knockBack = 9.2f;
             item.value = 225000;
             item.rare = 5;
@@ -31,6 +31,10 @@ namespace JoostMod.Items.Weapons
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("Wind");
 			item.shootSpeed = 12.8f;
+        }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 30);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -448,6 +448,13 @@ namespace JoostMod
             recipe.AddTile(null, "ElementalForge");
             recipe.SetResult(ItemID.HotlineFishingHook);
             recipe.AddRecipe();
+
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(null, "WaterEssence", 25);
+            recipe.AddIngredient(ItemID.WaterBucket);
+            recipe.AddTile(null, "ElementalForge");
+            recipe.SetResult(ItemID.BottomlessBucket);
+            recipe.AddRecipe();
         }
         public override void Load()
         {

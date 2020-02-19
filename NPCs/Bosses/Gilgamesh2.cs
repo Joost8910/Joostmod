@@ -57,6 +57,8 @@ namespace JoostMod.NPCs.Bosses
             }
             if (!NPC.AnyNPCs(mod.NPCType("Enkidu")))
             {
+                if (!JoostWorld.downedGilgamesh)
+                    Main.NewText("With Gilgamesh and Enkidu's defeat, you can now fish the legendary stones from their respective biomes", 125, 25, 225);
                 JoostWorld.downedGilgamesh = true;
                 if (Main.expertMode)
                 {

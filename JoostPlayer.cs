@@ -111,6 +111,7 @@ namespace JoostMod
         public bool airArmorIsActive = false;
         private int airArmorDodgeTimer = -1;
         public bool airMedallion = false;
+        public bool zoraArmor = false;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
@@ -186,6 +187,7 @@ namespace JoostMod
             airArmor = false;
             airArmorIsActive = false;
             airMedallion = false;
+            zoraArmor = false;
             accRunSpeedMult = 1;
             dashType = 0;
             dashDamage = 0;
@@ -591,7 +593,7 @@ namespace JoostMod
                     {
                         if (airArmorDodgeTimer <= 0 && player.immuneTime < 40)
                         {
-                            airArmorDodgeTimer = 180;
+                            airArmorDodgeTimer = 165;
                             player.immune = true;
                             player.immuneTime = 45;
                         }
@@ -600,6 +602,44 @@ namespace JoostMod
                         for (int i = 0; i < 30; i++)
                             Dust.NewDust(player.position, player.width, player.height, 31, -4 * player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
                     }
+                }
+                if (zoraArmor && player.ownedProjectileCounts[mod.ProjectileType("ZoraSpin")] < 1)
+                {
+                    int damage = (int)(30 * player.allDamageMult * (player.allDamage + player.magicDamage - 1f) * player.magicDamageMult);
+                    int wet = player.wet ? 1 : 0;
+                    float speed = 6;
+                    Vector2 vel = new Vector2(0, -player.gravity);
+                    if (player.controlRight)
+                    {
+                        vel.X += speed;
+                    }
+                    if (player.controlLeft)
+                    {
+                        vel.X -= speed;
+                    }
+                    if (player.controlUp || player.controlJump)
+                    {
+                        vel.Y -= player.gravDir * speed;
+                    }
+                    if (player.controlDown)
+                    {
+                        vel.Y += player.gravDir * speed;
+                    }
+                    if (vel.X != 0 && vel.Y != 0)
+                    {
+                        vel *= 0.707f;
+                    }
+                    if (player.wet)
+                    {
+                        vel *= 2;
+                        if (player.immuneTime < 24)
+                        {
+                            player.immune = true;
+                            player.immuneTime = 24;
+                        }
+                    }
+                    Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ZoraSpin"), damage, 5f, player.whoAmI, wet);
+                    Main.PlaySound(42, player.Center, 201);
                 }
             }
         }
@@ -665,7 +705,7 @@ namespace JoostMod
             {
                 if (airMedallion && projectile.type != mod.ProjectileType("AirBlast") && Main.rand.NextBool(10))
                 {
-                    Main.PlaySound(2, target.Center, 7);
+                    Main.PlaySound(2, target.Center, 18);
                     Projectile.NewProjectile(target.Center.X, target.position.Y + target.height, 0, -10f, mod.ProjectileType("AirBlast"), (int)(25 * (player.allDamage + player.minionDamage - 1) * player.minionDamageMult * player.allDamageMult), 0, player.whoAmI);
                 }
             }
@@ -822,6 +862,47 @@ namespace JoostMod
             {
                 caughtType = 3456 + Main.rand.Next(4);
             }
+            if (JoostWorld.downedGilgamesh)
+            {
+                if (Main.rand.NextBool(Math.Max(200, 250000 / power)))
+                {
+                    if (player.ZoneCorrupt || player.ZoneCrimson)
+                    {
+                        caughtType = mod.ItemType("EvilStone");
+                    }
+                }
+                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && player.ZoneDungeon)
+                {
+                    caughtType = mod.ItemType("SkullStone");
+                }
+                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && player.ZoneJungle)
+                {
+                    caughtType = mod.ItemType("JungleStone");
+                }
+                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && player.ZoneUnderworldHeight)
+                {
+                    caughtType = mod.ItemType("InfernoStone");
+                }
+                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && liquidType == 0)
+                {
+                    if (player.position.X / 16 < 350)
+                    {
+                        caughtType = mod.ItemType("SeaStoneWest");
+                    }
+                    if (player.position.X / 16 > Main.maxTilesX - 350)
+                    {
+                        caughtType = mod.ItemType("SeaStoneEast");
+                    }
+                    if (worldLayer >= 3)
+                    {
+                        caughtType = mod.ItemType("SeaStoneDeep");
+                    }
+                    if (worldLayer <= 0)
+                    {
+                        caughtType = mod.ItemType("SeaStoneHigh");
+                    }
+                }
+            }
             if (Main.rand.Next(Math.Max(100, 50000 / power)) == 0 && liquidType == 0)
             {
                 if (player.position.X / 16 < 350 && !westStone)
@@ -887,6 +968,12 @@ namespace JoostMod
             else
             {
                 gRangedIsActive = false;
+            }
+            if (player.ownedProjectileCounts[mod.ProjectileType("ZoraSpin")] > 0)
+            {
+                player.noItems = true;
+                if (player.wet)
+                    player.maxFallSpeed += 10;
             }
             if (fireArmor)
             {
@@ -1869,7 +1956,7 @@ namespace JoostMod
                 if (airArmorDodgeTimer == 0)
                 {
                     airArmorDodgeTimer--;
-                    Main.PlaySound(2, player.Center, 18);
+                    Main.PlaySound(2, player.Center, 7);
                 }
                 if (Main.rand.NextBool(2))
                     Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + (player.height / 2 * player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;

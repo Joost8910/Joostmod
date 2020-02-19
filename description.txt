@@ -19,13 +19,14 @@ Version 0.8.1
 - Added Gust Medallion
 - Added Tornado Armor
 - Added Whirlwind Sphere
+- Added Zora Armor
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
 - Added Sandstone Kunai
 - Tweaked Earthen Hammer shockwave
 - Tweaked some item values
 - Tweaked Treasure Goblin escape
-- Tweaked Staff of the Sea and Tornado rod sprites
+- Tweaked Napalm Launcher,Staff of the Sea, and Tornado rod sprites
 - Increased damage of Soul Greatsword from 270 to 320
 - Increased damage of Stone Fist from 300 to 333
 - Increased damage of Napalm Launcher from 25 to 30
@@ -36,6 +37,7 @@ Version 0.8.1
 - Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
 - Reduced Napalm Launcher's attack speed
 - Reduced damage of Yin Yang charm from 35 to 25
+- Reduced bait power of Succulent Cactus from 30 to 20
 - Reduced base damage of Sandstorm Armor's sand from 22 to 20
 - Reduced Mana Cost of Soul Greatsword from 40 to 25
 - Reduced Defense granted by Whirlwind from 25 to 20
@@ -46,3 +48,4 @@ Version 0.8.1
 - Rocks now only lose 30 damage with each bounce instead of 50 
 - Stone Fist and the Elemental Boomerangs now requires Cobalt, Mythril, and Adamantite like the other Elemental Weapons
 - The Nails now use their original sound effects for the nail arts
+- Vanilla Change: Bottomless Water Bucket is now craftable with a Bucket of Water and 25 Water Essence at the Elemental Forge

@@ -13,9 +13,9 @@ namespace JoostMod.Items
 			item.maxStack = 999;
 			item.width = 14;
 			item.height = 14;
-			item.value = 1500;
+			item.value = 1000;
 			item.rare = 2;
-			item.bait = 30;
+			item.bait = 20;
 		}
 	}
 }
