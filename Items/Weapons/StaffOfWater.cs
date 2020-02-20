@@ -19,12 +19,12 @@ namespace JoostMod.Items.Weapons
             item.magic = true;
             item.width = 64;
             item.height = 64;
-            item.mana = 8;
+            item.mana = 12;
             Item.staff[item.type] = true;
             item.useStyle = 5;
             item.noMelee = true;
             item.useTime = 5;
-            item.useAnimation = 15;
+            item.useAnimation = 25;
             item.value = 225000;
             item.rare = 5;
             item.knockBack = 6;
@@ -63,18 +63,22 @@ namespace JoostMod.Items.Weapons
             if (player.altFunctionUse == 2)
             {
                 type = 27;
-                if (player.itemAnimation >= item.useAnimation - 1)
+                if (player.itemAnimation >= item.useAnimation - 4)
                 {
                     for (i = 0; i < num; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (num - 1)));
-                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X / 3, perturbedSpeed.Y / 3, type, (int)(damage * 1.2f), knockBack, player.whoAmI);
+                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X / 3, perturbedSpeed.Y / 3, type, (int)(damage * 1.1f), knockBack, player.whoAmI);
                     }
                     player.CheckMana(item.mana / 2, true);
                 }
             }
             else
             {
+                if (player.itemAnimation == item.useAnimation / 2)
+                {
+                    Main.PlaySound(item.UseSound, player.Center);
+                }
                 for (i = 0; i < num; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (num - 1)));

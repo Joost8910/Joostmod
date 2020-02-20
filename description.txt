@@ -19,20 +19,24 @@ Version 0.8.1
 - Added Gust Medallion
 - Added Tornado Armor
 - Added Whirlwind Sphere
+- Added Scroll of Water
 - Added Zora Armor
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
 - Added Sandstone Kunai
 - Tweaked Earthen Hammer shockwave
-- Tweaked some item values
-- Tweaked Treasure Goblin escape
 - Tweaked Napalm Launcher,Staff of the Sea, and Tornado rod sprites
+- Tweaked some item values
+- Tweaked Sparkle Staff Behavior
+- Tweaked Treasure Goblin escape
+- Tweaked Whirlwind so you can change the direction of knockback with the mouse
 - Increased damage of Soul Greatsword from 270 to 320
 - Increased damage of Stone Fist from 300 to 333
 - Increased damage of Napalm Launcher from 25 to 30
-- Tweaked Sparkle Staff Behavior
+- Increased mana cost of Staff of the Sea from 8 to 12
 - Reduced Sparkle Staff mana cost from 30 to 24
 - Reduced Sparkle Staff attack speed
+- Reduced Staff of the Sea attack speed
 - Reduced Stone Fist attack speed
 - Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
 - Reduced Napalm Launcher's attack speed
@@ -42,7 +46,6 @@ Version 0.8.1
 - Reduced Mana Cost of Soul Greatsword from 40 to 25
 - Reduced Defense granted by Whirlwind from 25 to 20
 - Reduced Whirlwind attack speed from 8.5 times a second to 7.5 times a second
-- Tweaked Whirlwind so you can change the direction of knockback with the mouse
 - Fixed issue where the Rogue Tomato would sometimes fall through the world after killing the player
 - Hungering arrow is now destroyed when it fails the additional pierce check instead of reducing its penetrate by 1
 - Rocks now only lose 30 damage with each bounce instead of 50 

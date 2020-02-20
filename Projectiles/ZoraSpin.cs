@@ -25,12 +25,34 @@ namespace JoostMod.Projectiles
             projectile.magic = true;
             projectile.ignoreWater = true;
             projectile.ownerHitCheck = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 6;
             projectile.alpha = 120;
             drawHeldProjInFrontOfHeldItemAndArms = true;
         }
-
+        /*
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            Player player = Main.player[projectile.owner];
+            width = player.width + 2;
+            height = player.height + 2;
+            fallThrough = player.controlDown;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X;
+            }
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y;
+            }
+            Main.PlaySound(19, projectile.Center, 1);
+            return false;
+        }
+        */
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
@@ -38,7 +60,7 @@ namespace JoostMod.Projectiles
             if (projectile.ai[0] == 0 && projectile.ai[1] == 0)
             {
                 projectile.timeLeft = 40;
-                projectile.idStaticNPCHitCooldown = 12;
+                projectile.localNPCHitCooldown = 12;
             }
             if ((int)projectile.ai[1] % 12 == 0)
             {
@@ -47,8 +69,8 @@ namespace JoostMod.Projectiles
             if (projectile.timeLeft < 20)
             {
                 projectile.ai[1]++;
-                projectile.velocity *= 0.9f;
-                projectile.idStaticNPCHitCooldown = 12;
+                projectile.velocity *= 0.95f;
+                projectile.localNPCHitCooldown = 12;
                 projectile.alpha += 6;
                 if ((int)projectile.ai[1] % 2 == 0)
                 {
@@ -57,8 +79,8 @@ namespace JoostMod.Projectiles
             }
             else if (projectile.timeLeft < 10)
             {
-                projectile.idStaticNPCHitCooldown = 18;
-                projectile.velocity *= 0.85f;
+                projectile.localNPCHitCooldown = 18;
+                projectile.velocity *= 0.9f;
                 projectile.ai[1]++;
                 projectile.alpha += 6;
                 if ((int)projectile.ai[1] % 3 == 0)
@@ -88,7 +110,7 @@ namespace JoostMod.Projectiles
                     }
                     projectile.ai[0] = 1;
                     projectile.timeLeft = 60;
-                    projectile.idStaticNPCHitCooldown = 6;
+                    projectile.localNPCHitCooldown = 6;
                     projectile.alpha = 120;
                 }
                 Vector2 vel = Vector2.Zero;
@@ -126,6 +148,16 @@ namespace JoostMod.Projectiles
                 if (vel != Vector2.Zero)
                     projectile.velocity = ((home - 1f) * projectile.velocity + vel) / home;
             }
+            if (Math.Abs(player.velocity.X) < 0.0001f && Math.Abs(projectile.velocity.X) > 1)
+            {
+                projectile.velocity.X *= -1;
+                Main.PlaySound(19, projectile.Center, 1);
+            }
+            if (Math.Abs(player.velocity.Y) < 0.0001f && Math.Abs(projectile.velocity.Y) > 1)
+            {
+                projectile.velocity.Y *= -1;
+                Main.PlaySound(19, projectile.Center, 1);
+            }
             player.velocity = projectile.velocity;
             player.fallStart = (int)(player.position.Y / 16f);
             player.ChangeDir(projectile.direction * (projectile.ai[1] % 12 < 6 ? projectile.direction : -projectile.direction));
@@ -157,7 +189,7 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             player.fullRotation = 0;
-            Main.PlaySound(19, player.Center, 1);
+            Main.PlaySound(19, player.Center, 0);
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {

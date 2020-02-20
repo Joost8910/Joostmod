@@ -605,7 +605,7 @@ namespace JoostMod
                 }
                 if (zoraArmor && player.ownedProjectileCounts[mod.ProjectileType("ZoraSpin")] < 1)
                 {
-                    int damage = (int)(30 * player.allDamageMult * (player.allDamage + player.magicDamage - 1f) * player.magicDamageMult);
+                    int damage = (int)(40 * player.allDamageMult * (player.allDamage + player.magicDamage - 1f) * player.magicDamageMult);
                     int wet = player.wet ? 1 : 0;
                     float speed = 6;
                     Vector2 vel = new Vector2(0, -player.gravity);
