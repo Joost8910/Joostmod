@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,9 +17,9 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.scale = 0.25f;
-            projectile.width = 15;
-            projectile.height = 15;
+            projectile.scale = 0.2f;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.aiStyle = 0;
             projectile.penetrate = 2;
             projectile.tileCollide = true;
@@ -27,29 +28,37 @@ namespace JoostMod.Projectiles
             projectile.friendly = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 1200;
+            projectile.extraUpdates = 1;
         }
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            projectile.scale = 0.25f + (projectile.ai[0] / 16);
+            projectile.scale = 0.2f + (projectile.ai[0] / 20);
             projectile.width = (int)(60 * projectile.scale);
             projectile.height = (int)(60 * projectile.scale);
             if (player.channel && !player.noItems && !player.CCed && projectile.ai[1] <= 0)
             {
-                projectile.timeLeft = projectile.timeLeft <= 596 ? 600 : projectile.timeLeft;
+                projectile.timeLeft = projectile.timeLeft <= 1192 ? 1200 : projectile.timeLeft;
                 player.itemTime = 15;
                 player.itemAnimation = 15;
+                if (projectile.Center.X > player.Center.X)
+                    player.direction = 1;
+                if (projectile.Center.X < player.Center.X)
+                    player.direction = -1;
+                Vector2 dir = player.DirectionTo(projectile.Center);
+                player.itemRotation = (float)Math.Atan2(dir.Y * player.direction, dir.X * player.direction);
                 if (Main.myPlayer == projectile.owner)
                 {
-                    float speed = 15f - (projectile.ai[0] * 0.5f);
+
+                    float speed = 12f - (projectile.ai[0] * 0.5f);
                     float dist = projectile.Distance(Main.MouseWorld);
                     if (dist < 100)
                         speed *= dist / 100f;
                     projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * speed;
                     projectile.netUpdate = true;
                 }
-                if (projectile.ai[0] < 16 && projectile.timeLeft == 600)
+                if (projectile.ai[0] < 16 && projectile.timeLeft == 1200)
                 {
                     int minTileX = (int)(projectile.position.X / 16f);
                     int maxTileX = (int)((projectile.position.X + projectile.width) / 16f);
@@ -71,9 +80,9 @@ namespace JoostMod.Projectiles
                     {
                         maxTileY = Main.maxTilesY;
                     }
-                    for (int i = minTileX; i <= maxTileX && projectile.localAI[0] < 150; i++)
+                    for (int i = minTileX; i <= maxTileX && projectile.localAI[0] < 200; i++)
                     {
-                        for (int j = minTileY; j <= maxTileY && projectile.localAI[0] < 150; j++)
+                        for (int j = minTileY; j <= maxTileY && projectile.localAI[0] < 200; j++)
                         {
                             if (Main.tile[i, j].liquidType() == 0)
                             {
@@ -92,29 +101,76 @@ namespace JoostMod.Projectiles
                             }
                         }
                     }
-                    if (projectile.localAI[0] >= 150)
+                    if (projectile.localAI[0] >= 200)
                     {
-                        projectile.localAI[0] -= 150;
+                        projectile.localAI[0] -= 200;
                         projectile.ai[0]++;
                         Main.PlaySound(19, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                    }
+                }
+                if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                {
+                    //projectile.position.X -= projectile.velocity.X > 0 ? 4 : (projectile.velocity.X < 0 ? -3 : 0);
+                    //projectile.position.Y -= projectile.velocity.Y > 0 ? 4 : (projectile.velocity.X < 0 ? -3 : 0);
+                    int left = (int)(projectile.position.X / 16);
+                    int right = (int)((projectile.position.X + projectile.width) / 16);
+                    int top = (int)((projectile.position.Y) / 16);
+                    int bottom = (int)((projectile.position.Y + projectile.height) / 16);
+
+
+                    if (!Collision.SolidTiles(left - 1, left - 1, top - 1, top - 1))
+                    {
+                        projectile.position.X -= 8;
+                        projectile.position.Y -= 8;
+                    }
+                    else if (!Collision.SolidTiles(right + 1, right + 1, top - 1, top - 1))
+                    {
+                        projectile.position.X += 8;
+                        projectile.position.Y -= 8;
+                    }
+                    else if (!Collision.SolidTiles(left - 1, left - 1, bottom + 1, bottom + 1))
+                    {
+                        projectile.position.X -= 8;
+                        projectile.position.Y += 8;
+                    }
+                    else if (!Collision.SolidTiles(right + 1, right + 1, bottom + 1, bottom + 1))
+                    {
+                        projectile.position.X += 8;
+                        projectile.position.Y += 8;
+                    }
+                    if (!Collision.SolidTiles(left, right, top-1, top-1))
+                    {
+                        projectile.position.Y -= 8;
+                    }
+                    else if (!Collision.SolidTiles(left, right, bottom + 1, bottom + 1))
+                    {
+                        projectile.position.Y += 8;
+                    }
+                    if (!Collision.SolidTiles(left - 1, left - 1, top, bottom))
+                    {
+                        projectile.position.X -= 8;
+                    }
+                    else if (!Collision.SolidTiles(right + 1, right + 1, top, bottom))
+                    {
+                        projectile.position.X += 8;
                     }
                 }
             }
             else
             {
                 projectile.ai[1] = 1;
-                if (projectile.velocity.Y < 10)
+                if (projectile.velocity.Y < 5)
                 {
-                    projectile.velocity.Y += 0.05f;
+                    projectile.velocity.Y += 0.025f;
                     if (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid < 150)
-                        projectile.velocity.Y += 0.25f;
+                        projectile.velocity.Y += 0.125f;
                 }
             }
-            for (int i = 0; i < (int)(projectile.scale * 8f); i++)
+            for (int i = 0; i <= (int)(projectile.scale * 4f); i++)
             {
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, default, 1f + projectile.ai[0] / 16).noGravity = true;
-                if (Main.rand.NextBool(10))
-                    Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, default, 1f + projectile.ai[0] / 16);
+                Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 172, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, 0, default, 1f + projectile.ai[0] / 16).noGravity = true;
+                if (Main.rand.NextBool(15))
+                    Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, 0, default, 1f + projectile.ai[0] / 16);
             }
         }
         public override void Kill(int timeLeft)
@@ -146,28 +202,29 @@ namespace JoostMod.Projectiles
                 {
                     Vector2 perturbedSpeed = new Vector2(projectile.velocity.X / 2, projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
                     perturbedSpeed *= 1f - (Main.rand.NextFloat() * .3f);
-                    Projectile.NewProjectile(i * 16, j * 16, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("WaterSplash"), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(i * 16 + 8, j * 16 + 8, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("WaterSplash"), projectile.damage, projectile.knockBack, projectile.owner);
                     projectile.ai[0]--;
                 }
             }
-            /*
-            for (int i = 0; i < projectile.ai[0]; i++)
+            int x = (int)projectile.Center.ToTileCoordinates().X;
+            int y = (int)projectile.Center.ToTileCoordinates().Y;
+            Main.tile[x, y].liquidType(0);
+            Main.tile[x, y].liquid += (byte)((int)projectile.localAI[0]);
+            WorldGen.SquareTileFrame(x, y, true);
+            if (Main.netMode == 1)
             {
-                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X / 2, projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
-                perturbedSpeed *= 1f - (Main.rand.NextFloat() * .3f);
-                Projectile.NewProjectile(projectile.Center.X + perturbedSpeed.X, projectile.Center.Y + perturbedSpeed.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("WaterSplash"), projectile.damage, projectile.knockBack, projectile.owner);
+                NetMessage.sendWater(x, y);
             }
-            */
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            float mult = 1f + (projectile.ai[0] / 16);
+            float mult = 1f + (projectile.ai[0] / 8);
             damage = (int)(damage * mult);
             knockback = knockback + mult;
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            float mult = 1f + (projectile.ai[0] / 16);
+            float mult = 1f + (projectile.ai[0] / 8);
             damage = (int)(damage * mult);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

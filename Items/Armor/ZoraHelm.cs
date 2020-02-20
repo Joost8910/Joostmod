@@ -36,11 +36,12 @@ namespace JoostMod.Items.Armor
         public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Allows you to swim and breath water\n" +
-                "Press the Armor Ability key to do a Spin attack\n" +
-                "The Spin attack is far more effective in water";
+                "Press the Armor Ability key to do a watery spin attack\n" +
+                "The spin attack is far less effective out of water";
             player.accFlipper = true;
             player.gills = true;
-            player.ignoreWater = true;
+            if (!player.mount.Active)
+                player.ignoreWater = true;
             player.GetModPlayer<JoostPlayer>().zoraArmor = true;
         }
         public override void AddRecipes()

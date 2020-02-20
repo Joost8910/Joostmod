@@ -34,7 +34,7 @@ namespace JoostMod.Projectiles
         public override void AI()
         {
 	        Player player = Main.player[projectile.owner];
-            Vector2 center = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 center = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
             projectile.velocity.Y = 0;
             projectile.direction = player.direction * (int)player.gravDir;
             projectile.velocity.X = projectile.direction;
@@ -159,19 +159,12 @@ namespace JoostMod.Projectiles
                         projectile.timeLeft = 110;
                         projectile.ai[1] += 10 * speed * (projectile.localAI[0] + 1);
                     }
-                    if (player.gravDir == -1)
-                    {
-                        player.fullRotation = 3.14f + (projectile.ai[1] * 0.00174f * player.direction);
-                    }
-                    else
-                    {
-                        player.fullRotation = (projectile.ai[1] * 0.00174f * player.direction);
-                    }
+                    player.fullRotation = (projectile.ai[1] * 0.00174f * player.direction);
                     player.fullRotationOrigin = player.Center - player.position;
                     if (projectile.localAI[1] >= 10)
                     {
                         player.velocity.X = 0;
-                        player.velocity.Y = 10f;
+                        player.velocity.Y = 10f * player.gravDir;
                         player.controlJump = false;
                         player.controlLeft = false;
                         player.controlRight = false;

@@ -68,7 +68,7 @@ namespace JoostMod.Items.Weapons
                     for (i = 0; i < num; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (num - 1)));
-                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X / 3, perturbedSpeed.Y / 3, type, (int)(damage * 1.1f), knockBack, player.whoAmI);
+                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X / 3, perturbedSpeed.Y / 3, type, (int)(damage * 1.2f), knockBack, player.whoAmI);
                     }
                     player.CheckMana(item.mana / 2, true);
                 }

@@ -39,7 +39,7 @@ namespace JoostMod.Projectiles
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 vector = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
             float speed = 11;
             float shootSpeed = 13f;
             if (projectile.ai[0] == 1)
@@ -196,6 +196,11 @@ namespace JoostMod.Projectiles
             }
             projectile.position = (vector + projectile.velocity * 14 * (projectile.ai[0] * 0.7f + 0.5f)) - projectile.Size / 2f;
             projectile.spriteDirection = projectile.direction;
+            if (player.gravDir < 0)
+            {
+                projectile.rotation += 3.14f;
+                projectile.spriteDirection = -projectile.direction;
+            }
             player.ChangeDir(projectile.direction);
             if (projectile.ai[0] == 0)
             {

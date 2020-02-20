@@ -10,8 +10,8 @@ The Joostmod has to offer
 
 Version 0.8.1
 - Added Dragon Tooth
-- Added Havel's Armor
 - Added Havel's Greatshield
+- Added Havel's Armor
 - Added Dragon Blasters
 - Added Blazing Anklets
 - Added Smoldering Armor
@@ -20,6 +20,7 @@ Version 0.8.1
 - Added Tornado Armor
 - Added Whirlwind Sphere
 - Added Scroll of Water
+- Added Personal Bubble
 - Added Zora Armor
 - Added Sandstorm Glove
 - Added Sandstorm Javelin

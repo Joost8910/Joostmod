@@ -34,7 +34,7 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            if (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid > 100 || Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid > 50 || Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.tileCollide = false;
                 projectile.penetrate = -1;
@@ -43,6 +43,7 @@ namespace JoostMod.Projectiles
             }
             else
             {
+                projectile.tileCollide = true;
                 projectile.velocity.Y = (projectile.velocity.Y < 10 ? projectile.velocity.Y + 0.3f : projectile.velocity.Y);
             }
             projectile.velocity.X *= 0.98f;

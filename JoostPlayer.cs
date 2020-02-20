@@ -112,6 +112,8 @@ namespace JoostMod
         private int airArmorDodgeTimer = -1;
         public bool airMedallion = false;
         public bool zoraArmor = false;
+        public bool waterBubble = false;
+        public float runAccelerationMult = 1;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
@@ -188,7 +190,9 @@ namespace JoostMod
             airArmorIsActive = false;
             airMedallion = false;
             zoraArmor = false;
+            waterBubble = false;
             accRunSpeedMult = 1;
+            runAccelerationMult = 1;
             dashType = 0;
             dashDamage = 0;
         }
@@ -864,26 +868,26 @@ namespace JoostMod
             }
             if (JoostWorld.downedGilgamesh)
             {
-                if (Main.rand.NextBool(Math.Max(200, 250000 / power)))
+                if (Main.rand.NextBool(Math.Max(100, 200000 / power)))
                 {
                     if (player.ZoneCorrupt || player.ZoneCrimson)
                     {
                         caughtType = mod.ItemType("EvilStone");
                     }
                 }
-                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && player.ZoneDungeon)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && player.ZoneDungeon)
                 {
                     caughtType = mod.ItemType("SkullStone");
                 }
-                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && player.ZoneJungle)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && player.ZoneJungle)
                 {
                     caughtType = mod.ItemType("JungleStone");
                 }
-                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && player.ZoneUnderworldHeight)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && player.ZoneUnderworldHeight)
                 {
                     caughtType = mod.ItemType("InfernoStone");
                 }
-                else if (Main.rand.NextBool(Math.Max(200, 250000 / power)) && liquidType == 0)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && liquidType == 0)
                 {
                     if (player.position.X / 16 < 350)
                     {
@@ -942,6 +946,14 @@ namespace JoostMod
                 }
             }
         }
+        public override void PreUpdate()
+        {
+            if (waterBubble)
+            {
+                player.wet = true;
+                player.wetCount = 10;
+            }
+        }
         public override void PostUpdateEquips()
         {
             if (player.name == "Grognak" || player.name == "Larkus" || player.name == "Gnunderson" || player.name == "Boook" || player.name == "David" || player.name.Contains("Joost"))
@@ -955,6 +967,15 @@ namespace JoostMod
             if (player.name == "Saitama")
             {
                 isSaitama = true;
+            }
+            if (waterBubble)
+            {
+                player.wet = true;
+                player.wetCount = 10;
+                if (player.ownedProjectileCounts[mod.ProjectileType("PersonalBubble")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("PersonalBubble"), 0, 0, player.whoAmI);
+                }
             }
             if (gRanged)
             {
@@ -983,8 +1004,13 @@ namespace JoostMod
                     player.rangedDamageMult *= 1.4f;
                     player.moveSpeed *= 1.4f;
                     player.maxRunSpeed *= 1.4f;
-                    player.accRunSpeed *= 1.4f;
+                    if (player.mount._type == mod.MountType("FierySoles"))
+                        accRunSpeedMult *= 1.4f;
+                    else
+                        player.accRunSpeed *= 1.4f;
                     player.onFire = true;
+                    player.ClearBuff(BuffID.Chilled);
+                    player.ClearBuff(BuffID.Frozen);
                     Dust.NewDust(player.position, player.width, player.width, 6, 0, 0, 0, default, Main.rand.NextFloat() + 1);
                 }
             }
@@ -1893,9 +1919,14 @@ namespace JoostMod
                 }
                 if (type != -1 && TileID.Sets.TouchDamageHot[type] != 0)
                 {
-                    player.maxRunSpeed *= 5f;
+                    player.maxRunSpeed *= 4f;
                     player.runAcceleration *= 2f;
                     player.runSlowdown *= 2f;
+                    if (player.mount._type == mod.MountType("FierySoles"))
+                    {
+                        runAccelerationMult *= 2f;
+                        accRunSpeedMult *= 2.5f;
+                    }
                     Dust.NewDustDirect(new Vector2(player.position.X, num2 * 16 - 10 * player.gravDir), player.width, 10, 6).noGravity = true;
                 }
                 player.rangedCrit += (int)Math.Round(Math.Abs(player.velocity.X / 2));
@@ -1964,7 +1995,16 @@ namespace JoostMod
         }
         public override void PostUpdateRunSpeeds()
         {
+            player.runAcceleration *= runAccelerationMult;
             player.accRunSpeed *= accRunSpeedMult;
+        }
+        public override void PreUpdateMovement()
+        {
+            if (waterBubble)
+            {
+                player.wet = true;
+                player.wetCount = 10;
+            }
         }
         public override void PostUpdate()
         {

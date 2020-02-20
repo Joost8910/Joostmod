@@ -28,7 +28,7 @@ namespace JoostMod.Items
             player.fireWalk = true;
             player.moveSpeed *= 1.25f;
             player.maxRunSpeed *= 1.25f;
-            if (!player.mount.Active)
+            if (!player.mount.Active || player.mount._type == mod.MountType("FierySoles"))
                 player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 1.25f;
             player.GetModPlayer<JoostPlayer>().blazeAnklet = true;
         }
