@@ -38,7 +38,7 @@ namespace JoostMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "EarthEssence", 50);
-            recipe.AddIngredient(ItemID.StoneBlock, 300);
+            recipe.AddIngredient(ItemID.StoneBlock, 200);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 8);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 8);
             recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 8);

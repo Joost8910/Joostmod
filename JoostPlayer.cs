@@ -1050,6 +1050,11 @@ namespace JoostMod
                 {
                     player.AddBuff(mod.BuffType("HavelBuff"), 2);
                     player.accRunSpeed = 0;
+                    if (player.mount._type == mod.MountType("EarthMount"))
+                    {
+                        player.accRunSpeed = 5;
+                        player.maxRunSpeed = 5;
+                    }
                     player.wingTime--;
                     player.maxFallSpeed += 10;
                     if (player.velocity.Y != 0)

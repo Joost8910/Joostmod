@@ -31,15 +31,15 @@ namespace JoostMod.Items.Weapons
 			item.shoot = mod.ProjectileType("Rock");
 			item.shootSpeed = 10f;
 		}
-				public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.StoneBlock, 50);
-			recipe.AddIngredient(null, "EarthEssence");
-			recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
-		}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.StoneBlock, 25);
+            recipe.AddIngredient(null, "EarthEssence");
+            recipe.AddTile(null, "ElementalForge");
+            recipe.SetResult(this, 50);
+            recipe.AddRecipe();
+        }
 
 	}
 }

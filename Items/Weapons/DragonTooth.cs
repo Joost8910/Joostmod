@@ -89,7 +89,7 @@ namespace JoostMod.Items.Weapons
 		{
 				ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "EarthEssence", 50);
-			recipe.AddIngredient(ItemID.StoneBlock, 200);
+			recipe.AddIngredient(ItemID.StoneBlock, 100);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
             recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);

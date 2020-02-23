@@ -13,8 +13,8 @@ namespace JoostMod.Mounts
 			mountData.buff = mod.BuffType("FierySoles");
 			mountData.heightBoost = 20;
 			mountData.fallDamage = 0f;
-			mountData.runSpeed = 10f;
-			mountData.dashSpeed = 12f;
+			mountData.runSpeed = 8.5f;
+			mountData.dashSpeed = 11f;
 			mountData.flightTimeMax = 60;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 6;
