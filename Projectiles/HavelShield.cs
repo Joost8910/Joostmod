@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.localAI[1] <= 0 && target.damage == 0)
+            if ((projectile.localAI[1] <= 0 && target.damage == 0) || Main.player[projectile.owner].shieldParryTimeLeft > 0)
             {
                 return false;
             }
@@ -189,6 +189,14 @@ namespace JoostMod.Projectiles
                     }
                 }
                 player.controlUseItem = false;
+            }
+            if (player.parryDamageBuff && projectile.localAI[1] <= 0)
+            {
+                projectile.melee = false;
+            }
+            else
+            {
+                projectile.melee = true;
             }
             projectile.position.X = player.MountedCenter.X - projectile.width / 2;
             projectile.position.Y = player.position.Y + (player.height / 2) - projectile.height / 2;

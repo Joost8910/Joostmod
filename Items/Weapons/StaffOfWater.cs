@@ -23,8 +23,8 @@ namespace JoostMod.Items.Weapons
             Item.staff[item.type] = true;
             item.useStyle = 5;
             item.noMelee = true;
-            item.useTime = 5;
-            item.useAnimation = 25;
+            item.useTime = 6;
+            item.useAnimation = 30;
             item.value = 225000;
             item.rare = 5;
             item.knockBack = 6;
@@ -63,7 +63,7 @@ namespace JoostMod.Items.Weapons
             if (player.altFunctionUse == 2)
             {
                 type = 27;
-                if (player.itemAnimation >= item.useAnimation - 4)
+                if (player.itemAnimation >= item.useAnimation - 5)
                 {
                     for (i = 0; i < num; i++)
                     {

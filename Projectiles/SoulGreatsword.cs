@@ -72,6 +72,7 @@ namespace JoostMod.Projectiles
             projectile.spriteDirection = projectile.direction;
             if (projectile.localAI[1] > 0 && projectile.ai[1] > 0 && !player.mount.Active)
             {
+                projectile.localNPCHitCooldown = (int)(40f * (1f - speed));
                 player.fullRotationOrigin = player.Center - player.position;
                 if (projectile.ai[1] < 180)
                 {
@@ -116,7 +117,7 @@ namespace JoostMod.Projectiles
             }
             if (projectile.ai[0] > 42 && projectile.localAI[0] <= 0)
             {
-                if (player.velocity.Y != 0 && player.velocity.X != 0)
+                if (player.velocity.Y != 0 && player.velocity.X * player.direction > 0)
                 {
                     projectile.localAI[1] = 1;
                 }
@@ -178,7 +179,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPvp(Player target)
         {
-            if (projectile.timeLeft <= 20 && (projectile.timeLeft > 4 || projectile.localAI[1] > 0))
+            if (projectile.timeLeft <= 20 && projectile.timeLeft > 10)
             {
                 return base.CanHitPvp(target);
             }
@@ -186,7 +187,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.timeLeft <= 20 && (projectile.timeLeft > 4 || projectile.localAI[1] > 0))
+            if (projectile.timeLeft <= 20 && projectile.timeLeft > 10)
             {
                 return base.CanHitNPC(target);
             }

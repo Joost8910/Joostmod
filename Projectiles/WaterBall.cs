@@ -18,8 +18,8 @@ namespace JoostMod.Projectiles
         public override void SetDefaults()
         {
             projectile.scale = 0.2f;
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 15;
+            projectile.height = 15;
             projectile.aiStyle = 0;
             projectile.penetrate = 2;
             projectile.tileCollide = true;
@@ -34,7 +34,7 @@ namespace JoostMod.Projectiles
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            projectile.scale = 0.2f + (projectile.ai[0] / 20);
+            projectile.scale = 0.25f + (projectile.ai[0] / 25);
             projectile.width = (int)(60 * projectile.scale);
             projectile.height = (int)(60 * projectile.scale);
             if (player.channel && !player.noItems && !player.CCed && projectile.ai[1] <= 0)
@@ -51,14 +51,14 @@ namespace JoostMod.Projectiles
                 if (Main.myPlayer == projectile.owner)
                 {
 
-                    float speed = 12f - (projectile.ai[0] * 0.5f);
+                    float speed = 15f - (projectile.ai[0] * 0.5f);
                     float dist = projectile.Distance(Main.MouseWorld);
                     if (dist < 100)
                         speed *= dist / 100f;
                     projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * speed;
                     projectile.netUpdate = true;
                 }
-                if (projectile.ai[0] < 16 && projectile.timeLeft == 1200)
+                if (projectile.ai[0] < 25 && projectile.timeLeft == 1200)
                 {
                     int minTileX = (int)(projectile.position.X / 16f);
                     int maxTileX = (int)((projectile.position.X + projectile.width) / 16f);
@@ -218,13 +218,13 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            float mult = 1f + (projectile.ai[0] / 8);
+            float mult = 1f + (projectile.ai[0] / 10);
             damage = (int)(damage * mult);
             knockback = knockback + mult;
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            float mult = 1f + (projectile.ai[0] / 8);
+            float mult = 1f + (projectile.ai[0] / 10);
             damage = (int)(damage * mult);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

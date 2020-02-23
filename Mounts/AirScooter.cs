@@ -1,5 +1,3 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -14,11 +12,11 @@ namespace JoostMod.Mounts
 			mountData.heightBoost = 28;
 			mountData.fallDamage = 0f;
 			mountData.runSpeed = 8f;
-			mountData.dashSpeed = 10f;
+			mountData.dashSpeed = 10.5f;
 			mountData.flightTimeMax = 120;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 6;
-			mountData.acceleration = 0.3f;
+			mountData.acceleration = 0.35f;
 			mountData.jumpSpeed = 7f;
 			mountData.blockExtraJumps = false;
 			mountData.totalFrames = 4;

@@ -18,7 +18,7 @@ namespace JoostMod.Items
 			item.useAnimation = 20;
 			item.useStyle = 1;
 			item.value = 225000;
-			item.rare = 2;
+			item.rare = 4;
 			item.UseSound = SoundID.DD2_BookStaffCast;
 			item.noMelee = true;
 			item.mountType = mod.MountType("AirScooter");

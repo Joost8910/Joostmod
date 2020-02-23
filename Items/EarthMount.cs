@@ -7,8 +7,8 @@ namespace JoostMod.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stone Platforms");
-			Tooltip.SetDefault("Summons rideable stone platforms");
+			DisplayName.SetDefault("Slabs of Stone");
+			Tooltip.SetDefault("Summons rideable stone slabs");
 		}
 		public override void SetDefaults()
 		{
@@ -18,7 +18,7 @@ namespace JoostMod.Items
 			item.useAnimation = 20;
 			item.useStyle = 1;
 			item.value = 225000;
-			item.rare = 2;
+			item.rare = 4;
 			item.UseSound = SoundID.DD2_MonkStaffGroundMiss;
 			item.noMelee = true;
 			item.mountType = mod.MountType("EarthMount");

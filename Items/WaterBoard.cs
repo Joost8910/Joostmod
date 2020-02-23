@@ -3,12 +3,12 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items
 {
-	public class FierySoles : ModItem
+	public class WaterBoard : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fiery Soles");
-			Tooltip.SetDefault("Summons fire from your feet");
+			DisplayName.SetDefault("Water Board");
+			Tooltip.SetDefault("Summons a rideable board that floats");
 		}
 		public override void SetDefaults()
 		{
@@ -19,14 +19,14 @@ namespace JoostMod.Items
 			item.useStyle = 1;
 			item.value = 225000;
 			item.rare = 4;
-			item.UseSound = SoundID.Item20;
+			item.UseSound = SoundID.Item79;
 			item.noMelee = true;
-			item.mountType = mod.MountType("FierySoles");
+			item.mountType = mod.MountType("WaterBoard");
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FireEssence", 50);
+            recipe.AddIngredient(null, "WaterEssence", 50);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 6);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 6);
             recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 6);

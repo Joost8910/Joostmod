@@ -1,6 +1,6 @@
 The Joostmod has to offer
 411 new items
-12 new armor sets
+14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
 14 new regular enemies
@@ -12,9 +12,11 @@ Version 0.8.1
 - Added Dragon Tooth
 - Added Havel's Greatshield
 - Added Havel's Armor
+- Added Slabs of Stone
 - Added Dragon Blasters
 - Added Blazing Anklets
 - Added Smoldering Armor
+- Added Fiery Soles
 - Added Chimes of the Wind
 - Added Gust Medallion
 - Added Tornado Armor
@@ -22,11 +24,12 @@ Version 0.8.1
 - Added Scroll of Water
 - Added Personal Bubble
 - Added Zora Armor
+- Added Water Board
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
 - Added Sandstone Kunai
 - Tweaked Earthen Hammer shockwave
-- Tweaked Napalm Launcher,Staff of the Sea, and Tornado rod sprites
+- Tweaked Napalm Launcher, Staff of the Sea, and Tornado rod sprites
 - Tweaked some item values
 - Tweaked Sparkle Staff Behavior
 - Tweaked Treasure Goblin escape
@@ -38,7 +41,6 @@ Version 0.8.1
 - Reduced Sparkle Staff mana cost from 30 to 24
 - Reduced Sparkle Staff attack speed
 - Reduced Staff of the Sea attack speed
-- Reduced Stone Fist attack speed
 - Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
 - Reduced Napalm Launcher's attack speed
 - Reduced damage of Yin Yang charm from 35 to 25

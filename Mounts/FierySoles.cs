@@ -18,7 +18,7 @@ namespace JoostMod.Mounts
 			mountData.flightTimeMax = 60;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 6;
-			mountData.acceleration = 0.3f;
+			mountData.acceleration = 0.2f;
 			mountData.jumpSpeed = 8f;
 			mountData.blockExtraJumps = false;
 			mountData.totalFrames = 12;

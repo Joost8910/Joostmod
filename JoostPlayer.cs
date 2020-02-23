@@ -816,6 +816,36 @@ namespace JoostMod
 
             }
         }
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (waterBubble && proj.magic && target.wet)
+            {
+                damage = (int)(damage * 1.1f);
+                knockback *= 1.1f;
+            }
+        }
+        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
+        {
+            if (waterBubble && proj.magic && target.wet)
+            {
+                damage = (int)(damage * 1.1f);
+            }
+        }
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (waterBubble && item.magic && target.wet)
+            {
+                damage = (int)(damage * 1.1f);
+                knockback *= 1.1f;
+            }
+        }
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        {
+            if (waterBubble && item.magic && target.wet)
+            {
+                damage = (int)(damage * 1.1f);
+            }
+        }
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
             if (junk)
@@ -1052,8 +1082,8 @@ namespace JoostMod
                     player.accRunSpeed = 0;
                     if (player.mount._type == mod.MountType("EarthMount"))
                     {
-                        player.accRunSpeed = 5;
-                        player.maxRunSpeed = 5;
+                        player.accRunSpeed = 7;
+                        player.maxRunSpeed = 7;
                     }
                     player.wingTime--;
                     player.maxFallSpeed += 10;
@@ -1946,7 +1976,8 @@ namespace JoostMod
             if (airArmorIsActive)
             {
                 player.maxRunSpeed *= 1.5f;
-                accRunSpeedMult *= 1.5f;
+                if (player.mount._type != mod.MountType("FierySoles"))
+                    accRunSpeedMult *= 1.5f;
                 player.runAcceleration *= 2f;
                 player.runSlowdown *= 3f;
                 player.jumpSpeedBoost += 5f;
