@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles
         public override void AI()
         {
 	        Player player = Main.player[projectile.owner];
-            Vector2 center = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 center = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
             projectile.velocity = Vector2.Zero;
             projectile.direction = player.direction * (int)player.gravDir;
             float speed = player.meleeSpeed / 2;
@@ -168,7 +168,7 @@ namespace JoostMod.Projectiles
                 Player player = Main.player[projectile.owner];
                 float rot = projectile.rotation - 1.57f + (0.785f * player.direction * (int)player.gravDir);
                 Vector2 unit = rot.ToRotationVector2();
-                Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+                Vector2 vector = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
                 float point = 0f;
                 if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), vector, vector + unit * 224 * projectile.scale, 52 * projectile.scale, ref point))
                 {

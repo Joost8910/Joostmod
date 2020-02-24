@@ -1,5 +1,3 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,8 +16,8 @@ namespace JoostMod.Items.Weapons
 			item.melee = true;
 			item.width = 80;
 			item.height = 80;
-			item.useTime = 30;
-			item.useAnimation = 30;
+			item.useTime = 27;
+			item.useAnimation = 27;
 			item.scale = 1.1f;
 			item.knockBack = 7;
 			item.value = 500000;

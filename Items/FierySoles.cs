@@ -27,9 +27,9 @@ namespace JoostMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "FireEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 6);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 6);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 6);
+            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 5);
+            recipe.AddRecipeGroup("JoostMod:AnyMythril", 5);
+            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 5);
             recipe.AddTile(null, "ElementalForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

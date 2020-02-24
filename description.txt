@@ -34,6 +34,7 @@ Version 0.8.1
 - Tweaked Sparkle Staff Behavior
 - Tweaked Treasure Goblin escape
 - Tweaked Whirlwind so you can change the direction of knockback with the mouse
+- Increased attack speed of True Gungnir and True Dark Lance
 - Increased damage of Soul Greatsword from 270 to 320
 - Increased damage of Stone Fist from 300 to 333
 - Increased damage of Napalm Launcher from 25 to 30

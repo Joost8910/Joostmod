@@ -1082,8 +1082,8 @@ namespace JoostMod
                     player.accRunSpeed = 0;
                     if (player.mount._type == mod.MountType("EarthMount"))
                     {
-                        player.accRunSpeed = 7;
-                        player.maxRunSpeed = 7;
+                        player.accRunSpeed = 4;
+                        player.maxRunSpeed = 4;
                     }
                     player.wingTime--;
                     player.maxFallSpeed += 10;
