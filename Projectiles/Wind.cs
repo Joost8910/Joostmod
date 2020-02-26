@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 20;
+            projectile.idStaticNPCHitCooldown = 15;
 		}
         public override void AI()
         {

@@ -20,9 +20,9 @@ namespace JoostMod.Items.Weapons
 			item.mana = 8;
 			item.width = 42;
 			item.height = 42;
-			item.useTime = 10;
+			item.useTime = 5;
 			item.useAnimation = 20;
-			item.useStyle =4;
+			item.useStyle = 4;
 			item.knockBack = 9.2f;
             item.value = 225000;
             item.rare = 5;

@@ -9,6 +9,7 @@ The Joostmod has to offer
 2 new town npcs
 
 Version 0.8.1
+- Added Earthen Billhook
 - Added Dragon Tooth
 - Added Havel's Greatshield
 - Added Havel's Armor
