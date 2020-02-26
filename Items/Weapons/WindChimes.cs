@@ -17,13 +17,13 @@ namespace JoostMod.Items.Weapons
 		{
 			item.damage = 28;
 			item.summon = true;
-			item.mana = 8;
+			item.mana = 10;
 			item.width = 42;
 			item.height = 42;
-			item.useTime = 5;
-			item.useAnimation = 20;
+			item.useTime = 7;
+			item.useAnimation = 21;
 			item.useStyle = 4;
-			item.knockBack = 9.2f;
+			item.knockBack = 7f;
             item.value = 225000;
             item.rare = 5;
 			item.noMelee = true;
@@ -41,7 +41,7 @@ namespace JoostMod.Items.Weapons
             speedX = ((8f + Main.rand.NextFloat() * 8f) * player.direction) + (player.direction * player.velocity.X > 0 ? player.velocity.X : 0);
             speedY = 0;
             position.X -= 1000 * player.direction;
-            position.Y += Main.rand.Next(-6, 7) * 10;
+            position.Y += Main.rand.Next(-8, 8) * 10;
             knockBack = Math.Abs(speedX);
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }

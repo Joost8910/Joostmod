@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -17,24 +15,29 @@ namespace JoostMod.Projectiles
 		{
 			projectile.width = 160;
 			projectile.height = 50;
-			projectile.aiStyle = 0;
+			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.minion = true;
 			projectile.timeLeft = 200;
 			projectile.alpha = 150;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 15;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
 		}
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            height = 12;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+        }
         public override void AI()
         {
-            projectile.spriteDirection = projectile.direction;
             projectile.velocity.Y = 0;
             if (projectile.timeLeft > 195)
             {
                 projectile.frame = 0;
                 projectile.position -= projectile.velocity;
+                projectile.spriteDirection = projectile.direction;
             }
             else if (projectile.timeLeft > 190)
             {

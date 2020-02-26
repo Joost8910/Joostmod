@@ -24,6 +24,7 @@ namespace JoostMod.Projectiles
 			projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 8;
             projectile.ignoreWater = true;
+            projectile.ownerHitCheck = true;
             drawHeldProjInFrontOfHeldItemAndArms = true;
         }
         public override bool PreAI()

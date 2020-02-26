@@ -1,5 +1,5 @@
 The Joostmod has to offer
-411 new items
+437 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -19,6 +19,7 @@ Version 0.8.1
 - Added Smoldering Armor
 - Added Fiery Soles
 - Added Chimes of the Wind
+- Added Hurricane Windwheel
 - Added Gust Medallion
 - Added Tornado Armor
 - Added Whirlwind Sphere
@@ -42,6 +43,7 @@ Version 0.8.1
 - Increased mana cost of Staff of the Sea from 8 to 12
 - Reduced Sparkle Staff mana cost from 30 to 24
 - Reduced Sparkle Staff attack speed
+- Reduced Staff of Nature attack speed
 - Reduced Staff of the Sea attack speed
 - Reduced Napalm Launcher's chance to not consume ammo from 50% to 25%
 - Reduced Napalm Launcher's attack speed
