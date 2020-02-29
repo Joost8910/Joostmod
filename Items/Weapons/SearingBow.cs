@@ -2,27 +2,27 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
-    public class DragonBlasters : ModItem
+    public class SearingBow : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dragon Blasters");
-			Tooltip.SetDefault("Left and right click to fire each gun\n" +
-                "Hold the attack down to charge a blast of fire\n" +
-                "35% chance to not consume ammo");
+			DisplayName.SetDefault("Searing Bow");
+			Tooltip.SetDefault("Transforms wooden arrows into blazing arrows\n"+
+                "Blazing arrows drop a trail of damaging fire\n" +
+                "Right click to nock an additional arrow\n" + 
+                "Can nock up to 5 arrows");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 45;
 			item.ranged = true;
 			item.width = 52;
 			item.height = 36;
-			item.useTime = 11;
-			item.useAnimation = 11;
+			item.useTime = 24;
+			item.useAnimation = 24;
 			item.useStyle = 5;
 			item.knockBack = 3;
 			item.value = 250000;
@@ -32,9 +32,9 @@ namespace JoostMod.Items.Weapons
 			item.noUseGraphic = true;
 			item.channel = true;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("DragonBlaster");
+			item.shoot = mod.ProjectileType("SearingBow");
 			item.shootSpeed = 13f;
-            item.useAmmo = AmmoID.Bullet;
+            item.useAmmo = AmmoID.Arrow;
         }
         public override bool ConsumeAmmo(Player player)
         {
@@ -54,12 +54,7 @@ namespace JoostMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = mod.ProjectileType("DragonBlaster");
-            if (player.altFunctionUse == 2)
-            {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 1);
-                return false;
-            }
+            type = mod.ProjectileType("SearingBow");
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
         public override void AddRecipes()
