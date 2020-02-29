@@ -15,6 +15,7 @@ Version 0.8.1
 - Added Havel's Armor
 - Added Slabs of Stone
 - Added Dragon Blasters
+- Added Volcanic Longbow
 - Added Blazing Anklets
 - Added Smoldering Armor
 - Added Fiery Soles

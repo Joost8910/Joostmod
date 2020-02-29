@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blazing Droplet");
+			DisplayName.SetDefault("Lava Droplet");
 		}
 		public override void SetDefaults()
 		{
@@ -20,7 +20,7 @@ namespace JoostMod.Projectiles
 			projectile.penetrate = 2;
 			projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 3;
+            projectile.idStaticNPCHitCooldown = 6;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

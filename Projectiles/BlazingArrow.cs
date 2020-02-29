@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blazing Arrow");
+			DisplayName.SetDefault("Volcanic Arrow");
 		}
 		public override void SetDefaults()
 		{
@@ -40,11 +40,10 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 1f, 0.8f, 0.1f);
+            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, 2, 0, default, 2f).noGravity = true;
             if (Main.rand.NextBool(15))
             {
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, 2, 0, default, 2f).noGravity = true;
-                Projectile.NewProjectile(projectile.Center, new Vector2(0, 1), mod.ProjectileType("BlazingDroplet"), projectile.damage / 2, 0, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, new Vector2(0, 1), mod.ProjectileType("BlazingDroplet"), projectile.damage / 3, 0, projectile.owner);
             }
         }
     }

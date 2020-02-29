@@ -9,22 +9,22 @@ namespace JoostMod.Items.Weapons
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Searing Bow");
-			Tooltip.SetDefault("Transforms wooden arrows into blazing arrows\n"+
-                "Blazing arrows drop a trail of damaging fire\n" +
-                "Right click to nock an additional arrow\n" + 
+			DisplayName.SetDefault("Volcanic Longbow");
+			Tooltip.SetDefault("Transforms wooden arrows into Volcanic Arrows\n"+
+                "Volcanic Arrows deal 50% more damage and drop a trail of damaging lava droplets\n" +
+                "Right clicking nocks additional arrows\n" + 
                 "Can nock up to 5 arrows");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 45;
+			item.damage = 48;
 			item.ranged = true;
 			item.width = 52;
 			item.height = 36;
 			item.useTime = 24;
 			item.useAnimation = 24;
 			item.useStyle = 5;
-			item.knockBack = 3;
+			item.knockBack = 4.5f;
 			item.value = 250000;
 			item.rare = 5;
 			item.UseSound = SoundID.Item7;
