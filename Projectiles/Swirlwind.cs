@@ -125,7 +125,7 @@ namespace JoostMod.Projectiles
                             }
                             if (!target.noGravity)
                                 vel.Y -= 0.3f;
-                            target.velocity = vel;
+                            target.velocity = vel + (player.velocity * (target.knockBackResist < 0.5f ? target.knockBackResist * 2 : 1f));
                         }
                     }
                 }
