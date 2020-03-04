@@ -30,8 +30,8 @@ namespace JoostMod.Projectiles
 			projectile.light = 0.5f;
 			projectile.arrow = true;
 			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 5;
 		}
 		public override void AI()
 		{
@@ -42,8 +42,13 @@ namespace JoostMod.Projectiles
 				projectile.frame = (projectile.frame + 1) % 12;
 			}
 		}
-
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            width = 20;
+            height = 20;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, oldVelocity.X, oldVelocity.Y, mod.ProjectileType("Lightarrow"), projectile.damage, projectile.knockBack, projectile.owner);
 			projectile.timeLeft -= 600;

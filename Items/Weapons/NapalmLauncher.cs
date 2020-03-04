@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons
 		}
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-12, 0);
+            return new Vector2(-8, 0);
         }
         public override bool ConsumeAmmo(Player player)
 		{

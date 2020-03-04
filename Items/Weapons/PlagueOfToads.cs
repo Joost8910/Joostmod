@@ -16,9 +16,9 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 45;
+			item.damage = 44;
 			item.summon = true;
-			item.mana = 12;
+			item.mana = 20;
 			item.maxStack = 1;
 			item.consumable = false;
 			item.width = 50;
@@ -36,16 +36,16 @@ namespace JoostMod.Items.Weapons
 			item.shoot = mod.ProjectileType("Toad");
 			item.shootSpeed = 8f;
 		}
-		    public override void ModifyTooltips(List<TooltipLine> list)
-    {
-        foreach (TooltipLine line2 in list)
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
-            if (line2.mod == "Terraria" && line2.Name == "ItemName")
+            foreach (TooltipLine line2 in list)
             {
-                line2.overrideColor = new Color(255, 128, 0);
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(255, 128, 0);
+                }
             }
         }
-    }
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			float spread = 90f * 0.0174f;

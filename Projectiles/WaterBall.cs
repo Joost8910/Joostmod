@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Ball");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 25;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
         public override void SetDefaults()
@@ -51,7 +51,7 @@ namespace JoostMod.Projectiles
                 if (Main.myPlayer == projectile.owner)
                 {
 
-                    float speed = 15f - (projectile.ai[0] * 0.5f);
+                    float speed = 15f - (projectile.ai[0] * 0.4f);
                     float dist = projectile.Distance(Main.MouseWorld);
                     if (dist < 100)
                         speed *= dist / 100f;
@@ -166,11 +166,11 @@ namespace JoostMod.Projectiles
                         projectile.velocity.Y += 0.125f;
                 }
             }
-            for (int i = 0; i <= (int)(projectile.scale * 4f); i++)
+            if (Main.rand.NextBool((int)(3f / projectile.scale)))
             {
                 Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 172, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, 0, default, 1f + projectile.ai[0] / 16).noGravity = true;
-                if (Main.rand.NextBool(15))
-                    Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, 0, default, 1f + projectile.ai[0] / 16);
+                if (Main.rand.NextBool(20))
+                    Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X * -0.5f, projectile.velocity.Y * -0.5f, 0, default, 1f + projectile.ai[0] / 25);
             }
         }
         public override void Kill(int timeLeft)
@@ -215,6 +215,15 @@ namespace JoostMod.Projectiles
             {
                 NetMessage.sendWater(x, y);
             }
+            Vector2 vel = projectile.velocity;
+            vel.Normalize();
+            vel *= 15;
+            for (int i = 0; i <= (int)(projectile.scale * 30); i++)
+            {
+                Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 172, vel.X, vel.Y, 0, default, 1f + projectile.ai[0] / 16).noGravity = true;
+                if (Main.rand.NextBool(15))
+                    Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 172, vel.X, vel.Y, 0, default, 1f + projectile.ai[0] / 16);
+            }
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -241,6 +250,21 @@ namespace JoostMod.Projectiles
             Color color = lightColor;
             color.A = 100;
             spriteBatch.Draw(tex, drawPosition, rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] + (projectile.Size / 2) - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                Color color2 = color;
+                if (Vector2.Distance(drawPosition, drawPos) < 30)
+                {
+                    color2.A = (byte)(color2.A * (Vector2.Distance(drawPosition, drawPos)) / 30);
+                    color2.R = (byte)(color2.R * (Vector2.Distance(drawPosition, drawPos)) / 30);
+                    color2.G = (byte)(color2.G * (Vector2.Distance(drawPosition, drawPos)) / 30);
+                    color2.B = (byte)(color2.B * (Vector2.Distance(drawPosition, drawPos)) / 30);
+                }
+                float scale = ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) * projectile.scale;
+                Rectangle? rect2 = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
+                spriteBatch.Draw(tex, drawPos, rect2, color2, projectile.rotation, drawOrigin, scale, SpriteEffects.None, 0f);
+            }
             return false;
         }
     }

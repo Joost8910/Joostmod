@@ -21,34 +21,33 @@ namespace JoostMod.Projectiles
 			projectile.aiStyle = 63;
 			projectile.friendly = true;
 			projectile.minion = true;
-			projectile.penetrate = 3;
+			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
 			aiType = ProjectileID.BabySpider;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
 		}
 		public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
 		{
 			Player owner = Main.player[projectile.owner];
 			n.AddBuff(20, 180);
 		}
-			bool start = false;
-			int color = 0;
-		public void Initialize()
-		{
-			color = Main.rand.Next(8);
-			start = true;	
-		}
 		public override void AI()
 		{
-			if (!start)
-			{
-				Initialize();
-			}
-			projectile.frame = color;
-		}
+			if (projectile.timeLeft >= 299)
+            {
+                projectile.localAI[0] = Main.rand.Next(8);
+            }
+            projectile.frame = (int)projectile.localAI[0];
+        }
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
+            if (projectile.localAI[0] >= 4)
+            {
+                projectile.localAI[0] -= 4;
+            }
+            else
+            {
+                projectile.localAI[0] += 4;
+            }
 			if (projectile.velocity.X != oldVelocity.X)
 			{
 				projectile.velocity.X = -oldVelocity.X;

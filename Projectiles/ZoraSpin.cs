@@ -16,6 +16,7 @@ namespace JoostMod.Projectiles
 		}
         public override void SetDefaults()
         {
+            projectile.scale = 1.5f;
             projectile.width = 60;
             projectile.height = 60;
             projectile.timeLeft = 60;
@@ -190,15 +191,21 @@ namespace JoostMod.Projectiles
             Player player = Main.player[projectile.owner];
             player.fullRotation = 0;
             Main.PlaySound(19, player.Center, 0);
+            for (int i = 0; i <= 20; i++)
+            {
+                Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 33, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f + Main.rand.NextFloat());
+            }
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = ModContent.GetTexture("JoostMod/Projectiles/ZoraSpin_Glow");
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[projectile.type]) * 0.5f);
             Rectangle? rect = new Rectangle?(new Rectangle(0, (tex.Height / Main.projFrames[projectile.type]) * projectile.frame, tex.Width, tex.Height / Main.projFrames[projectile.type]));
             SpriteEffects effects = SpriteEffects.None;
             Vector2 drawPosition = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, rect, lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
             spriteBatch.Draw(tex, drawPosition, rect, lightColor, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            return false;
         }
     }
 }
