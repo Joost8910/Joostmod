@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -11,7 +9,7 @@ namespace JoostMod.Items
 		{
 			DisplayName.SetDefault("Personal Bubble");
 			Tooltip.SetDefault("You always count as being in water\n" +
-                "Your magic attacks deal 10% more damage to submerged enemies" );
+                "Your magic attacks deal 12% more damage to submerged enemies" );
 		}
 		public override void SetDefaults()
 		{

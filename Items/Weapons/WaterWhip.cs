@@ -11,17 +11,17 @@ namespace JoostMod.Items.Weapons
         {
             DisplayName.SetDefault("Water Tendril");
             Tooltip.SetDefault("Left click for a slapping tendril\n" + 
-                "Damage dealt is based on how much the tendril moves\n" +
+                "Damage dealt is based on the tendril's speed\n" +
                 "Right click for a grasping tendril\n" +
                 "Grabs hit enemies and items");
         }
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 66;
             item.magic = true;
             item.width = 36;
             item.height = 36;
-            item.mana = 10;
+            item.mana = 12;
             item.channel = true;
             item.useStyle = 5;
             item.noUseGraphic = true;

@@ -84,9 +84,9 @@ namespace JoostMod.Projectiles
                 target.velocity = vel * projectile.knockBack * target.knockBackResist * mult;
             }
             Main.PlaySound(19, projectile.Center, 0);
-            for (int i = 0; i <10; i++)
+            for (int i = 0; i < 12; i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 33, target.velocity.X, target.velocity.Y);
+                Dust.NewDust(target.position, target.width, target.height, 33, -target.velocity.X, -target.velocity.Y, 0, default, 2);
             }
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -101,9 +101,9 @@ namespace JoostMod.Projectiles
                 target.velocity = vel * projectile.knockBack * mult;
             }
             Main.PlaySound(19, projectile.Center, 0);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 12; i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 33, target.velocity.X, target.velocity.Y);
+                Dust.NewDust(target.position, target.width, target.height, 33, -target.velocity.X, -target.velocity.Y, 0, default, 2);
             }
         }
         public override bool PreAI()

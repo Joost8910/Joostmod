@@ -123,6 +123,7 @@ namespace JoostMod
         public bool eastStone = false;
         public bool highStone = false;
         public bool deepStone = false;
+        public Vector2 sandSharkVel = Vector2.Zero;
         public override void ResetEffects()
         {
             stormy = false;
@@ -178,6 +179,10 @@ namespace JoostMod
             if (!player.HasBuff(mod.BuffType("BoneHurt")))
             {
                 boneHurtDamage = 1;
+            }
+            if (player.mount.Type != mod.MountType("SandShark"))
+            {
+                sandSharkVel = Vector2.Zero;
             }
             cactusBoots = false;
             fleshShield = false;
@@ -820,22 +825,22 @@ namespace JoostMod
         {
             if (waterBubble && proj.magic && target.wet)
             {
-                damage = (int)(damage * 1.1f);
-                knockback *= 1.1f;
+                damage = (int)(damage * 1.12f);
+                knockback *= 1.12f;
             }
         }
         public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
         {
             if (waterBubble && proj.magic && target.wet)
             {
-                damage = (int)(damage * 1.1f);
+                damage = (int)(damage * 1.12f);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             if (waterBubble && item.magic && target.wet)
             {
-                damage = (int)(damage * 1.1f);
+                damage = (int)(damage * 1.12f);
                 knockback *= 1.1f;
             }
         }
@@ -843,7 +848,7 @@ namespace JoostMod
         {
             if (waterBubble && item.magic && target.wet)
             {
-                damage = (int)(damage * 1.1f);
+                damage = (int)(damage * 1.12f);
             }
         }
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
@@ -2028,6 +2033,7 @@ namespace JoostMod
                 if (Main.rand.NextBool(2))
                     Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + (player.height / 2 * player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
             }
+            
         }
         public override void PostUpdateRunSpeeds()
         {
