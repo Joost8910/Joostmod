@@ -46,7 +46,6 @@ namespace JoostMod.Items
             player.immuneNoBlink = true;
             player.immuneTime = 20;
             player.noFallDmg = true;
-            player.GetModPlayer<JoostPlayer>().SaitamaOwn = true;
             player.statLife++;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

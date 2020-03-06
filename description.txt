@@ -32,6 +32,7 @@ Version 0.8.1
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
 - Added Sandstone Kunai
+- Added Sandy Saddle
 - Tweaked Earthen Hammer shockwave
 - Tweaked Napalm Launcher, Staff of the Sea, and Tornado rod sprites
 - Tweaked some item values
