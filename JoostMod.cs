@@ -70,6 +70,17 @@ namespace JoostMod
                 bossChecklist.Call("AddBoss", 15.8f, new List<int>() { ModContent.NPCType<Gilgamesh>(), ModContent.NPCType<Enkidu>() }, this, "Gilgamesh and Enkidu", (Func<bool>)(() => JoostWorld.downedGilgamesh), ModContent.ItemType<Excalipoor>(), new List<int>() { ModContent.ItemType<Items.Armor.GilgameshMask>(), ModContent.ItemType<Items.Placeable.COTBBMusicBox>(), ModContent.ItemType<Items.Placeable.GilgameshTrophy>() }, new List<int>() { ModContent.ItemType<GilgBag>(), ModContent.ItemType<Items.Weapons.Gilgameshset>(), ModContent.ItemType<GenjiToken>() }, "Use an [i:" + ItemType("Excalipoor") + "] anywhere" ,"<Gilgamesh> Hah! I won!", "JoostMod/NPCs/Bosses/GilgameshAndEnkiduBossLog");
 
             }
+            Mod fargos = ModLoader.GetMod("Fargowiltas");
+            if (fargos != null)
+            {
+                // AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
+                //item internal name, inline method for retrieving downed value, price to sell for in copper
+                fargos.Call("AddSummon", 5.7f, "JoostMod", "CactusBait", (Func<bool>)(() => JoostWorld.downedCactusWorm), 75000);
+                fargos.Call("AddSummon", 14.6f, "JoostMod", "Cactusofdoom", (Func<bool>)(() => JoostWorld.downedJumboCactuar), 10000000);
+                fargos.Call("AddSummon", 15.1f, "JoostMod", "InfectedArmCannon", (Func<bool>)(() => JoostWorld.downedSAX), 15000000);
+                fargos.Call("AddSummon", 15.8f, "JoostMod", "Excalipoor", (Func<bool>)(() => JoostWorld.downedGilgamesh), 20000000);
+
+            }
             InitializeHunts();
         }
         // string:"AddHunt", string:huntName, string:questAccept, string:questComplete, int:questItem, Func<bool>:questActive, Func<bool>:questAvailable, Func<bool>:downedHunt, Action<Player>:reward

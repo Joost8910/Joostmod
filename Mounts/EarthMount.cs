@@ -18,7 +18,7 @@ namespace JoostMod.Mounts
 			mountData.flightTimeMax = 0;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 20;
-			mountData.acceleration = 0.12f;
+			mountData.acceleration = 0.05f;
 			mountData.jumpSpeed = 8f;
 			mountData.blockExtraJumps = false;
 			mountData.totalFrames = 8;
@@ -66,10 +66,10 @@ namespace JoostMod.Mounts
         {
             if (player.velocity != Vector2.Zero)
             {
-                Dust.NewDustDirect(player.position + new Vector2(player.velocity.X * 3, 40), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1f).noGravity = true;
-                Dust.NewDustDirect(player.position + new Vector2(player.velocity.X * 3, 40), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1.5f).noGravity = true;
-                Dust.NewDustDirect(player.position + new Vector2(player.velocity.X * 3, 40), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 2f).noGravity = true;
-                Dust.NewDustDirect(player.position + new Vector2(player.velocity.X * 3, 40), 30, 20, 1, -player.velocity.X * 0.5f, player.velocity.Y * -0.5f - 2, 0, default, Main.rand.NextFloat() + 1f);
+                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 20, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1f).noGravity = true;
+                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 15, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1.5f).noGravity = true;
+                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 10, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 2f).noGravity = true;
+                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 15, 10), 30, 20, 1, -player.velocity.X * 0.5f, player.velocity.Y * -0.5f - 2, 0, default, Main.rand.NextFloat() + 1f);
             }
         }
         public override bool UpdateFrame(Player player, int state, Vector2 velocity)

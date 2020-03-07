@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Havel's Leggings");
-            Tooltip.SetDefault("5% increased melee damage\n" +
+            Tooltip.SetDefault("6% increased melee damage\n" +
                 "10% reduced movement speed");
         }
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace JoostMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
+            player.meleeDamage += 0.06f;
             player.moveSpeed *= 0.9f;
             player.maxRunSpeed *= 0.9f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.9f;

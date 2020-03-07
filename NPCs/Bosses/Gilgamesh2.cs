@@ -29,7 +29,7 @@ namespace JoostMod.NPCs.Bosses
             npc.lavaImmune = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath3;
-            npc.value = Item.buyPrice(30, 0, 0, 0);
+            npc.value = Item.buyPrice(20, 0, 0, 0);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             npc.buffImmune[BuffID.Confused] = true;

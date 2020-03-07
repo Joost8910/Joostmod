@@ -31,9 +31,10 @@ namespace JoostMod.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Player player = Main.player[projectile.owner];
-            if ((player.itemAnimation < player.itemAnimationMax / 2))
+            if ((player.itemAnimation < player.itemAnimationMax / 2) && target.Distance(player.Center + player.velocity) > 60 + knockback + target.width / 2)
             {
                 hitDirection = -projectile.direction;
+                knockback *= 0.6f;
             }
         }
         public override void AI()
@@ -79,8 +80,8 @@ namespace JoostMod.Projectiles
                     if (p.active && p.type == mod.ProjectileType("Boulder") && projectile.Distance(p.Center) < 40)
                     {
                         p.velocity = projectile.velocity * 2f;
-                        p.damage = projectile.damage * 2;
-                        p.knockBack = projectile.knockBack * 2;
+                        p.damage = (int)(projectile.damage * 2.5f);
+                        p.knockBack = projectile.knockBack * 3f;
                         if (p.timeLeft <= 500)
                         {
                             Main.PlaySound(21, (int)p.Center.X, (int)p.Center.Y, 1, 1, -0.25f);

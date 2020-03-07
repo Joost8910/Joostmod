@@ -20,8 +20,8 @@ namespace JoostMod.Items.Weapons
 			item.melee = true;
 			item.width = 106;
 			item.height = 110;
-			item.useTime = 40;
-			item.useAnimation = 40;
+			item.useTime = 44;
+			item.useAnimation = 44;
 			item.reuseDelay = 2;
 			item.useStyle = 1;
 			item.knockBack = 15;

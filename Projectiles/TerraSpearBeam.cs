@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -25,8 +24,8 @@ namespace JoostMod.Projectiles
             projectile.light = 0.5f;
             projectile.extraUpdates = 1;
             projectile.tileCollide = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
@@ -73,6 +72,19 @@ namespace JoostMod.Projectiles
 
                 Main.dust[dust].noGravity = true;
             }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = Main.projectileTexture[projectile.type];
+            SpriteEffects effects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+            {
+                effects = SpriteEffects.FlipHorizontally;
+            }
+            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
+            Color color = lightColor * ((255f - projectile.alpha) / 255f);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            return false;
         }
 
     }

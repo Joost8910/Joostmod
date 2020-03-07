@@ -23,7 +23,7 @@ namespace JoostMod.Items
             item.useAnimation = 12;
             item.useStyle = 4;
             item.noMelee = true; 
-            item.value = 15000;
+            item.value = 75000;
             item.rare = 3;
             item.UseSound = SoundID.Item1;
         }
