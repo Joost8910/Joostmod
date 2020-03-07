@@ -26,7 +26,7 @@ namespace JoostMod.NPCs.Bosses
 			npc.lavaImmune = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.value = Item.buyPrice(10, 0, 0, 0);
+			npc.value = Item.buyPrice(7, 50, 0, 0);
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 0;
 			npc.frameCounter = 0;

@@ -76,8 +76,8 @@ namespace JoostMod
                 // AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
                 //item internal name, inline method for retrieving downed value, price to sell for in copper
                 fargos.Call("AddSummon", 5.7f, "JoostMod", "CactusBait", (Func<bool>)(() => JoostWorld.downedCactusWorm), 75000);
-                fargos.Call("AddSummon", 14.6f, "JoostMod", "Cactusofdoom", (Func<bool>)(() => JoostWorld.downedJumboCactuar), 10000000);
-                fargos.Call("AddSummon", 15.1f, "JoostMod", "InfectedArmCannon", (Func<bool>)(() => JoostWorld.downedSAX), 15000000);
+                fargos.Call("AddSummon", 14.6f, "JoostMod", "Cactusofdoom", (Func<bool>)(() => JoostWorld.downedJumboCactuar), 7500000);
+                fargos.Call("AddSummon", 15.1f, "JoostMod", "InfectedArmCannon", (Func<bool>)(() => JoostWorld.downedSAX), 12500000);
                 fargos.Call("AddSummon", 15.8f, "JoostMod", "Excalipoor", (Func<bool>)(() => JoostWorld.downedGilgamesh), 20000000);
 
             }

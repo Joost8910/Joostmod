@@ -140,15 +140,23 @@ namespace JoostMod.NPCs.Hunts
                 {
                     for (int i = 0; i < 6; i++)
                     {
-                        if (!Collision.SolidCollision(npc.position + new Vector2(-125 + (i * 50), -50), npc.width, npc.height))
+                        int j = 0;
+                        for (j = 0; j < 500; j++)
+                        {
+                            if (!Collision.SolidCollision(npc.position + new Vector2(-125 + (i * 50), -j), npc.width, npc.height))
+                            {
+                                break;
+                            }
+                        }
+                        if (!Collision.SolidCollision(npc.position + new Vector2(-125 + (i * 50), -j), npc.width, npc.height))
                         {
                             if (i == 2 || i == 3)
                             {
-                                NPC.NewNPC((int)npc.position.X - 125 + (i * 50), (int)npc.position.Y - 50, mod.NPCType("Cactoid"));
+                                NPC.NewNPC((int)npc.position.X - 125 + (i * 50), (int)npc.position.Y - j, mod.NPCType("Cactoid"));
                             }
                             else
                             {
-                                NPC.NewNPC((int)npc.position.X - 125 + (i * 50), (int)npc.position.Y - 50, mod.NPCType("Cactite"));
+                                NPC.NewNPC((int)npc.position.X - 125 + (i * 50), (int)npc.position.Y - j, mod.NPCType("Cactite"));
                             }
                         }
                     }
