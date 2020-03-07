@@ -6,4 +6,4 @@ includePDB = true
 hideCode = false
 includeSource = true
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, *.pdn
-weakReferences = UnuBattleRods@1.1
+weakReferences = UnuBattleRods@1.1, Fargowiltas@2.0.1.2
