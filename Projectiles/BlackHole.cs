@@ -49,7 +49,7 @@ namespace JoostMod.Projectiles
                 Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/BlackHoleStart"), 0.7f);
             }
             projectile.ai[0]++;
-            if (projectile.ai[0] % (48 * 2) == 0)
+            if (projectile.ai[0] >= 88 && (projectile.ai[0] - 8) % (20 * 2) == 0)
             {
                 Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/BlackHoleLoop"), 0.7f);
             }
@@ -76,7 +76,7 @@ namespace JoostMod.Projectiles
                     if (Main.item[i].active)
                     {
                         Item I = Main.item[i];
-                        if (projectile.Hitbox.Intersects(I.Hitbox))
+                        if (projectile.Distance(I.Center) <= 450)
                         {
                             Vector2 vel = I.DirectionTo(projectile.Center) * projectile.ai[1] * 0.3125f;
                             vel = vel.RotatedBy(90f * -projectile.direction);

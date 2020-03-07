@@ -46,7 +46,7 @@ namespace JoostMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<JoostModPlayer>().throwNone = true;
+            player.GetModPlayer<JoostModPlayer>().throwConsume = 0;
             player.thrownVelocity *= 1.60f;
             player.thrownDamage += 0.60f;
         }

@@ -12,22 +12,22 @@ namespace JoostMod.Mounts
 		{
 			mountData.spawnDust = 32;
 			mountData.buff = mod.BuffType("SandSharkMount");
-			mountData.heightBoost = 6;
+			mountData.heightBoost = 4;
 			mountData.fallDamage = 0f;
-			mountData.runSpeed = 2f;
-			mountData.dashSpeed = 4f;
+			mountData.runSpeed = 1.5f;
+			mountData.dashSpeed = 3f;
 			mountData.flightTimeMax = 0;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 10;
 			mountData.acceleration = 0.1f;
-			mountData.jumpSpeed = 6f;
+			mountData.jumpSpeed = 5f;
 			mountData.blockExtraJumps = false;
 			mountData.totalFrames = 4;
 			mountData.constantJump = false;
 			int[] array = new int[mountData.totalFrames];
 			for (int l = 0; l < array.Length; l++)
 			{
-				array[l] = 7;
+				array[l] = 6;
             }
             mountData.playerYOffsets = array;
 			mountData.xOffset = 14;
@@ -62,14 +62,30 @@ namespace JoostMod.Mounts
 
         public override void UpdateEffects(Player player)
         {
-            Rectangle rect = new Rectangle((int)player.position.X - 6, (int)player.position.Y - 6, player.width + 12, player.height + mountData.heightBoost + 12);
+            Rectangle rect = new Rectangle((int)(player.position.X - 6), (int)(player.position.Y - 6), player.width + 12, player.height + mountData.heightBoost + 12);
+            if (player.controlLeft)
+            {
+                rect.X -= 16;
+            }
+            if (player.controlRight)
+            {
+                rect.Width += 16;
+            }
+            if (player.controlJump)
+            {
+                rect.Y -= 16;
+            }
+            if (player.controlDown)
+            {
+                rect.Height += 16;
+            }
             bool sand = false;
             for (int x = rect.X / 16; x <= (rect.X + rect.Width) / 16 && !sand; x++)
             {
                 for (int y = rect.Y / 16; y <= (rect.Y + rect.Height) / 16 && !sand; y++)
                 {
                     int type = Main.tile[x, y].type;
-                    if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Ebonsand || type == TileID.Crimsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.CorruptHardenedSand || type == TileID.CrimsonHardenedSand || type == TileID.HallowSandstone || type == TileID.CorruptSandstone || type == TileID.CrimsonSandstone || type == TileID.DesertFossil)
+                    if (Main.tile[x, y].nactive() && (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Ebonsand || type == TileID.Crimsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.CorruptHardenedSand || type == TileID.CrimsonHardenedSand || type == TileID.HallowSandstone || type == TileID.CorruptSandstone || type == TileID.CrimsonSandstone || type == TileID.DesertFossil))
                     {
                         sand = true;
                     }

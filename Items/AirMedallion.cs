@@ -3,11 +3,12 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items
 {
-	public class AirMedallion : ModItem
+    [AutoloadEquip(EquipType.Neck)]
+    public class AirMedallion : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gust Medallion");
+			DisplayName.SetDefault("Gust Amulet");
 			Tooltip.SetDefault("Increases movement speed by 10%\n" +
                 "Your summon attacks have a 10% chance to create a gust of wind");
 		}
@@ -32,9 +33,9 @@ namespace JoostMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "TinyTwister", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
+            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 3);
+            recipe.AddRecipeGroup("JoostMod:AnyMythril", 3);
+            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 3);
             recipe.AddTile(null, "ElementalForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

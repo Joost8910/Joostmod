@@ -45,7 +45,7 @@ namespace JoostMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.rangedDamage += 0.50f;
-            player.GetModPlayer<JoostModPlayer>().ammoNone = true;
+            player.GetModPlayer<JoostModPlayer>().ammoConsume = 0;
 
         }
         public override void ArmorSetShadows(Player player)

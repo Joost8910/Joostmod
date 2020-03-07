@@ -43,7 +43,11 @@ namespace JoostMod.Projectiles
                 int dustIndex = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 100);
                 Main.dust[dustIndex].noGravity = true;
             }
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
             Main.PlaySound(0, projectile.Center);
+            return base.OnTileCollide(oldVelocity);
         }
         public override void AI()
         {

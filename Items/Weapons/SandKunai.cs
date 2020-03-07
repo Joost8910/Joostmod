@@ -15,13 +15,13 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 44;
             item.thrown = true;
             item.width = 28;
             item.height = 30;
             item.useTime = 3;
             item.useAnimation = 15;
-            item.reuseDelay = 14;
+            item.reuseDelay = 12;
             item.useStyle = 6;
             item.noMelee = true;
 			item.noUseGraphic = true;
@@ -61,7 +61,7 @@ namespace JoostMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float spread = 90f * 0.0174f;
+            float spread = 60f * 0.0174f;
             float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
             double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
             double deltaAngle = spread / 18f;

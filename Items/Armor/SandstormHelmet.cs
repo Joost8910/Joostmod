@@ -8,11 +8,11 @@ namespace JoostMod.Items.Armor
 	[AutoloadEquip(EquipType.Head)]
 	public class SandstormHelmet : ModItem
 	{
-public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sandstorm Helmet");
-			Tooltip.SetDefault("25% increased Throwing Damage\n" + "Reduces thrown item consumption by 50%");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sandstorm Helmet");
+            Tooltip.SetDefault("25% increased Throwing Damage\n" + "50% chance to not consume thrown items");
+        }
 
 		public override void SetDefaults()
 		{

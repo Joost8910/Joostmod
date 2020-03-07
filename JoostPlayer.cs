@@ -825,30 +825,30 @@ namespace JoostMod
         {
             if (waterBubble && proj.magic && target.wet)
             {
-                damage = (int)(damage * 1.12f);
-                knockback *= 1.12f;
+                damage = (int)(damage * 1.15f);
+                knockback *= 1.15f;
             }
         }
         public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
         {
             if (waterBubble && proj.magic && target.wet)
             {
-                damage = (int)(damage * 1.12f);
+                damage = (int)(damage * 1.15f);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             if (waterBubble && item.magic && target.wet)
             {
-                damage = (int)(damage * 1.12f);
-                knockback *= 1.1f;
+                damage = (int)(damage * 1.15f);
+                knockback *= 1.15f;
             }
         }
         public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
         {
             if (waterBubble && item.magic && target.wet)
             {
-                damage = (int)(damage * 1.12f);
+                damage = (int)(damage * 1.15f);
             }
         }
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)

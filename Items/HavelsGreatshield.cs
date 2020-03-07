@@ -54,10 +54,10 @@ namespace JoostMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "EarthEssence", 50);
-            recipe.AddIngredient(ItemID.StoneBlock, 200);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
+            recipe.AddIngredient(ItemID.StoneBlock, 150);
+            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 3);
+            recipe.AddRecipeGroup("JoostMod:AnyMythril", 3);
+            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 3);
             recipe.AddTile(null, "ElementalForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,5 +1,5 @@
 The Joostmod has to offer
-437 new items
+442 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -21,7 +21,7 @@ Version 0.8.1
 - Added Fiery Soles
 - Added Chimes of the Wind
 - Added Hurricane Windwheel
-- Added Gust Medallion
+- Added Gust Amulet
 - Added Tornado Armor
 - Added Whirlwind Sphere
 - Added Scroll of Water
@@ -31,7 +31,8 @@ Version 0.8.1
 - Added Water Board
 - Added Sandstorm Glove
 - Added Sandstorm Javelin
-- Added Sandstone Kunai
+- Added Sandstorm Kunai
+- Added Sandstorm Medallion
 - Added Sandy Saddle
 - Tweaked Earthen Hammer shockwave
 - Tweaked Napalm Launcher, Staff of the Sea, and Tornado rod sprites
@@ -59,10 +60,11 @@ Version 0.8.1
 - Reduced Defense granted by Whirlwind from 25 to 20
 - Reduced Whirlwind attack speed from 8.5 times a second to 7.5 times a second
 - Fixed issue where the Rogue Tomato would sometimes fall through the world after killing the player
+- Harmony Pendant and Havoc Pendant now have equipped sprites
 - Hungering arrow is now destroyed when it fails the additional pierce check instead of reducing its penetrate by 1
 - Plague of Toads no longer pierces
 - Rocks now only lose 30 damage with each bounce instead of 50 
-- Staff of Nature and Wand of the Forest leaes collide with tiles based on the orbit point rather than the leaves themselves
+- Staff of Nature and Wand of the Forest leaves collide with tiles based on the orbit point rather than the leaves themselves
 - Stone Fist and the Elemental Boomerangs now requires Cobalt, Mythril, and Adamantite like the other Elemental Weapons
 - The Nails now use their original sound effects for the nail arts
 - Vanilla Change: Bottomless Water Bucket is now craftable with a Bucket of Water and 25 Water Essence at the Elemental Forge

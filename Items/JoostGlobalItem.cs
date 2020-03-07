@@ -229,11 +229,11 @@ namespace JoostMod.Items
             return base.UseItem(item, player);
         }
     }
-    public class Ammohalf : GlobalItem
+    public class AmmoChance : GlobalItem
     {
         public override bool ConsumeAmmo(Item item, Player player)
         {
-            if (player.GetModPlayer<JoostModPlayer>().ammo50 && Main.rand.NextFloat() < .5f)
+            if (Main.rand.NextFloat() <= (1f - player.GetModPlayer<JoostModPlayer>().ammoConsume))
             {
                 return false;
             }
@@ -250,22 +250,11 @@ namespace JoostMod.Items
             }
         }
     }
-    public class Ammonone : GlobalItem
-    {
-        public override bool ConsumeAmmo(Item item, Player player)
-        {
-            if (player.GetModPlayer<JoostModPlayer>().ammoNone)
-            {
-                return false;
-            }
-            return true;
-        }
-    }
-    public class Thrownone : GlobalItem
+    public class ThrownChance : GlobalItem
     {
         public override bool ConsumeItem(Item item, Player player)
         {
-            if (player.GetModPlayer<JoostModPlayer>().throwNone && item.thrown)
+            if (item.thrown && Main.rand.NextFloat() <= (1f - player.GetModPlayer<JoostModPlayer>().throwConsume))
             {
                 return false;
             }
@@ -341,16 +330,14 @@ namespace JoostMod.Items
     }
     public class JoostModPlayer : ModPlayer
     {
-        public bool ammo50 = false;
-        public bool ammoNone = false;
-        public bool throwNone = false;
+        public float ammoConsume = 1;
+        public float throwConsume = 1;
         public bool crimsonPommel = false;
         public bool corruptPommel = false;
         public override void ResetEffects()
         {
-            ammo50 = false;
-            ammoNone = false;
-            throwNone = false;
+            throwConsume = 1;
+            ammoConsume = 1;
             crimsonPommel = false;
             corruptPommel = false;
         }
