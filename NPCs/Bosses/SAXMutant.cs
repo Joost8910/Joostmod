@@ -28,7 +28,7 @@ namespace JoostMod.NPCs.Bosses
             npc.boss = true;
             npc.lavaImmune = true;
             npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            npc.DeathSound = SoundID.NPCDeath9;
             npc.value = Item.buyPrice(0, 0, 0, 0);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -95,12 +95,20 @@ namespace JoostMod.NPCs.Bosses
             else if (npc.localAI[3] >= 100)
             {
                 npc.frameCounter++;
-                if (npc.localAI[3] < 110)
+                if (npc.localAI[3] < 110 || npc.localAI[3] == 230 || npc.localAI[3] == 280)
                 {
                     npc.frame.Y = 0;
                 }
                 npc.frame.X = 720;
-                if (npc.frameCounter >= 10)
+                if (npc.localAI[3] >= 230)
+                {
+                    npc.frame.X = 900;
+                }
+                if (npc.localAI[3] >= 280)
+                {
+                    npc.frame.X = 1080;
+                }
+                if (npc.frameCounter >= 10 || (npc.frameCounter >= 6 && npc.localAI[3] > 240))
                 {
                     npc.frameCounter = 0;
                     npc.frame.Y = (npc.frame.Y + 200);
@@ -329,7 +337,7 @@ namespace JoostMod.NPCs.Bosses
                             Main.PlaySound(4, npc.Center, 10);
                         }
                     }
-                    if (npc.localAI[3] >= 240f)
+                    if (npc.localAI[3] >= 330f)
                     {
                         npc.life = 0;
                         npc.HitEffect(0, 0);
@@ -701,7 +709,7 @@ namespace JoostMod.NPCs.Bosses
 
             Color color = Lighting.GetColor((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16));
 
-            int xFrameCount = 5;
+            int xFrameCount = 7;
             Texture2D texture = Main.npcTexture[npc.type];
             Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[npc.type]));
             Vector2 vector = new Vector2(((texture.Width / xFrameCount) / 2f), ((texture.Height / Main.npcFrameCount[npc.type]) / 2f));
@@ -739,7 +747,7 @@ namespace JoostMod.NPCs.Bosses
             }
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SAXCoreX"));
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 40, mod.NPCType("SAXCoreX"));
             }
             //Main.NewText("The SA-X shimmers and reverts to its true form!", 175, 75, 225);
 

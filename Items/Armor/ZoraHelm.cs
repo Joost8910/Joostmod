@@ -35,7 +35,7 @@ namespace JoostMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Allows you to swim and breath water\n" +
+			player.setBonus = "Allows you to swim and breathe water\n" +
                 "Press the Armor Ability key to do a watery spin attack\n" +
                 "The spin attack is far less effective out of water";
             player.accFlipper = true;

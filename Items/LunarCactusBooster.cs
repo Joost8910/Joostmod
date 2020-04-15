@@ -184,5 +184,14 @@ namespace JoostMod.Items
             }
         }
 
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Cactus, 30);
+            recipe.AddIngredient(ItemID.LunarBar, 10);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

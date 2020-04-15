@@ -172,12 +172,14 @@ namespace JoostMod.NPCs.Bosses
         {
             writer.Write((int)npc.localAI[0]);
             writer.Write((int)npc.localAI[1]);
+            writer.Write((int)npc.localAI[2]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.localAI[0] = reader.ReadInt32();
             npc.localAI[1] = reader.ReadInt32();
+            npc.localAI[2] = reader.ReadInt32();
         }
 
         private ModPacket GetPacket(SAXCoreMessageType type)
@@ -396,6 +398,29 @@ namespace JoostMod.NPCs.Bosses
                 }
                 npc.ai[2] = 1;
                 npc.ai[3]++;
+            }
+            if (npc.localAI[2] < 90)
+            {
+                npc.localAI[2]++;
+                if (npc.localAI[2] < 60)
+                {
+                    npc.dontTakeDamage = true;
+                    npc.velocity = Vector2.Zero;
+                    Vector2 rote = npc.localAI[3].ToRotationVector2();
+                    Vector2 move = P.Center - npc.Center;
+                    move.Normalize();
+                    float home = 21f - (npc.localAI[2] / 3);
+                    Vector2 vecRot = ((home - 1f) * rote + move) / home;
+                    npc.rotation = (float)Math.Atan2(vecRot.Y, vecRot.X);
+                    npc.localAI[3] = npc.rotation;
+                }
+                else
+                {
+                    npc.dontTakeDamage = false;
+                    moveSpeed = moveSpeed * ((npc.localAI[2] - 60) / 30);
+                    npc.velocity = npc.DirectionTo(P.Center) * moveSpeed;
+                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+                }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

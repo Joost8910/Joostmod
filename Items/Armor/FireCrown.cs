@@ -36,7 +36,7 @@ namespace JoostMod.Items.Armor
         public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Press the Armor Ability key to become overflowing with fire\n" +
-                "You deal increased ranged damage and gain increased movement speed, at the cost of losing life\n" +
+                "You deal increased ranged damage and gain increased movement speed, at the cost of rapidly losing life\n" +
                 "You will also leave a trail of damaging fire if you have the Blazing Anklets equipped";
             player.GetModPlayer<JoostPlayer>().fireArmor = true;
         }

@@ -8,6 +8,10 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Version 0.8.1.1
+- Fixed Lunar Cactus Booster not having a recipe
+- Improved SA-X's second form death animation
+
 Version 0.8.1
 - Added Earthen Billhook
 - Added Dragon Tooth

@@ -18,7 +18,7 @@ namespace JoostMod.Projectiles
 			projectile.height = 4;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
-			projectile.ranged = true;
+			projectile.minion = true;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 600;
 			projectile.alpha = 170;
