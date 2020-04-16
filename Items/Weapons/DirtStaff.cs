@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace JoostMod.Items.Weapons
 {
@@ -13,8 +14,9 @@ namespace JoostMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soil Staff");
-            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" + 
-            "Summons a soil spirit to fight for you");
+            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" +
+            "Summons a soil spirit to fight for you\n" +
+            "Using this weapon consumes dirt equal half of the damage bonus");
         }
         public override void SetDefaults()
         {
@@ -47,8 +49,48 @@ namespace JoostMod.Items.Weapons
 			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
 		}
-		
-		public override bool UseItem(Player player)
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                int dirt = 0;
+                for (int i = 0; i < 58; i++)
+                {
+                    if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
+                    {
+                        dirt += player.inventory[i].stack;
+                    }
+                }
+                int amount = (dirt / 666) / 2;
+                for (int i = 0; i < 58 && amount > 0; i++)
+                {
+                    if (player.inventory[i].stack > 0 && player.inventory[i].type == ItemID.DirtBlock)
+                    {
+                        if (player.inventory[i].stack >= amount)
+                        {
+                            player.inventory[i].stack -= amount;
+                            amount = 0;
+                        }
+                        else
+                        {
+                            amount -= player.inventory[i].stack;
+                            player.inventory[i].stack = 0;
+                        }
+                        if (player.inventory[i].stack <= 0)
+                        {
+                            player.inventory[i].SetDefaults(0, false);
+                        }
+                        if (amount <= 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            return base.CanUseItem(player);
+        }
+        public override bool UseItem(Player player)
 		{
 			if(player.altFunctionUse == 2)
 			{

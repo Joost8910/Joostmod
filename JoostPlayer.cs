@@ -99,6 +99,7 @@ namespace JoostMod
         private float cactusBootsTimer = 40;
         public bool fleshShield = false;
         private int fleshShieldTimer = 0;
+        public bool dirtArmor = false;
         public bool havelShield = false;
         public bool havelBlocking = false;
         public bool havelArmor = false;
@@ -185,6 +186,7 @@ namespace JoostMod
                 sandSharkVel = Vector2.Zero;
             }
             cactusBoots = false;
+            dirtArmor = false;
             fleshShield = false;
             havelShield = false;
             havelBlocking = false;
@@ -1912,6 +1914,18 @@ namespace JoostMod
             {
                 Dash();
             }
+            if (dirtArmor)
+            {
+                int dirt = 0;
+                for (int i = 0; i < 58; i++)
+                {
+                    if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
+                    {
+                        dirt += player.inventory[i].stack;
+                    }
+                }
+                player.statDefense += dirt / 666;
+            }
             if (havelShield && (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0 || (player.controlUseTile && player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(player.HeldItem, player))))
             {
                 player.noItems = true;
@@ -2231,6 +2245,42 @@ namespace JoostMod
             if (XShield && XShieldTimer > 0)
             {
                 XShieldTimer -= damage;
+            }
+            if (dirtArmor)
+            {
+                int dirt = 0;
+                for (int i = 0; i < 58; i++)
+                {
+                    if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
+                    {
+                        dirt += player.inventory[i].stack;
+                    }
+                }
+                int amount = Math.Min(((dirt / 666) / 2), damage);
+                for (int i = 0; i < 58 && amount > 0; i++)
+                {
+                    if (player.inventory[i].stack > 0 && player.inventory[i].type == ItemID.DirtBlock)
+                    {
+                        if (player.inventory[i].stack >= amount)
+                        {
+                            player.inventory[i].stack -= amount;
+                            amount = 0;
+                        }
+                        else
+                        {
+                            amount -= player.inventory[i].stack;
+                            player.inventory[i].stack = 0;
+                        }
+                        if (player.inventory[i].stack <= 0)
+                        {
+                            player.inventory[i].SetDefaults(0, false);
+                        }
+                        if (amount <= 0)
+                        {
+                            break;
+                        }
+                    }
+                }
             }
             if (havelArmorActive)
             {

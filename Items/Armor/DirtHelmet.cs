@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
 	[AutoloadEquip(EquipType.Head)]
 	public class DirtHelmet : ModItem
 	{
-public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soil Helm");
 		}
@@ -27,17 +27,10 @@ public override void SetStaticDefaults()
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Grants 1 more defense for every 666 blocks of dirt in your inventory";
-            int dirt = 0;
-            for (int i = 0; i < 58; i++)
-            {
-                if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
-                {
-                    dirt += player.inventory[i].stack;
-                }
-            }
-            player.statDefense += dirt/666;
-		}
+			player.setBonus = "Grants 1 more defense for every 666 blocks of dirt in your inventory\n" + 
+                "Getting hit consumes dirt equal to the attack's damage, up to a maximum of half of the defense provided";
+            player.GetModPlayer<JoostPlayer>().dirtArmor = true;
+        }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)

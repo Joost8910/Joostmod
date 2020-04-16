@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace JoostMod.Items.Weapons
 {
@@ -11,7 +12,8 @@ namespace JoostMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soil Sword");
-            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory");
+            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" +
+                "Using this weapon consumes dirt equal to 1/20th of the damage bonus");
         }
         public override void SetDefaults()
         {
@@ -51,6 +53,43 @@ namespace JoostMod.Items.Weapons
                 }
             }
             flat = (dirt / 666f);
+        }
+        public override bool CanUseItem(Player player)
+        {
+            int dirt = 0;
+            for (int i = 0; i < 58; i++)
+            {
+                if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
+                {
+                    dirt += player.inventory[i].stack;
+                }
+            }
+            int amount = (dirt / 666) / 20;
+            for (int i = 0; i < 58 && amount > 0; i++)
+            {
+                if (player.inventory[i].stack > 0 && player.inventory[i].type == ItemID.DirtBlock)
+                {
+                    if (player.inventory[i].stack >= amount)
+                    {
+                        player.inventory[i].stack -= amount;
+                        amount = 0;
+                    }
+                    else
+                    {
+                        amount -= player.inventory[i].stack;
+                        player.inventory[i].stack = 0;
+                    }
+                    if (player.inventory[i].stack <= 0)
+                    {
+                        player.inventory[i].SetDefaults(0, false);
+                    }
+                    if (amount <= 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {
