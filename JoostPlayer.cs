@@ -875,7 +875,7 @@ namespace JoostMod
                 {
                     caughtType = mod.ItemType("BloodyBucket");
                 }
-                if (Main.rand.Next(Math.Max(30, 3000 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (player.position.X / 16 < 350 || player.position.X / 16 > Main.maxTilesX - 350))
+                if (Main.rand.Next(Math.Max(30 * (Main.hardMode ? 2 : 1), 3000 / power)) == 0 && worldLayer == 1 && (player.position.X / 16 < 350 || player.position.X / 16 > Main.maxTilesX - 350))
                 {
                     caughtType = mod.ItemType("BubbleShield");
                 }

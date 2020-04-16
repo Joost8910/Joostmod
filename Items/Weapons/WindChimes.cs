@@ -48,6 +48,7 @@ namespace JoostMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Bell);
             recipe.AddIngredient(null, "TinyTwister", 50);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);

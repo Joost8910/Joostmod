@@ -65,7 +65,8 @@ namespace JoostMod.Items.Weapons
         public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "FireEssence", 50);
+            recipe.AddIngredient(ItemID.PhoenixBlaster);
+            recipe.AddIngredient(null, "FireEssence", 50);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
             recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);

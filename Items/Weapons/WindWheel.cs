@@ -14,7 +14,7 @@ namespace JoostMod.Items.Weapons
 		{
 			item.damage = 25;
 			item.summon = true;
-			item.mana = 16;
+			item.mana = 12;
 			item.width = 54;
 			item.height = 56;
 			item.useTime = 16;

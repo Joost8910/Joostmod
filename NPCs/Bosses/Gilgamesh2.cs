@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -415,6 +416,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = -30;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
+                    moveSpeed = 0;
                 }
                 if (npc.life < npc.lifeMax * 0.7f && npc.ai[3] == 2 && npc.velocity.Y == 0)
                 {
@@ -422,6 +424,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = 0;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
+                    moveSpeed = 0;
                 }
                 if (npc.life < npc.lifeMax * 0.5f && npc.ai[3] == 4 && npc.velocity.Y == 0)
                 {
@@ -429,6 +432,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = 0;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
+                    moveSpeed = 0;
                 }
                 if (npc.life < npc.lifeMax * 0.3f && npc.ai[3] == 6 && npc.velocity.Y == 0)
                 {
@@ -436,6 +440,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.ai[0] = 0;
                     npc.localAI[0] = 0;
                     npc.localAI[1] = 0;
+                    moveSpeed = 0;
                 }
                 npc.ai[0]++;
                 npc.localAI[0]++;
@@ -450,7 +455,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     npc.position.Y++;
                 }
-                if (npc.velocity.Y == 0 && npc.velocity.X == 0 && moveSpeed > 3)
+                if (npc.velocity.Y == 0 && npc.velocity.X == 0 && moveSpeed > 3 && (int)npc.ai[3] % 2 == 0)
                 {
                     npc.velocity.Y = -10f;
                     npc.noTileCollide = true;
@@ -1917,11 +1922,42 @@ namespace JoostMod.NPCs.Bosses
                     }
                     spriteBatch.Draw(gunBladeTex, drawPos + new Vector2(npc.scale * npc.direction * gunBladeOffset2.X, npc.scale * gunBladeOffset2.Y), new Rectangle?(gunBladeRect), color2, gunBladeRotation2, gunBladeVect, npc.scale, gunBladeEffects, 0f);
                     spriteBatch.Draw(kunaiTex, drawPos + new Vector2(npc.scale * npc.direction * kunaiOffset2.X, npc.scale * kunaiOffset2.Y), new Rectangle?(kunaiRect), color2, kunaiRotation2, kunaiVect, npc.scale, kunaiEffects, 0f);
-                    spriteBatch.Draw(eyesTex, drawPos + new Vector2(npc.scale * npc.direction * eyesOffset2.X, npc.scale * eyesOffset2.Y), new Rectangle?(eyesRect), Color.White, eyesRotation2, eyesVect, npc.scale, eyesEffects, 0f);
+                    //spriteBatch.Draw(eyesTex, drawPos + new Vector2(npc.scale * npc.direction * eyesOffset2.X, npc.scale * eyesOffset2.Y), new Rectangle?(eyesRect), Color.White, eyesRotation2, eyesVect, npc.scale, eyesEffects, 0f);
                 }
+                Vector2 eyeGlowOffset = eyesOffset + new Vector2(8 * npc.direction, -41.5f);
+
                 eyesOffset = eyesOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
+                eyeGlowOffset = eyeGlowOffset.RotatedBy(npc.rotation, Vector2.Zero);
                 eyesRotation += npc.rotation;
                 spriteBatch.Draw(eyesTex, npc.Center - Main.screenPosition + new Vector2(npc.scale * npc.direction * eyesOffset.X, npc.scale * eyesOffset.Y), new Rectangle?(eyesRect), Color.White, eyesRotation, eyesVect, npc.scale, eyesEffects, 0f);
+
+                Vector2 vector = new Vector2((float)(3 * npc.direction - ((npc.direction == 1) ? 1 : 0)), -11.5f) + Vector2.UnitY * npc.gfxOffY + npc.Size / 2f;
+                Vector2 vector2 = new Vector2((float)(3 * npc.direction - ((npc.direction == 1) ? 1 : 0)), -11.5f) + npc.Size / 2f;
+                Vector2 vector3 = Vector2.Zero;
+                float num3 = 0f;
+                Vector2 vector4 = npc.position + eyeGlowOffset + vector + vector3;
+                Vector2 vector5 = npc.oldPosition + eyeGlowOffset + vector2 + vector3;
+                vector5.Y -= num3 / 2f;
+                vector4.Y -= num3 / 2f;
+                float num4 = 1f;
+
+                int num5 = (int)Vector2.Distance(vector4, vector5) / 3 + 1;
+                if (Vector2.Distance(vector4, vector5) % 3f != 0f)
+                {
+                    num5++;
+                }
+                
+                for (float num6 = 1f; num6 <= (float)num5; num6 += 1f)
+                {
+                    Dust expr_3D9 = Main.dust[Dust.NewDust(npc.Center + eyeGlowOffset, 0, 0, 182, 0f, 0f, 0, default(Color), 1f)];
+                    expr_3D9.position = Vector2.Lerp(vector5, vector4, num6 / (float)num5);
+                    expr_3D9.noGravity = true;
+                    expr_3D9.velocity = Vector2.Zero;
+                    expr_3D9.customData = npc;
+                    expr_3D9.scale = num4;
+                    expr_3D9.color = Color.Red;
+                }
+                
             }
 
             kunaiOffset = kunaiOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);

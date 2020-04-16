@@ -10,7 +10,16 @@ The Joostmod has to offer
 
 Version 0.8.1.1
 - Fixed Lunar Cactus Booster not having a recipe
+- Reduced Mana Cost of Hurricane Windwheel from 16 to 12
 - Improved SA-X's second form death animation
+- Improved Gilgamesh's second form eye glow
+- Dragon Blasters now requires Phoenix Blaster to craft
+- Volcanic Longbow now requires Molten Fury to craft
+- Chimes of Wind now requires Bell to craft
+- Personal Bubble now requires Bubble Shield to craft
+- Personal Bubble now pushes enemies vertically
+- Bubble shield can now be fished in hardmode
+
 
 Version 0.8.1
 - Added Earthen Billhook

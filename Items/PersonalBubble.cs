@@ -9,7 +9,7 @@ namespace JoostMod.Items
 		{
 			DisplayName.SetDefault("Personal Bubble");
 			Tooltip.SetDefault("You always count as being in water\n" +
-                "Your magic attacks deal 15% more damage to submerged enemies" );
+                "Your magic attacks deal 15% more damage to submerged enemies");
 		}
 		public override void SetDefaults()
 		{
@@ -26,6 +26,7 @@ namespace JoostMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "BubbleShield");
             recipe.AddIngredient(null, "WaterEssence", 50);
             recipe.AddRecipeGroup("JoostMod:AnyCobalt", 3);
             recipe.AddRecipeGroup("JoostMod:AnyMythril", 3);
