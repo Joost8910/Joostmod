@@ -284,6 +284,22 @@ namespace JoostMod.NPCs.Bosses
                 npc.netUpdate = true;
             }
         }
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (npc.localAI[0] <= 60)
+            {
+                damage = (int)(damage * (npc.localAI[0] / 60f));
+                crit = false;
+            }
+        }
+        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (npc.localAI[0] <= 60)
+            {
+                damage = (int)(damage * (npc.localAI[0] / 60f));
+                crit = false;
+            }
+        }
         public override void AI()
         {
             npc.localAI[0]++;
@@ -301,6 +317,11 @@ namespace JoostMod.NPCs.Bosses
             }
             if (npc.localAI[0] <= 60)
             {
+                if (npc.localAI[0] == 1)
+                {
+                    npc.direction = (int)npc.ai[0];
+                    npc.ai[0] = 0;
+                }
                 npc.scale = 0.625f + (npc.localAI[0] * 0.00625f);
                 npc.width = (int)(100 * npc.scale);
                 npc.height = (int)(170 * npc.scale);

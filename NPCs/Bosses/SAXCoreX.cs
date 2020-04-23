@@ -131,6 +131,7 @@ namespace JoostMod.NPCs.Bosses
                 Main.PlaySound(SoundID.NPCHit18, npc.Center);
             }
         }
+        bool message = false;
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
             if (npc.ai[0] < 56)
@@ -145,6 +146,11 @@ namespace JoostMod.NPCs.Bosses
                         netMessage.Write(Main.myPlayer);
                     }
                     netMessage.Send();
+                }
+                if (!message)
+                {
+                    Main.NewText("It seems hitting it in the 'shell' isn't very effective...", Color.SkyBlue);
+                    message = true;
                 }
             }
         }
@@ -165,6 +171,11 @@ namespace JoostMod.NPCs.Bosses
                         netMessage.Write(Main.myPlayer);
                     }
                     netMessage.Send();
+                }
+                if (!message)
+                {
+                    Main.NewText("It seems hitting it in the 'shell' isn't very effective...", Color.SkyBlue);
+                    message = true;
                 }
             }
         }

@@ -870,7 +870,7 @@ namespace JoostMod.NPCs.Bosses
             }
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y+38, mod.NPCType("SAXMutant"));
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y+38, mod.NPCType("SAXMutant"), 0, npc.direction);
             }
             return true;
         }
