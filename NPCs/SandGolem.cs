@@ -12,7 +12,7 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Golem");
-            Main.npcFrameCount[npc.type] = 14;
+            Main.npcFrameCount[npc.type] = 17;
         }
         public override void SetDefaults()
         {
@@ -31,6 +31,10 @@ namespace JoostMod.NPCs
         }
         public override void NPCLoot()
         {
+            if (Main.rand.NextBool(10))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FourthAnniversary"), 1);
+            }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SandBlock, 100 + Main.rand.Next(151));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertCore"));
         }
@@ -130,13 +134,13 @@ namespace JoostMod.NPCs
                     {
                         npc.velocity.X += npc.direction * 0.09f;
                     }
-                    if (npc.velocity.X > 3f && npc.velocity.Y == 0)
+                    if (npc.velocity.X > 2.5f && npc.velocity.Y == 0)
                     {
-                        npc.velocity.X = 3f;
+                        npc.velocity.X = 2.5f;
                     }
-                    if (npc.velocity.X < -3f && npc.velocity.Y == 0)
+                    if (npc.velocity.X < -2.5f && npc.velocity.Y == 0)
                     {
-                        npc.velocity.X = -3f;
+                        npc.velocity.X = -2.5f;
                     }
                 }
                 else
@@ -145,13 +149,13 @@ namespace JoostMod.NPCs
                     {
                         npc.velocity.X += npc.direction * 0.09f;
                     }
-                    if (npc.velocity.X > 1.6f && npc.velocity.Y == 0)
+                    if (npc.velocity.X > 1.3f && npc.velocity.Y == 0)
                     {
-                        npc.velocity.X = 1.6f;
+                        npc.velocity.X = 1.3f;
                     }
-                    if (npc.velocity.X < -1.6f && npc.velocity.Y == 0)
+                    if (npc.velocity.X < -1.3f && npc.velocity.Y == 0)
                     {
-                        npc.velocity.X = -1.6f;
+                        npc.velocity.X = -1.3f;
                     }
                 }
                 if (npc.ai[1] >= 300)
@@ -189,12 +193,28 @@ namespace JoostMod.NPCs
 
             if (npc.ai[3] == 2)
             {
-                if (npc.ai[2] < 20 && npc.velocity.Y == 0)
+                if (npc.ai[2] < 15)
                 {
-                    npc.direction = (P.Center.X < npc.Center.X ? -1 : 1);
-                    npc.velocity.X = npc.direction * 6;
-                    npc.velocity.Y = -6;
-                    npc.ai[2] = 20;
+                    if (npc.velocity.Y == 0)
+                    {
+                        npc.ai[2]++;
+                        npc.velocity.X = 0;
+                        npc.direction = (P.Center.X < npc.Center.X ? -1 : 1);
+                        if (npc.ai[2] == 14)
+                        {
+                            npc.velocity.X = npc.direction * 6;
+                            npc.velocity.Y = -6;
+                            npc.ai[2] = 15;
+                        }
+                    }
+                    else
+                    {
+                        npc.ai[2] = 0;
+                    }
+                }
+                else if (npc.ai[2] < 20)
+                {
+                    npc.ai[2]++;
                 }
                 if (npc.ai[2] == 20 && npc.velocity.Y == 0)
                 {
@@ -226,6 +246,7 @@ namespace JoostMod.NPCs
                 npc.ai[3] = 0;
                 npc.ai[2] = 0;
                 npc.ai[1] = 0;
+                npc.velocity.X += npc.direction * 0.09f;
             }
         }
         public override void FindFrame(int frameHeight)
@@ -234,7 +255,7 @@ namespace JoostMod.NPCs
             npc.frameCounter += Math.Abs(npc.velocity.X);
             if (npc.ai[3] <= 0)
             {
-                if (npc.frameCounter >= 10)
+                if (npc.frameCounter >= 7)
                 {
                     npc.frameCounter = 0;
                     npc.frame.Y = (npc.frame.Y + 104);
@@ -252,11 +273,25 @@ namespace JoostMod.NPCs
             {
                 if (npc.ai[1] < 7)
                 {
-                    npc.frame.Y = 104 * 7;
+                    if (npc.frame.Y < 104 * 7)
+                    {
+                        npc.frame.Y = 104 * 7;
+                    }
+                    else
+                    {
+                        npc.frame.Y = 104 * 10;
+                    }
                 }
                 else if (npc.ai[1] < 14)
                 {
-                    npc.frame.Y = 104 * 8;
+                    if (npc.frame.Y < 104 * 8)
+                    {
+                        npc.frame.Y = 104 * 8;
+                    }
+                    else
+                    {
+                        npc.frame.Y = 104 * 11;
+                    }
                 }
                 else if (npc.ai[1] < 20)
                 {
@@ -265,24 +300,31 @@ namespace JoostMod.NPCs
             }
             if (npc.ai[3] == 2)
             {
-                if (npc.ai[2] < 20)
+                if (npc.ai[2] < 15)
                 {
-                    npc.frame.Y = 104 * 10;
+                    npc.frame.Y = 104 * 12;
                 }
-                if (npc.ai[2] == 20)
+                if (npc.ai[2] >= 15)
                 {
                     if (npc.velocity.Y < 0)
                     {
-                        npc.frame.Y = 104 * 11;
+                        if (npc.ai[2] < 20)
+                        {
+                            npc.frame.Y = 104 * 13;
+                        }
+                        else
+                        {
+                            npc.frame.Y = 104 * 14;
+                        }
                     }
                     if (npc.velocity.Y > 0)
                     {
-                        npc.frame.Y = 104 * 12;
+                        npc.frame.Y = 104 * 15;
                     }
                 }
                 if (npc.ai[2] >= 20 && npc.velocity.Y == 0)
                 {
-                    npc.frame.Y = 104 * 13;
+                    npc.frame.Y = 104 * 16;
                 }
             }
         }

@@ -63,6 +63,10 @@ namespace JoostMod.NPCs
         public override void NPCLoot()
         {
             Player player = Main.player[npc.target];
+            if (Main.rand.NextBool(10))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FourthAnniversary"), 1);
+            }
             bool drop = false;
             while (!drop)
             {
