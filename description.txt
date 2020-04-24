@@ -21,5 +21,7 @@ Version 0.8.1.1
 - Personal Bubble now requires Bubble Shield to craft
 - Personal Bubble now pushes enemies vertically
 - Bubble shield can now be fished in hardmode
+- Chained Chainsaws now stick into the enemy and damage them repeatedly and have a limited max distance
+- Hatchets now have a limited max distance
 - Soil weapons now consume dirt when you use them, equal to 1/20th of the damage granted by your dirt 
 - Soil armor now consumes dirt when you get hit, equal to the attack's damage, up to a maximum of half of the defense provided by the set bonus

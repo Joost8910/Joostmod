@@ -12,25 +12,100 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adamantite Chained-Chainsaw");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
+            projectile.width = 56;
+            projectile.height = 56;
             projectile.aiStyle = 2;
             projectile.friendly = true;
             projectile.thrown = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 90;
+            projectile.penetrate = -1;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 6;
+            projectile.timeLeft = 660;
             aiType = ProjectileID.Shuriken;
         }
-        public override void Kill(int timeLeft)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("AdamantiteChainedchainsaw2"), (int)(projectile.damage * 1f), 3, projectile.owner);
-
+            height = 34;
+            width = 34;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.ai[1] = 2;
+            return false;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (projectile.ai[1] != 2)
+            {
+                projectile.ai[0] = 0;
+                projectile.ai[1] = 1;
+                projectile.rotation = projectile.DirectionTo(target.Center).ToRotation();
+            }
+            projectile.velocity = target.velocity + projectile.DirectionTo(target.Center) * 0.5f;
+            if (!target.noGravity && target.velocity.Y != 0)
+            {
+                projectile.velocity.Y += 0.3f;
+            }
+            if (projectile.timeLeft > 600)
+            {
+                projectile.timeLeft = 600;
+            }
+        }
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
+            if (projectile.timeLeft == 660)
+            {
+                Main.PlaySound(SoundID.Item23, projectile.Center);
+            }
+            projectile.localAI[0]--;
+            if (projectile.localAI[0] <= 0)
+            {
+                projectile.localAI[0] = 30;
+                Main.PlaySound(SoundID.Item22, projectile.Center);
+            }
+            if (projectile.ai[1] == 0)
+            {
+                if (projectile.timeLeft <= 600)
+                {
+                    projectile.ai[1] = 1;
+                }
+            }
+            if (projectile.ai[1] == 1)
+            {
+                if (projectile.ai[0] > 8 || projectile.timeLeft < 500 || projectile.Distance(player.Center) > 600)
+                {
+                    projectile.ai[1] = 2;
+                }
+                projectile.ai[0]++;
+                if (projectile.timeLeft % 4 < 2)
+                {
+                    projectile.position += projectile.rotation.ToRotationVector2();
+                }
+                else
+                {
+                    projectile.position -= projectile.rotation.ToRotationVector2();
+                }
+                projectile.aiStyle = 0;
+                aiType = 0;
+            }
+            if (projectile.ai[1] == 2)
+            {
+                projectile.aiStyle = 3;
+                aiType = 0;
+                if (projectile.timeLeft < 360)
+                {
+                    projectile.velocity = projectile.DirectionTo(player.Center) * ((540 - projectile.timeLeft) / 20);
+                }
+            }
+            if (projectile.Distance(player.Center) > 720)
+            {
+                projectile.position += projectile.DirectionTo(player.Center) * (projectile.Distance(player.Center) - 720);
+            }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -38,7 +113,7 @@ namespace JoostMod.Projectiles
 
             Vector2 position = projectile.Center;
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Microsoft.Xna.Framework.Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
+            Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
             Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
             float num1 = (float)texture.Height;
             Vector2 vector2_4 = mountedCenter - position;

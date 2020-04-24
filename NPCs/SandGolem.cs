@@ -193,6 +193,7 @@ namespace JoostMod.NPCs
 
             if (npc.ai[3] == 2)
             {
+                npc.knockBackResist = 0;
                 if (npc.ai[2] < 15)
                 {
                     if (npc.velocity.Y == 0)
@@ -240,6 +241,10 @@ namespace JoostMod.NPCs
                     npc.velocity.Y = 0;
                     npc.ai[2] += 3;
                 }
+            }
+            else
+            {
+                npc.knockBackResist = 0.05f;
             }
             if (npc.ai[2] >= 120)
             {

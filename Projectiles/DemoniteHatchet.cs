@@ -12,8 +12,6 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Demonite Hatchet");
-        	ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
@@ -25,8 +23,16 @@ namespace JoostMod.Projectiles
 			projectile.penetrate = 1;
 			projectile.timeLeft = 90;
 			aiType = ProjectileID.Shuriken;
-		}
-		public override void Kill(int timeLeft)
+        }
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
+            if (projectile.Distance(player.Center) > 550)
+            {
+                projectile.Kill();
+            }
+        }
+        public override void Kill(int timeLeft)
 		{
 
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("DemoniteHatchet2"), (int)(projectile.damage * 1f), 3, projectile.owner);

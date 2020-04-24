@@ -12,8 +12,6 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Silver Hatchet");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
@@ -26,8 +24,16 @@ namespace JoostMod.Projectiles
 			projectile.timeLeft = 600;
             projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 10;
-		}
-  // Now this is where the chain magic happens. You don't have to try to figure this whole thing out.
+        }
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
+            if (projectile.Distance(player.Center) > 550)
+            {
+                projectile.position += projectile.DirectionTo(player.Center) * (projectile.Distance(player.Center) - 550);
+            }
+        }
+        // Now this is where the chain magic happens. You don't have to try to figure this whole thing out.
         // Just make sure that you edit the first line (which starts with 'Texture2D texture') correctly.
         public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
         {
