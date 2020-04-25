@@ -7,6 +7,7 @@ namespace JoostMod.Items.Quest
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ball of Flesh");
+            Tooltip.SetDefault("Quest item for the Hunt Master");
         }
 
         public override void SetDefaults()

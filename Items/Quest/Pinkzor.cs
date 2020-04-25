@@ -8,7 +8,8 @@ namespace JoostMod.Items.Quest
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Congealed Pink Gel");
-		}
+            Tooltip.SetDefault("Quest item for the Hunt Master");
+        }
 
 		public override void SetDefaults()
 		{

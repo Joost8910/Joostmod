@@ -22,7 +22,7 @@ namespace JoostMod.Items
 			item.width = 32;
 			item.height = 26;
 			item.value = 400000;
-			item.rare = 3;
+			item.rare = 10;
 			item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -49,6 +49,7 @@ namespace JoostMod.Items
             }
             else if (player.controlDown)
             {
+                player.wingTime += 0.5f;
                 ascentWhenFalling = -0.5f;
                 ascentWhenRising = -1f;
                 maxCanAscendMultiplier = 3.5f;
@@ -172,16 +173,6 @@ namespace JoostMod.Items
                 player.wingFrame = 0;
             }
             return false;
-        }
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(230, 204, 128);
-                }
-            }
         }
 
         public override void AddRecipes()

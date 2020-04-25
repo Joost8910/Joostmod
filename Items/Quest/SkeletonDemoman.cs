@@ -7,7 +7,8 @@ namespace JoostMod.Items.Quest
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clogged Cannon");
-		}
+            Tooltip.SetDefault("Quest item for the Hunt Master");
+        }
 
 		public override void SetDefaults()
 		{

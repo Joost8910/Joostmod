@@ -8,6 +8,7 @@ namespace JoostMod.Items.Quest
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tooth of Eye of Cthulhu");
+            Tooltip.SetDefault("Quest item for the Hunt Master");
         }
 
         public override void SetDefaults()
