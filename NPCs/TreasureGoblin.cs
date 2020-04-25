@@ -99,39 +99,35 @@ namespace JoostMod.NPCs
                 {
                     if (Main.rand.NextBool(100))
                     {
-                        switch (Main.rand.Next(4))
-                        {
-                            case 1:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SkullStone"), 1);
-                                break;
-                            case 2:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JungleStone"), 1);
-                                break;
-                            case 3:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("InfernoStone"), 1);
-                                break;
-                            default:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EvilStone"), 1);
-                                break;
-                        }
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EvilStone"), 1);
                     }
-                    else if (Main.rand.NextBool(100))
+                    else if (Main.rand.NextBool(99))
                     {
-                        switch (Main.rand.Next(4))
-                        {
-                            case 1:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneDeep"), 1);
-                                break;
-                            case 2:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneEast"), 1);
-                                break;
-                            case 3:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneHigh"), 1);
-                                break;
-                            default:
-                                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneWest"), 1);
-                                break;
-                        }
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SkullStone"), 1);
+                    }
+                    else if (Main.rand.NextBool(98))
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JungleStone"), 1);
+                    }
+                    else if (Main.rand.NextBool(97))
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("InfernoStone"), 1);
+                    }
+                    else if (Main.rand.NextBool(96))
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneDeep"), 1);
+                    }
+                    else if (Main.rand.NextBool(95))
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneEast"), 1);
+                    }
+                    else if (Main.rand.NextBool(94))
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneHigh"), 1);
+                    }
+                    else if (Main.rand.NextBool(93))
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneWest"), 1);
                     }
                     if (Main.rand.Next(5) < 2)
                     {

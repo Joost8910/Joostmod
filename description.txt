@@ -25,3 +25,4 @@ Version 0.8.1.1
 - Hatchets now have a limited max distance
 - Soil weapons now consume dirt when you use them, equal to 1/20th of the damage granted by your dirt 
 - Soil armor now consumes dirt when you get hit, equal to the attack's damage, up to a maximum of half of the defense provided by the set bonus
+- Treasure goblin now drops the legendary stones at 1% chance each, rather than a 1% chance to drop any

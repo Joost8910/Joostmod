@@ -10,7 +10,8 @@ namespace JoostMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble Shield");
-			Tooltip.SetDefault("Creates a bubble that knocks back enemies");
+			Tooltip.SetDefault("Creates a bubble that knocks back enemies\n" +
+                "Fished in the ocean");
 		}
 		public override void SetDefaults()
 		{

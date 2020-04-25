@@ -47,33 +47,33 @@ namespace JoostMod.Items
 
             if (Main.rand.NextBool(100))
             {
+                player.QuickSpawnItem(mod.ItemType("EvilStone"));
+            }
+            else if (Main.rand.NextBool(99))
+            {
                 player.QuickSpawnItem(mod.ItemType("SkullStone"));
             }
-            else if (Main.rand.NextBool(100))
+            else if (Main.rand.NextBool(98))
             {
                 player.QuickSpawnItem(mod.ItemType("JungleStone"));
             }
-            else if (Main.rand.NextBool(100))
+            else if (Main.rand.NextBool(97))
             {
                 player.QuickSpawnItem(mod.ItemType("InfernoStone"));
             }
-            else if (Main.rand.NextBool(100))
-            {
-                player.QuickSpawnItem(mod.ItemType("EvilStone"));
-            }
-            else if (Main.rand.NextBool(100))
+            else if (Main.rand.NextBool(96))
             {
                 player.QuickSpawnItem(mod.ItemType("SeaStoneDeep"));
             }
-            else if (Main.rand.NextBool(100))
+            else if (Main.rand.NextBool(95))
             {
                 player.QuickSpawnItem(mod.ItemType("SeaStoneEast"));
             }
-            else if (Main.rand.NextBool(100))
+            else if (Main.rand.NextBool(94))
             {
                 player.QuickSpawnItem(mod.ItemType("SeaStoneHigh"));
             }
-            else if (Main.rand.NextBool(100))
+            else if (Main.rand.NextBool(93))
             {
                 player.QuickSpawnItem(mod.ItemType("SeaStoneWest"));
             }
