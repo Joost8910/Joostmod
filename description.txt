@@ -8,6 +8,12 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Version 0.8.1.2
+- Added Empty Heart
+- Fixed Havel's Greatshield, Sapling - Shield, and Shield of Flesh not knocking back enemies in multiplayer
+- Reduced Havel's Greatshield movement speed penealty from 10% to 5%
+- Reduced Shield of Flesh leech base firerate from every 3.3 seconds to every 5 seconds
+
 Version 0.8.1.1
 - Added Joostmod's Fourth Anniversary, 10% chance to drop from treasure goblins and desert golems
 - Fixed Lunar Cactus Booster not having a recipe

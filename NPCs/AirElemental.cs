@@ -68,7 +68,6 @@ namespace JoostMod.NPCs
             {
                 npc.TargetClosest(true);
             }
-            npc.netUpdate = true;
             npc.ai[1]++;
             if (npc.ai[1] % 24 == 0)
             {
@@ -80,6 +79,7 @@ namespace JoostMod.NPCs
                 {
                     npc.velocity = npc.DirectionTo(P.Center) * -4;
                 }
+                npc.netUpdate = true;
             }
             if (npc.ai[1] >= 240 && Main.netMode != 1)
             {

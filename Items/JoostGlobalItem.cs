@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria.Enums;
+using Terraria.DataStructures;
 
 namespace JoostMod.Items
 {
@@ -205,6 +206,23 @@ namespace JoostMod.Items
             (JoostWorld.downedSAX ? 15f : 0f) + //50
             (JoostWorld.downedGilgamesh ? 15f : 0f); //65
             return damageMult;
+        }
+    }
+    public class EmptyHeartRod : GlobalItem
+    {
+        public override bool CanUseItem(Item item, Player player)
+        {
+            if (player.GetModPlayer<JoostPlayer>().emptyHeart && player.chaosState && item.type == ItemID.RodofDiscord)
+            {
+                PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
+                if (Main.rand.Next(2) == 0)
+                {
+                    damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
+                }
+                player.statLife = 0;
+                player.KillMe(damageSource, 1.0, 0, false);
+            }
+            return base.CanUseItem(item, player);
         }
     }
     public class AncientStoneMoss : GlobalItem

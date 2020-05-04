@@ -7,6 +7,9 @@ using Terraria.Localization;
 using System.IO;
 using JoostMod.NPCs.Bosses;
 using JoostMod.Items;
+using Microsoft.Xna.Framework;
+using Terraria.UI;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace JoostMod
 {
@@ -134,6 +137,13 @@ namespace JoostMod
                     int b = reader.ReadInt32();
                     Main.npc[b].life = 0;
                     Main.npc[b].checkDead();
+                    break;
+                case JoostModMessageType.NPCpos:
+                    int n = reader.ReadInt32();
+                    Vector2 pos = reader.ReadVector2();
+                    Vector2 vel = reader.ReadVector2();
+                    Main.npc[n].position = pos;
+                    Main.npc[n].velocity = vel;
                     break;
                 default:
                     ErrorLogger.Log("JoostMod: Unknown Message type: " + msgType);
@@ -497,13 +507,83 @@ namespace JoostMod
 
             }
         }
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            Player player = Main.LocalPlayer;
+            int i = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
+            if (i != -1)
+            {
+                layers.Insert(i + 1, new LegacyGameInterfaceLayer(
+                    "JoostMod: Empty Heart",
+                    delegate
+                    {
+                        DrawEmptyHeart(Main.spriteBatch);
+                        return true;
+                    },
+                    InterfaceScaleType.UI)
+                );
+            }
+        }
 
+        public void DrawEmptyHeart(SpriteBatch spriteBatch)
+        {
+            Mod mod = JoostMod.instance;
+            Player player = Main.player[Main.myPlayer];
+            if (player.GetModPlayer<JoostPlayer>().emptyHeart)
+            {
+                Texture2D texHeart = mod.GetTexture("Items/EmptyHeart");
+                if (player.whoAmI == Main.myPlayer && player.active && !player.ghost)
+                {
+                    float lifePerHeart = 1f;
+                    float scale = 1f;
+                    bool flag = false;
+                    int alpha;
+                    if ((float)Main.player[Main.myPlayer].statLife >= (float)lifePerHeart)
+                    {
+                        alpha = 255;
+                        if ((float)Main.player[Main.myPlayer].statLife == (float)lifePerHeart)
+                        {
+                            flag = true;
+                        }
+                    }
+                    else
+                    {
+                        float num7 = ((float)Main.player[Main.myPlayer].statLife) / lifePerHeart;
+                        alpha = (int)(30f + 225f * num7);
+                        if (alpha < 30)
+                        {
+                            alpha = 30;
+                        }
+                        scale = num7 / 4f + 0.75f;
+                        if ((double)scale < 0.75)
+                        {
+                            scale = 0.75f;
+                        }
+                        if (num7 > 0f)
+                        {
+                            flag = true;
+                        }
+                    }
+                    if (flag)
+                    {
+                        scale += Main.cursorScale - 1f;
+                    }
+                    int xOffset = 0;
+                    int yOffset = 0;
+                    //yOffset += 5;
+                    int a = 255;
+                    Main.spriteBatch.Draw(texHeart, new Vector2((float)(500 + xOffset + (Main.screenWidth - 800) + Main.heartTexture.Width / 2), 32f + ((float)Main.heartTexture.Height - (float)Main.heartTexture.Height * scale) / 2f + (float)yOffset + (float)(Main.heartTexture.Height / 2)), new Rectangle?(new Rectangle(0, 0, texHeart.Width, texHeart.Height)), new Color(alpha, alpha, alpha, a), 0f, new Vector2((float)(texHeart.Width / 2), (float)(texHeart.Height / 2)), scale, SpriteEffects.None, 0f);
+
+                }
+            }
+        }
     }
     enum JoostModMessageType : byte
     {
         ActiveQuest,
         SAXCore,
-        KillNPC
+        KillNPC,
+        NPCpos
     }
     public class HuntInfo
     {

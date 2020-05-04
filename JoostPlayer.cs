@@ -114,6 +114,7 @@ namespace JoostMod
         public bool airMedallion = false;
         public bool zoraArmor = false;
         public bool waterBubble = false;
+        public bool emptyHeart = false;
         public float runAccelerationMult = 1;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
@@ -198,6 +199,7 @@ namespace JoostMod
             airMedallion = false;
             zoraArmor = false;
             waterBubble = false;
+            emptyHeart = false;
             accRunSpeedMult = 1;
             runAccelerationMult = 1;
             dashType = 0;
@@ -1900,7 +1902,7 @@ namespace JoostMod
             if (fleshShield)
             {
                 fleshShieldTimer++;
-                if (fleshShieldTimer > 2 + (int)(((float)player.statLife / (float)player.statLifeMax2) * 200f))
+                if (fleshShieldTimer > 4 + (int)(((float)player.statLife / (float)player.statLifeMax2) * 296f))
                 {
                     Projectile.NewProjectile(player.Center.X + player.direction * 20, player.Center.Y, player.direction * 10, 0, mod.ProjectileType("Leech"), (int)(20 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult), 1, player.whoAmI);
                     fleshShieldTimer = 0;
@@ -2047,7 +2049,15 @@ namespace JoostMod
                 if (Main.rand.NextBool(2))
                     Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + (player.height / 2 * player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
             }
-            
+            if (emptyHeart)
+            {
+                player.allDamage += 0.2f;
+                if (player.statLife > 1)
+                {
+                    player.statLife = 1;
+                }
+                player.statLifeMax2 = 1;
+            }
         }
         public override void PostUpdateRunSpeeds()
         {
@@ -2315,6 +2325,16 @@ namespace JoostMod
                 }
                 npc.velocity.X = dir * KB;
                 npc.velocity.Y--;
+                if (Main.netMode != 0)
+                {
+                    ModPacket packet = mod.GetPacket();
+                    packet.Write((byte)JoostModMessageType.NPCpos);
+                    packet.Write(npc.whoAmI);
+                    packet.WriteVector2(npc.position);
+                    packet.WriteVector2(npc.velocity);
+                    ModPacket netMessage = packet;
+                    netMessage.Send();
+                }
             }
             if (fireArmorIsActive)
             {
@@ -2404,6 +2424,16 @@ namespace JoostMod
                                     {
                                         npc.position.X = push;
                                         npc.velocity.X = player.velocity.X;
+                                        if (Main.netMode != 0)
+                                        {
+                                            ModPacket packet = mod.GetPacket();
+                                            packet.Write((byte)JoostModMessageType.NPCpos);
+                                            packet.Write(npc.whoAmI);
+                                            packet.WriteVector2(npc.position);
+                                            packet.WriteVector2(npc.velocity);
+                                            ModPacket netMessage = packet;
+                                            netMessage.Send();
+                                        }
                                     }
                                 }
                             }

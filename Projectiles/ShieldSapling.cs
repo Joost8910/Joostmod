@@ -64,6 +64,16 @@ namespace JoostMod.Projectiles
             if (target.knockBackResist > 0)
             {
                 target.velocity.X = projectile.direction * projectile.knockBack;
+                if (Main.netMode != 0)
+                {
+                    ModPacket packet = mod.GetPacket();
+                    packet.Write((byte)JoostModMessageType.NPCpos);
+                    packet.Write(target.whoAmI);
+                    packet.WriteVector2(target.position);
+                    packet.WriteVector2(target.velocity);
+                    ModPacket netMessage = packet;
+                    netMessage.Send();
+                }
             }
             if (target.life < target.lifeMax)
             {

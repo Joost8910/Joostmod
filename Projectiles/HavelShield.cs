@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -101,6 +102,16 @@ namespace JoostMod.Projectiles
                             player.immuneTime = 2;
                         }
                     }
+                }
+                if (Main.netMode != 0)
+                {
+                    ModPacket packet = mod.GetPacket();
+                    packet.Write((byte)JoostModMessageType.NPCpos);
+                    packet.Write(target.whoAmI);
+                    packet.WriteVector2(target.position);
+                    packet.WriteVector2(target.velocity);
+                    ModPacket netMessage = packet;
+                    netMessage.Send();
                 }
             }
             else

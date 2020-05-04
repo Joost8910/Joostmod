@@ -12,7 +12,7 @@ namespace JoostMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Havel's Greatshield");
-			Tooltip.SetDefault("Reduces movement speed by 10%\n" +
+			Tooltip.SetDefault("Reduces movement speed by 5%\n" +
                 "Right click to block attacks in front of you\n" + 
                 "Blocking an attack reduces its damage by 80%\n" + 
                 "Left click while blocking to shield bash");
@@ -32,9 +32,9 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.moveSpeed *= 0.9f;
-            player.maxRunSpeed *= 0.9f;
-            player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.9f;
+            player.moveSpeed *= 0.95f;
+            player.maxRunSpeed *= 0.95f;
+            player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.95f;
             player.GetModPlayer<JoostPlayer>().havelShield = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
