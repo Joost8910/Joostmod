@@ -1,5 +1,5 @@
 The Joostmod has to offer
-443 new items
+444 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -8,27 +8,12 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
-Version 0.8.1.2
-- Added Empty Heart
-- Fixed Havel's Greatshield, Sapling - Shield, and Shield of Flesh not knocking back enemies in multiplayer
-- Reduced Havel's Greatshield movement speed penealty from 10% to 5%
-- Reduced Shield of Flesh leech base firerate from every 3.3 seconds to every 5 seconds
-
-Version 0.8.1.1
-- Added Joostmod's Fourth Anniversary, 10% chance to drop from treasure goblins and desert golems
-- Fixed Lunar Cactus Booster not having a recipe
-- Reduced Mana Cost of Hurricane Windwheel from 16 to 12
-- Improved SA-X's second form death animation
-- Improved Gilgamesh's second form eye glow
-- Improved Desert Golem animations slighty
-- Dragon Blasters now requires Phoenix Blaster to craft
-- Volcanic Longbow now requires Molten Fury to craft
-- Chimes of Wind now requires Bell to craft
-- Personal Bubble now requires Bubble Shield to craft
-- Personal Bubble now pushes enemies vertically
-- Bubble shield can now be fished in hardmode
-- Chained Chainsaws now stick into the enemy and damage them repeatedly, and they have a limited max distance
-- Hatchets now have a limited max distance
-- Soil weapons now consume dirt when you use them, equal to 1/20th of the damage granted by your dirt 
-- Soil armor now consumes dirt when you get hit, equal to the attack's damage, up to a maximum of half of the defense provided by the set bonus
-- Treasure goblin now drops the legendary stones at 1% chance each, rather than a 1% chance to drop any
+Version 0.8.1.3
+- Fixed Gust Amulet granting immunity to fire blocks
+- Increased damage growth of Scroll of Water
+- Frozen Orb now fires more icicles
+- Personal Bubble visual and pushback can be disabled by hiding visuals
+- Personal Bubble no longer pushes friendly NPCs
+- Scroll of Water now slowly grows while exposed in the rain
+- Scroll of Water no longer pops while channeled
+- Zora Armor now uses the faster spin while exposed in the rain

@@ -101,7 +101,8 @@ namespace JoostMod.Projectiles
                     projectile.velocity.Y += player.gravity;
                 }
             }
-            if (player.wet)
+            bool rain = (Main.raining && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, new Vector2(projectile.Center.X + ((Main.screenPosition.Y - projectile.Center.Y) / 14f * Main.windSpeed * 12f), Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0);
+            if (player.wet || rain)
             {
                 if (projectile.ai[0] == 0)
                 {

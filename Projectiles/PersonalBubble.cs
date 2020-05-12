@@ -53,7 +53,7 @@ namespace JoostMod.Projectiles
         public override void AI()
 		{
             Player player = Main.player[projectile.owner];
-            if (player.active && !player.dead && player.GetModPlayer<JoostPlayer>().waterBubble)
+            if (player.active && !player.dead && player.GetModPlayer<JoostPlayer>().waterBubble && !player.GetModPlayer<JoostPlayer>().hideBubble)
             {
                 projectile.position.X = player.MountedCenter.X - projectile.width / 2;
                 projectile.position.Y = player.MountedCenter.Y - projectile.height / 2;
@@ -61,38 +61,53 @@ namespace JoostMod.Projectiles
                 projectile.rotation = 0;
                 player.heldProj = projectile.whoAmI;
                 projectile.timeLeft = 2;
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < 255; i++)
                 {
-                    NPC target = Main.npc[i];
-                    if (target.active && projectile.Hitbox.Intersects(target.Hitbox))
+                    if (Main.netMode != 0)
                     {
-                        int dir = 0;
-                        if (target.Center.X > projectile.Center.X)
+                        Player o = Main.player[i];
+                        if (o != player && projectile.Hitbox.Intersects(o.Hitbox))
                         {
-                            dir = 1;
+                            o.wet = true;
+                            if (o.wetCount != 0)
+                            {
+                                o.wetCount++;
+                            }
                         }
-                        if (target.Center.X < projectile.Center.X)
+                    }
+                    if (i < 200)
+                    {
+                        NPC target = Main.npc[i];
+                        if (target.active && !target.friendly && projectile.Hitbox.Intersects(target.Hitbox))
                         {
-                            dir = -1;
-                        }
-                        int dirY = 0;
-                        if (target.Center.Y > projectile.Center.Y)
-                        {
-                            dirY = 1;
-                        }
-                        if (target.Center.Y < projectile.Center.Y)
-                        {
-                            dirY = -1;
-                        }
-                        target.wet = true;
-                        if (target.wetCount != 0)
-                        {
-                            target.wetCount++;
-                        }
-                        if (target.knockBackResist > 0)
-                        {
-                            target.velocity.X += dir;
-                            target.velocity.Y += dirY;
+                            int dir = 0;
+                            if (target.Center.X > projectile.Center.X)
+                            {
+                                dir = 1;
+                            }
+                            if (target.Center.X < projectile.Center.X)
+                            {
+                                dir = -1;
+                            }
+                            int dirY = 0;
+                            if (target.Center.Y > projectile.Center.Y)
+                            {
+                                dirY = 1;
+                            }
+                            if (target.Center.Y < projectile.Center.Y)
+                            {
+                                dirY = -1;
+                            }
+                            target.wet = true;
+                            if (target.wetCount != 0)
+                            {
+                                target.wetCount++;
+                            }
+                            if (target.knockBackResist > 0)
+                            {
+                                target.velocity.X += dir;
+                                target.velocity.Y += dirY;
+                            }
                         }
                     }
                 }

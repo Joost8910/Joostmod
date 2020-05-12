@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,55 +36,47 @@ namespace JoostMod.Projectiles
 			return true;
 		}
 		public override void Kill(int timeLeft)
-		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 3f, 0f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -3f, 0f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
+        {
+            int shootNum = 16;
+            float shootSpread = 360f;
+            float spread = shootSpread * 0.0174f;
+            float baseSpeed = 3f;
+            double startAngle = 0 - spread / shootNum;
+            double deltaAngle = spread / shootNum;
+            double offsetAngle;
+            int i;
+            int damage = (int)(projectile.damage * 0.5f);
+            float knockback = projectile.knockBack * 0.5f;
+            for (i = 0; i < shootNum; i++)
+            {
+                offsetAngle = startAngle + deltaAngle * i;
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("Icicle"), damage, knockback, projectile.owner);
+            }
+        }
 
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 2.6f, 1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 2.6f, -1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -2.6f, 1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -2.6f, -1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1.5f, 2.6f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1.5f, -2.6f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -1.5f, 2.6f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -1.5f, -2.6f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-
-
-		}
-
-		public override void AI()
-		{
-			projectile.ai[1] += 1f;
-			projectile.rotation = projectile.ai[1] * 6;
-		if(projectile.ai[1] == 20f)
-		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -2.3f, 1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 2.3f, 1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-		}
-		if(projectile.ai[1] == 40f)
-		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1.5f, -2.3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1.5f, 2.3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -3f, 0f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-		}
-		if(projectile.ai[1] == 60f)
-		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 2.3f, -1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -2.3f, -1.5f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-		}
-		if(projectile.ai[1] == 80f)
-		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 3f, 0f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -1.5f, -2.3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -1.5f, 2.3f, mod.ProjectileType("Icicle"), (int)(projectile.damage * 0.5f), 2, projectile.owner);
-		}
-
-		}
+        public override void AI()
+        {
+            projectile.rotation = projectile.ai[1] * 6;
+            if ((int)projectile.ai[1] % 10 == 0)
+            {
+                int shootNum = 3;
+                float shootSpread = 360f;
+                float spread = shootSpread * 0.0174f;
+                float baseSpeed = 3f;
+                double startAngle = projectile.rotation - spread / shootNum;
+                double deltaAngle = spread / shootNum;
+                double offsetAngle;
+                int i;
+                int damage = (int)(projectile.damage * 0.5f);
+                float knockback = projectile.knockBack * 0.5f;
+                for (i = 0; i < shootNum; i++)
+                {
+                    offsetAngle = startAngle + deltaAngle * i;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("Icicle"), damage, knockback, projectile.owner);
+                }
+            }
+            projectile.ai[1]++;
+        }
 
 	}
 }

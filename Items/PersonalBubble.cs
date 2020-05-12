@@ -9,7 +9,8 @@ namespace JoostMod.Items
 		{
 			DisplayName.SetDefault("Personal Bubble");
 			Tooltip.SetDefault("You always count as being in water\n" +
-                "Your magic attacks deal 15% more damage to submerged enemies");
+                "Your magic attacks deal 15% more damage to submerged enemies\n" +
+                "Pushes back enemies; hide visual to disable");
 		}
 		public override void SetDefaults()
 		{
@@ -22,6 +23,7 @@ namespace JoostMod.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<JoostPlayer>().waterBubble = true;
+            player.GetModPlayer<JoostPlayer>().hideBubble = hideVisual;
         }
         public override void AddRecipes()
         {

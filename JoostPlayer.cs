@@ -114,6 +114,7 @@ namespace JoostMod
         public bool airMedallion = false;
         public bool zoraArmor = false;
         public bool waterBubble = false;
+        public bool hideBubble = false;
         public bool emptyHeart = false;
         public float runAccelerationMult = 1;
         public float accRunSpeedMult = 1;
@@ -199,6 +200,7 @@ namespace JoostMod
             airMedallion = false;
             zoraArmor = false;
             waterBubble = false;
+            hideBubble = false;
             emptyHeart = false;
             accRunSpeedMult = 1;
             runAccelerationMult = 1;
@@ -1011,7 +1013,7 @@ namespace JoostMod
             {
                 player.wet = true;
                 player.wetCount = 10;
-                if (player.ownedProjectileCounts[mod.ProjectileType("PersonalBubble")] < 1)
+                if (!hideBubble && player.ownedProjectileCounts[mod.ProjectileType("PersonalBubble")] < 1)
                 {
                     Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("PersonalBubble"), 0, 0, player.whoAmI);
                 }

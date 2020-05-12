@@ -21,13 +21,13 @@ namespace JoostMod.Projectiles
             projectile.width = 15;
             projectile.height = 15;
             projectile.aiStyle = 0;
-            projectile.penetrate = 2;
+            projectile.penetrate = -1;
             projectile.tileCollide = true;
             projectile.alpha = 100;
             projectile.magic = true;
             projectile.friendly = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 30;
             projectile.timeLeft = 1200;
             projectile.extraUpdates = 1;
         }
@@ -37,8 +37,9 @@ namespace JoostMod.Projectiles
             projectile.scale = 0.25f + (projectile.ai[0] / 25);
             projectile.width = (int)(60 * projectile.scale);
             projectile.height = (int)(60 * projectile.scale);
-            if (player.channel && !player.noItems && !player.CCed && projectile.ai[1] <= 0)
+            if (player.channel && !player.noItems && !player.CCed && !player.dead && projectile.ai[1] <= 0)
             {
+                projectile.penetrate = -1;
                 projectile.timeLeft = projectile.timeLeft <= 1192 ? 1200 : projectile.timeLeft;
                 player.itemTime = 15;
                 player.itemAnimation = 15;
@@ -80,9 +81,9 @@ namespace JoostMod.Projectiles
                     {
                         maxTileY = Main.maxTilesY;
                     }
-                    for (int i = minTileX; i <= maxTileX && projectile.localAI[0] < 200; i++)
+                    for (int i = minTileX; i <= maxTileX && projectile.localAI[0] < 250; i++)
                     {
-                        for (int j = minTileY; j <= maxTileY && projectile.localAI[0] < 200; j++)
+                        for (int j = minTileY; j <= maxTileY && projectile.localAI[0] < 250; j++)
                         {
                             if (Main.tile[i, j].liquidType() == 0)
                             {
@@ -101,9 +102,13 @@ namespace JoostMod.Projectiles
                             }
                         }
                     }
-                    if (projectile.localAI[0] >= 200)
+                    if (Main.raining && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, new Vector2(projectile.Center.X + ((Main.screenPosition.Y - projectile.Center.Y) / 14f * Main.windSpeed * 12f), Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0)
                     {
-                        projectile.localAI[0] -= 200;
+                        projectile.localAI[0] += projectile.width * 4;
+                    }
+                    if (projectile.localAI[0] >= 250)
+                    {
+                        projectile.localAI[0] -= 250;
                         projectile.ai[0]++;
                         Main.PlaySound(19, (int)projectile.position.X, (int)projectile.position.Y, 1);
                     }
@@ -158,6 +163,7 @@ namespace JoostMod.Projectiles
             }
             else
             {
+                projectile.penetrate = 1;
                 projectile.ai[1] = 1;
                 if (projectile.velocity.Y < 5)
                 {
@@ -227,14 +233,20 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            float mult = 1f + (projectile.ai[0] / 10);
-            damage = (int)(damage * mult);
-            knockback = knockback + mult;
+            if (projectile.ai[1] >= 1)
+            {
+                float mult = 1f + (projectile.ai[0] / 5);
+                damage = (int)(damage * mult);
+                knockback = knockback + mult;
+            }
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            float mult = 1f + (projectile.ai[0] / 10);
-            damage = (int)(damage * mult);
+            if (projectile.ai[1] >= 1)
+            {
+                float mult = 1f + (projectile.ai[0] / 5);
+                damage = (int)(damage * mult);
+            }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

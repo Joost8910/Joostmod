@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -41,6 +42,16 @@ namespace JoostMod.Projectiles
                 projectile.localAI[1] = target.whoAmI + 1;
             }
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.localAI[0]);
+            writer.Write(projectile.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.localAI[0] = reader.ReadSingle();
+            projectile.localAI[1] = reader.ReadSingle();
+        }
         public override bool PreAI()
         {
             Player player = Main.player[projectile.owner];
@@ -49,7 +60,7 @@ namespace JoostMod.Projectiles
             projectile.scale = 1f - (projectile.ai[0] / max);
             projectile.width = (int)(32 * projectile.scale);
             projectile.height = (int)(32 * projectile.scale);
-            bool channeling = player.controlUseTile && !player.noItems && !player.CCed;
+            bool channeling = player.controlUseTile && !player.noItems && !player.CCed && !player.dead;
             int mana = 5;
             if (player.inventory[player.selectedItem].type == mod.ItemType("WaterWhip"))
             {
@@ -154,6 +165,16 @@ namespace JoostMod.Projectiles
                 else
                 {
                     projectile.localAI[1] = 0;
+                }
+                if (Main.netMode != 0)
+                {
+                    ModPacket packet = mod.GetPacket();
+                    packet.Write((byte)JoostModMessageType.NPCpos);
+                    packet.Write(target.whoAmI);
+                    packet.WriteVector2(target.position);
+                    packet.WriteVector2(target.velocity);
+                    ModPacket netMessage = packet;
+                    netMessage.Send();
                 }
             }
             projectile.position = (vector) - projectile.Size / 2f;

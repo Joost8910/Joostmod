@@ -23,7 +23,6 @@ namespace JoostMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.fireWalk = true;
             player.moveSpeed *= 1.1f;
             player.maxRunSpeed *= 1.1f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 1.1f;

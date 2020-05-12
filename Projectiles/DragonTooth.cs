@@ -47,7 +47,7 @@ namespace JoostMod.Projectiles
                 projectile.height = (int)(110 * projectile.scale);
                 projectile.netUpdate = true;
             }
-            bool channeling = player.channel && !player.noItems && !player.CCed;
+            bool channeling = player.channel && !player.noItems && !player.CCed && !player.dead;
             if (channeling && Main.myPlayer == projectile.owner)
             {
                 Vector2 vector13 = Main.MouseWorld - center;
