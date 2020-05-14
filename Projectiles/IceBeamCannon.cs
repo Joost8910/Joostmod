@@ -1,10 +1,6 @@
 using System;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -35,7 +31,7 @@ namespace JoostMod.Projectiles
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            bool channeling = player.channel && !player.noItems && !player.CCed;
+            bool channeling = player.channel && !player.noItems && !player.CCed && !player.dead;
             if (channeling)
             {
                 if (projectile.ai[0] % 8 < 1 && projectile.ai[0] < 48 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))

@@ -15,7 +15,7 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 31;
+			item.damage = 38;
 			item.melee = true;
 			item.noMelee = true;
 			item.scale = 1f;

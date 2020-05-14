@@ -59,7 +59,8 @@ namespace JoostMod.Items.Weapons
             {
                 type = mod.ProjectileType("WaterWhip2");
             }
-            return true;
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0, -1);
+            return false;
         }
         public override void AddRecipes()
         {

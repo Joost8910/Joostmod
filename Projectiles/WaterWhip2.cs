@@ -35,6 +35,7 @@ namespace JoostMod.Projectiles
             projectile.rotation = projectile.velocity.ToRotation();
             return false;
         }
+        int nextProj = -1;
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (projectile.localAI[1] == 0 && target.knockBackResist > 0 && target.type != NPCID.TargetDummy)
@@ -46,11 +47,13 @@ namespace JoostMod.Projectiles
         {
             writer.Write(projectile.localAI[0]);
             writer.Write(projectile.localAI[1]);
+            writer.Write(nextProj);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
             projectile.localAI[1] = reader.ReadSingle();
+            nextProj = reader.ReadInt32();
         }
         public override bool PreAI()
         {
@@ -66,21 +69,36 @@ namespace JoostMod.Projectiles
             {
                 mana = player.inventory[player.selectedItem].mana / 2;
             }
+            if (projectile.localAI[0] == 0)
+            {
+                projectile.localAI[0]++;
+            }
             if (channeling && player.CheckMana(mana))
             {
-                if (projectile.ai[1] == 0 && projectile.localAI[0] % 40 == 0)
+                if (projectile.ai[1] == -1 && projectile.localAI[0] % 40 == 0)
                 {
                     player.CheckMana(mana, true);
                 }
                 projectile.localAI[0]++;
-                if (player.ownedProjectileCounts[projectile.type] < max - 1 && projectile.localAI[0] == 4)
+                if (nextProj >= 0 && Main.projectile[nextProj].type != projectile.type && Main.projectile[nextProj].owner != projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] + 1, projectile.whoAmI);
+                    projectile.localAI[0] = 5;
+                }
+                if (player.ownedProjectileCounts[projectile.type] < max - 1 && projectile.localAI[0] == 5)
+                {
+                    nextProj = Projectile.NewProjectile(projectile.Center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] + 1, projectile.identity);
                     player.ownedProjectileCounts[projectile.type]++;
                 }
-                if (projectile.ai[1] != 0)
+                if (projectile.ai[1] != -1)
                 {
-                    vector = Main.projectile[(int)projectile.ai[1]].Center;
+                    if (Main.projectile[(int)projectile.ai[1]].type == projectile.type && Main.projectile[(int)projectile.ai[1]].owner == projectile.owner)
+                    {
+                        vector = Main.projectile[(int)projectile.ai[1]].Center;
+                    }
+                    else
+                    {
+                        projectile.Kill();
+                    }
                 }
                 if (Main.myPlayer == projectile.owner)
                 {
@@ -102,7 +120,7 @@ namespace JoostMod.Projectiles
                     {
                         projectile.netUpdate = true;
                     }
-                    if (projectile.ai[1] == 0)
+                    if (projectile.ai[1] == -1)
                     {
                         projectile.velocity = dir;
                     }
@@ -115,7 +133,7 @@ namespace JoostMod.Projectiles
                             {
                                 move *= scaleFactor / move.Length();
                             }
-                            float home = 20f;
+                            float home = 40f - projectile.ai[0];
                             projectile.velocity = ((home - 1f) * projectile.velocity + move) / home;
                             if (projectile.velocity.Length() < scaleFactor)
                             {

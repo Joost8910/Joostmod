@@ -61,16 +61,16 @@ namespace JoostMod.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             float mult = Vector2.Distance(projectile.position, projectile.oldPos[1]) * 0.05f;
-            if (mult > 2.5f)
-                mult = 2.5f;
+            if (mult > 3f)
+                mult = 3f;
             damage = (int)(damage * mult);
             knockback = 0;
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
             float mult = Vector2.Distance(projectile.position, projectile.oldPos[1]) * 0.05f;
-            if (mult > 2.5)
-                mult = 2.5f;
+            if (mult > 3)
+                mult = 3f;
             damage = (int)(damage * mult);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -80,8 +80,8 @@ namespace JoostMod.Projectiles
                 Vector2 vel = projectile.position - projectile.oldPos[1];
                 vel.Normalize();
                 float mult = Vector2.Distance(projectile.position, projectile.oldPos[1]) * 0.05f;
-                if (mult > 2.5f)
-                    mult = 2.5f;
+                if (mult > 3f)
+                    mult = 3f;
                 target.velocity = vel * projectile.knockBack * target.knockBackResist * mult;
             }
             Main.PlaySound(19, projectile.Center, 0);
@@ -107,15 +107,18 @@ namespace JoostMod.Projectiles
                 Dust.NewDust(target.position, target.width, target.height, 33, -target.velocity.X, -target.velocity.Y, 0, default, 2);
             }
         }
+        int nextProj = -1;
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
             writer.Write(projectile.localAI[1]);
+            writer.Write(nextProj);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
             projectile.localAI[1] = reader.ReadSingle();
+            nextProj = reader.ReadInt32();
         }
         public override bool PreAI()
         {
@@ -131,21 +134,36 @@ namespace JoostMod.Projectiles
             {
                 mana = player.inventory[player.selectedItem].mana / 2;
             }
+            if (projectile.localAI[0] == 0)
+            {
+                projectile.localAI[0]++;
+            }
             if (channeling && player.CheckMana(mana))
             {
-                if (projectile.ai[1] == 0 && projectile.localAI[0] % 40 == 0)
+                if (projectile.ai[1] == -1 && projectile.localAI[0] % 40 == 0)
                 {
                     player.CheckMana(mana, true);
                 }
                 projectile.localAI[0]++;
-                if (player.ownedProjectileCounts[projectile.type] < max - 1 && projectile.localAI[0] == 4)
+                if (nextProj >= 0 && Main.projectile[nextProj].type != projectile.type && Main.projectile[nextProj].owner != projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] + 1, projectile.whoAmI);
+                    projectile.localAI[0] = 5;
+                }
+                if (player.ownedProjectileCounts[projectile.type] < max - 1 && projectile.localAI[0] == 5)
+                {
+                    nextProj = Projectile.NewProjectile(projectile.Center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] + 1, projectile.identity);
                     player.ownedProjectileCounts[projectile.type]++;
                 }
-                if (projectile.ai[1] != 0)
+                if (projectile.ai[1] != -1)
                 {
-                    vector = Main.projectile[(int)projectile.ai[1]].Center;
+                    if (Main.projectile[(int)projectile.ai[1]].type == projectile.type && Main.projectile[(int)projectile.ai[1]].owner == projectile.owner)
+                    {
+                        vector = Main.projectile[(int)projectile.ai[1]].Center;
+                    }
+                    else
+                    {
+                        projectile.Kill();
+                    }
                 }
                 if (Main.myPlayer == projectile.owner)
                 {
@@ -167,7 +185,7 @@ namespace JoostMod.Projectiles
                     {
                         projectile.netUpdate = true;
                     }
-                    if (projectile.ai[1] == 0)
+                    if (projectile.ai[1] == -1)
                     {
                         projectile.velocity = dir;
                     }
@@ -180,7 +198,7 @@ namespace JoostMod.Projectiles
                             {
                                 move *= scaleFactor / move.Length();
                             }
-                            float home = 10f;
+                            float home = 5 + projectile.ai[0] / 2;
                             projectile.velocity = ((home - 1f) * projectile.velocity + move) / home;
                             if (projectile.velocity.Length() < scaleFactor)
                             {

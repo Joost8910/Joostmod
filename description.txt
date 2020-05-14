@@ -1,5 +1,5 @@
 The Joostmod has to offer
-444 new items
+445 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -9,9 +9,13 @@ The Joostmod has to offer
 2 new town npcs
 
 Version 0.8.1.3
+- Added Lord's Flame, a second reward from the Imp Lord's Quest
 - Fixed Gust Amulet granting immunity to fire blocks
+- Fixed Roc Wings behavior with Enchanted Grabby Swingy Hook
+- Increased amount of icicles made by Frozen Orb
 - Increased damage growth of Scroll of Water
-- Frozen Orb now fires more icicles
+- Increased damage of Tail Whip from 31 to 38
+- Tweaked Water Tendril movement
 - Personal Bubble visual and pushback can be disabled by hiding visuals
 - Personal Bubble no longer pushes friendly NPCs
 - Scroll of Water now slowly grows while exposed in the rain

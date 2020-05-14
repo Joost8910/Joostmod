@@ -1682,7 +1682,7 @@ namespace JoostMod
                     }
                 }
             }
-            bool noHooks = player.ownedProjectileCounts[mod.ProjectileType("SwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("MobHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedSwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("CactusHook")] <= 0;
+            bool noHooks = player.ownedProjectileCounts[mod.ProjectileType("SwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("MobHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedSwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedMobHook")] + player.ownedProjectileCounts[mod.ProjectileType("CactusHook")] <= 0;
             if (spinTimer > 0)
             {
                 spinTimer--;

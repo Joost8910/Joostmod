@@ -29,14 +29,12 @@ namespace JoostMod.Projectiles
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 50;
         }
-        int ai = 0;
-        int soundDelay = 0;
         public override void AI()
         {
             projectile.frame = (int)projectile.ai[0];
             Player player = Main.player[projectile.owner];
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (ai <= 0 && Main.netMode != 1 && projectile.ai[0] <= 0)
+            if (projectile.localAI[0] <= 0 && projectile.ai[0] <= 0)
             {
                 int latestProj = projectile.whoAmI;
                 int cactusWormLength = 4;
@@ -45,7 +43,7 @@ namespace JoostMod.Projectiles
                     latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 1, latestProj);
                 }
                 latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 2, latestProj);
-                ai = 1;
+                projectile.localAI[0] = 1;
                 projectile.netUpdate = true;
             }
             bool solid = false;
@@ -63,7 +61,7 @@ namespace JoostMod.Projectiles
             }
             if (projectile.ai[0] <= 0)
             {
-                bool channeling = player.channel && !player.noItems && !player.CCed && ai == 1;
+                bool channeling = player.channel && !player.noItems && !player.CCed && projectile.localAI[0] == 1;
                 if (Main.myPlayer == projectile.owner && channeling)
                 {
                     float scaleFactor = 1f;
@@ -97,11 +95,11 @@ namespace JoostMod.Projectiles
                         Point pos = projectile.Center.ToTileCoordinates();
                         Tile tileSafely = Framing.GetTileSafely(pos.X, pos.Y);
                         Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
-                        soundDelay++;
-                        if (soundDelay > 15)
+                        projectile.localAI[1]++;
+                        if (projectile.localAI[1] > 15)
                         {
                             Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y, 1);
-                            soundDelay = 0;
+                            projectile.localAI[1] = 0;
                         }
                     }
                     else
@@ -115,18 +113,18 @@ namespace JoostMod.Projectiles
                 }
                 else
                 {
-                    ai = 2;
+                    projectile.localAI[0] = 2;
                     if (solid)
                     {
                         if (projectile.velocity.Y > -10)
                         {
                             projectile.velocity.Y -= 0.2f;
                         }
-                        soundDelay++;
-                        if (soundDelay > 15)
+                        projectile.localAI[1]++;
+                        if (projectile.localAI[1] > 15)
                         {
                             Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y, 1);
-                            soundDelay = 0;
+                            projectile.localAI[1] = 0;
                         }
                     }
                     else if (projectile.velocity.Y < 10)

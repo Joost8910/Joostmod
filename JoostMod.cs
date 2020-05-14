@@ -295,6 +295,7 @@ namespace JoostMod
         {
             Mod mod = JoostMod.instance;
             player.QuickSpawnItem(mod.ItemType("TailWhip"));
+            player.QuickSpawnItem(mod.ItemType("ImpLordFlame"));
             player.QuickSpawnItem(ItemID.GoldCoin, 7);
             player.QuickSpawnItem(ItemID.FireblossomSeeds, 15);
         }

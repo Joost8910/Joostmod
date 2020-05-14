@@ -104,7 +104,7 @@ namespace JoostMod.Projectiles
                     }
                     if (Main.raining && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, new Vector2(projectile.Center.X + ((Main.screenPosition.Y - projectile.Center.Y) / 14f * Main.windSpeed * 12f), Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0)
                     {
-                        projectile.localAI[0] += projectile.width * 4;
+                        projectile.localAI[0] += projectile.width * 2;
                     }
                     if (projectile.localAI[0] >= 250)
                     {

@@ -55,7 +55,7 @@ namespace JoostMod.NPCs.Hunts
             Player P = Main.player[npc.target];
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, npc.velocity.X / 10, npc.velocity.Y / 10, 100, default(Color), 0.8f + (Main.rand.Next(3) * 0.1f));
+                Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Fire, -npc.velocity.X / 5, -npc.velocity.Y / 5, 100, default(Color), 2f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
             }
             if (npc.life > 0)
             {

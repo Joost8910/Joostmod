@@ -21,7 +21,6 @@ namespace JoostMod.Projectiles
 			projectile.penetrate = -1;
 			projectile.timeLeft = 450;
 			projectile.tileCollide = false;
-			projectile.light = 1f;
 			aiType = ProjectileID.Bullet;
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -39,7 +38,7 @@ namespace JoostMod.Projectiles
 				projectile.frameCounter = 0;
                 projectile.frame = (projectile.frame + 1) % 3;
             }
-            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, -projectile.velocity.X / 5, -projectile.velocity.Y / 5, 100, default(Color), 0.8f + (Main.rand.Next(3) * 0.1f));
+            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Fire, -projectile.velocity.X / 5, -projectile.velocity.Y / 5, 100, default(Color), 1f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
         }
     }
 }
