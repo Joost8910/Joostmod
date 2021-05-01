@@ -31,6 +31,8 @@ namespace JoostMod
         public bool HarpyMinion = false;
         public bool icuMinion = false;
         public bool dirtMinion = false;
+        public bool stormWyvernMinion = false;
+
         public bool XShield = false;
         private int XShieldTimer = 60;
         public bool SpectreOrbs = false;
@@ -78,7 +80,7 @@ namespace JoostMod
         public bool isLegend = false;
         public bool isUncleCarius = false;
         public bool isSaitama = false;
-        public int GnunderCool = 0;
+        public int LegendCool = 0;
         public int spinTimer = 0;
         public bool planeMount = false;
         public int enemyIgnoreDefenseDamage = 0;
@@ -144,6 +146,8 @@ namespace JoostMod
             HarpyMinion = false;
             icuMinion = false;
             dirtMinion = false;
+            stormWyvernMinion = false;
+
             XShield = false;
             SpectreOrbs = false;
             SkullSigil = false;
@@ -245,7 +249,7 @@ namespace JoostMod
                     player.lifeRegen = 0;
                 }
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 5;
+                player.lifeRegen -= 8;
             }
             if (infectedGreen && !XShield)
             {
@@ -254,7 +258,7 @@ namespace JoostMod
                     player.lifeRegen = 0;
                 }
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 5;
+                player.lifeRegen -= 8;
             }
             if (infectedBlue && !XShield)
             {
@@ -263,7 +267,7 @@ namespace JoostMod
                     player.lifeRegen = 0;
                 }
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 5;
+                player.lifeRegen -= 8;
             }
             if (infectedYellow && !XShield)
             {
@@ -272,7 +276,7 @@ namespace JoostMod
                     player.lifeRegen = 0;
                 }
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 5;
+                player.lifeRegen -= 8;
             }
             if (fireArmorIsActive)
             {
@@ -334,6 +338,11 @@ namespace JoostMod
             {
                 player.handoff = (sbyte)mod.GetEquipSlot("MutantCannon", EquipType.HandsOff);
             }
+            if (player.HeldItem.type == mod.ItemType("GrabGlove"))
+            {
+                player.handon = (sbyte)mod.GetEquipSlot("GrabGlove", EquipType.HandsOn);
+                player.handoff = (sbyte)mod.GetEquipSlot("GrabGlove", EquipType.HandsOff);
+            }
 
             if (havelBlocking)
             {
@@ -379,8 +388,67 @@ namespace JoostMod
                         stoneArms.visible = true;
                     }
                 }
+                if (PlayerLayer.HeldItem.visible && player.HeldItem.type != ItemID.None && !player.HeldItem.noUseGraphic && (player.itemAnimation > 0 || player.HeldItem.holdStyle == 1) && player.HeldItem.GetGlobalItem<JoostGlobalItem>().glowmaskTex != null)
+                {
+                    if (layers[i] == PlayerLayer.HeldItem)
+                    {
+                        layers.Insert(i + 1, itemGlowmask);
+                        itemGlowmask.visible = true;
+                    }
+                }
             }
         }
+        public static readonly PlayerLayer itemGlowmask = new PlayerLayer("JoostMod", "itemGlowmask", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            Item item = drawPlayer.HeldItem;
+            if (item.GetGlobalItem<JoostGlobalItem>().glowmaskTex != null)
+            {
+                Texture2D tex = item.GetGlobalItem<JoostGlobalItem>().glowmaskTex;
+                Color color = item.GetGlobalItem<JoostGlobalItem>().glowmaskColor;
+                float rot = drawPlayer.itemRotation;
+                if (Item.staff[item.type])
+                {
+                    rot = drawPlayer.itemRotation + 0.785f * drawPlayer.direction;
+                }
+                int offsetX = 0;
+                int offsetY = 0;
+                Vector2 origin = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
+                if (drawPlayer.gravDir == -1f)
+                {
+                    if (drawPlayer.direction == -1)
+                    {
+                        rot += 1.57f;
+                        origin = new Vector2((float)Main.itemTexture[item.type].Width, 0f);
+                        offsetX -= Main.itemTexture[item.type].Width;
+                    }
+                    else
+                    {
+                        rot -= 1.57f;
+                        origin = Vector2.Zero;
+                    }
+                }
+                else if (drawPlayer.direction == -1)
+                {
+                    origin = new Vector2((float)Main.itemTexture[item.type].Width, (float)Main.itemTexture[item.type].Height);
+                    offsetX -= Main.itemTexture[item.type].Width;
+                }
+                Rectangle frame = new Rectangle(0, 0, tex.Width, tex.Height);
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((int)(drawInfo.itemLocation.X - Main.screenPosition.X + origin.X + offsetX), (int)(drawInfo.itemLocation.Y - Main.screenPosition.Y + offsetY)), new Rectangle?(frame), color, rot, origin, drawPlayer.HeldItem.scale, effects, 0);
+                Main.playerDrawData.Add(data);
+            }
+        });
         public static readonly PlayerLayer shieldDownLayer = new PlayerLayer("JoostMod", "shieldDownLayer", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
         {
             Mod mod = JoostMod.instance;
@@ -564,11 +632,6 @@ namespace JoostMod
                             Main.dust[dust].noGravity = true;
                         }
                     }
-                    else
-                    {
-                        havelArmorTimer = 20;
-                        Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.3f);
-                    }
                 }
                 if (fireArmor)
                 {
@@ -602,15 +665,15 @@ namespace JoostMod
                                 Dust.NewDust(proj.position, proj.width, proj.height, 31, 0, 0, 0, Color.White, Main.rand.NextFloat() + 1);
                         }
                     }
-                    int duration = (int)(count * 2 * 60);
+                    int duration = (int)(count * 4 * 60);
 
                     if (duration > 0)
                     {
-                        if (airArmorDodgeTimer <= 0 && player.immuneTime < 40)
+                        if (airArmorDodgeTimer <= 0 && player.immuneTime < 60)
                         {
                             airArmorDodgeTimer = 165;
                             player.immune = true;
-                            player.immuneTime = 45;
+                            player.immuneTime = 60;
                         }
                         player.AddBuff(mod.BuffType("AirArmorBuff"), duration);
                         Main.PlaySound(42, player.Center, 203);
@@ -1061,6 +1124,10 @@ namespace JoostMod
             }
             if (havelArmor)
             {
+                if (player.HasBuff(mod.BuffType("HavelBuff")))
+                {
+                    havelArmorActive = true;
+                }
                 if (havelArmorTimer > 0)
                 {
                     havelArmorTimer--;
@@ -1072,6 +1139,7 @@ namespace JoostMod
                     if (!havelArmorActive)
                     {
                         havelArmorActive = true;
+                        player.AddBuff(mod.BuffType("HavelBuff"), 1800);
                         Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 211, 1, -0.2f);
                     }
                     else
@@ -1089,7 +1157,6 @@ namespace JoostMod
                 }
                 if (havelArmorActive)
                 {
-                    player.AddBuff(mod.BuffType("HavelBuff"), 2);
                     player.accRunSpeed = 0;
                     if (player.mount._type == mod.MountType("EarthMount"))
                     {
@@ -1118,6 +1185,11 @@ namespace JoostMod
                     else
                     {
                         player.velocity.X *= 0.9f;
+                    }
+                    if (!player.HasBuff(mod.BuffType("HavelBuff")) && havelArmorTimer < 0)
+                    {
+                        havelArmorTimer = 20;
+                        Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.3f);
                     }
                 }
             }
@@ -1405,9 +1477,15 @@ namespace JoostMod
             {
                 SkullSigilTimer = 180;
             }
-            if (GnunderCool > 0)
+            if (LegendCool > 0)
             {
-                GnunderCool--;
+                LegendCool--;
+            }
+            if (LegendCool == 0)
+            {
+                Main.PlaySound(25, player.Center);
+                Dust.NewDustPerfect(player.Center, 178, new Vector2(-player.direction, -player.gravDir * 3), 0, Color.LimeGreen, 2);
+                LegendCool--;
             }
             if (spelunky > 0)
             {
@@ -1904,7 +1982,7 @@ namespace JoostMod
             if (fleshShield)
             {
                 fleshShieldTimer++;
-                if (fleshShieldTimer > 4 + (int)(((float)player.statLife / (float)player.statLifeMax2) * 296f))
+                if (fleshShieldTimer > 10 + (int)(((float)player.statLife / (float)player.statLifeMax2) * 350f))
                 {
                     Projectile.NewProjectile(player.Center.X + player.direction * 20, player.Center.Y, player.direction * 10, 0, mod.ProjectileType("Leech"), (int)(20 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult), 1, player.whoAmI);
                     fleshShieldTimer = 0;
@@ -1951,7 +2029,7 @@ namespace JoostMod
                 }
                 else
                 {
-                    player.velocity.X *= 0.95f;
+                    player.velocity.X *= 0.93f;
                 }
             }
             if (blazeAnklet)
@@ -2005,36 +2083,6 @@ namespace JoostMod
                 player.runSlowdown *= 3f;
                 player.jumpSpeedBoost += 5f;
                 player.noFallDmg = true;
-                if (player.controlRight && player.velocity.X < player.maxRunSpeed)
-                {
-                    player.velocity.X += 0.3f;
-                }
-                if (player.controlLeft && player.velocity.X > -player.maxRunSpeed)
-                {
-                    player.velocity.X -= 0.3f;
-                }
-                if (player.gravDir > 0)
-                {
-                    if (player.controlJump && player.velocity.Y > -player.maxRunSpeed)
-                    {
-                        player.velocity.Y -= 0.25f;
-                    }
-                    if (player.controlDown && player.velocity.Y < player.maxRunSpeed)
-                    {
-                        player.velocity.Y += 0.25f;
-                    }
-                }
-                else
-                {
-                    if (player.controlJump && player.velocity.Y < player.maxRunSpeed)
-                    {
-                        player.velocity.Y += 0.25f;
-                    }
-                    if (player.controlDown && player.velocity.Y > -player.maxRunSpeed)
-                    {
-                        player.velocity.Y -= 0.25f;
-                    }
-                }
                 Dust.NewDust(player.position, player.width, player.height, 31, -4 * player.direction, 0f, 0, Color.White, 1f);
             }
             if (airArmorDodgeTimer > 0)
@@ -2082,6 +2130,39 @@ namespace JoostMod
                 {
                     player.wingTime = hoverWing;
                     player.rocketTime = hoverRocket;
+                }
+            }
+            if (airArmorIsActive)
+            {
+                if (player.controlRight && player.velocity.X < player.maxRunSpeed)
+                {
+                    player.velocity.X += 0.3f;
+                }
+                if (player.controlLeft && player.velocity.X > -player.maxRunSpeed)
+                {
+                    player.velocity.X -= 0.3f;
+                }
+                if (player.gravDir > 0)
+                {
+                    if (player.controlJump && player.velocity.Y > -player.maxRunSpeed)
+                    {
+                        player.velocity.Y -= 0.25f;
+                    }
+                    if (player.controlDown && player.velocity.Y < player.maxRunSpeed)
+                    {
+                        player.velocity.Y += 0.25f;
+                    }
+                }
+                else
+                {
+                    if (player.controlJump && player.velocity.Y < player.maxRunSpeed)
+                    {
+                        player.velocity.Y += 0.25f;
+                    }
+                    if (player.controlDown && player.velocity.Y > -player.maxRunSpeed)
+                    {
+                        player.velocity.Y -= 0.25f;
+                    }
                 }
             }
         }
@@ -2307,6 +2388,25 @@ namespace JoostMod
             }
             return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
         }
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if (damageSource.SourceOtherIndex == 8)
+            {
+                if (bonesHurt)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " had their bones dissolved");
+                }
+                if (corruptSoul)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " had their soul corrupted");
+                }
+                if (infectedBlue || infectedGreen || infectedRed || infectedYellow)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was infected by X");
+                }
+            }
+            return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
+        }
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
             if (havelArmorActive && npc.knockBackResist > 0)
@@ -2352,7 +2452,7 @@ namespace JoostMod
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (rect.Intersects(npc.getRect()))
                 {
-                    damage = (int)(damage * 0.2f);
+                    damage -= (int)(50 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult);
                     Main.PlaySound(21, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, -0.4f);
                 }
             }
@@ -2366,7 +2466,7 @@ namespace JoostMod
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (proj.Colliding(proj.getRect(), rect))
                 {
-                    damage = (int)(damage * 0.2f);
+                    damage -= (int)(50 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult);
                     proj.penetrate--;
                     Main.PlaySound(21, (int)proj.Center.X, (int)proj.Center.Y, 1, 1, -0.4f);
                 }
@@ -2374,7 +2474,7 @@ namespace JoostMod
         }
         public void Dash()
         {
-            if (dashType == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+            if (dashType == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Shield of Flesh
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
                 for (int i = 0; i < 200; i++)
@@ -2404,7 +2504,7 @@ namespace JoostMod
                                 player.ApplyDamageToNPC(npc, dashDamage, 0, dir, crit);
                                 dashHit[i] = true;
                             }
-                            if (npc.knockBackResist > 0 && (player.velocity.X > 12 || player.velocity.X < -12 || player.velocity.X < -Math.Max(player.accRunSpeed, player.maxRunSpeed) || player.velocity.X > Math.Max(player.accRunSpeed, player.maxRunSpeed)))
+                            if (npc.knockBackResist > 0 && (player.velocity.X >= 12 || player.velocity.X <= -12 || player.velocity.X <= -Math.Max(player.accRunSpeed, player.maxRunSpeed) || player.velocity.X >= Math.Max(player.accRunSpeed, player.maxRunSpeed)))
                             {
                                 float push = player.Center.X + 12;
                                 if (dir < 0)
@@ -2462,7 +2562,7 @@ namespace JoostMod
                 float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 float num10 = 0.96f;
                 int delay = 20;
-                if (dashType == 1)
+                if (dashType == 1) //Shield of Flesh
                 {
                     for (int l = 0; l < 0; l++)
                     {
@@ -2484,6 +2584,22 @@ namespace JoostMod
                 if (dashType > 0)
                 {
                     player.vortexStealthActive = false;
+                    if (dashType == 1) //Dash Held Extension
+                    {
+                        if (player.velocity.Y == 0 && ((player.velocity.X > 0 && player.controlRight) || (player.velocity.X < 0 && player.controlLeft)))
+                        {
+                            float eSpeed = Math.Max(num9, 6) + 0.5f;
+                            if (player.velocity.X < 0f && player.velocity.X > -eSpeed)
+                            {
+                                player.velocity.X = -eSpeed;
+                            }
+                            if (player.velocity.X > 0f && player.velocity.X < eSpeed)
+                            {
+                                player.velocity.X = eSpeed;
+                            }
+                            return;
+                        }
+                    }
                     if (player.velocity.X > num7 || player.velocity.X < -num7)
                     {
                         player.velocity.X = player.velocity.X * num8;
@@ -2507,9 +2623,9 @@ namespace JoostMod
                     }
                 }
             }
-            else if (dashType > 0 && !player.mount.Active)
+            else if (dashType > 0 && !player.mount.Active && player.dashDelay == 0)
             {
-                if (dashType == 1)
+                if (dashType == 1) //Shield of Flesh
                 {
                     for (int i = 0; i < 200; i++)
                     {

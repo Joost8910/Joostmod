@@ -73,15 +73,24 @@ namespace JoostMod.Projectiles
         
             if (player.channel)
             {
-                if (projectile.ai[0] >= 1 && projectile.soundDelay >= 0)
+                if (projectile.ai[0] >= 1)
                 {
-                    for (int i = 0; i < 10; i++)
+                    if (projectile.soundDelay >= 0)
                     {
-                        int dust = Dust.NewDust(player.position, player.width, player.height, 263);
-                        Main.dust[dust].noGravity = true;
+                        for (int i = 0; i < 10; i++)
+                        {
+                            int dust = Dust.NewDust(player.position, player.width, player.height, 263);
+                            Main.dust[dust].noGravity = true;
+                        }
+                        Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 212);
+                        projectile.soundDelay = -1;
                     }
-                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 212);
-                    projectile.soundDelay = -1;
+
+                    if (player.controlUseTile)
+                    {
+                        Projectile.NewProjectile(vector, projectile.velocity, mod.ProjectileType("Stonefist2"), projectile.damage / 2, projectile.knockBack / 2, projectile.owner, 0, 1);
+                        projectile.Kill();
+                    }
                 }
             }
             else
@@ -178,6 +187,10 @@ namespace JoostMod.Projectiles
             {
 			    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 208);
             }
+            if (target.knockBackResist > 0 && projectile.ai[0] >= 1)
+            {
+                Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage / 2, projectile.knockBack, projectile.owner, target.whoAmI);
+            }
             for (int i = 0; i < (int)(projectile.scale*projectile.scale*40); i++)
             {
                 Dust.NewDust(target.position, target.width, target.height, 1);
@@ -200,6 +213,10 @@ namespace JoostMod.Projectiles
             if (projectile.ai[0] > 0.7f)
             {
                 Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 208);
+            }
+            if (projectile.ai[0] >= 1)
+            {
+                Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage / 2, projectile.knockBack, projectile.owner, 0, target.whoAmI);
             }
             for (int i = 0; i < (int)(projectile.scale * projectile.scale * 40); i++)
             {

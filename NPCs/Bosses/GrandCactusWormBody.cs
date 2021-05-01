@@ -65,6 +65,11 @@ namespace JoostMod.NPCs.Bosses
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GrandCactusWormBody"), npc.scale);
             }
+            if (Main.npc[npc.realLife].ai[3] == 0)
+            {
+                Main.npc[npc.realLife].ai[2] = 1;
+                Main.npc[npc.realLife].netUpdate = true;
+            }
         }
         public override bool PreAI()
         {
@@ -90,19 +95,23 @@ namespace JoostMod.NPCs.Bosses
                 }
                 if (Main.npc[(int)npc.ai[3]].ai[1] >= 225 && Main.npc[(int)npc.ai[3]].ai[1] < 425 || Main.npc[(int)npc.ai[3]].ai[1] >= 624 && Main.npc[(int)npc.ai[3]].ai[1] < 820)
                 {
-                    if (Main.npc[(int)npc.ai[3]].ai[1] % 30 == 0)
+                    if (Main.npc[(int)npc.ai[3]].ai[1] % 45 == 0)
                     {
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CactusThorn"));
                     }
                 }
                 if (Main.npc[(int)npc.ai[3]].ai[0] >= 2)
                 {
-                    npc.dontTakeDamage = true;
+                    //npc.dontTakeDamage = true;
+                    npc.defense = 1000;
+                    npc.HitSound = SoundID.NPCHit4;
                     npc.netUpdate = true;
                 }
                 else
                 {
-                    npc.dontTakeDamage = false;
+                    //npc.dontTakeDamage = false;
+                    npc.defense = 0;
+                    npc.HitSound = SoundID.NPCHit1;
                     npc.netUpdate = true;
                 }
             }
@@ -127,11 +136,10 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
-            if (npc.dontTakeDamage)
+            if (npc.defense >= 1000)
             {
                 texture = mod.GetTexture("NPCs/Bosses/GrandCactusWormBodyInvincible");
             }

@@ -31,17 +31,10 @@ namespace JoostMod.Items
         {
             player.QuickSpawnItem(mod.ItemType("CactusWormHook"));
             player.QuickSpawnItem(mod.ItemType("LusciousCactus"), 10+Main.rand.Next(16));
-            if (Main.rand.Next(2) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("DeoremMuaMusicBox"));
-            }
-            if (Main.rand.Next(3) == 0)
+            player.QuickSpawnItem(mod.ItemType("DeoremMuaMusicBox"));
+            if (Main.rand.Next(4) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("GrandCactusWormMask"));
-            }
-            if (Main.rand.Next(5) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("GrandCactusWormTrophy"));
             }
         }
 	}

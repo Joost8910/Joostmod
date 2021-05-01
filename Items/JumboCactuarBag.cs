@@ -35,13 +35,9 @@ namespace JoostMod.Items
             player.QuickSpawnItem(mod.ItemType("CactuarShield"));
             player.QuickSpawnItem(mod.ItemType("Cactustoken"), 1 + Main.rand.Next(2));
             player.QuickSpawnItem(mod.ItemType("DecisiveBattleMusicBox"));
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.Next(4) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("JumboCactuarMask"));
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("JumboCactuarTrophy"));
             }
         }
     }

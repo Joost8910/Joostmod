@@ -34,7 +34,7 @@ namespace JoostMod.NPCs.Hunts
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !Main.dayTime && spawnInfo.spawnTileY <= Main.worldSurface && !JoostWorld.downedICU && JoostWorld.activeQuest == npc.type && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
+            return !Main.dayTime && spawnInfo.spawnTileY <= Main.worldSurface && !JoostWorld.downedICU && JoostWorld.activeQuest.Contains(npc.type) && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {

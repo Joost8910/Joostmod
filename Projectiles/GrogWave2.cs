@@ -123,7 +123,7 @@ namespace JoostMod.Projectiles
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Color color = Color.White;
+            Color color = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
             Texture2D texture = Main.projectileTexture[projectile.type];
             Rectangle rectangle = new Rectangle(0,  projectile.frame * 90, texture.Width, (texture.Height / Main.projFrames[projectile.type]));
             Vector2 vector = new Vector2((texture.Width / 2f), ((texture.Height / Main.projFrames[projectile.type]) / 2f));

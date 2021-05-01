@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class SkellyMinion : GroundShooter
+	public class SkellyMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{
@@ -37,7 +37,8 @@ namespace JoostMod.Projectiles.Minions
 			shoot = mod.ProjectileType("Bone");
 			shootSpeed = 14f;
 			shootCool = 80f;
-		}
+            grounded = true;
+        }
 		public override void FlyingDust()
 		{
 			Dust.NewDust(projectile.Center, projectile.width, projectile.height, 111, 0f, 0f, 0, default(Color), 0.7f);
@@ -55,7 +56,7 @@ namespace JoostMod.Projectiles.Minions
 				projectile.timeLeft = 2;
 			}
 		}
-		public override void SelectFrame()
+		public override void SelectFrame(Vector2 tPos)
 		{
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 5 && projectile.ai[0] != 1f && Math.Abs(projectile.velocity.X) > 0.1f)

@@ -24,7 +24,7 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.wingTimeMax = 45;
+			player.wingTimeMax = 30;
             player.GetModPlayer<JoostPlayer>().rocWings = true;
 		}
 

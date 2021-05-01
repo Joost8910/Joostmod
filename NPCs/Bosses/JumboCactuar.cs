@@ -112,20 +112,24 @@ namespace JoostMod.NPCs.Bosses
 			else
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Cactustoken"), 1 + Main.rand.Next(2));
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.Next(4) == 0)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DecisiveBattleMusicBox"));
                 }
-                if (Main.rand.Next(3) == 0)
+                if (Main.rand.Next(7) == 0)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JumboCactuarMask"));
                 }
-                if (Main.rand.Next(5) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JumboCactuarTrophy"));
-                }
-			}
-		}
+            }
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JumboCactuarTrophy"));
+            }
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FifthAnniversary"), 1);
+            }
+        }
 		public override void AI()
 		{
 			npc.netUpdate = true;
@@ -252,8 +256,8 @@ namespace JoostMod.NPCs.Bosses
 			{
 				npc.rotation += 10 * npc.direction;
 				npc.damage = 300;
-                npc.defense = 150;
-				npc.velocity = npc.DirectionTo(P.Center) * 15;
+                npc.defense = (int)(npc.localAI[0] / 2);
+				npc.velocity = npc.DirectionTo(P.Center) * (npc.localAI[0] / 20f);
 				//npc.noTileCollide = true;
 				npc.ai[3] = 0;
                 if (npc.localAI[3] == 0)

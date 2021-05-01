@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class fishMinion : HoverShooter
+	public class fishMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{

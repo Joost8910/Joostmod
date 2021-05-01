@@ -9,9 +9,9 @@ namespace JoostMod.Projectiles.Minions
 		protected float idleAccel = 0.05f;
 		protected float spacingMult = 1f;
 		protected float viewDist = 400f;
-		protected float chaseDist = 200f;
 		protected float chaseAccel = 6f;
 		protected float inertia = 40f;
+        protected float chargeSpeed = 10f;
 		protected int chargeCool = 30;
 
 		public virtual void CreateDust()
@@ -93,16 +93,9 @@ namespace JoostMod.Projectiles.Minions
 			if (target && projectile.ai[0] == 0f)
 			{
 				Vector2 direction = targetPos - projectile.Center;
-				if (direction.Length() > chaseDist)
-				{
-					direction.Normalize();
-					projectile.velocity = (projectile.velocity * inertia + direction * chaseAccel) / (inertia + 1);
-				}
-				else
-				{
-					projectile.velocity *= (float)Math.Pow(0.97, 40.0 / inertia);
-				}
-			}
+                direction.Normalize();
+                projectile.velocity = (projectile.velocity * inertia + direction * chaseAccel) / (inertia + 1);
+            }
 			else
 			{
 				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
@@ -195,7 +188,7 @@ namespace JoostMod.Projectiles.Minions
 						projectile.ai[1] = 1f;
 						if (Main.myPlayer == projectile.owner)
 						{
-							projectile.velocity = projectile.DirectionTo(targetPos) * (inertia / 4);
+							projectile.velocity = projectile.DirectionTo(targetPos) * chargeSpeed;
 							projectile.netUpdate = true;
 						}
 					}

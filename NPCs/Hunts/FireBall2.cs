@@ -10,7 +10,7 @@ namespace JoostMod.NPCs.Hunts
     { 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fire Blast");
+			DisplayName.SetDefault("Dead Man's Fire");
             Main.npcFrameCount[npc.type] = 3;
         }
         public override void SetDefaults()

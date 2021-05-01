@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class ICUMinion : MultiHoverShooter
+	public class ICUMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{
@@ -50,7 +50,7 @@ namespace JoostMod.Projectiles.Minions
 			}
         }
         float rot = 0;
-        public override void SelectFrame()
+        private void SelectFrame()
         {
             rot += 22.5f * 0.0174f;
             projectile.rotation = rot * projectile.direction;

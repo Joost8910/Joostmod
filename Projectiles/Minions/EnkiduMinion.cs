@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class EnkiduMinion : MultiHoverShooter
+	public class EnkiduMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{
@@ -32,9 +32,8 @@ namespace JoostMod.Projectiles.Minions
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			inertia = 20f;
-			chaseAccel = 12f;
-			spacingMult = 5f;
-			chaseDist = 120f;
+			chaseAccel = 40f;
+			chaseDist = 40f;
 			shoot = mod.ProjectileType("EnkiduWindFriendly");
 			shootSpeed = 20f;
 			shootCool = 90f;
@@ -60,8 +59,8 @@ namespace JoostMod.Projectiles.Minions
                 projectile.Kill();
             }
         }
-		public override void SelectFrame()
-		{
+        public override void SelectFrame(Vector2 dir)
+        {
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 5)
 			{

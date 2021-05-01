@@ -159,31 +159,6 @@ namespace JoostMod.NPCs.Town
 
 		public override string TownNPCName()
         {
-            string jamayo = "Jamayo";
-            switch (WorldGen.genRand.Next(7))
-            {
-                case 1:
-                    jamayo = "Lamayo";
-                    break;
-                case 2:
-                    jamayo = "Jomayo";
-                    break;
-                case 3:
-                    jamayo = "Janayo";
-                    break;
-                case 4:
-                    jamayo = "Jamuyo";
-                    break;
-                case 5:
-                    jamayo = "Jamavo";
-                    break;
-                case 6:
-                    jamayo = "Jamayu";
-                    break;
-                default:
-                    jamayo = "Jamayo";
-                    break;
-            }
             switch (WorldGen.genRand.Next(14))
 			{
 				case 1:
@@ -209,7 +184,7 @@ namespace JoostMod.NPCs.Town
                 case 11:
                     return "Kakitar";
                 default:
-					return jamayo;
+					return "Joost";
 			}
 		}
         public override bool? CanBeHitByProjectile(Projectile projectile)

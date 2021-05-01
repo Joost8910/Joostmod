@@ -213,7 +213,7 @@ namespace JoostMod.Projectiles
                 Vector2 unit = rot.ToRotationVector2();
                 Vector2 vector = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
                 float point = 0f;
-                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), vector, vector + unit * 174 * projectile.scale, 32 * projectile.scale, ref point))
+                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), vector, vector + unit * 160 * projectile.scale, 32 * projectile.scale, ref point))
                 {
                     return true;
                 }

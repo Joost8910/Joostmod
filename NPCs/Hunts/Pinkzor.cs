@@ -41,7 +41,7 @@ namespace JoostMod.NPCs.Hunts
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return !spawnInfo.sky && !spawnInfo.playerInTown && spawnInfo.spawnTileY < Main.maxTilesY - 450 && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(npc.type) && !NPC.AnyNPCs(mod.NPCType("Hunt Master")) ? 0.006f : 0f;
+			return !spawnInfo.sky && !spawnInfo.playerInTown && Math.Abs(spawnInfo.spawnTileX - Main.spawnTileX) > 500 && spawnInfo.spawnTileY < Main.maxTilesY - 450 && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(npc.type) && !NPC.AnyNPCs(mod.NPCType("Hunt Master")) ? 0.006f : 0f;
 		}
 		public override void NPCLoot()
 		{

@@ -136,24 +136,31 @@ namespace JoostMod.Projectiles
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            crit = false;
-            
-            for (int i = 0; i < 100; i++)
+            if (projectile.localAI[1] > 0)
             {
-                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
-                {
-                    Main.combatText[i].active = false;
-                    break;
-                }
+                target.velocity.X = projectile.direction * projectile.knockBack;
             }
-            //CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkGreen, "BLOCKED", true, false);
+            else
+            { 
+                crit = false;
 
-            if (target.statLife < target.statLifeMax2)
-            {
-                target.statLife++;
+                for (int i = 0; i < 100; i++)
+                {
+                    if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
+                    {
+                        Main.combatText[i].active = false;
+                        break;
+                    }
+                }
+                //CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkGreen, "BLOCKED", true, false);
+
+                if (target.statLife < target.statLifeMax2)
+                {
+                    target.statLife++;
+                }
+                target.velocity.X = projectile.direction * projectile.knockBack / 4;
             }
-            Main.PlaySound(3, projectile.Center, 4);
-            target.velocity.X = projectile.direction * projectile.knockBack;
+            Main.PlaySound(21, (int)projectile.Center.X, (int)projectile.Center.Y, 1, 1, -0.2f);
         }
         public override void AI()
 		{

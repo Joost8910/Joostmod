@@ -142,7 +142,7 @@ namespace JoostMod.Projectiles
                     {
                         shootSpeed += item.shootSpeed + (int)(projectile.ai[1] / 30);
                         type = item.shoot;
-                        if (item.consumable && Main.rand.NextFloat() > 0.35f)
+                        if (projectile.timeLeft < 3600 && item.consumable && ItemLoader.ConsumeAmmo(player.HeldItem, item, player))
                         {
                             player.ConsumeItem(item.type);
                         }
@@ -210,6 +210,7 @@ namespace JoostMod.Projectiles
             }
             player.itemTime = 2;
             player.itemAnimation = 2;
+            projectile.timeLeft = 2;
             return false;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

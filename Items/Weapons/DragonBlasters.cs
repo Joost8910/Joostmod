@@ -38,7 +38,7 @@ namespace JoostMod.Items.Weapons
         }
         public override bool ConsumeAmmo(Player player)
         {
-            return false;
+            return Main.rand.NextFloat() > 0.35f;
         }
         public override bool CanUseItem(Player player)
         {

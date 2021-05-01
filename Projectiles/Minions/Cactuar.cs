@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class Cactuar : GroundShooter
+	public class Cactuar : Shooter
 	{
         public override void SetStaticDefaults()
 		{
@@ -31,14 +31,15 @@ namespace JoostMod.Projectiles.Minions
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
             inertia = 20f;
-			spacingMult = 2f;
 			chaseAccel = 7f;
 			chaseDist = 10f;
-			shootCool = 35f;
+			shootCool = 200f;
 			shoot = mod.ProjectileType("Needle7");
 			shootSpeed = 15f;
             predict = true;
-		}
+            grounded = true;
+            rapidAmount = 10;
+        }
 
 		public override void CheckActive()
 		{
@@ -57,9 +58,13 @@ namespace JoostMod.Projectiles.Minions
 		{
 			Dust.NewDust(projectile.Center, projectile.width, projectile.height, 93, 0f, 0f, 0, default(Color), 0.7f);
 		}
-
-		public override void SelectFrame()
-		{
+        public override void ShootEffects()
+        {
+            projectile.frame = (projectile.frame + 1) % 2;
+            Main.PlaySound(SoundID.Item7, projectile.Center);
+        }
+        public override void SelectFrame(Vector2 tPos)
+        {
 			projectile.frameCounter += (int)Math.Abs(projectile.velocity.X*2.5f);
 			if (projectile.frameCounter >= 65)
 			{

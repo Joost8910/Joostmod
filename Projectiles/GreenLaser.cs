@@ -18,12 +18,12 @@ namespace JoostMod.Projectiles
             projectile.height = 6;
             projectile.aiStyle = 1;
             projectile.friendly = true;
-            projectile.ranged = true;
+            projectile.magic = true;
             projectile.penetrate = 6;
             projectile.timeLeft = 600;
-            projectile.alpha = 50;
+            projectile.alpha = 120;
             projectile.light = 0.2f;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             aiType = ProjectileID.Bullet;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 10;

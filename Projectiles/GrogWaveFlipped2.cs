@@ -76,7 +76,7 @@ namespace JoostMod.Projectiles
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Color color = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16.0));
+            Color color = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
             sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
             return false;
         }

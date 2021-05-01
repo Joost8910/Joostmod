@@ -62,6 +62,7 @@ namespace JoostMod.Items
                 Main.NewText("Prevented " + Lang.GetBuffName(buffID) + " from crashing the game", Color.OrangeRed);
                 buffID = Main.rand.Next(buffCount);
             }
+            mod.Logger.Info("Wonder Waffle granted " + Lang.GetBuffName(buffID));
             player.AddBuff(buffID, length, false);
             return true;
         }

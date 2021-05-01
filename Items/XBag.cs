@@ -42,17 +42,11 @@ namespace JoostMod.Items
             player.QuickSpawnItem(mod.ItemType("XShield"));
             player.QuickSpawnItem(mod.ItemType("IceCoreX"), 1 + Main.rand.Next(2));
             player.QuickSpawnItem(mod.ItemType("SAXMusicBox"));
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.Next(4) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("SAXMask"));
             }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("SAXTrophy"));
-            }
-
         }
-
     }
 }
 

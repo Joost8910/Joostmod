@@ -6,6 +6,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria.Enums;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace JoostMod.Items
 {
@@ -19,6 +21,8 @@ namespace JoostMod.Items
         public int maxHealth = 0;
         public int lifeRegen = 0;
         public int fishingPower = 0;
+        public Texture2D glowmaskTex = null;
+        public Color glowmaskColor = Color.White;
         public override bool InstancePerEntity
         {
             get
@@ -26,6 +30,27 @@ namespace JoostMod.Items
                 return true;
             }
         }
+        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D tex = glowmaskTex;
+            if (tex != null)
+            {
+                drawColor = glowmaskColor;
+                spriteBatch.Draw(tex, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
+            }
+        }
+        public override void PostDrawInWorld(Item item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D tex = glowmaskTex;
+            if (tex != null)
+            {
+                float x = (float)(item.width / 2f - tex.Width / 2f);
+                float y = (float)(item.height - tex.Height);
+                lightColor = glowmaskColor;
+                alphaColor = lightColor;
+                spriteBatch.Draw(tex, new Vector2(item.position.X - Main.screenPosition.X + (float)(tex.Width / 2) + x, item.position.Y - Main.screenPosition.Y + (float)(tex.Height / 2) + y + 2f), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), lightColor, rotation, new Vector2((float)(tex.Width / 2), (float)(tex.Height / 2)), scale, SpriteEffects.None, 0f);
+            }
+        } 
         public override GlobalItem Clone(Item item, Item itemClone)
         {
             JoostGlobalItem myClone = (JoostGlobalItem)base.Clone(item, itemClone);
@@ -182,29 +207,52 @@ namespace JoostMod.Items
         }
         public static float LegendaryDamage()
         {
-            float damageMult = 1f + //1
-            (NPC.downedSlimeKing ? 0.25f : 0f) + //1.25
-            (NPC.downedBoss1 ? 0.25f : 0f) + //1.5
-            (NPC.downedBoss2 ? 0.25f : 0f) + //1.75
-            (NPC.downedQueenBee ? 0.25f : 0f) + //2
-            (NPC.downedBoss3 ? 0.25f : 0f) + // 2.25
-            (JoostWorld.downedCactusWorm ? 0.25f : 0f) + //2.5
-            (Main.hardMode ? 0.5f : 0f) + //3
-            (NPC.downedMechBoss1 ? 1f : 0f) + //4
-            (NPC.downedMechBoss2 ? 1f : 0f) + //5
-            (NPC.downedMechBoss3 ? 1f : 0f) + //6
-            (NPC.downedPlantBoss ? 1f : 0f) + //7
-            (NPC.downedGolemBoss ? 1f : 0f) + //8
-            (NPC.downedFishron ? 1f : 0f) + //9
-            (NPC.downedAncientCultist ? 1f : 0f) + //10
-            (NPC.downedTowerNebula ? 1f : 0f) + //11
-            (NPC.downedTowerSolar ? 1f : 0f) + //12
-            (NPC.downedTowerVortex ? 1f : 0f) + //13
-            (NPC.downedTowerStardust ? 1f : 0f) + //14
-            (NPC.downedMoonlord ? 6f : 0f) + //20
-            (JoostWorld.downedJumboCactuar ? 15f : 0f) + //35
-            (JoostWorld.downedSAX ? 15f : 0f) + //50
-            (JoostWorld.downedGilgamesh ? 15f : 0f); //65
+            float damageMult = 1f +                             //1
+            (JoostWorld.downedPinkzor ? 0.05f : 0f) +           //1.05
+            (JoostWorld.downedRogueTomato ? 0.05f : 0f) +       //1.1
+            (JoostWorld.downedWoodGuardian ? 0.05f : 0f) +      //1.15
+            (NPC.downedSlimeKing ? 0.1f : 0f) +                 //1.25
+            (JoostWorld.downedFloweringCactoid ? 0.05f : 0f) +  //1.3
+            (NPC.downedGoblins ? 0.1f : 0f) +                   //1.4
+            (NPC.downedBoss1 ? 0.1f : 0f) +                     //1.5
+            (JoostWorld.downedICU ? 0.1f : 0f) +                //1.6
+            (NPC.downedBoss2 ? 0.1f : 0f) +                     //1.7
+            (JoostWorld.downedSporeSpawn ? 0.1f : 0f) +         //1.8
+            (DD2Event.DownedInvasionT1 ? 0.1f : 0f) +           //1.9
+            (NPC.downedQueenBee ? 0.1f : 0f) +                  //2
+            (JoostWorld.downedRoc ? 0.1f : 0f) +                //2.1
+            (NPC.downedBoss3 ? 0.2f : 0f) +                     //2.3
+            (JoostWorld.downedSkeletonDemoman ? 0.2f : 0f) +    //2.5
+            (JoostWorld.downedCactusWorm ? 0.2f : 0f) +         //2.7
+            (JoostWorld.downedImpLord ? 0.2f : 0f) +            //2.9
+            (Main.hardMode ? 0.35f : 0f) +                      //3.25
+            (NPC.downedPirates ? 0.25f : 0f) +                  //3.5
+            (JoostWorld.downedStormWyvern ? 0.5f + 0.25f : 0f) +//4.25 TEMP add Queen Slime to Storm Wyvern and Mech Bosses | 4
+            //(Queen Slime ? 1f : 0f) +                         //                                           | 5
+            (NPC.downedMechBoss1 ? 1f + 0.25f : 0f) +           //5.5                                        | 6
+            (NPC.downedMechBoss2 ? 1f + 0.25f: 0f) +            //6.75                                       | 7
+            (NPC.downedMechBoss3 ? 1f + 0.25f: 0f) +            //8                                          
+            //(DD2Event.DownedInvasionT2 ? 2f : 0f) +           // DD2Event Bools are bugged until tmod 1.4  | 10
+            (NPC.downedPlantBoss ? 2f + 2f : 0f) +              //12 TEMP add T2 OOA completion to Plantera
+            (NPC.downedGolemBoss ? 3f : 0f) +                   //15
+            (NPC.downedFishron ? 3f : 0f) +                     //18
+            (NPC.downedMartians ? 3f : 0f) +                    //21
+            (NPC.downedHalloweenTree ? 1.5f : 0f) +             //22.5
+            (NPC.downedHalloweenKing ? 1.5f : 0f) +             //24
+            (NPC.downedChristmasTree ? 1.5f : 0f) +             //25.5
+            (NPC.downedChristmasSantank ? 1.5f : 0f) +          //27
+            (NPC.downedChristmasIceQueen ? 1.5f : 0f) +         //28.5
+            //(Empress of Light ? 3.5f : 0f) +                  //                                           | 32
+            //(DD2Event.DownedInvasionT3 ? 4f : 0f) +           // DD2Event Bools are bugged until tmod 1.4  | 36
+            (NPC.downedAncientCultist ? 1f + 3.5f : 0f) +       //33 TEMP add Empress calculation to Cultist | 37
+            (NPC.downedTowerNebula ? 1f + 1f : 0f) +            //35 TEMP add Betsy completion to pillars    | 38
+            (NPC.downedTowerSolar ? 1f + 1f : 0f) +             //37                                         | 39
+            (NPC.downedTowerVortex ? 1f + 1f : 0f) +            //39                                         | 40
+            (NPC.downedTowerStardust ? 1f + 1f : 0f) +          //41                                         | 41
+            (NPC.downedMoonlord ? 9f : 0f) +                    //50
+            (JoostWorld.downedJumboCactuar ? 10f : 0f) +        //60
+            (JoostWorld.downedSAX ? 10f : 0f) +                 //70
+            (JoostWorld.downedGilgamesh ? 10f : 0f);            //80
             return damageMult;
         }
     }

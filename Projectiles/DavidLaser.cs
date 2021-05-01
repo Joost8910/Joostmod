@@ -38,7 +38,7 @@ namespace JoostMod.Projectiles
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 2;
+			projectile.localNPCHitCooldown = 3;
 			projectile.magic = true;
 			projectile.hide = true;
 		}
@@ -50,7 +50,7 @@ namespace JoostMod.Projectiles
 				Vector2 unit = projectile.velocity;
 				DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], 
 					Main.player[projectile.owner].Center, unit, 10, projectile.damage, 
-					-1.57f, 1f, 1000f, Color.White, (int)MOVE_DISTANCE);
+					-1.57f, 1f, 1000f, new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f))), (int)MOVE_DISTANCE);
 			}
 			return false;
 
@@ -65,24 +65,23 @@ namespace JoostMod.Projectiles
 			float r = unit.ToRotation() + rotation;
 
 			#region Draw laser body
-			for (float i = transDist + 4; i <= Distance; i += step)
+			for (float i = transDist + 4; i <= Distance - step; i += step)
 			{
-				Color c = Color.White;
 				origin = start + i * unit;
 				spriteBatch.Draw(texture, origin - Main.screenPosition,
-					new Rectangle(0, 26, 30, 26), i < transDist ? Color.Transparent : c, r,
+					new Rectangle(0, 26, 30, 26), i < transDist ? Color.Transparent : color, r,
 					new Vector2(30 / 2, 26 / 2), scale, 0, 0);
 			}
 			#endregion
 
 			#region Draw laser tail
 			spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
-				new Rectangle(0, 0, 30, 26), Color.White, r, new Vector2(30 / 2, 26 / 2), scale, 0, 0);
+				new Rectangle(0, 0, 30, 26), color, r, new Vector2(30 / 2, 26 / 2), scale, 0, 0);
 			#endregion
 
 			#region Draw laser head
-			spriteBatch.Draw(texture, start + (Distance + step) * unit - Main.screenPosition,
-				new Rectangle(0, 52, 30, 26), Color.White, r, new Vector2(30 / 2, 26 / 2), scale, 0, 0);
+			spriteBatch.Draw(texture, start + (Distance - step) * unit - Main.screenPosition,
+				new Rectangle(0, 52, 30, 26), color, r, new Vector2(30 / 2, 26 / 2), scale, 0, 0);
 			#endregion
 		}
 
@@ -120,14 +119,17 @@ namespace JoostMod.Projectiles
 
 			Vector2 mousePos = Main.MouseWorld;
 			Player player = Main.player[projectile.owner];
+            Color dustColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
 
-			#region Set projectile position
-			if (projectile.owner == Main.myPlayer) // Multiplayer support
+            #region Set projectile position
+            if (projectile.owner == Main.myPlayer) // Multiplayer support
 			{
 				Vector2 diff = mousePos - player.Center;
 				diff.Normalize();
-				projectile.velocity = diff;
-				projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
+                float home = 12f;
+                projectile.velocity = ((home - 1f) * projectile.velocity + diff) / home;
+                projectile.velocity.Normalize();
+                projectile.direction = Main.MouseWorld.X > player.Center.X ? 1 : -1;
 				projectile.netUpdate = true;
 			}
 			projectile.position = (player.Center + projectile.velocity * MOVE_DISTANCE) - new Vector2(projectile.width/2, projectile.height/2);
@@ -137,8 +139,7 @@ namespace JoostMod.Projectiles
 			player.heldProj = projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * dir,
-				projectile.velocity.X * dir);
+			player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * dir, projectile.velocity.X * dir);
 			#endregion
 
 			#region Charging process
@@ -149,7 +150,8 @@ namespace JoostMod.Projectiles
 			}
 			else
 			{
-				if (Main.time % 13 < 1 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
+                projectile.localAI[1]++;
+				if (projectile.localAI[1] % 60 < 1 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
 				{
 					projectile.Kill();
 				}
@@ -168,11 +170,11 @@ namespace JoostMod.Projectiles
 				{
 					sound++;
 				}
-				if(sound >= 15)
-				{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
-			sound = 0;
-				}
+                if (sound >= 15)
+                {
+                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15, 1, 0.1f);
+                    sound = 0;
+                }
 				int chargeFact = (int)(Charge / 20f);
 				Vector2 dustVelocity = Vector2.UnitX * 18f;
 				dustVelocity = dustVelocity.RotatedBy(projectile.rotation - 1.57f, default(Vector2));
@@ -181,7 +183,7 @@ namespace JoostMod.Projectiles
 				{
 					Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - (chargeFact * 2));
 					Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, 178, projectile.velocity.X / 2f,
-						projectile.velocity.Y / 2f, 0, default(Color), 1f)];
+						projectile.velocity.Y / 2f, 0, dustColor, 1f)];
 					dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
 					dust.noGravity = true;
 					dust.scale = Main.rand.Next(10, 20) * 0.05f;
@@ -206,32 +208,33 @@ namespace JoostMod.Projectiles
 			}
 
 			Vector2 dustPos = player.Center + projectile.velocity * Distance;
-			//Imported dust code from source because I'm lazy
 			for (int i = 0; i < 2; ++i)
 			{
-				float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
+                /*float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
 				float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
-				Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
-				Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 178, dustVel.X, dustVel.Y, 0, new Color(), 1f)];
+				Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);*/
+                Vector2 dustVel = unit;
+                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 178, dustVel.X, dustVel.Y, 0, dustColor, 1f)];
 				dust.noGravity = true;
-				dust.scale = 1.2f;
-				// At this part, I was messing with the dusts going across the laser beam very fast, but only really works properly horizontally now
-				dust = Main.dust[Dust.NewDust(Main.player[projectile.owner].Center + unit * 5f, 0, 0, 178, unit.X, unit.Y, 0, new Color(), 1f)];
-				dust.fadeIn = 0f;
-				dust.noGravity = true;
+				dust.scale = 2f;
+
+
+                dust = Main.dust[Dust.NewDust(Main.player[projectile.owner].Center + unit * -65, 0, 0, 178, unit.X * i, unit.Y * i, 0, dustColor, 1f)];
+                dust.noGravity = true;
+                dust.fadeIn = 0f;
 				dust.scale = 0.88f;
 			}
 			if (Main.rand.Next(5) == 0)
 			{
 				Vector2 offset = projectile.velocity.RotatedBy(1.57f, new Vector2()) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-				Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, 31, 0.0f, 0.0f, 100, new Color(), 1.5f)];
+				Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, 31, 0.0f, 0.0f, 100, dustColor, 1.5f)];
 				dust.velocity = dust.velocity * 0.5f;
 				dust.velocity.Y = -Math.Abs(dust.velocity.Y);
 
 				unit = dustPos - Main.player[projectile.owner].Center;
 				unit.Normalize();
-				dust = Main.dust[Dust.NewDust(Main.player[projectile.owner].Center + 55 * unit, 8, 8, 31, 0.0f, 0.0f, 100, new Color(), 1.5f)];
-				dust.velocity = dust.velocity * 0.5f;
+				dust = Main.dust[Dust.NewDust(Main.player[projectile.owner].Center + 65 * unit, 8, 8, 31, 0.0f, 0.0f, 100, dustColor, 1.5f)];
+                dust.velocity = dust.velocity * 0.5f;
 				dust.velocity.Y = -Math.Abs(dust.velocity.Y);
 			}
 			#endregion

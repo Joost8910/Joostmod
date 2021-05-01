@@ -28,7 +28,7 @@ namespace JoostMod.NPCs.Bosses
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.player.ZoneBeach && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileY > Main.worldSurface && !JoostWorld.downedCactusWorm && JoostWorld.activeQuest == npc.type && !NPC.AnyNPCs(npc.type) && !NPC.AnyNPCs(mod.NPCType("AlphaCactusWormHead")) && !NPC.AnyNPCs(mod.NPCType("GrandCactusWormHead")) ? 0.15f : 0f;
+            return !spawnInfo.player.ZoneBeach && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileY > Main.worldSurface && !JoostWorld.downedCactusWorm && JoostWorld.activeQuest.Contains(npc.type) && !NPC.AnyNPCs(npc.type) && !NPC.AnyNPCs(mod.NPCType("AlphaCactusWormHead")) && !NPC.AnyNPCs(mod.NPCType("GrandCactusWormHead")) ? 0.15f : 0f;
         }
         public override void AI()
         {

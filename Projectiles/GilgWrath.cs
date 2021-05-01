@@ -159,14 +159,15 @@ namespace JoostMod.Projectiles
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[projectile.type]) * 0.5f);
             Rectangle? rect = new Rectangle?(new Rectangle(0, (tex.Height / Main.projFrames[projectile.type]) * projectile.frame, tex.Width, tex.Height / Main.projFrames[projectile.type]));
             SpriteEffects effects = SpriteEffects.None;
+            float opacity = projectile.ai[1] > 4 ? (6 - projectile.ai[1]) * 0.5f : 1f;
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = (projectile.oldPos[k] + projectile.Size / 2) - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(tex, drawPos, rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                spriteBatch.Draw(tex, drawPos, rect, color * opacity, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
             }
             Vector2 drawPosition = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            spriteBatch.Draw(tex, drawPosition, rect, Color.White, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            spriteBatch.Draw(tex, drawPosition, rect, Color.White * opacity, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
             return false;
         }
     }

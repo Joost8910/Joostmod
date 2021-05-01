@@ -54,6 +54,11 @@ namespace JoostMod.NPCs.Bosses
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GrandCactusWormTail"), npc.scale);
             }
+            if (Main.npc[npc.realLife].ai[3] == 0)
+            {
+                Main.npc[npc.realLife].ai[2] = 1;
+                Main.npc[npc.realLife].netUpdate = true;
+            }
         }
         public override bool PreAI()
         {
@@ -95,7 +100,7 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
- 
+        
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];

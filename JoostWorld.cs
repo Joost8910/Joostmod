@@ -26,8 +26,10 @@ namespace JoostMod
         public static bool downedSkeletonDemoman = false;
         public static bool downedCactusWorm = false;
         public static bool downedImpLord = false;
+        public static bool downedStormWyvern = false;
 
-        public static int activeQuest = 0;
+
+        public static List<int> activeQuest = new List<int>();
         public override void Initialize()
         {
             downedJumboCactuar = false;
@@ -44,7 +46,9 @@ namespace JoostMod
             downedSkeletonDemoman = false;
             downedCactusWorm = false;
             downedImpLord = false;
-            activeQuest = 0;
+            downedStormWyvern = false;
+
+            activeQuest = new List<int>();
         }
         public override TagCompound Save()
         {
@@ -61,7 +65,8 @@ namespace JoostMod
             if (downedRoc) downed.Add("Roc");
             if (downedSkeletonDemoman) downed.Add("SkeletonDemoMan");
             if (downedCactusWorm) downed.Add("CactusWorm");
-            if (downedImpLord) downed.Add("ImpLord");
+            if (downedImpLord) downed.Add("ImpLord"); ;
+            if (downedStormWyvern) downed.Add("StormWyvern");
 
             return new TagCompound {
                 {"downed", downed}
@@ -84,6 +89,7 @@ namespace JoostMod
             downedSkeletonDemoman = downed.Contains("SkeletonDemoMan");
             downedCactusWorm = downed.Contains("CactusWorm");
             downedImpLord = downed.Contains("ImpLord");
+            downedStormWyvern = downed.Contains("StormWyvern");
         }
 
         public override void LoadLegacy(BinaryReader reader)
@@ -107,6 +113,7 @@ namespace JoostMod
                 downedSkeletonDemoman = flags2[2];
                 downedCactusWorm = flags2[3];
                 downedImpLord = flags2[4];
+                downedStormWyvern = flags2[5];
             }
             else
             {
@@ -132,6 +139,7 @@ namespace JoostMod
             flags2[2] = downedSkeletonDemoman;
             flags2[3] = downedCactusWorm;
             flags2[4] = downedImpLord;
+            flags2[5] = downedStormWyvern;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -155,6 +163,7 @@ namespace JoostMod
             downedSkeletonDemoman = flags2[2];
             downedCactusWorm = flags2[3];
             downedImpLord = flags2[4];
+            downedStormWyvern = flags2[5];
         }
         public override void PostWorldGen()
         {
@@ -203,6 +212,25 @@ namespace JoostMod
                 {
                     flag3 = false;
                     StoneShrine(a, b, TileID.HellstoneBrick, WallID.HellstoneBrickUnsafe, mod.TileType("InfernoStone"), 2);
+                }
+            }
+
+            for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+            {
+                Chest chest = Main.chest[chestIndex];
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36) // Frame 0 is Wooden Chests, Frame 1 is Gold Chest
+                {
+                    if (WorldGen.genRand.NextBool(5))
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == 0)
+                            {
+                                chest.item[inventoryIndex].SetDefaults(mod.ItemType("ActualMace"));
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }

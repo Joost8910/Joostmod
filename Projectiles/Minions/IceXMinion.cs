@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class IceXMinion : HoverShooter
+	public class IceXMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{

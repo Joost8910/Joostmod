@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles
 		{
 			DisplayName.SetDefault("Zora Spin");
             Main.projFrames[projectile.type] = 6;
-		}
+        }
         public override void SetDefaults()
         {
             projectile.scale = 1.5f;

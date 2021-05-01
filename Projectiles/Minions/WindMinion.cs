@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class WindMinion : HoverShooter
+	public class WindMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{
@@ -36,6 +36,7 @@ namespace JoostMod.Projectiles.Minions
 			shootCool = 40f;
 			shoot = mod.ProjectileType("WindBall");
 			shootSpeed = 12f;
+            spacingMult = 0.8f;
 		}
 
 		public override void CheckActive()

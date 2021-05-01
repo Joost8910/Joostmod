@@ -38,7 +38,7 @@ namespace JoostMod.NPCs.Hunts
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneDungeon && spawnInfo.spawnTileY >= Main.rockLayer && !JoostWorld.downedSkeletonDemoman && JoostWorld.activeQuest == npc.type && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
+            return spawnInfo.player.ZoneDungeon && spawnInfo.spawnTileY >= Main.rockLayer && !JoostWorld.downedSkeletonDemoman && JoostWorld.activeQuest.Contains(npc.type) && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
         }
         public override void NPCLoot()
         {

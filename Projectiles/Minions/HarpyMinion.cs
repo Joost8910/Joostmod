@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class HarpyMinion : HoverShooter
+	public class HarpyMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{

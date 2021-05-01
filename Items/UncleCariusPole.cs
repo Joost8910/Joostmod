@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Utilities;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace JoostMod.Items
 {
@@ -34,6 +36,15 @@ namespace JoostMod.Items
             item.shoot = mod.ProjectileType("UncleCariusHook");
             item.shootSpeed = 17f;
             //item.fishingPole = 100; 
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = mod.GetTexture("Items/UncleCariusPole_String");
+        }
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
         }
         public override void AddRecipes()
         {
@@ -56,7 +67,7 @@ namespace JoostMod.Items
         }
         private int getDamage()
         {
-            float dmg = item.damage * JoostGlobalItem.LegendaryDamage() * 0.08f;
+            float dmg = item.damage * JoostGlobalItem.LegendaryDamage() * 0.06f;
             Player p = Main.player[Main.myPlayer];
 
             if (JoostMod.instance.battleRodsLoaded)
@@ -76,6 +87,10 @@ namespace JoostMod.Items
             {
                 mult *= JoostGlobalItem.LegendaryDamage() * 0.08f;
             }
+        }
+        public override bool? PrefixChance(int pre, UnifiedRandom rand)
+        {
+            return false;
         }
         public override void GetWeaponDamage(Player player, ref int damage)
         {
@@ -102,7 +117,7 @@ namespace JoostMod.Items
             {
                 if (line2.mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.5f)));
+                    line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
                 }
             }
             if (JoostMod.instance.battleRodsLoaded)

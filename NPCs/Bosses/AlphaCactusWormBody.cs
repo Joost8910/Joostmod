@@ -20,7 +20,7 @@ namespace JoostMod.NPCs.Bosses
             npc.defense = 5;
             npc.knockBackResist = 0f;
             npc.width = 26;
-            npc.height = 40;
+            npc.height = 26;
             npc.behindTiles = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -28,6 +28,10 @@ namespace JoostMod.NPCs.Bosses
             npc.dontCountMe = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
+        }
+        public override void Init()
+        {
+            base.Init();
         }
         public override void HitEffect(int hitDirection, double damage)
         {

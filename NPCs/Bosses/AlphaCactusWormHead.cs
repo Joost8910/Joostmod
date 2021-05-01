@@ -22,7 +22,7 @@ namespace JoostMod.NPCs.Bosses
             npc.defense = 0;
             npc.knockBackResist = 0f;
             npc.width = 26;
-            npc.height = 42;
+            npc.height = 26;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
@@ -68,6 +68,10 @@ namespace JoostMod.NPCs.Bosses
             for (int i = 0; i < 10 + Main.rand.Next(6); i++)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FifthAnniversary"), 1);
             }
         }
         public override bool CheckDead()

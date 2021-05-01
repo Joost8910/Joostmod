@@ -48,6 +48,10 @@ namespace JoostMod.Projectiles
                 target.velocity *= 0.3f;
                 target.wingTime -= 10;
             }
+            if (Main.npc[(int)projectile.ai[0]].ai[3] >= 6)
+            {
+                target.immuneTime = projectile.timeLeft + 10;
+            }
         }
     }
 }

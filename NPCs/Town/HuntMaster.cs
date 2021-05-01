@@ -162,7 +162,12 @@ namespace JoostMod.NPCs.Town
                         return "All these creeps runnin' amok sure makes one stressful.";
                 }
             }
-            if (Main.expertMode && Main.hardMode && Main.rand.Next(8) == 0)
+            int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
+            if (partyGirl > 0 && Main.rand.NextBool(8))
+            {
+                return "I overheard " + Main.npc[partyGirl].GivenName + " call me a 'total DILF' the other day. What's a dilf? Is she makin' fun of me?";
+            }
+            if ((Main.expertMode || Main.LocalPlayer.difficulty == 2) && Main.hardMode && Main.rand.NextBool(8))
             {
                 return "Expert mode, Hardmode, Hardcore; it's all so confusin'!";
             }
@@ -210,6 +215,9 @@ namespace JoostMod.NPCs.Town
 				}
 				else
 				{
+                    Main.npcChatText = "";
+                    JoostMod.instance.ShowHuntUI();
+                    /*
                    foreach(HuntInfo hunt in JoostMod.instance.hunts)
                    {
                         int item = player.FindItem((int)hunt.item);
@@ -247,7 +255,7 @@ namespace JoostMod.NPCs.Town
                         {
                             Main.npcChatText = "Sorry! I don't have any hunts for ya right now, why don't ya try lookin' for somethin' yerself?";
                         }
-                   }
+                   }*/
 				}
 			}
 		}

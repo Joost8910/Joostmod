@@ -119,8 +119,10 @@ namespace JoostMod.Projectiles
 			{
 				Vector2 diff = mousePos - player.Center;
 				diff.Normalize();
-				projectile.velocity = -diff;
-				projectile.direction = Main.MouseWorld.X > player.position.X ? -1 : 1;
+                float home = 20f;
+                projectile.velocity = ((home - 1f) * projectile.velocity - diff) / home;
+                projectile.velocity.Normalize();
+                projectile.direction = Main.MouseWorld.X > player.position.X ? -1 : 1;
 				projectile.netUpdate = true;
 			}
 			projectile.position = (player.Center + projectile.velocity * MOVE_DISTANCE) - new Vector2(projectile.width/2, projectile.height/2);

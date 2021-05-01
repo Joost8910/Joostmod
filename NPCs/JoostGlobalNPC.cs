@@ -22,6 +22,7 @@ namespace JoostMod.NPCs
         public bool infectedBlue = false;
         public bool infectedYellow = false;
         public float boneHurtDamage = 1;
+        public int immunePlayer = -1;
         public override void ResetEffects(NPC npc)
         {
             lifeRend = false;
@@ -35,6 +36,7 @@ namespace JoostMod.NPCs
             {
                 boneHurtDamage = 1;
             }
+            immunePlayer = -1;
         }
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
@@ -89,6 +91,7 @@ namespace JoostMod.NPCs
                     break;
                 case NPCID.TravellingMerchant:
                     shop.item[nextSlot].SetDefaults(mod.ItemType("WonderWaffle"));
+                    shop.item[nextSlot].SetDefaults(mod.ItemType("GrabGlove"));
                     nextSlot++;
                     break;
             }
@@ -386,6 +389,14 @@ namespace JoostMod.NPCs
                 return false;
             }
             return base.CanHitNPC(npc, target);
+        }
+        public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
+        {
+            if (target.whoAmI == immunePlayer)
+            {
+                return false;
+            }
+            return base.CanHitPlayer(npc, target, ref cooldownSlot);
         }
     }
 }

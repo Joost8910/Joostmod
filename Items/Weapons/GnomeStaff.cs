@@ -10,11 +10,15 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gnome Staff");
-			Tooltip.SetDefault("'With silver beard and crimson hat the gnome warriors fight valiantly for their people'\n" + "Summons a Gnome warrior");
+			Tooltip.SetDefault("'With silver beard and crimson hat the gnome warriors fight valiantly for their people'\n" + 
+                "Summons a Gnome warrior\n" +
+                "Hold right click to direct the gnome warriors to block\n" +
+                "Gnome warriors cannot block projectiles with higher base damage than double their own damage\n" +
+                "Left click while they're blocking to direct them to shield bash");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 30;
+			item.damage = 42;
 			item.summon = true;
 			item.mana = 10;
 			item.width = 52;
@@ -32,7 +36,7 @@ namespace JoostMod.Items.Weapons
 			item.buffType = mod.BuffType("Gnome");
 			item.buffTime = 3600;
 		}
-				public override bool AltFunctionUse(Player player)
+		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}

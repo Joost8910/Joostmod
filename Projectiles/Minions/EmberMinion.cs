@@ -3,12 +3,12 @@ using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class EmberMinion : HoverShooter
+	public class EmberMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ember");
-			Main.projFrames[projectile.type] = 8;
+			Main.projFrames[projectile.type] = 5;
 			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionShot[projectile.type] = true;
@@ -18,8 +18,8 @@ namespace JoostMod.Projectiles.Minions
 		public override void SetDefaults()
 		{
 			projectile.netImportant = true;
-			projectile.width = 28;
-			projectile.height = 32;
+			projectile.width = 24;
+			projectile.height = 40;
 			projectile.friendly = true;
 			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
@@ -67,10 +67,10 @@ namespace JoostMod.Projectiles.Minions
         public override void SelectFrame(Microsoft.Xna.Framework.Vector2 dir)
         {
 			projectile.frameCounter++;
-			if (projectile.frameCounter >= 5)
+			if (projectile.frameCounter >= 4)
 			{
 				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 8;
+				projectile.frame = (projectile.frame + 1) % 5;
 			}
 		}
 	}

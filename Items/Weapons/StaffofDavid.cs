@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
@@ -23,20 +25,28 @@ namespace JoostMod.Items.Weapons
             item.noMelee = true;
             item.magic = true;
             item.channel = true;
-            item.mana = 10;
+            item.mana = 30;
             item.rare = 9;
             item.width = 56;
             item.height = 56;
             item.useTime = 30;
+            item.useAnimation = 30;
             item.UseSound = SoundID.Item8;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.shootSpeed = 14f;
-            item.useAnimation = 30;
             item.shoot = mod.ProjectileType("DavidLaser");
             item.value = 300000;
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = mod.GetTexture("Items/Weapons/StaffofDavidCrystal");
         }
-
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -65,7 +75,7 @@ namespace JoostMod.Items.Weapons
             {
                 if (line2.mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.5f)));
+                    line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
                 }
             }
         }
@@ -81,19 +91,20 @@ namespace JoostMod.Items.Weapons
         {
             return true;
         }
-        public override bool CanUseItem(Player player)
+        public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
-            if (player.altFunctionUse == 2 && !player.CheckMana(item.mana * 5, false))
-            {
-                return false;
-            }
-            return base.CanUseItem(player);
+            return false;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                float spread = 8f * 0.0174f;
+                Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 65;
+                if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+                {
+                    position += muzzleOffset;
+                }
+                float spread = 90f * 0.0174f;
                 float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                 double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
                 double deltaAngle = spread / 2f;
@@ -102,9 +113,8 @@ namespace JoostMod.Items.Weapons
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("DavidBolt"), damage * 10, 3, player.whoAmI);
+                    Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("DavidBolt"), damage * 7, 3, player.whoAmI, i);
                 }
-                player.CheckMana(item.mana * 4, true);
                 return false;
             }
             else

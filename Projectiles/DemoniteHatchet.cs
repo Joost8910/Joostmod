@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles
 			projectile.height = 22;
 			projectile.aiStyle = 2;
 			projectile.friendly = true;
-			projectile.melee = true;
+			projectile.thrown = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 90;
 			aiType = ProjectileID.Shuriken;

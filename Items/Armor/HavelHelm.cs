@@ -39,7 +39,8 @@ namespace JoostMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Press the Armor Ability key to reduce damage taken at the cost of mobility";
+			player.setBonus = "Press the Armor Ability key to reduce damage taken at the cost of mobility\n" +
+                "30 second duration";
             player.GetModPlayer<JoostPlayer>().havelArmor = true;
         }
         public override void AddRecipes()

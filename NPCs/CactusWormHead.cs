@@ -19,7 +19,7 @@ namespace JoostMod.NPCs
             npc.defense = 0;         
             npc.knockBackResist = 0f;
             npc.width = 12;
-            npc.height = 20;       
+            npc.height = 12;       
             npc.noGravity = true;           
             npc.noTileCollide = true;     
             npc.HitSound = SoundID.NPCHit1;

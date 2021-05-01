@@ -35,13 +35,9 @@ namespace JoostMod.Items
             player.QuickSpawnItem(mod.ItemType("COTBBMusicBox"));
             player.QuickSpawnItem(mod.ItemType("Gilgameshset"));
             player.QuickSpawnItem(mod.ItemType("GenjiToken"), 2 + Main.rand.Next(2));
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.Next(4) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("GilgameshMask"));
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("GilgameshTrophy"));
             }
 
 

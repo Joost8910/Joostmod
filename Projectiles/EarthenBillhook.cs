@@ -80,8 +80,9 @@ namespace JoostMod.Projectiles
                     if (p.active && p.type == mod.ProjectileType("Boulder") && projectile.Distance(p.Center) < 40)
                     {
                         p.velocity = projectile.velocity * 2f;
-                        p.damage = (int)(projectile.damage * 2.5f);
+                        p.damage = (int)(projectile.damage * 3f);
                         p.knockBack = projectile.knockBack * 3f;
+                        p.owner = projectile.owner;
                         if (p.timeLeft <= 500)
                         {
                             Main.PlaySound(21, (int)p.Center.X, (int)p.Center.Y, 1, 1, -0.25f);

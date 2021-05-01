@@ -18,8 +18,8 @@ namespace JoostMod.NPCs.Bosses
             npc.damage = 0;
             npc.defense = 9000;
             npc.knockBackResist = 0f;
-            npc.width = 80;
-            npc.height = 80;
+            npc.width = 106;
+            npc.height = 106;
             npc.noTileCollide = true;
             npc.netAlways = true;
             npc.noGravity = true;
@@ -62,7 +62,7 @@ namespace JoostMod.NPCs.Bosses
                 npc.active = false;
             }
             npc.life = 1;
-            Vector2 shieldPos = host.Center + new Vector2(29 * host.direction, -45);
+            Vector2 shieldPos = host.Center + new Vector2(29 * host.direction, -35);
             Vector2 vect = host.ai[1].ToRotationVector2();
             npc.position = new Vector2((int)(shieldPos.X + (vect.X * 40 * host.direction)) - (npc.width / 2), (int)(shieldPos.Y + (vect.Y * 40 * host.direction)) - (npc.height / 2));
             npc.velocity = host.velocity;

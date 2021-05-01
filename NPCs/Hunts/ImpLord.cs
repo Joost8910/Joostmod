@@ -40,7 +40,7 @@ namespace JoostMod.NPCs.Hunts
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return spawnInfo.spawnTileY >= Main.maxTilesY - 250 && !JoostWorld.downedImpLord && JoostWorld.activeQuest == npc.type && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
+            return spawnInfo.spawnTileY >= Main.maxTilesY - 250 && !JoostWorld.downedImpLord && JoostWorld.activeQuest.Contains(npc.type) && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
         }
         public override void NPCLoot()
 		{

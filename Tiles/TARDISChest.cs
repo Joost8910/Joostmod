@@ -35,7 +35,6 @@ namespace JoostMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("TARDIS Chest");
 			AddMapEntry(new Color(20, 20, 200), name, MapChestName);
-			dustType = mod.DustType("Sparkle");
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chest = "TARDIS Chest";

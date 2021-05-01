@@ -37,7 +37,7 @@ namespace JoostMod.NPCs.Hunts
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return Main.dayTime && !spawnInfo.sky && spawnInfo.spawnTileY <= Main.worldSurface && !JoostWorld.downedRogueTomato && JoostWorld.activeQuest == npc.type && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
+            return Main.dayTime && !spawnInfo.sky && spawnInfo.spawnTileY <= Main.worldSurface && !JoostWorld.downedRogueTomato && JoostWorld.activeQuest.Contains(npc.type) && !NPC.AnyNPCs(npc.type) ? 0.15f : 0f;
         }
         public override void FindFrame(int frameHeight)
         {

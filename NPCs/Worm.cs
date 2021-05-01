@@ -22,6 +22,7 @@ namespace JoostMod.NPCs
             headType = mod.NPCType("CactusWormHead");
             speed = 7f;
             turnSpeed = 0.05f;
+            spaceValue = 12;
         }
     }
     public abstract class AlphaCactusWorm : Worm
@@ -40,10 +41,33 @@ namespace JoostMod.NPCs
             headType = mod.NPCType("AlphaCactusWormHead");
             speed = 7.5f;
             turnSpeed = 0.065f;
+            spaceValue = 32;
         }
     }
-    //ported from my tAPI mod because I'm lazy
-    // This abstract class can be used for non splitting worm type NPC.
+
+    public abstract class StormWyvern : Worm
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Storm Wyvern");
+        }
+
+        public override void Init()
+        {
+            minLength = 14;
+            maxLength = 14;
+            tailType = mod.NPCType("StormWyvernTail");
+            bodyType = mod.NPCType("StormWyvernBody");
+            headType = mod.NPCType("StormWyvernHead");
+            speed = 12.5f;
+            turnSpeed = 0.100f;
+            flies = true;
+            customSegments = true;
+            directional = true;
+            spaceValue = 42;
+        }
+    }
+    //Example Mod code
     public abstract class Worm : ModNPC
 	{
 		/* ai[0] = follower
@@ -60,15 +84,18 @@ namespace JoostMod.NPCs
 		public int tailType;
 		public bool flies = false;
 		public bool directional = false;
+        public bool customSegments = false;
+        public bool wyvernStyle = false;
 		public float speed;
 		public float turnSpeed;
+        public int spaceValue;
 
 		public override void AI()
 		{
 			if (npc.localAI[1] == 0f)
 			{
 				npc.localAI[1] = 1f;
-				Init();
+                Init();
 			}
 			if (npc.ai[3] > 0f)
 			{
@@ -88,46 +115,53 @@ namespace JoostMod.NPCs
 			}
 			if (Main.netMode != 1)
 			{
-				if (!tail && npc.ai[0] == 0f)
-				{
-					if (head)
-					{
-						npc.ai[3] = (float)npc.whoAmI;
-						npc.realLife = npc.whoAmI;
-						npc.ai[2] = (float)Main.rand.Next(minLength, maxLength + 1);
-						npc.ai[0] = (float)NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), bodyType, npc.whoAmI);
-					}
-					else if (npc.ai[2] > 0f)
-					{
-						npc.ai[0] = (float)NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), npc.type, npc.whoAmI);
-					}
-					else
-					{
-						npc.ai[0] = (float)NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), tailType, npc.whoAmI);
-					}
-					Main.npc[(int)npc.ai[0]].ai[3] = npc.ai[3];
-					Main.npc[(int)npc.ai[0]].realLife = npc.realLife;
-					Main.npc[(int)npc.ai[0]].ai[1] = (float)npc.whoAmI;
-					Main.npc[(int)npc.ai[0]].ai[2] = npc.ai[2] - 1f;
-					npc.netUpdate = true;
-				}
-				if (!head && (!Main.npc[(int)npc.ai[1]].active || (Main.npc[(int)npc.ai[1]].type != headType && Main.npc[(int)npc.ai[1]].type != bodyType)))
-				{
-					npc.life = 0;
-					npc.HitEffect(0, 10.0);
-					npc.active = false;
-				}
-				if (!tail && (!Main.npc[(int)npc.ai[0]].active || (Main.npc[(int)npc.ai[0]].type != bodyType && Main.npc[(int)npc.ai[0]].type != tailType)))
-				{
-					npc.life = 0;
-					npc.HitEffect(0, 10.0);
-					npc.active = false;
-				}
-				if (!npc.active && Main.netMode == 2)
-				{
-					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
-				}
-			}
+                if (customSegments)
+                {
+                    CustomSegmentSpawn();
+                }
+                else
+                {
+                    if (!tail && npc.ai[0] == 0f)
+                    {
+                        if (head)
+                        {
+                            npc.ai[3] = (float)npc.whoAmI;
+                            npc.realLife = npc.whoAmI;
+                            npc.ai[2] = (float)Main.rand.Next(minLength, maxLength + 1);
+                            npc.ai[0] = (float)NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), bodyType, npc.whoAmI);
+                        }
+                        else if (npc.ai[2] > 0f)
+                        {
+                            npc.ai[0] = (float)NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), npc.type, npc.whoAmI);
+                        }
+                        else
+                        {
+                            npc.ai[0] = (float)NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), tailType, npc.whoAmI);
+                        }
+                        Main.npc[(int)npc.ai[0]].ai[3] = npc.ai[3];
+                        Main.npc[(int)npc.ai[0]].realLife = npc.realLife;
+                        Main.npc[(int)npc.ai[0]].ai[1] = (float)npc.whoAmI;
+                        Main.npc[(int)npc.ai[0]].ai[2] = npc.ai[2] - 1f;
+                        npc.netUpdate = true;
+                    }
+                }
+                if (!head && (!Main.npc[(int)npc.ai[1]].active || (!customSegments && Main.npc[(int)npc.ai[1]].type != headType && Main.npc[(int)npc.ai[1]].type != bodyType)))
+                {
+                    npc.life = 0;
+                    npc.HitEffect(0, 10.0);
+                    npc.active = false;
+                }
+                if (!tail && (!Main.npc[(int)npc.ai[0]].active || (!customSegments && Main.npc[(int)npc.ai[0]].type != bodyType && Main.npc[(int)npc.ai[0]].type != tailType)))
+                {
+                    npc.life = 0;
+                    npc.HitEffect(0, 10.0);
+                    npc.active = false;
+                }
+                if (!npc.active && Main.netMode == 2)
+                {
+                    NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                }
+            }
 			int num180 = (int)(npc.position.X / 16f) - 1;
 			int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
 			int num182 = (int)(npc.position.Y / 16f) - 1;
@@ -235,7 +269,7 @@ namespace JoostMod.NPCs
 				}
 				npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
 				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-				int num194 = npc.width;
+				int num194 = spaceValue;
 				num193 = (num193 - (float)num194) / num193;
 				num191 *= num193;
 				num192 *= num193;
@@ -359,7 +393,7 @@ namespace JoostMod.NPCs
 					}
 
 					bool flag21 = false;
-					if (npc.type == 87)
+					if (wyvernStyle)
 					{
 						if (((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f) || (npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)) && System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y) > num189 / 2f && num193 < 300f)
 						{
@@ -519,6 +553,11 @@ namespace JoostMod.NPCs
 			}
 			CustomBehavior();
 		}
+
+        public virtual void CustomSegmentSpawn()
+        {
+
+        }
 
 		public virtual void Init()
 		{

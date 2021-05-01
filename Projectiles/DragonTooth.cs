@@ -242,6 +242,16 @@ namespace JoostMod.Projectiles
                 {
                     return true;
                 }
+                if (player.velocity.Y * player.gravDir > 3 && projectile.localAI[1] > 0 && Collision.CheckAABBvAABBCollision(player.Center - new Vector2((player.width / 2) + 2, 0), new Vector2(player.width + 4, ((player.height / 2) + 4) * player.gravDir), targetHitbox.TopLeft(), targetHitbox.Size()))
+                {
+                    if (player.immuneTime < 6)
+                    {
+                        player.immune = true;
+                        player.immuneNoBlink = true;
+                        player.immuneTime = 6;
+                    }
+                    return true;
+                }
             }
             return false;
         }
@@ -249,10 +259,42 @@ namespace JoostMod.Projectiles
         {
             damage = (int)(damage * (projectile.localAI[0] + 1));
             knockback = knockback * (projectile.localAI[0] + 1);
+            if (target.velocity.Y == 0)
+                hitDirection = target.Center.X < Main.player[projectile.owner].Center.X ? -1 : 1;
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
             damage = (int)(damage * (projectile.localAI[0] + 1));
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+            if (target.knockBackResist > 0)
+            {
+                if (projectile.localAI[1] > 0 && projectile.ai[1] >= 150)
+                {
+                    target.velocity.Y = (knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
+                }
+                else if (projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -knockback)
+                {
+                    target.velocity.Y = -knockback;
+                }
+            }
+        }
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+            if (!target.noKnockback)
+            {
+                if (projectile.localAI[1] > 0 && projectile.ai[1] >= 150)
+                {
+                    target.velocity.Y = (projectile.knockBack + Math.Abs(player.velocity.Y)) * player.gravDir;
+                }
+                else if (projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -projectile.knockBack)
+                {
+                    target.velocity.Y = -projectile.knockBack;
+                }
+            }
         }
         public override bool CanHitPvp(Player target)
         {

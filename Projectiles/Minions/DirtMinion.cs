@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
-	public class DirtMinion : HoverShooter
+	public class DirtMinion : Shooter
 	{
         public override void SetStaticDefaults()
 		{

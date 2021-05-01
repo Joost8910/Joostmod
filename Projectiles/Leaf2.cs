@@ -24,19 +24,25 @@ namespace JoostMod.Projectiles
 			projectile.friendly = true;
 			projectile.minion = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 750;
-			//projectile.tileCollide = false;
-		}
-		public override void AI()
+			projectile.timeLeft = 751;
+            //projectile.tileCollide = false;
+        }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.timeLeft >= 749)
+            hitDirection = target.Center.X < player.Center.X ? -1 : 1;
+        }
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
+            if (projectile.timeLeft >= 751)
             {
                 projectile.localAI[0] = player.Center.X;
                 projectile.localAI[1] = player.Center.Y;
                 projectile.frame = Main.rand.Next(8);
+                projectile.netUpdate = true;
             }
-            if (projectile.timeLeft % 2 == 0)
+            if ((int)(projectile.ai[0] / 10f) % 2 == 0)
 			{
 				Color color = new Color(255, 255, 255);
 				if (projectile.frame == 0)
@@ -82,23 +88,24 @@ namespace JoostMod.Projectiles
                 projectile.localAI[0] += projectile.velocity.X;
                 projectile.localAI[1] += projectile.velocity.Y;
                 projectile.netUpdate = true;
-                projectile.ownerHitCheck = false;	
-			}
+                projectile.ownerHitCheck = false;
+                if (Collision.SolidCollision(new Vector2(projectile.localAI[0] - 5, projectile.localAI[1] - 5), 10, 10))
+                {
+                    projectile.Kill();
+                }
+            }
 			else
             {
                 projectile.localAI[0] = player.Center.X;
                 projectile.localAI[1] = player.Center.Y;
                 projectile.ownerHitCheck = true;
+                projectile.timeLeft = 750;
             }
             Vector2 origin = new Vector2(projectile.localAI[0], projectile.localAI[1]);
             projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
 			projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;	
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			projectile.ai[0] += 10f;
-            if (Collision.SolidCollision(new Vector2(projectile.localAI[0] - 5, projectile.localAI[1] - 5), 10, 10))
-            {
-                projectile.Kill();
-            }
         }
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{

@@ -17,7 +17,7 @@ namespace JoostMod.NPCs
             npc.defense = 10;         
             npc.knockBackResist = 0f;
             npc.width = 12;
-            npc.height = 16;       
+            npc.height = 12;       
             npc.behindTiles = true;
             npc.noTileCollide = true;
             npc.netAlways = true;

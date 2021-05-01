@@ -68,18 +68,22 @@ namespace JoostMod.NPCs.Bosses
                 else
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GenjiToken"), 1 + Main.rand.Next(2));
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.Next(4) == 0)
                     {
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("COTBBMusicBox"));
                     }
-                    if (Main.rand.Next(3) == 0)
+                    if (Main.rand.Next(7) == 0)
                     {
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GilgameshMask"));
                     }
-                    if (Main.rand.Next(5) == 0)
-                    {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GilgameshTrophy"));
-                    }
+                }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GilgameshTrophy"));
+                }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FifthAnniversary"), 1);
                 }
             }
         }
@@ -93,7 +97,7 @@ namespace JoostMod.NPCs.Bosses
                 if (npc.velocity.X == 0)
                 {
                     npc.frameCounter++;
-                    if (npc.frameCounter > 8)
+                    if (npc.frameCounter > 6)
                     {
                         npc.frameCounter = 0;
                         npc.frame.Y = (npc.frame.Y + 196);
@@ -226,6 +230,10 @@ namespace JoostMod.NPCs.Bosses
 
         public override void AI()
         {
+            if (npc.velocity.Y > 15)
+            {
+                npc.velocity.Y = 15;
+            }
             npc.netUpdate = true;
             Player P = Main.player[npc.target];
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -271,6 +279,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 npc.noTileCollide = false;
             }
+            #region Subphases
             if (npc.ai[3] >= 1 && npc.ai[3] < 2)
             {
                 if (npc.ai[0] < 300 && npc.ai[0] >= 190)
@@ -442,6 +451,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.localAI[1] = 0;
                     moveSpeed = 0;
                 }
+                #endregion
                 npc.ai[0]++;
                 npc.localAI[0]++;
                 npc.localAI[1]++;
@@ -485,7 +495,7 @@ namespace JoostMod.NPCs.Bosses
                     bool shield = false;
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
-                        if (Main.npc[i].type == mod.NPCType("GilgameshShield") && (int)Main.npc[i].ai[0] == npc.whoAmI)
+                        if (Main.npc[i].active && Main.npc[i].type == mod.NPCType("GilgameshShield") && (int)Main.npc[i].ai[0] == npc.whoAmI)
                         {
                             shield = true;
                             break;
@@ -496,7 +506,7 @@ namespace JoostMod.NPCs.Bosses
                         NPC.NewNPC((int)shieldPos.X, (int)shieldPos.Y, mod.NPCType("GilgameshShield"), 0, npc.whoAmI);
                     }
                 }
-
+                #region Standard Attacks
                 if (npc.localAI[0] > 90 && npc.Distance(P.MountedCenter) < 300)
                 {
                     float Speed = 18f;
@@ -641,6 +651,7 @@ namespace JoostMod.NPCs.Bosses
                         Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 1f, Main.myPlayer, npc.whoAmI);
                     }
                 }
+                #endregion
                 if (npc.ai[0] == 550)
                 {
                     Main.PlaySound(25, npc.Center, 1);
@@ -694,7 +705,9 @@ namespace JoostMod.NPCs.Bosses
                     npc.netUpdate = true;
                 }
             }
-            if (npc.ai[2] == 1)
+            #region Special Attacks
+            //Bitter End
+            if (npc.ai[2] == 1) 
             {
                 npc.localAI[0] = 0;
                 npc.localAI[1] = 0;
@@ -768,6 +781,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.localAI[2] += 1;
                 }
             }
+            //Ultimate Illusion
             if (npc.ai[2] == 2)
             {
                 if (npc.ai[0] != 120)
@@ -788,6 +802,12 @@ namespace JoostMod.NPCs.Bosses
                     if (npc.ai[3] >= 6)
                     {
                         Main.PlaySound(42, npc.Center, 222);
+                        int type = mod.ProjectileType("GilgBusterMeleeSlash");
+                        int damage = 75;
+                        if (Main.netMode != 1)
+                        {
+                            Projectile.NewProjectile(npc.Center.X , npc.Center.Y, npc.direction * 20, 0f, type, damage, 0f, Main.myPlayer, npc.whoAmI, -0.5f);
+                        }
                     }
                 }
                 if (npc.ai[0] <= 120)
@@ -804,15 +824,21 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (npc.ai[0] > 40 && npc.ai[0] < 110)
                         {
-                            npc.velocity.Y = 20;
+                            npc.velocity.Y = 25;
                             npc.ai[0] = 110;
                             Main.PlaySound(42, npc.Center, 221);
+                            int type = mod.ProjectileType("GilgBusterMeleeSlash");
+                            int damage = 75;
+                            if (Main.netMode != 1)
+                            {
+                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, npc.direction * 20, 0f, type, damage, 0f, Main.myPlayer, npc.whoAmI, 0.5f);
+                            }
                         }
                         else if (npc.ai[0] > 15)
                         {
                             if (npc.ai[0] < 30)
                             {
-                                npc.velocity.Y = -31;
+                                npc.velocity.Y = -35;
                             }
                             else if (npc.ai[0] < 40)
                             {
@@ -846,6 +872,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.localAI[2] += 2;
                 }
             }
+            //Masamune
             if (npc.ai[2] == 3)
             {
                 npc.ai[0]++;
@@ -891,12 +918,20 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (npc.localAI[3] == 24)
                         {
-                            int type = mod.ProjectileType("GilgBusterFinishingTouch");
+                            int type = mod.ProjectileType("GilgBusterMeleeSlash");
                             int damage = 75;
                             if (Main.netMode != 1)
                             {
-                                Projectile.NewProjectile(npc.Center.X + 20, npc.Center.Y, 1f, 0f, type, damage, 0f, Main.myPlayer, 10);
-                                Projectile.NewProjectile(npc.Center.X - 20, npc.Center.Y, -1f, 0f, type, damage, 0f, Main.myPlayer, 8);
+                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 20f, 0f, type, damage, 0f, Main.myPlayer, npc.whoAmI);
+                            }
+                        }
+                        if (npc.localAI[3] == 32)
+                        {
+                            int type = mod.ProjectileType("GilgBusterMeleeSlash");
+                            int damage = 75;
+                            if (Main.netMode != 1)
+                            {
+                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -20f, 0f, type, damage, 0f, Main.myPlayer, npc.whoAmI, -1);
                             }
                         }
                         npc.velocity.X = 0;
@@ -933,6 +968,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.localAI[2] += 4;
                 }
             }
+            //A Thousand Swords
             if (npc.ai[2] == 4)
             {
                 npc.ai[0]++;
@@ -993,6 +1029,7 @@ namespace JoostMod.NPCs.Bosses
                     npc.localAI[2] += 8;
                 }
             }
+            //Gilgamesh's Wrath
             if (npc.ai[2] == 5)
             {
                 npc.ai[0]++;
@@ -1096,12 +1133,9 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[2] = 0;
                 npc.ai[0] = 0;
             }
+            #endregion
             npc.noGravity = true;
             npc.velocity.Y += 0.4f;
-            if (npc.velocity.Y > 15)
-            {
-                npc.velocity.Y = 15;
-            }
         }
         private Vector2 PredictiveAim(float speed, Vector2 origin, bool ignoreY)
         {
