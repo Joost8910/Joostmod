@@ -28,13 +28,14 @@ namespace JoostMod.Tiles
             disableSmartCursor = true;
         }
 
-        public override void RightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
         {
             WorldGen.KillTile(i, j, false, false, false);
             if (Main.netMode == 1 && !Main.tile[i, j].active())
             {
                 NetMessage.SendData(17, -1, -1, null, 4, (float)i, (float)j, 0f, 0, 0, 0);
             }
+            return true;
         }
         public override void MouseOver(int i, int j)
         {

@@ -49,7 +49,7 @@ namespace JoostMod.Projectiles
             projectile.velocity.Y = 0;
             projectile.direction = player.direction * (int)player.gravDir;
             projectile.velocity.X = projectile.direction;
-            bool channeling = player.channel && !player.noItems && !player.CCed;
+            bool channeling = player.channel && player.active && !player.dead && !player.noItems && !player.CCed;
             if (channeling && Main.myPlayer == projectile.owner)
             {
                 Vector2 vector13 = Main.MouseWorld - center;
@@ -148,9 +148,13 @@ namespace JoostMod.Projectiles
                         {
                             Main.PlaySound(42, pos, 210);
                             for (int d = 0; d < 15; d++)
+                            {
                                 Dust.NewDust(new Vector2(pos.X - 20, pos.Y), 40, 10, 1, 0, -4 * player.gravDir, 0, default, 1);
-
-                            Projectile.NewProjectile(pos, new Vector2(0,  velY * player.gravDir), mod.ProjectileType("Boulder"), projectile.damage, projectile.knockBack, projectile.owner);
+                            }
+                            if (Main.netMode != NetmodeID.MultiplayerClient || Main.myPlayer == projectile.owner)
+                            {
+                                Projectile.NewProjectile(pos, new Vector2(0, velY * player.gravDir), mod.ProjectileType("Boulder"), projectile.damage, projectile.knockBack, projectile.owner);
+                            }
                         }
                         else
                         {
@@ -158,7 +162,7 @@ namespace JoostMod.Projectiles
                         }
                     }
                 }
-                if (projectile.ai[0] == 100 && player.controlUseItem)
+                if (projectile.ai[0] == 100 && Main.myPlayer == projectile.owner && Main.mouseLeft)
                 {
                     projectile.Kill();
                 }

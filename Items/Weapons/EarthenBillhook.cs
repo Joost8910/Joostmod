@@ -59,7 +59,7 @@ namespace JoostMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("EarthenBillhook2"), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("EarthenBillhook2"), (int)(damage * 1.15f), knockBack, player.whoAmI);
                 return false;
             }
             Main.PlaySound(2, player.Center, 19);

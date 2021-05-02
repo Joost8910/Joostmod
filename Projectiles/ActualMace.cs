@@ -237,7 +237,7 @@ namespace JoostMod.Projectiles
                 {
                     if (target.velocity.Y < 0 && projectile.localAI[0] > 0.55f)
                     {
-                        Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage, projectile.knockBack, projectile.owner, 0, target.whoAmI);
+                        Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage, projectile.knockBack, projectile.owner, -1, target.whoAmI);
                     }
                     target.velocity.Y = (projectile.knockBack + Math.Abs(player.velocity.Y)) * player.gravDir;
                 }

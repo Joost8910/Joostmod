@@ -23,7 +23,7 @@ namespace JoostMod.Projectiles
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 180;
             projectile.alpha = 75;
             projectile.light = 0.7f;
             projectile.tileCollide = false;
@@ -41,7 +41,7 @@ namespace JoostMod.Projectiles
                 projectile.direction = target.velocity.X > 0 ? 1 : (target.velocity.X < 0 ? -1 : projectile.direction);
                 projectile.position = target.Center - projectile.Size / 2;
                 projectile.velocity = target.velocity / 2;
-                if (target.velocity.X == 0 || target.velocity.Y == 0 || (projectile.timeLeft < 115 && Collision.SolidCollision(target.position - new Vector2(2, 2), target.width + 4, target.height + 4)))
+                if (target.velocity.X == 0 || target.velocity.Y == 0 || (projectile.timeLeft < 175 && Collision.SolidCollision(target.position - new Vector2(2, 2), target.width + 4, target.height + 4)))
                 {
                     projectile.ai[0] = -1;
                     projectile.ai[1] = -1;
@@ -53,12 +53,6 @@ namespace JoostMod.Projectiles
             {
                 Player target = Main.player[(int)projectile.ai[1]];
                 target.mount.Dismount(target);
-                target.noItems = true;
-                target.controlJump = false;
-                target.controlDown = false;
-                target.controlUp = false;
-                target.controlLeft = false;
-                target.controlRight = false;
                 projectile.direction = target.velocity.X > 0 ? 1 : (target.velocity.X < 0 ? -1 : projectile.direction);
                 projectile.position = target.Center - projectile.Size / 2;
                 projectile.velocity = target.velocity / 2;

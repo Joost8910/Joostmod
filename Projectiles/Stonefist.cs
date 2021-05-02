@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -27,6 +28,14 @@ namespace JoostMod.Projectiles
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = -1;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((short)projectile.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.localAI[1] = reader.ReadInt16();
         }
         public override bool PreAI()
         {
@@ -202,7 +211,7 @@ namespace JoostMod.Projectiles
             knockback = knockback * projectile.ai[0] * projectile.ai[0];
 			damage = (int)(damage * projectile.ai[0]);
 		}
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Player player = Main.player[projectile.owner];
             if (projectile.velocity.Y * player.gravDir > 0 && player.velocity.Y * player.gravDir > 0 && Math.Abs(projectile.velocity.X) < 6 * projectile.scale)
@@ -216,7 +225,7 @@ namespace JoostMod.Projectiles
             }
             if (projectile.ai[0] >= 1)
             {
-                Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage / 2, projectile.knockBack, projectile.owner, 0, target.whoAmI);
+                Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage / 2, projectile.knockBack, projectile.owner, -1, target.whoAmI);
             }
             for (int i = 0; i < (int)(projectile.scale * projectile.scale * 40); i++)
             {
@@ -225,6 +234,14 @@ namespace JoostMod.Projectiles
             if (!target.noKnockback)
             {
                 target.velocity += projectile.velocity / 10 * projectile.knockBack * projectile.ai[0] * projectile.ai[0];
+
+                ModPacket packet = mod.GetPacket();
+                packet.Write((byte)JoostModMessageType.Playerpos);
+                packet.Write((byte)target.whoAmI);
+                packet.WriteVector2(target.position);
+                packet.WriteVector2(target.velocity + projectile.velocity / 10 * projectile.knockBack * projectile.ai[0] * projectile.ai[0]);
+                ModPacket netMessage = packet;
+                netMessage.Send(-1, -1);
             }
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

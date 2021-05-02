@@ -456,7 +456,7 @@ namespace JoostMod
             Player drawPlayer = drawInfo.drawPlayer;
             if (drawPlayer.shield == (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield))
             {
-                Texture2D tex = mod.GetTexture("Items/HavelsGreatshield_ShieldDown");
+                Texture2D tex = ModContent.GetTexture("JoostMod/Items/HavelsGreatshield_ShieldDown");
                 Rectangle frame = new Rectangle(drawPlayer.bodyFrame.X-1, drawPlayer.bodyFrame.Y, drawPlayer.bodyFrame.Width+6, drawPlayer.bodyFrame.Height);
                 float rot = drawPlayer.bodyRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
@@ -483,7 +483,7 @@ namespace JoostMod
             Player drawPlayer = drawInfo.drawPlayer;
             if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
             {
-                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Head");
+                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Head");
                 Rectangle frame = drawPlayer.bodyFrame;
                 float rot = drawPlayer.headRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
@@ -510,7 +510,7 @@ namespace JoostMod
             Player drawPlayer = drawInfo.drawPlayer;
             if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
             {
-                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Arms");
+                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Arms");
                 Rectangle frame = drawPlayer.bodyFrame;
                 float rot = drawPlayer.bodyRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
@@ -537,7 +537,7 @@ namespace JoostMod
             Player drawPlayer = drawInfo.drawPlayer;
             if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
             {
-                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Body");
+                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Body");
                 Rectangle frame = drawPlayer.bodyFrame;
                 float rot = drawPlayer.bodyRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
@@ -564,7 +564,7 @@ namespace JoostMod
             Player drawPlayer = drawInfo.drawPlayer;
             if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
             {
-                Texture2D tex = mod.GetTexture("Buffs/StoneFlesh_Legs");
+                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Legs");
                 Rectangle frame = drawPlayer.legFrame;
                 float rot = drawPlayer.legRotation;
                 Vector2 drawPos = drawPlayer.legPosition;

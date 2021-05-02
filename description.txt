@@ -8,6 +8,21 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Version 0.9.0.1
+--- Weapons ---
+Brawler's Glove
+- Can no longer carry bosses even if they are knockback-susceptible
+- Increased time latched onto a non-carryable enemy from 2 to 4 seconds
+- Time limit now also applies to carryable enemies
+
+Earthen Billhook
+- Reduced Right Click attack speed
+- Increased Right Click damage by 15%
+
+--- Bug Fixes ---
+Fixed issue where Gilgamesh would fall through the ground when transitioning phases during the lunge attack
+Fixed launching multiplayer crashing and disabling the mod
+
 Version 0.9
 --- New Additions ---
 Joostmod's Fifth Anniversary, a 10% chance drop from any Joostmod Boss
@@ -87,7 +102,7 @@ Revamped Scaling:
  Storm Wyvern         | +75%   | (425% total)
  The Twins            | +125%  | (550% total) 
  The Destroyer        | +125%  | (675% total) 
- Skeletron Prime      | +125%  | (800% total)                                      
+ Skeletron Prime      | +125%  | (800% total) 
  Plantera             | +400%  | (1200% total) 
  Golem                | +300%  | (1500% total) 
  Duke Fishron         | +300%  | (1800% total)
@@ -158,7 +173,7 @@ Shield of Flesh
 - Dash can now be extended when holding the directing movement key on the ground
 - Reduced Leech spawnrate
 
-Have's Greatshield
+Havel's Greatshield
 - Instead of reducing damage by 80% when blocking, it instead reduces damage by a flat amount equal to its attack damage
 
 --- Misc Items ---
@@ -170,7 +185,7 @@ Large Imp Tail
 --- NPCS ---
 Huntmaster
 - Now has a special UI for selecting and turning in quests
-- Allowes for multiple hunts to be active at once
+- Allows for multiple hunts to be active at once
 
 --- Enemies ---
 Water Elemental

@@ -48,13 +48,13 @@ namespace JoostMod.Items.Placeable
         }
         public override void PostDrawInInventory(SpriteBatch sb, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = mod.GetTexture("Items/Placeable/InfernoStone");
+            Texture2D tex = ModContent.GetTexture("JoostMod/Items/Placeable/InfernoStone");
             drawColor = new Color(255, (int)(Main.DiscoG * 0.7f), 0);
             sb.Draw(tex, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
         }
         public override void PostDrawInWorld(SpriteBatch sb, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D tex = mod.GetTexture("Items/Placeable/InfernoStone");
+            Texture2D tex = ModContent.GetTexture("JoostMod/Items/Placeable/InfernoStone");
             float x = (float)(item.width / 2f - tex.Width / 2f);
             float y = (float)(item.height - tex.Height);
             lightColor = new Color(255, (int)(Main.DiscoG * 0.7f), 0);

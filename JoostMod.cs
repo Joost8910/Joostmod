@@ -152,6 +152,13 @@ namespace JoostMod
                     Main.npc[n].position = pos;
                     Main.npc[n].velocity = vel;
                     break;
+                case JoostModMessageType.Playerpos:
+                    byte p = reader.ReadByte();
+                    Vector2 position = reader.ReadVector2();
+                    Vector2 velocity = reader.ReadVector2();
+                    Main.player[p].position = position;
+                    Main.player[p].velocity = velocity;
+                    break;
                 default:
                     ErrorLogger.Log("JoostMod: Unknown Message type: " + msgType);
                     break;
@@ -637,7 +644,8 @@ namespace JoostMod
         ActiveQuest,
         SAXCore,
         KillNPC,
-        NPCpos
+        NPCpos,
+        Playerpos
     }
     public class HuntInfo
     {

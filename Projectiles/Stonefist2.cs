@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -28,6 +29,16 @@ namespace JoostMod.Projectiles
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 27;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((short)projectile.localAI[0]);
+            writer.Write((short)projectile.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.localAI[0] = reader.ReadInt16();
+            projectile.localAI[1] = reader.ReadInt16();
         }
         private void JumpOff(Player player)
         {
@@ -72,10 +83,9 @@ namespace JoostMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             Vector2 origin = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 aim = Vector2.Zero;
             float speed = (55f / player.inventory[player.selectedItem].useTime) / player.meleeSpeed;
             projectile.localNPCHitCooldown = (int)(27 / speed);
-            if (!player.noItems && !player.CCed)
+            if (player.active && !player.dead && !player.noItems && !player.CCed)
             {
                 if (Main.myPlayer == projectile.owner)
                 {
@@ -90,7 +100,6 @@ namespace JoostMod.Projectiles
                     {
                         vector13 = Vector2.UnitX * (float)player.direction;
                     }
-                    aim = vector13;
                     vector13 *= scaleFactor6;
                     if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
                     {
@@ -103,6 +112,8 @@ namespace JoostMod.Projectiles
             {
                 projectile.Kill();
             }
+            Vector2 aim = projectile.velocity;
+            aim.Normalize();
 
             if (projectile.soundDelay <= 0 && projectile.soundDelay > -10)
             {
@@ -157,9 +168,23 @@ namespace JoostMod.Projectiles
                         if (target.knockBackResist > 0)
                         {
                             target.position = projectile.Center + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
-                            projectile.timeLeft = 3;
                             target.GetGlobalNPC<NPCs.JoostGlobalNPC>().immunePlayer = player.whoAmI;
                             target.velocity = player.velocity;
+                            target.netUpdate = true;
+                            if (projectile.timeLeft < 2)
+                            {
+                                target.velocity.X = player.direction * 4;
+                                target.velocity.Y = player.gravDir * -2;
+                                if (player.immuneTime < 10)
+                                {
+                                    player.immune = true;
+                                    player.immuneNoBlink = false;
+                                    player.immuneTime = 10;
+                                }
+                                projectile.ai[1] = -1;
+                                projectile.ai[0] = -1;
+                                projectile.timeLeft = 15;
+                            }
                         }
                         else
                         {
@@ -168,7 +193,10 @@ namespace JoostMod.Projectiles
                     }
                     else
                     {
-                        projectile.timeLeft = 3;
+                        if (projectile.timeLeft < 3)
+                        {
+                            projectile.timeLeft = 3;
+                        }
                         projectile.localAI[0] = 3;
                         if (target.knockBackResist > 0)
                         {
@@ -189,9 +217,22 @@ namespace JoostMod.Projectiles
                                 projectile.ai[0] += 0.4f * speed;
                                 rot = (-135 + projectile.ai[0] * 45) * projectile.direction * 0.0174f + (player.direction < 0 ? 3.14f : 0);
                             }
+                            projectile.velocity = rot.ToRotationVector2() * 8;
+                            target.position = projectile.Center + projectile.velocity + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
+
                             if (projectile.ai[0] > 2)
                             {
                                 target.velocity = player.velocity + aim * projectile.knockBack;
+                                if (Main.netMode != NetmodeID.SinglePlayer)
+                                {
+                                    ModPacket packet = mod.GetPacket();
+                                    packet.Write((byte)JoostModMessageType.NPCpos);
+                                    packet.Write(target.whoAmI);
+                                    packet.WriteVector2(target.position);
+                                    packet.WriteVector2(target.velocity);
+                                    ModPacket netMessage = packet;
+                                    netMessage.Send(-1, player.whoAmI);
+                                }
                                 Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage, projectile.knockBack, projectile.owner, target.whoAmI);
                                 if (player.immuneTime < 10)
                                 {
@@ -204,9 +245,7 @@ namespace JoostMod.Projectiles
                                 projectile.timeLeft = 15;
                                 projectile.velocity = new Vector2(player.direction, 0);
                                 projectile.Center = origin;
-                            }
-                            projectile.velocity = rot.ToRotationVector2() * 8;
-                            target.position = projectile.Center + projectile.velocity + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
+                            }                            
                         }
                         else
                         {
@@ -221,11 +260,11 @@ namespace JoostMod.Projectiles
             }
             if (projectile.ai[1] == 3) //Pvp
             {
-                projectile.timeLeft = 3;
                 projectile.localAI[0] = 3;
                 Player target = Main.player[(int)projectile.localAI[1]];
                 if (target.active && target.statLife > 0)
                 {
+                    target.noKnockback = true;
                     if (player.controlUseItem || projectile.localAI[0] == 2)
                     {
                         target.position = projectile.Center + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
@@ -241,7 +280,10 @@ namespace JoostMod.Projectiles
                     }
                     else
                     {
-                        projectile.timeLeft = 3;
+                        if (projectile.timeLeft < 3)
+                        {
+                            projectile.timeLeft = 3;
+                        }
                         projectile.localAI[0] = 1;
                         float rot = -135 + (player.direction < 0 ? 90 : 0);
                         if (projectile.ai[0] > -1 && projectile.ai[0] <= 0)
@@ -259,10 +301,35 @@ namespace JoostMod.Projectiles
                             projectile.ai[0] += 0.4f * speed;
                             rot = (-135 + projectile.ai[0] * 45) * projectile.direction * 0.0174f + (player.direction < 0 ? 3.14f : 0);
                         }
+                        projectile.velocity = rot.ToRotationVector2() * 8;
+                        target.position = projectile.Center + projectile.velocity + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
+                        if (Main.myPlayer == projectile.owner)
+                        {
+                            aim = player.DirectionTo(Main.MouseWorld);
+                            projectile.netUpdate = true;
+                        }
                         if (projectile.ai[0] > 2)
                         {
                             target.velocity = player.velocity + aim * projectile.knockBack;
-                            Projectile.NewProjectile(target.Center, target.velocity, mod.ProjectileType("GrabThrow"), projectile.damage * 2, projectile.knockBack, projectile.owner, 0, target.whoAmI);
+                            if (Main.netMode != NetmodeID.SinglePlayer)
+                            {
+                                ModPacket packet = mod.GetPacket();
+                                packet.Write((byte)JoostModMessageType.Playerpos);
+                                packet.Write((byte)target.whoAmI);
+                                packet.WriteVector2(target.position);
+                                packet.WriteVector2(player.velocity + aim * projectile.knockBack);
+                                ModPacket netMessage = packet;
+                                netMessage.Send(-1, -1);
+
+                                ModPacket packet2 = mod.GetPacket();
+                                packet2.Write((byte)JoostModMessageType.Playerpos);
+                                packet2.Write((byte)projectile.owner);
+                                packet2.WriteVector2(player.position);
+                                packet2.WriteVector2(player.velocity);
+                                ModPacket netMessage2 = packet2;
+                                netMessage2.Send(-1, projectile.owner);
+                            }
+                            Projectile.NewProjectile(target.Center, player.velocity + aim * projectile.knockBack, mod.ProjectileType("GrabThrow"), projectile.damage * 2, projectile.knockBack, projectile.owner, -1, target.whoAmI);
                             if (player.immuneTime < 10)
                             {
                                 player.immune = true;
@@ -275,8 +342,6 @@ namespace JoostMod.Projectiles
                             projectile.velocity = new Vector2(player.direction, 0);
                             projectile.Center = origin;
                         }
-                        projectile.velocity = rot.ToRotationVector2() * 8;
-                        target.position = projectile.Center + projectile.velocity + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
                     }
                 }
                 else
@@ -399,11 +464,12 @@ namespace JoostMod.Projectiles
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.ai[1] == 1 && target.statLife > 0)
+            if (projectile.ai[1] == 1 && target.statLife > 0 && target.ownedProjectileCounts[projectile.type] + target.ownedProjectileCounts[mod.ProjectileType("GrabGlove")] <= 0)
             {
                 projectile.localAI[1] = target.whoAmI;
                 projectile.ai[0] = -1;
                 projectile.ai[1] = 3;
+                projectile.timeLeft = target.noKnockback ? 60 : 120;
                 Main.PlaySound(42, (int)projectile.Center.X, (int)projectile.Center.Y, 215);
                 if (player.immuneTime < 20)
                 {

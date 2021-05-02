@@ -83,6 +83,7 @@ namespace JoostMod.Projectiles
                         p.damage = (int)(projectile.damage * 3f);
                         p.knockBack = projectile.knockBack * 3f;
                         p.owner = projectile.owner;
+                        p.netUpdate = true;
                         if (p.timeLeft <= 500)
                         {
                             Main.PlaySound(21, (int)p.Center.X, (int)p.Center.Y, 1, 1, -0.25f);

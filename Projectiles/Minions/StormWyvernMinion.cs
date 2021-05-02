@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -51,6 +52,16 @@ namespace JoostMod.Projectiles.Minions
                 mult = (player.ownedProjectileCounts[projectile.type] - 3) * 4 / player.ownedProjectileCounts[projectile.type];
             }
             damage = (int)(damage * mult);
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((short)projectile.localAI[0]);
+            writer.Write((short)projectile.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.localAI[0] = reader.ReadInt16();
+            projectile.localAI[1] = reader.ReadInt16();
         }
         int aimWindow = 30;
         public override bool PreAI()

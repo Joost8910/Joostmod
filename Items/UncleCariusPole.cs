@@ -36,7 +36,7 @@ namespace JoostMod.Items
             item.shoot = mod.ProjectileType("UncleCariusHook");
             item.shootSpeed = 17f;
             //item.fishingPole = 100; 
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = mod.GetTexture("Items/UncleCariusPole_String");
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = ModContent.GetTexture("JoostMod/Items/UncleCariusPole_String");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

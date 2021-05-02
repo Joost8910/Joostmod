@@ -744,6 +744,7 @@ namespace JoostMod.NPCs.Bosses
                 npc.ai[2] = 0;
                 npc.velocity.X = 0;
                 npc.velocity.Y = 10;
+                npc.noTileCollide = false;
                 if (npc.ai[0] < 0)
                 {
                     npc.life = 0;

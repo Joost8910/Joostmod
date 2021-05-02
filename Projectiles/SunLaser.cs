@@ -197,7 +197,7 @@ namespace JoostMod.Projectiles
 			for (Distance = MOVE_DISTANCE; Distance <= 2200f; Distance += 5f)
 			{
 				start = projectile.Center + projectile.velocity * Distance;
-				if (!Collision.CanHit(projectile.Center, 1, 1, start, 1, 1))
+				if (!Collision.CanHitLine(projectile.Center, 1, 1, start, 1, 1))
 				{
 					Distance -= 5f;
 					break;

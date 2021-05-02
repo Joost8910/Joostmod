@@ -48,10 +48,11 @@ namespace JoostMod.Tiles
 		{
 			Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("SpongeStation"));
 		}
-public override void RightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
 		{
 			HitWire(i, j);
-		}
+            return true;
+        }
 		public override void HitWire(int i, int j)
 		{
 			int x = i - (Main.tile[i, j].frameX / 18) % 3;

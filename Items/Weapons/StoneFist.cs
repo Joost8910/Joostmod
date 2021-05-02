@@ -13,7 +13,7 @@ namespace JoostMod.Items.Weapons
 			DisplayName.SetDefault("Stone Fist");
 			Tooltip.SetDefault("'The real fist of Fury'\n" +
                 "Charges up a powerful punch\n" +
-                "Right Click while charged to grab an enemy" +
+                "Right Click while charged to grab an enemy\n" +
                 "Hold Right Click to pummel the grabbed enemy\n" +
                 "Let go of Left Click to throw the grabbed enemy");
 		}

@@ -37,7 +37,7 @@ namespace JoostMod.Items.Weapons
             item.shootSpeed = 14f;
             item.shoot = mod.ProjectileType("DavidLaser");
             item.value = 300000;
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = mod.GetTexture("Items/Weapons/StaffofDavidCrystal");
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = ModContent.GetTexture("JoostMod/Items/Weapons/StaffofDavidCrystal");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

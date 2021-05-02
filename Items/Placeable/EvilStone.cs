@@ -57,22 +57,22 @@ namespace JoostMod.Items.Placeable
         }
         public override void PostDrawInInventory(SpriteBatch sb, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = mod.GetTexture("Items/Placeable/EvilStone");
+            Texture2D tex = ModContent.GetTexture("JoostMod/Items/Placeable/EvilStone");
             drawColor = new Color(127, 0, Main.DiscoG);
             sb.Draw(tex, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
-            Texture2D tex2 = mod.GetTexture("Items/Placeable/EvilStonePupil");
+            Texture2D tex2 = ModContent.GetTexture("JoostMod/Items/Placeable/EvilStonePupil");
             Color color2 = new Color(127, 0, (255 - Main.DiscoG));
             sb.Draw(tex2, position, frame, color2, 0f, origin, scale, SpriteEffects.None, 0f);
         }
         public override void PostDrawInWorld(SpriteBatch sb, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D tex = mod.GetTexture("Items/Placeable/EvilStone");
+            Texture2D tex = ModContent.GetTexture("JoostMod/Items/Placeable/EvilStone");
             float x = (float)(item.width / 2f - tex.Width / 2f);
             float y = (float)(item.height - tex.Height);
             lightColor = new Color(127, 0, Main.DiscoG);
             alphaColor = lightColor;
             sb.Draw(tex, new Vector2(item.position.X - Main.screenPosition.X + (float)(tex.Width / 2) + x, item.position.Y - Main.screenPosition.Y + (float)(tex.Height / 2) + y + 2f), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), lightColor, rotation, new Vector2((float)(tex.Width / 2), (float)(tex.Height / 2)), scale, SpriteEffects.None, 0f);
-            Texture2D tex2 = mod.GetTexture("Items/Placeable/EvilStonePupil");
+            Texture2D tex2 = ModContent.GetTexture("JoostMod/Items/Placeable/EvilStonePupil");
             Color color2 = new Color(127, 0, (255 - Main.DiscoG));
             sb.Draw(tex2, new Vector2(item.position.X - Main.screenPosition.X + (float)(tex.Width / 2) + x, item.position.Y - Main.screenPosition.Y + (float)(tex.Height / 2) + y + 2f), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color2, rotation, new Vector2((float)(tex.Width / 2), (float)(tex.Height / 2)), scale, SpriteEffects.None, 0f);
         }

@@ -41,7 +41,7 @@ namespace JoostMod.Items.Weapons
             item.shootSpeed = 7f;
             item.buffType = mod.BuffType("PowerSpirit");
             item.buffTime = 3600;
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = mod.GetTexture("Items/Weapons/LarkusTome_Glow");
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = ModContent.GetTexture("JoostMod/Items/Weapons/LarkusTome_Glow");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

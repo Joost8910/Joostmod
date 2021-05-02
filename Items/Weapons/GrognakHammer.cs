@@ -38,7 +38,7 @@ namespace JoostMod.Items.Weapons
             item.shoot = mod.ProjectileType("GrognakHammer");
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = mod.GetTexture("Items/Weapons/GrognakHammerGem");
+            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = ModContent.GetTexture("JoostMod/Items/Weapons/GrognakHammerGem");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
