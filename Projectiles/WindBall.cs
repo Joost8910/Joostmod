@@ -10,21 +10,21 @@ namespace JoostMod.Projectiles
 	{public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wind Ball");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			projectile.alpha = 150;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			Projectile.alpha = 150;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
 		}
 		
 	}

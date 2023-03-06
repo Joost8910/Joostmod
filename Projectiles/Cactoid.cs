@@ -12,20 +12,20 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 28;
-			projectile.height = 74;
-			projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 40;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-			projectile.tileCollide = false;
+			Projectile.width = 28;
+			Projectile.height = 74;
+			Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 40;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+			Projectile.tileCollide = false;
 		}
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type == mod.NPCType("Cactoid") || target.type == mod.NPCType("Cactite") || target.friendly || target.lifeMax <= 5 || !target.chaseable)
+            if (target.type == Mod.Find<ModNPC>("Cactoid").Type || target.type == Mod.Find<ModNPC>("Cactite").Type || target.friendly || target.lifeMax <= 5 || !target.chaseable)
             {
                 return false;
             }
@@ -36,8 +36,8 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            NPC owner = Main.npc[(int)projectile.ai[0]];
-            projectile.position = owner.Center - new Vector2(projectile.width/2, projectile.height/2);
+            NPC owner = Main.npc[(int)Projectile.ai[0]];
+            Projectile.position = owner.Center - new Vector2(Projectile.width/2, Projectile.height/2);
         }
     }
 }

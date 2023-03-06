@@ -6,45 +6,46 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Weapons
 {
-	public class GrenadeFish : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Grenade Fish");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 25;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 22;
-			item.height = 28;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 6;
-			item.value = 100;
-			item.rare = 1;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("GrenadeFish");
-			item.shootSpeed = 7f;
+    public class GrenadeFish : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Grenade Fish");
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void SetDefaults()
+        {
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Throwing;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 22;
+            Item.height = 28;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 6;
+            Item.value = 100;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("GrenadeFish").Type;
+            Item.shootSpeed = 7f;
+        }
+        /*
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             if (JoostMod.instance.battleRodsLoaded)
             {
-                mult *= BattleRodsFishingDamage / player.thrownDamage;
+                damage *= BattleRodsFishingDamage / player.GetDamage(DamageClass.Throwing);
             }
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
             if (JoostMod.instance.battleRodsLoaded)
             {
-                crit += BattleRodsCrit - player.thrownCrit;
+                crit += BattleRodsCrit - player.GetCritChance(DamageClass.Throwing);
             }
         }
         public float BattleRodsFishingDamage
@@ -62,13 +63,14 @@ namespace JoostMod.Items.Weapons
                 Player player = Main.player[Main.myPlayer];
                 int dmg = list.FindIndex(x => x.Name == "Damage");
                 list.RemoveAt(dmg);
-                list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " Fishing damage"));
+                list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " Fishing damage"));
             }
         }
+        */
         public override void CaughtFishStack(ref int stack)
-		{
-			stack = 12 + Main.rand.Next(19);
-		}
+        {
+            stack = 12 + Main.rand.Next(19);
+        }
 
-	}
+    }
 }

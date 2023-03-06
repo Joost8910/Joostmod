@@ -12,16 +12,16 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 1;
-            projectile.height = 1;
-            projectile.aiStyle = 1;
-            projectile.hostile = false;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 180;
-            projectile.tileCollide = false;
-            aiType = ProjectileID.Bullet;
-            projectile.extraUpdates = 1;
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.aiStyle = 1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 180;
+            Projectile.tileCollide = false;
+            AIType = ProjectileID.Bullet;
+            Projectile.extraUpdates = 1;
         }
         public override bool CanHitPlayer(Player target)
         {
@@ -29,11 +29,11 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            int x = 8 + (int)(projectile.position.X / 16) * 16;
-            if (x != projectile.localAI[1])
+            int x = 8 + (int)(Projectile.position.X / 16) * 16;
+            if (x != Projectile.localAI[1])
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, 15f, mod.ProjectileType("ShockWave1"), projectile.damage, 7, projectile.owner);
-                projectile.localAI[1] = x;
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, 15f, Mod.Find<ModProjectile>("ShockWave1").Type, Projectile.damage, 7, Projectile.owner);
+                Projectile.localAI[1] = x;
             }
         }
     }

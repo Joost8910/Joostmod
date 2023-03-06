@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class EarthMount : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slabs of Stone");
 			Description.SetDefault("Rocky");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("EarthMount"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("EarthMount").Type, player);
 			player.buffTime[buffIndex] = 10;
 		}
 	}

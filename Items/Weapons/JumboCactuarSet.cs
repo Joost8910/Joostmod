@@ -7,37 +7,40 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Items.Weapons
 {
-	public class JumboCactuarSet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Jumbo Cactuar Weapon Set");
-			Tooltip.SetDefault("'Very Prickly'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 450;
-			item.width = 128;
-			item.height = 200;
-			item.useTime = 12;
-			item.useAnimation = 12;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 8;
-			item.value = 10000000;
-			item.rare = 11;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("GiantNeedle");
-			item.shootSpeed = 16f;
-            item.crit = 4;
-        }
-        public override void GetWeaponCrit(Player player, ref int crit)
+    public class JumboCactuarSet : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            DisplayName.SetDefault("Jumbo Cactuar Weapon Set");
+            Tooltip.SetDefault("'Very Prickly'");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
+        public override void SetDefaults()
+        {
+            Item.damage = 450;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 128;
+            Item.height = 200;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("GiantNeedle").Type;
+            Item.shootSpeed = 16f;
+            Item.crit = 4;
+        }
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
+        }
+        */
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
             switch (rand.Next(24))
@@ -92,52 +95,51 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int wep = Main.rand.Next(4);
-			if (wep == 1)
-			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("GiantArrow"), damage, knockBack, player.whoAmI);
-			}
-			if (wep == 2)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int wep = Main.rand.Next(4);
+            if (wep == 1)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(5));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("GiantNeedle"), (int)(damage * 0.62f), knockBack, player.whoAmI);
-			}
-			if (wep == 3)
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("GiantArrow").Type, damage, knockback, player.whoAmI);
+            }
+            if (wep == 2)
+            {
+                Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(5));
+                Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("GiantNeedle").Type, (int)(damage * 0.62f), knockback, player.whoAmI);
+            }
+            if (wep == 3)
             {
                 float numberProjectiles = 2;
                 float rotation = MathHelper.ToRadians(12);
                 for (int i = 0; i < numberProjectiles; i++)
                 {
-                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f; // Watch out for dividing by 0 if there is only 1 projectile.
-                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X*2, perturbedSpeed.Y*2, mod.ProjectileType("Splitend"), (int)(damage * 0.67f), knockBack, player.whoAmI);
+                    Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f; // Watch out for dividing by 0 if there is only 1 projectile.
+                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X * 2, perturbedSpeed.Y * 2, Mod.Find<ModProjectile>("Splitend").Type, (int)(damage * 0.67f), knockback, player.whoAmI);
                 }
-			}
-			if (wep == 0)
+            }
+            if (wep == 0)
             {
                 for (int i = 0; i < 12; i++)
                 {
-                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15));
+                    Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(15));
                     float scale = 1f - (Main.rand.NextFloat() * .3f);
                     perturbedSpeed = perturbedSpeed * scale;
-                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Needle3"), (damage / 5), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("Needle3").Type, (damage / 5), knockback, player.whoAmI);
                 }
-			}		
-			return false;
-		}
-			public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Jumbow");
-			recipe.AddIngredient(null, "GiantNeedle");
-			recipe.AddIngredient(null, "EvenMoreNeedles");
-			recipe.AddIngredient(null, "Mustache");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+            }
+            return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient<Jumbow>()
+                .AddIngredient<GiantNeedle>()
+                .AddIngredient<EvenMoreNeedles>()
+                .AddIngredient<Mustache>()
+                .Register();
+        }
 
-	}
+    }
 }
 
 

@@ -16,22 +16,22 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 21;
-			item.ranged = true;
-			item.width = 52;
-			item.height = 24;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 1;
-            item.value = 25000;
-            item.rare = 3;
-            item.UseSound = SoundID.Item34;
-			item.autoReuse = true;
-			item.shoot = 85;
-			item.shootSpeed = 6f;
-			item.useAmmo = ItemID.Gel;
+			Item.damage = 21;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 52;
+			Item.height = 24;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; 
+			Item.knockBack = 1;
+            Item.value = 25000;
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item34;
+			Item.autoReuse = true;
+			Item.shoot = 85;
+			Item.shootSpeed = 6f;
+			Item.useAmmo = ItemID.Gel;
 		}
         public override Vector2? HoldoutOffset()
         {
@@ -41,9 +41,9 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace JoostMod.Tiles
 {
 	public class SeaStoneDeep : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -24,14 +24,14 @@ namespace JoostMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stone of the Deep Sea");
 			AddMapEntry(new Color(0, 0, 51), name);
-			dustType = 103;
-            disableSmartCursor = true;
+			DustType = 103;
+            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             WorldGen.KillTile(i, j, false, false, false);
-            if (Main.netMode == 1 && !Main.tile[i, j].active())
+            if (Main.netMode == 1 && !Main.tile[i, j].HasTile)
             {
                 NetMessage.SendData(17, -1, -1, null, 4, (float)i, (float)j, 0f, 0, 0, 0);
             }
@@ -41,10 +41,10 @@ namespace JoostMod.Tiles
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("SeaStoneDeep");
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = Mod.Find<ModItem>("SeaStoneDeep").Type;
         }
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             drawColor = new Color(0, 0, (51 + (int)((float)(255 - Main.DiscoB) * 0.8f)));
         }
@@ -62,7 +62,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("SeaStoneDeep"));
+			Item.NewItem(i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SeaStoneDeep").Type);
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

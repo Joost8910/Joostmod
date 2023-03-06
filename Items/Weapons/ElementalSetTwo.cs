@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,59 +12,58 @@ namespace JoostMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Lesser Elemental Weapon Set");
 			Tooltip.SetDefault("'Unleash the elements!'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(10, 16));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(10, 16));
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 47;
-			item.thrown = true;
-			item.width = 22;
-			item.height = 30;
-			item.useTime = 22;
-			item.useAnimation = 22;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 5;
-			item.value = 350000;
-			item.rare = 5;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("WaterBalloon");
-			item.shootSpeed = 10f;
+			Item.damage = 47;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 22;
+			Item.height = 30;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = 350000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("WaterBalloon").Type;
+			Item.shootSpeed = 10f;
 
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			int wep = Main.rand.Next(4);
 			if (wep == 0)
 			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX * 0.8f), (speedY * 0.8f), mod.ProjectileType("Fireball"), (int)(damage * 0.8f), (knockBack * 0.2f), player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 0.8f), (velocity.Y * 0.8f), Mod.Find<ModProjectile>("Fireball").Type, (int)(damage * 0.8f), (knockback * 0.2f), player.whoAmI);
 			}
 			if (wep == 1)
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Tornade"), (int)(damage * 0.9f), knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Tornade").Type, (int)(damage * 0.9f), knockback, player.whoAmI);
 			}
 			if (wep == 2)
 			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX * 1.2f), (speedY * 1.2f), mod.ProjectileType("WaterBalloon"), (int)(damage * 1f), knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 1.2f), (velocity.Y * 1.2f), Mod.Find<ModProjectile>("WaterBalloon").Type, (int)(damage * 1f), knockback, player.whoAmI);
 			}
 			if (wep == 3)
 			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("Rock"), (int)(damage * 3.5f), (knockBack * 2), player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("Rock").Type, (int)(damage * 3.5f), (knockback * 2), player.whoAmI);
 			}
 			return false;
 		}
-			public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Rock", 999);
-			recipe.AddIngredient(null, "Fireball", 999);
-			recipe.AddIngredient(null, "Tornade", 999);
-			recipe.AddIngredient(null, "WaterBalloon", 999);
-			recipe.AddTile(null, "ElementalForge"); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Rock>(999)
+				.AddIngredient<Fireball>(999)
+				.AddIngredient<Tornade>(999)
+				.AddIngredient<WaterBalloon>(999)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 
 	}

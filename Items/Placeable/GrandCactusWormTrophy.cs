@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Items.Placeable
 {
@@ -10,19 +11,19 @@ namespace JoostMod.Items.Placeable
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.maxStack = 99;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.value = 10000;
-			item.rare = 2;
-			item.createTile = mod.TileType("BossTrophy");
-			item.placeStyle = 3;
+			Item.width = 30;
+			Item.height = 30;
+			Item.maxStack = 99;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Green;
+			Item.createTile = Mod.Find<ModTile>("BossTrophy").Type;
+			Item.placeStyle = 3;
 		}
 	}
 }

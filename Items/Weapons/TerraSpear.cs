@@ -5,36 +5,36 @@ using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
-	public class TerraSpear : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Terra Spear");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 75;
-			item.melee = true;
-			item.width = 100;
-			item.height = 100;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.scale = 1.2f;
-			item.knockBack = 7;
-			item.value = 1000000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("TerraSpear");
-			item.shootSpeed = 8f;
-		}
-		public override bool CanUseItem(Player player)
+    public class TerraSpear : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-           return player.ownedProjectileCounts[item.shoot] < 1;
-		}
+            DisplayName.SetDefault("Terra Spear");
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 75;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 100;
+            Item.height = 100;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.scale = 1.2f;
+            Item.knockBack = 7;
+            Item.value = 1000000;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("TerraSpear").Type;
+            Item.shootSpeed = 8f;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[Item.shoot] < 1;
+        }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
             if (Main.rand.NextBool(2))
@@ -72,9 +72,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -83,15 +83,14 @@ namespace JoostMod.Items.Weapons
         }
 
         public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "TrueDarkLance", 1);
-			recipe.AddIngredient(null, "TrueGungnir", 1);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        {
+            CreateRecipe()
+                .AddIngredient<TrueDarkLance>()
+                .AddIngredient<TrueGungnir>()
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
+    }
 }
 
 

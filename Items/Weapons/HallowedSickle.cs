@@ -9,36 +9,34 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hallowed Sickle");
-			Tooltip.SetDefault("'Swish and flick!'");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 54;
-			item.thrown = true;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.width = 50;
-			item.height = 50;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 1;
-			item.knockBack = 3;
-			item.value = 200;
-			item.rare = 6;
-			item.UseSound = SoundID.Item1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("HallowedSickle");
-			item.shootSpeed = 0.3f;
+			Item.damage = 54;
+			Item.DamageType = DamageClass.Throwing;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.width = 50;
+			Item.height = 50;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 3;
+			Item.value = 200;
+			Item.rare = ItemRarityID.LightPurple;
+			Item.UseSound = SoundID.Item1;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("HallowedSickle").Type;
+			Item.shootSpeed = 0.3f;
 		}
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.HallowedBar, 1);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 111);
-			recipe.AddRecipe();
+			CreateRecipe(111)
+				.AddIngredient(ItemID.HallowedBar)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

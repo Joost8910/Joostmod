@@ -10,19 +10,19 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-			projectile.aiStyle = 3;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 600;
-			projectile.alpha = 5;
-			projectile.light = 0.1f;
-			projectile.extraUpdates = 1;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 36;
+			Projectile.height = 36;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 5;
+			Projectile.light = 0.1f;
+			Projectile.extraUpdates = 1;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 
 

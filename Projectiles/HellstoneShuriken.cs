@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,39 +13,39 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hellfire Shuriken");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.ignoreWater = false;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 600;
-			projectile.alpha = 5;
-			projectile.light = 0.5f;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Shuriken;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 15;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.ignoreWater = false;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 5;
+			Projectile.light = 0.5f;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Shuriken;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 15;
 		}
 		public override void AI()
 		{
-            projectile.spriteDirection = -projectile.direction;
-            if (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid > 150 && (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquidType() == 0 || Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquidType() == 2))
+            Projectile.spriteDirection = -Projectile.direction;
+            if (Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 150 && (Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidType == 0 || Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidType == 2))
 			{
-				int d = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X*0.75f, projectile.velocity.Y*0.75f, mod.ProjectileType("DousedShuriken"), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
-				projectile.Kill();
+				int d = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X*0.75f, Projectile.velocity.Y*0.75f, Mod.Find<ModProjectile>("DousedShuriken").Type, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
+				SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
+				Projectile.Kill();
 			}
 		}
 		public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
 		{
-			Player owner = Main.player[projectile.owner];
+			Player owner = Main.player[Projectile.owner];
 			n.AddBuff(24, 180);
 		}
 

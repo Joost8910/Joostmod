@@ -7,7 +7,7 @@ namespace JoostMod.Tiles
 {
 	public class Smithas : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -15,8 +15,8 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Smithas Sigil");
 			AddMapEntry(new Color(25, 25, 225), name);
@@ -24,7 +24,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("Smithas"));
+			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("Smithas").Type);
 		}
 	}
 }

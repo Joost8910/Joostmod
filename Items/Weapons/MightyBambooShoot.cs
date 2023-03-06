@@ -1,41 +1,42 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
-	public class MightyBambooShoot : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Mighty Bamboo Shoot");
-			Tooltip.SetDefault("Left click to swing\n" + 
-                "Right click to charge a seed barrage\n" + 
+    public class MightyBambooShoot : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mighty Bamboo Shoot");
+            Tooltip.SetDefault("Left click to swing\n" +
+                "Right click to charge a seed barrage\n" +
                 "Allows the collection of seeds for ammo");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 17;
-			item.melee = true;
-            item.ranged = true;
-			item.width = 100;
-			item.height = 12;
-			item.noMelee = true;
-			item.useTime = 21;
-			item.useAnimation = 21;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 6;
-			item.value = 20000;
-			item.rare = 1;
-			item.UseSound = SoundID.Item7;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = 10;
-			item.shootSpeed = 11f;
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.CountsAsClass(DamageClass.Ranged);
+            Item.width = 100;
+            Item.height = 12;
+            Item.noMelee = true;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = true;
+            Item.knockBack = 6;
+            Item.value = 20000;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item7;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 11f;
         }
         /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
@@ -43,18 +44,18 @@ namespace JoostMod.Items.Weapons
             add += (player.rangedDamage - 1f);
             mult *= player.rangedDamageMult;
         }
-        */
-        public override void GetWeaponCrit(Player player, ref int crit)
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += player.rangedCrit;
+            crit += player.GetCritChance(DamageClass.Ranged);
             crit /= 2;
         }
+        */
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];
             int dmg = list.FindIndex(x => x.Name == "Damage");
             list.RemoveAt(dmg);
-            list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " melee and ranged damage"));
+            list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " melee and ranged damage"));
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -64,13 +65,13 @@ namespace JoostMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.useAmmo = AmmoID.Dart;
+                Item.useAmmo = AmmoID.Dart;
             }
             else
             {
-                item.useAmmo = AmmoID.None;
+                Item.useAmmo = AmmoID.None;
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("BambooShoot")] < 1)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("BambooShoot").Type] < 1)
             {
                 return base.CanUseItem(player);
             }
@@ -143,38 +144,37 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
             }
             return base.ChoosePrefix(rand);
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return false;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int mode = 0;
             if (player.altFunctionUse == 2)
             {
                 mode = 1;
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BambooShoot"), damage, knockBack, player.whoAmI, mode, type);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("BambooShoot").Type, damage, knockback, player.whoAmI, mode, type);
             return false;
         }
         public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Blowpipe);
-			recipe.AddIngredient(ItemID.BreathingReed);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-            recipe.AddRecipe();
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.Blowpipe)
+                .AddIngredient(ItemID.BreathingReed)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
-	}
+    }
 }
 

@@ -12,22 +12,22 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stardust Grenade");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 70;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 300;
-			projectile.extraUpdates = 1;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 8;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 70;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 5;
+			Projectile.timeLeft = 300;
+			Projectile.extraUpdates = 1;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 8;
 
 		}
 

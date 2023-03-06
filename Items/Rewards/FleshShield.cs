@@ -17,36 +17,36 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 52;
-			item.value = 85000;
-			item.rare = 3;
-			item.accessory = true;
-			item.defense = 2;
-            item.damage = 40;
-            item.melee = true;
-            //item.knockBack = 9;
+			Item.width = 36;
+			Item.height = 52;
+			Item.value = 85000;
+			Item.rare = ItemRarityID.Orange;
+			Item.accessory = true;
+			Item.defense = 2;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            //item.knockback = 9;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<JoostPlayer>().fleshShield = true;
             player.GetModPlayer<JoostPlayer>().dashType = 1;
-            player.GetModPlayer<JoostPlayer>().dashDamage = (int)(40 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult);
+            player.GetModPlayer<JoostPlayer>().dashDamage = (int)(40 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Melee) - 1) * player.GetDamage(DamageClass.Melee) * player.GetDamage(DamageClass.Generic));
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria")
+                if (line2.Mod == "Terraria")
                 {
                     if (line2.Name == "ItemName")
                     {
-                        line2.overrideColor = new Color(230, 204, 128);
+                        line2.OverrideColor = new Color(230, 204, 128);
                     }
-                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "knockback")
                     {
-                        line2.overrideColor = Color.DarkGray;
+                        line2.OverrideColor = Color.DarkGray;
                     }
                 }
             }

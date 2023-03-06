@@ -3,6 +3,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,10 +22,10 @@ namespace JoostMod.Projectiles
         private Vector2 vel = Vector2.Zero;
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.light = 0.2f;
+            Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.light = 0.2f;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -50,7 +52,7 @@ namespace JoostMod.Projectiles
         
         public override float GrappleRange()
         {
-            return 420f;
+            return 250f;
         }
 
         public override void NumGrappleHooks(Player player, ref int numHooks)
@@ -62,35 +64,35 @@ namespace JoostMod.Projectiles
         {
             if (vel == Vector2.Zero)
             {
-                vel = projectile.velocity * 0.5f;
+                vel = Projectile.velocity * 0.5f;
             }
-            Player player = Main.player[projectile.owner];
-            if (player.dead || (Vector2.Distance(player.Center, projectile.Center) > GrappleRange() && !isHooked))
+            Player player = Main.player[Projectile.owner];
+            if (player.dead || (Vector2.Distance(player.Center, Projectile.Center) > GrappleRange() && !isHooked))
             {
                 retreat = true;
                 isHooked = false;
                 canGrab = false;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > GrappleRange() * 3)
+            if (Vector2.Distance(player.Center, Projectile.Center) > GrappleRange() * 3)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Vector2 vector6 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
+            Vector2 vector6 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
             float num69 = mountedCenter.X - vector6.X;
             float num70 = mountedCenter.Y - vector6.Y;
             float num71 = (float)Math.Sqrt((double)(num69 * num69 + num70 * num70));
-            projectile.rotation = (float)Math.Atan2((double)num70, (double)num69) - 1.57f;
-            projectile.direction = (projectile.rotation < 0 && projectile.rotation > -3.14f) ? -1 : 1;
-            projectile.spriteDirection = projectile.direction;
-            projectile.soundDelay--;
+            Projectile.rotation = (float)Math.Atan2((double)num70, (double)num69) - 1.57f;
+            Projectile.direction = (Projectile.rotation < 0 && Projectile.rotation > -3.14f) ? -1 : 1;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.soundDelay--;
             if (retreat)
             {
-                projectile.velocity = projectile.DirectionTo(player.Center) * retreatSpeed;
+                Projectile.velocity = Projectile.DirectionTo(player.Center) * retreatSpeed;
                 canGrab = player.releaseHook;
-                if (Vector2.Distance(player.Center, projectile.Center) < 16 && !isHooked)
+                if (Vector2.Distance(player.Center, Projectile.Center) < 16 && !isHooked)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             if (isHooked)
@@ -104,13 +106,13 @@ namespace JoostMod.Projectiles
                 player.fallStart = (int)(player.Center.Y / 16f);
                 player.sandStorm = false;
                 player.wingTime = 0;
-                projectile.ai[0] = 2f;
-                projectile.velocity = default(Vector2);
-                projectile.timeLeft = 2;
-                int num124 = (int)(projectile.position.X / 16f) - 1;
-                int num125 = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
-                int num126 = (int)(projectile.position.Y / 16f) - 1;
-                int num127 = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
+                Projectile.ai[0] = 2f;
+                Projectile.velocity = default(Vector2);
+                Projectile.timeLeft = 2;
+                int num124 = (int)(Projectile.position.X / 16f) - 1;
+                int num125 = (int)((Projectile.position.X + (float)Projectile.width) / 16f) + 2;
+                int num126 = (int)(Projectile.position.Y / 16f) - 1;
+                int num127 = (int)((Projectile.position.Y + (float)Projectile.height) / 16f) + 2;
                 if (num124 < 0)
                 {
                     num124 = 0;
@@ -139,7 +141,7 @@ namespace JoostMod.Projectiles
                         Vector2 vector9;
                         vector9.X = (float)(num128 * 16);
                         vector9.Y = (float)(num129 * 16);
-                        if (projectile.position.X + (float)(projectile.width / 2) > vector9.X && projectile.position.X + (float)(projectile.width / 2) < vector9.X + 16f && projectile.position.Y + (float)(projectile.height / 2) > vector9.Y && projectile.position.Y + (float)(projectile.height / 2) < vector9.Y + 16f && Main.tile[num128, num129].nactive() && (Main.tileSolid[(int)Main.tile[num128, num129].type] || Main.tile[num128, num129].type == 314))
+                        if (Projectile.position.X + (float)(Projectile.width / 2) > vector9.X && Projectile.position.X + (float)(Projectile.width / 2) < vector9.X + 16f && Projectile.position.Y + (float)(Projectile.height / 2) > vector9.Y && Projectile.position.Y + (float)(Projectile.height / 2) < vector9.Y + 16f && Main.tile[num128, num129].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num128, num129].TileType] || Main.tile[num128, num129].TileType == 314))
                         {
                             flag3 = false;
                         }
@@ -150,16 +152,16 @@ namespace JoostMod.Projectiles
                     isHooked = false;
                 }
                 retreat = false;
-                player.velocity = player.DirectionTo(projectile.Center) * pullSpeed;
-                if (Math.Abs(player.Center.X - projectile.Center.X) < 8)
+                player.velocity = player.DirectionTo(Projectile.Center) * pullSpeed;
+                if (Math.Abs(player.Center.X - Projectile.Center.X) < 8)
                 {
                     player.velocity.X = 0;
-                    player.position.X = projectile.Center.X - player.width / 2;
+                    player.position.X = Projectile.Center.X - player.width / 2;
                 }
-                if (Math.Abs(player.Center.Y - projectile.Center.Y) < 8)
+                if (Math.Abs(player.Center.Y - Projectile.Center.Y) < 8)
                 {
                     player.velocity.Y = 0;
-                    player.position.Y = projectile.Center.Y - player.height / 2;
+                    player.position.Y = Projectile.Center.Y - player.height / 2;
                 }
                 if (player.itemAnimation == 0)
                 {
@@ -172,7 +174,7 @@ namespace JoostMod.Projectiles
                         player.direction = -1;
                     }
                 }
-                if (Vector2.Distance(player.Center, projectile.Center) > 30)
+                if (Vector2.Distance(player.Center, Projectile.Center) > 30)
                 {
                     /*player.position += player.velocity;
                     bool slope = false;
@@ -201,13 +203,13 @@ namespace JoostMod.Projectiles
                     }
                     if (pullTime <= 0)
                     {
-                        pullTime = (int)(Vector2.Distance(player.Center, projectile.Center) / pullSpeed);
+                        pullTime = (int)(Vector2.Distance(player.Center, Projectile.Center) / pullSpeed);
                     }
-                    player.position = (projectile.Center + (projectile.DirectionTo(player.Center) * pullTime * pullSpeed)) - player.Size / 2;
-                    if (projectile.soundDelay <= 0 && Collision.SolidCollision(player.position, player.width, player.height))
+                    player.position = (Projectile.Center + (Projectile.DirectionTo(player.Center) * pullTime * pullSpeed)) - player.Size / 2;
+                    if (Projectile.soundDelay <= 0 && Collision.SolidCollision(player.position, player.width, player.height))
                     {
-                        projectile.soundDelay = 20;
-                        Main.PlaySound(15, (int)player.Center.X, (int)projectile.Center.Y, 1);
+                        Projectile.soundDelay = 20;
+                        SoundEngine.PlaySound(SoundID.WormDig, new Vector2(player.Center.X, Projectile.Center.Y));
                     }
                 }
                 else
@@ -221,29 +223,29 @@ namespace JoostMod.Projectiles
 
                 if (player.controlJump && jump)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     player.wingTime = (float)player.wingTimeMax;
-                    if (player.doubleJumpCloud)
+                    if (player.hasJumpOption_Cloud)
                     {
                         player.jumpAgainCloud = true;
                     }
-                    if (player.doubleJumpSandstorm)
+                    if (player.hasJumpOption_Sandstorm)
                     {
                         player.jumpAgainSandstorm = true;
                     }
-                    if (player.doubleJumpBlizzard)
+                    if (player.hasJumpOption_Blizzard)
                     {
                         player.jumpAgainBlizzard = true;
                     }
-                    if (player.doubleJumpFart)
+                    if (player.hasJumpOption_Fart)
                     {
                         player.jumpAgainFart = true;
                     }
-                    if (player.doubleJumpSail)
+                    if (player.hasJumpOption_Sail)
                     {
                         player.jumpAgainSail = true;
                     }
-                    if (player.doubleJumpUnicorn)
+                    if (player.hasJumpOption_Unicorn)
                     {
                         player.jumpAgainUnicorn = true;
                     }
@@ -258,11 +260,11 @@ namespace JoostMod.Projectiles
             }
             else
             {
-                projectile.ai[0] = 0f;
-                int num111 = (int)(projectile.position.X / 16f) - 1;
-                int num112 = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
-                int num113 = (int)(projectile.position.Y / 16f) - 1;
-                int num114 = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
+                Projectile.ai[0] = 0f;
+                int num111 = (int)(Projectile.position.X / 16f) - 1;
+                int num112 = (int)((Projectile.position.X + (float)Projectile.width) / 16f) + 2;
+                int num113 = (int)(Projectile.position.Y / 16f) - 1;
+                int num114 = (int)((Projectile.position.Y + (float)Projectile.height) / 16f) + 2;
                 if (num111 < 0)
                 {
                     num111 = 0;
@@ -281,7 +283,7 @@ namespace JoostMod.Projectiles
                 }
                 if (!retreat)
                 {
-                    projectile.velocity = vel * 3;
+                    Projectile.velocity = vel * 3;
                 }
                 for (int num115 = num111; num115 < num112; num115++)
                 {
@@ -295,28 +297,28 @@ namespace JoostMod.Projectiles
                         Vector2 vector8;
                         vector8.X = (float)(num115 * 16);
                         vector8.Y = (float)(num116 * 16);
-                        if (projectile.position.X + (float)projectile.width > vector8.X && projectile.position.X < vector8.X + 16f && projectile.position.Y + (float)projectile.height > vector8.Y && projectile.position.Y < vector8.Y + 16f && Main.tile[num115, num116].nactive() && (Main.tileSolid[(int)Main.tile[num115, num116].type] || Main.tile[num115, num116].type == 314))
+                        if (Projectile.position.X + (float)Projectile.width > vector8.X && Projectile.position.X < vector8.X + 16f && Projectile.position.Y + (float)Projectile.height > vector8.Y && Projectile.position.Y < vector8.Y + 16f && Main.tile[num115, num116].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num115, num116].TileType] || Main.tile[num115, num116].TileType == 314))
                         {
                             if (!retreat)
                             {
-                                projectile.velocity = vel;
+                                Projectile.velocity = vel;
                             }
                             if (canGrab && !player.controlHook)
                             {
-                                projectile.velocity.X = 0f;
-                                projectile.velocity.Y = 0f;
-                                Main.PlaySound(0, num115 * 16, num116 * 16, 1, 1f, 0f);
+                                Projectile.velocity.X = 0f;
+                                Projectile.velocity.Y = 0f;
+                                SoundEngine.PlaySound(SoundID.Dig, new Vector2(num115 * 16, num116 * 16));
                                 isHooked = true;
-                                projectile.position.X = (float)(num115 * 16 + 8 - projectile.width / 2);
-                                projectile.position.Y = (float)(num116 * 16 + 8 - projectile.height / 2);
-                                projectile.netUpdate = true;
+                                Projectile.position.X = (float)(num115 * 16 + 8 - Projectile.width / 2);
+                                Projectile.position.Y = (float)(num116 * 16 + 8 - Projectile.height / 2);
+                                Projectile.netUpdate = true;
                             }
                             else
                             {
-                                if (projectile.soundDelay <= 0)
+                                if (Projectile.soundDelay <= 0)
                                 {
-                                    projectile.soundDelay = 20;
-                                    Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                                    Projectile.soundDelay = 20;
+                                    SoundEngine.PlaySound(SoundID.WormDig, Projectile.position);
                                 }
                             }
                             break;
@@ -336,14 +338,14 @@ namespace JoostMod.Projectiles
 
             return false;
         }
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Vector2 vector14 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
+            Vector2 vector14 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
             float num84 = mountedCenter.X - vector14.X;
             float num85 = mountedCenter.Y - vector14.Y;
             float rotation13 = (float)Math.Atan2((double)num85, (double)num84) - 1.57f;
@@ -370,11 +372,11 @@ namespace JoostMod.Projectiles
                     num85 = mountedCenter.Y - vector14.Y;
                     Color color15 = Lighting.GetColor((int)vector14.X / 16, (int)(vector14.Y / 16f));
                     SpriteEffects effects = SpriteEffects.None;
-                    if (projectile.spriteDirection == -1)
+                    if (Projectile.spriteDirection == -1)
                     {
                         effects = SpriteEffects.FlipHorizontally;
                     }
-                    Main.spriteBatch.Draw(mod.GetTexture("Projectiles/CactusHookChain"), new Vector2(vector14.X - Main.screenPosition.X, vector14.Y - Main.screenPosition.Y), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.chain30Texture.Width, Main.chain30Texture.Height)), color15, rotation13, new Vector2((float)Main.chain30Texture.Width * 0.5f, (float)Main.chain30Texture.Height * 0.5f), 1f, effects, 0f);
+                    Main.spriteBatch.Draw(Mod.GetTexture("Projectiles/CactusHookChain"), new Vector2(vector14.X - Main.screenPosition.X, vector14.Y - Main.screenPosition.Y), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Chain30.Value.Width, TextureAssets.Chain30.Value.Height)), color15, rotation13, new Vector2((float)TextureAssets.Chain30.Value.Width * 0.5f, (float)TextureAssets.Chain30.Value.Height * 0.5f), 1f, effects, 0f);
                 }
             }
             return true;

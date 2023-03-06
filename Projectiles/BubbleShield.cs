@@ -18,23 +18,23 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 48;
-			projectile.height = 48;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 184;
-			projectile.alpha = 100;
-			projectile.extraUpdates = 1;
+			Projectile.width = 48;
+			Projectile.height = 48;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 184;
+			Projectile.alpha = 100;
+			Projectile.extraUpdates = 1;
 		} 
 		public override void AI()
 		{
-			projectile.position.X = Main.player[projectile.owner].MountedCenter.X - projectile.width/2;
-			projectile.position.Y = Main.player[projectile.owner].MountedCenter.Y - projectile.height/2;
-			projectile.velocity.Y = 0;
-			projectile.rotation = 0;
+			Projectile.position.X = Main.player[Projectile.owner].MountedCenter.X - Projectile.width/2;
+			Projectile.position.Y = Main.player[Projectile.owner].MountedCenter.Y - Projectile.height/2;
+			Projectile.velocity.Y = 0;
+			Projectile.rotation = 0;
 		}
 
 	}

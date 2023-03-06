@@ -8,18 +8,18 @@ namespace JoostMod.Items.Armor
 	[AutoloadEquip(EquipType.Head)]
 	public class GilgameshMask : ModItem
 	{
-public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilgamesh Mask");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 30;
-			item.vanity = true;
-			item.value = 100000;
-			item.rare = 9;
+			Item.width = 28;
+			Item.height = 30;
+			Item.vanity = true;
+			Item.value = 100000;
+			Item.rare = ItemRarityID.Red;
 		}
 
 	}

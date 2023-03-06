@@ -12,31 +12,31 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Broken Giant's Knife");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 82;
-			projectile.height = 18;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 82;
+			Projectile.height = 18;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 
 		public override void AI()
 		{
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 150f)
+			Projectile.ai[0] += 1f;
+			if (Projectile.ai[0] >= 150f)
 			{
-				projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-				projectile.velocity.X = projectile.velocity.X = 0.99f;
+				Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+				Projectile.velocity.X = Projectile.velocity.X = 0.99f;
 				
 			}
 
@@ -44,13 +44,13 @@ namespace JoostMod.Projectiles
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.velocity.X != oldVelocity.Y)
+			if (Projectile.velocity.X != oldVelocity.Y)
 			{
-				projectile.velocity.X = oldVelocity.Y * 0;
+				Projectile.velocity.X = oldVelocity.Y * 0;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = oldVelocity.Y * 0;
+				Projectile.velocity.Y = oldVelocity.Y * 0;
 			}
 			return false;
 		}

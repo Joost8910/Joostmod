@@ -14,16 +14,16 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 40;
-			projectile.height = 18;
-			projectile.aiStyle = 27;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 40;
+			Projectile.height = 18;
+			Projectile.aiStyle = 27;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 
 	}

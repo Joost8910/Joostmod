@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
  
@@ -14,143 +16,143 @@ namespace JoostMod.NPCs.Bosses
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Grand Cactus Worm");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 12500;        
-            npc.damage = 50;    
-            npc.defense = 8;         
-            npc.knockBackResist = 0f;
-            npc.width = 86;
-            npc.height = 106;       
-            npc.noGravity = true;           
-            npc.noTileCollide = true;     
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.behindTiles = true;          
-            npc.value = Item.buyPrice(0, 6, 0, 0);
-            npc.netAlways = true;
-            npc.boss = true;
-            npc.lavaImmune = true;
-            bossBag = mod.ItemType("GrandCactusWormBag");
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
-            musicPriority = MusicPriority.BossHigh;
+            NPC.lifeMax = 12500;        
+            NPC.damage = 50;    
+            NPC.defense = 8;         
+            NPC.knockBackResist = 0f;
+            NPC.width = 86;
+            NPC.height = 106;       
+            NPC.noGravity = true;           
+            NPC.noTileCollide = true;     
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.behindTiles = true;          
+            NPC.value = Item.buyPrice(0, 6, 0, 0);
+            NPC.netAlways = true;
+            NPC.boss = true;
+            NPC.lavaImmune = true;
+            bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("GrandCactusWormBag").Type;
+            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
+            SceneEffectPriority = SceneEffectPriority.BossHigh;
         }
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[1] >= 1800 && npc.ai[1] < 1950)
+            if (NPC.ai[1] >= 1800 && NPC.ai[1] < 1950)
             {
                 //npc.ai[1] % 25 == 20
-                switch ((npc.ai[1] % 25) / 5)
+                switch ((NPC.ai[1] % 25) / 5)
                 {
                     case 0:
                     case 1:
-                        npc.frame.Y = 108 * 2;
+                        NPC.frame.Y = 108 * 2;
                         break;
                     case 2:
                     case 3:
-                        npc.frame.Y = 108 * 3;
+                        NPC.frame.Y = 108 * 3;
                         break;
                     case 4:
-                        npc.frame.Y = 108 * 4;
+                        NPC.frame.Y = 108 * 4;
                         break;
                 }
             }
-            else if ((npc.ai[1] >= 405 && npc.ai[1] < 555) || (npc.ai[1] >= 805 && npc.ai[1] < 930))
+            else if ((NPC.ai[1] >= 405 && NPC.ai[1] < 555) || (NPC.ai[1] >= 805 && NPC.ai[1] < 930))
             {
                 //npc.ai[1] % 25 == 0
-                switch ((npc.ai[1] % 25) / 5)
+                switch ((NPC.ai[1] % 25) / 5)
                 {
                     case 0:
-                        npc.frame.Y = 108 * 4;
+                        NPC.frame.Y = 108 * 4;
                         break;
                     case 1:
                     case 2:
-                        npc.frame.Y = 108 * 2;
+                        NPC.frame.Y = 108 * 2;
                         break;
                     case 3:
                     case 4:
-                        npc.frame.Y = 108 * 3;
+                        NPC.frame.Y = 108 * 3;
                         break;
                 }
             }
-            else if (npc.ai[1] >= 1474 && npc.ai[1] < 1625)
+            else if (NPC.ai[1] >= 1474 && NPC.ai[1] < 1625)
             {
                 //(npc.ai[1] == 1494 || npc.ai[1] == 1524 || npc.ai[1] == 1620)
-                if ((npc.ai[1] > 1499 && npc.ai[1] < 1504) || (npc.ai[1] > 1530 && npc.ai[1] < 1600))
+                if ((NPC.ai[1] > 1499 && NPC.ai[1] < 1504) || (NPC.ai[1] > 1530 && NPC.ai[1] < 1600))
                 {
-                    if (npc.ai[1] % 25 <= 12)
+                    if (NPC.ai[1] % 25 <= 12)
                     {
-                        npc.frame.Y = 0;
+                        NPC.frame.Y = 0;
                     }
                     else
                     {
-                        npc.frame.Y = 108;
+                        NPC.frame.Y = 108;
                     }
                 }
                 else
                 {
-                    int time = (int)(npc.ai[1] - 1494);
-                    if (npc.ai[1] >= 1504)
+                    int time = (int)(NPC.ai[1] - 1494);
+                    if (NPC.ai[1] >= 1504)
                     {
-                        time = (int)(npc.ai[1] - 1524);
+                        time = (int)(NPC.ai[1] - 1524);
                     }
-                    if (npc.ai[1] >= 1600)
+                    if (NPC.ai[1] >= 1600)
                     {
-                        time = (int)(npc.ai[1] - 1620);
+                        time = (int)(NPC.ai[1] - 1620);
                     }
                     switch ((time % 25) / 5)
                     {
                         case 0:
-                            npc.frame.Y = 108 * 4;
+                            NPC.frame.Y = 108 * 4;
                             break;
                         case 1:
                         case 2:
-                            npc.frame.Y = 108 * 2;
+                            NPC.frame.Y = 108 * 2;
                             break;
                         case 3:
                         case 4:
-                            npc.frame.Y = 108 * 3;
+                            NPC.frame.Y = 108 * 3;
                             break;
                     }
                 }
             }
-            else if (npc.ai[1] >= 2195 && npc.ai[1] < 2345)
+            else if (NPC.ai[1] >= 2195 && NPC.ai[1] < 2345)
             {
                 //npc.ai[1] % 25 == 15
-                switch ((npc.ai[1] % 25) / 5)
+                switch ((NPC.ai[1] % 25) / 5)
                 {
                     case 0:
-                        npc.frame.Y = 108 * 2;
+                        NPC.frame.Y = 108 * 2;
                         break;
                     case 1:
                     case 2:
-                        npc.frame.Y = 108 * 3;
+                        NPC.frame.Y = 108 * 3;
                         break;
                     case 3:
-                        npc.frame.Y = 108 * 4;
+                        NPC.frame.Y = 108 * 4;
                         break;
                     case 4:
-                        npc.frame.Y = 108 * 2;
+                        NPC.frame.Y = 108 * 2;
                         break;
                 }
             }
             else
             {
-                if (npc.ai[1] % 25 <= 12)
+                if (NPC.ai[1] % 25 <= 12)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
                 else
                 {
-                    npc.frame.Y = 108;
+                    NPC.frame.Y = 108;
                 }
             }
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (Vector2.Distance(target.Center, npc.Center) > 50)
+            if (Vector2.Distance(target.Center, NPC.Center) > 50)
             {
                 return false;
             }
@@ -158,12 +160,12 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale) + 1;
-            npc.damage = (int)(npc.damage * 0.7f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale) + 1;
+            NPC.damage = (int)(NPC.damage * 0.7f);
         }
         public override void BossHeadRotation(ref float rotation)	
 		{
-			rotation = npc.rotation;
+			rotation = NPC.rotation;
 		}
         public override void BossLoot(ref string name, ref int potionType)
         {
@@ -171,44 +173,44 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0 && JoostWorld.downedCactusWorm)
+            if (NPC.life <= 0 && JoostWorld.downedCactusWorm)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GrandCactusWormHead"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GrandCactusWormHead"), NPC.scale);
             }
-            if (npc.ai[3] == 0)
+            if (NPC.ai[3] == 0)
             {
-                npc.ai[2] = 1;
+                NPC.ai[2] = 1;
             }
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!JoostWorld.downedCactusWorm)
             {
-                npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("GrandCactusWorm"), 1, false);
+                NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("GrandCactusWorm").Type, 1, false);
             }
             if (Main.expertMode)
             {
-                npc.DropBossBags();
+                NPC.DropBossBags();
             }
             else
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LusciousCactus"), 8+Main.rand.Next(8));
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("LusciousCactus").Type, 8+Main.rand.Next(8));
                 if (Main.rand.Next(4) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DeoremMuaMusicBox"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("DeoremMuaMusicBox").Type);
                 }
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandCactusWormMask"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GrandCactusWormMask").Type);
                 }
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandCactusWormTrophy"));
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GrandCactusWormTrophy").Type);
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FifthAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
             }
             JoostWorld.downedCactusWorm = true;
         }
@@ -226,237 +228,237 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool PreAI()
         {
-            Player P = Main.player[npc.target];
-            if (Vector2.Distance(npc.Center, P.MountedCenter) > 4000 || npc.target < 0 || npc.target == 255 || P.dead || !P.active)
+            Player P = Main.player[NPC.target];
+            if (Vector2.Distance(NPC.Center, P.MountedCenter) > 4000 || NPC.target < 0 || NPC.target == 255 || P.dead || !P.active)
             {
-                npc.TargetClosest(false);
-                P = Main.player[npc.target];
-                if (!P.active || P.dead || Vector2.Distance(npc.Center, P.MountedCenter) > 4000)
+                NPC.TargetClosest(false);
+                P = Main.player[NPC.target];
+                if (!P.active || P.dead || Vector2.Distance(NPC.Center, P.MountedCenter) > 4000)
                 {
-                    npc.ai[3] = 0;
-                    npc.ai[2] = 0;
+                    NPC.ai[3] = 0;
+                    NPC.ai[2] = 0;
                 }
             }
             if (Main.netMode != 1)
             {
-                if (npc.ai[0] == 0)
+                if (NPC.ai[0] == 0)
                 {
-                    npc.realLife = npc.whoAmI;
-                    int latestNPC = npc.whoAmI;
+                    NPC.realLife = NPC.whoAmI;
+                    int latestNPC = NPC.whoAmI;
                     int cactusWormLength = 18;
                     for (int i = 0; i < cactusWormLength; ++i)
                     {
-                        latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GrandCactusWormBody"), npc.whoAmI, 0, latestNPC);
-                        Main.npc[(int)latestNPC].realLife = npc.whoAmI;
-                        Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
+                        latestNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormBody").Type, NPC.whoAmI, 0, latestNPC);
+                        Main.npc[(int)latestNPC].realLife = NPC.whoAmI;
+                        Main.npc[(int)latestNPC].ai[3] = NPC.whoAmI;
                     }
-                    latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GrandCactusWormTail"), npc.whoAmI, 0, latestNPC);
-                    Main.npc[(int)latestNPC].realLife = npc.whoAmI;
-                    Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
-                    npc.ai[0] = 1;
-                    npc.netUpdate = true;
+                    latestNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormTail").Type, NPC.whoAmI, 0, latestNPC);
+                    Main.npc[(int)latestNPC].realLife = NPC.whoAmI;
+                    Main.npc[(int)latestNPC].ai[3] = NPC.whoAmI;
+                    NPC.ai[0] = 1;
+                    NPC.netUpdate = true;
                 }
             }
-            if (npc.life < npc.lifeMax/7 && npc.ai[0] != 0 && Main.expertMode)
+            if (NPC.life < NPC.lifeMax/7 && NPC.ai[0] != 0 && Main.expertMode)
             {
-                npc.ai[0] = 2;
+                NPC.ai[0] = 2;
             }
             else
             {
-                npc.ai[0] = 1;
+                NPC.ai[0] = 1;
             }
-            npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
-            if (npc.ai[3] == 0)
+            NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
+            if (NPC.ai[3] == 0)
             {
-                music = MusicID.Desert;
-                npc.ai[1] = 0;
+                Music = MusicID.Desert;
+                NPC.ai[1] = 0;
                 speed = 5;
-                targetPos = npc.Center + new Vector2((float)Math.Cos(npc.rotation - 1.585f) * 160, (float)Math.Sin(npc.rotation - 1.585f) * 160);
-                npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
-                if (Vector2.Distance(npc.Center, P.MountedCenter) < 700 && P.active && !P.dead)
+                targetPos = NPC.Center + new Vector2((float)Math.Cos(NPC.rotation - 1.585f) * 160, (float)Math.Sin(NPC.rotation - 1.585f) * 160);
+                NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
+                if (Vector2.Distance(NPC.Center, P.MountedCenter) < 700 && P.active && !P.dead)
                 {
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                 }
-                if (npc.ai[2] == 1)
+                if (NPC.ai[2] == 1)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 300, P.MountedCenter.Y - 300);
                     speed = 20;
-                    if (Vector2.Distance(targetPos, npc.Center) < 40)
+                    if (Vector2.Distance(targetPos, NPC.Center) < 40)
                     {
-                        npc.ai[3] = 1;
+                        NPC.ai[3] = 1;
                     }
                 }
                 else
                 {
-                    npc.ai[2] = 0;
-                    npc.life = npc.life < npc.lifeMax ? npc.life + 1 + (int)((float)npc.lifeMax * 0.001f) : npc.lifeMax;
+                    NPC.ai[2] = 0;
+                    NPC.life = NPC.life < NPC.lifeMax ? NPC.life + 1 + (int)((float)NPC.lifeMax * 0.001f) : NPC.lifeMax;
                 }
             }
             else
             {
                 float projSpeed = Main.expertMode ? 13.5f : 12;
-                npc.ai[2] = 0;
-                npc.direction = npc.velocity.X < 0 ? -1 : 1;
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
-                if (npc.ai[1] == 0)
+                NPC.ai[2] = 0;
+                NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
+                Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
+                if (NPC.ai[1] == 0)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y + 500);
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y + 500);
                     speed = 20;
                 }
-                if (npc.ai[1] == 24)
+                if (NPC.ai[1] == 24)
                 {
-                    targetPos = new Vector2(npc.Center.X + 850, npc.Center.Y);
+                    targetPos = new Vector2(NPC.Center.X + 850, NPC.Center.Y);
                     speed = 20;
                 }
-                if (npc.ai[1] == 66)
+                if (NPC.ai[1] == 66)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y - 850);
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y - 850);
                     speed = 20;
                 }
-                if (npc.ai[1] == 110)
+                if (NPC.ai[1] == 110)
                 {
-                    targetPos = new Vector2(npc.Center.X - 350, npc.Center.Y);
+                    targetPos = new Vector2(NPC.Center.X - 350, NPC.Center.Y);
                     speed = 16;
                 }
-                if (npc.ai[1] == 130)
+                if (NPC.ai[1] == 130)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y + 400);
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y + 400);
                     speed = 4;
                 }
-                if (npc.ai[1] >= 225 && npc.ai[1] < 425)
+                if (NPC.ai[1] >= 225 && NPC.ai[1] < 425)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X + (npc.ai[1] % 100 < 50 ? 150 : -150), P.MountedCenter.Y - 200 + (npc.ai[1] % 60 < 30 ? 16 : -16));
+                    targetPos = new Vector2(P.MountedCenter.X + (NPC.ai[1] % 100 < 50 ? 150 : -150), P.MountedCenter.Y - 200 + (NPC.ai[1] % 60 < 30 ? 16 : -16));
                     speed = 4;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                 }
-                if (npc.ai[1] >= 425 && npc.ai[1] < 550)
+                if (NPC.ai[1] >= 425 && NPC.ai[1] < 550)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X, P.MountedCenter.Y - 300 + (npc.ai[1] % 20 < 10 ? 16 : -16));
-                    speed = Math.Abs(npc.Center.X - targetPos.X) < 16 ? 1 : 5;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                    if (Main.expertMode && npc.ai[1] > 500)
+                    targetPos = new Vector2(P.MountedCenter.X, P.MountedCenter.Y - 300 + (NPC.ai[1] % 20 < 10 ? 16 : -16));
+                    speed = Math.Abs(NPC.Center.X - targetPos.X) < 16 ? 1 : 5;
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                    if (Main.expertMode && NPC.ai[1] > 500)
                     {
                         Vector2 vel = new Vector2(P.velocity.X, 0);
-                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, npc.Center) / projSpeed));
-                        dir = npc.DirectionTo(predictedPos);
+                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, NPC.Center) / projSpeed));
+                        dir = NPC.DirectionTo(predictedPos);
                     }
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                    if (npc.ai[1] % 25 == 0)
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    if (NPC.ai[1] % 25 == 0)
                     {
                         if (Main.netMode != 1)
                         {
-                            Projectile.NewProjectile(npc.Center + dir * 40, dir * projSpeed, mod.ProjectileType("CactusWormBall"), 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
-                        Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 13, 0.7f, 0.3f);
+                        SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
                 }
-                if (npc.ai[1] >= 550 && npc.ai[1] < 575)
+                if (NPC.ai[1] >= 550 && NPC.ai[1] < 575)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y + 400);
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y + 400);
                     speed = -2;
-                    npc.rotation = (float)Math.PI;
+                    NPC.rotation = (float)Math.PI;
                 }
-                if (npc.ai[1] == 575)
+                if (NPC.ai[1] == 575)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y + 400);
-                    npc.rotation = (float)Math.PI;
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y + 400);
+                    NPC.rotation = (float)Math.PI;
                     speed = 16;
-                    npc.ai[2] = -1;
-                    npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                    NPC.ai[2] = -1;
+                    NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                 }
-                if (npc.ai[1] >= 600 && npc.ai[1] < 624)
+                if (NPC.ai[1] >= 600 && NPC.ai[1] < 624)
                 {
                     targetPos = new Vector2(P.MountedCenter.X, P.MountedCenter.Y + 300);
                     speed = 11;
                 }
-                if (npc.ai[1] >= 624 && npc.ai[1] < 820)
+                if (NPC.ai[1] >= 624 && NPC.ai[1] < 820)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X + (npc.ai[1] % 100 < 50 ? 150 : -150), P.MountedCenter.Y + 250 + (npc.ai[1] % 60 < 30 ? 16 : -16));
+                    targetPos = new Vector2(P.MountedCenter.X + (NPC.ai[1] % 100 < 50 ? 150 : -150), P.MountedCenter.Y + 250 + (NPC.ai[1] % 60 < 30 ? 16 : -16));
                     speed = 4;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                 }
-                if (npc.ai[1] >= 820 && npc.ai[1] < 945)
+                if (NPC.ai[1] >= 820 && NPC.ai[1] < 945)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X, P.MountedCenter.Y + 250 + (npc.ai[1] % 20 < 10 ? 16 : -16));
-                    speed = Math.Abs(npc.Center.X - targetPos.X) < 16 ? 1 : 5;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                    if (Main.expertMode && npc.ai[1] > 900)
+                    targetPos = new Vector2(P.MountedCenter.X, P.MountedCenter.Y + 250 + (NPC.ai[1] % 20 < 10 ? 16 : -16));
+                    speed = Math.Abs(NPC.Center.X - targetPos.X) < 16 ? 1 : 5;
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                    if (Main.expertMode && NPC.ai[1] > 900)
                     {
                         Vector2 vel = new Vector2(P.velocity.X, 0);
-                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, npc.Center) / projSpeed));
-                        dir = npc.DirectionTo(predictedPos);
+                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, NPC.Center) / projSpeed));
+                        dir = NPC.DirectionTo(predictedPos);
                     }
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                    if (npc.ai[1] % 25 == 0)
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    if (NPC.ai[1] % 25 == 0)
                     {
                         if (Main.netMode != 1)
                         {
-                            Projectile.NewProjectile(npc.Center + dir * 40, dir * projSpeed, mod.ProjectileType("CactusWormBall"), 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
-                        Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 13, 0.7f, 0.3f);
+                        SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
                 }
-                if (npc.ai[1] >= 945 && npc.ai[1] < 970)
+                if (NPC.ai[1] >= 945 && NPC.ai[1] < 970)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y - 400);
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y - 400);
                     speed = -2;
-                    npc.rotation = 0;
+                    NPC.rotation = 0;
                 }
-                if (npc.ai[1] == 970)
+                if (NPC.ai[1] == 970)
                 {
-                    targetPos = new Vector2(npc.Center.X, npc.Center.Y - 400);
+                    targetPos = new Vector2(NPC.Center.X, NPC.Center.Y - 400);
                     speed = 16;
-                    npc.rotation = 0;
-                    npc.ai[2] = -1;
-                    npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                    NPC.rotation = 0;
+                    NPC.ai[2] = -1;
+                    NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                 }
-                if (npc.ai[1] >= 995 && npc.ai[1] < 1020)
+                if (NPC.ai[1] >= 995 && NPC.ai[1] < 1020)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 400, P.MountedCenter.Y - 300);
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                     speed = 10;
                 }
-                if (npc.ai[1] == 1020)
+                if (NPC.ai[1] == 1020)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X + 200 * npc.direction, P.MountedCenter.Y + 300);
+                    targetPos = new Vector2(P.MountedCenter.X + 200 * NPC.direction, P.MountedCenter.Y + 300);
                     speed = 14;
-                    npc.ai[2] = -1;
-                    npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                    NPC.ai[2] = -1;
+                    NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                 }
-                if (npc.ai[1] >= 1050 && npc.ai[1] < 1080)
+                if (NPC.ai[1] >= 1050 && NPC.ai[1] < 1080)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X + 200 * npc.direction, P.MountedCenter.Y - 300);
-                    npc.ai[2] = 1;
+                    targetPos = new Vector2(P.MountedCenter.X + 200 * NPC.direction, P.MountedCenter.Y - 300);
+                    NPC.ai[2] = 1;
                     speed = 2;
                 }
-                if (npc.ai[1] == 1080)
+                if (NPC.ai[1] == 1080)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X + 200 * npc.direction, P.MountedCenter.Y - 300);
+                    targetPos = new Vector2(P.MountedCenter.X + 200 * NPC.direction, P.MountedCenter.Y - 300);
                     speed = 14;
-                    npc.ai[2] = -1;
-                    npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                    NPC.ai[2] = -1;
+                    NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                 }
-                if (npc.ai[1] >= 1111 && npc.ai[1] < 1140)
+                if (NPC.ai[1] >= 1111 && NPC.ai[1] < 1140)
                 {
-                    targetPos = new Vector2(P.MountedCenter.X + 100 * npc.direction, P.MountedCenter.Y);
-                    npc.ai[2] = 1;
+                    targetPos = new Vector2(P.MountedCenter.X + 100 * NPC.direction, P.MountedCenter.Y);
+                    NPC.ai[2] = 1;
                     speed = 5;
                 }
-                if (npc.ai[1] == 1140)
+                if (NPC.ai[1] == 1140)
                 {
                     targetPos = new Vector2(P.MountedCenter.X + 200, P.MountedCenter.Y - 100);
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                     speed = 14;
                 }
-                if (npc.ai[1] == 1160)
+                if (NPC.ai[1] == 1160)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 200, P.MountedCenter.Y - 100);
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                     speed = 14;
                 }
-                if (npc.ai[1] == 1180)
+                if (NPC.ai[1] == 1180)
                 {
                     targetPos = P.MountedCenter;
                     speed = 12;
@@ -471,241 +473,241 @@ namespace JoostMod.NPCs.Bosses
 
                 if (Main.expertMode)
                 {
-                    if ((npc.ai[1] >= 1215 && npc.ai[1] < 1240) || (npc.ai[1] >= 1315 && npc.ai[1] < 1340) || (npc.ai[1] >= 1410 && npc.ai[1] < 1440))
+                    if ((NPC.ai[1] >= 1215 && NPC.ai[1] < 1240) || (NPC.ai[1] >= 1315 && NPC.ai[1] < 1340) || (NPC.ai[1] >= 1410 && NPC.ai[1] < 1440))
                     {
                         targetPos = P.MountedCenter;
                         speed = -2;
-                        Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                        npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                        npc.ai[2] = -1;
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                        NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                        NPC.ai[2] = -1;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
-                    if (npc.ai[1] == 1240 || npc.ai[1] == 1340)
+                    if (NPC.ai[1] == 1240 || NPC.ai[1] == 1340)
                     {
                         targetPos = P.MountedCenter;
                         speed = 30;
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
-                    if (npc.ai[1] == 1290)
+                    if (NPC.ai[1] == 1290)
                     {
                         targetPos = P.MountedCenter + new Vector2(Main.rand.Next(-20, 20) * 25, -350);
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
-                    if (npc.ai[1] == 1390)
+                    if (NPC.ai[1] == 1390)
                     {
                         targetPos = P.MountedCenter + new Vector2(Main.rand.Next(-10, 10) * 20, 350);
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
-                    if (npc.ai[1] >= 1240 && npc.ai[1] <= 1390)
+                    if (NPC.ai[1] >= 1240 && NPC.ai[1] <= 1390)
                     {
-                        npc.ai[2] = -1;
+                        NPC.ai[2] = -1;
                     }
-                    if (npc.ai[1] == 1440)
+                    if (NPC.ai[1] == 1440)
                     {
                         targetPos = P.MountedCenter;
                         speed = 40;
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
                 }
                 else
                 {
-                    if ((npc.ai[1] >= 1215 && npc.ai[1] < 1240) || (npc.ai[1] >= 1265 && npc.ai[1] < 1290) || (npc.ai[1] >= 1315 && npc.ai[1] < 1340) || (npc.ai[1] >= 1365 && npc.ai[1] < 1390) || (npc.ai[1] >= 1410 && npc.ai[1] < 1440))
+                    if ((NPC.ai[1] >= 1215 && NPC.ai[1] < 1240) || (NPC.ai[1] >= 1265 && NPC.ai[1] < 1290) || (NPC.ai[1] >= 1315 && NPC.ai[1] < 1340) || (NPC.ai[1] >= 1365 && NPC.ai[1] < 1390) || (NPC.ai[1] >= 1410 && NPC.ai[1] < 1440))
                     {
                         targetPos = P.MountedCenter;
                         speed = -2;
-                        Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                        npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                        npc.ai[2] = -1;
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                        NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                        NPC.ai[2] = -1;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
-                    if (npc.ai[1] == 1240 || npc.ai[1] == 1290 || npc.ai[1] == 1340 || npc.ai[1] == 1390)
+                    if (NPC.ai[1] == 1240 || NPC.ai[1] == 1290 || NPC.ai[1] == 1340 || NPC.ai[1] == 1390)
                     {
                         targetPos = P.MountedCenter;
                         speed = 12;
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
-                    if (npc.ai[1] >= 1240 && npc.ai[1] <= 1390)
+                    if (NPC.ai[1] >= 1240 && NPC.ai[1] <= 1390)
                     {
-                        npc.ai[2] = -1;
+                        NPC.ai[2] = -1;
                     }
-                    if (npc.ai[1] == 1440)
+                    if (NPC.ai[1] == 1440)
                     {
                         targetPos = P.MountedCenter;
                         speed = 14;
-                        npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                        NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                     }
                 }
 
 
-                if (npc.ai[1] >= 1440 && npc.ai[1] < 1460)
+                if (NPC.ai[1] >= 1440 && NPC.ai[1] < 1460)
                 {
-                    npc.ai[2] = -1;
+                    NPC.ai[2] = -1;
                 }
-                if (npc.ai[1] >= 1460 && npc.ai[1] < 1474)
+                if (NPC.ai[1] >= 1460 && NPC.ai[1] < 1474)
                 {
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                     speed = 5;
                 }
-                if (npc.ai[1] >= 1474 && npc.ai[1] <= 1620)
+                if (NPC.ai[1] >= 1474 && NPC.ai[1] <= 1620)
                 {
                     targetPos = P.MountedCenter;
                     speed = 5;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
                     if (Main.expertMode)
                     {
                         Vector2 vel = new Vector2(P.velocity.X, 0);
-                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, npc.Center) / projSpeed));
-                        dir = npc.DirectionTo(predictedPos);
+                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, NPC.Center) / projSpeed));
+                        dir = NPC.DirectionTo(predictedPos);
                         targetPos = predictedPos;
                     }
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                    if ((npc.ai[1] == 1494 || npc.ai[1] == 1524 || npc.ai[1] == 1620))
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    if ((NPC.ai[1] == 1494 || NPC.ai[1] == 1524 || NPC.ai[1] == 1620))
                     {
                         if (Main.netMode != 1)
                         {
-                            Projectile.NewProjectile(npc.Center + npc.DirectionTo(targetPos) * 40, dir * projSpeed, mod.ProjectileType("CactusWormBall"), 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
-                        Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 13, 0.7f, 0.3f);
+                        SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
                 }
 
-                if (npc.ai[1] > 1620 && npc.ai[1] < 1820)
+                if (NPC.ai[1] > 1620 && NPC.ai[1] < 1820)
                 {
                     //targetPos = new Vector2(npc.Center.X + 120 * npc.direction, npc.Center.Y + (npc.ai[1] % 60 < 5 ? 90 : npc.ai[1] % 60 < 10 ? 60 : npc.ai[1] % 60 < 15 ? 30 : npc.ai[1] % 60 < 20 ? 0 : npc.ai[1] % 60 < 25 ? -30 : npc.ai[1] % 60 < 30 ? -60 : npc.ai[1] % 60 < 35 ? -90 : npc.ai[1] % 60 < 40 ? -60 : npc.ai[1] % 60 < 45 ? -30 : npc.ai[1] % 60 < 50 ? 0 : npc.ai[1] % 60 < 55 ? 30 : 60));
-                    float rotation = npc.ai[1] * 0.0174f * 9;
+                    float rotation = NPC.ai[1] * 0.0174f * 9;
                     targetPos = P.MountedCenter + (new Vector2((float)(Math.Cos(rotation) * 100), (float)(Math.Sin(rotation) * 100)));
                     speed = 4;
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                 }
-                if (npc.ai[1] >= 1820 && npc.ai[1] < 1945)
+                if (NPC.ai[1] >= 1820 && NPC.ai[1] < 1945)
                 {
                     targetPos = P.MountedCenter;
                     speed = 5;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                    if (Main.expertMode && npc.ai[1] % 50 > 20)
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                    if (Main.expertMode && NPC.ai[1] % 50 > 20)
                     {
                         Vector2 vel = new Vector2(P.velocity.X, 0);
-                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, npc.Center) / projSpeed));
-                        dir = npc.DirectionTo(predictedPos);
+                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, NPC.Center) / projSpeed));
+                        dir = NPC.DirectionTo(predictedPos);
                     }
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                    if (npc.ai[1] % 25 == 20)
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    if (NPC.ai[1] % 25 == 20)
                     {
                         if (Main.netMode != 1)
                         {
-                            Projectile.NewProjectile(npc.Center + npc.DirectionTo(targetPos) * 40, dir * projSpeed, mod.ProjectileType("CactusWormBall"), 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
-                        Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 13, 0.7f, 0.3f);
+                        SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
                 }
-                if (npc.ai[1] >= 1945 && npc.ai[1] < 1970)
+                if (NPC.ai[1] >= 1945 && NPC.ai[1] < 1970)
                 {
                     targetPos = P.MountedCenter;
-                    speed = Vector2.Distance(targetPos, npc.Center) < 16 ? 0 : 1;
+                    speed = Vector2.Distance(targetPos, NPC.Center) < 16 ? 0 : 1;
                 }
-                if (npc.ai[1] == 1970)
+                if (NPC.ai[1] == 1970)
                 {
                     targetPos = P.MountedCenter;
                     speed = Main.expertMode ? 30 : 12;
-                    npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                    NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
                 }
-                if (npc.ai[1] >= 1970 && npc.ai[1] < 2019)
+                if (NPC.ai[1] >= 1970 && NPC.ai[1] < 2019)
                 {
-                    npc.ai[2] = -1;
+                    NPC.ai[2] = -1;
                 }
-                if (npc.ai[1] >= 2019 && npc.ai[1] < 2215)
+                if (NPC.ai[1] >= 2019 && NPC.ai[1] < 2215)
                 {
                     //targetPos = new Vector2(npc.Center.X + 120 * npc.direction, npc.Center.Y + (npc.ai[1] % 60 < 5 ? 90 : npc.ai[1] % 60 < 10 ? 60 : npc.ai[1] % 60 < 15 ? 30 : npc.ai[1] % 60 < 20 ? 0 : npc.ai[1] % 60 < 25 ? -30 : npc.ai[1] % 60 < 30 ? -60 : npc.ai[1] % 60 < 35 ? -90 : npc.ai[1] % 60 < 40 ? -60 : npc.ai[1] % 60 < 45 ? -30 : npc.ai[1] % 60 < 50 ? 0 : npc.ai[1] % 60 < 55 ? 30 : 60));
-                    float rotation = npc.ai[1] * 0.0174f * 9;
+                    float rotation = NPC.ai[1] * 0.0174f * 9;
                     targetPos = P.MountedCenter + (new Vector2((float)(Math.Cos(rotation) * 100), (float)(Math.Sin(rotation) * 100)));
                     speed = 4;
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                 }
-                if (npc.ai[1] >= 2215 && npc.ai[1] < 2340)
+                if (NPC.ai[1] >= 2215 && NPC.ai[1] < 2340)
                 {
                     targetPos = P.MountedCenter;
                     speed = 5;
-                    Vector2 dir = npc.DirectionTo(P.MountedCenter);
-                    if (Main.expertMode && npc.ai[1] % 50 > 15)
+                    Vector2 dir = NPC.DirectionTo(P.MountedCenter);
+                    if (Main.expertMode && NPC.ai[1] % 50 > 15)
                     {
                         Vector2 vel = new Vector2(P.velocity.X, 0);
-                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, npc.Center) / projSpeed));
-                        dir = npc.DirectionTo(predictedPos);
+                        Vector2 predictedPos = P.MountedCenter + P.velocity + (vel * (Vector2.Distance(P.MountedCenter, NPC.Center) / projSpeed));
+                        dir = NPC.DirectionTo(predictedPos);
                     }
-                    npc.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
-                    if (npc.ai[1] % 25 == 15)
+                    NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
+                    if (NPC.ai[1] % 25 == 15)
                     {
                         if (Main.netMode != 1)
                         {
-                            Projectile.NewProjectile(npc.Center + npc.DirectionTo(targetPos) * 40, dir * projSpeed, mod.ProjectileType("CactusWormBall"), 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
-                        Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 13, 0.7f, 0.3f);
+                        SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
                 }
-                if (npc.ai[1] >= 2340 && npc.ai[1] < 2365)
+                if (NPC.ai[1] >= 2340 && NPC.ai[1] < 2365)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 300, P.MountedCenter.Y - 300);
                     speed = 10;
                 }
-                if (npc.ai[1] >= 2365)
+                if (NPC.ai[1] >= 2365)
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 300, P.MountedCenter.Y - 300);
                     speed = 25;
                 }
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
-                npc.ai[1]++;
-                if (npc.ai[1] > 2410)
+                Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
+                NPC.ai[1]++;
+                if (NPC.ai[1] > 2410)
                 {
-                    npc.ai[1] = 0;
+                    NPC.ai[1] = 0;
                 }
             }
-            if (npc.ai[2] == 0 && (targetPos == P.MountedCenter || npc.Distance(targetPos) < 100))
+            if (NPC.ai[2] == 0 && (targetPos == P.MountedCenter || NPC.Distance(targetPos) < 100))
             {
-                npc.ai[2] = 1;
+                NPC.ai[2] = 1;
             }
-            if (npc.ai[2] > 0)
+            if (NPC.ai[2] > 0)
             {
                 float home = 20f;
-                Vector2 move = targetPos - npc.Center;
+                Vector2 move = targetPos - NPC.Center;
                 if (move.Length() > speed && speed > 0)
                 {
                     move *= (float)(speed / move.Length());
                 }
-                npc.velocity = ((home - 1f) * npc.velocity + move) / home;
-                if (npc.velocity.Length() < speed && speed > 0)
+                NPC.velocity = ((home - 1f) * NPC.velocity + move) / home;
+                if (NPC.velocity.Length() < speed && speed > 0)
                 {
-                    npc.velocity *= (float)(speed / npc.velocity.Length());
+                    NPC.velocity *= (float)(speed / NPC.velocity.Length());
                 }
             }
-            else if (npc.ai[2] == 0)
+            else if (NPC.ai[2] == 0)
             {
-                npc.velocity = npc.DirectionTo(targetPos) * (float)speed;
+                NPC.velocity = NPC.DirectionTo(targetPos) * (float)speed;
             }
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
             return false;
         }
         
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
-            Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height / Main.npcFrameCount[npc.type]);
-            Rectangle? rect = new Rectangle?(new Rectangle(0, (texture.Height / Main.npcFrameCount[npc.type]) * (npc.frame.Y / 108), texture.Width, texture.Height / Main.npcFrameCount[npc.type]));
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, rect, drawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height / Main.npcFrameCount[NPC.type]);
+            Rectangle? rect = new Rectangle?(new Rectangle(0, (texture.Height / Main.npcFrameCount[NPC.type]) * (NPC.frame.Y / 108), texture.Width, texture.Height / Main.npcFrameCount[NPC.type]));
+            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, rect, drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = mod.GetTexture("NPCs/Bosses/GrandCactusWormEyes");
+            Texture2D texture = Mod.GetTexture("NPCs/Bosses/GrandCactusWormEyes");
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             int eyeFrame = 0;
             Color color = Color.YellowGreen;
-            if ((npc.ai[1] >= 550 && npc.ai[1] <= 575) || (npc.ai[1] >= 945 && npc.ai[1] < 970) || (npc.ai[1] >= 995 && npc.ai[1] < 1020) || (npc.ai[1] >= 1055 && npc.ai[1] < 1080) || (npc.ai[1] >= 1110 && npc.ai[1] < 1115) || (npc.ai[1] >= 1120 && npc.ai[1] < 1125) || (npc.ai[1] >= 1130 && npc.ai[1] < 1135) || (npc.ai[1] >= 1215 && npc.ai[1] < 1240) || (npc.ai[1] >= 1265 && npc.ai[1] < 1290) || (npc.ai[1] >= 1315 && npc.ai[1] < 1340) || (npc.ai[1] >= 1365 && npc.ai[1] < 1390) || (npc.ai[1] >= 1410 && npc.ai[1] < 1440) || (npc.ai[1] >= 1945 && npc.ai[1] < 1970) || (npc.ai[1] >= 2340 && npc.ai[1] < 2365))
+            if ((NPC.ai[1] >= 550 && NPC.ai[1] <= 575) || (NPC.ai[1] >= 945 && NPC.ai[1] < 970) || (NPC.ai[1] >= 995 && NPC.ai[1] < 1020) || (NPC.ai[1] >= 1055 && NPC.ai[1] < 1080) || (NPC.ai[1] >= 1110 && NPC.ai[1] < 1115) || (NPC.ai[1] >= 1120 && NPC.ai[1] < 1125) || (NPC.ai[1] >= 1130 && NPC.ai[1] < 1135) || (NPC.ai[1] >= 1215 && NPC.ai[1] < 1240) || (NPC.ai[1] >= 1265 && NPC.ai[1] < 1290) || (NPC.ai[1] >= 1315 && NPC.ai[1] < 1340) || (NPC.ai[1] >= 1365 && NPC.ai[1] < 1390) || (NPC.ai[1] >= 1410 && NPC.ai[1] < 1440) || (NPC.ai[1] >= 1945 && NPC.ai[1] < 1970) || (NPC.ai[1] >= 2340 && NPC.ai[1] < 2365))
             {
                 eyeFrame = 1;
                 color = Color.Red;
             }
             Rectangle? rect = new Rectangle?(new Rectangle(0, (texture.Height / 2) * eyeFrame, texture.Width, texture.Height / 2));
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, rect, color, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, rect, color, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
         }
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

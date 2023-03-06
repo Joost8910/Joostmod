@@ -14,32 +14,32 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.melee = true;
-			item.width = 54;
-			item.height = 28;
-            item.axe = 16;
-			item.useTime = 8;
-			item.useAnimation = 24;
-			item.useStyle = 5;
-			item.knockBack = 2.5f;
-			item.value = 65000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item23;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("Bonesaw");
-			item.shootSpeed = 40f;
+			Item.damage = 18;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 54;
+			Item.height = 28;
+            Item.axe = 16;
+			Item.useTime = 8;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 2.5f;
+			Item.value = 65000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item23;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("Bonesaw").Type;
+			Item.shootSpeed = 40f;
 		}
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{
 			foreach (TooltipLine line2 in list)
 			{
-				if (line2.mod == "Terraria" && line2.Name == "ItemName")
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
 				{
-					line2.overrideColor = new Color(230, 204, 128);
+					line2.OverrideColor = new Color(230, 204, 128);
 				}
 			}
 		}

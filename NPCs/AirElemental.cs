@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,193 +12,193 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Air Elemental");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetDefaults()
         {
-            npc.width = 24;
-            npc.height = 54;
-            npc.damage = 25;
-            npc.defense = 0;
-            npc.lifeMax = 350;
-            npc.HitSound = SoundID.NPCHit30;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.value = Item.buyPrice(0, 0, 7, 50);
-            npc.knockBackResist = 0.85f;
-            npc.aiStyle = 0;
-            npc.noTileCollide = true;
-            npc.noGravity = true;
-            npc.frameCounter = 0;
-            banner = npc.type;
-            bannerItem = mod.ItemType("AirElementalBanner");
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.Ichor] = true;
-            npc.alpha = 75;
+            NPC.width = 24;
+            NPC.height = 54;
+            NPC.damage = 25;
+            NPC.defense = 0;
+            NPC.lifeMax = 350;
+            NPC.HitSound = SoundID.NPCHit30;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.value = Item.buyPrice(0, 0, 7, 50);
+            NPC.knockBackResist = 0.85f;
+            NPC.aiStyle = 0;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.frameCounter = 0;
+            Banner = NPC.type;
+            BannerItem = Mod.Find<ModItem>("AirElementalBanner").Type;
+            NPC.buffImmune[BuffID.Poisoned] = true;
+            NPC.buffImmune[BuffID.Venom] = true;
+            NPC.buffImmune[BuffID.Ichor] = true;
+            NPC.alpha = 75;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TinyTwister"), (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TinyTwister").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
 
             if (Main.rand.Next(50) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SecondAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 16, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 16, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.playerInTown && !spawnInfo.invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.sky && Main.hardMode ? 0.18f : 0f;
+            return !spawnInfo.PlayerInTown && !spawnInfo.Invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.Sky && Main.hardMode ? 0.18f : 0f;
         }
         public override void AI()
         {
-            npc.ai[0]++;
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            NPC.ai[0]++;
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            if (npc.ai[0] == 220)
+            if (NPC.ai[0] == 220)
             {
                 for (int d = 0; d < 20; d++)
                 {
-                    Dust dust = Dust.NewDustDirect(npc.Center - new Vector2(10, 10), 20, 20, 31, npc.velocity.X * 0.8f, npc.velocity.Y * 0.8f, 0, default(Color), 1.5f);
-                    Vector2 vel = npc.Center - dust.position;
+                    Dust dust = Dust.NewDustDirect(NPC.Center - new Vector2(10, 10), 20, 20, 31, NPC.velocity.X * 0.8f, NPC.velocity.Y * 0.8f, 0, default(Color), 1.5f);
+                    Vector2 vel = NPC.Center - dust.position;
                     vel.Normalize();
                     dust.position -= vel * 30;
-                    dust.velocity = vel * 2 + npc.velocity;
+                    dust.velocity = vel * 2 + NPC.velocity;
                     dust.noGravity = true;
                 }
             }
-            if (npc.ai[0] > 220 && npc.ai[0] % 3 == 0)
+            if (NPC.ai[0] > 220 && NPC.ai[0] % 3 == 0)
             {
-                 Dust.NewDustDirect(npc.Center - new Vector2(10, 10), 20, 20, 31, npc.velocity.X * 0.8f, npc.velocity.Y * 0.8f, 0, default(Color), 1f);
+                 Dust.NewDustDirect(NPC.Center - new Vector2(10, 10), 20, 20, 31, NPC.velocity.X * 0.8f, NPC.velocity.Y * 0.8f, 0, default(Color), 1f);
             }
-            if (npc.ai[3] > 10)
+            if (NPC.ai[3] > 10)
             {
-                if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+                if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                 {
-                    npc.velocity *= 0.98f;
+                    NPC.velocity *= 0.98f;
                 }
                 if (Main.expertMode) // Wind
                 {
-                    npc.ai[1]++;
-                    if (npc.ai[1] > 1000)
+                    NPC.ai[1]++;
+                    if (NPC.ai[1] > 1000)
                     {
-                        if (npc.ai[1] % 2 == 0)
+                        if (NPC.ai[1] % 2 == 0)
                         {
-                            Dust.NewDustDirect(npc.position, npc.width, npc.height, 31, npc.velocity.X * 0.8f, npc.velocity.Y * 0.8f, 0, Color.White, 1.5f);
+                            Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 31, NPC.velocity.X * 0.8f, NPC.velocity.Y * 0.8f, 0, Color.White, 1.5f);
                         }
-                        if (npc.velocity.Y * npc.directionY < 8)
+                        if (NPC.velocity.Y * NPC.directionY < 8)
                         {
-                            npc.velocity.Y += 0.3f * npc.directionY;
+                            NPC.velocity.Y += 0.3f * NPC.directionY;
                         }
-                        if (Collision.CanHitLine(npc.Center, 1, 1, P.Center, 1, 1) && npc.ai[2] == 0 && Math.Abs(npc.Center.Y - P.Center.Y) < 40)
+                        if (Collision.CanHitLine(NPC.Center, 1, 1, P.Center, 1, 1) && NPC.ai[2] == 0 && Math.Abs(NPC.Center.Y - P.Center.Y) < 40)
                         {
-                            npc.ai[2]++;
+                            NPC.ai[2]++;
                         }
                     }
-                    if (npc.ai[2] > 0)
+                    if (NPC.ai[2] > 0)
                     {
-                        npc.ai[2]++;
-                        npc.velocity *= 0.98f;
+                        NPC.ai[2]++;
+                        NPC.velocity *= 0.98f;
 
-                        Vector2 position = npc.Center;
-                        float speedX = ((7f + Main.rand.NextFloat() * 7f) * npc.direction) + (npc.direction * npc.velocity.X > 0 ? npc.velocity.X : 0);
-                        position.X -= 1000 * npc.direction;
+                        Vector2 position = NPC.Center;
+                        float velocity.X = ((7f + Main.rand.NextFloat() * 7f) * NPC.direction) + (NPC.direction * NPC.velocity.X > 0 ? NPC.velocity.X : 0);
+                        position.X -= 1000 * NPC.direction;
                         position.Y += Main.rand.Next(-8, 8) * 10;
-                        if (npc.ai[2] % 2 == 0)
+                        if (NPC.ai[2] % 2 == 0)
                         {
-                            Dust.NewDustPerfect(position, 31, new Vector2(speedX * 3, 0), 0, Color.White, 2f);
+                            Dust.NewDustPerfect(position, 31, new Vector2(velocity.X * 3, 0), 0, Color.White, 2f);
                         }
-                        if (npc.ai[2] % 16 == 0)
+                        if (NPC.ai[2] % 16 == 0)
                         {
-                            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7, 1.8f, -0.8f);
+                            SoundEngine.PlaySound(SoundID.Item7.WithVolumeScale(1.8f).WithPitchOffset(-0.8f), NPC.position);
 
                             if (Main.netMode != 1)
                             {
-                                Projectile.NewProjectile(position.X, position.Y, speedX, 0, mod.ProjectileType("HostileWind"), 25, 10f);
+                                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, 0, Mod.Find<ModProjectile>("HostileWind").Type, 25, 10f);
                             }
                         }
-                        if (npc.ai[2] > 200)
+                        if (NPC.ai[2] > 200)
                         {
-                            npc.ai[0] = 0;
-                            npc.ai[1] = 0;
-                            npc.ai[2] = 0;
+                            NPC.ai[0] = 0;
+                            NPC.ai[1] = 0;
+                            NPC.ai[2] = 0;
                         }
                     }
                 }
-                if (npc.ai[0] >= 240 && Collision.CanHitLine(npc.Center - new Vector2(20, 20), 40, 40, P.Center, 1, 1) && npc.ai[2] == 0)
+                if (NPC.ai[0] >= 240 && Collision.CanHitLine(NPC.Center - new Vector2(20, 20), 40, 40, P.Center, 1, 1) && NPC.ai[2] == 0)
                 {
                     float Speed = 8f;
                     int damage = 25;
-                    int type = mod.ProjectileType("Gust");
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
-                    Vector2 dir = npc.DirectionTo(P.Center);
+                    int type = Mod.Find<ModProjectile>("Gust").Type;
+                    SoundEngine.PlaySound(SoundID.Item1, NPC.position);
+                    Vector2 dir = NPC.DirectionTo(P.Center);
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center, dir * Speed, type, damage, 10f);
+                        Projectile.NewProjectile(NPC.Center, dir * Speed, type, damage, 10f);
                     }
                     for (int d = 0; d < 10; d++)
                     {
-                        Dust.NewDust(npc.Center - new Vector2(10, 10), 20, 20, 31, dir.X * Speed, dir.Y * Speed, 0, default(Color), 2f);
+                        Dust.NewDust(NPC.Center - new Vector2(10, 10), 20, 20, 31, dir.X * Speed, dir.Y * Speed, 0, default(Color), 2f);
                     }
-                    npc.ai[0] = 0;
-                    npc.velocity = dir * -10;
+                    NPC.ai[0] = 0;
+                    NPC.velocity = dir * -10;
                 }
-                npc.direction = npc.Center.X < P.Center.X ? 1 : -1;
-                npc.directionY = npc.Center.Y < P.Center.Y ? 1 : -1;
+                NPC.direction = NPC.Center.X < P.Center.X ? 1 : -1;
+                NPC.directionY = NPC.Center.Y < P.Center.Y ? 1 : -1;
                 float speed = 10;
-                Vector2 vel = new Vector2(speed * npc.direction, speed * npc.directionY);
+                Vector2 vel = new Vector2(speed * NPC.direction, speed * NPC.directionY);
                 if (vel.Length() > speed)
                 {
                     vel *= speed / vel.Length();
                 }
-                if (npc.Distance(P.Center) < 300 && Collision.CanHitLine(npc.Center, 1, 1, P.Center, 1, 1))
+                if (NPC.Distance(P.Center) < 300 && Collision.CanHitLine(NPC.Center, 1, 1, P.Center, 1, 1))
                 {
                     vel *= -1;
                 }
                 float home = 50f;
                 if (vel != Vector2.Zero)
                 {
-                    npc.velocity = ((home - 1f) * npc.velocity + vel) / home;
+                    NPC.velocity = ((home - 1f) * NPC.velocity + vel) / home;
                 }
             }
             else
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 31, 0, 0, 0, Color.White, 1.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 31, 0, 0, 0, Color.White, 1.5f);
             }
-            if (npc.ai[3] < (Main.expertMode ? 90 : 120))
+            if (NPC.ai[3] < (Main.expertMode ? 90 : 120))
             {
-                npc.ai[3]++;
+                NPC.ai[3]++;
             }
             else
             {
-                if (npc.ai[0] % 2 == 0)
+                if (NPC.ai[0] % 2 == 0)
                 {
-                    Dust.NewDustPerfect(new Vector2(npc.Center.X, npc.Center.Y + (npc.height / 2)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
+                    Dust.NewDustPerfect(new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height / 2)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
                 }
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile proj = Main.projectile[i];
                     float collisionPoint = 0;
-                    if (proj.active && proj.friendly && proj.damage > 0 && proj.CanHit(npc) && Collision.CheckAABBvLineCollision(npc.position, npc.Size, proj.Center, proj.Center + proj.velocity * 10 * (proj.extraUpdates + 1), proj.width, ref collisionPoint))
+                    if (proj.active && proj.friendly && proj.damage > 0 && proj.CanHit(NPC) && Collision.CheckAABBvLineCollision(NPC.position, NPC.Size, proj.Center, proj.Center + proj.velocity * 10 * (proj.extraUpdates + 1), proj.width, ref collisionPoint))
                     {
                         Vector2 vel = proj.velocity;
                         vel.Normalize();
-                        npc.velocity = vel.RotatedBy(90 * 0.0174f) * 12;
-                        npc.ai[3] = 0;
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
+                        NPC.velocity = vel.RotatedBy(90 * 0.0174f) * 12;
+                        NPC.ai[3] = 0;
+                        SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                         break;
                     }
                 }
@@ -205,15 +206,15 @@ namespace JoostMod.NPCs
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter * (npc.velocity.Length() / 2 + 2) >= 20)
+            NPC.frameCounter++;
+            if (NPC.frameCounter * (NPC.velocity.Length() / 2 + 2) >= 20)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = (npc.frame.Y + 62);
+                NPC.frameCounter = 0;
+                NPC.frame.Y = (NPC.frame.Y + 62);
             }
-            if (npc.frame.Y >= 248)
+            if (NPC.frame.Y >= 248)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
         }
 

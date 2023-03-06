@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,26 +16,26 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 35;
-			item.summon = true;
-			item.mana = 15;
-			item.width = 44;
-			item.height = 44;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = 1;
-			item.noMelee = true; 
-			item.knockBack = 10;
-			item.value = 75000;
-			item.rare = 7;
-			item.UseSound = SoundID.Item44;
-			item.shoot = mod.ProjectileType("ShroomSentry");
-			item.sentry = true;
+			Item.damage = 35;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 15;
+			Item.width = 44;
+			Item.height = 44;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true; 
+			Item.knockBack = 10;
+			Item.value = 75000;
+			Item.rare = ItemRarityID.Lime;
+			Item.UseSound = SoundID.Item44;
+			Item.shoot = Mod.Find<ModProjectile>("ShroomSentry").Type;
+			Item.sentry = true;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			position = Main.MouseWorld - new Vector2(0, 50);
-			speedY = 48;
+			velocity.Y = 48;
 			return true;
 		}
 	}

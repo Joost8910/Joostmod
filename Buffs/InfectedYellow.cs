@@ -6,13 +6,13 @@ namespace JoostMod.Buffs
 {
 	public class InfectedYellow : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infected!");
             Description.SetDefault("Losing Life; will spread X Parasites upon death");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = true;
+            longerExpertDebuff/* tModPorter Note: Removed. Use BuffID.Sets.LongerExpertDebuff instead */ = true;
 		}
         public override void Update(Player player, ref int buffIndex)
         {

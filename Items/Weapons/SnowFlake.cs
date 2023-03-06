@@ -14,24 +14,24 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 60;
-			item.thrown = true;
-			item.maxStack = 1;
-			item.consumable = false;
-			item.width = 46;
-			item.height = 46;
-			item.useTime = 33;
-			item.useAnimation = 33;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 5;
-			item.value = 200000;
-			item.rare = 7;
-			item.UseSound = SoundID.Item28;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("SnowFlake");
-			item.shootSpeed = 9f;
+			Item.damage = 60;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 1;
+			Item.consumable = false;
+			Item.width = 46;
+			Item.height = 46;
+			Item.useTime = 33;
+			Item.useAnimation = 33;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 5;
+			Item.value = 200000;
+			Item.rare = ItemRarityID.Lime;
+			Item.UseSound = SoundID.Item28;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("SnowFlake").Type;
+			Item.shootSpeed = 9f;
 		}
 	}
 }

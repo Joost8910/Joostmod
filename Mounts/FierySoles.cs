@@ -5,57 +5,57 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Mounts
 {
-	public class FierySoles : ModMountData
+	public class FierySoles : ModMount
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.spawnDust = 6;
-			mountData.buff = mod.BuffType("FierySoles");
-			mountData.heightBoost = 20;
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 8.5f;
-			mountData.dashSpeed = 11f;
-			mountData.flightTimeMax = 60;
-			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 6;
-			mountData.acceleration = 0.2f;
-			mountData.jumpSpeed = 8f;
-			mountData.blockExtraJumps = false;
-			mountData.totalFrames = 12;
-			mountData.constantJump = true;
-			int[] array = new int[mountData.totalFrames];
+			MountData.spawnDust = 6;
+			MountData.buff = Mod.Find<ModBuff>("FierySoles").Type;
+			MountData.heightBoost = 20;
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 8.5f;
+			MountData.dashSpeed = 11f;
+			MountData.flightTimeMax = 75;
+			MountData.fatigueMax = 0;
+			MountData.jumpHeight = 6;
+			MountData.acceleration = 0.2f;
+			MountData.jumpSpeed = 8f;
+			MountData.blockExtraJumps = false;
+			MountData.totalFrames = 12;
+			MountData.constantJump = true;
+			int[] array = new int[MountData.totalFrames];
 			for (int l = 0; l < array.Length; l++)
 			{
 				array[l] = 24;
 			}
-			mountData.playerYOffsets = array;
-			mountData.xOffset = 10;
-            mountData.yOffset = 4;
-            mountData.bodyFrame = 0;
-			mountData.playerHeadOffset = 22;
-			mountData.standingFrameCount = 4;
-			mountData.standingFrameDelay = 6;
-			mountData.standingFrameStart = 0;
-			mountData.runningFrameCount = 4;
-			mountData.runningFrameDelay = 24;
-			mountData.runningFrameStart = 0;
-			mountData.flyingFrameCount = 4;
-			mountData.flyingFrameDelay = 3;
-			mountData.flyingFrameStart = 0;
-			mountData.inAirFrameCount = 4;
-			mountData.inAirFrameDelay = 5;
-			mountData.inAirFrameStart = 0;
-			mountData.idleFrameCount = 4;
-			mountData.idleFrameDelay = 6;
-			mountData.idleFrameStart = 0;
-			mountData.idleFrameLoop = false;
-			mountData.swimFrameCount = mountData.inAirFrameCount;
-			mountData.swimFrameDelay = mountData.inAirFrameDelay;
-			mountData.swimFrameStart = mountData.inAirFrameStart;
+			MountData.playerYOffsets = array;
+			MountData.xOffset = 10;
+            MountData.yOffset = 4;
+            MountData.bodyFrame = 0;
+			MountData.playerHeadOffset = 22;
+			MountData.standingFrameCount = 4;
+			MountData.standingFrameDelay = 6;
+			MountData.standingFrameStart = 0;
+			MountData.runningFrameCount = 4;
+			MountData.runningFrameDelay = 24;
+			MountData.runningFrameStart = 0;
+			MountData.flyingFrameCount = 4;
+			MountData.flyingFrameDelay = 3;
+			MountData.flyingFrameStart = 0;
+			MountData.inAirFrameCount = 4;
+			MountData.inAirFrameDelay = 5;
+			MountData.inAirFrameStart = 0;
+			MountData.idleFrameCount = 4;
+			MountData.idleFrameDelay = 6;
+			MountData.idleFrameStart = 0;
+			MountData.idleFrameLoop = false;
+			MountData.swimFrameCount = MountData.inAirFrameCount;
+			MountData.swimFrameDelay = MountData.inAirFrameDelay;
+			MountData.swimFrameStart = MountData.inAirFrameStart;
 			if (Main.netMode != 2)
 			{
-				mountData.textureWidth = mountData.backTexture.Width + 20;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width + 20;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
 		}
         public override void UpdateEffects(Player player)
@@ -66,7 +66,7 @@ namespace JoostMod.Mounts
             }
             if (Main.rand.NextBool(5))
                 Dust.NewDust(player.position + new Vector2(0, 40), player.width, 2, 6);
-            if (player.velocity != Vector2.Zero || Main.rand.NextBool(10))
+            if ((player.mount._flyTime > 0 && player.velocity != Vector2.Zero) || Main.rand.NextBool(10))
             {
                 Dust.NewDustPerfect(player.MountedCenter + new Vector2(-1, 20), 6, player.velocity * -0.5f + new Vector2(0, 2), 0, default, 2).noGravity = true;
                 Dust.NewDustPerfect(player.MountedCenter + new Vector2(3, 20), 6, player.velocity * -0.5f + new Vector2(0, 2), 0, default, 2).noGravity = true;

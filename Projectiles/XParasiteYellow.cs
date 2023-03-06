@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,43 +13,43 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("X Parasite");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.timeLeft = 600;
-            projectile.alpha = 5;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.timeLeft = 600;
+            Projectile.alpha = 5;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.localAI[1] = target.whoAmI + 1;
+            Projectile.localAI[1] = target.whoAmI + 1;
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("InfectedYellow"), 900);
-            projectile.Kill();
+            target.AddBuff(Mod.Find<ModBuff>("InfectedYellow").Type, 900);
+            Projectile.Kill();
         }
         public override void Kill(int timeLeft)
         {
-            if (projectile.localAI[1] > 0)
+            if (Projectile.localAI[1] > 0)
             {
-                NPC target = Main.npc[(int)projectile.localAI[1] - 1];
-                target.AddBuff(mod.BuffType("InfectedYellow"), 18000);
-                Main.PlaySound(SoundID.NPCDeath19, projectile.Center);
+                NPC target = Main.npc[(int)Projectile.localAI[1] - 1];
+                target.AddBuff(Mod.Find<ModBuff>("InfectedYellow").Type, 18000);
+                SoundEngine.PlaySound(SoundID.NPCDeath19, Projectile.Center);
             }
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.localAI[1] > 0)
+            if (Projectile.localAI[1] > 0)
             {
                 return false;
             }
@@ -56,7 +57,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPvp(Player target)
         {
-            if (projectile.localAI[1] > 0)
+            if (Projectile.localAI[1] > 0)
             {
                 return false;
             }
@@ -64,37 +65,37 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.ai[0] == 0)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.ai[0] == 0)
             {
-                projectile.scale = 0.7f + (Main.rand.Next(9) * 0.05f);
-                projectile.width = (int)(28 * projectile.scale);
-                projectile.height = (int)(28 * projectile.scale);
-                projectile.damage = (int)(projectile.damage * projectile.scale);
-                projectile.knockBack *= projectile.scale;
+                Projectile.scale = 0.7f + (Main.rand.Next(9) * 0.05f);
+                Projectile.width = (int)(28 * Projectile.scale);
+                Projectile.height = (int)(28 * Projectile.scale);
+                Projectile.damage = (int)(Projectile.damage * Projectile.scale);
+                Projectile.knockBack *= Projectile.scale;
             }
-            projectile.ai[0]++;
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 6)
+            Projectile.ai[0]++;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 6)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 6;
+                Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 6;
             }
-            if (projectile.localAI[1] > 0)
+            if (Projectile.localAI[1] > 0)
             {
-                NPC target = Main.npc[(int)projectile.localAI[1] - 1];
+                NPC target = Main.npc[(int)Projectile.localAI[1] - 1];
                 if (target.life <= 0 || !target.active)
                 {
-                    projectile.localAI[1] = 0;
+                    Projectile.localAI[1] = 0;
                 }
                 else
                 {
-                    projectile.position = target.Center - new Vector2(projectile.width / 2, 28 - projectile.scale * 14);
-                    projectile.velocity = target.velocity;
-                    projectile.scale -= 0.05f;
-                    if (projectile.scale <= 0.1f)
+                    Projectile.position = target.Center - new Vector2(Projectile.width / 2, 28 - Projectile.scale * 14);
+                    Projectile.velocity = target.velocity;
+                    Projectile.scale -= 0.05f;
+                    if (Projectile.scale <= 0.1f)
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                 }
             }
@@ -106,7 +107,7 @@ namespace JoostMod.Projectiles
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    Vector2 newMove = npc.Center - projectile.Center;
+                    Vector2 newMove = npc.Center - Projectile.Center;
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                     if (distanceTo < distance)
                     {
@@ -120,7 +121,7 @@ namespace JoostMod.Projectiles
                         NPC npc = Main.npc[k];
                         if (npc.active && !npc.dontTakeDamage && npc.lifeMax > 5 && npc.CanBeChasedBy(this, false))
                         {
-                            Vector2 newMove = npc.Center - projectile.Center;
+                            Vector2 newMove = npc.Center - Projectile.Center;
                             float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                             if (distanceTo < distance)
                             {
@@ -132,32 +133,32 @@ namespace JoostMod.Projectiles
                     }
                 if (move == Vector2.Zero)
                 {
-                    projectile.timeLeft -= 2;
+                    Projectile.timeLeft -= 2;
                 }
-                if (projectile.timeLeft < 20)
+                if (Projectile.timeLeft < 20)
                 {
-                    projectile.scale -= 0.05f;
-                    if (projectile.scale <= 0.1f)
+                    Projectile.scale -= 0.05f;
+                    if (Projectile.scale <= 0.1f)
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                 }
-                projectile.ai[1]++;
-                if (projectile.ai[1] > 30)
+                Projectile.ai[1]++;
+                if (Projectile.ai[1] > 30)
                 {
                     if (target)
                     {
-                        projectile.localAI[0] = 10f * (1 + (1 - projectile.scale));
-                        if (move.Length() > projectile.localAI[0] && projectile.localAI[0] > 0)
+                        Projectile.localAI[0] = 10f * (1 + (1 - Projectile.scale));
+                        if (move.Length() > Projectile.localAI[0] && Projectile.localAI[0] > 0)
                         {
-                            move *= projectile.localAI[0] / move.Length();
+                            move *= Projectile.localAI[0] / move.Length();
                         }
                         float home = 10f;
-                        projectile.velocity = ((home - 1f) * projectile.velocity + move) / home;
+                        Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
                     }
-                    if (projectile.velocity.Length() < projectile.localAI[0] && projectile.localAI[0] > 0)
+                    if (Projectile.velocity.Length() < Projectile.localAI[0] && Projectile.localAI[0] > 0)
                     {
-                        projectile.velocity *= (projectile.localAI[0] / projectile.velocity.Length());
+                        Projectile.velocity *= (Projectile.localAI[0] / Projectile.velocity.Length());
                     }
                 }
             }

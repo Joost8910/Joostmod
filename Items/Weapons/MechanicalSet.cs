@@ -7,39 +7,42 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Items.Weapons
 {
-	public class MechanicalSet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Mechanical Weapon Set");
-			Tooltip.SetDefault("'BEEP BOOP MOTHERF---ER'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 64;
-			item.width = 54;
-			item.height = 36;
-			item.useTime = 5;
-			item.useAnimation = 25;
-            item.reuseDelay = 4;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 3;
-			item.value = 150000;
-			item.rare = 5;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("MechanicalSphere");
-			item.shootSpeed = 7f;
-            item.crit = 4;
-        }
-        public override void GetWeaponCrit(Player player, ref int crit)
+    public class MechanicalSet : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            DisplayName.SetDefault("Mechanical Weapon Set");
+            Tooltip.SetDefault("'BEEP BOOP MOTHERF---ER'");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
+        public override void SetDefaults()
+        {
+            Item.damage = 64;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 54;
+            Item.height = 36;
+            Item.useTime = 5;
+            Item.useAnimation = 25;
+            Item.reuseDelay = 4;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 150000;
+            Item.rare = ItemRarityID.Pink;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("MechanicalSphere").Type;
+            Item.shootSpeed = 7f;
+            Item.crit = 4;
+        }
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
+        }
+        */
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
             switch (rand.Next(24))
@@ -94,43 +97,42 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
-            if (player.itemAnimation == item.useAnimation - 1)
+            if (player.itemAnimation == Item.useAnimation - 1)
             {
                 if (wep == 1)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 106, (damage), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 106, (damage), knockback, player.whoAmI);
                 }
                 if (wep == 2)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, (speedX * 4), (speedY * 4), 79, (damage), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 4), (velocity.Y * 4), 79, (damage), knockback, player.whoAmI);
                 }
                 if (wep == 3)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("MechanicalSphere"), (damage), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("MechanicalSphere").Type, (damage), knockback, player.whoAmI);
                 }
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), 85, (damage / 2), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), 85, (damage / 2), knockback, player.whoAmI);
             }
             return false;
-		}
-			public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LightDisc, 5);
-			recipe.AddIngredient(ItemID.Flamethrower);
-			recipe.AddIngredient(ItemID.RainbowRod);
-			recipe.AddIngredient(null, "MechanicalSphere");
-			recipe.AddTile(TileID.MythrilAnvil); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.LightDisc, 5)
+                .AddIngredient(ItemID.Flamethrower)
+                .AddIngredient(ItemID.RainbowRod)
+                .AddIngredient<MechanicalSphere>()
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
 
-	}
+    }
 }
 
 

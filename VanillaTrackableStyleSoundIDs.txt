@@ -1,0 +1,277 @@
+| Blizzard strong loop.wav
+| Liquids honey water 0.wav, 
+  Liquids honey water 1.wav, 
+  Liquids honey water 2.wav
+| Liquids honey lava 0.wav, 
+  Liquids honey lava 1.wav, 
+  Liquids honey lava 2.wav
+| Liquids water lava 0.wav, 
+  Liquids water lava 1.wav, 
+  Liquids water lava 2.wav
+| Dd2 ballista tower shot 0.wav, 
+  Dd2 ballista tower shot 1.wav, 
+  Dd2 ballista tower shot 2.wav
+| Dd2 explosive trap explode 0.wav, 
+  Dd2 explosive trap explode 1.wav, 
+  Dd2 explosive trap explode 2.wav
+| Dd2 flameburst tower shot 0.wav, 
+  Dd2 flameburst tower shot 1.wav, 
+  Dd2 flameburst tower shot 2.wav
+| Dd2 lightning aura zap 0.wav, 
+  Dd2 lightning aura zap 1.wav, 
+  Dd2 lightning aura zap 2.wav, 
+  Dd2 lightning aura zap 3.wav
+| Dd2 defense tower spawn.wav
+| Dd2 betsy death 0.wav, 
+  Dd2 betsy death 1.wav, 
+  Dd2 betsy death 2.wav
+| Dd2 betsy fireball shot 0.wav, 
+  Dd2 betsy fireball shot 1.wav, 
+  Dd2 betsy fireball shot 2.wav
+| Dd2 betsy fireball impact 0.wav, 
+  Dd2 betsy fireball impact 1.wav, 
+  Dd2 betsy fireball impact 2.wav
+| Dd2 betsy flame breath.wav
+| Dd2 betsy flying circle attack.wav
+| Dd2 betsy hurt 0.wav, 
+  Dd2 betsy hurt 1.wav, 
+  Dd2 betsy hurt 2.wav
+| Dd2 betsy scream.wav
+| Dd2 betsy summon 0.wav, 
+  Dd2 betsy summon 1.wav, 
+  Dd2 betsy summon 2.wav
+| Dd2 betsy wind attack 0.wav, 
+  Dd2 betsy wind attack 1.wav, 
+  Dd2 betsy wind attack 2.wav
+| Dd2 dark mage attack 0.wav, 
+  Dd2 dark mage attack 1.wav, 
+  Dd2 dark mage attack 2.wav
+| Dd2 dark mage cast heal 0.wav, 
+  Dd2 dark mage cast heal 1.wav, 
+  Dd2 dark mage cast heal 2.wav
+| Dd2 dark mage death 0.wav, 
+  Dd2 dark mage death 1.wav, 
+  Dd2 dark mage death 2.wav
+| Dd2 dark mage heal impact 0.wav, 
+  Dd2 dark mage heal impact 1.wav, 
+  Dd2 dark mage heal impact 2.wav
+| Dd2 dark mage hurt 0.wav, 
+  Dd2 dark mage hurt 1.wav, 
+  Dd2 dark mage hurt 2.wav
+| Dd2 dark mage summon skeleton 0.wav, 
+  Dd2 dark mage summon skeleton 1.wav, 
+  Dd2 dark mage summon skeleton 2.wav
+| Dd2 drakin breath in 0.wav, 
+  Dd2 drakin breath in 1.wav, 
+  Dd2 drakin breath in 2.wav
+| Dd2 drakin death 0.wav, 
+  Dd2 drakin death 1.wav, 
+  Dd2 drakin death 2.wav
+| Dd2 drakin hurt 0.wav, 
+  Dd2 drakin hurt 1.wav, 
+  Dd2 drakin hurt 2.wav
+| Dd2 drakin shot 0.wav, 
+  Dd2 drakin shot 1.wav, 
+  Dd2 drakin shot 2.wav
+| Dd2 goblin death 0.wav, 
+  Dd2 goblin death 1.wav, 
+  Dd2 goblin death 2.wav
+| Dd2 goblin hurt 0.wav, 
+  Dd2 goblin hurt 1.wav, 
+  Dd2 goblin hurt 2.wav, 
+  Dd2 goblin hurt 3.wav, 
+  Dd2 goblin hurt 4.wav, 
+  Dd2 goblin hurt 5.wav
+| Dd2 goblin scream 0.wav, 
+  Dd2 goblin scream 1.wav, 
+  Dd2 goblin scream 2.wav
+| Dd2 goblin bomber death 0.wav, 
+  Dd2 goblin bomber death 1.wav, 
+  Dd2 goblin bomber death 2.wav
+| Dd2 goblin bomber hurt 0.wav, 
+  Dd2 goblin bomber hurt 1.wav, 
+  Dd2 goblin bomber hurt 2.wav
+| Dd2 goblin bomber scream 0.wav, 
+  Dd2 goblin bomber scream 1.wav, 
+  Dd2 goblin bomber scream 2.wav
+| Dd2 goblin bomber throw 0.wav, 
+  Dd2 goblin bomber throw 1.wav, 
+  Dd2 goblin bomber throw 2.wav
+| Dd2 javelin throwers attack 0.wav, 
+  Dd2 javelin throwers attack 1.wav, 
+  Dd2 javelin throwers attack 2.wav
+| Dd2 javelin throwers death 0.wav, 
+  Dd2 javelin throwers death 1.wav, 
+  Dd2 javelin throwers death 2.wav
+| Dd2 javelin throwers hurt 0.wav, 
+  Dd2 javelin throwers hurt 1.wav, 
+  Dd2 javelin throwers hurt 2.wav
+| Dd2 javelin throwers taunt 0.wav, 
+  Dd2 javelin throwers taunt 1.wav, 
+  Dd2 javelin throwers taunt 2.wav
+| Dd2 kobold death 0.wav, 
+  Dd2 kobold death 1.wav, 
+  Dd2 kobold death 2.wav
+| Dd2 kobold explosion 0.wav, 
+  Dd2 kobold explosion 1.wav, 
+  Dd2 kobold explosion 2.wav
+| Dd2 kobold hurt 0.wav, 
+  Dd2 kobold hurt 1.wav, 
+  Dd2 kobold hurt 2.wav
+| Dd2 kobold ignite.wav
+| Dd2 kobold ignite loop.wav
+| Dd2 kobold scream charge loop.wav
+| Dd2 kobold flyer charge scream 0.wav, 
+  Dd2 kobold flyer charge scream 1.wav, 
+  Dd2 kobold flyer charge scream 2.wav
+| Dd2 kobold flyer death 0.wav, 
+  Dd2 kobold flyer death 1.wav, 
+  Dd2 kobold flyer death 2.wav
+| Dd2 kobold flyer hurt 0.wav, 
+  Dd2 kobold flyer hurt 1.wav, 
+  Dd2 kobold flyer hurt 2.wav
+| Dd2 lightning bug death 0.wav, 
+  Dd2 lightning bug death 1.wav, 
+  Dd2 lightning bug death 2.wav
+| Dd2 lightning bug hurt 0.wav, 
+  Dd2 lightning bug hurt 1.wav, 
+  Dd2 lightning bug hurt 2.wav
+| Dd2 lightning bug zap 0.wav, 
+  Dd2 lightning bug zap 1.wav, 
+  Dd2 lightning bug zap 2.wav
+| Dd2 ogre attack 0.wav, 
+  Dd2 ogre attack 1.wav, 
+  Dd2 ogre attack 2.wav
+| Dd2 ogre death 0.wav, 
+  Dd2 ogre death 1.wav, 
+  Dd2 ogre death 2.wav
+| Dd2 ogre ground pound.wav
+| Dd2 ogre hurt 0.wav, 
+  Dd2 ogre hurt 1.wav, 
+  Dd2 ogre hurt 2.wav
+| Dd2 ogre roar 0.wav, 
+  Dd2 ogre roar 1.wav, 
+  Dd2 ogre roar 2.wav
+| Dd2 ogre spit.wav
+| Dd2 skeleton death 0.wav, 
+  Dd2 skeleton death 1.wav, 
+  Dd2 skeleton death 2.wav
+| Dd2 skeleton hurt 0.wav, 
+  Dd2 skeleton hurt 1.wav, 
+  Dd2 skeleton hurt 2.wav
+| Dd2 skeleton summoned.wav
+| Dd2 wither beast aura pulse 0.wav, 
+  Dd2 wither beast aura pulse 1.wav
+| Dd2 wither beast crystal impact 0.wav, 
+  Dd2 wither beast crystal impact 1.wav, 
+  Dd2 wither beast crystal impact 2.wav
+| Dd2 wither beast death 0.wav, 
+  Dd2 wither beast death 1.wav, 
+  Dd2 wither beast death 2.wav
+| Dd2 wither beast hurt 0.wav, 
+  Dd2 wither beast hurt 1.wav, 
+  Dd2 wither beast hurt 2.wav
+| Dd2 wyvern death 0.wav, 
+  Dd2 wyvern death 1.wav, 
+  Dd2 wyvern death 2.wav
+| Dd2 wyvern hurt 0.wav, 
+  Dd2 wyvern hurt 1.wav, 
+  Dd2 wyvern hurt 2.wav
+| Dd2 wyvern scream 0.wav, 
+  Dd2 wyvern scream 1.wav, 
+  Dd2 wyvern scream 2.wav
+| Dd2 wyvern dive down 0.wav, 
+  Dd2 wyvern dive down 1.wav, 
+  Dd2 wyvern dive down 2.wav
+| Dd2 etherian portal dryad touch.wav
+| Dd2 etherian portal idle loop.wav
+| Dd2 etherian portal open.wav
+| Dd2 etherian portal spawn enemy 0.wav, 
+  Dd2 etherian portal spawn enemy 1.wav, 
+  Dd2 etherian portal spawn enemy 2.wav
+| Dd2 crystal cart impact 0.wav, 
+  Dd2 crystal cart impact 1.wav, 
+  Dd2 crystal cart impact 2.wav
+| Dd2 defeat scene.wav
+| Dd2 win scene.wav
+| Dd2 betsy fireball shot 0.wav, 
+  Dd2 betsy fireball shot 1.wav, 
+  Dd2 betsy fireball shot 2.wav
+| Dd2 betsy fireball impact 0.wav, 
+  Dd2 betsy fireball impact 1.wav, 
+  Dd2 betsy fireball impact 2.wav
+| Dd2 book staff cast 0.wav, 
+  Dd2 book staff cast 1.wav, 
+  Dd2 book staff cast 2.wav
+| Dd2 book staff twister loop.wav
+| Dd2 ghastly glaive impact ghost 0.wav, 
+  Dd2 ghastly glaive impact ghost 1.wav, 
+  Dd2 ghastly glaive impact ghost 2.wav
+| Dd2 ghastly glaive pierce 0.wav, 
+  Dd2 ghastly glaive pierce 1.wav, 
+  Dd2 ghastly glaive pierce 2.wav
+| Dd2 monk staff ground impact 0.wav, 
+  Dd2 monk staff ground impact 1.wav, 
+  Dd2 monk staff ground impact 2.wav
+| Dd2 monk staff ground miss 0.wav, 
+  Dd2 monk staff ground miss 1.wav, 
+  Dd2 monk staff ground miss 2.wav
+| Dd2 monk staff swing 0.wav, 
+  Dd2 monk staff swing 1.wav, 
+  Dd2 monk staff swing 2.wav, 
+  Dd2 monk staff swing 3.wav
+| Dd2 phantom phoenix shot 0.wav, 
+  Dd2 phantom phoenix shot 1.wav, 
+  Dd2 phantom phoenix shot 2.wav
+| Dd2 sonic boom blade slash 0.wav, 
+  Dd2 sonic boom blade slash 1.wav, 
+  Dd2 sonic boom blade slash 2.wav
+| Dd2 sky dragons fury circle 0.wav, 
+  Dd2 sky dragons fury circle 1.wav, 
+  Dd2 sky dragons fury circle 2.wav
+| Dd2 sky dragons fury shot 0.wav, 
+  Dd2 sky dragons fury shot 1.wav, 
+  Dd2 sky dragons fury shot 2.wav
+| Dd2 sky dragons fury swing 0.wav, 
+  Dd2 sky dragons fury swing 1.wav, 
+  Dd2 sky dragons fury swing 2.wav, 
+  Dd2 sky dragons fury swing 3.wav
+| Lucyaxe talk 0.wav, 
+  Lucyaxe talk 1.wav, 
+  Lucyaxe talk 2.wav, 
+  Lucyaxe talk 3.wav, 
+  Lucyaxe talk 4.wav
+| Deerclops hit 0.wav, 
+  Deerclops hit 1.wav, 
+  Deerclops hit 2.wav
+| Deerclops death.wav
+| Deerclops scream 0.wav, 
+  Deerclops scream 1.wav, 
+  Deerclops scream 2.wav
+| Deerclops ice attack 0.wav, 
+  Deerclops ice attack 1.wav, 
+  Deerclops ice attack 2.wav
+| Deerclops rubble attack.wav
+| Deerclops step.wav
+| Chester open 0.wav, 
+  Chester open 1.wav
+| Chester close 0.wav, 
+  Chester close 1.wav
+| Abigail summon.wav
+| Abigail cry 0.wav, 
+  Abigail cry 1.wav, 
+  Abigail cry 2.wav
+| Abigail attack.wav
+| Abigail upgrade 0.wav, 
+  Abigail upgrade 1.wav, 
+  Abigail upgrade 2.wav
+| Glommer bounce 0.wav, 
+  Glommer bounce 1.wav
+| Dst male hit 0.wav, 
+  Dst male hit 1.wav, 
+  Dst male hit 2.wav
+| Dst female hit 0.wav, 
+  Dst female hit 1.wav, 
+  Dst female hit 2.wav
+| Drone.wav
+}}

@@ -13,46 +13,46 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 180;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = true;
-            projectile.melee = true;
-			aiType = ProjectileID.Bullet;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 50;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 180;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
+			AIType = ProjectileID.Bullet;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 50;
         }
         public override void AI()
         {
-            if (projectile.velocity.Y < 20)
+            if (Projectile.velocity.Y < 20)
             {
-                projectile.velocity.Y += 0.3f;
+                Projectile.velocity.Y += 0.3f;
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.knockBackResist > 0 && projectile.velocity.Y < 0)
+            if (target.knockBackResist > 0 && Projectile.velocity.Y < 0)
             {
-                target.velocity.Y -= projectile.knockBack * target.knockBackResist;
+                target.velocity.Y -= Projectile.knockBack * target.knockBackResist;
             }
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            if (!target.noKnockback && projectile.velocity.Y < 0)
+            Player player = Main.player[Projectile.owner];
+            if (!target.noKnockback && Projectile.velocity.Y < 0)
             {
-                target.velocity.Y -= projectile.knockBack;
+                target.velocity.Y -= Projectile.knockBack;
             }
         }
         public override void Kill(int timeLeft)
         {
             for (int d = 0; d < 4; d++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 1);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 1);
             }
         }
 	}

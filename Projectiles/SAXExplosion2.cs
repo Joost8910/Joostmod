@@ -9,23 +9,23 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosion");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 64;
-			projectile.height = 64;
-			projectile.aiStyle = 0;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 30;
-			projectile.tileCollide = false;
-			projectile.light = 0.95f;
-			projectile.ignoreWater = true;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+			Projectile.width = 64;
+			Projectile.height = 64;
+			Projectile.aiStyle = 0;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 30;
+			Projectile.tileCollide = false;
+			Projectile.light = 0.95f;
+			Projectile.ignoreWater = true;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
@@ -37,11 +37,11 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 5)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 5)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 6;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 6;
 			}
 		}
 

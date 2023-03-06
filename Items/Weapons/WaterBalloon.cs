@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,35 +13,34 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 44;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 22;
-			item.height = 28;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 6;
-			item.value = 1000;
-			item.rare = 4;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("WaterBalloon");
-			item.shootSpeed = 11f;
+			Item.damage = 44;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 22;
+			Item.height = 28;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 6;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("WaterBalloon").Type;
+			Item.shootSpeed = 11f;
 		}
-				public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.SillyBalloonPink, 50);
-			recipe.AddIngredient(null, "WaterEssence");
-			recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			CreateRecipe(50)
+				.AddIngredient(ItemID.SillyBalloonPink, 50)
+				.AddIngredient<Materials.WaterEssence>()
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 
 	}
-}
+}	
 

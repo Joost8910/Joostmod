@@ -9,28 +9,28 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Enkidu's Wind");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 28;
-			projectile.height = 28;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.alpha = 150;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 28;
+			Projectile.height = 28;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 150;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
 		}
 				public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 4)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 4)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 6;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 6;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -10,41 +11,41 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Beam");
-            Main.projFrames[projectile.type] = 13;
+            Main.projFrames[Projectile.type] = 13;
         }
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 44;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 44;
+            Projectile.height = 44;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
             //projectile.light = 0.50f;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.coldDamage = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.coldDamage = true;
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             bool channeling = player.channel && !player.noItems && !player.CCed && !player.dead;
             if (channeling)
             {
-                if (projectile.ai[0] % 8 < 1 && projectile.ai[0] < 48 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
+                if (Projectile.ai[0] % 8 < 1 && Projectile.ai[0] < 48 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
-                projectile.ai[0]++;
-                if (Main.myPlayer == projectile.owner)
+                Projectile.ai[0]++;
+                if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor6 = 1f;
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
+                    if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     }
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();
@@ -53,55 +54,55 @@ namespace JoostMod.Projectiles
                         vector13 = Vector2.UnitX * (float)player.direction;
                     }
                     vector13 *= scaleFactor6;
-                    if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = vector13;
+                    Projectile.velocity = vector13;
                 }
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.ai[0] == 1)
+            if (Projectile.ai[0] == 1)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart"));
             }
-            if (projectile.ai[0] == 25)
+            if (Projectile.ai[0] == 25)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart2"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingStart2"));
             }
-            if (projectile.ai[0] == 48)
+            if (Projectile.ai[0] == 48)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
             }
-            if (projectile.ai[0] == 63)
+            if (Projectile.ai[0] == 63)
             {
-                projectile.ai[0] = 48;
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
+                Projectile.ai[0] = 48;
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/ChargingLoop"));
             }
-            if ((projectile.ai[0] % 4) == 0 && projectile.ai[0] < 48)
+            if ((Projectile.ai[0] % 4) == 0 && Projectile.ai[0] < 48)
             {
-                projectile.frame = (projectile.frame + 1) % 12;
+                Projectile.frame = (Projectile.frame + 1) % 12;
             }
-            if (projectile.ai[0] >= 48 && (projectile.ai[0] % 4) == 0)
+            if (Projectile.ai[0] >= 48 && (Projectile.ai[0] % 4) == 0)
             {
-                projectile.frame = (projectile.frame % 3) + 10;
+                Projectile.frame = (Projectile.frame % 3) + 10;
             }
-            float light = (projectile.ai[0] > 48 ? 48 : projectile.ai[0]) / 48f;
-            Lighting.AddLight(projectile.Center, light * 0.5f, light, light);
+            float light = (Projectile.ai[0] > 48 ? 48 : Projectile.ai[0]) / 48f;
+            Lighting.AddLight(Projectile.Center, light * 0.5f, light, light);
         
 
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f + Vector2.Normalize(projectile.velocity) * 24;
-            projectile.rotation = projectile.velocity.ToRotation() + num;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f + Vector2.Normalize(Projectile.velocity) * 24;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
 
             return false;
         }
@@ -109,31 +110,31 @@ namespace JoostMod.Projectiles
         public override void Kill(int timeLeft)
         {
             // Here you can use projectile.ai[0] to calculate how much time has passed, like the following
-            if (projectile.ai[0] < 48)
+            if (Projectile.ai[0] < 48)
             {
-                Vector2 pos = projectile.Center;
-                Vector2 dir = Vector2.Normalize(projectile.velocity);
+                Vector2 pos = Projectile.Center;
+                Vector2 dir = Vector2.Normalize(Projectile.velocity);
                 if (float.IsNaN(dir.X) || float.IsNaN(dir.Y))
                 {
                     dir = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"), projectile.damage, projectile.knockBack, projectile.owner, 1);
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"), projectile.damage, projectile.knockBack, projectile.owner);
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, mod.ProjectileType("IceBeam"), projectile.damage, projectile.knockBack, projectile.owner, -1);
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("IceBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("IceBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("IceBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
             }
             else
             {
-                Vector2 pos = projectile.Center;
-                Vector2 dir = Vector2.Normalize(projectile.velocity);
+                Vector2 pos = Projectile.Center;
+                Vector2 dir = Vector2.Normalize(Projectile.velocity);
                 if (float.IsNaN(dir.X) || float.IsNaN(dir.Y))
                 {
                     dir = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner, 1);
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner);
-                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, mod.ProjectileType("IceBeamCharged"), projectile.damage * 8, projectile.knockBack * 8, projectile.owner, -1);
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, Mod.Find<ModProjectile>("IceBeamCharged").Type, Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner, 1);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, Mod.Find<ModProjectile>("IceBeamCharged").Type, Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner);
+                Projectile.NewProjectile(pos.X, pos.Y, dir.X * 10, dir.Y * 10, Mod.Find<ModProjectile>("IceBeamCharged").Type, Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner, -1);
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
 
             }
 

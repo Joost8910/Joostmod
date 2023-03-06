@@ -1,4 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,27 +15,27 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 800;
-            item.ranged = true;
-            item.width = 24;
-            item.height = 16;
-            item.noMelee = true;
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = 5;
-            item.knockBack = 9;
-            item.value = 10000000;
-            item.rare = 11;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MissileShoot");
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SuperMissile");
-            item.shootSpeed = 12f;
+            Item.damage = 800;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 24;
+            Item.height = 16;
+            Item.noMelee = true;
+            Item.useTime = 28;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 9;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot");
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("SuperMissile").Type;
+            Item.shootSpeed = 12f;
         }
-        public override void GetWeaponDamage(Player player, ref int damage)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            damage = (int)(damage * player.rocketDamage);
+            damage.CombineWith(player.rocketDamage);
         }
-        public override void HoldStyle(Player player)
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
         {
             player.itemLocation.X -= 7f * player.direction;
             player.itemLocation.Y -= 7f * player.gravDir;
@@ -41,10 +43,9 @@ namespace JoostMod.Items.Weapons
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IceCoreX", 1);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.IceCoreX>()
+                .Register();
         }
     }
 }

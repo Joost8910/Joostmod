@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -13,28 +14,28 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 34;
-			projectile.aiStyle = 27;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 1200;
-			projectile.alpha = 75;
-			projectile.light = 0.7f;
-			projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+			Projectile.width = 34;
+			Projectile.height = 34;
+			Projectile.aiStyle = 27;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 1200;
+			Projectile.alpha = 75;
+			Projectile.light = 0.7f;
+			Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 		public override void AI()
 		{
-			if ((projectile.timeLeft % 2) == 0)
+			if ((Projectile.timeLeft % 2) == 0)
 			{
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 74, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f);
+				int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 74, Projectile.velocity.X, Projectile.velocity.Y, 100, default(Color), 1f);
 				Main.dust[num1].noGravity = true;
 				Main.dust[num1].velocity *= 0.1f;
             }
-            projectile.rotation += projectile.timeLeft * -projectile.direction * 0.0174f * 5;
+            Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
         
         public override void Kill(int timeLeft)
@@ -42,12 +43,12 @@ namespace JoostMod.Projectiles
             for (int i = 0; i < 10; i++)
             {
                 int dust = Dust.NewDust(
-                         projectile.position,
-                         projectile.width,
-                         projectile.height,
+                         Projectile.position,
+                         Projectile.width,
+                         Projectile.height,
                          74, //Dust ID
-                         projectile.velocity.X,
-                         projectile.velocity.Y,
+                         Projectile.velocity.X,
+                         Projectile.velocity.Y,
                          100, //alpha goes from 0 to 255
                          default(Color),
                          1f
@@ -56,15 +57,15 @@ namespace JoostMod.Projectiles
                 Main.dust[dust].noGravity = true;
             }
         }
-        public override bool PreDraw(SpriteBatch sb, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), lightColor, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
+            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
             return false;
         }
     }

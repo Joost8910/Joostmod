@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,24 +15,24 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 2;
-            projectile.friendly = true;
-            projectile.thrown = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 350;
-            aiType = ProjectileID.Shuriken;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = 2;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 350;
+            AIType = ProjectileID.Shuriken;
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item107, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item107, Projectile.position);
             for (int i = 0; i < 12; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(360));
                 float scale = 1f - (Main.rand.NextFloat() * .3f);
                 perturbedSpeed = perturbedSpeed * scale;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BoneHurtingJuice"), projectile.damage/2, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("BoneHurtingJuice").Type, Projectile.damage/2, 0, Projectile.owner);
             }
         }
     }

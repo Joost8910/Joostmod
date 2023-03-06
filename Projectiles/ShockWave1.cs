@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,15 +14,15 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 120;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 120;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.Bullet;
 		}
 		public override bool CanHitPlayer(Player target)
 		{
@@ -29,21 +30,21 @@ namespace JoostMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Vector2 posi = new Vector2(projectile.position.X, projectile.position.Y+4);
+			Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y+4);
 			Point pos = posi.ToTileCoordinates();
 			Tile tileSafely = Framing.GetTileSafely(pos.X, pos.Y);
-			if (tileSafely.active())
+			if (tileSafely.HasTile)
 			{
 				Tile tileSafely2 = Framing.GetTileSafely(pos.X, pos.Y - 1);
-				if ((!tileSafely2.active() || !Main.tileSolid[(int)tileSafely2.type] || Main.tileSolidTop[(int)tileSafely2.type]))
+				if ((!tileSafely2.HasTile || !Main.tileSolid[(int)tileSafely2.TileType] || Main.tileSolidTop[(int)tileSafely2.TileType]))
 				{
 					for (int d = 0; d < 6; d++)
 					{
 						Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
 						dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat();
 					}
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);	
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 8, 0, 0, mod.ProjectileType("ShockWave2"), projectile.damage, projectile.knockBack, projectile.owner);					
+					SoundEngine.PlaySound(SoundID.Item10, Projectile.position);	
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y + 8, 0, 0, Mod.Find<ModProjectile>("ShockWave2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);					
 				}
 			}
 		}

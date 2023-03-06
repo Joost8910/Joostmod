@@ -13,29 +13,29 @@ namespace JoostMod.Items.Weapons
         }
 		public override void SetDefaults()
 		{
-			item.damage = 180;
-			item.magic = true;
-            item.mana = 100;
-			item.width = 36;
-			item.height = 36;
-			item.useTime = 48;
-			item.useAnimation = 48;
-			item.reuseDelay = 5;
-			item.useStyle = 4;
-			item.knockBack = 2;
-			item.value = 500000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("FocusSouls");
-			item.shootSpeed = 5f;
+			Item.damage = 180;
+			Item.DamageType = DamageClass.Magic;
+            Item.mana = 100;
+			Item.width = 36;
+			Item.height = 36;
+			Item.useTime = 48;
+			Item.useAnimation = 48;
+			Item.reuseDelay = 5;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.knockBack = 2;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("FocusSouls").Type;
+			Item.shootSpeed = 5f;
         }
         public override bool CanUseItem(Player player)
         {
-            if ((player.ownedProjectileCounts[item.shoot]) > 0)
+            if ((player.ownedProjectileCounts[Item.shoot]) > 0)
             {
                 return false;
             }

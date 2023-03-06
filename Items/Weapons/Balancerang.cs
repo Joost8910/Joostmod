@@ -13,33 +13,32 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 51;
-			item.thrown = true;
-			item.width = 36;
-			item.height = 36;
-			item.useTime = 39;
-			item.useAnimation = 39;
-			item.useStyle = 1;
-			item.knockBack = 5;
-			item.value = 144000;
-			item.rare = 5;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Balancerang");
-			item.shootSpeed = 16f;
+			Item.damage = 51;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 36;
+			Item.height = 36;
+			Item.useTime = 39;
+			Item.useAnimation = 39;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 5;
+			Item.value = 144000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Balancerang").Type;
+			Item.shootSpeed = 16f;
 		}
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LightShard, 1);
-			recipe.AddIngredient(ItemID.DarkShard, 1);
-			recipe.AddIngredient(ItemID.SoulofLight, 7);
-			recipe.AddIngredient(ItemID.SoulofNight, 7);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.LightShard, 1)
+				.AddIngredient(ItemID.DarkShard, 1)
+				.AddIngredient(ItemID.SoulofLight, 7)
+				.AddIngredient(ItemID.SoulofNight, 7)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -12,7 +13,7 @@ namespace JoostMod.Tiles
 {
 	public class TARDISChest : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
@@ -20,12 +21,12 @@ namespace JoostMod.Tiles
 			Main.tileShine[Type] = 1200;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-			Main.tileValue[Type] = 500;
+			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.BasicChest[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
+			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
 			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
 			TileObjectData.newTile.StyleHorizontal = true;
@@ -35,10 +36,10 @@ namespace JoostMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("TARDIS Chest");
 			AddMapEntry(new Color(20, 20, 200), name, MapChestName);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
-			chest = "TARDIS Chest";
-			chestDrop = mod.ItemType("TARDISChest");
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+			AdjTiles = new int[] { TileID.Containers };
+			chest/* tModPorter Note: Removed. Use ContainerName.SetDefault() and TileID.Sets.BasicChest instead */ = "TARDIS Chest";
+			ChestDrop = Mod.Find<ModItem>("TARDISChest").Type;
 		}
 
 		public string MapChestName(string name, int i, int j)
@@ -46,11 +47,11 @@ namespace JoostMod.Tiles
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
@@ -72,35 +73,35 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+			Item.NewItem(i * 16, j * 16, 32, 32, ChestDrop);
 			Chest.DestroyChest(i, j);
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
 			if (player.sign >= 0)
 			{
-				Main.PlaySound(SoundID.MenuClose);
+				SoundEngine.PlaySound(SoundID.MenuClose);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
 			if (Main.editChest)
 			{
-				Main.PlaySound(SoundID.MenuTick);
+				SoundEngine.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
@@ -113,9 +114,9 @@ namespace JoostMod.Tiles
 			{
 				if (left == player.chestX && top == player.chestY && player.chest >= 0)
 				{
-					player.chest = -1;
-					Recipe.FindRecipes();
-					Main.PlaySound(SoundID.MenuClose);
+					player.chest = -1
+.FindRecipes();
+					SoundEngine.PlaySound(SoundID.MenuClose);
 				}
 				else
 				{
@@ -132,7 +133,7 @@ namespace JoostMod.Tiles
 					if (chest == player.chest)
 					{
 						player.chest = -1;
-						Main.PlaySound(SoundID.MenuClose);
+						SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else
 					{
@@ -141,7 +142,7 @@ namespace JoostMod.Tiles
 						Main.recBigList = false;
 						player.chestX = left;
 						player.chestY = top;
-						Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+						SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 					}
 					Recipe.FindRecipes();
 				}
@@ -155,41 +156,41 @@ namespace JoostMod.Tiles
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (chest < 0)
 			{
-				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
             }
 			else
 			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "TARDIS Chest";
-				if (player.showItemIconText == "TARDIS Chest")
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "TARDIS Chest";
+				if (player.cursorItemIconText == "TARDIS Chest")
 				{
-					player.showItemIcon2 = mod.ItemType("TARDISChest");
-					player.showItemIconText = "";
+					player.cursorItemIconID = Mod.Find<ModItem>("TARDISChest").Type;
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
+			player.cursorItemIconEnabled = true;
 		}
 
 		public override void MouseOverFar(int i, int j)
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			if (player.showItemIconText == "")
+			if (player.cursorItemIconText == "")
 			{
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
+				player.cursorItemIconEnabled = false;
+				player.cursorItemIconID = 0;
 			}
 		}
 	}

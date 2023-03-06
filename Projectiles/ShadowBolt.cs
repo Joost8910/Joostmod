@@ -10,30 +10,30 @@ namespace JoostMod.Projectiles
 	{public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadow bolt");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 4;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.alpha = 50;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 50;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 5)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 5)
 			{
-				projectile.frame = (projectile.frame + 1) % 4;
-				projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 4;
+				Projectile.frameCounter = 0;
 			}
 		}
 	}

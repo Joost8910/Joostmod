@@ -11,29 +11,29 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cactus");
-			Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.DontAttachHideToAlpha[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true;
         }
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 61;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 300;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-            projectile.hide = true;
-            projectile.aiStyle = 0;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = true;
+			Projectile.width = 32;
+			Projectile.height = 61;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 300;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.hide = true;
+            Projectile.aiStyle = 0;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = true;
         }
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
             drawCacheProjsBehindNPCsAndTiles.Add(index);
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 18;
 			height = 56;
@@ -42,12 +42,12 @@ namespace JoostMod.Projectiles
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.ai[0] += projectile.ai[0] < 1 ? 1 : 0;
+			Projectile.ai[0] += Projectile.ai[0] < 1 ? 1 : 0;
 			return false;
 		}
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type != mod.NPCType("Cactus Person") && projectile.ai[0] >= 24 && !target.friendly && (target.damage > 0 || projectile.ai[1] <= 0))
+            if (target.type != Mod.Find<ModNPC>("Cactus Person").Type && Projectile.ai[0] >= 24 && !target.friendly && (target.damage > 0 || Projectile.ai[1] <= 0))
             {
                 return base.CanHitNPC(target);
             }
@@ -55,31 +55,31 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
 		{
-			projectile.velocity.X = 0;
-	        projectile.rotation = 0;
-			if (projectile.ai[0] == 6)
+			Projectile.velocity.X = 0;
+	        Projectile.rotation = 0;
+			if (Projectile.ai[0] == 6)
 			{
-				projectile.frame = 1;
+				Projectile.frame = 1;
 			}
-			if (projectile.ai[0] == 12)
+			if (Projectile.ai[0] == 12)
 			{
-				projectile.frame = 2;
+				Projectile.frame = 2;
 			}
-			if (projectile.ai[0] == 18)
+			if (Projectile.ai[0] == 18)
 			{
-				projectile.frame = 3;
+				Projectile.frame = 3;
 			}
-			if (projectile.ai[0] == 24)
+			if (Projectile.ai[0] == 24)
 			{
-				projectile.frame = 4;
+				Projectile.frame = 4;
 			}
-			if (projectile.timeLeft < 24)
+			if (Projectile.timeLeft < 24)
 			{
-				projectile.ai[0]--;
+				Projectile.ai[0]--;
 			}
-			else if (projectile.ai[0] > 0 && projectile.ai[0] < 24)
+			else if (Projectile.ai[0] > 0 && Projectile.ai[0] < 24)
 			{
-				projectile.ai[0]++;
+				Projectile.ai[0]++;
 			}
 		}
 	}

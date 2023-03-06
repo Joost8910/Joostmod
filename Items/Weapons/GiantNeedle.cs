@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,37 +15,35 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 280;
-			item.thrown = true;
-			item.width = 26;
-			item.height = 72;
-			item.useTime = 6;
-			item.useAnimation = 6;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 7;
-			item.value = 10000000;
-			item.rare = 11;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("GiantNeedle");
-			item.shootSpeed = 16f;
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(5));
-            speedX = perturbedSpeed.X;
-            speedY = perturbedSpeed.Y;
-            return true;
-        }
-
-        public override void AddRecipes()
+			Item.damage = 280;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 26;
+			Item.height = 72;
+			Item.useTime = 6;
+			Item.useAnimation = 6;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 7;
+			Item.value = 10000000;
+			Item.rare = ItemRarityID.Purple;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("GiantNeedle").Type;
+			Item.shootSpeed = 16f;
+		}
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Cactustoken", 1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(5));
+			velocity = perturbedSpeed;
+			return true;
+		}
+
+		public override void AddRecipes()
+		{
+			CreateRecipe()
+				.AddIngredient<Materials.Cactustoken>()
+				.Register();
 		}
 	}
 }

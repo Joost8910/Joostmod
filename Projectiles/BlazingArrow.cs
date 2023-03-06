@@ -15,15 +15,15 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.arrow = true;
-			aiType = ProjectileID.WoodenArrowFriendly;
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.arrow = true;
+			AIType = ProjectileID.WoodenArrowFriendly;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -36,14 +36,14 @@ namespace JoostMod.Projectiles
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, -projectile.velocity.X, -projectile.velocity.Y, 0, default, 2f);
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, -Projectile.velocity.X, -Projectile.velocity.Y, 0, default, 2f);
         }
         public override void AI()
         {
-            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, 2, 0, default, 2f).noGravity = true;
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, 2, 0, default, 2f).noGravity = true;
             if (Main.rand.NextBool(15))
             {
-                Projectile.NewProjectile(projectile.Center, new Vector2(0, 1), mod.ProjectileType("BlazingDroplet"), projectile.damage / 3, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, new Vector2(0, 1), Mod.Find<ModProjectile>("BlazingDroplet").Type, Projectile.damage / 3, 0, Projectile.owner);
             }
         }
     }

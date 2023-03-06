@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class Cactuar : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cactuar");
 			Description.SetDefault("The Cactuar will fight for you");
@@ -16,7 +16,7 @@ namespace JoostMod.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-			if (player.ownedProjectileCounts[mod.ProjectileType("Cactuar")] > 0)
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Cactuar").Type] > 0)
 			{
 				modPlayer.cactuarMinions = true;
 			}

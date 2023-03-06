@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
  
 namespace JoostMod.Items.Placeable         
@@ -11,19 +12,19 @@ public override void SetStaticDefaults()
 		}
         public override void SetDefaults()
         {  
-            item.width = 10;    
-            item.height = 24;  
-            item.maxStack = 99; 
-            item.useTurn = true;
-            item.autoReuse = true; 
-            item.useAnimation = 15;  
-            item.useTime = 10;  
-            item.useStyle = 1;  
-            item.consumable = true;  
-            item.rare = 2; 
-            item.value = Item.buyPrice(0, 1, 0, 0);  
-            item.createTile = mod.TileType("DerangedMutantKillerMonsterSnowGoonBanner");  
-            item.placeStyle = 0;
+            Item.width = 10;    
+            Item.height = 24;  
+            Item.maxStack = 99; 
+            Item.useTurn = true;
+            Item.autoReuse = true; 
+            Item.useAnimation = 15;  
+            Item.useTime = 10;  
+            Item.useStyle = ItemUseStyleID.Swing;  
+            Item.consumable = true;  
+            Item.rare = ItemRarityID.Green; 
+            Item.value = Item.buyPrice(0, 1, 0, 0);  
+            Item.createTile = Mod.Find<ModTile>("DerangedMutantKillerMonsterSnowGoonBanner").Type;  
+            Item.placeStyle = 0;
         }
     }
 }

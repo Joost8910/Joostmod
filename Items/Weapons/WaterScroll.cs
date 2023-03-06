@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,37 +13,35 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 36;
-            item.magic = true;
-            item.width = 36;
-            item.height = 36;
-            item.mana = 20;
-            item.channel = true;
-            item.useStyle = 5;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.reuseDelay = 2;
-            item.value = 225000;
-            item.rare = 5;
-            item.knockBack = 3;
-            item.UseSound = SoundID.Item21;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("WaterBall");
-            item.shootSpeed = 15f;
+            Item.damage = 36;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 36;
+            Item.height = 36;
+            Item.mana = 20;
+            Item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.reuseDelay = 2;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.knockBack = 3;
+            Item.UseSound = SoundID.Item21;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("WaterBall").Type;
+            Item.shootSpeed = 15f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WaterEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
+            CreateRecipe()
+                .AddIngredient<Materials.WaterEssence>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
         }
 
     }

@@ -1,68 +1,69 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Mounts
 {
-	public class SandShark : ModMountData
+	public class SandShark : ModMount
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.spawnDust = 32;
-			mountData.buff = mod.BuffType("SandSharkMount");
-			mountData.heightBoost = 4;
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 1.5f;
-			mountData.dashSpeed = 3f;
-			mountData.flightTimeMax = 0;
-			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 10;
-			mountData.acceleration = 0.1f;
-			mountData.jumpSpeed = 5f;
-			mountData.blockExtraJumps = false;
-			mountData.totalFrames = 4;
-			mountData.constantJump = false;
-			int[] array = new int[mountData.totalFrames];
+			MountData.spawnDust = 32;
+			MountData.buff = Mod.Find<ModBuff>("SandSharkMount").Type;
+			MountData.heightBoost = 4;
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 1.5f;
+			MountData.dashSpeed = 3f;
+			MountData.flightTimeMax = 0;
+			MountData.fatigueMax = 0;
+			MountData.jumpHeight = 10;
+			MountData.acceleration = 0.1f;
+			MountData.jumpSpeed = 5f;
+			MountData.blockExtraJumps = false;
+			MountData.totalFrames = 4;
+			MountData.constantJump = false;
+			int[] array = new int[MountData.totalFrames];
 			for (int l = 0; l < array.Length; l++)
 			{
 				array[l] = 6;
             }
-            mountData.playerYOffsets = array;
-			mountData.xOffset = 14;
-			mountData.bodyFrame = 3;
-			mountData.yOffset = 14;
-			mountData.playerHeadOffset = 22;
-			mountData.standingFrameCount = 1;
-			mountData.standingFrameDelay = 12;
-			mountData.standingFrameStart = 0;
-			mountData.runningFrameCount = 4;
-			mountData.runningFrameDelay = 24;
-			mountData.runningFrameStart = 0;
-			mountData.flyingFrameCount = 0;
-			mountData.flyingFrameDelay = 0;
-			mountData.flyingFrameStart = 0;
-			mountData.inAirFrameCount = 4;
-			mountData.inAirFrameDelay = 8;
-			mountData.inAirFrameStart = 0;
-			mountData.idleFrameCount = 4;
-			mountData.idleFrameDelay = 12;
-			mountData.idleFrameStart = 0;
-			mountData.idleFrameLoop = false;
-			mountData.swimFrameCount = 4;
-			mountData.swimFrameDelay = 20;
-			mountData.swimFrameStart = 0;
+            MountData.playerYOffsets = array;
+			MountData.xOffset = 14;
+			MountData.bodyFrame = 3;
+			MountData.yOffset = 14;
+			MountData.playerHeadOffset = 22;
+			MountData.standingFrameCount = 1;
+			MountData.standingFrameDelay = 12;
+			MountData.standingFrameStart = 0;
+			MountData.runningFrameCount = 4;
+			MountData.runningFrameDelay = 24;
+			MountData.runningFrameStart = 0;
+			MountData.flyingFrameCount = 0;
+			MountData.flyingFrameDelay = 0;
+			MountData.flyingFrameStart = 0;
+			MountData.inAirFrameCount = 4;
+			MountData.inAirFrameDelay = 8;
+			MountData.inAirFrameStart = 0;
+			MountData.idleFrameCount = 4;
+			MountData.idleFrameDelay = 12;
+			MountData.idleFrameStart = 0;
+			MountData.idleFrameLoop = false;
+			MountData.swimFrameCount = 4;
+			MountData.swimFrameDelay = 20;
+			MountData.swimFrameStart = 0;
 			if (Main.netMode != 2)
 			{
-				mountData.textureWidth = mountData.backTexture.Width;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
 		}
 
         public override void UpdateEffects(Player player)
         {
-            Rectangle rect = new Rectangle((int)(player.position.X - 6), (int)(player.position.Y - 6), player.width + 12, player.height + mountData.heightBoost + 12);
+            Rectangle rect = new Rectangle((int)(player.position.X - 6), (int)(player.position.Y - 6), player.width + 12, player.height + MountData.heightBoost + 12);
             if (player.controlLeft)
             {
                 rect.X -= 16;
@@ -84,16 +85,16 @@ namespace JoostMod.Mounts
             {
                 for (int y = rect.Y / 16; y <= (rect.Y + rect.Height) / 16 && !sand; y++)
                 {
-                    int type = Main.tile[x, y].type;
-                    if (Main.tile[x, y].nactive() && (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Ebonsand || type == TileID.Crimsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.CorruptHardenedSand || type == TileID.CrimsonHardenedSand || type == TileID.HallowSandstone || type == TileID.CorruptSandstone || type == TileID.CrimsonSandstone || type == TileID.DesertFossil))
+                    int type = Main.tile[x, y].TileType;
+                    if (Main.tile[x, y].HasUnactuatedTile && (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Ebonsand || type == TileID.Crimsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.CorruptHardenedSand || type == TileID.CrimsonHardenedSand || type == TileID.HallowSandstone || type == TileID.CorruptSandstone || type == TileID.CrimsonSandstone || type == TileID.DesertFossil))
                     {
                         sand = true;
                     }
                 }
             }
-            float moveSpeed = mountData.dashSpeed * 2.5f * player.GetModPlayer<JoostPlayer>().accRunSpeedMult;
-            float jumpSpeed = mountData.jumpSpeed * 2;
-            float accel = mountData.acceleration;
+            float moveSpeed = MountData.dashSpeed * 2.5f * player.GetModPlayer<JoostPlayer>().accRunSpeedMult;
+            float jumpSpeed = MountData.jumpSpeed * 2;
+            float accel = MountData.acceleration;
             if (player.controlRight && player.GetModPlayer<JoostPlayer>().sandSharkVel.X < moveSpeed)
             {
                 if (player.velocity.X < 0)
@@ -234,7 +235,7 @@ namespace JoostMod.Mounts
                 if (player.runSoundDelay > 40)
                 {
                     player.runSoundDelay = 0;
-                    Main.PlaySound(15, (int)player.Center.X, (int)player.Center.Y, 1, 0.8f);
+                    SoundEngine.PlaySound(SoundID.WormDig.WithVolumeScale(0.8f), player.Center);
                 }
             }
             else if (player.wet)

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,25 +14,25 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
         }
         public override void AI()
         {
-            int dustIndex = Dust.NewDust(projectile.Center - projectile.velocity, 1, 1, 127, 0, 0, 0, default(Color), 2f);
+            int dustIndex = Dust.NewDust(Projectile.Center - Projectile.velocity, 1, 1, 127, 0, 0, 0, default(Color), 2f);
             Main.dust[dustIndex].noGravity = true;
         }
         public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("Explosion"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);
-			Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y,  mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));				
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("Explosion").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
+			SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y,  Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));				
 		}
 	}
 }

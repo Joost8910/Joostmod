@@ -18,9 +18,9 @@ namespace JoostMod.Projectiles
         }
 		public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.CultistBossLightningOrbArc);
-            projectile.extraUpdates = 2;
-            aiType = ProjectileID.CultistBossLightningOrbArc;
+            Projectile.CloneDefaults(ProjectileID.CultistBossLightningOrbArc);
+            Projectile.extraUpdates = 2;
+            AIType = ProjectileID.CultistBossLightningOrbArc;
         }
     }
 }

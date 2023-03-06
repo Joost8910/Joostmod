@@ -11,18 +11,18 @@ namespace JoostMod.Items.Quest
 		{
 			DisplayName.SetDefault("Fiery Imp Tail");
             Tooltip.SetDefault("Quest item for the Hunt Master");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 8));
-            ItemID.Sets.ItemNoGravity[item.type] = true;
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
 		public override void SetDefaults()
 		{
-			item.questItem = true;
-			item.maxStack = 1;
-			item.width = 42;
-			item.height = 42;
-			item.uniqueStack = true;
-			item.rare = -11;		
+			Item.questItem = true;
+			Item.maxStack = 1;
+			Item.width = 42;
+			Item.height = 42;
+			Item.uniqueStack = true;
+			Item.rare = ItemRarityID.Quest;		
 		}
 	}
 }

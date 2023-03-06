@@ -13,35 +13,35 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.alpha = 120;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.alpha = 120;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.extraUpdates = 1;
         }
         public override void AI()
         {
             //Making player variable "p" set as the projectile's owner
 
             //Factors for calculations
-            double deg = (double)projectile.ai[1]; //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
+            double deg = (double)Projectile.ai[1]; //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
             double rad = deg * (Math.PI / 180); //Convert degrees to radians
-            double dist = (projectile.ai[1] * -1) / 2; //Distance away from the player
-            projectile.rotation = (float)rad * 1.5f;
+            double dist = (Projectile.ai[1] * -1) / 2; //Distance away from the player
+            Projectile.rotation = (float)rad * 1.5f;
 
             /*Position the player based on where the player is, the Sin/Cos of the angle times the /
             /distance for the desired distance away from the player minus the projectile's width   /
             /and height divided by two so the center of the projectile is at the right place.     */
-            projectile.position.X = Main.player[projectile.owner].Center.X - (int)(Math.Cos(rad) * dist / 2) - projectile.width / 2;
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (int)(Math.Sin(rad) * dist / 2) - projectile.height / 2;
+            Projectile.position.X = Main.player[Projectile.owner].Center.X - (int)(Math.Cos(rad) * dist / 2) - Projectile.width / 2;
+            Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (int)(Math.Sin(rad) * dist / 2) - Projectile.height / 2;
 
             //Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
-            projectile.ai[1] += 6f;
+            Projectile.ai[1] += 6f;
         }
 
     }

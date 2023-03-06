@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,50 +15,49 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 300;
-			item.summon = true;
-			item.mana = 10;
-			item.width = 64;
-			item.height = 64;
-			item.useTime = 18;
-			item.useAnimation = 18;
-			item.useStyle = 1;
-			item.noMelee = true; 
-			item.knockBack = 9;
-			item.value = 10000000;
-			item.rare = 11;
-			item.UseSound = SoundID.Item44;
-			item.shoot = mod.ProjectileType("IceXMinion");
-			item.shootSpeed = 10f;
-			item.buffType = mod.BuffType("IceXMinion");
-			item.buffTime = 3600;
+			Item.damage = 300;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+			Item.width = 64;
+			Item.height = 64;
+			Item.useTime = 18;
+			Item.useAnimation = 18;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.knockBack = 9;
+			Item.value = 10000000;
+			Item.rare = ItemRarityID.Purple;
+			Item.UseSound = SoundID.Item44;
+			Item.shoot = Mod.Find<ModProjectile>("IceXMinion").Type;
+			Item.shootSpeed = 10f;
+			Item.buffType = Mod.Find<ModBuff>("IceXMinion").Type;
+			Item.buffTime = 3600;
 		}
 
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-		
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
 		}
-		
-		public override bool UseItem(Player player)
+
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			if(player.altFunctionUse == 2)
+			if (player.altFunctionUse == 2)
 			{
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(false);
 			}
 			return base.UseItem(player);
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "IceCoreX", 1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.IceCoreX>()
+				.Register();
 		}
 
 	}

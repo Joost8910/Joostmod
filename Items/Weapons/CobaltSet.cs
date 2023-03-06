@@ -7,33 +7,34 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Items.Weapons
 {
-	public class CobaltSet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cobalt Weapon Set");
-			Tooltip.SetDefault("'ALL the cobalt!'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 38;
-			item.width = 56;
-			item.height = 56;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 3;
-			item.value = 120000;
-			item.rare = 5;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("CobaltChainedchainsaw");
-			item.shootSpeed = 1f;
-            item.crit = 4;
+    public class CobaltSet : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cobalt Weapon Set");
+            Tooltip.SetDefault("'ALL the cobalt!'");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 38;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 120000;
+            Item.rare = ItemRarityID.Pink;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("CobaltChainedchainsaw").Type;
+            Item.shootSpeed = 1f;
+            Item.crit = 4;
         }
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
@@ -89,11 +90,7 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
-        {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
-        }
-        public override bool CanUseItem(Player player)      
+        public override bool CanUseItem(Player player)
         {
             if (player.ownedProjectileCounts[97] > 0)
             {
@@ -101,41 +98,40 @@ namespace JoostMod.Items.Weapons
             }
             return true;
         }
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int wep = Main.rand.Next(4);
-			if (wep == 1)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 12), (speedY * 12), 172, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 2)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 8), (speedY * 8), 97, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 3)
-			{
-				float distance = player.Distance(Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY));
-				Terraria.Projectile.NewProjectile(position.X, position.Y, speedX * (distance / 30), speedY * (distance / 30), mod.ProjectileType("CrystalChunk"), (damage), 0, player.whoAmI);
-			}
-			if (wep == 0)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 12), (speedY * 12), mod.ProjectileType("CobaltChainedchainsaw"), (damage), knockBack, player.whoAmI);
-			}
-			return false;
-		}
-			public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.CobaltNaginata);
-			recipe.AddIngredient(ItemID.CobaltRepeater);
-			recipe.AddIngredient(null, "CobaltStaff");
-			recipe.AddIngredient(null, "CobaltChainedchainsaw", 4);
-			recipe.AddTile(TileID.Anvils); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int wep = Main.rand.Next(4);
+            if (wep == 1)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 12), (velocity.Y * 12), 172, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 2)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 8), (velocity.Y * 8), 97, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 3)
+            {
+                float distance = player.Distance(Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY));
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * (distance / 30), velocity.Y * (distance / 30), Mod.Find<ModProjectile>("CrystalChunk").Type, (damage), 0, player.whoAmI);
+            }
+            if (wep == 0)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 12), (velocity.Y * 12), Mod.Find<ModProjectile>("CobaltChainedchainsaw").Type, (damage), knockback, player.whoAmI);
+            }
+            return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.CobaltNaginata)
+                .AddIngredient(ItemID.CobaltRepeater)
+                .AddIngredient<CobaltStaff>()
+                .AddIngredient<CobaltChainedchainsaw>(4)
+                .AddTile(TileID.Anvils)
+                .Register();
+        }
 
-	}
+    }
 }
 
 

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,116 +13,116 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dragon Blast");
-            Main.projFrames[projectile.type] = 16;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 16;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 128;
-			projectile.height = 128;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 140;
-			projectile.tileCollide = false;
-            projectile.scale = 1f;
-            projectile.ranged = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
-            projectile.extraUpdates = 2;
+			Projectile.width = 128;
+			Projectile.height = 128;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 140;
+			Projectile.tileCollide = false;
+            Projectile.scale = 1f;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
+            Projectile.extraUpdates = 2;
         }
         public override void AI()
         {
-            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, 0, 0, default, 2f).noGravity = true;
-            Lighting.AddLight(projectile.Center, 2f, 1.2f, 0f);
-            if (projectile.timeLeft > 70)
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, 0, 0, default, 2f).noGravity = true;
+            Lighting.AddLight(Projectile.Center, 2f, 1.2f, 0f);
+            if (Projectile.timeLeft > 70)
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
             }
             else
             {
-                projectile.velocity *= 0.96f;
+                Projectile.velocity *= 0.96f;
             }
-            if (projectile.timeLeft > 135)
+            if (Projectile.timeLeft > 135)
             {
-                projectile.frame = 0;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 0;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 130)
+            else if (Projectile.timeLeft > 130)
             {
-                projectile.frame = 1;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 1;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 125)
+            else if (Projectile.timeLeft > 125)
             {
-                projectile.frame = 2;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 2;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 120)
+            else if (Projectile.timeLeft > 120)
             {
-                projectile.frame = 3;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 3;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 110)
+            else if (Projectile.timeLeft > 110)
             {
-                projectile.frame = 4;
-                projectile.tileCollide = true;
+                Projectile.frame = 4;
+                Projectile.tileCollide = true;
             }
-            else if (projectile.timeLeft > 100)
+            else if (Projectile.timeLeft > 100)
             {
-                projectile.frame = 5;
+                Projectile.frame = 5;
             }
-            else if (projectile.timeLeft > 90)
+            else if (Projectile.timeLeft > 90)
             {
-                projectile.frame = 6;
+                Projectile.frame = 6;
             }
-            else if (projectile.timeLeft > 80)
+            else if (Projectile.timeLeft > 80)
             {
-                projectile.frame = 7;
+                Projectile.frame = 7;
             }
-            else if (projectile.timeLeft > 70)
+            else if (Projectile.timeLeft > 70)
             {
-                projectile.frame = 8;
+                Projectile.frame = 8;
             }
-            else if (projectile.timeLeft > 60)
+            else if (Projectile.timeLeft > 60)
             {
-                projectile.frame = 9;
-                Main.PlaySound(2, projectile.Center, 20);
+                Projectile.frame = 9;
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
-            else if (projectile.timeLeft > 50)
+            else if (Projectile.timeLeft > 50)
             {
-                projectile.frame = 10;
+                Projectile.frame = 10;
             }
-            else if (projectile.timeLeft > 40)
+            else if (Projectile.timeLeft > 40)
             {
-                projectile.frame = 11;
+                Projectile.frame = 11;
             }
-            else if (projectile.timeLeft > 30)
+            else if (Projectile.timeLeft > 30)
             {
-                projectile.frame = 12;
+                Projectile.frame = 12;
             }
-            else if (projectile.timeLeft > 20)
+            else if (Projectile.timeLeft > 20)
             {
-                projectile.frame = 13;
+                Projectile.frame = 13;
             }
-            else if (projectile.timeLeft > 10)
+            else if (Projectile.timeLeft > 10)
             {
-                projectile.frame = 14;
+                Projectile.frame = 14;
             }
             else
             {
-                projectile.frame = 15;
+                Projectile.frame = 15;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
-            if (projectile.timeLeft > 70)
-                projectile.timeLeft = 70;
+            Projectile.velocity = Vector2.Zero;
+            if (Projectile.timeLeft > 70)
+                Projectile.timeLeft = 70;
             return false;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 34;
             height = 34;
@@ -139,7 +140,7 @@ namespace JoostMod.Projectiles
         {
             for (int i = 0; i < 22; i++)
             {
-                int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+                int dustIndex = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6);
                 Main.dust[dustIndex].noGravity = true;
             }
         }

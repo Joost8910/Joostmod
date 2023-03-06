@@ -16,36 +16,36 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 60;
-			item.magic = true;
-			item.mana = 30;
-			item.maxStack = 1;
-			item.consumable = false;
-			item.width = 50;
-			item.height = 50;
-			item.useTime = 60;
-			item.useAnimation = 60;
-			item.useStyle = 5;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 4;
-			item.value = 300000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item120;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("FrozenOrb");
-			item.shootSpeed = 6f;
+			Item.damage = 60;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 30;
+			Item.maxStack = 1;
+			Item.consumable = false;
+			Item.width = 50;
+			Item.height = 50;
+			Item.useTime = 60;
+			Item.useAnimation = 60;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 4;
+			Item.value = 300000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item120;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("FrozenOrb").Type;
+			Item.shootSpeed = 6f;
 		}
-		    public override void ModifyTooltips(List<TooltipLine> list)
-    {
-        foreach (TooltipLine line2 in list)
-        {
-            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-            {
-                line2.overrideColor = new Color(255, 128, 0);
-            }
-        }
-    }
+		public override void ModifyTooltips(List<TooltipLine> list)
+		{
+			foreach (TooltipLine line2 in list)
+			{
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
+				{
+					line2.OverrideColor = new Color(255, 128, 0);
+				}
+			}
+		}
 	}
 }
 

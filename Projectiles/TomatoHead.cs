@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -10,57 +12,57 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tomato Head");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 20;
         }
         public override bool? CanHitNPC(NPC target)
 		{
-			return !target.friendly && projectile.ai[1] >= 20;
+			return !target.friendly && Projectile.ai[1] >= 20;
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            if (player.immuneTime < projectile.localNPCHitCooldown)
+            Player player = Main.player[Projectile.owner];
+            if (player.immuneTime < Projectile.localNPCHitCooldown)
             {
                 player.immune = true;
-                player.immuneTime = projectile.localNPCHitCooldown;
+                player.immuneTime = Projectile.localNPCHitCooldown;
             }
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            hitbox.Width = (int)(40f * projectile.scale);
-            hitbox.Height = (int)(40f * projectile.scale);
-            hitbox.X -= (int)(((40f * projectile.scale) - 40) * 0.5f);
-            hitbox.Y -= (int)(((40f * projectile.scale) - 40) * 0.5f);
+            hitbox.Width = (int)(40f * Projectile.scale);
+            hitbox.Height = (int)(40f * Projectile.scale);
+            hitbox.X -= (int)(((40f * Projectile.scale) - 40) * 0.5f);
+            hitbox.Y -= (int)(((40f * Projectile.scale) - 40) * 0.5f);
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.localAI[1] = 1;
+            Projectile.localAI[1] = 1;
             bool channeling = player.channel && !player.noItems && !player.CCed;
             if (channeling)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor6 = 1f;
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
+                    if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
-                        projectile.scale = player.inventory[player.selectedItem].scale;
-                        projectile.localAI[1] = (30f / (float)player.inventory[player.selectedItem].useTime) / player.meleeSpeed;
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        Projectile.scale = player.inventory[player.selectedItem].scale;
+                        Projectile.localAI[1] = (30f / (float)player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee);
+                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     }
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();
@@ -69,43 +71,43 @@ namespace JoostMod.Projectiles
                         vector13 = Vector2.UnitX * (float)player.direction;
                     }
                     vector13 *= scaleFactor6;
-                    if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = vector13;
+                    Projectile.velocity = vector13;
                 }
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         
-            if (projectile.ai[1] == 0)
+            if (Projectile.ai[1] == 0)
             {
-                projectile.ai[0] = 0;
+                Projectile.ai[0] = 0;
             }
             if (player.velocity.Y == 0)
             {
-                projectile.ai[0] = 1;
+                Projectile.ai[0] = 1;
             }
             float speed = 8.5f;
-            float accel = (speed * projectile.localAI[1]) / 30f;
-            projectile.localNPCHitCooldown = (int)(20f / projectile.localAI[1]);
-            projectile.ai[1] = projectile.ai[1] < 30 ? projectile.ai[1]+ projectile.localAI[1] : 0;
-            bool halt = ((player.controlLeft && player.velocity.X > 0 && projectile.velocity.X > 0) || (player.controlRight && player.velocity.X < 0 && projectile.velocity.X < 0));
-            bool zip = ((player.velocity.X > 0 && projectile.velocity.X > 0 && player.controlRight) || (player.velocity.X < 0 && projectile.velocity.X < 0 && player.controlLeft));
-			if (projectile.ai[1] < 10)
+            float accel = (speed * Projectile.localAI[1]) / 30f;
+            Projectile.localNPCHitCooldown = (int)(20f / Projectile.localAI[1]);
+            Projectile.ai[1] = Projectile.ai[1] < 30 ? Projectile.ai[1]+ Projectile.localAI[1] : 0;
+            bool halt = ((player.controlLeft && player.velocity.X > 0 && Projectile.velocity.X > 0) || (player.controlRight && player.velocity.X < 0 && Projectile.velocity.X < 0));
+            bool zip = ((player.velocity.X > 0 && Projectile.velocity.X > 0 && player.controlRight) || (player.velocity.X < 0 && Projectile.velocity.X < 0 && player.controlLeft));
+			if (Projectile.ai[1] < 10)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
                 if (!zip)
                 {
                     player.velocity.X *= 0.9f;
                 }
             }
-            else if (projectile.ai[1] < 20)
+            else if (Projectile.ai[1] < 20)
             {
-                projectile.frame = 1;
+                Projectile.frame = 1;
                 if (!zip)
                 {
                     player.velocity.X *= 0.9f;
@@ -113,32 +115,32 @@ namespace JoostMod.Projectiles
             }
             else
             {
-                if (projectile.soundDelay <= 0)
+                if (Projectile.soundDelay <= 0)
                 {
-                    projectile.soundDelay = (int)(15f / projectile.localAI[1]);
-                    Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 2, 0.3f * projectile.scale, -0.3f - (0.5f * (projectile.scale - 1)));
-                    for (int i = 0; i < 6 * projectile.scale; i++)
+                    Projectile.soundDelay = (int)(15f / Projectile.localAI[1]);
+                    SoundEngine.PlaySound(SoundID.NPCHit2.WithVolumeScale(0.3f * Projectile.scale).WithPitchOffset(-0.3f - (0.5f * (Projectile.scale - 1))), Projectile.Center);
+                    for (int i = 0; i < 6 * Projectile.scale; i++)
                     {
-                        int dust = Dust.NewDust(projectile.Center - new Vector2(12 * projectile.scale, 12 * projectile.scale), (int)(24 * projectile.scale), (int)(24 * projectile.scale), 247, projectile.velocity.X, projectile.velocity.Y, 150, Color.LightBlue);
+                        int dust = Dust.NewDust(Projectile.Center - new Vector2(12 * Projectile.scale, 12 * Projectile.scale), (int)(24 * Projectile.scale), (int)(24 * Projectile.scale), 247, Projectile.velocity.X, Projectile.velocity.Y, 150, Color.LightBlue);
                         Main.dust[dust].noGravity = true;
                     }
                 }
-                projectile.frame = 2;
-                player.velocity.Y = ((projectile.ai[0] > 0 && player.velocity.Y > -speed) || projectile.velocity.Y > 0) ? player.velocity.Y + projectile.velocity.Y * accel : player.velocity.Y;
-                player.velocity.X = Math.Abs(player.velocity.X) < speed ? player.velocity.X + projectile.velocity.X * accel : player.velocity.X;
+                Projectile.frame = 2;
+                player.velocity.Y = ((Projectile.ai[0] > 0 && player.velocity.Y > -speed) || Projectile.velocity.Y > 0) ? player.velocity.Y + Projectile.velocity.Y * accel : player.velocity.Y;
+                player.velocity.X = Math.Abs(player.velocity.X) < speed ? player.velocity.X + Projectile.velocity.X * accel : player.velocity.X;
             }
             if (halt)
             {
                 player.velocity.X *= 0.9f;
             }
-            projectile.position = (projectile.velocity + vector) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
-            projectile.spriteDirection = projectile.direction;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = (Projectile.velocity + vector) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
+            Projectile.spriteDirection = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 10;
             player.itemAnimation = 10;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             return false;
         }
     }

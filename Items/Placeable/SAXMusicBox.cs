@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Items.Placeable
 {
@@ -8,21 +9,23 @@ namespace JoostMod.Items.Placeable
 		{
 			DisplayName.SetDefault("Music Box (Vs. SA-X)");
 			Tooltip.SetDefault("From Metroid Fusion");
-		}
+
+            MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSAX"), ModContent.ItemType<SAXMusicBox>(), ModContent.TileType<Tiles.SAXMusicBox>());
+        }
 		public override void SetDefaults()
 		{
-			item.useStyle = 1;
-			item.useTurn = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = mod.TileType("SAXMusicBox");
-			item.width = 24;
-			item.height = 24;
-			item.rare = 8;
-            item.value = 500000;
-            item.accessory = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTurn = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<Tiles.SAXMusicBox>();
+			Item.width = 24;
+			Item.height = 24;
+			Item.rare = ItemRarityID.Yellow;
+            Item.value = 500000;
+            Item.accessory = true;
 		}
 	}
 }

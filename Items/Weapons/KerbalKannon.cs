@@ -13,30 +13,29 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.ranged = true;
-			item.width = 52;
-			item.height = 40;
-			item.noMelee = true;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.useStyle = 5;
-			item.knockBack = 4;
-			item.value = 10000;
-			item.rare = 1;
-			item.UseSound = SoundID.Item11;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Kerbal");
-			item.shootSpeed = 15f;
+			Item.damage = 18;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 52;
+			Item.height = 40;
+			Item.noMelee = true;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 4;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item11;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Kerbal").Type;
+			Item.shootSpeed = 15f;
 		}
 
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.MeteoriteBar, 10)
+				.AddTile(TileID.Anvils)
+				.Register();
 
 		}
 	}

@@ -9,7 +9,7 @@ namespace JoostMod.Tiles
 {
 	class ShrineOfLegends : ModTile
 	{
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -19,13 +19,13 @@ namespace JoostMod.Tiles
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            disableSmartCursor = true;
+            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Shrine of Legends");
             AddMapEntry(new Color(0, 145, 100), name);
-            dustType = 42;
-            minPick = 100;
-            mineResist = 3f;
+            DustType = 42;
+            MinPick = 100;
+            MineResist = 3f;
         }
         public override bool CanExplode(int i, int j)
         {
@@ -40,7 +40,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.5f)));
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/ShrineOfLegendsGem"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Mod.GetTexture("Tiles/ShrineOfLegendsGem"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -50,7 +50,7 @@ namespace JoostMod.Tiles
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("ShrineOfLegends"));
+			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("ShrineOfLegends").Type);
 		}
 	}
 }

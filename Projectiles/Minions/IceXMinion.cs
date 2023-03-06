@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
 {
@@ -10,27 +11,27 @@ namespace JoostMod.Projectiles.Minions
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Core-X");
-            Main.projFrames[projectile.type] = 17;
-            Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.MinionShot[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 17;
+            Main.projPet[Projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.MinionShot[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 54;
-			projectile.height = 52;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.minionSlots = 1;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.netImportant = true;
+			Projectile.width = 54;
+			Projectile.height = 52;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 1;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 			inertia = 20f;
-			shoot = mod.ProjectileType("IceBeamMinionStart");
+			shoot = Mod.Find<ModProjectile>("IceBeamMinionStart").Type;
 			shootSpeed = 16f;
 			shootCool = 204f;
             predict = true;
@@ -38,33 +39,33 @@ namespace JoostMod.Projectiles.Minions
 
         public override void SelectFrame(Vector2 targetPos)
         {
-            projectile.spriteDirection = -1;
-            Vector2 dir = projectile.DirectionTo(targetPos);
-            projectile.rotation = dir.ToRotation();
-            projectile.frame = (int)(projectile.ai[1] / 12) % 17;
-            if (projectile.frame >= 17 || projectile.frame < 0)
+            Projectile.spriteDirection = -1;
+            Vector2 dir = Projectile.DirectionTo(targetPos);
+            Projectile.rotation = dir.ToRotation();
+            Projectile.frame = (int)(Projectile.ai[1] / 12) % 17;
+            if (Projectile.frame >= 17 || Projectile.frame < 0)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
             
             //Main.NewText(projectile.ai[1], Color.ForestGreen);
             //Main.NewText(projectile.frame, Color.AliceBlue);
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 36)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 36)
             {
-                projectile.frameCounter = 0;
+                Projectile.frameCounter = 0;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            Color color = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-            Texture2D tex = mod.GetTexture("Projectiles/XParasite");
-            Rectangle rect = new Rectangle(0, (int)(projectile.frameCounter / 6) * 34, (tex.Width), (tex.Height / 6));
+            Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16));
+            Texture2D tex = Mod.GetTexture("Projectiles/XParasite");
+            Rectangle rect = new Rectangle(0, (int)(Projectile.frameCounter / 6) * 34, (tex.Width), (tex.Height / 6));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 12);
             float rotation = 0;
-            spriteBatch.Draw(tex, new Vector2(projectile.position.X - Main.screenPosition.X + (float)(projectile.width / 2) - (float)(tex.Width / 1) / 2f + vect.X - 2f, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) - (float)(tex.Height / 12) + 1f + vect.Y), new Rectangle?(rect), color, rotation, vect, projectile.scale * 0.9f, effects, 0f);
+            spriteBatch.Draw(tex, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(tex.Width / 1) / 2f + vect.X - 2f, Projectile.position.Y - Main.screenPosition.Y + (float)(Projectile.height / 2) - (float)(tex.Height / 12) + 1f + vect.Y), new Rectangle?(rect), color, rotation, vect, Projectile.scale * 0.9f, effects, 0f);
 
             /*
             int xFrameCount = 1;
@@ -79,7 +80,7 @@ namespace JoostMod.Projectiles.Minions
         }
         public override void CheckActive()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
@@ -87,7 +88,7 @@ namespace JoostMod.Projectiles.Minions
 			}
 			if (modPlayer.IceXMinion)
 			{
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			}
 		}
 	}

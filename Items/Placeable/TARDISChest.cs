@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,26 +13,25 @@ namespace JoostMod.Items.Placeable
 		}
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 34;
-			item.maxStack = 99;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.value = 27000;
-			item.createTile = mod.TileType("TARDISChest");
+			Item.width = 24;
+			Item.height = 34;
+			Item.maxStack = 99;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.value = 27000;
+			Item.createTile = Mod.Find<ModTile>("TARDISChest").Type;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Sapphire, 2);
-			recipe.AddRecipeGroup("IronBar", 2);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+.AddIngredient(ItemID.Sapphire, 2)
+.AddRecipeGroup("IronBar", 2)
+.Register();
 
 		}
 	}

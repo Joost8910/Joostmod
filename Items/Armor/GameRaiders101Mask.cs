@@ -12,28 +12,23 @@ namespace JoostMod.Items.Armor
         {
             DisplayName.SetDefault("Gameraiders101 Mask");
             Tooltip.SetDefault("'Great for impersonating youtubers!'");
+            ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 10000;
-            item.rare = 10;
-            item.vanity = true;
-        }
-        public override bool DrawHead()
-        {
-            return false;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = 10000;
+            Item.rare = ItemRarityID.Red;
+            Item.vanity = true;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("MooshroomMask"));
-            recipe.AddIngredient(ItemID.Sunglasses);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<MooshroomMask>()
+                .AddIngredient(ItemID.Sunglasses)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
-
     }
 }

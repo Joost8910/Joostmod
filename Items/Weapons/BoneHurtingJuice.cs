@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,34 +15,33 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 20;
-			item.height = 24;
-			item.useTime = 27;
-			item.useAnimation = 27;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 3;
-			item.value = 50;
-			item.rare = 1;
-			item.UseSound = SoundID.Item106;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("BoneHurtingJuiceBottle");
-			item.shootSpeed = 8f;
+			Item.damage = 16;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 20;
+			Item.height = 24;
+			Item.useTime = 27;
+			Item.useAnimation = 27;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 3;
+			Item.value = 50;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item106;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("BoneHurtingJuiceBottle").Type;
+			Item.shootSpeed = 8f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.BottledWater, 25);
-            recipe.AddIngredient(ItemID.Bone);
-            recipe.AddIngredient(ItemID.Deathweed);
-			recipe.AddTile(TileID.Bottles);
-			recipe.SetResult(this, 25);
-			recipe.AddRecipe();
+			CreateRecipe(20)
+				.AddIngredient(ItemID.BottledWater, 20)
+				.AddIngredient(ItemID.Blinkroot)
+				.AddIngredient(ItemID.Deathweed)
+				.AddTile(TileID.Bottles)
+				.Register();
 		}
 
 	}

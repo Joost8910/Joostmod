@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,27 +14,27 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilgamesh's Axe");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-            projectile.aiStyle = -1;
-            projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 190;
+			Projectile.width = 30;
+			Projectile.height = 30;
+            Projectile.aiStyle = -1;
+            Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 190;
 		}
         /*public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -projectile.velocity.X, -projectile.velocity.Y, mod.ProjectileType("GilgAxe2"), projectile.damage, projectile.knockBack, projectile.owner);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -projectile.velocity.X, -projectile.velocity.Y, mod.ProjectileType("GilgAxe2"), projectile.damage, projectile.knockback, projectile.owner);
         }*/
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.timeLeft > 145)
+            if (Projectile.timeLeft > 145)
             {
-                projectile.timeLeft = 145;
+                Projectile.timeLeft = 145;
             }
             return false;
         }
@@ -43,63 +45,63 @@ namespace JoostMod.Projectiles
                 target.wingTime = 0;
                 target.rocketTime = 0;
                 target.mount.Dismount(target);
-                target.velocity.Y += projectile.knockBack;
+                target.velocity.Y += Projectile.knockBack;
             }
         }
         public override void AI()
         {
-            NPC host = Main.npc[(int)projectile.ai[0]];
+            NPC host = Main.npc[(int)Projectile.ai[0]];
             Vector2 arm = host.Center + new Vector2(39 * host.direction, -38);
-            projectile.direction = (projectile.velocity.X < 0 ? -1 : 1);
-            projectile.spriteDirection = projectile.direction;
-            if (projectile.timeLeft < 145)
+            Projectile.direction = (Projectile.velocity.X < 0 ? -1 : 1);
+            Projectile.spriteDirection = Projectile.direction;
+            if (Projectile.timeLeft < 145)
             {
-                projectile.velocity = projectile.DirectionTo(arm) * (18 + (projectile.Distance(arm) / 80));
-                if (projectile.Distance(arm) < 30)
+                Projectile.velocity = Projectile.DirectionTo(arm) * (18 + (Projectile.Distance(arm) / 80));
+                if (Projectile.Distance(arm) < 30)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - 1.57f;
-                projectile.spriteDirection = -projectile.direction;
-                projectile.tileCollide = false;
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - 1.57f;
+                Projectile.spriteDirection = -Projectile.direction;
+                Projectile.tileCollide = false;
             }
             else
             {
-                projectile.rotation = projectile.timeLeft * 0.0174f * 14f * -projectile.direction;
-                if (projectile.timeLeft % 9 == 0)
+                Projectile.rotation = Projectile.timeLeft * 0.0174f * 14f * -Projectile.direction;
+                if (Projectile.timeLeft % 9 == 0)
                 {
-                    Main.PlaySound(SoundID.Item7, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item7, Projectile.Center);
                 }
-                if (projectile.velocity.Y < 10 && projectile.timeLeft < 160)
+                if (Projectile.velocity.Y < 10 && Projectile.timeLeft < 160)
                 {
-                    projectile.velocity.Y += 0.3f;
+                    Projectile.velocity.Y += 0.3f;
                 }
             }
             if (!host.active || host.life <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color2, projectile.oldRot[k], drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
             }
             
-            Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/Axe_Chain");
-            NPC host = Main.npc[(int)projectile.ai[0]];
-            Vector2 position = projectile.Center;
+            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Axe_Chain");
+            NPC host = Main.npc[(int)Projectile.ai[0]];
+            Vector2 position = Projectile.Center;
             Vector2 arm = host.Center + new Vector2(39 * host.direction, -38);
             Vector2 dir = position - arm;
             dir.Normalize();
@@ -127,7 +129,7 @@ namespace JoostMod.Projectiles
                     position += vector2_1 * num1;
                     vector2_4 = arm - position;
                     Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
-                    color2 = projectile.GetAlpha(color2);
+                    color2 = Projectile.GetAlpha(color2);
                     Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
                 }
             }

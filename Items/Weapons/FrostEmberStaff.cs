@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,52 +15,51 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.summon = true;
-            item.mana = 10;
-            item.width = 36;
-            item.height = 36;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = 1;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = 500;
-            item.rare = 2;
-            item.UseSound = SoundID.Item44;
-            item.shoot = mod.ProjectileType("FrostEmberMinion");
-            item.shootSpeed = 7f;
-            item.buffType = mod.BuffType("FrostEmberMinion");
-            item.buffTime = 3600;
+            Item.damage = 5;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.width = 36;
+            Item.height = 36;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = 500;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = Mod.Find<ModProjectile>("FrostEmberMinion").Type;
+            Item.shootSpeed = 7f;
+            Item.buffType = Mod.Find<ModBuff>("FrostEmberMinion").Type;
+            Item.buffTime = 3600;
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = Main.MouseWorld;
             return player.altFunctionUse != 2;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceTorch);
-            recipe.AddIngredient(ItemID.IceBlock);
-            recipe.AddIngredient(ItemID.BorealWood, 12);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.IceTorch)
+                .AddIngredient(ItemID.IceBlock)
+                .AddIngredient(ItemID.BorealWood, 12)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
     }
 }

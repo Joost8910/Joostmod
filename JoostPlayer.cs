@@ -1,24 +1,37 @@
-using System;
+using JoostMod.Items;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.GameInput;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameInput;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using JoostMod.Items;
-using Terraria.Graphics.Shaders;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace JoostMod
 {
     public class JoostPlayer : ModPlayer
     {
         private const int saveVersion = 0;
+
+        public bool bonesHurt = false;
+        public float boneHurtDamage = 1;
+        public bool corruptSoul = false;
+        public bool lifeRend = false;
+        public bool infectedRed = false;
+        public bool infectedGreen = false;
+        public bool infectedBlue = false;
+        public bool infectedYellow = false;
+        public bool sap = false;
+
+        public bool stormy = false;
+
         public bool cactuarMinions = false;
         public bool lunarRod = false;
-        public bool stormy = false;
         public bool powerSpirit = false;
         public bool IceXMinion = false;
         public bool WindMinion = false;
@@ -33,6 +46,9 @@ namespace JoostMod
         public bool dirtMinion = false;
         public bool stormWyvernMinion = false;
 
+        public bool planeMount = false;
+        public Vector2 sandSharkVel = Vector2.Zero;
+        
         public bool XShield = false;
         private int XShieldTimer = 60;
         public bool SpectreOrbs = false;
@@ -49,19 +65,12 @@ namespace JoostMod
         private int hoverBootsStart = 0;
         private float hoverWing = 0;
         private int hoverRocket = 0;
-        private bool hoverJump = false;
+        private int hoverMount = 0;
+        private bool hoverCanJump = false;
+        private bool hoverDoJump = false;
         public bool hovering = false;
-        public bool GMagic = false;
-        private int GMagicTimer = 63;
         public bool HavocPendant = false;
         public bool HarmonyPendant = false;
-        public bool gMelee = false;
-        public bool gRanged = false;
-        public bool gRangedIsActive = false;
-        public bool gThrown = false;
-        private int gThrownTimer = 1200;
-        private int sandStormTimer = 6;
-        public bool sandStorm = false;
         public bool swordSapling = false;
         private int swordSaplingTimer = 10;
         public bool hatchetSapling = false;
@@ -75,6 +84,62 @@ namespace JoostMod
         public int spelunky = 0;
         public bool spelunkGlow = false;
         private int spelunkerTimer = 0;
+        public bool glowContacts = false;
+        private int glowEyeType = 0;
+        public bool glowEyeNoGlow = false;
+
+        public bool cactoidCommendation = false;
+        private int cactoidCommendationTimer = 7200;
+        public bool sporgan = false;
+        public bool rocWings = false;
+        private int rot = 0;
+        public bool cactusBoots = false;
+        private float cactusBootsTimer = 40;
+        public bool fleshShield = false;
+        private int fleshShieldTimer = 0;
+        public bool havelShield = false;
+        public bool havelBlocking = false;
+        public bool blazeAnklet = false;
+        public bool airMedallion = false;
+        public bool waterBubble = false;
+        public bool hideBubble = false;
+        public bool emptyHeart = false;
+        
+        public bool dirtArmor = false;
+        public bool slimeArmor = false;
+        public bool slimeActive = false;
+        public int slimedNPC = -1;
+        private Vector2 slimedNPCOffset = Vector2.Zero;
+        public bool slimeClimbWall = false;
+        public bool slimeClimbCeiling = false;
+        private int slimeTimer = -1;
+        public bool pinkSlimeArmor = false;
+        public bool pinkSlimeActive = false;
+        private int pinkSlimeTimer = -1;
+        public bool havelArmor = false;
+        public bool havelArmorActive = false;
+        private int havelArmorTimer = -1;
+        public bool fireArmor = false;
+        public bool fireArmorIsActive = false;
+        public bool airArmor = false;
+        public bool airArmorIsActive = false;
+        private int airArmorDodgeTimer = -1;
+        public bool zoraArmor = false;
+        private int sandStormTimer = 6;
+        public bool sandStorm = false;
+        public bool GMagic = false;
+        private int GMagicTimer = 63;
+        public bool gMelee = false;
+        public bool gRanged = false;
+        public bool gRangedIsActive = false;
+        public bool gThrown = false;
+        private int gThrownTimer = 1200;
+
+        public bool westStone = false;
+        public bool eastStone = false;
+        public bool highStone = false;
+        public bool deepStone = false;
+
         public bool legendOwn = false;
         public bool SaitamaOwn = false;
         public bool isLegend = false;
@@ -82,56 +147,34 @@ namespace JoostMod
         public bool isSaitama = false;
         public int LegendCool = 0;
         public int spinTimer = 0;
-        public bool planeMount = false;
-        public int enemyIgnoreDefenseDamage = 0;
-        public bool cactoidCommendation = false;
-        private int cactoidCommendationTimer = 7200;
-        public bool sporgan = false;
-        public bool rocWings = false;
-        private int rot = 0;
-        public bool bonesHurt = false;
-        public float boneHurtDamage = 1;
-        public bool corruptSoul = false;
-        public bool lifeRend = false;
-        public bool infectedRed = false;
-        public bool infectedGreen = false;
-        public bool infectedBlue = false;
-        public bool infectedYellow = false;
-        public bool cactusBoots = false;
-        private float cactusBootsTimer = 40;
-        public bool fleshShield = false;
-        private int fleshShieldTimer = 0;
-        public bool dirtArmor = false;
-        public bool havelShield = false;
-        public bool havelBlocking = false;
-        public bool havelArmor = false;
-        public bool havelArmorActive = false;
-        private int havelArmorTimer = -1;
-        public bool fireArmor = false;
-        public bool fireArmorIsActive = false;
-        public bool blazeAnklet = false;
-        public bool airArmor = false;
-        public bool airArmorIsActive = false;
-        private int airArmorDodgeTimer = -1;
-        public bool airMedallion = false;
-        public bool zoraArmor = false;
-        public bool waterBubble = false;
-        public bool hideBubble = false;
-        public bool emptyHeart = false;
+
+        public bool noHooks = false;
         public float runAccelerationMult = 1;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
         private bool[] dashHit = new bool[200];
         private bool dashBounce = false;
-        public bool westStone = false;
-        public bool eastStone = false;
-        public bool highStone = false;
-        public bool deepStone = false;
-        public Vector2 sandSharkVel = Vector2.Zero;
+        public int enemyIgnoreDefenseDamage = 0;
+        private Vector2 oldVelocity = Vector2.Zero;
+
         public override void ResetEffects()
         {
+            bonesHurt = false;
+            corruptSoul = false;
+            lifeRend = false;
+            infectedRed = false;
+            infectedGreen = false;
+            infectedBlue = false;
+            infectedYellow = false;
+            sap = false;
+            if (!Player.HasBuff(Mod.Find<ModBuff>("BoneHurt").Type))
+            {
+                boneHurtDamage = 1;
+            }
+
             stormy = false;
+
             cactuarMinions = false;
             lunarRod = false;
             powerSpirit = false;
@@ -151,7 +194,6 @@ namespace JoostMod
             XShield = false;
             SpectreOrbs = false;
             SkullSigil = false;
-            GMagic = false;
             bubbleShield = false;
             megaBubbleShield = false;
             hoverBoots = false;
@@ -159,10 +201,6 @@ namespace JoostMod
             spaceJump = false;
             HavocPendant = false;
             HarmonyPendant = false;
-            gMelee = false;
-            gThrown = false;
-            gRanged = false;
-            planeMount = false;
             sandStorm = false;
             swordSapling = false;
             hatchetSapling = false;
@@ -172,188 +210,249 @@ namespace JoostMod
             shieldSapling = false;
             spelunky = 0;
             spelunkGlow = false;
-            enemyIgnoreDefenseDamage = 0;
+            glowContacts = false;
+            glowEyeType = 0;
+            glowEyeNoGlow = false;
+
             cactoidCommendation = false;
             sporgan = false;
             rocWings = false;
-            bonesHurt = false;
-            corruptSoul = false;
-            lifeRend = false;
-            infectedRed = false;
-            infectedGreen = false;
-            infectedBlue = false;
-            infectedYellow = false;
-            if (!player.HasBuff(mod.BuffType("BoneHurt")))
-            {
-                boneHurtDamage = 1;
-            }
-            if (player.mount.Type != mod.MountType("SandShark"))
-            {
-                sandSharkVel = Vector2.Zero;
-            }
-            cactusBoots = false;
-            dirtArmor = false;
-            fleshShield = false;
-            havelShield = false;
-            havelBlocking = false;
-            havelArmor = false;
-            fireArmor = false;
-            blazeAnklet = false;
-            airArmor = false;
-            airArmorIsActive = false;
-            airMedallion = false;
-            zoraArmor = false;
             waterBubble = false;
             hideBubble = false;
             emptyHeart = false;
+            cactusBoots = false;
+            fleshShield = false;
+            havelShield = false;
+            havelBlocking = false;
+            blazeAnklet = false;
+            airMedallion = false;
+
+            planeMount = false;
+            if (Player.mount.Type != Mod.Find<ModMount>("SandShark").Type)
+            {
+                sandSharkVel = Vector2.Zero;
+            }
+
+            dirtArmor = false;
+            slimeArmor = false;
+            slimeActive = false;
+            pinkSlimeArmor = false;
+            pinkSlimeActive = false;
+            havelArmor = false;
+            fireArmor = false;
+            airArmor = false;
+            airArmorIsActive = false;
+            zoraArmor = false;
+            GMagic = false;
+            gMelee = false;
+            gThrown = false;
+            gRanged = false;
+
+            noHooks = Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SwingyHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("MobHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedSwingyHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedMobHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CactusHook").Type] <= 0 && Player.grappling[0] == -1;
             accRunSpeedMult = 1;
             runAccelerationMult = 1;
             dashType = 0;
             dashDamage = 0;
+            enemyIgnoreDefenseDamage = 0;
         }
-        public override void SetupStartInventory(IList<Item> items, bool mediumCoreDeath)
+        public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)/* tModPorter Suggestion: Return an Item array to add to the players starting items. Use ModifyStartingInventory for modifying them if needed */
         {
             Item item = new Item();
-            item.SetDefaults(mod.ItemType("StormyCollar"));
+            item.SetDefaults(Mod.Find<ModItem>("StormyCollar").Type);
             items.Add(item);
         }
         public override void UpdateBadLifeRegen()
         {
             if (bonesHurt)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
+                Player.lifeRegenTime = 0;
                 boneHurtDamage += 0.0167f;
-                player.lifeRegen -= (int)boneHurtDamage * 2;
-                if (player.boneArmor)
+                Player.lifeRegen -= (int)boneHurtDamage * 2;
+                if (Player.boneArmor)
                 {
-                    player.lifeRegen -= (int)boneHurtDamage * 2;
+                    Player.lifeRegen -= (int)boneHurtDamage * 2;
                 }
             }
             if (corruptSoul)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
-                player.lifeRegen -= 10;
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 10;
             }
             if (infectedRed && !XShield)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 8;
             }
             if (infectedGreen && !XShield)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 8;
             }
             if (infectedBlue && !XShield)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 8;
             }
             if (infectedYellow && !XShield)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 8;
             }
             if (fireArmorIsActive)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegenTime = 0;
-                player.lifeRegen -= 12;
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 12;
+            }
+            if (sap)
+            {
+                if (Player.lifeRegen > 0)
+                {
+                    Player.lifeRegen = 0;
+                }
+                Player.lifeRegenTime = 0;
+                Player.lifeRegen -= 20;
             }
         }
         public override void UpdateLifeRegen()
         {
             if (airArmorIsActive)
             {
-                player.lifeRegenTime += 10;
-                player.lifeRegen += 3;
+                Player.lifeRegenTime += 10;
+                Player.lifeRegen += 3;
             }
         }
         public override void FrameEffects()
         {
-            if (player.HeldItem.type == mod.ItemType("CactusGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("CactusGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("CactusGlove", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "CactusGlove", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("ChlorophyteGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("ChlorophyteGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("ChlorophyteGlove", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "ChlorophyteGlove", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("GnunderGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("GnunderGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("GnunderGlove", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GnunderGlove", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("GooGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("GooGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("GooGlove", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GooGlove", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("HellstoneShuriken"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("HellstoneShuriken").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("HellstoneShuriken", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "HellstoneShuriken", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("PumpkinGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("PumpkinGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("PumpkinGlove", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "PumpkinGlove", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("StoneFist"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("StoneFist").Type)
             {
-                player.handoff = (sbyte)mod.GetEquipSlot("StoneFist", EquipType.HandsOff);
+                Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "StoneFist", EquipType.HandsOff);
             }
-            if (player.HeldItem.type == mod.ItemType("OnePunch"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("OnePunch").Type)
             {
-                player.handoff = (sbyte)mod.GetEquipSlot("OnePunch", EquipType.HandsOff);
+                Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "OnePunch", EquipType.HandsOff);
             }
-            if (player.HeldItem.type == mod.ItemType("SandGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("SandGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("SandGlove", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "SandGlove", EquipType.HandsOn);
             }
-            if (player.HeldItem.type == mod.ItemType("MutantCannon"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("MutantCannon").Type)
             {
-                player.handoff = (sbyte)mod.GetEquipSlot("MutantCannon", EquipType.HandsOff);
+                Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "MutantCannon", EquipType.HandsOff);
             }
-            if (player.HeldItem.type == mod.ItemType("GrabGlove"))
+            if (Player.HeldItem.type == Mod.Find<ModItem>("GrabGlove").Type)
             {
-                player.handon = (sbyte)mod.GetEquipSlot("GrabGlove", EquipType.HandsOn);
-                player.handoff = (sbyte)mod.GetEquipSlot("GrabGlove", EquipType.HandsOff);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GrabGlove", EquipType.HandsOn);
+                Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "GrabGlove", EquipType.HandsOff);
             }
 
             if (havelBlocking)
             {
-                player.shield = (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield);
+                Player.shield = (sbyte)EquipLoader.GetEquipSlot(Mod, "HavelsGreatshield", EquipType.Shield);
+            }
+        }
+        public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+        {
+            if (slimeArmor && Player.itemAnimation == 0)
+            {
+                if (slimeClimbWall)
+                {
+                    if (Player.velocity.Y != 0)
+                    {
+                        if (Player.position.Y % 48 > 32)
+                        {
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 2;
+                        }
+                        else if (Player.position.Y % 48 > 16)
+                        {
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 3;
+                        }
+                        else
+                        {
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 4;
+                        }
+                    }
+                    else
+                    {
+                        Player.bodyFrame.Y = Player.bodyFrame.Height * 3;
+                    }
+                }
+                if (slimeClimbCeiling)
+                {
+                    if (Player.velocity.X != 0)
+                    {
+                        if (Player.position.X % 32 > 16)
+                        {
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 5;
+                        }
+                        else
+                        {
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 2;
+                        }
+                    }
+                    else
+                    {
+                        Player.bodyFrame.Y = Player.bodyFrame.Height * 5;
+                    }
+                }
             }
         }
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             for (int i = 0; i < layers.Count; i++)
             {
-                if (player.shield == (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield) && !havelBlocking)
+                if (Player.shield == (sbyte)EquipLoader.GetEquipSlot(Mod, "HavelsGreatshield", EquipType.Shield) && !havelBlocking)
                 {
                     if (layers[i] == PlayerLayer.ShieldAcc)
                     {
@@ -365,30 +464,56 @@ namespace JoostMod
                         shieldDownLayer.visible = true;
                     }
                 }
-                if (havelArmorActive)
+                if (glowContacts)
+                {
+                    if (glowEyeType == 0)
+                    {
+                        if (layers[i] == PlayerLayer.Face)
+                        {
+                            layers.Insert(i + 1, glowEye);
+                            glowEye.visible = true;
+                        }
+                    }
+                    else
+                    {
+                        if (layers[i] == PlayerLayer.Head)
+                        {
+                            layers.Insert(i + 1, glowEye);
+                            glowEye.visible = true;
+                        }
+                    }
+                    if (Player.face == (sbyte)EquipLoader.GetEquipSlot(Mod, "GlowingContacts", EquipType.Face))
+                    {
+                        if (layers[i] == PlayerLayer.FaceAcc)
+                        {
+                            layers[i].visible = false;
+                        }
+                    }
+                }
+                if (havelArmorActive || pinkSlimeActive || slimeActive)
                 {
                     if (layers[i] == PlayerLayer.Legs)
                     {
-                        layers.Insert(i + 1, stoneLegs);
-                        stoneLegs.visible = true;
+                        layers.Insert(i + 1, overLegs);
+                        overLegs.visible = true;
                     }
                     if (layers[i] == PlayerLayer.Body)
                     {
-                        layers.Insert(i + 1, stoneBody);
-                        stoneBody.visible = true;
+                        layers.Insert(i + 1, overBody);
+                        overBody.visible = true;
                     }
                     if (layers[i] == PlayerLayer.Head)
                     {
-                        layers.Insert(i + 1, stoneHead);
-                        stoneHead.visible = true;
+                        layers.Insert(i + 1, overHead);
+                        overHead.visible = true;
                     }
                     if (layers[i] == PlayerLayer.Arms)
                     {
-                        layers.Insert(i + 1, stoneArms);
-                        stoneArms.visible = true;
+                        layers.Insert(i + 1, overArms);
+                        overArms.visible = true;
                     }
                 }
-                if (PlayerLayer.HeldItem.visible && player.HeldItem.type != ItemID.None && !player.HeldItem.noUseGraphic && (player.itemAnimation > 0 || player.HeldItem.holdStyle == 1) && player.HeldItem.GetGlobalItem<JoostGlobalItem>().glowmaskTex != null)
+                if (PlayerLayer.HeldItem.visible && Player.HeldItem.type != ItemID.None && !Player.HeldItem.noUseGraphic && (Player.itemAnimation > 0 || Player.HeldItem.holdStyle == 1) && Player.HeldItem.GetGlobalItem<JoostGlobalItem>().glowmaskTex != null)
                 {
                     if (layers[i] == PlayerLayer.HeldItem)
                     {
@@ -398,7 +523,7 @@ namespace JoostMod
                 }
             }
         }
-        public static readonly PlayerLayer itemGlowmask = new PlayerLayer("JoostMod", "itemGlowmask", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer itemGlowmask = new PlayerLayer("JoostMod", "itemGlowmask", PlayerLayer.HeldItem, delegate (PlayerDrawSet drawInfo)
         {
             Mod mod = JoostMod.instance;
             SpriteBatch spriteBatch = Main.spriteBatch;
@@ -415,14 +540,14 @@ namespace JoostMod
                 }
                 int offsetX = 0;
                 int offsetY = 0;
-                Vector2 origin = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
+                Vector2 origin = new Vector2(0f, (float)TextureAssets.Item[item.type].Value.Height);
                 if (drawPlayer.gravDir == -1f)
                 {
                     if (drawPlayer.direction == -1)
                     {
                         rot += 1.57f;
-                        origin = new Vector2((float)Main.itemTexture[item.type].Width, 0f);
-                        offsetX -= Main.itemTexture[item.type].Width;
+                        origin = new Vector2((float)TextureAssets.Item[item.type].Value.Width, 0f);
+                        offsetX -= TextureAssets.Item[item.type].Value.Width;
                     }
                     else
                     {
@@ -432,8 +557,8 @@ namespace JoostMod
                 }
                 else if (drawPlayer.direction == -1)
                 {
-                    origin = new Vector2((float)Main.itemTexture[item.type].Width, (float)Main.itemTexture[item.type].Height);
-                    offsetX -= Main.itemTexture[item.type].Width;
+                    origin = new Vector2((float)TextureAssets.Item[item.type].Value.Width, (float)TextureAssets.Item[item.type].Value.Height);
+                    offsetX -= TextureAssets.Item[item.type].Value.Width;
                 }
                 Rectangle frame = new Rectangle(0, 0, tex.Width, tex.Height);
                 SpriteEffects effects = SpriteEffects.None;
@@ -445,22 +570,22 @@ namespace JoostMod
                 {
                     effects |= SpriteEffects.FlipVertically;
                 }
-                DrawData data = new DrawData(tex, new Vector2((int)(drawInfo.itemLocation.X - Main.screenPosition.X + origin.X + offsetX), (int)(drawInfo.itemLocation.Y - Main.screenPosition.Y + offsetY)), new Rectangle?(frame), color, rot, origin, drawPlayer.HeldItem.scale, effects, 0);
+                DrawData data = new DrawData(tex, new Vector2((int)(drawInfo.ItemLocation.X - Main.screenPosition.X + origin.X + offsetX), (int)(drawInfo.ItemLocation.Y - Main.screenPosition.Y + offsetY)), new Rectangle?(frame), color, rot, origin, drawPlayer.HeldItem.scale, effects, 0);
                 Main.playerDrawData.Add(data);
             }
         });
-        public static readonly PlayerLayer shieldDownLayer = new PlayerLayer("JoostMod", "shieldDownLayer", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer shieldDownLayer = new PlayerLayer("JoostMod", "shieldDownLayer", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
         {
             Mod mod = JoostMod.instance;
             SpriteBatch spriteBatch = Main.spriteBatch;
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.shield == (sbyte)mod.GetEquipSlot("HavelsGreatshield", EquipType.Shield))
+            if (drawPlayer.shield == (sbyte)EquipLoader.GetEquipSlot(mod, "HavelsGreatshield", EquipType.Shield))
             {
-                Texture2D tex = ModContent.GetTexture("JoostMod/Items/HavelsGreatshield_ShieldDown");
+                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/HavelsGreatshield_ShieldDown");
                 Rectangle frame = new Rectangle(drawPlayer.bodyFrame.X-1, drawPlayer.bodyFrame.Y, drawPlayer.bodyFrame.Width+6, drawPlayer.bodyFrame.Height);
                 float rot = drawPlayer.bodyRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.bodyOrigin;
+                Vector2 origin = drawInfo.bodyVect;
                 Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
                 SpriteEffects effects = SpriteEffects.None;
                 if (drawPlayer.direction == -1)
@@ -471,24 +596,35 @@ namespace JoostMod
                 {
                     effects |= SpriteEffects.FlipVertically;
                 }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.shieldShader;
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.cShield;
                 Main.playerDrawData.Add(data);
             }
         });
-        public static readonly PlayerLayer stoneHead = new PlayerLayer("JoostMod", "stoneHead", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer overHead = new PlayerLayer("JoostMod", "overHead", PlayerLayer.Head, delegate (PlayerDrawSet drawInfo)
         {
             Mod mod = JoostMod.instance;
             SpriteBatch spriteBatch = Main.spriteBatch;
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
             {
-                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Head");
+                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
                 Rectangle frame = drawPlayer.bodyFrame;
                 float rot = drawPlayer.headRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.headOrigin;
+                Vector2 origin = drawInfo.headVect;
                 Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+
+                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Head");
+                    color *= 0.5f;
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Head");
+                    color *= 0.5f;
+                }
                 SpriteEffects effects = SpriteEffects.None;
                 if (drawPlayer.direction == -1)
                 {
@@ -498,24 +634,34 @@ namespace JoostMod
                 {
                     effects |= SpriteEffects.FlipVertically;
                 }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.headArmorShader;
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.cHead;
                 Main.playerDrawData.Add(data);
             }
         });
-        public static readonly PlayerLayer stoneArms = new PlayerLayer("JoostMod", "stoneArms", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer overArms = new PlayerLayer("JoostMod", "overArms", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
         {
             Mod mod = JoostMod.instance;
             SpriteBatch spriteBatch = Main.spriteBatch;
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
             {
-                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Arms");
+                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Arms");
                 Rectangle frame = drawPlayer.bodyFrame;
                 float rot = drawPlayer.bodyRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.bodyOrigin;
+                Vector2 origin = drawInfo.bodyVect;
                 Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Arms");
+                    color *= 0.5f;
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Arms");
+                    color *= 0.5f;
+                }
                 SpriteEffects effects = SpriteEffects.None;
                 if (drawPlayer.direction == -1)
                 {
@@ -525,24 +671,42 @@ namespace JoostMod
                 {
                     effects |= SpriteEffects.FlipVertically;
                 }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.bodyArmorShader;
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.cBody;
                 Main.playerDrawData.Add(data);
             }
         });
-        public static readonly PlayerLayer stoneBody = new PlayerLayer("JoostMod", "stoneBody", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer overBody = new PlayerLayer("JoostMod", "overBody", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
         {
             Mod mod = JoostMod.instance;
             SpriteBatch spriteBatch = Main.spriteBatch;
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
             {
-                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Body");
+                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Body");
                 Rectangle frame = drawPlayer.bodyFrame;
                 float rot = drawPlayer.bodyRotation;
                 Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.bodyOrigin;
+                Vector2 origin = drawInfo.bodyVect;
                 Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Female");
+                    if (drawPlayer.Male)
+                    {
+                        tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Body");
+                    }
+                    color *= 0.5f;
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Female");
+                    if (drawPlayer.Male)
+                    {
+                        tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Body");
+                    }
+                    color *= 0.5f;
+                }
                 SpriteEffects effects = SpriteEffects.None;
                 if (drawPlayer.direction == -1)
                 {
@@ -552,24 +716,82 @@ namespace JoostMod
                 {
                     effects |= SpriteEffects.FlipVertically;
                 }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.bodyArmorShader;
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.cBody;
                 Main.playerDrawData.Add(data);
             }
         });
-        public static readonly PlayerLayer stoneLegs = new PlayerLayer("JoostMod", "stoneLegs", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        public static readonly PlayerLayer glowEye = new PlayerLayer("JoostMod", "glowEye", PlayerLayer.Face, delegate (PlayerDrawSet drawInfo)
         {
             Mod mod = JoostMod.instance;
             SpriteBatch spriteBatch = Main.spriteBatch;
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            if (drawPlayer.GetModPlayer<JoostPlayer>().glowContacts)
             {
-                Texture2D tex = ModContent.GetTexture("JoostMod/Buffs/StoneFlesh_Legs");
+                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Face");
+                Rectangle frame = drawPlayer.bodyFrame;
+                float rot = drawPlayer.headRotation;
+                Vector2 drawPos = drawPlayer.bodyPosition;
+                Vector2 origin = drawInfo.headVect;
+                Color color = drawPlayer.GetImmuneAlphaPure(Color.White, drawInfo.shadow);
+                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 2)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Alt");
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 3)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Helm");
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 4)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_HelmAlt");
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 5)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Genji");
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeNoGlow)
+                {
+                    color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                }
+
+                SpriteEffects effects = SpriteEffects.None;
+                if (drawPlayer.direction == -1)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                if (drawPlayer.gravDir == -1f)
+                {
+                    effects |= SpriteEffects.FlipVertically;
+                }
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.cFace;
+                Main.playerDrawData.Add(data);
+            }
+        });
+        public static readonly PlayerLayer overLegs = new PlayerLayer("JoostMod", "overLegs", PlayerLayer.Legs, delegate (PlayerDrawSet drawInfo)
+        {
+            Mod mod = JoostMod.instance;
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
+            {
+                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Legs");
                 Rectangle frame = drawPlayer.legFrame;
                 float rot = drawPlayer.legRotation;
                 Vector2 drawPos = drawPlayer.legPosition;
-                Vector2 origin = drawInfo.legOrigin;
+                Vector2 origin = drawInfo.legVect;
                 Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Legs");
+                    color *= 0.5f;
+                }
+                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
+                {
+                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Legs");
+                    color *= 0.5f;
+                }
                 SpriteEffects effects = SpriteEffects.None;
                 if (drawPlayer.direction == -1)
                 {
@@ -579,8 +801,8 @@ namespace JoostMod
                 {
                     effects |= SpriteEffects.FlipVertically;
                 }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.legArmorShader;
+                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
+                data.shader = drawInfo.cLegs;
                 Main.playerDrawData.Add(data);
             }
         });
@@ -592,13 +814,13 @@ namespace JoostMod
                 {
                     if (gThrownTimer <= 0)
                     {
-                        player.AddBuff(mod.BuffType("gThrownDodge"), 120);
+                        Player.AddBuff(Mod.Find<ModBuff>("gThrownDodge").Type, 120);
                         gThrownTimer = 1200;
                     }
                 }
                 if (gRanged)
                 {
-                    player.AddBuff(mod.BuffType("gRangedBuff"), 2);
+                    Player.AddBuff(Mod.Find<ModBuff>("gRangedBuff").Type, 2);
                     if (!gRangedIsActive)
                     {
                         gRangedIsActive = true;
@@ -608,13 +830,13 @@ namespace JoostMod
                         gRangedIsActive = false;
                     }
                 }
-                if (GMagic && !player.HasBuff(BuffID.ManaSickness) && player.ownedProjectileCounts[mod.ProjectileType("BitterEndFriendly")] + player.ownedProjectileCounts[mod.ProjectileType("BitterEndFriendly2")] <= 0)
+                if (GMagic && !Player.HasBuff(BuffID.ManaSickness) && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("BitterEndFriendly").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("BitterEndFriendly2").Type] <= 0)
                 {
-                    if (player.statMana >= player.statManaMax2)
+                    if (Player.statMana >= Player.statManaMax2)
                     {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("BitterEndFriendly"), (int)(2000 * player.magicDamage), 20f, player.whoAmI);
-                        player.manaRegenDelay = 180 * (2+player.manaRegenDelayBonus);
-                        player.statMana *= 0;
+                        Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("BitterEndFriendly").Type, (int)(2000 * Player.GetDamage(DamageClass.Magic)), 20f, Player.whoAmI);
+                        Player.manaRegenDelay = 180 * (2+Player.manaRegenDelayBonus);
+                        Player.statMana *= 0;
                     }
                 }
                 if (havelArmor && havelArmorTimer < 0)
@@ -622,32 +844,32 @@ namespace JoostMod
                     if (!havelArmorActive)
                     {
                         havelArmorTimer = 25;
-                        Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 230, 1, -0.3f);
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.3f), Player.Center);
                         for (int d = 0; d < 40; d++)
                         {
-                            int dust = Dust.NewDust(player.position - new Vector2(10, 10), player.width+20, player.height+20, 1, player.velocity.X * 0.8f, player.velocity.Y * 0.8f, 0, default(Color), 1.5f);
-                            Vector2 vel = player.MountedCenter - Main.dust[dust].position;
+                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width+20, Player.height+20, 1, Player.velocity.X * 0.8f, Player.velocity.Y * 0.8f, 0, default(Color), 1.5f);
+                            Vector2 vel = Player.MountedCenter - Main.dust[dust].position;
                             vel.Normalize();
-                            Main.dust[dust].velocity = vel + player.velocity * 0.8f;
+                            Main.dust[dust].velocity = vel + Player.velocity * 0.8f;
                             Main.dust[dust].noGravity = true;
                         }
                     }
                 }
                 if (fireArmor)
                 {
-                    player.AddBuff(mod.BuffType("fireArmorBuff"), 2);
+                    Player.AddBuff(Mod.Find<ModBuff>("fireArmorBuff").Type, 2);
                     if (!fireArmorIsActive)
                     {
-                        Main.PlaySound(42, player.Center, 198);
+                        SoundEngine.PlaySound(SoundID.Trackable, Player.Center);
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDustDirect(player.position, player.width, player.height, 6, player.velocity.X, player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
+                            Dust.NewDustDirect(Player.position, Player.width, Player.height, 6, Player.velocity.X, Player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
                         fireArmorIsActive = true;
                     }
                     else
                     {
-                        Main.PlaySound(2, player.Center, 13);
+                        SoundEngine.PlaySound(SoundID.Item13, Player.Center);
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDust(player.position, player.width, player.height, 31, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
+                            Dust.NewDust(Player.position, Player.width, Player.height, 31, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
                         fireArmorIsActive = false;
                     }
                 }
@@ -657,7 +879,7 @@ namespace JoostMod
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         Projectile proj = Main.projectile[i];
-                        if (proj.owner == player.whoAmI && proj.active && proj.minionSlots > 0)
+                        if (proj.owner == Player.whoAmI && proj.active && proj.minionSlots > 0)
                         {
                             proj.Kill();
                             count += proj.minionSlots;
@@ -669,82 +891,126 @@ namespace JoostMod
 
                     if (duration > 0)
                     {
-                        if (airArmorDodgeTimer <= 0 && player.immuneTime < 60)
+                        if (airArmorDodgeTimer <= 0 && Player.immuneTime < 60)
                         {
                             airArmorDodgeTimer = 165;
-                            player.immune = true;
-                            player.immuneTime = 60;
+                            Player.immune = true;
+                            Player.immuneTime = 60;
                         }
-                        player.AddBuff(mod.BuffType("AirArmorBuff"), duration);
-                        Main.PlaySound(42, player.Center, 203);
+                        Player.AddBuff(Mod.Find<ModBuff>("AirArmorBuff").Type, duration);
+                        SoundEngine.PlaySound(SoundID.Trackable, Player.Center);
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDust(player.position, player.width, player.height, 31, -4 * player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
+                            Dust.NewDust(Player.position, Player.width, Player.height, 31, -4 * Player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
                     }
                 }
-                if (zoraArmor && player.ownedProjectileCounts[mod.ProjectileType("ZoraSpin")] < 1)
+                if (zoraArmor && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("ZoraSpin").Type] < 1)
                 {
-                    int damage = (int)(40 * player.allDamageMult * (player.allDamage + player.magicDamage - 1f) * player.magicDamageMult);
-                    int wet = player.wet ? 1 : 0;
+                    int damage = (int)(40 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Magic) - 1f) * Player.GetDamage(DamageClass.Magic));
+                    int wet = Player.wet ? 1 : 0;
                     float speed = 6;
-                    Vector2 vel = new Vector2(0, -player.gravity);
-                    if (player.controlRight)
+                    Vector2 vel = new Vector2(0, -Player.gravity);
+                    if (Player.controlRight)
                     {
                         vel.X += speed;
                     }
-                    if (player.controlLeft)
+                    if (Player.controlLeft)
                     {
                         vel.X -= speed;
                     }
-                    if (player.controlUp || player.controlJump)
+                    if (Player.controlUp || Player.controlJump)
                     {
-                        vel.Y -= player.gravDir * speed;
+                        vel.Y -= Player.gravDir * speed;
                     }
-                    if (player.controlDown)
+                    if (Player.controlDown)
                     {
-                        vel.Y += player.gravDir * speed;
+                        vel.Y += Player.gravDir * speed;
                     }
                     if (vel.X != 0 && vel.Y != 0)
                     {
                         vel *= 0.707f;
                     }
-                    if (player.wet)
+                    if (Player.wet)
                     {
                         vel *= 2;
-                        if (player.immuneTime < 24)
+                        if (Player.immuneTime < 24)
                         {
-                            player.immune = true;
-                            player.immuneTime = 24;
+                            Player.immune = true;
+                            Player.immuneTime = 24;
                         }
                     }
-                    Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ZoraSpin"), damage, 5f, player.whoAmI, wet);
-                    Main.PlaySound(42, player.Center, 201);
+                    Projectile.NewProjectile(source, player.Center, vel, Mod.Find<ModProjectile>("ZoraSpin").Type, damage, 5f, Player.whoAmI, wet);
+                    SoundEngine.PlaySound(SoundID.Trackable, Player.Center);
+                }
+                if (pinkSlimeArmor && pinkSlimeTimer < 0)
+                {
+                    if (!pinkSlimeActive)
+                    {
+                        pinkSlimeTimer = 15;
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.1f), Player.Center);
+                        for (int d = 0; d < 40; d++)
+                        {
+                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, 243, Player.velocity.X, Player.velocity.Y, 0, default(Color), 1f);
+                            Vector2 vel = Player.MountedCenter - Main.dust[dust].position;
+                            vel.Normalize();
+                            Main.dust[dust].velocity = vel + Player.velocity;
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
+                        }
+                    }
+                    else
+                    {
+                        pinkSlimeTimer = 15;
+                        SoundEngine.PlaySound(SoundID.NPCHit1.WithPitchOffset(-0.3f), Player.Center);
+                    }
+                }
+                if (slimeArmor && slimeTimer < 0)
+                {
+                    if (!slimeActive)
+                    {
+                        slimeTimer = 15;
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.1f), Player.Center);
+                        for (int d = 0; d < 40; d++)
+                        {
+                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, 4, Player.velocity.X, Player.velocity.Y, 100, Color.Blue, 1f);
+                            Vector2 vel = Player.MountedCenter - Main.dust[dust].position;
+                            vel.Normalize();
+                            Main.dust[dust].velocity = vel + Player.velocity;
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
+                        }
+                    }
+                    else
+                    {
+                        slimeTimer = 15;
+                        SoundEngine.PlaySound(SoundID.NPCHit1.WithPitchOffset(-0.3f), Player.Center);
+                    }
                 }
             }
         }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-            if (item.melee && gMelee && player.ownedProjectileCounts[mod.ProjectileType("Masamune")] < 1)
+            if (item.CountsAsClass(DamageClass.Melee) && gMelee && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
             {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), (int)(500 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult), 5f, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 5f, Player.whoAmI);
+                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, Player.whoAmI);
             }
         }
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
-            if (item.melee && gMelee && player.ownedProjectileCounts[mod.ProjectileType("Masamune")] < 1)
+            if (item.CountsAsClass(DamageClass.Melee) && gMelee && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
             {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), (int)(500 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult), 5f, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 5f, Player.whoAmI);
+                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, Player.whoAmI);
             }
         }
         public override void OnHitNPCWithProj(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.melee && player.heldProj == projectile.whoAmI)
+            if (projectile.CountsAsClass(DamageClass.Melee) && player.heldProj == projectile.whoAmI)
             {
                 if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
                 {
-                    if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("LifeDrink")))
+                    if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
                     {
                         float lifeStoled = target.lifeMax * 0.04f;
                         if ((int)lifeStoled > 0 && !player.moonLeech)
@@ -752,27 +1018,27 @@ namespace JoostMod
                             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                         }
                     }
-                    target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
+                    target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
                 }
                 if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
                 {
-                    if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("CorruptSoul")))
+                    if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
                     {
                         float damag = target.lifeMax * 0.25f;
                         if ((int)damag > 0)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, player.whoAmI);
+                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                         }
                     }
-                    target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+                    target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
                 }
-                if (gMelee && player.ownedProjectileCounts[mod.ProjectileType("Masamune")] < 1)
+                if (gMelee && player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), (int)(500 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult), 10f, player.whoAmI);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Melee) - 1) * player.GetDamage(DamageClass.Melee) * player.GetDamage(DamageClass.Generic)), 10f, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, player.whoAmI);
                 }
             }
-            if (projectile.ranged)
+            if (projectile.CountsAsClass(DamageClass.Ranged))
             {
                 if (fireArmorIsActive)
                 {
@@ -781,13 +1047,13 @@ namespace JoostMod
             }
             if (projectile.minion)
             {
-                if (airMedallion && projectile.type != mod.ProjectileType("AirBlast") && Main.rand.NextBool(10))
+                if (airMedallion && projectile.type != Mod.Find<ModProjectile>("AirBlast").Type && Main.rand.NextBool(10))
                 {
-                    Main.PlaySound(2, target.Center, 18);
-                    Projectile.NewProjectile(target.Center.X, target.position.Y + target.height, 0, -10f, mod.ProjectileType("AirBlast"), (int)(25 * (player.allDamage + player.minionDamage - 1) * player.minionDamageMult * player.allDamageMult), 0, player.whoAmI);
+                    SoundEngine.PlaySound(SoundID.Item18, target.Center);
+                    Projectile.NewProjectile(target.Center.X, target.position.Y + target.height, 0, -10f, Mod.Find<ModProjectile>("AirBlast").Type, (int)(25 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Summon) - 1) * player.GetDamage(DamageClass.Summon) * player.GetDamage(DamageClass.Generic)), 0, player.whoAmI);
                 }
             }
-            if (sandStorm && projectile.thrown)
+            if (sandStorm && projectile.CountsAsClass(DamageClass.Throwing))
             {
                 int erg = 80;
                 if (Main.rand.Next(2) == 0)
@@ -803,15 +1069,15 @@ namespace JoostMod
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-80, 81));
 
                 float num80 = xPos;
-                float speedX = (float)target.position.X - vector2.X;
-                float speedY = (float)target.position.Y - vector2.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+                float velocity.X = (float)target.position.X - vector2.X;
+                float velocity.Y = (float)target.position.Y - vector2.Y;
+                float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
                 dir = 10 / num80;
-                speedX *= dir * 150 * player.thrownVelocity;
-                speedY *= dir * 150 * player.thrownVelocity;
+                velocity.X *= dir * 150 * player.ThrownVelocity;
+                velocity.Y *= dir * 150 * player.ThrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * (player.allDamage + player.thrownDamage - 1) * player.thrownDamageMult * player.allDamageMult), 1, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Sand").Type, (int)(20 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Throwing) - 1) * player.GetDamage(DamageClass.Throwing) * player.GetDamage(DamageClass.Generic)), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -821,11 +1087,11 @@ namespace JoostMod
         public override void OnHitPvpWithProj(Projectile projectile, Player target, int damage, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.melee && player.heldProj == projectile.whoAmI)
+            if (projectile.CountsAsClass(DamageClass.Melee) && player.heldProj == projectile.whoAmI)
             {
                 if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
                 {
-                    if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("LifeDrink")))
+                    if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
                     {
                         float lifeStoled = target.statLifeMax2 * 0.04f;
                         if ((int)lifeStoled > 0 && !player.moonLeech)
@@ -833,34 +1099,34 @@ namespace JoostMod
                             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                         }
                     }
-                    target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
+                    target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
                 }
                 if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
                 {
-                    if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
+                    if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
                     {
                         float damag = target.statLifeMax2 * 0.25f;
                         if ((int)damag > 0)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, player.whoAmI);
+                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                         }
                     }
-                    target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+                    target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
                 }
-                if (gMelee && player.ownedProjectileCounts[mod.ProjectileType("Masamune")] < 1)
+                if (gMelee && player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), (int)(500 * player.meleeDamage), 10f, player.whoAmI);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Masamune"), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * player.GetDamage(DamageClass.Melee)), 10f, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, player.whoAmI);
                 }
             }
-            if (projectile.ranged)
+            if (projectile.CountsAsClass(DamageClass.Ranged))
             {
                 if (fireArmorIsActive)
                 {
                     target.AddBuff(BuffID.OnFire, 600);
                 }
             }
-            if (sandStorm && projectile.thrown)
+            if (sandStorm && projectile.CountsAsClass(DamageClass.Throwing))
             {
                 int erg = 80;
                 if (Main.rand.Next(2) == 0)
@@ -876,15 +1142,15 @@ namespace JoostMod
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-80, 81));
 
                 float num80 = xPos;
-                float speedX = (float)target.position.X - vector2.X;
-                float speedY = (float)target.position.Y - vector2.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+                float velocity.X = (float)target.position.X - vector2.X;
+                float velocity.Y = (float)target.position.Y - vector2.Y;
+                float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
                 dir = 10 / num80;
-                speedX *= dir * 150 * player.thrownVelocity;
-                speedY *= dir * 150 * player.thrownVelocity;
+                velocity.X *= dir * 150 * player.ThrownVelocity;
+                velocity.Y *= dir * 150 * player.ThrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Sand"), (int)(20 * (player.allDamage + player.thrownDamage - 1) * player.thrownDamageMult * player.allDamageMult), 1, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Sand").Type, (int)(20 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Throwing) - 1) * player.GetDamage(DamageClass.Throwing) * player.GetDamage(DamageClass.Generic)), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -892,7 +1158,7 @@ namespace JoostMod
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (waterBubble && proj.magic && target.wet)
+            if (waterBubble && proj.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
                 knockback *= 1.15f;
@@ -900,14 +1166,14 @@ namespace JoostMod
         }
         public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
         {
-            if (waterBubble && proj.magic && target.wet)
+            if (waterBubble && proj.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (waterBubble && item.magic && target.wet)
+            if (waterBubble && item.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
                 knockback *= 1.15f;
@@ -915,12 +1181,12 @@ namespace JoostMod
         }
         public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
         {
-            if (waterBubble && item.magic && target.wet)
+            if (waterBubble && item.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
             }
         }
-        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
+        public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
         {
             if (junk)
             {
@@ -928,42 +1194,42 @@ namespace JoostMod
             }
             if (liquidType == 0 && caughtType != 2334 && caughtType != 2335 && caughtType != 2336 && caughtType != 3203 && caughtType != 3204 && caughtType != 3205 && caughtType != 3206 && caughtType != 3207 && caughtType != 3208)
             {
-                if (Main.rand.Next(Math.Max(5, 500 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (player.position.X / 16 < 350 || player.position.X / 16 > Main.maxTilesX - 350))
+                if (Main.rand.Next(Math.Max(5, 500 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    caughtType = mod.ItemType("GrenadeFish");
+                    caughtType = Mod.Find<ModItem>("GrenadeFish").Type;
                 }
-                if (Main.rand.Next(Math.Max(20, 2000 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (player.position.X / 16 < 350 || player.position.X / 16 > Main.maxTilesX - 350))
+                if (Main.rand.Next(Math.Max(20, 2000 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    caughtType = mod.ItemType("PufferfishStaff");
+                    caughtType = Mod.Find<ModItem>("PufferfishStaff>().Type;
                 }
-                if (Main.rand.Next(Math.Max(25, 2500 / power)) == 0 && player.ZoneCorrupt && NPC.downedBoss2)
+                if (Main.rand.Next(Math.Max(25, 2500 / power)) == 0 && Player.ZoneCorrupt && NPC.downedBoss2)
                 {
-                    caughtType = mod.ItemType("ToxicBucket");
+                    caughtType = Mod.Find<ModItem>("ToxicBucket").Type;
                 }
-                if (Main.rand.Next(Math.Max(25, 2500 / power)) == 0 && player.ZoneCrimson && NPC.downedBoss2)
+                if (Main.rand.Next(Math.Max(25, 2500 / power)) == 0 && Player.ZoneCrimson && NPC.downedBoss2)
                 {
-                    caughtType = mod.ItemType("BloodyBucket");
+                    caughtType = Mod.Find<ModItem>("BloodyBucket").Type;
                 }
-                if (Main.rand.Next(Math.Max(30 * (Main.hardMode ? 2 : 1), 3000 / power)) == 0 && worldLayer == 1 && (player.position.X / 16 < 350 || player.position.X / 16 > Main.maxTilesX - 350))
+                if (Main.rand.Next(Math.Max(30 * (Main.hardMode ? 2 : 1), 3000 / power)) == 0 && worldLayer == 1 && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    caughtType = mod.ItemType("BubbleShield");
+                    caughtType = Mod.Find<ModItem>("BubbleShield").Type;
                 }
-                if (Main.rand.Next(Math.Max(30, 6000 / power)) == 0 && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (player.position.X / 16 < 350 || player.position.X / 16 > Main.maxTilesX - 350))
+                if (Main.rand.Next(Math.Max(30, 6000 / power)) == 0 && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    caughtType = mod.ItemType("Larpoon");
+                    caughtType = Mod.Find<ModItem>("Larpoon").Type;
                 }
-                if (Main.rand.Next(Math.Max(30, 6000 / power)) == 0 && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (player.ZoneJungle || player.ZoneSnow))
+                if (Main.rand.Next(Math.Max(30, 6000 / power)) == 0 && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.ZoneJungle || Player.ZoneSnow))
                 {
-                    caughtType = mod.ItemType("RoboCod");
+                    caughtType = Mod.Find<ModItem>("RoboCod").Type;
                 }
-                if (Main.rand.Next(Math.Max(60, 12000 / power)) == 0 && NPC.downedGolemBoss && Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallID.LihzahrdBrickUnsafe)
+                if (Main.rand.Next(Math.Max(60, 12000 / power)) == 0 && NPC.downedGolemBoss && Main.tile[(int)(Player.Center.X / 16), (int)(Player.Center.Y / 16)].WallType == WallID.LihzahrdBrickUnsafe)
                 {
-                    caughtType = mod.ItemType("Sunfish");
+                    caughtType = Mod.Find<ModItem>("Sunfish").Type;
                 }
             }
-            if (liquidType == 0 && Main.rand.Next(Math.Max(20, 1000 / power)) == 0 && Main.hardMode && cactoidCommendation && player.ZoneDesert)
+            if (liquidType == 0 && Main.rand.Next(Math.Max(20, 1000 / power)) == 0 && Main.hardMode && cactoidCommendation && Player.ZoneDesert)
             {
-                caughtType = mod.ItemType("CactoidCompact");
+                caughtType = Mod.Find<ModItem>("CactoidCompact").Type;
             }
 
             if (lunarRod && Main.rand.Next(4) == 0)
@@ -974,79 +1240,79 @@ namespace JoostMod
             {
                 if (Main.rand.NextBool(Math.Max(100, 200000 / power)))
                 {
-                    if (player.ZoneCorrupt || player.ZoneCrimson)
+                    if (Player.ZoneCorrupt || Player.ZoneCrimson)
                     {
-                        caughtType = mod.ItemType("EvilStone");
+                        caughtType = Mod.Find<ModItem>("EvilStone").Type;
                     }
                 }
-                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && player.ZoneDungeon)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneDungeon)
                 {
-                    caughtType = mod.ItemType("SkullStone");
+                    caughtType = Mod.Find<ModItem>("SkullStone").Type;
                 }
-                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && player.ZoneJungle)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneJungle)
                 {
-                    caughtType = mod.ItemType("JungleStone");
+                    caughtType = Mod.Find<ModItem>("JungleStone").Type;
                 }
-                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && player.ZoneUnderworldHeight)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneUnderworldHeight)
                 {
-                    caughtType = mod.ItemType("InfernoStone");
+                    caughtType = Mod.Find<ModItem>("InfernoStone").Type;
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && liquidType == 0)
                 {
-                    if (player.position.X / 16 < 350)
+                    if (Player.position.X / 16 < 350)
                     {
-                        caughtType = mod.ItemType("SeaStoneWest");
+                        caughtType = Mod.Find<ModItem>("SeaStoneWest").Type;
                     }
-                    if (player.position.X / 16 > Main.maxTilesX - 350)
+                    if (Player.position.X / 16 > Main.maxTilesX - 350)
                     {
-                        caughtType = mod.ItemType("SeaStoneEast");
+                        caughtType = Mod.Find<ModItem>("SeaStoneEast").Type;
                     }
                     if (worldLayer >= 3)
                     {
-                        caughtType = mod.ItemType("SeaStoneDeep");
+                        caughtType = Mod.Find<ModItem>("SeaStoneDeep").Type;
                     }
                     if (worldLayer <= 0)
                     {
-                        caughtType = mod.ItemType("SeaStoneHigh");
+                        caughtType = Mod.Find<ModItem>("SeaStoneHigh").Type;
                     }
                 }
             }
             if (Main.rand.Next(Math.Max(100, 50000 / power)) == 0 && liquidType == 0)
             {
-                if (player.position.X / 16 < 350 && !westStone)
+                if (Player.position.X / 16 < 350 && !westStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneWest");
+                    caughtType = Mod.Find<ModItem>("SeaStoneWest").Type;
                 }
-                if (player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
+                if (Player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneEast");
+                    caughtType = Mod.Find<ModItem>("SeaStoneEast").Type;
                 }
                 if (worldLayer >= 3 && !deepStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneDeep");
+                    caughtType = Mod.Find<ModItem>("SeaStoneDeep").Type;
                 }
                 if (worldLayer <= 0 && !highStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneHigh");
+                    caughtType = Mod.Find<ModItem>("SeaStoneHigh").Type;
                 }
             }
             if (Main.rand.Next(Math.Max(4, 400 / power)) == 0 && liquidType == 0 && isUncleCarius)
             {
-                if (player.position.X / 16 < 350 && !westStone)
+                if (Player.position.X / 16 < 350 && !westStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneWest");
+                    caughtType = Mod.Find<ModItem>("SeaStoneWest").Type;
                 }
-                if (player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
+                if (Player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneEast");
+                    caughtType = Mod.Find<ModItem>("SeaStoneEast").Type;
                 }
                 if (worldLayer >= 3 && !deepStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneDeep");
+                    caughtType = Mod.Find<ModItem>("SeaStoneDeep").Type;
                 }
                 if (worldLayer <= 0 && !highStone)
                 {
-                    caughtType = mod.ItemType("SeaStoneHigh");
+                    caughtType = Mod.Find<ModItem>("SeaStoneHigh").Type;
                 }
             }
         }
@@ -1054,68 +1320,69 @@ namespace JoostMod
         {
             if (waterBubble)
             {
-                player.wet = true;
-                player.wetCount = 10;
+                Player.wet = true;
+                Player.wetCount = 10;
             }
+            oldVelocity = Player.velocity;
         }
         public override void PostUpdateEquips()
         {
-            if (player.name == "Grognak" || player.name == "Larkus" || player.name == "Gnunderson" || player.name == "Boook" || player.name == "David" || player.name.Contains("Joost"))
+            if (Player.name == "Grognak" || Player.name == "Larkus" || Player.name == "Gnunderson" || Player.name == "Boook" || Player.name == "David" || Player.name.Contains("Joost"))
             {
                 isLegend = true;
             }
-            if (player.name == "Uncle Carius" || player.name.Contains("Joost"))
+            if (Player.name == "Uncle Carius" || Player.name.Contains("Joost"))
             {
                 isUncleCarius = true;
             }
-            if (player.name == "Saitama")
+            if (Player.name == "Saitama")
             {
                 isSaitama = true;
             }
             if (waterBubble)
             {
-                player.wet = true;
-                player.wetCount = 10;
-                if (!hideBubble && player.ownedProjectileCounts[mod.ProjectileType("PersonalBubble")] < 1)
+                Player.wet = true;
+                Player.wetCount = 10;
+                if (!hideBubble && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("PersonalBubble").Type] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("PersonalBubble"), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, Vector2.Zero, Mod.Find<ModProjectile>("PersonalBubble").Type, 0, 0, Player.whoAmI);
                 }
             }
             if (gRanged)
             {
                 if (gRangedIsActive)
                 {
-                    player.AddBuff(mod.BuffType("gRangedBuff"), 2);
-                    player.rangedDamageMult *= 1 + (player.statDefense * 0.005f);
-                    player.statDefense = 0;
+                    Player.AddBuff(Mod.Find<ModBuff>("gRangedBuff").Type, 2);
+                    Player.GetDamage(DamageClass.Ranged) *= 1 + (Player.statDefense * 0.005f);
+                    Player.statDefense = 0;
                 }
             }
             else
             {
                 gRangedIsActive = false;
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("ZoraSpin")] > 0)
+            if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("ZoraSpin").Type] > 0)
             {
-                player.noItems = true;
-                if (player.wet)
-                    player.maxFallSpeed += 10;
+                Player.noItems = true;
+                if (Player.wet)
+                    Player.maxFallSpeed += 10;
             }
             if (fireArmor)
             {
                 if (fireArmorIsActive)
                 {
-                    player.AddBuff(mod.BuffType("fireArmorBuff"), 2);
-                    player.rangedDamageMult *= 1.4f;
-                    player.moveSpeed *= 1.4f;
-                    player.maxRunSpeed *= 1.4f;
-                    if (player.mount._type == mod.MountType("FierySoles"))
+                    Player.AddBuff(Mod.Find<ModBuff>("fireArmorBuff").Type, 2);
+                    Player.GetDamage(DamageClass.Ranged) *= 1.4f;
+                    Player.moveSpeed *= 1.4f;
+                    Player.maxRunSpeed *= 1.4f;
+                    if (Player.mount._type == Mod.Find<ModMount>("FierySoles").Type)
                         accRunSpeedMult *= 1.4f;
                     else
-                        player.accRunSpeed *= 1.4f;
-                    player.onFire = true;
-                    player.ClearBuff(BuffID.Chilled);
-                    player.ClearBuff(BuffID.Frozen);
-                    Dust.NewDust(player.position, player.width, player.width, 6, 0, 0, 0, default, Main.rand.NextFloat() + 1);
+                        Player.accRunSpeed *= 1.4f;
+                    Player.onFire = true;
+                    Player.ClearBuff(BuffID.Chilled);
+                    Player.ClearBuff(BuffID.Frozen);
+                    Dust.NewDust(Player.position, Player.width, Player.width, 6, 0, 0, 0, default, Main.rand.NextFloat() + 1);
                 }
             }
             else
@@ -1124,14 +1391,14 @@ namespace JoostMod
             }
             if (havelArmor)
             {
-                if (player.HasBuff(mod.BuffType("HavelBuff")))
+                if (Player.HasBuff(Mod.Find<ModBuff>("HavelBuff").Type))
                 {
                     havelArmorActive = true;
                 }
                 if (havelArmorTimer > 0)
                 {
                     havelArmorTimer--;
-                    player.velocity *= 0.8f;
+                    Player.velocity *= 0.8f;
                 }
                 else if (havelArmorTimer == 0)
                 {
@@ -1139,17 +1406,17 @@ namespace JoostMod
                     if (!havelArmorActive)
                     {
                         havelArmorActive = true;
-                        player.AddBuff(mod.BuffType("HavelBuff"), 1800);
-                        Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 211, 1, -0.2f);
+                        Player.AddBuff(Mod.Find<ModBuff>("HavelBuff").Type, 1800);
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.2f), Player.Center);
                     }
                     else
                     {
                         havelArmorActive = false;
-                        Main.PlaySound(42, (int)player.Center.X, (int)player.Center.Y, 207, 1, -0.2f);
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.2f), Player.Center);
                         for (int d = 0; d < 30; d++)
                         {
-                            int dust = Dust.NewDust(player.position, player.width, player.height, 1, 0, 0, 0, default(Color), 1.5f);
-                            Vector2 vel = Main.dust[dust].position - player.MountedCenter;
+                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, 1, 0, 0, 0, default(Color), 1.5f);
+                            Vector2 vel = Main.dust[dust].position - Player.MountedCenter;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel;
                         }
@@ -1157,39 +1424,39 @@ namespace JoostMod
                 }
                 if (havelArmorActive)
                 {
-                    player.accRunSpeed = 0;
-                    if (player.mount._type == mod.MountType("EarthMount"))
+                    Player.accRunSpeed = 0;
+                    if (Player.mount._type == Mod.Find<ModMount>("EarthMount").Type)
                     {
-                        player.accRunSpeed = 4;
-                        player.maxRunSpeed = 4;
+                        Player.accRunSpeed = 4;
+                        Player.maxRunSpeed = 4;
                     }
-                    player.wingTime--;
-                    player.maxFallSpeed += 10;
-                    if (player.velocity.Y != 0)
+                    Player.wingTime--;
+                    Player.maxFallSpeed += 10;
+                    if (Player.velocity.Y != 0)
                     {
-                        player.velocity.Y += 0.3f * player.gravDir;
+                        Player.velocity.Y += 0.3f * Player.gravDir;
                     }
-                    player.jumpSpeedBoost = -1;
-                    player.jumpBoost = false;
-                    if (Math.Abs(player.velocity.X) < player.maxRunSpeed * 1.2f)
+                    Player.jumpSpeedBoost = -1;
+                    Player.jumpBoost = false;
+                    if (Math.Abs(Player.velocity.X) < Player.maxRunSpeed * 1.2f)
                     {
-                        if (player.velocity.X > player.maxRunSpeed)
+                        if (Player.velocity.X > Player.maxRunSpeed)
                         {
-                            player.velocity.X = player.maxRunSpeed;
+                            Player.velocity.X = Player.maxRunSpeed;
                         }
-                        if (player.velocity.X < -player.maxRunSpeed)
+                        if (Player.velocity.X < -Player.maxRunSpeed)
                         {
-                            player.velocity.X = -player.maxRunSpeed;
+                            Player.velocity.X = -Player.maxRunSpeed;
                         }
                     }
                     else
                     {
-                        player.velocity.X *= 0.9f;
+                        Player.velocity.X *= 0.9f;
                     }
-                    if (!player.HasBuff(mod.BuffType("HavelBuff")) && havelArmorTimer < 0)
+                    if (!Player.HasBuff(Mod.Find<ModBuff>("HavelBuff").Type) && havelArmorTimer < 0)
                     {
                         havelArmorTimer = 20;
-                        Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.3f);
+                        SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.3f), Player.Center);
                     }
                 }
             }
@@ -1212,7 +1479,7 @@ namespace JoostMod
             {
                 if (gThrownTimer > 0)
                 {
-                    player.AddBuff(mod.BuffType("gThrownCooldown"), gThrownTimer);
+                    Player.AddBuff(Mod.Find<ModBuff>("gThrownCooldown").Type, gThrownTimer);
                 }
                 gThrownTimer--;
                 if (gThrownTimer < 0)
@@ -1222,13 +1489,156 @@ namespace JoostMod
             {
                 gThrownTimer = 1200;
             }
+
+            if (pinkSlimeArmor)
+            {
+                if (Player.HasBuff(Mod.Find<ModBuff>("PinkSlimeBuff").Type))
+                {
+                    pinkSlimeActive = true;
+                }
+                if (pinkSlimeTimer > 0)
+                {
+                    pinkSlimeTimer--;
+                }
+                else if (pinkSlimeTimer == 0)
+                {
+                    pinkSlimeTimer = -1;
+                    if (!pinkSlimeActive)
+                    {
+                        pinkSlimeActive = true;
+                        Player.AddBuff(Mod.Find<ModBuff>("PinkSlimeBuff").Type, 10);
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.2f), Player.Center);
+                    }
+                    else
+                    {
+                        pinkSlimeActive = false;
+                        Player.fullRotation = 0;
+                        Player.DelBuff(Player.FindBuffIndex(Mod.Find<ModBuff>("PinkSlimeBuff").Type));
+                        SoundEngine.PlaySound(SoundID.NPCDeath1.WithPitchOffset(-0.2f), Player.Center);
+                        for (int d = 0; d < 30; d++)
+                        {
+                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, 243, 0, 0, 0, default(Color), 1.5f);
+                            Vector2 vel = Main.dust[dust].position - Player.MountedCenter;
+                            vel.Normalize();
+                            Main.dust[dust].velocity = vel;
+                            Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
+                        }
+                    }
+                }
+                if (pinkSlimeActive)
+                {
+                    Player.mount.Dismount(Player);
+                    Player.controlMount = false;
+                    Player.maxFallSpeed += 10;
+                    Player.noItems = true;
+                    Player.autoJump = true;
+                    Player.fallStart = (int)Player.position.Y / 16;
+                    Player.noKnockback = true;
+                    if (Player.velocity.Y != 0)
+                        Player.runSlowdown = 0;
+                }
+            }
+            else
+            {
+                pinkSlimeActive = false;
+                pinkSlimeTimer = -1;
+            }
+
+            if (slimeArmor)
+            {
+                if (Player.HasBuff(Mod.Find<ModBuff>("SlimeBuff").Type))
+                {
+                    slimeActive = true;
+                }
+                if (slimeTimer > 0)
+                {
+                    slimeTimer--;
+                }
+                else if (slimeTimer == 0)
+                {
+                    slimeTimer = -1;
+                    if (!slimeActive)
+                    {
+                        slimeActive = true;
+                        Player.AddBuff(Mod.Find<ModBuff>("SlimeBuff").Type, 10);
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.2f), Player.Center);
+                    }
+                    else
+                    {
+                        slimeActive = false;
+                        Player.fullRotation = 0;
+                        Player.DelBuff(Player.FindBuffIndex(Mod.Find<ModBuff>("SlimeBuff").Type));
+                        SoundEngine.PlaySound(SoundID.NPCDeath1.WithPitchOffset(-0.2f), Player.Center);
+                        for (int d = 0; d < 30; d++)
+                        {
+                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, 4, 0, 0, 100, Color.Blue, 1.5f);
+                            Vector2 vel = Main.dust[dust].position - Player.MountedCenter;
+                            vel.Normalize();
+                            Main.dust[dust].velocity = vel;
+                            Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
+                        }
+                    }
+                }
+                if (slimeActive)
+                {
+                    Player.mount.Dismount(Player);
+                    Player.controlMount = false;
+                    Player.noItems = true;
+                    Player.noKnockback = true;
+                    Player.drippingSlime = true;
+                    if (Player.velocity.Y == 0)
+                    {
+                        Player.runSlowdown = 1f;
+                        Player.moveSpeed *= 0.5f;
+                    }
+                    if (slimedNPC >= 0)
+                    {
+                        NPC sn = Main.npc[slimedNPC];
+                        if (sn.active)
+                        {
+                            Player.position = sn.Center - (Player.Size / 2) + slimedNPCOffset;
+                            Player.velocity = sn.velocity;
+                            Player.controlUp = false;
+                            Player.controlDown = false;
+                            Player.controlLeft = false;
+                            Player.controlRight = false;
+                            if (Player.controlJump && Player.releaseJump)
+                            {
+                                Player.velocity += Player.DirectionFrom(sn.Center) * 6;
+                                Player.immune = true;
+                                Player.immuneTime = 20;
+                                slimedNPC = -1;
+                                slimedNPCOffset = Vector2.Zero;
+                            }
+                        }
+                        else
+                        {
+                            slimedNPC = -1;
+                            slimedNPCOffset = Vector2.Zero;
+                        }
+                    }
+                }
+                else
+                {
+                    slimedNPC = -1;
+                    slimedNPCOffset = Vector2.Zero;
+                }
+            }
+            else
+            {
+                slimeArmor = false;
+                slimeTimer = -1;
+                slimedNPC = -1;
+                slimedNPCOffset = Vector2.Zero;
+            }
+
             if (EnkiduMinion)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("EnkiduMinion")] <= 0)
+                if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnkiduMinion").Type] <= 0)
                 {
-                    int damage = (int)(1500 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
-                    float knockback = 10f + player.minionKB;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("EnkiduMinion"), damage, knockback, player.whoAmI);
+                    int damage = (int)(1500 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    float knockback = 10f + Player.Getknockback(DamageClass.Summon).Base;
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("EnkiduMinion").Type, damage, knockback, Player.whoAmI);
                 }
             }
             if (XShield)
@@ -1236,14 +1646,14 @@ namespace JoostMod
                 XShieldTimer--;
                 if (XShieldTimer < 0)
                 {
-                    int type = mod.ProjectileType("XParasite");
-                    int damage = (int)(300 * player.allDamage * player.allDamageMult);
+                    int type = Mod.Find<ModProjectile>("XParasite").Type;
+                    int damage = (int)(300 * Player.GetDamage(DamageClass.Generic) * Player.GetDamage(DamageClass.Generic));
 
-                    float summon = player.minionDamage * player.minionDamageMult;
-                    int melee = (int)(300 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult);
-                    int ranged = (int)(300 * (player.allDamage + player.rangedDamage - 1) * player.rangedDamageMult * player.allDamageMult);
-                    int magic = (int)(300 * (player.allDamage + player.magicDamage - 1) * player.magicDamageMult * player.allDamageMult);
-                    int thrown = (int)(300 * (player.allDamage + player.thrownDamage - 1) * player.thrownDamageMult * player.allDamageMult);
+                    float summon = Player.GetDamage(DamageClass.Summon) * Player.GetDamage(DamageClass.Summon);
+                    int melee = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1) * Player.GetDamage(DamageClass.Melee) * Player.GetDamage(DamageClass.Generic));
+                    int ranged = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1) * Player.GetDamage(DamageClass.Ranged) * Player.GetDamage(DamageClass.Generic));
+                    int magic = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Magic) - 1) * Player.GetDamage(DamageClass.Magic) * Player.GetDamage(DamageClass.Generic));
+                    int thrown = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Throwing) - 1) * Player.GetDamage(DamageClass.Throwing) * Player.GetDamage(DamageClass.Generic));
 
                     bool flag = Main.rand.NextBool(4);
 
@@ -1266,22 +1676,22 @@ namespace JoostMod
                         }
                         if (maxValue == melee)
                         {
-                            type = mod.ProjectileType("XParasiteYellow");
+                            type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
                             damage = melee;
                         }
                         if (maxValue == ranged)
                         {
-                            type = mod.ProjectileType("XParasiteRed");
+                            type = Mod.Find<ModProjectile>("XParasiteRed").Type;
                             damage = ranged;
                         }
                         if (maxValue == magic)
                         {
-                            type = mod.ProjectileType("XParasite");
+                            type = Mod.Find<ModProjectile>("XParasite").Type;
                             damage = magic;
                         }
                         if (maxValue == thrown)
                         {
-                            type = mod.ProjectileType("XParasiteGreen");
+                            type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
                             damage = thrown;
                         }
                         if (maxValue == summon)
@@ -1294,99 +1704,99 @@ namespace JoostMod
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = mod.ProjectileType("XParasiteYellow");
+                                type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
                                 damage = (int)(melee * summon);
                                 break;
                             case 2:
-                                type = mod.ProjectileType("XParasiteGreen");
+                                type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
                                 damage = (int)(thrown * summon);
                                 break;
                             case 3:
-                                type = mod.ProjectileType("XParasiteRed");
+                                type = Mod.Find<ModProjectile>("XParasiteRed").Type;
                                 damage = (int)(ranged * summon);
                                 break;
                             default:
-                                type = mod.ProjectileType("XParasite");
+                                type = Mod.Find<ModProjectile>("XParasite").Type;
                                 damage = (int)(magic * summon);
                                 break;
                         }
                     }
                     Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
                     
-                    Projectile.NewProjectile(player.MountedCenter.X, player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, player.whoAmI);
+                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, Player.whoAmI);
                     flag = flag ? flag : Main.rand.NextBool(4);
                     if (flag)
                     {
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = mod.ProjectileType("XParasiteYellow");
+                                type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
                                 damage = (int)(melee * summon);
                                 break;
                             case 2:
-                                type = mod.ProjectileType("XParasiteGreen");
+                                type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
                                 damage = (int)(thrown * summon);
                                 break;
                             case 3:
-                                type = mod.ProjectileType("XParasiteRed");
+                                type = Mod.Find<ModProjectile>("XParasiteRed").Type;
                                 damage = (int)(ranged * summon);
                                 break;
                             default:
-                                type = mod.ProjectileType("XParasite");
+                                type = Mod.Find<ModProjectile>("XParasite").Type;
                                 damage = (int)(magic * summon);
                                 break;
                         }
                     }
-                    Projectile.NewProjectile(player.MountedCenter.X, player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, player.whoAmI);
+                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, Player.whoAmI);
                     flag = flag ? flag : Main.rand.NextBool(4);
                     if (flag)
                     {
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = mod.ProjectileType("XParasiteYellow");
+                                type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
                                 damage = (int)(melee * summon);
                                 break;
                             case 2:
-                                type = mod.ProjectileType("XParasiteGreen");
+                                type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
                                 damage = (int)(thrown * summon);
                                 break;
                             case 3:
-                                type = mod.ProjectileType("XParasiteRed");
+                                type = Mod.Find<ModProjectile>("XParasiteRed").Type;
                                 damage = (int)(ranged * summon);
                                 break;
                             default:
-                                type = mod.ProjectileType("XParasite");
+                                type = Mod.Find<ModProjectile>("XParasite").Type;
                                 damage = (int)(magic * summon);
                                 break;
                         }
                     }
                     dir = dir.RotatedBy(90f * 0.0174f);
-                    Projectile.NewProjectile(player.MountedCenter.X, player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, player.whoAmI);
+                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, Player.whoAmI);
                     flag = flag ? flag : Main.rand.NextBool(4);
                     if (flag)
                     {
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = mod.ProjectileType("XParasiteYellow");
+                                type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
                                 damage = (int)(melee * summon);
                                 break;
                             case 2:
-                                type = mod.ProjectileType("XParasiteGreen");
+                                type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
                                 damage = (int)(thrown * summon);
                                 break;
                             case 3:
-                                type = mod.ProjectileType("XParasiteRed");
+                                type = Mod.Find<ModProjectile>("XParasiteRed").Type;
                                 damage = (int)(ranged * summon);
                                 break;
                             default:
-                                type = mod.ProjectileType("XParasite");
+                                type = Mod.Find<ModProjectile>("XParasite").Type;
                                 damage = (int)(magic * summon);
                                 break;
                         }
                     }
-                    Projectile.NewProjectile(player.MountedCenter.X, player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, player.whoAmI);
+                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, Player.whoAmI);
                     
                     XShieldTimer += 90;
                 }
@@ -1397,26 +1807,26 @@ namespace JoostMod
             }
             if (cactoidCommendation)
             {
-                player.npcTypeNoAggro[mod.NPCType("Cactoid")] = true;
-                player.npcTypeNoAggro[mod.NPCType("Cactite")] = true;
+                Player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactoid").Type] = true;
+                Player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactite").Type] = true;
                 cactoidCommendationTimer -= 1 + Main.rand.Next(2);
                 if (cactoidCommendationTimer <= 0)
                 {
                     if (Main.rand.Next(3) == 0)
                     {
-                        NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Cactoid"));
+                        NPC.NewNPC((int)Player.Center.X, (int)Player.Center.Y, Mod.Find<ModNPC>("Cactoid").Type);
                     }
                     else
                     {
-                        NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Cactite"));
+                        NPC.NewNPC((int)Player.Center.X, (int)Player.Center.Y, Mod.Find<ModNPC>("Cactite").Type);
                     }
                     cactoidCommendationTimer = 7200;
                 }
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].team == player.team && player.team > 0)
+                    if (Main.player[i].team == Player.team && Player.team > 0)
                     {
-                        Main.player[i].AddBuff(mod.BuffType("CactoidFriend"), 5, true);
+                        Main.player[i].AddBuff(Mod.Find<ModBuff>("CactoidFriend").Type, 5, true);
                     }
                 }
             }
@@ -1424,14 +1834,14 @@ namespace JoostMod
             {
                 cactoidCommendationTimer = 7200;
             }
-            if (cactusBoots && player.velocity.Y == 0)
+            if (cactusBoots && Player.velocity.Y == 0)
             {
-                cactusBootsTimer -= Math.Abs(player.velocity.X);
+                cactusBootsTimer -= Math.Abs(Player.velocity.X);
                 if (cactusBootsTimer < 0)
                 {
-                    int damage = (int)(18 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
+                    int damage = (int)(18 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
                     float knockback = 0f;
-                    Projectile.NewProjectile(player.Center.X, player.position.Y, 0, 7, mod.ProjectileType("BootCactus"), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.position.Y, 0, 7, Mod.Find<ModProjectile>("BootCactus").Type, damage, knockback, Player.whoAmI);
                     cactusBootsTimer = 40;
                 }
             }
@@ -1444,10 +1854,10 @@ namespace JoostMod
                 SpectreOrbTimer--;
                 if (SpectreOrbTimer < 0)
                 {
-                    int damage = (int)(100 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
-                    float knockback = 6.4f + player.minionKB;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, mod.ProjectileType("SpectreOrb"), damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, mod.ProjectileType("SpectreOrb"), damage, knockback, player.whoAmI, 0f, 180f);
+                    int damage = (int)(100 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    float knockback = 6.4f + Player.Getknockback(DamageClass.Summon).Base;
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 2f, Mod.Find<ModProjectile>("SpectreOrb").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 2f, Mod.Find<ModProjectile>("SpectreOrb").Type, damage, knockback, Player.whoAmI, 0f, 180f);
                     SpectreOrbTimer = 40;
                 }
             }
@@ -1455,21 +1865,21 @@ namespace JoostMod
             {
                 SpectreOrbTimer = 40;
             }
-            if (SkullSigil && player.statLife <= player.statLifeMax2 / 2)
+            if (SkullSigil && Player.statLife <= Player.statLifeMax2 / 2)
             {
                 SkullSigilTimer--;
                 if (SkullSigilTimer % 20 == 0)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("ShadowAura"), 1, 1, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("ShadowAura").Type, 1, 1, Player.whoAmI);
                 }
                 if (SkullSigilTimer < 0)
                 {
-                    int damage = (int)(125 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
-                    float knockback = 5.5f + player.minionKB;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 2f, 2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 45f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 2f, -2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 135f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -2f, 2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 225f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -2f, -2f, mod.ProjectileType("Skull"), damage, knockback, player.whoAmI, 315f);
+                    int damage = (int)(125 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    float knockback = 5.5f + Player.Getknockback(DamageClass.Summon).Base;
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 2f, 2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 45f);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 2f, -2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 135f);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -2f, 2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 225f);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -2f, -2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 315f);
                     SkullSigilTimer = 180;
                 }
             }
@@ -1483,8 +1893,8 @@ namespace JoostMod
             }
             if (LegendCool == 0)
             {
-                Main.PlaySound(25, player.Center);
-                Dust.NewDustPerfect(player.Center, 178, new Vector2(-player.direction, -player.gravDir * 3), 0, Color.LimeGreen, 2);
+                SoundEngine.PlaySound(SoundID.MaxMana, Player.Center);
+                Dust.NewDustPerfect(Player.Center, 178, new Vector2(-Player.direction, -Player.gravDir * 3), 0, Color.LimeGreen, 2);
                 LegendCool--;
             }
             if (spelunky > 0)
@@ -1493,8 +1903,8 @@ namespace JoostMod
                 if (spelunkerTimer >= 10)
                 {
                     spelunkerTimer = 0;
-                    int tileX = (int)player.Center.X / 16;
-                    int tileY = (int)player.Center.Y / 16;
+                    int tileX = (int)Player.Center.X / 16;
+                    int tileY = (int)Player.Center.Y / 16;
                     int num2;
                     for (int i = tileX - spelunky; i <= tileX + spelunky; i = num2 + 1)
                     {
@@ -1503,21 +1913,21 @@ namespace JoostMod
                             if (Main.rand.Next(4) == 0)
                             {
                                 Vector2 vector = new Vector2((float)(tileX - i), (float)(tileY - j));
-                                if (vector.Length() < (float)spelunky && i > 0 && i < Main.maxTilesX - 1 && j > 0 && j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].active())
+                                if (vector.Length() < (float)spelunky && i > 0 && i < Main.maxTilesX - 1 && j > 0 && j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].HasTile)
                                 {
                                     bool flag = false;
-                                    if (Main.tile[i, j].type == 185 && Main.tile[i, j].frameY == 18)
+                                    if (Main.tile[i, j].TileType == 185 && Main.tile[i, j].TileFrameY == 18)
                                     {
-                                        if (Main.tile[i, j].frameX >= 576 && Main.tile[i, j].frameX <= 882)
+                                        if (Main.tile[i, j].TileFrameX >= 576 && Main.tile[i, j].TileFrameX <= 882)
                                         {
                                             flag = true;
                                         }
                                     }
-                                    else if (Main.tile[i, j].type == 186 && Main.tile[i, j].frameX >= 864 && Main.tile[i, j].frameX <= 1170)
+                                    else if (Main.tile[i, j].TileType == 186 && Main.tile[i, j].TileFrameX >= 864 && Main.tile[i, j].TileFrameX <= 1170)
                                     {
                                         flag = true;
                                     }
-                                    if (flag || Main.tileSpelunker[(int)Main.tile[i, j].type] || (Main.tileAlch[(int)Main.tile[i, j].type] && Main.tile[i, j].type != 82))
+                                    if (flag || Main.tileSpelunker[(int)Main.tile[i, j].TileType] || (Main.tileAlch[(int)Main.tile[i, j].TileType] && Main.tile[i, j].TileType != 82))
                                     {
                                         int dust = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, 204, 0f, 0f, 150, default(Color), 0.3f);
                                         Main.dust[dust].fadeIn = 0.75f;
@@ -1541,9 +1951,9 @@ namespace JoostMod
             }
             if (shieldSapling)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("ShieldSapling")] < 1)
+                if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("ShieldSapling").Type] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, mod.ProjectileType("ShieldSapling"), 1, 2 + player.minionKB, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0, 0, Mod.Find<ModProjectile>("ShieldSapling").Type, 1, 2 + Player.Getknockback(DamageClass.Summon).Base, Player.whoAmI);
                 }
             }
             if (swordSapling)
@@ -1553,22 +1963,22 @@ namespace JoostMod
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
-                    if (npc.CanBeChasedBy(player, false))
+                    if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, player.Center) < 70 && (player.Center.X - npc.Center.X) * player.direction > 0 && Collision.CanHitLine(player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Vector2.Distance(npc.Center, Player.Center) < 70 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
                         {
                             target = true;
-                            shoot = player.DirectionTo(npc.Center);
+                            shoot = Player.DirectionTo(npc.Center);
                         }
                     }
                 }
                 swordSaplingTimer--;
                 if (swordSaplingTimer < 0 && target)
                 {
-                    if (player.ownedProjectileCounts[mod.ProjectileType("SaplingSword")] < 1)
+                    if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SaplingSword").Type] < 1)
                     {
-                        Main.PlaySound(2, player.Center, 1);
-                        Projectile.NewProjectile(player.Center.X + 16*player.direction, player.Center.Y, shoot.X * 3, shoot.Y * 3, mod.ProjectileType("SaplingSword"), (int)(12 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult), 4f * (player.kbGlove ? 2 : 1) * (player.kbBuff ? 1.5f : 1), player.whoAmI);
+                        SoundEngine.PlaySound(SoundID.Item1, Player.Center);
+                        Projectile.NewProjectile(source, player.Center.X + 16*Player.direction, Player.Center.Y, shoot.X * 3, shoot.Y * 3, Mod.Find<ModProjectile>("SaplingSword").Type, (int)(12 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 4f * (Player.kbGlove ? 2 : 1) * (Player.kbBuff ? 1.5f : 1), Player.whoAmI);
                     }
                     swordSaplingTimer = 9;
                 }
@@ -1584,22 +1994,22 @@ namespace JoostMod
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
-                    if (npc.CanBeChasedBy(player, false))
+                    if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, player.Center) < 300 && (player.Center.X - npc.Center.X) * player.direction > 0 && Collision.CanHitLine(player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Vector2.Distance(npc.Center, Player.Center) < 300 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
                         {
                             target = true;
-                            shoot = player.DirectionTo(npc.Center);
+                            shoot = Player.DirectionTo(npc.Center);
                         }
                     }
                 }
                 hatchetSaplingTimer--;
                 if (hatchetSaplingTimer < 0 && target)
                 {
-                    if (player.ownedProjectileCounts[mod.ProjectileType("CopperHatchet")] + player.ownedProjectileCounts[mod.ProjectileType("CopperHatchet2")] < 3)
+                    if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CopperHatchet").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CopperHatchet2").Type] < 3)
                     {
-                        Main.PlaySound(2, player.Center, 19);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 12 * player.thrownVelocity, shoot.Y * 12 * player.thrownVelocity, mod.ProjectileType("CopperHatchet"), (int)(7 * player.allDamageMult * (player.allDamage + player.thrownDamage - 1f) * player.thrownDamageMult), 3f, player.whoAmI);
+                        SoundEngine.PlaySound(SoundID.Item19, Player.Center);
+                        Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, shoot.X * 12 * Player.ThrownVelocity, shoot.Y * 12 * Player.ThrownVelocity, Mod.Find<ModProjectile>("CopperHatchet").Type, (int)(7 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Throwing) - 1f) * Player.GetDamage(DamageClass.Throwing)), 3f, Player.whoAmI);
                     }
                     hatchetSaplingTimer = 15;
                 }
@@ -1615,31 +2025,31 @@ namespace JoostMod
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
-                    if (npc.CanBeChasedBy(player, false))
+                    if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, player.Center) < 800 && (player.Center.X - npc.Center.X) * player.direction > 0 && Collision.CanHitLine(player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Vector2.Distance(npc.Center, Player.Center) < 800 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
                         {
                             target = true;
-                            shoot = player.DirectionTo(npc.Center);
+                            shoot = Player.DirectionTo(npc.Center);
                         }
                     }
                 }
                 bowSaplingTimer--;
                 if (bowSaplingTimer < 0 && target)
                 {
-                    int damage = (int)(7 * player.allDamageMult * (player.allDamage + player.rangedDamage - 1f) * player.rangedDamageMult);
+                    int damage = (int)(7 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1f) * Player.GetDamage(DamageClass.Ranged));
                     float knockback = 2;
                     int proj = ProjectileID.WoodenArrowFriendly;
                     float speed = 9.6f;
                     bool flag = false;
                     for (int i = 0; i < 58; i++)
                     {
-                        Item item = player.inventory[i];
+                        Item item = Player.inventory[i];
                         if (item.ammo == AmmoID.Arrow && item.stack > 0)
                         {
                             flag = true;
                             damage += item.damage;
-                            knockback += item.knockBack;
+                            knockback += item.knockback;
                             proj = item.shoot;
                             speed += item.shootSpeed;
                             if (item.consumable)
@@ -1656,8 +2066,8 @@ namespace JoostMod
                     }
                     if (flag)
                     {
-                        Main.PlaySound(2, player.Center, 5);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * speed, shoot.Y * speed, proj, damage, knockback, player.whoAmI);
+                        SoundEngine.PlaySound(SoundID.Item5, Player.Center);
+                        Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, shoot.X * speed, shoot.Y * speed, proj, damage, knockback, Player.whoAmI);
                     }
                     bowSaplingTimer = 27;
                 }
@@ -1673,21 +2083,21 @@ namespace JoostMod
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
-                    if (npc.CanBeChasedBy(player, false))
+                    if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, player.Center) < 650 && (player.Center.X - npc.Center.X) * player.direction > 0 && Collision.CanHitLine(player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Vector2.Distance(npc.Center, Player.Center) < 650 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
                         {
                             target = true;
-                            shoot = player.DirectionTo(npc.Center);
+                            shoot = Player.DirectionTo(npc.Center);
                         }
                     }
                 }
                 staffSaplingTimer--;
                 if (staffSaplingTimer < 0 && target)
                 {
-                    int damage = (int)(15 * player.allDamageMult * (player.allDamage + player.magicDamage - 1f) * player.magicDamageMult);
+                    int damage = (int)(15 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Magic) - 1f) * Player.GetDamage(DamageClass.Magic));
                     float knockback = 3.5f;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, 121, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, 121, damage, knockback, Player.whoAmI);
                     staffSaplingTimer = 37;
                 }
             }
@@ -1695,20 +2105,20 @@ namespace JoostMod
             {
                 staffSaplingTimer = 37;
             }
-            if (fishingSapling && player.HeldItem.fishingPole > 0 && player.ownedProjectileCounts[mod.ProjectileType("SaplingFishHook")] < 1 && !player.CCed && !player.noItems && !player.pulley && !player.dead)
+            if (fishingSapling && Player.HeldItem.fishingPole > 0 && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SaplingFishHook").Type] < 1 && !Player.CCed && !Player.noItems && !Player.pulley && !Player.dead)
             {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, -player.direction * 2, 0, mod.ProjectileType("SaplingFishHook"), 10, 0, player.whoAmI);
-                Main.PlaySound(SoundID.Item1, player.Center);
+                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -Player.direction * 2, 0, Mod.Find<ModProjectile>("SaplingFishHook").Type, 10, 0, Player.whoAmI);
+                SoundEngine.PlaySound(SoundID.Item1, Player.Center);
             }
             if (bubbleShield)
             {
                 bubbleShieldTimer--;
                 if (bubbleShieldTimer < 0)
                 {
-                    int damage = (int)(10 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
-                    float knockback = 8f + player.minionKB;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 1f, 0f, mod.ProjectileType("BubbleShield"), damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -1f, 0f, mod.ProjectileType("BubbleShield"), damage,knockback, player.whoAmI);
+                    int damage = (int)(10 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    float knockback = 8f + Player.Getknockback(DamageClass.Summon).Base;
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 1f, 0f, Mod.Find<ModProjectile>("BubbleShield").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -1f, 0f, Mod.Find<ModProjectile>("BubbleShield").Type, damage,knockback, Player.whoAmI);
                     bubbleShieldTimer = 90;
                 }
             }
@@ -1721,10 +2131,10 @@ namespace JoostMod
                 megaBubbleShieldTimer--;
                 if (megaBubbleShieldTimer < 0)
                 {
-                    int damage = (int)(90 * player.allDamageMult * (player.allDamage + player.minionDamage - 1f) * player.minionDamageMult);
-                    float knockback = 18.5f + player.minionKB;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 1f, 0f, mod.ProjectileType("MegaBubbleShield"), damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -1f, 0f, mod.ProjectileType("MegaBubbleShield"), damage, knockback, player.whoAmI);
+                    int damage = (int)(90 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    float knockback = 18.5f + Player.Getknockback(DamageClass.Summon).Base;
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 1f, 0f, Mod.Find<ModProjectile>("MegaBubbleShield").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -1f, 0f, Mod.Find<ModProjectile>("MegaBubbleShield").Type, damage, knockback, Player.whoAmI);
                     megaBubbleShieldTimer = 30;
                 }
             }
@@ -1732,71 +2142,70 @@ namespace JoostMod
             {
                 megaBubbleShieldTimer = 30;
             }
-            if (player.velocity.Y != 0 && spaceJump)
+            if (Player.velocity.Y != 0 && spaceJump)
             {
-                if (player.controlJump)
+                if (Player.controlJump)
                 {
-                    player.fallStart = (int)(player.position.Y / 16f);
-                    float num = player.gravity;
-                    if (player.gravDir == 1f && player.velocity.Y > num * 15)
+                    Player.fallStart = (int)(Player.position.Y / 16f);
+                    float num = Player.gravity;
+                    if (Player.gravDir == 1f && Player.velocity.Y > num * 15)
                     {
-                        player.velocity.Y = -12f;
+                        Player.velocity.Y = -12f;
                         spinTimer = 45;
-                        Main.PlaySound(16, (int)player.position.X, (int)player.position.Y);
+                        SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                         for (int i = 0; i < 7; i++)
                         {
-                            Dust.NewDust(player.position, player.width, player.height, 16, Main.rand.Next(-5, 5), Main.rand.Next(-5, 0), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
+                            Dust.NewDust(Player.position, Player.width, Player.height, 16, Main.rand.Next(-5, 5), Main.rand.Next(-5, 0), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
                         }
                     }
-                    else if (player.gravDir == -1f && player.velocity.Y < -num * 15)
+                    else if (Player.gravDir == -1f && Player.velocity.Y < -num * 15)
                     {
-                        player.velocity.Y = 12f;
+                        Player.velocity.Y = 12f;
                         spinTimer = 45;
-                        Main.PlaySound(16, (int)player.position.X, (int)player.position.Y);
+                        SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                         for (int i = 0; i < 7; i++)
                         {
-                            Dust.NewDust(player.position, player.width, player.height, 16, Main.rand.Next(-5, 5), Main.rand.Next(0, 5), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
+                            Dust.NewDust(Player.position, Player.width, Player.height, 16, Main.rand.Next(-5, 5), Main.rand.Next(0, 5), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
                         }
                     }
                 }
             }
-            bool noHooks = player.ownedProjectileCounts[mod.ProjectileType("SwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("MobHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedSwingyHook")] + player.ownedProjectileCounts[mod.ProjectileType("EnchantedMobHook")] + player.ownedProjectileCounts[mod.ProjectileType("CactusHook")] <= 0;
             if (spinTimer > 0)
             {
                 spinTimer--;
-                player.fullRotation = (float)(spinTimer * 24 * 0.0174f * -player.direction * player.gravDir);
-                player.fullRotationOrigin = player.Center - player.position;
+                Player.fullRotation = (float)(spinTimer * 24 * 0.0174f * -Player.direction * Player.gravDir);
+                Player.fullRotationOrigin = Player.Center - Player.position;
                 if (spinTimer % 15 == 0)
                 {
-                    Main.PlaySound(2, (int)player.Center.X, (int)player.Center.Y, 7);
+                    SoundEngine.PlaySound(SoundID.Item7, Player.Center);
                 }
-                if (player.velocity.Y == 0 || player.mount.Active || player.itemAnimation != 0)
+                if (Player.velocity.Y == 0 || Player.mount.Active || Player.itemAnimation != 0)
                 {
-                    player.fullRotation = 0f;
+                    Player.fullRotation = 0f;
                     spinTimer = 0;
                 }
             }
-            else if (rocWings && noHooks && player.velocity.Y != 0 && !player.mount.Active && player.controlUp && !player.controlJump && !player.pulley && player.itemAnimation == 0)
+            else if (rocWings && noHooks && Player.velocity.Y != 0 && !Player.mount.Active && Player.controlUp && !Player.controlJump && !Player.pulley && Player.itemAnimation == 0)
             {
                 int rotSpeed = 6;
-                if (player.wet)
+                if (Player.wet)
                 {
-                    if (player.honeyWet)
+                    if (Player.honeyWet)
                     {
-                        player.maxFallSpeed = 10.5f;
+                        Player.maxFallSpeed = 10.5f;
                     }
                     else
                     {
-                        player.maxFallSpeed = 24.5f;
+                        Player.maxFallSpeed = 24.5f;
                     }
                 }
                 else
                 {
-                    player.maxFallSpeed = 35f;
+                    Player.maxFallSpeed = 35f;
                 }
-                if (player.direction == 1)
+                if (Player.direction == 1)
                 {
-                    if (player.controlRight)
+                    if (Player.controlRight)
                     {
                         if (rot < 90)
                         {
@@ -1804,10 +2213,10 @@ namespace JoostMod
                         }
                         else
                         {
-                            player.direction = -1;
+                            Player.direction = -1;
                         }
                     }
-                    if (player.controlLeft)
+                    if (Player.controlLeft)
                     {
                         if (rot > -90)
                         {
@@ -1815,13 +2224,13 @@ namespace JoostMod
                         }
                         else
                         {
-                            player.direction = -1;
+                            Player.direction = -1;
                         }
                     }
                 }
                 else
                 {
-                    if (player.controlLeft)
+                    if (Player.controlLeft)
                     {
                         if (rot < 90)
                         {
@@ -1829,10 +2238,10 @@ namespace JoostMod
                         }
                         else
                         {
-                            player.direction = 1;
+                            Player.direction = 1;
                         }
                     }
-                    if (player.controlRight)
+                    if (Player.controlRight)
                     {
                         if (rot > -90)
                         {
@@ -1840,60 +2249,85 @@ namespace JoostMod
                         }
                         else
                         {
-                            player.direction = 1;
+                            Player.direction = 1;
                         }
                     }
                 }
-                player.fullRotation = (rot * 0.0174f * player.gravDir * player.direction);
-                player.fullRotationOrigin = player.Center - player.position;
-                float speed = player.velocity.Length();
-                player.velocity.X = (float)Math.Cos(player.fullRotation) * speed * player.direction;
-                if (speed > player.maxFallSpeed / 3 || rot > 0)
+                Player.fullRotation = (rot * 0.0174f * Player.gravDir * Player.direction);
+                Player.fullRotationOrigin = Player.Center - Player.position;
+                float speed = Player.velocity.Length();
+                Player.velocity.X = (float)Math.Cos(Player.fullRotation) * speed * Player.direction;
+                if (speed > Player.maxFallSpeed / 3 || rot > 0)
                 {
-                    player.velocity.Y = ((float)Math.Sin(player.fullRotation) * speed * player.direction);
-                    if (player.velocity.Y * player.gravDir >= 0 && player.velocity.Y * player.gravDir < player.gravity)
+                    Player.velocity.Y = ((float)Math.Sin(Player.fullRotation) * speed * Player.direction);
+                    if (Player.velocity.Y * Player.gravDir >= 0 && Player.velocity.Y * Player.gravDir < Player.gravity)
                     {
-                        player.velocity.Y = player.gravity * player.gravDir;
+                        Player.velocity.Y = Player.gravity * Player.gravDir;
                     }
                 }
                 else
                 {
-                    player.maxFallSpeed /= 10;
+                    Player.maxFallSpeed /= 10;
                 }
-                player.slowFall = false;
-                player.controlLeft = false;
-                player.controlRight = false;
+                Player.slowFall = false;
+                Player.controlLeft = false;
+                Player.controlRight = false;
             }
             else if (rot != 0)
             {
                 rot = 0;
-                player.fullRotation = 0f;
+                Player.fullRotation = 0f;
             }
             else
             {
-                int hX = (int)(player.position.X / 16f);
-                int hX2 = (int)((player.position.X + player.width - 0.5f) / 16f);
-                int hY = (int)((player.position.Y + player.height + 1) / 16f);
+                int hX = (int)(Player.position.X / 16f);
+                int hX2 = (int)((Player.position.X + Player.width - 0.5f) / 16f);
+                int hY = (int)((Player.position.Y + Player.height + 1) / 16f);
                 bool tile = SolidGround(hX, hX2, hY, hY);
-                if (hoverBoots && hoverBootsTimer > 0 && player.jump <= 0 && !player.pulley)
+                if (Player.mount.Cart && Minecart.OnTrack(Player.position, Player.width, Player.height))
                 {
-                    if ((player.controlLeft || player.controlRight) && !player.controlDown)
+                    tile = true;
+                }
+                if (Player.waterWalk || Player.waterWalk2)
+                {
+                    Vector2 vel = Player.velocity + new Vector2(0, Player.gravDir);
+                    Vector2 vel2 = Collision.WaterCollision(Player.position, vel, Player.width, Player.height, false, false, Player.waterWalk);
+                    if (vel != vel2)
                     {
-                        int height = player.height;
-                        if (player.onTrack)
+                        tile = true;
+                    }
+                }
+                if (tile)
+                {
+                    hoverCanJump = true;
+                }
+                if (hoverBoots && hoverBootsTimer > 0 && !Player.pulley && !slimeClimbWall && !slimeClimbCeiling && Player.mount.Type != Mount.CuteFishron && Player.mount.Type != Mount.UFO)
+                {
+                    if (Player.mount.Cart && !Minecart.OnTrack(Player.position, Player.width, Player.height))
+                    {
+                        if (Player.controlLeft)
+                            Player.releaseLeft = false;
+                        if (Player.controlRight)
+                            Player.releaseRight = false;
+                    }
+                    hoverDoJump = Player.controlJump;
+                    if ((Player.controlLeft || Player.controlRight) && !Player.controlDown && !Player.controlJump)
+                    {
+                        int height = Player.height;
+                        if (Player.onTrack)
                         {
-                            height = player.height - 10;
+                            height = Player.height - 10;
                         }
-                        Vector2 arg_69_0 = Collision.TileCollision(player.position, player.velocity, player.width, height, false, false, (int)player.gravDir);
-                        float num = player.velocity.Length();
-                        Vector2 value = Vector2.Normalize(player.velocity);
+                        Vector2 arg_69_0 = Collision.TileCollision(Player.position, Player.velocity, Player.width, height, false, false, (int)Player.gravDir);
+                        float num = Player.velocity.Length();
+                        Vector2 value = Vector2.Normalize(Player.velocity);
                         if (arg_69_0.Y == 0f)
                         {
                             value.Y = 0f;
                         }
-                        if (player.position.Y != (int)player.position.Y)
+                        if (Player.position.Y != (int)Player.position.Y)
                         {
-                            player.position.Y = (int)player.position.Y;
+                            Player.position.Y = (int)Player.position.Y;
                         }
                         float num2 = num;
                         if (num2 > 16f)
@@ -1901,37 +2335,39 @@ namespace JoostMod
                             num2 = 16f;
                         }
                         Vector2 velocity = value * num2;
-                        if (player.gravDir == -1f)
+                        if (Player.gravDir == -1f)
                         {
-                            if ((player.velocity.Y <= player.gravity) && !player.controlUp)
+                            if ((Player.velocity.Y <= Player.gravity) && !Player.controlUp)
                             {
-                                Collision.StepUp(ref player.position, ref velocity, player.width, player.height, ref player.stepSpeed, ref player.gfxOffY, (int)player.gravDir, true, 0);
+                                Collision.StepUp(ref Player.position, ref velocity, Player.width, Player.height, ref Player.stepSpeed, ref Player.gfxOffY, (int)Player.gravDir, true, 0);
                             }
                         }
-                        else if (player.velocity.Y >= player.gravity && !player.controlDown && !player.mount.Cart)
+                        else if (Player.velocity.Y >= Player.gravity && !Player.controlDown && !Player.mount.Cart)
                         {
-                            Collision.StepUp(ref player.position, ref velocity, player.width, player.height, ref player.stepSpeed, ref player.gfxOffY, (int)player.gravDir, true, 0);
+                            Collision.StepUp(ref Player.position, ref velocity, Player.width, Player.height, ref Player.stepSpeed, ref Player.gfxOffY, (int)Player.gravDir, true, 0);
                         }
                     }
                     if (!tile)
                     {
-                        bool flight = (player.wingTime > 0 || player.rocketTime > 0) && player.controlJump;
-                        if ((player.controlLeft || player.controlRight) && !player.controlDown)
+                        bool flight = (Player.wingTime > 0 || Player.rocketTime > 0 || Player.mount._flyTime > 0) && Player.controlJump;
+                        if ((Player.controlLeft || Player.controlRight) && !Player.controlDown && !Player.controlJump)
                         {
                             if (!flight)
                             {
-                                hoverWing = player.wingTime;
-                                hoverRocket = player.rocketTime;
-                                player.fallStart = (int)(player.position.Y / 16f);
+                                hoverMount = Player.mount._flyTime;
+                                hoverWing = Player.wingTime;
+                                hoverRocket = Player.rocketTime;
+                                Player.fallStart = (int)(Player.position.Y / 16f);
                                 hoverBootsTimer--;
-                                player.slowFall = false;
-                                player.autoJump = false;
-                                hoverJump = player.controlJump;
-                                player.controlJump = false;
-                                player.releaseJump = false;
-                                player.wingTime = 0;
-                                player.rocketTime = 0;
-                                player.velocity.Y = 0;
+                                Player.slowFall = false;
+                                Player.autoJump = false;
+                                //hoverJump = player.controlJump; //what was player even doing here?
+                                //player.controlJump = false;
+                                //player.releaseJump = false;
+                                Player.mount._flyTime = 0;
+                                Player.wingTime = 0;
+                                Player.rocketTime = 0;
+                                Player.velocity.Y = 0;
                                 hovering = true;
                                 /*
                                 if (hoverBootsStart == 0)
@@ -1940,24 +2376,33 @@ namespace JoostMod
                                     player.velocity.Y = (player.gravity + 1E-06f) * -player.gravDir;
                                 }
                                 */
-                                player.gravity = 0;
-                                int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + 2f), player.width + 8, 4, 16, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, Color.Gold * 1.2f, 1.5f);
-                                Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
-                                Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
-                                Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                                Player.gravity = 0;
+                                int d = Dust.NewDust(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, 246, -Player.velocity.X * 0.5f, Player.velocity.Y * 0.5f, 50, Color.Gold, 1.5f);
+                                Main.dust[d].velocity.X = Main.dust[d].velocity.X * 0.2f;
+                                Main.dust[d].velocity.Y = Main.dust[d].velocity.Y * 0.2f;
+                                Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(Player.cShoe, Player);
+                                if (hoverBootsTimer < 60)
+                                {
+                                    Dust.NewDustDirect(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, 31, -Player.velocity.X * 0.5f, Player.velocity.Y * 0.5f, 50, Color.White, 1f).velocity *= 0.2f;
+                                }
                             }
-                            player.canRocket = true;
-                            player.rocketRelease = true;
+                            Player.canRocket = true;
+                            Player.rocketRelease = true;
                         }
-                        else if (player.velocity.Y == 0)
+                        else if (Player.velocity.Y == 0 && !(hoverCanJump && hoverDoJump))
                         {
-                            player.velocity.Y += (1E-06f) * player.gravDir;
+                            Player.velocity.Y += (1E-06f) * Player.gravDir;
                         }
-                        Player.jumpHeight = 0;
-                        if (!flight)
+                        /*
+                        if (!hoverCanJump)
                         {
-                            Player.jumpSpeed = 0;
+                            Player.jumpHeight = 0;
+                            if (!flight)
+                            {
+                                Player.jumpSpeed = 0;
+                            }
                         }
+                        */
                     }
                 }
                 if (hoverBoots && tile)
@@ -1966,25 +2411,25 @@ namespace JoostMod
                     hoverBootsStart = 0;
                 }
             }
-            if (planeMount && player.velocity.Y != 0 && player.itemAnimation == 0)
+            if (planeMount && Player.velocity.Y != 0 && Player.itemAnimation == 0)
             {
-                player.fullRotation = (float)(Math.Atan2(player.velocity.Y, player.velocity.X)) + (player.velocity.X > 0 || (player.velocity.X == 0 && player.direction == 1) ? 0 : (float)Math.PI);
-                player.fullRotationOrigin = player.Center - player.position + new Vector2(0, player.height / 2);
+                Player.fullRotation = (float)(Math.Atan2(Player.velocity.Y, Player.velocity.X)) + (Player.velocity.X > 0 || (Player.velocity.X == 0 && Player.direction == 1) ? 0 : (float)Math.PI);
+                Player.fullRotationOrigin = Player.Center - Player.position + new Vector2(0, Player.height / 2);
             }
-            if (planeMount && player.velocity.Y == 0)
+            if (planeMount && Player.velocity.Y == 0)
             {
-                player.fullRotation = 0f;
+                Player.fullRotation = 0f;
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("CactusHook")] > 0)
+            if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CactusHook").Type] > 0)
             {
-                player.buffImmune[BuffID.Suffocation] = true;
+                Player.buffImmune[BuffID.Suffocation] = true;
             }
             if (fleshShield)
             {
                 fleshShieldTimer++;
-                if (fleshShieldTimer > 10 + (int)(((float)player.statLife / (float)player.statLifeMax2) * 350f))
+                if (fleshShieldTimer > 10 + (int)(((float)Player.statLife / (float)Player.statLifeMax2) * 350f))
                 {
-                    Projectile.NewProjectile(player.Center.X + player.direction * 20, player.Center.Y, player.direction * 10, 0, mod.ProjectileType("Leech"), (int)(20 * (player.allDamage + player.meleeDamage - 1) * player.meleeDamageMult * player.allDamageMult), 1, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X + Player.direction * 20, Player.Center.Y, Player.direction * 10, 0, Mod.Find<ModProjectile>("Leech").Type, (int)(20 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1) * Player.GetDamage(DamageClass.Melee) * Player.GetDamage(DamageClass.Generic)), 1, Player.whoAmI);
                     fleshShieldTimer = 0;
                 }
             }
@@ -1992,7 +2437,7 @@ namespace JoostMod
             {
                 fleshShieldTimer = 0;
             }
-            if (player.dash <= 0)
+            if (Player.dash <= 0)
             {
                 Dash();
             }
@@ -2001,89 +2446,89 @@ namespace JoostMod
                 int dirt = 0;
                 for (int i = 0; i < 58; i++)
                 {
-                    if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
+                    if (Player.inventory[i].type == ItemID.DirtBlock && Player.inventory[i].stack > 0)
                     {
-                        dirt += player.inventory[i].stack;
+                        dirt += Player.inventory[i].stack;
                     }
                 }
-                player.statDefense += dirt / 666;
+                Player.statDefense += dirt / 666;
             }
-            if (havelShield && (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0 || (player.controlUseTile && player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(player.HeldItem, player))))
+            if (havelShield && (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0 || (Player.controlUseTile && Player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(Player.HeldItem, Player))))
             {
-                player.noItems = true;
+                Player.noItems = true;
                 havelBlocking = true;
-                if (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] < 1)
+                if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, mod.ProjectileType("HavelShield"), (int)(50 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult), 8f * (player.kbGlove ? 2 : 1) * (player.kbBuff ? 1.5f : 1), player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0, 0, Mod.Find<ModProjectile>("HavelShield").Type, (int)(50 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 8f * (Player.kbGlove ? 2 : 1) * (Player.kbBuff ? 1.5f : 1), Player.whoAmI);
                 }
-                if (Math.Abs(player.velocity.X) < player.maxRunSpeed * 1.2f)
+                if (Math.Abs(Player.velocity.X) < Player.maxRunSpeed * 1.2f)
                 {
-                    if (player.velocity.X > player.maxRunSpeed)
+                    if (Player.velocity.X > Player.maxRunSpeed)
                     {
-                        player.velocity.X = player.maxRunSpeed;
+                        Player.velocity.X = Player.maxRunSpeed;
                     }
-                    if (player.velocity.X < -player.maxRunSpeed)
+                    if (Player.velocity.X < -Player.maxRunSpeed)
                     {
-                        player.velocity.X = -player.maxRunSpeed;
+                        Player.velocity.X = -Player.maxRunSpeed;
                     }
                 }
                 else
                 {
-                    player.velocity.X *= 0.93f;
+                    Player.velocity.X *= 0.93f;
                 }
             }
             if (blazeAnklet)
             {
-                int num = (int)(player.Center.X / 16f);
-                int num2 = (int)((player.position.Y + player.height) / 16f);
-                if (player.gravDir == -1f)
+                int num = (int)(Player.Center.X / 16f);
+                int num2 = (int)((Player.position.Y + Player.height) / 16f);
+                if (Player.gravDir == -1f)
                 {
-                    num2 = (int)(player.position.Y - 0.1f) / 16;
+                    num2 = (int)(Player.position.Y - 0.1f) / 16;
                 }
                 int type = -1;
-                if (Main.tile[num, num2].nactive() && Main.tileSolid[Main.tile[num, num2].type])
+                if (Main.tile[num, num2].HasUnactuatedTile && Main.tileSolid[Main.tile[num, num2].TileType])
                 {
-                    type = Main.tile[num, num2].type;
+                    type = Main.tile[num, num2].TileType;
                 }
-                else if (Main.tile[num - 1, num2].nactive() && Main.tileSolid[Main.tile[num - 1, num2].type])
+                else if (Main.tile[num - 1, num2].HasUnactuatedTile && Main.tileSolid[Main.tile[num - 1, num2].TileType])
                 {
-                    type = Main.tile[num - 1, num2].type;
+                    type = Main.tile[num - 1, num2].TileType;
                 }
-                else if (Main.tile[num + 1, num2].nactive() && Main.tileSolid[Main.tile[num + 1, num2].type])
+                else if (Main.tile[num + 1, num2].HasUnactuatedTile && Main.tileSolid[Main.tile[num + 1, num2].TileType])
                 {
-                    type = Main.tile[num + 1, num2].type;
+                    type = Main.tile[num + 1, num2].TileType;
                 }
                 if (type != -1 && TileID.Sets.TouchDamageHot[type] != 0)
                 {
-                    player.maxRunSpeed *= 4f;
-                    player.runAcceleration *= 2f;
-                    player.runSlowdown *= 2f;
-                    if (player.mount._type == mod.MountType("FierySoles"))
+                    Player.maxRunSpeed *= 4f;
+                    Player.runAcceleration *= 2f;
+                    Player.runSlowdown *= 2f;
+                    if (Player.mount._type == Mod.Find<ModMount>("FierySoles").Type)
                     {
                         runAccelerationMult *= 2f;
                         accRunSpeedMult *= 2.5f;
                     }
-                    Dust.NewDustDirect(new Vector2(player.position.X, num2 * 16 - 10 * player.gravDir), player.width, 10, 6).noGravity = true;
+                    Dust.NewDustDirect(new Vector2(Player.position.X, num2 * 16 - 10 * Player.gravDir), Player.width, 10, 6).noGravity = true;
                 }
-                player.rangedCrit += (int)Math.Round(Math.Abs(player.velocity.X / 2));
-                if (fireArmorIsActive && player.velocity.Y == 0 && Math.Abs(player.velocity.X) > 5)
+                Player.GetCritChance(DamageClass.Ranged) += (int)Math.Round(Math.Abs(Player.velocity.X / 2));
+                if (fireArmorIsActive && Player.velocity.Y == 0 && Math.Abs(Player.velocity.X) > 5)
                 {
-                    for (int i = 0; i <= Math.Round(Math.Abs(player.velocity.X) / 16f); i++)
+                    for (int i = 0; i <= Math.Round(Math.Abs(Player.velocity.X) / 16f); i++)
                     {
-                        Projectile.NewProjectile((num + i * player.direction) * 16, num2 * 16, 0, 0, mod.ProjectileType("Flame2"), (int)(25 * (player.allDamage + player.rangedDamage - 1) * player.rangedDamageMult * player.allDamageMult), 0, player.whoAmI);
+                        Projectile.NewProjectile((num + i * Player.direction) * 16, num2 * 16, 0, 0, Mod.Find<ModProjectile>("Flame2").Type, (int)(25 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1) * Player.GetDamage(DamageClass.Ranged) * Player.GetDamage(DamageClass.Generic)), 0, Player.whoAmI);
                     }
                 }
             }
             if (airArmorIsActive)
             {
-                player.maxRunSpeed *= 1.5f;
-                if (player.mount._type != mod.MountType("FierySoles"))
+                Player.maxRunSpeed *= 1.5f;
+                if (Player.mount._type != Mod.Find<ModMount>("FierySoles").Type)
                     accRunSpeedMult *= 1.5f;
-                player.runAcceleration *= 2f;
-                player.runSlowdown *= 3f;
-                player.jumpSpeedBoost += 5f;
-                player.noFallDmg = true;
-                Dust.NewDust(player.position, player.width, player.height, 31, -4 * player.direction, 0f, 0, Color.White, 1f);
+                Player.runAcceleration *= 2f;
+                Player.runSlowdown *= 3f;
+                Player.jumpSpeedBoost += 5f;
+                Player.noFallDmg = true;
+                Dust.NewDust(Player.position, Player.width, Player.height, 31, -4 * Player.direction, 0f, 0, Color.White, 1f);
             }
             if (airArmorDodgeTimer > 0)
             {
@@ -2094,32 +2539,276 @@ namespace JoostMod
                 if (airArmorDodgeTimer == 0)
                 {
                     airArmorDodgeTimer--;
-                    Main.PlaySound(2, player.Center, 7);
+                    SoundEngine.PlaySound(SoundID.Item7, Player.Center);
                 }
                 if (Main.rand.NextBool(2))
-                    Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + (player.height / 2 * player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
+                    Dust.NewDustPerfect(new Vector2(Player.Center.X, Player.Center.Y + (Player.height / 2 * Player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
             }
             if (emptyHeart)
             {
-                player.allDamage += 0.2f;
-                if (player.statLife > 1)
+                Player.GetDamage(DamageClass.Generic) += 0.2f;
+                if (Player.statLife > 1)
                 {
-                    player.statLife = 1;
+                    Player.statLife = 1;
                 }
-                player.statLifeMax2 = 1;
+                Player.statLifeMax2 = 1;
+            }
+        }
+        public override void UpdateVanityAccessories()
+        {
+            if (!glowContacts)
+            {
+                for (int e = 3; e < 8 + Player.extraAccessorySlots; e++)
+                {
+                    if (Player.armor[e].type == ModContent.ItemType<GlowingContacts>())
+                    {
+                        glowContacts = true;
+                        switch (e)
+                        {
+                            case 4:
+                                glowEyeType = 1;
+                                break;
+                            case 5:
+                                glowEyeType = 2;
+                                break;
+                            case 6:
+                                glowEyeType = 3;
+                                break;
+                            case 7:
+                                glowEyeType = 4;
+                                break;
+                            case 8:
+                                glowEyeType = 5;
+                                break;
+                            default:
+                                glowEyeType = 0;
+                                break;
+                        }
+                        break;
+                    }
+                }
+                for (int v = 13; v < 18 + Player.extraAccessorySlots; v++)
+                {
+                    if (Player.armor[v].type == ModContent.ItemType<GlowingContacts>())
+                    {
+                        glowContacts = true;
+                        switch (v)
+                        {
+                            case 14:
+                                glowEyeType = 1;
+                                break;
+                            case 15:
+                                glowEyeType = 2;
+                                break;
+                            case 16:
+                                glowEyeType = 3;
+                                break;
+                            case 17:
+                                glowEyeType = 4;
+                                break;
+                            case 18:
+                                glowEyeType = 5;
+                                break;
+                            default:
+                                glowEyeType = 0;
+                                break;
+                        }
+                        if (Player.hideVisibleAccessory[v - 10])
+                        {
+                            glowEyeNoGlow = true;
+                        }
+                        break;
+                    }
+                }
             }
         }
         public override void PostUpdateRunSpeeds()
         {
-            player.runAcceleration *= runAccelerationMult;
-            player.accRunSpeed *= accRunSpeedMult;
+            Player.runAcceleration *= runAccelerationMult;
+            Player.accRunSpeed *= accRunSpeedMult;
+            if (hovering)
+            {
+                Player.onWrongGround = false;
+            }
+            if (hoverBoots)
+            {
+                if (hoverCanJump && hoverDoJump)
+                    Player.controlJump = true;
+
+                if (Player.jump > 0 && !Player.controlJump)
+                {
+                    hoverCanJump = false;
+                }
+            }
+            if (slimeArmor && !Player.mount.Active && noHooks && slimedNPC == -1)
+            {
+                slimeClimbWall = false;
+                slimeClimbCeiling = false;
+                Player.sliding = false;
+                Player.spikedBoots = 0;
+
+                float speed = 2f;
+
+                bool ceiling = false;
+                bool wall = false;
+                float posX = Player.position.X;
+                float ceilXL = Player.position.X - 2;
+                float ceilXC = Player.Center.X;
+                float ceilXR = Player.position.X + Player.width + 2;
+                if (Player.slideDir == 1)
+                {
+                    posX += (float)Player.width;
+                }
+                posX += (float)Player.slideDir;
+                float posY = Player.position.Y;
+                float ceilY = Player.position.Y - 1f;
+                if (Player.gravDir < 0f)
+                {
+                    posY = Player.position.Y + Player.height;
+                    ceilY = Player.position.Y + (float)Player.height + 1f;
+                }
+                posX /= 16f;
+                posY /= 16f;
+                ceilY /= 16f;
+                ceilXL /= 16f;
+                ceilXC /= 16f;
+                ceilXR /= 16f;
+                if (WorldGen.SolidOrSlopedTile((int)posX, (int)posY) || WorldGen.SolidOrSlopedTile((int)posX, (int)posY + 1) || WorldGen.SolidOrSlopedTile((int)posX, (int)posY + 2))
+                {
+                    wall = true;
+                }
+                if (WorldGen.SolidOrSlopedTile((int)ceilXC, (int)ceilY) || (WorldGen.SolidOrSlopedTile((int)ceilXL, (int)ceilY) && !WorldGen.SolidOrSlopedTile((int)ceilXL, (int)(ceilY+Player.gravDir))) || (WorldGen.SolidOrSlopedTile((int)ceilXR, (int)ceilY) && !WorldGen.SolidTile((int)ceilXR, (int)(ceilY+Player.gravDir))))
+                {
+                    ceiling = true;
+                }
+                if (wall)
+                {
+                    float grav = Player.gravity;
+                    if (Player.slowFall)
+                    {
+                        if (Player.controlUp)
+                        {
+                            grav = Player.gravity / 10f * Player.gravDir;
+                        }
+                        else
+                        {
+                            grav = Player.gravity / 3f * Player.gravDir;
+                        }
+                    }
+                    Player.fallStart = (int)(Player.position.Y / 16f);
+                    if (Player.controlDown)
+                    {
+                        Player.velocity.Y = speed * Player.gravDir;
+                        if (!WorldGen.SolidTile((int)posX, (int)(posY + (Player.velocity.Y / 16f))) && !Collision.SolidCollision(new Vector2(Player.position.X, (int)(posY * 16) + Player.gravDir), Player.width, Player.height))
+                        {
+                            Player.velocity.Y = Player.velocity.Y = (-grav + 1E-05f) * Player.gravDir;
+                            Player.position.Y = (int)(posY * 16f) + Player.gravDir;
+                        }
+                        /*
+                        int d = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)((player.width / 2 - 4) * player.slideDir), player.position.Y + (float)(player.height / 2) + (float)(player.height / 2 - 4) * player.gravDir), 8, 8, 4, 0f, 0f, 100, Color.Blue, 1f);
+                        if (player.slideDir < 0)
+                        {
+                            Dust d2 = Main.dust[d];
+                            d2.position.X = d2.position.X - 10f;
+                        }
+                        if (player.gravDir < 0f)
+                        {
+                            Dust d2 = Main.dust[d];
+                            d2.position.Y = d2.position.Y - 12f;
+                        }
+                        Main.dust[d].velocity *= 0.1f;
+                        Main.dust[d].scale *= 1.2f;
+                        Main.dust[d].noGravity = true;
+                        Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(player.cBody, player);
+                        */
+                    }
+                    else if (Player.controlUp)
+                    {
+                        Player.velocity.Y = -speed * Player.gravDir;
+                    }
+                    else
+                    {
+                        Player.velocity.Y = (-grav + 1E-05f) * Player.gravDir;
+                    }
+                    slimeClimbWall = true;
+                    Player.sliding = true;
+                }
+                else if (ceiling && !(Player.controlDown && !Player.controlLeft && !Player.controlRight) && !Player.justJumped)
+                {
+                    float grav = Player.gravity;
+                    if (Player.slowFall)
+                    {
+                        if (Player.controlUp)
+                        {
+                            grav = Player.gravity / 10f * Player.gravDir;
+                        }
+                        else
+                        {
+                            grav = Player.gravity / 3f * Player.gravDir;
+                        }
+                    }
+                    if (Player.velocity.Y >= 0)
+                    {
+                        if (Player.controlLeft)
+                        {
+                            if (Player.velocity.X > -speed)
+                            {
+                                Player.velocity.X -= Player.runAcceleration;
+                            }
+                            else
+                            {
+                                Player.velocity.X = -speed;
+                            }
+                        }
+                        else if (Player.controlRight)
+                        {
+                            if (Player.velocity.X < speed)
+                            {
+                                Player.velocity.X += Player.runAcceleration;
+                            }
+                            else
+                            {
+                                Player.velocity.X = speed;
+                            }
+                        }
+                        else
+                        {
+                            Player.velocity.X = 0;
+                        }
+                    }
+                    else
+                    {
+                        Player.velocity.X = 0;
+                    }
+
+                    Player.velocity.Y = (-grav + 1E-05f) * Player.gravDir;
+                    if (Player.controlUp)
+                    {
+                        Player.velocity.Y = -speed * 2 * Player.gravDir;
+                    }
+                    if (Player.controlJump && Player.releaseJump)
+                    {
+                        Player.velocity.Y = speed * Player.gravDir;
+                        Player.jump = 0;
+                        Player.controlJump = false;
+                    }
+                    Player.fallStart = (int)(Player.position.Y / 16f);
+                    slimeClimbCeiling = true;
+                    Player.sliding = true;
+                }
+            }
+            else
+            {
+                slimeClimbCeiling = false;
+                slimeClimbWall = false;
+            }
         }
         public override void PreUpdateMovement()
         {
             if (waterBubble)
             {
-                player.wet = true;
-                player.wetCount = 10;
+                Player.wet = true;
+                Player.wetCount = 10;
             }
         }
         public override void PostUpdate()
@@ -2128,40 +2817,91 @@ namespace JoostMod
             {
                 if (hovering)
                 {
-                    player.wingTime = hoverWing;
-                    player.rocketTime = hoverRocket;
+                    Player.wingTime = hoverWing;
+                    Player.rocketTime = hoverRocket;
+                    Player.mount._flyTime = hoverMount;
+                }
+                if (Player.jump <= 0 && Player.controlJump)
+                {
+                    hoverCanJump = false;
                 }
             }
             if (airArmorIsActive)
             {
-                if (player.controlRight && player.velocity.X < player.maxRunSpeed)
+                if (Player.controlRight && Player.velocity.X < Player.maxRunSpeed)
                 {
-                    player.velocity.X += 0.3f;
+                    Player.velocity.X += 0.3f;
                 }
-                if (player.controlLeft && player.velocity.X > -player.maxRunSpeed)
+                if (Player.controlLeft && Player.velocity.X > -Player.maxRunSpeed)
                 {
-                    player.velocity.X -= 0.3f;
+                    Player.velocity.X -= 0.3f;
                 }
-                if (player.gravDir > 0)
+                if (Player.gravDir > 0)
                 {
-                    if (player.controlJump && player.velocity.Y > -player.maxRunSpeed)
+                    if (Player.controlJump && Player.velocity.Y > -Player.maxRunSpeed)
                     {
-                        player.velocity.Y -= 0.25f;
+                        Player.velocity.Y -= 0.25f;
                     }
-                    if (player.controlDown && player.velocity.Y < player.maxRunSpeed)
+                    if (Player.controlDown && Player.velocity.Y < Player.maxRunSpeed)
                     {
-                        player.velocity.Y += 0.25f;
+                        Player.velocity.Y += 0.25f;
                     }
                 }
                 else
                 {
-                    if (player.controlJump && player.velocity.Y < player.maxRunSpeed)
+                    if (Player.controlJump && Player.velocity.Y < Player.maxRunSpeed)
                     {
-                        player.velocity.Y += 0.25f;
+                        Player.velocity.Y += 0.25f;
                     }
-                    if (player.controlDown && player.velocity.Y > -player.maxRunSpeed)
+                    if (Player.controlDown && Player.velocity.Y > -Player.maxRunSpeed)
                     {
-                        player.velocity.Y -= 0.25f;
+                        Player.velocity.Y -= 0.25f;
+                    }
+                }
+            }
+            if (pinkSlimeActive)
+            {
+                if (Player.velocity.Y != 0)
+                {
+                    Player.fullRotation = Utils.AngleLerp((float)(Math.Atan2(oldVelocity.Y, oldVelocity.X) + Math.PI / 2 * (oldVelocity.X == 0 ? Player.direction : Math.Sign(oldVelocity.X))) + (oldVelocity.X > 0 || (oldVelocity.X == 0 && Player.direction == 1) ? 0 : (float)Math.PI), (float)(Math.Atan2(Player.velocity.Y, Player.velocity.X) + Math.PI / 2 * (Player.velocity.X == 0 ? Player.direction : Math.Sign(Player.velocity.X))) + (Player.velocity.X > 0 || (Player.velocity.X == 0 && Player.direction == 1) ? 0 : (float)Math.PI), 0.5f);
+                    Player.fullRotationOrigin = Player.Center - Player.position;
+                }
+                else
+                {
+                    Player.fullRotation = 0;
+                }
+                if (oldVelocity.Length() > 1)
+                {
+                    Vector2 cVel = Collision.TileCollision(Player.position, Player.velocity, Player.width, Player.height, Player.controlDown, false, (int)Player.gravDir);
+
+
+                    if (Math.Abs(cVel.X) < 0.1f && Math.Abs(oldVelocity.X) > 1)
+                    {
+                        Player.velocity.X = -oldVelocity.X;
+                        if ((Player.controlLeft || Player.controlRight))
+                        {
+                            if (Math.Abs(Player.velocity.X) < Player.jumpSpeed + Player.jumpSpeedBoost)
+                                Player.velocity.X = (Player.jumpSpeed + Player.jumpSpeedBoost) * Math.Sign(Player.velocity.X);
+                            if (Math.Abs(Player.velocity.X) < 195)
+                                Player.velocity.X += (0.3f + Player.runAcceleration) * Math.Sign(Player.velocity.X); 
+                        }
+                        SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.1f).WithPitchOffset(-0.5f), Player.Center);
+                    }
+                    if (Math.Abs(cVel.Y) < 0.1f && Math.Abs(oldVelocity.Y) > 1)
+                    {
+                        Player.velocity.Y = -oldVelocity.Y;
+                        if (Player.controlJump)
+                        {
+                            if (Math.Abs(Player.velocity.Y) < Player.jumpSpeed + Player.jumpSpeedBoost)
+                                Player.velocity.Y = (Player.jumpSpeed + Player.jumpSpeedBoost) * Math.Sign(Player.velocity.Y);
+                            if (Math.Abs(Player.velocity.Y) < 195)
+                                Player.velocity.Y +=  (1 + Player.runAcceleration) * Math.Sign(Player.velocity.Y);
+                            if ((Player.controlLeft || Player.controlRight) && Math.Abs(Player.velocity.X) < 195)
+                            {
+                                Player.velocity.X += (0.3f + Player.runAcceleration) * Math.Sign(Player.velocity.X);
+                            }
+                        }
+                        SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.1f).WithPitchOffset(-0.5f), Player.Center);
                     }
                 }
             }
@@ -2192,7 +2932,7 @@ namespace JoostMod
                     {
                         return false;
                     }
-                    if (Main.tile[i, j].active() && !Main.tile[i, j].inActive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type]))
+                    if (Main.tile[i, j].HasTile && !Main.tile[i, j].IsActuated && (Main.tileSolid[(int)Main.tile[i, j].TileType] || Main.tileSolidTop[(int)Main.tile[i, j].TileType]))
                     {
                         return true;
                     }
@@ -2204,12 +2944,12 @@ namespace JoostMod
         {
             if (corruptSoul)
             {
-                float damag = player.statLifeMax2 * 0.25f;
+                float damag = Player.statLifeMax2 * 0.25f;
                 float num3 = 0f;
-                int ploya = player.whoAmI;
+                int ploya = Player.whoAmI;
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].active && !Main.player[i].dead && ((!Main.player[player.whoAmI].hostile && !Main.player[i].hostile) && Main.player[player.whoAmI].team != Main.player[i].team) && Math.Abs(Main.player[i].Center.X - player.Center.X + Math.Abs(Main.player[i].Center.Y - player.Center.Y)) < 1200f && (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife) > num3)
+                    if (Main.player[i].active && !Main.player[i].dead && ((!Main.player[Player.whoAmI].hostile && !Main.player[i].hostile) && Main.player[Player.whoAmI].team != Main.player[i].team) && Math.Abs(Main.player[i].Center.X - Player.Center.X + Math.Abs(Main.player[i].Center.Y - Player.Center.Y)) < 1200f && (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife) > num3)
                     {
                         num3 = (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife);
                         ploya = i;
@@ -2217,53 +2957,61 @@ namespace JoostMod
                 }
                 if ((int)damag > 0)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, ploya);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, ploya);
                 }
                 corruptSoul = false;
             }
             if (lifeRend)
             {
-                float lifeStoled = player.statLifeMax2 * 0.05f;
+                float lifeStoled = Player.statLifeMax2 * 0.05f;
                 float num3 = 0f;
-                int ploya = player.whoAmI;
+                int ploya = Player.whoAmI;
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].active && !Main.player[i].dead && ((!Main.player[player.whoAmI].hostile && !Main.player[i].hostile) && Main.player[player.whoAmI].team != Main.player[i].team) && Math.Abs(Main.player[i].Center.X - player.Center.X + Math.Abs(Main.player[i].Center.Y - player.Center.Y)) < 1200f && (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife) > num3)
+                    if (Main.player[i].active && !Main.player[i].dead && ((!Main.player[Player.whoAmI].hostile && !Main.player[i].hostile) && Main.player[Player.whoAmI].team != Main.player[i].team) && Math.Abs(Main.player[i].Center.X - Player.Center.X + Math.Abs(Main.player[i].Center.Y - Player.Center.Y)) < 1200f && (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife) > num3)
                     {
                         num3 = (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife);
                         ploya = i;
                     }
                 }
-                if ((int)lifeStoled > 0 && !player.moonLeech)
+                if ((int)lifeStoled > 0 && !Player.moonLeech)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, (float)ploya, lifeStoled);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, 305, 0, 0f, Player.whoAmI, (float)ploya, lifeStoled);
                 }
                 lifeRend = false;
             }
             if (infectedBlue)
             {
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("IceXParasite"));
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("IceXParasite"));
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
                 infectedBlue = false;
             }
             if (infectedGreen)
             {
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("GreenXParasite"));
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("GreenXParasite"));
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
                 infectedGreen = false;
             }
             if (infectedRed)
             {
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("RedXParasite"));
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("RedXParasite"));
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
                 infectedRed = false;
             }
             if (infectedYellow)
             {
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("XParasite"));
-                NPC.NewNPC((int)player.MountedCenter.X, (int)player.MountedCenter.Y, mod.NPCType("XParasite"));
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
+                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
                 infectedYellow = false;
             }
+        }
+        public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
+        {
+            if (npc.whoAmI == slimedNPC)
+            {
+                return false;
+            }
+            return base.CanBeHitByNPC(npc, ref cooldownSlot);
         }
         public override bool CanBeHitByProjectile(Projectile proj)
         {
@@ -2272,19 +3020,18 @@ namespace JoostMod
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile projectile = Main.projectile[i];
-                    if (projectile.type == mod.ProjectileType("ShieldSapling") && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
+                    if (projectile.type == Mod.Find<ModProjectile>("ShieldSapling").Type && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
                     {
                         //Main.NewText(proj.damage, Color.DarkGreen);
                         proj.Kill();
-                        Main.PlaySound(3, projectile.Center, 4);
+                        SoundEngine.PlaySound(SoundID.NPCHit4, projectile.Center);
                         return false;
                     }
                 }
             }
             return base.CanBeHitByProjectile(proj);
         }
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit,
-                    ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
         {
             if (enemyIgnoreDefenseDamage > 0)
             {
@@ -2294,24 +3041,24 @@ namespace JoostMod
             enemyIgnoreDefenseDamage = 0;
             if (sporgan)
             {
-                int sdamage = (int)(12 * (player.allDamage + player.minionDamage - 1) * player.minionDamageMult * player.allDamageMult);
-                float knockback = 0.1f + player.minionKB;
+                int sdamage = (int)(12 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1) * Player.GetDamage(DamageClass.Summon) * Player.GetDamage(DamageClass.Generic));
+                float knockback = 0.1f + Player.Getknockback(DamageClass.Summon).Base;
                 int num = 10;
                 double deltaAngle = (float)(Math.PI * 2) / num;
                 for (int i = 0; i < num; i++)
                 {
                     double offsetAngle = (float)(Math.PI / 2) + deltaAngle * i;
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), 228, sdamage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), 228, sdamage, knockback, Player.whoAmI);
                 }
             }
-            if (player.HasBuff(mod.BuffType("gThrownDodge")))
+            if (Player.HasBuff(Mod.Find<ModBuff>("gThrownDodge").Type))
             {
-                player.AddBuff(mod.BuffType("gThrownBuff"), 200);
-                player.longInvince = true;
-                player.ShadowDodge();
+                Player.AddBuff(Mod.Find<ModBuff>("gThrownBuff").Type, 200);
+                Player.longInvince = true;
+                Player.ShadowDodge();
                 for (int j = 0; j < 80; j++)
                 {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 31, 0f, 0f, 0, Color.Black, 1f);
+                    int num = Dust.NewDust(Player.position, Player.width, Player.height, 31, 0f, 0f, 0, Color.Black, 1f);
                     Dust dust = Main.dust[num];
                     dust.position.X = dust.position.X + (float)Main.rand.Next(-20, 21);
                     dust.position.Y = dust.position.Y + (float)Main.rand.Next(-20, 21);
@@ -2323,13 +3070,13 @@ namespace JoostMod
                         dust.noGravity = true;
                     }
                 }
-                if (player.whoAmI == Main.myPlayer)
+                if (Player.whoAmI == Main.myPlayer)
                 {
                     for (int j = 0; j < 22; j++)
                     {
-                        if (player.buffTime[j] > 0 && player.buffType[j] == mod.BuffType("gThrownDodge"))
+                        if (Player.buffTime[j] > 0 && Player.buffType[j] == Mod.Find<ModBuff>("gThrownDodge").Type)
                         {
-                            player.DelBuff(j);
+                            Player.DelBuff(j);
                         }
                     }
                 }
@@ -2344,29 +3091,29 @@ namespace JoostMod
                 int dirt = 0;
                 for (int i = 0; i < 58; i++)
                 {
-                    if (player.inventory[i].type == ItemID.DirtBlock && player.inventory[i].stack > 0)
+                    if (Player.inventory[i].type == ItemID.DirtBlock && Player.inventory[i].stack > 0)
                     {
-                        dirt += player.inventory[i].stack;
+                        dirt += Player.inventory[i].stack;
                     }
                 }
                 int amount = Math.Min(((dirt / 666) / 2), damage);
                 for (int i = 0; i < 58 && amount > 0; i++)
                 {
-                    if (player.inventory[i].stack > 0 && player.inventory[i].type == ItemID.DirtBlock)
+                    if (Player.inventory[i].stack > 0 && Player.inventory[i].type == ItemID.DirtBlock)
                     {
-                        if (player.inventory[i].stack >= amount)
+                        if (Player.inventory[i].stack >= amount)
                         {
-                            player.inventory[i].stack -= amount;
+                            Player.inventory[i].stack -= amount;
                             amount = 0;
                         }
                         else
                         {
-                            amount -= player.inventory[i].stack;
-                            player.inventory[i].stack = 0;
+                            amount -= Player.inventory[i].stack;
+                            Player.inventory[i].stack = 0;
                         }
-                        if (player.inventory[i].stack <= 0)
+                        if (Player.inventory[i].stack <= 0)
                         {
-                            player.inventory[i].SetDefaults(0, false);
+                            Player.inventory[i].SetDefaults(0, false);
                         }
                         if (amount <= 0)
                         {
@@ -2380,10 +3127,40 @@ namespace JoostMod
                 damage = (int)(damage * 0.6f);
                 playSound = false;
                 genGore = false;
-                Main.PlaySound(21, (int)player.Center.X, (int)player.Center.Y, 1, 1, -0.5f);
+                SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.5f), Player.Center);
                 for (int d = 0; d < 10; d++)
                 {
-                    Dust.NewDust(player.position, player.width, player.height, 1);
+                    Dust.NewDust(Player.position, Player.width, Player.height, 1);
+                }
+            }
+            if (pinkSlimeActive)
+            {
+                Player.velocity.X = Math.Max(Math.Abs(Player.velocity.X), 5f) * hitDirection;
+                if ((Player.controlLeft || Player.controlRight))
+                {
+                    if (Math.Abs(Player.velocity.X) < Player.jumpSpeed + Player.jumpSpeedBoost)
+                        Player.velocity.X = (Player.jumpSpeed + Player.jumpSpeedBoost) * Math.Sign(Player.velocity.X);
+                    if (Math.Abs(Player.velocity.X) < 196)
+                        Player.velocity.X += Player.runAcceleration + Math.Sign(Player.velocity.X);
+                }
+                damage = (int)(damage * 0.5f);
+                playSound = false;
+                genGore = false;
+                SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.7f).WithPitchOffset(-0.4f), Player.Center);
+                for (int d = 0; d < 10; d++)
+                {
+                    Dust.NewDust(Player.position, Player.width, Player.height, 243);
+                }
+            }
+            if (slimeActive)
+            {
+                damage = (int)(damage * 0.8f);
+                playSound = false;
+                genGore = false;
+                SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.7f).WithPitchOffset(-0.4f), Player.Center);
+                for (int d = 0; d < 10; d++)
+                {
+                    Dust.NewDust(Player.position, Player.width, Player.height, 4, 0, 0, 100, Color.Blue);
                 }
             }
             return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
@@ -2394,15 +3171,15 @@ namespace JoostMod
             {
                 if (bonesHurt)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " had their bones dissolved");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " had their bones dissolved");
                 }
                 if (corruptSoul)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " had their soul corrupted");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " had their soul corrupted");
                 }
                 if (infectedBlue || infectedGreen || infectedRed || infectedYellow)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was infected by X");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was infected by X");
                 }
             }
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
@@ -2412,8 +3189,8 @@ namespace JoostMod
             if (havelArmorActive && npc.knockBackResist > 0)
             {
                 float KB = 3;
-                int dir = player.direction;
-                if (npc.Center.X > player.Center.X)
+                int dir = Player.direction;
+                if (npc.Center.X > Player.Center.X)
                 {
                     dir = 1;
                 }
@@ -2421,15 +3198,15 @@ namespace JoostMod
                 {
                     dir = -1;
                 }
-                if (player.velocity.X * dir > 0)
+                if (Player.velocity.X * dir > 0)
                 {
-                    KB += Math.Abs(player.velocity.X);
+                    KB += Math.Abs(Player.velocity.X);
                 }
                 npc.velocity.X = dir * KB;
                 npc.velocity.Y--;
                 if (Main.netMode != 0)
                 {
-                    ModPacket packet = mod.GetPacket();
+                    ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)JoostModMessageType.NPCpos);
                     packet.Write(npc.whoAmI);
                     packet.WriteVector2(npc.position);
@@ -2442,93 +3219,98 @@ namespace JoostMod
             {
                 npc.AddBuff(BuffID.OnFire, 600);
             }
+            if (slimeActive)
+            {
+                slimedNPC = npc.whoAmI;
+                slimedNPCOffset = Player.Center - npc.Center;
+            }
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            if (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0)
+            if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0)
             {
-                float x = player.MountedCenter.X - 9 + (player.direction * 11);
-                float y = player.position.Y + (player.height / 2) - 23;
+                float x = Player.MountedCenter.X - 9 + (Player.direction * 11);
+                float y = Player.position.Y + (Player.height / 2) - 23;
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (rect.Intersects(npc.getRect()))
                 {
-                    damage -= (int)(50 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult);
-                    Main.PlaySound(21, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, -0.4f);
+                    damage -= (int)(50 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee));
+                    SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.4f), npc.Center);
                 }
             }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            if (player.ownedProjectileCounts[mod.ProjectileType("HavelShield")] > 0)
+            if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0)
             {
-                float x = player.MountedCenter.X - 9 + (player.direction * 11);
-                float y = player.position.Y + (player.height / 2) - 23;
+                float x = Player.MountedCenter.X - 9 + (Player.direction * 11);
+                float y = Player.position.Y + (Player.height / 2) - 23;
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (proj.Colliding(proj.getRect(), rect))
                 {
-                    damage -= (int)(50 * player.allDamageMult * (player.allDamage + player.meleeDamage - 1f) * player.meleeDamageMult);
+                    damage -= (int)(50 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee));
                     proj.penetrate--;
-                    Main.PlaySound(21, (int)proj.Center.X, (int)proj.Center.Y, 1, 1, -0.4f);
+                    SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.4f), proj.Center);
                 }
             }
         }
         public void Dash()
         {
-            if (dashType == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Shield of Flesh
+            if (dashType == 1 && Player.dashDelay < 0 && Player.whoAmI == Main.myPlayer) //Shield of Flesh
             {
-                Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+                Rectangle rectangle = new Rectangle((int)((double)Player.position.X + (double)Player.velocity.X * 0.5 - 4.0), (int)((double)Player.position.Y + (double)Player.velocity.Y * 0.5 - 4.0), Player.width + 8, Player.height + 8);
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly)
                     {
                         NPC npc = Main.npc[i];
                         Rectangle rect = npc.getRect();
-                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+                        if (rectangle.Intersects(rect) && (npc.noTileCollide || Player.CanHit(npc)))
                         {
                             bool crit = false;
-                            if (Main.rand.Next(100) < player.meleeCrit)
+                            if (Main.rand.Next(100) < Player.GetCritChance(DamageClass.Generic))
                             {
                                 crit = true;
                             }
-                            int dir = player.direction;
-                            if (player.velocity.X < 0f)
+                            int dir = Player.direction;
+                            if (Player.velocity.X < 0f)
                             {
                                 dir = -1;
                             }
-                            if (player.velocity.X > 0f)
+                            if (Player.velocity.X > 0f)
                             {
                                 dir = 1;
                             }
                             if (!dashHit[i])
                             {
-                                player.ApplyDamageToNPC(npc, dashDamage, 0, dir, crit);
+                                Player.ApplyDamageToNPC(npc, dashDamage, 0, dir, crit);
                                 dashHit[i] = true;
                             }
-                            if (npc.knockBackResist > 0 && (player.velocity.X >= 12 || player.velocity.X <= -12 || player.velocity.X <= -Math.Max(player.accRunSpeed, player.maxRunSpeed) || player.velocity.X >= Math.Max(player.accRunSpeed, player.maxRunSpeed)))
+                            if (npc.knockBackResist > 0 && (Player.velocity.X >= 12 || Player.velocity.X <= -12 || Player.velocity.X <= -Math.Max(Player.accRunSpeed, Player.maxRunSpeed) || Player.velocity.X >= Math.Max(Player.accRunSpeed, Player.maxRunSpeed)))
                             {
-                                float push = player.Center.X + 12;
+                                float push = Player.Center.X + 12;
                                 if (dir < 0)
                                 {
-                                    push = (player.Center.X - 12) - npc.width;
+                                    push = (Player.Center.X - 12) - npc.width;
                                 }
                                 Vector2 pos = npc.position;
-                                pos.X = push + player.velocity.X;
+                                pos.X = push + Player.velocity.X;
                                 if (!dashBounce)
                                 {
                                     if (Collision.SolidCollision(pos, npc.width, npc.height))
                                     {
-                                        player.velocity.X = -dir * 9;
-                                        player.velocity.Y = -4f;
-                                        player.ApplyDamageToNPC(npc, dashDamage, 0, dir, crit);
+                                        Player.velocity.X = -dir * 9;
+                                        Player.velocity.Y = -4f;
+                                        Player.ApplyDamageToNPC(npc, dashDamage, 0, dir, crit);
                                         dashBounce = true; 
                                     }
                                     else
                                     {
                                         npc.position.X = push;
-                                        npc.velocity.X = player.velocity.X;
+                                        npc.velocity.X = Player.velocity.X;
                                         if (Main.netMode != 0)
                                         {
-                                            ModPacket packet = mod.GetPacket();
+                                            ModPacket packet = Mod.GetPacket();
                                             packet.Write((byte)JoostModMessageType.NPCpos);
                                             packet.Write(npc.whoAmI);
                                             packet.WriteVector2(npc.position);
@@ -2541,25 +3323,25 @@ namespace JoostMod
                             }
                             else if (!dashBounce)
                             {
-                                player.velocity.X = -dir * 9;
-                                player.velocity.Y = -4f;
+                                Player.velocity.X = -dir * 9;
+                                Player.velocity.Y = -4f;
                                 dashBounce = true;
                             }
-                            if (player.immuneTime < 4)
+                            if (Player.immuneTime < 4)
                             {
-                                player.immune = true;
-                                player.immuneNoBlink = true;
-                                player.immuneTime = 4;
+                                Player.immune = true;
+                                Player.immuneNoBlink = true;
+                                Player.immuneTime = 4;
                             }
                         }
                     }
                 }
             }
-            if (player.dashDelay < 0)
+            if (Player.dashDelay < 0)
             {
                 float num7 = 12f;
                 float num8 = 0.992f;
-                float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
+                float num9 = Math.Max(Player.accRunSpeed, Player.maxRunSpeed);
                 float num10 = 0.96f;
                 int delay = 20;
                 if (dashType == 1) //Shield of Flesh
@@ -2567,63 +3349,63 @@ namespace JoostMod
                     for (int l = 0; l < 0; l++)
                     {
                         int num13;
-                        if (player.velocity.Y == 0f)
+                        if (Player.velocity.Y == 0f)
                         {
-                            num13 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f);
+                            num13 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + (float)Player.height - 4f), Player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f);
                         }
                         else
                         {
-                            num13 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, 0f, 0f, 100, default(Color), 1.4f);
+                            num13 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + (float)(Player.height / 2) - 8f), Player.width, 16, 31, 0f, 0f, 100, default(Color), 1.4f);
                         }
                         Main.dust[num13].velocity *= 0.1f;
                         Main.dust[num13].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                        Main.dust[num13].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                        Main.dust[num13].shader = GameShaders.Armor.GetSecondaryShader(Player.cShoe, Player);
                     }
                     delay = 25;
                 }
                 if (dashType > 0)
                 {
-                    player.vortexStealthActive = false;
+                    Player.vortexStealthActive = false;
                     if (dashType == 1) //Dash Held Extension
                     {
-                        if (player.velocity.Y == 0 && ((player.velocity.X > 0 && player.controlRight) || (player.velocity.X < 0 && player.controlLeft)))
+                        if (Player.velocity.Y == 0 && ((Player.velocity.X > 0 && Player.controlRight) || (Player.velocity.X < 0 && Player.controlLeft)))
                         {
                             float eSpeed = Math.Max(num9, 6) + 0.5f;
-                            if (player.velocity.X < 0f && player.velocity.X > -eSpeed)
+                            if (Player.velocity.X < 0f && Player.velocity.X > -eSpeed)
                             {
-                                player.velocity.X = -eSpeed;
+                                Player.velocity.X = -eSpeed;
                             }
-                            if (player.velocity.X > 0f && player.velocity.X < eSpeed)
+                            if (Player.velocity.X > 0f && Player.velocity.X < eSpeed)
                             {
-                                player.velocity.X = eSpeed;
+                                Player.velocity.X = eSpeed;
                             }
                             return;
                         }
                     }
-                    if (player.velocity.X > num7 || player.velocity.X < -num7)
+                    if (Player.velocity.X > num7 || Player.velocity.X < -num7)
                     {
-                        player.velocity.X = player.velocity.X * num8;
+                        Player.velocity.X = Player.velocity.X * num8;
                         return;
                     }
-                    if (player.velocity.X > num9 || player.velocity.X < -num9)
+                    if (Player.velocity.X > num9 || Player.velocity.X < -num9)
                     {
-                        player.velocity.X = player.velocity.X * num10;
+                        Player.velocity.X = Player.velocity.X * num10;
                         return;
                     }
-                    player.dashDelay = delay;
-                    if (player.velocity.X < 0f)
+                    Player.dashDelay = delay;
+                    if (Player.velocity.X < 0f)
                     {
-                        player.velocity.X = -num9;
+                        Player.velocity.X = -num9;
                         return;
                     }
-                    if (player.velocity.X > 0f)
+                    if (Player.velocity.X > 0f)
                     {
-                        player.velocity.X = num9;
+                        Player.velocity.X = num9;
                         return;
                     }
                 }
             }
-            else if (dashType > 0 && !player.mount.Active && player.dashDelay == 0)
+            else if (dashType > 0 && !Player.mount.Active && Player.dashDelay == 0)
             {
                 if (dashType == 1) //Shield of Flesh
                 {
@@ -2635,60 +3417,60 @@ namespace JoostMod
                     float speed = 15.5f;
                     int dir = 0;
                     bool dashing = false;
-                    if (player.dashTime > 0)
+                    if (Player.dashTime > 0)
                     {
-                        player.dashTime--;
+                        Player.dashTime--;
                     }
-                    if (player.dashTime < 0)
+                    if (Player.dashTime < 0)
                     {
-                        player.dashTime++;
+                        Player.dashTime++;
                     }
-                    if (player.controlRight && player.releaseRight)
+                    if (Player.controlRight && Player.releaseRight)
                     {
-                        if (player.dashTime > 0)
+                        if (Player.dashTime > 0)
                         {
                             dir = 1;
                             dashing = true;
-                            player.dashTime = 0;
+                            Player.dashTime = 0;
                         }
                         else
                         {
-                            player.dashTime = 15;
+                            Player.dashTime = 15;
                         }
                     }
-                    else if (player.controlLeft && player.releaseLeft)
+                    else if (Player.controlLeft && Player.releaseLeft)
                     {
-                        if (player.dashTime < 0)
+                        if (Player.dashTime < 0)
                         {
                             dir = -1;
                             dashing = true;
-                            player.dashTime = 0;
+                            Player.dashTime = 0;
                         }
                         else
                         {
-                            player.dashTime = -15;
+                            Player.dashTime = -15;
                         }
                     }
                     if (dashing)
                     {
-                        player.velocity.X = speed * dir;
-                        Point point3 = (player.Center + new Vector2((float)(dir * player.width / 2 + 2), player.gravDir * -(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point4 = (player.Center + new Vector2((float)(dir * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        Player.velocity.X = speed * dir;
+                        Point point3 = (Player.Center + new Vector2((float)(dir * Player.width / 2 + 2), Player.gravDir * -(float)Player.height / 2f + Player.gravDir * 2f)).ToTileCoordinates();
+                        Point point4 = (Player.Center + new Vector2((float)(dir * Player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point3.X, point3.Y) || WorldGen.SolidOrSlopedTile(point4.X, point4.Y))
                         {
-                            player.velocity.X = player.velocity.X / 2f;
+                            Player.velocity.X = Player.velocity.X / 2f;
                         }
-                        player.dashDelay = -1;
+                        Player.dashDelay = -1;
                         for (int num21 = 0; num21 < 0; num21++)
                         {
-                            int num22 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 31, 0f, 0f, 100, default(Color), 2f);
+                            int num22 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y), Player.width, Player.height, 31, 0f, 0f, 100, default(Color), 2f);
                             Dust dust3 = Main.dust[num22];
                             dust3.position.X = dust3.position.X + (float)Main.rand.Next(-5, 6);
                             Dust dust4 = Main.dust[num22];
                             dust4.position.Y = dust4.position.Y + (float)Main.rand.Next(-5, 6);
                             Main.dust[num22].velocity *= 0.2f;
                             Main.dust[num22].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num22].shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
+                            Main.dust[num22].shader = GameShaders.Armor.GetSecondaryShader(Player.cShield, Player);
                         }
                         return;
                     }

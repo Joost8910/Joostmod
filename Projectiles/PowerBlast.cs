@@ -11,23 +11,23 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit of Power");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 34;
-			projectile.aiStyle = 27;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 3;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.timeLeft = 25;
-			projectile.alpha = 225;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 1;
+			Projectile.width = 34;
+			Projectile.height = 34;
+			Projectile.aiStyle = 27;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 3;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 10;
+			Projectile.timeLeft = 25;
+			Projectile.alpha = 225;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 1;
 
 		}
 		

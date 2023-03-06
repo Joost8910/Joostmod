@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class Whirlwind : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Whirlwind");
 			Description.SetDefault("Defense increased by 20");

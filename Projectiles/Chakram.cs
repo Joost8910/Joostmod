@@ -12,31 +12,31 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chakram");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 50;
-			projectile.height = 50;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 1800;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
-			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 50;
+			Projectile.height = 50;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 10;
+			Projectile.timeLeft = 1800;
+			Projectile.extraUpdates = 1;
+			Projectile.tileCollide = false;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 		Vector2 origin = new Vector2(0f, 0f);
 		bool start = false;
 		public void Initialize()
 		{
-			double rot = Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
-			float x = projectile.Center.X - (int)(Math.Cos(rot) * -75);
-			float y = projectile.Center.Y - (int)(Math.Sin(rot) * -75);
+			double rot = Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
+			float x = Projectile.Center.X - (int)(Math.Cos(rot) * -75);
+			float y = Projectile.Center.Y - (int)(Math.Sin(rot) * -75);
 			origin = new Vector2(x, y);
 			start = true;	
 		}
@@ -46,16 +46,16 @@ namespace JoostMod.Projectiles
 			{
 				Initialize();
 			}
-			origin += projectile.velocity;
-			double deg = (double) projectile.ai[1]; 
-			double rad = (deg * (Math.PI / 180)) + Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+			origin += Projectile.velocity;
+			double deg = (double) Projectile.ai[1]; 
+			double rad = (deg * (Math.PI / 180)) + Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
 			double dist = 75; 
 		
-			projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
-			projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;
+			Projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - Projectile.width/2;
+			Projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - Projectile.height/2;
 		
-			projectile.ai[1] += 5f;
-			projectile.rotation = projectile.ai[1];
+			Projectile.ai[1] += 5f;
+			Projectile.rotation = Projectile.ai[1];
 		}
 	}
 }

@@ -15,29 +15,29 @@ namespace JoostMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Gilgamesh's Weapon Set");
 			Tooltip.SetDefault("'Too bad you don't have 8 arms'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 7));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 7));
 		}
         public override void SetDefaults()
         {
-            item.damage = 800;
-            item.melee = true;
-            item.thrown = true;
-            item.width = 36;
-            item.height = 60;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = 1;
-            item.noMelee = true;
-            item.knockBack = 5;
-            item.value = 50000000;
-            item.rare = -12;
-            item.scale = 1f;
-            item.expert = true;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Naginata");
-            item.shootSpeed = 8f;
+            Item.damage = 800;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.CountsAsClass(DamageClass.Throwing);
+            Item.width = 36;
+            Item.height = 60;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 5;
+            Item.value = 50000000;
+            Item.rare = ItemRarityID.Expert;
+            Item.scale = 1f;
+            Item.expert = true;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("Naginata").Type;
+            Item.shootSpeed = 8f;
 
         }
         /*
@@ -47,88 +47,90 @@ namespace JoostMod.Items.Weapons
             mult *= player.thrownDamageMult;
         }
         */
-        public override void GetWeaponCrit(Player player, ref int crit)
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += player.thrownCrit;
+            crit += player.GetCritChance(DamageClass.Throwing);
             crit /= 2;
         }
+        */
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];
             int dmg = list.FindIndex(x => x.Name == "Damage");
             list.RemoveAt(dmg);
-            list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " melee and throwing damage"));
+            list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " melee and throwing damage"));
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[mod.ProjectileType("Naginata")] > 0)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Naginata").Type] > 0)
             {
                 return false;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int Gilgwep = Main.rand.Next(7);
-            if (player.ownedProjectileCounts[mod.ProjectileType("Naginata")] > 0 && Gilgwep == 6)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Naginata").Type] > 0 && Gilgwep == 6)
             {
                 Gilgwep = Main.rand.Next(6);
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("Axe")] + player.ownedProjectileCounts[mod.ProjectileType("Axe2")] > 0 && Gilgwep == 5)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Axe").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("Axe2").Type] > 0 && Gilgwep == 5)
             {
                 Gilgwep = Main.rand.Next(5);
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("Flail")] > 0 && Gilgwep == 4)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Flail").Type] > 0 && Gilgwep == 4)
             {
                 Gilgwep = Main.rand.Next(4);
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("BusterSword")] > 0 && Gilgwep == 3)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("BusterSword").Type] > 0 && Gilgwep == 3)
             {
                 Gilgwep = Main.rand.Next(3);
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("Gunblade")] > 0 && Gilgwep == 2)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Gunblade").Type] > 0 && Gilgwep == 2)
             {
                 Gilgwep = Main.rand.Next(2);
             }
             if (Gilgwep == 6)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (damage * 3), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (damage * 3), knockback, player.whoAmI);
             }
             if (Gilgwep == 5)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 2f), (speedY * 2f), mod.ProjectileType("Axe"), (damage * 2), knockBack * 1.2f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2f), (velocity.Y * 2f), Mod.Find<ModProjectile>("Axe").Type, (damage * 2), knockback * 1.2f, player.whoAmI);
             }
             if (Gilgwep == 4)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 4), (speedY * 4), mod.ProjectileType("Flail"), (int)(damage * 2.5f), knockBack * 2, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 4), (velocity.Y * 4), Mod.Find<ModProjectile>("Flail").Type, (int)(damage * 2.5f), knockback * 2, player.whoAmI);
             }
             if (Gilgwep == 3)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BusterSword"), (int)(damage * 2.5f), knockBack * 3, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("BusterSword").Type, (int)(damage * 2.5f), knockback * 3, player.whoAmI);
             }
             if (Gilgwep == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Gunblade"), (int)(damage * player.rangedDamage * player.rangedDamageMult * 2f), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Gunblade").Type, (int)(damage * player.GetDamage(DamageClass.Ranged) * player.GetDamage(DamageClass.Ranged) * 2f), knockback, player.whoAmI);
             }
             if (Gilgwep == 1)
             {
                 float spread = 25f * 0.0174f;
-                float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
+                float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+                double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
                 double deltaAngle = spread / 2f;
                 double offsetAngle;
                 int i;
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, mod.ProjectileType("Kunai"), (int)(damage * 0.8f), knockBack / 2, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, Mod.Find<ModProjectile>("Kunai").Type, (int)(damage * 0.8f), knockback / 2, player.whoAmI);
                 }
             }
             if (Gilgwep == 0)
             {
-                float Speed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 1.5f), (speedY * 1.5f), mod.ProjectileType("Tomahawk"), damage, knockBack, player.whoAmI);
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 1.2f), (speedY * 1.2f), mod.ProjectileType("Tomahawk"), damage, knockBack, player.whoAmI, 1, Speed * 1.2f);
+                float Speed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 1.5f), (velocity.Y * 1.5f), Mod.Find<ModProjectile>("Tomahawk").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 1.2f), (velocity.Y * 1.2f), Mod.Find<ModProjectile>("Tomahawk").Type, damage, knockback, player.whoAmI, 1, Speed * 1.2f);
 
             }
             return false;

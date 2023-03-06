@@ -13,62 +13,58 @@ namespace JoostMod.Items.Placeable
 		}
         public override void SetDefaults()
         {
-            item.width = 48;    
-            item.height = 34;  
-            item.maxStack = 99; 
-            item.useTurn = true;
-            item.autoReuse = true; 
-            item.useAnimation = 15;  
-            item.useTime = 10;  
-            item.useStyle = 1;  
-            item.consumable = true;  
-            item.rare = 3; 
-            item.value = Item.buyPrice(0, 10, 0, 0);  
-            item.createTile = mod.TileType("ElementalForge");  
-            item.placeStyle = 0;
+            Item.width = 48;    
+            Item.height = 34;  
+            Item.maxStack = 99; 
+            Item.useTurn = true;
+            Item.autoReuse = true; 
+            Item.useAnimation = 15;  
+            Item.useTime = 10;  
+            Item.useStyle = ItemUseStyleID.Swing;  
+            Item.consumable = true;  
+            Item.rare = ItemRarityID.Orange; 
+            Item.value = Item.buyPrice(0, 10, 0, 0);  
+            Item.createTile = Mod.Find<ModTile>("ElementalForge").Type;  
+            Item.placeStyle = 0;
         }
         public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "WaterEssence", 25);
-			recipe.AddIngredient(null, "EarthEssence", 25);
-            recipe.AddIngredient(null, "FireEssence", 25);
-            recipe.AddIngredient(null, "TinyTwister", 25);
-            recipe.AddIngredient(ItemID.MythrilAnvil);
-            recipe.AddIngredient(ItemID.AdamantiteForge);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-				recipe.AddRecipe();
-                recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "WaterEssence", 25);
-			recipe.AddIngredient(null, "EarthEssence", 25);
-            recipe.AddIngredient(null, "FireEssence", 25);
-            recipe.AddIngredient(null, "TinyTwister", 25);
-            recipe.AddIngredient(ItemID.OrichalcumAnvil);
-            recipe.AddIngredient(ItemID.AdamantiteForge);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-				recipe.AddRecipe();
-                recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "WaterEssence", 25);
-			recipe.AddIngredient(null, "EarthEssence", 25);
-            recipe.AddIngredient(null, "FireEssence", 25);
-            recipe.AddIngredient(null, "TinyTwister", 25);
-            recipe.AddIngredient(ItemID.MythrilAnvil);
-            recipe.AddIngredient(ItemID.TitaniumForge);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-				recipe.AddRecipe();
-                recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "WaterEssence", 25);
-			recipe.AddIngredient(null, "EarthEssence", 25);
-            recipe.AddIngredient(null, "FireEssence", 25);
-            recipe.AddIngredient(null, "TinyTwister", 25);
-            recipe.AddIngredient(ItemID.OrichalcumAnvil);
-            recipe.AddIngredient(ItemID.TitaniumForge);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-				recipe.AddRecipe();
+				CreateRecipe()
+.AddIngredient<Materials.WaterEssence>(25)
+.AddIngredient<Materials.EarthEssence>(), 25)
+.AddIngredient<FireEssence", 25)
+.AddIngredient<Materials.TinyTwister>(), 25)
+.AddIngredient(ItemID.MythrilAnvil)
+.AddIngredient(ItemID.AdamantiteForge)
+.AddTile(TileID.WorkBenches)
+.Register();
+CreateRecipe()
+.AddIngredient<Materials.WaterEssence>(25)
+.AddIngredient<Materials.EarthEssence>(), 25)
+.AddIngredient<FireEssence", 25)
+.AddIngredient<Materials.TinyTwister>(), 25)
+.AddIngredient(ItemID.OrichalcumAnvil)
+.AddIngredient(ItemID.AdamantiteForge)
+.AddTile(TileID.WorkBenches)
+.Register();
+CreateRecipe()
+.AddIngredient<Materials.WaterEssence>(25)
+.AddIngredient<Materials.EarthEssence>(), 25)
+.AddIngredient<FireEssence", 25)
+.AddIngredient<Materials.TinyTwister>(), 25)
+.AddIngredient(ItemID.MythrilAnvil)
+.AddIngredient(ItemID.TitaniumForge)
+.AddTile(TileID.WorkBenches)
+.Register();
+CreateRecipe()
+.AddIngredient<Materials.WaterEssence>(25)
+.AddIngredient<Materials.EarthEssence>(), 25)
+.AddIngredient<FireEssence", 25)
+.AddIngredient<Materials.TinyTwister>(), 25)
+.AddIngredient(ItemID.OrichalcumAnvil)
+.AddIngredient(ItemID.TitaniumForge)
+.AddTile(TileID.WorkBenches)
+.Register();
 
 		}
     }

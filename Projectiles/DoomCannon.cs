@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -10,17 +12,17 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Doom Cannon");
-			Main.projFrames[projectile.type] = 12;
+			Main.projFrames[Projectile.type] = 12;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -32,30 +34,30 @@ namespace JoostMod.Projectiles
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             if (player.controlUseTile)
             {
-                projectile.ai[0] = 0;
-                projectile.netUpdate = true;
-                projectile.netUpdate2 = true;
-                projectile.Kill();
+                Projectile.ai[0] = 0;
+                Projectile.netUpdate = true;
+                Projectile.netUpdate2 = true;
+                Projectile.Kill();
             }
             bool channeling = player.channel && !player.noItems && !player.CCed;
             if (channeling)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor6 = 1f;
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
+                    if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     }
                     Vector2 dir = Main.MouseWorld - playerPos;
-                    projectile.direction = dir.X > 0 ? 1 : -1;
+                    Projectile.direction = dir.X > 0 ? 1 : -1;
                     if (Vector2.Distance(Main.MouseWorld, playerPos) > 40)
                     {
-                        dir = Main.MouseWorld - projectile.Center;
+                        dir = Main.MouseWorld - Projectile.Center;
                     }
                     dir.Normalize();
                     if (dir.HasNaNs())
@@ -63,85 +65,85 @@ namespace JoostMod.Projectiles
                         dir = Vector2.UnitX * player.direction;
                     }
                     dir *= scaleFactor6;
-                    if (dir.X != projectile.velocity.X || dir.Y != projectile.velocity.Y)
+                    if (dir.X != Projectile.velocity.X || dir.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = dir;
+                    Projectile.velocity = dir;
                 } 
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.ai[0] < 60)
+            if (Projectile.ai[0] < 60)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            else if (projectile.ai[0] < 120)
+            else if (Projectile.ai[0] < 120)
             {
-                projectile.frame = 1;
+                Projectile.frame = 1;
             }
-            else if (projectile.ai[0] < 180)
+            else if (Projectile.ai[0] < 180)
             {
-                projectile.frame = 2;
+                Projectile.frame = 2;
             }
-            else if (projectile.ai[0] < 240)
+            else if (Projectile.ai[0] < 240)
             {
-                projectile.frame = 3;
+                Projectile.frame = 3;
             }
-            else if (projectile.ai[0] < 300)
+            else if (Projectile.ai[0] < 300)
             {
-                projectile.frame = 4;
+                Projectile.frame = 4;
             }
-            else if (projectile.ai[0] < 360)
+            else if (Projectile.ai[0] < 360)
             {
-                projectile.frame = 5;
+                Projectile.frame = 5;
                 player.velocity.X *= 0.99f;
                 if (player.velocity.Y * player.gravDir < 0)
                 {
                     player.velocity.Y *= 0.99f;
                 }
             }
-            else if (projectile.ai[0] < 420)
+            else if (Projectile.ai[0] < 420)
             {
-                projectile.frame = 6;
+                Projectile.frame = 6;
                 player.velocity.X *= 0.975f;
                 if (player.velocity.Y * player.gravDir < 0)
                 {
                     player.velocity.Y *= 0.985f;
                 }
             }
-            else if (projectile.ai[0] < 480)
+            else if (Projectile.ai[0] < 480)
             {
-                projectile.frame = 7;
+                Projectile.frame = 7;
                 player.velocity.X *= 0.96f;
                 if (player.velocity.Y * player.gravDir < 0)
                 {
                     player.velocity.Y *= 0.96f;
                 }
             }
-            else if (projectile.ai[0] < 540)
+            else if (Projectile.ai[0] < 540)
             {
-                projectile.frame = 8;
+                Projectile.frame = 8;
                 player.velocity.X *= 0.945f;
                 if (player.velocity.Y * player.gravDir < 0)
                 {
                     player.velocity.Y *= 0.945f;
                 }
             }
-            else if (projectile.ai[0] < 600)
+            else if (Projectile.ai[0] < 600)
             {
-                projectile.frame = 9;
+                Projectile.frame = 9;
                 player.velocity.X *= 0.93f;
                 if (player.velocity.Y * player.gravDir < 0)
                 {
                     player.velocity.Y *= 0.93f;
                 }
             }
-            else if (projectile.ai[0] < 660)
+            else if (Projectile.ai[0] < 660)
             {
-                projectile.frame = 10;
+                Projectile.frame = 10;
                 player.velocity.X *= 0.915f;
                 if (player.velocity.Y * player.gravDir < 0)
                 {
@@ -155,126 +157,126 @@ namespace JoostMod.Projectiles
                 {
                     player.velocity.Y *= 0.9f;
                 }
-                Vector2 vel = Vector2.Normalize(projectile.velocity);
+                Vector2 vel = Vector2.Normalize(Projectile.velocity);
                 if (Math.Abs(vel.X) < 0.15f)
                 {
-                    projectile.velocity.X = 0;
+                    Projectile.velocity.X = 0;
                 }
                 if (Math.Abs(vel.Y) < 0.15f)
                 {
-                    projectile.velocity.Y = 0;
+                    Projectile.velocity.Y = 0;
                 }
-                projectile.frame = 11;
+                Projectile.frame = 11;
                 int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 261, 5, -3 * player.gravDir, 0, default(Color), 1);
                 Main.dust[dust2].noGravity = true;
                 int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 261, -5, -3 * player.gravDir, 0, default(Color), 1);
                 Main.dust[dust3].noGravity = true;
             }
-            if (projectile.ai[0] <= 660)
+            if (Projectile.ai[0] <= 660)
             {
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
             }
-            if (projectile.ai[0] == 660)
+            if (Projectile.ai[0] == 660)
             {
-                Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
             }
-            if (projectile.ai[0] % 60 == 0)
+            if (Projectile.ai[0] % 60 == 0)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 75);
-                if (projectile.ai[0] >= 360)
+                SoundEngine.PlaySound(SoundID.Item75, Projectile.position);
+                if (Projectile.ai[0] >= 360)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 114);
+                    SoundEngine.PlaySound(SoundID.Item114, Projectile.position);
                 }
             }
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
-            projectile.position = playerPos - projectile.Size / 2 + new Vector2(-14, 0) + new Vector2((float)Math.Cos(projectile.rotation - (Math.PI / 2)), (float)Math.Sin(projectile.rotation - (Math.PI / 2))) * 14;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
+            Projectile.position = playerPos - Projectile.Size / 2 + new Vector2(-14, 0) + new Vector2((float)Math.Cos(Projectile.rotation - (Math.PI / 2)), (float)Math.Sin(Projectile.rotation - (Math.PI / 2))) * 14;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
+            player.itemRotation = MathHelper.WrapAngle(Projectile.rotation);
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            Player player = Main.player[projectile.owner];
-            if (Main.myPlayer == projectile.owner && !player.dead && !Main.mouseRight && projectile.ai[0] >= 60)
+            Player player = Main.player[Projectile.owner];
+            if (Main.myPlayer == Projectile.owner && !player.dead && !Main.mouseRight && Projectile.ai[0] >= 60)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
-                Vector2 pos = projectile.Center + projectile.velocity * 26;
+                SoundEngine.PlaySound(SoundID.Item62, Projectile.position);
+                Vector2 pos = Projectile.Center + Projectile.velocity * 26;
                 float speed = 10;
                 float mult = 1;
-                int type = mod.ProjectileType("DoomSkull");
-                if (projectile.ai[0] < 120)
+                int type = Mod.Find<ModProjectile>("DoomSkull").Type;
+                if (Projectile.ai[0] < 120)
                 {
                     speed = 10;
                     mult = 1;
                 }
-                else if (projectile.ai[0] < 180)
+                else if (Projectile.ai[0] < 180)
                 {
                     speed = 11;
                     mult = 2;
                 }
-                else if (projectile.ai[0] < 240)
+                else if (Projectile.ai[0] < 240)
                 {
                     speed = 12;
                     mult = 3;
                 }
-                else if (projectile.ai[0] < 300)
+                else if (Projectile.ai[0] < 300)
                 {
                     speed = 13;
                     mult = 4;
                 }
-                else if (projectile.ai[0] < 360)
+                else if (Projectile.ai[0] < 360)
                 {
                     speed = 14;
                     mult = 5;
                 }
-                else if (projectile.ai[0] < 420)
+                else if (Projectile.ai[0] < 420)
                 {
-                    type = mod.ProjectileType("DoomSkull2");
+                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
                     speed = 15;
                     mult = 6;
                 }
-                else if (projectile.ai[0] < 480)
+                else if (Projectile.ai[0] < 480)
                 {
-                    type = mod.ProjectileType("DoomSkull2");
+                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
                     speed = 16;
                     mult = 7;
                 }
-                else if (projectile.ai[0] < 540)
+                else if (Projectile.ai[0] < 540)
                 {
-                    type = mod.ProjectileType("DoomSkull2");
+                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
                     speed = 17;
                     mult = 8;
                 }
-                else if (projectile.ai[0] < 600)
+                else if (Projectile.ai[0] < 600)
                 {
-                    type = mod.ProjectileType("DoomSkull2");
+                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
                     speed = 18;
                     mult = 9;
                 }
-                else if (projectile.ai[0] < 660)
+                else if (Projectile.ai[0] < 660)
                 {
-                    type = mod.ProjectileType("DoomSkull2");
+                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
                     speed = 19;
                     mult = 10;
                 }
                 else
                 {
-                    type = mod.ProjectileType("DoomSkull3");
+                    type = Mod.Find<ModProjectile>("DoomSkull3").Type;
                     speed = 7;
                     mult = 11;
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
-                    pos = projectile.Center + projectile.velocity * 140;
+                    SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
+                    pos = Projectile.Center + Projectile.velocity * 140;
                 }
-                if (float.IsNaN(projectile.velocity.X) || float.IsNaN(projectile.velocity.Y))
+                if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
                 {
-                    projectile.velocity = -Vector2.UnitY;
+                    Projectile.velocity = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(pos, projectile.velocity * speed, type, (int)(projectile.damage * mult), projectile.knockBack * mult, projectile.owner);
+                Projectile.NewProjectile(pos, Projectile.velocity * speed, type, (int)(Projectile.damage * mult), Projectile.knockBack * mult, Projectile.owner);
             }
         }
     }

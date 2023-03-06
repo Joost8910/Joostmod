@@ -42,18 +42,18 @@ namespace JoostMod.Prefixes
             this.fishingPower = fishingPower;
 		}
 
-		public override bool Autoload(ref string name)
+		public override bool IsLoadingEnabled(Mod mod)
 		{
-			if (base.Autoload(ref name))
+			if (base.IsLoadingEnabled(ref name))
 			{
-				mod.AddPrefix("Grognak's", new AccessoryPrefix(6, 0, 0, 0, 0, 0, 0, 0));
-                mod.AddPrefix("Gnunderson's", new AccessoryPrefix(0, 6, 0, 0, 0, 0, 0, 0));
-                mod.AddPrefix("Boook's", new AccessoryPrefix(0, 0, 6, 0, 0, 0, 0, 0));
-                mod.AddPrefix("David's", new AccessoryPrefix(0, 0, 0, 6, 0, 0, 0, 0));
-                mod.AddPrefix("Larkus's", new AccessoryPrefix(0, 0, 0, 0, 6, 0, 0, 0));
-                mod.AddPrefix("Hearty", new AccessoryPrefix(0, 0, 0, 0, 0, 25, 0, 0));
-                mod.AddPrefix("Rejuvenating", new AccessoryPrefix(0, 0, 0, 0, 0, 0, 1, 0));
-                mod.AddPrefix("Uncle Carius's", new AccessoryPrefix(0, 0, 0, 0, 0, 0, 0, 5));
+				Mod.AddPrefix("Grognak's", new AccessoryPrefix(6, 0, 0, 0, 0, 0, 0, 0));
+                Mod.AddPrefix("Gnunderson's", new AccessoryPrefix(0, 6, 0, 0, 0, 0, 0, 0));
+                Mod.AddPrefix("Boook's", new AccessoryPrefix(0, 0, 6, 0, 0, 0, 0, 0));
+                Mod.AddPrefix("David's", new AccessoryPrefix(0, 0, 0, 6, 0, 0, 0, 0));
+                Mod.AddPrefix("Larkus's", new AccessoryPrefix(0, 0, 0, 0, 6, 0, 0, 0));
+                Mod.AddPrefix("Hearty", new AccessoryPrefix(0, 0, 0, 0, 0, 25, 0, 0));
+                Mod.AddPrefix("Rejuvenating", new AccessoryPrefix(0, 0, 0, 0, 0, 0, 1, 0));
+                Mod.AddPrefix("Uncle Carius's", new AccessoryPrefix(0, 0, 0, 0, 0, 0, 0, 5));
             }
 			return false;
 		}

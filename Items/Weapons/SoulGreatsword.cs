@@ -15,30 +15,30 @@ namespace JoostMod.Items.Weapons
         }
 		public override void SetDefaults()
 		{
-			item.damage = 320;
-			item.melee = true;
-            item.magic = true;
-            item.mana = 25;
-			item.width = 160;
-			item.height = 160;
-			item.useTime = 50;
-			item.useAnimation = 50;
-			item.reuseDelay = 5;
-			item.useStyle = 1;
-			item.knockBack = 10;
-			item.value = 500000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("SoulGreatsword");
-			item.shootSpeed = 10f;
+			Item.damage = 320;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.CountsAsClass(DamageClass.Magic);
+            Item.mana = 25;
+			Item.width = 160;
+			Item.height = 160;
+			Item.useTime = 50;
+			Item.useAnimation = 50;
+			Item.reuseDelay = 5;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 10;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("SoulGreatsword").Type;
+			Item.shootSpeed = 10f;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 return false;
             }
@@ -51,17 +51,19 @@ namespace JoostMod.Items.Weapons
             mult *= player.magicDamageMult;
         }
         */
-        public override void GetWeaponCrit(Player player, ref int crit)
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += player.magicCrit;
+            crit += player.GetCritChance(DamageClass.Magic);
             crit /= 2;
         }
+        */
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];
             int dmg = list.FindIndex(x => x.Name == "Damage");
             list.RemoveAt(dmg);
-            list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " melee and magic damage"));
+            list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " melee and magic damage"));
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -130,9 +132,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }

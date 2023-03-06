@@ -13,36 +13,35 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 40;
-			item.ranged = true;
-			item.width = 36;
-			item.height = 36;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = 5;
-			item.knockBack = 5;
-			item.value = 144000;
-			item.rare = 5;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Darklightarrow");
-			item.shootSpeed = 16f;
+			Item.damage = 40;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 36;
+			Item.height = 36;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 5;
+			Item.value = 144000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Darklightarrow").Type;
+			Item.shootSpeed = 16f;
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            mult *= player.arrowDamage * (player.archery ? 1.2f : 1f);
+            damage.CombineWith(player.arrowDamage);
         }
         public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LightShard, 1);
-			recipe.AddIngredient(ItemID.DarkShard, 1);
-			recipe.AddIngredient(ItemID.SoulofLight, 7);
-			recipe.AddIngredient(ItemID.SoulofNight, 7);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.LightShard, 1)
+				.AddIngredient(ItemID.DarkShard, 1)
+				.AddIngredient(ItemID.SoulofLight, 7)
+				.AddIngredient(ItemID.SoulofNight, 7)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

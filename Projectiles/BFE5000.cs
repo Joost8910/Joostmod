@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,20 +13,20 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("BFE5000");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 80;
-			projectile.height = 80;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 240;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 80;
+			Projectile.height = 80;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 240;
+			AIType = ProjectileID.Bullet;
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 34;
 			height = 34;
@@ -33,19 +34,19 @@ namespace JoostMod.Projectiles
 		}
         public override void AI()
         {
-            if (projectile.timeLeft % 5 == 0)
+            if (Projectile.timeLeft % 5 == 0)
             {
-                projectile.frame = (projectile.frame + 1) % 3;
-                Dust.NewDust(projectile.position - Vector2.Normalize(projectile.velocity) * 80, projectile.width, projectile.height, 127, -projectile.velocity.X, -projectile.velocity.Y, 200, default(Color), 1f + (float)Main.rand.Next(10)/10);
+                Projectile.frame = (Projectile.frame + 1) % 3;
+                Dust.NewDust(Projectile.position - Vector2.Normalize(Projectile.velocity) * 80, Projectile.width, Projectile.height, 127, -Projectile.velocity.X, -Projectile.velocity.Y, 200, default(Color), 1f + (float)Main.rand.Next(10)/10);
             }
-            if (projectile.timeLeft % 3 == 0)
+            if (Projectile.timeLeft % 3 == 0)
             {
-                Dust.NewDust(projectile.position - Vector2.Normalize(projectile.velocity) * 80, projectile.width, projectile.height, 6, -projectile.velocity.X*1.2f, -projectile.velocity.Y*1.2f, 100, default(Color), 2f + (float)Main.rand.Next(10) / 10);
+                Dust.NewDust(Projectile.position - Vector2.Normalize(Projectile.velocity) * 80, Projectile.width, Projectile.height, 6, -Projectile.velocity.X*1.2f, -Projectile.velocity.Y*1.2f, 100, default(Color), 2f + (float)Main.rand.Next(10) / 10);
             }
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("Explosion"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("Explosion").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
             int shootNum = 3 + Main.rand.Next(4);
             float shootSpread = 360f;
             float spread = shootSpread * 0.0174f;
@@ -57,9 +58,9 @@ namespace JoostMod.Projectiles
             for (i = 0; i < shootNum; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("Kerbal"), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("Kerbal").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));
+            SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));
         }
 	}
 }

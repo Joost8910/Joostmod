@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -10,19 +12,19 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilgamesh's Buster Sword");
-            Main.projFrames[projectile.type] = 9;
+            Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()
         {
-            projectile.width = 192;
-            projectile.height = 192;
-            projectile.aiStyle = 0;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 48;
-            projectile.alpha = 15;
-            projectile.light = 0.2f;
-            projectile.tileCollide = false;
+            Projectile.width = 192;
+            Projectile.height = 192;
+            Projectile.aiStyle = 0;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 48;
+            Projectile.alpha = 15;
+            Projectile.light = 0.2f;
+            Projectile.tileCollide = false;
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
@@ -33,7 +35,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.timeLeft > 16)
+            if (Projectile.timeLeft > 16)
             {
                 return false;
             }
@@ -41,7 +43,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPlayer(Player target)
         {
-            if (projectile.timeLeft > 16)
+            if (Projectile.timeLeft > 16)
             {
                 return false;
             }
@@ -49,24 +51,24 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            if (projectile.ai[1] <= 0)
+            if (Projectile.ai[1] <= 0)
             {
-                projectile.ai[1] = 1.1f;
-                projectile.timeLeft -= (int)projectile.ai[0] * 4;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 1.1f;
+                Projectile.timeLeft -= (int)Projectile.ai[0] * 4;
+                Projectile.netUpdate = true;
             }
-            if (projectile.timeLeft == 8)
+            if (Projectile.timeLeft == 8)
             {
-                Main.PlaySound(42, projectile.Center, 220 + Main.rand.Next(3));
+                SoundEngine.PlaySound(42, Projectile.Center, 220 + Main.rand.Next(3));
             }
-            if (projectile.timeLeft <= 8)
+            if (Projectile.timeLeft <= 8)
             {
-                projectile.velocity = Vector2.Zero;
-                projectile.frame++;
+                Projectile.velocity = Vector2.Zero;
+                Projectile.frame++;
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.rotation = Projectile.velocity.ToRotation();
             }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -80,7 +82,7 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
         {
-            player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = projectile.damage;
+            player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = Projectile.damage;
         }
         /*
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

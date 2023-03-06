@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,26 +11,22 @@ namespace JoostMod.Items.Armor
         {
             DisplayName.SetDefault("Mooshroom Mask");
             Tooltip.SetDefault("MOOOO");
+            ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 5000;
-            item.rare = 4;
-            item.vanity = true;
-        }
-        public override bool DrawHead()
-        {
-            return false;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = 5000;
+            Item.rare = ItemRarityID.LightRed;
+            Item.vanity = true;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Mushroom, 10);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Mushroom, 10)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
 
     }

@@ -9,49 +9,49 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zombie");
-            Main.npcFrameCount[npc.type] = 16;
+            Main.npcFrameCount[NPC.type] = 16;
         }
         public override void SetDefaults()
         {
-            npc.width = 18;
-            npc.height = 40;
-            npc.damage = 14;
-            npc.defense = 6;
-            npc.lifeMax = 50;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath2;
-            npc.value = Item.buyPrice(0, 0, 8, 0);
-            npc.knockBackResist = 0.5f;
-            npc.aiStyle = 3;
-            aiType = NPCID.Zombie;
-            npc.frameCounter = 0;
-            banner = NPCID.Zombie;
-            bannerItem = ItemID.ZombieBanner;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.damage = 14;
+            NPC.defense = 6;
+            NPC.lifeMax = 50;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath2;
+            NPC.value = Item.buyPrice(0, 0, 8, 0);
+            NPC.knockBackResist = 0.5f;
+            NPC.aiStyle = 3;
+            AIType = NPCID.Zombie;
+            NPC.frameCounter = 0;
+            Banner = NPCID.Zombie;
+            BannerItem = ItemID.ZombieBanner;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.playerInTown && !spawnInfo.invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.spawnTileY <= Main.worldSurface && !spawnInfo.sky && !Main.dayTime ? 0.005f : 0f;
+            return !spawnInfo.PlayerInTown && !spawnInfo.Invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.SpawnTileY <= Main.worldSurface && !spawnInfo.Sky && !Main.dayTime ? 0.005f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DancingZombie"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DancingZombie"), 1f);
             }
 
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 15)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 15)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = (npc.frame.Y + 50);
+                NPC.frameCounter = 0;
+                NPC.frame.Y = (NPC.frame.Y + 50);
             }
-            if (npc.frame.Y >= 800)
+            if (NPC.frame.Y >= 800)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
         }
 

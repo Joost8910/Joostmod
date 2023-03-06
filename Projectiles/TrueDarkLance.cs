@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -14,82 +15,82 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 52;
-			projectile.height = 52;
-			projectile.scale = 1.1f;
-			projectile.aiStyle = 19;
-			projectile.timeLeft = 90;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.light = 0.5f;
-			projectile.ownerHitCheck = true;
-			projectile.hide = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			Projectile.width = 52;
+			Projectile.height = 52;
+			Projectile.scale = 1.1f;
+			Projectile.aiStyle = 19;
+			Projectile.timeLeft = 90;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.light = 0.5f;
+			Projectile.ownerHitCheck = true;
+			Projectile.hide = true;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 10;
 		}
 		
 		public override void AI()
 		{
-            Player player = Main.player[projectile.owner];
-            player.direction = projectile.direction;
-			player.heldProj = projectile.whoAmI;
+            Player player = Main.player[Projectile.owner];
+            player.direction = Projectile.direction;
+			player.heldProj = Projectile.whoAmI;
 			player.itemTime = player.itemAnimation;
-            float speed = player.meleeSpeed;
-            if (player.inventory[player.selectedItem].shoot == projectile.type)
+            float speed = player.GetAttackSpeed(DamageClass.Melee);
+            if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
-                projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = (((36f / player.inventory[player.selectedItem].useTime) / player.meleeSpeed)) * projectile.scale;
-                projectile.localNPCHitCooldown = (int)(10 / (speed / projectile.scale));
-                projectile.width = (int)(52 * projectile.scale);
-                projectile.height = (int)(52 * projectile.scale);
-                projectile.netUpdate = true;
+                Projectile.scale = player.inventory[player.selectedItem].scale;
+                speed = (((36f / player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee))) * Projectile.scale;
+                Projectile.localNPCHitCooldown = (int)(10 / (speed / Projectile.scale));
+                Projectile.width = (int)(52 * Projectile.scale);
+                Projectile.height = (int)(52 * Projectile.scale);
+                Projectile.netUpdate = true;
             }
-            projectile.position += projectile.velocity * speed * projectile.ai[0];
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter) - (projectile.Size / 2);
-			projectile.position += projectile.velocity * projectile.ai[0]; if (projectile.ai[0] == 0f)
+            Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - (Projectile.Size / 2);
+			Projectile.position += Projectile.velocity * Projectile.ai[0]; if (Projectile.ai[0] == 0f)
 			{
-				projectile.ai[0] = 3f;
-				projectile.netUpdate = true;
+				Projectile.ai[0] = 3f;
+				Projectile.netUpdate = true;
 			}
 			if (player.itemAnimation < player.itemAnimationMax / 2)
             {
-                if (projectile.ai[1] == 0)
+                if (Projectile.ai[1] == 0)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("TrueDarkLanceBeam"), projectile.damage, projectile.knockBack / 2, projectile.owner);
-                    projectile.ai[1]++;
+                    Projectile.NewProjectile(Projectile.Center, Projectile.velocity, Mod.Find<ModProjectile>("TrueDarkLanceBeam").Type, Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+                    Projectile.ai[1]++;
                 }
-                projectile.ai[0] -= 2f;
+                Projectile.ai[0] -= 2f;
 			}
 			else
 			{
-				projectile.ai[0] += 2f;
+				Projectile.ai[0] += 2f;
 			}
 			if (player.itemAnimation == 0)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 			}
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-			if (projectile.spriteDirection == -1)
+			Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
+			if (Projectile.spriteDirection == -1)
 			{
-				projectile.rotation -= 1.57f;
+				Projectile.rotation -= 1.57f;
 			}
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
             Color color = lightColor;
-            Vector2 vel = projectile.velocity;
+            Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - vel * 80 * projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - vel * 80 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             return false;
         }
     }

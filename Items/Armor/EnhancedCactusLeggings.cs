@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
@@ -13,11 +14,11 @@ namespace JoostMod.Items.Armor
         }
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 7, 50, 0);
-            item.rare = 2;
-            item.defense = 6;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 7, 50, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 6;
         }
         public override void UpdateEquip(Player player)
         {

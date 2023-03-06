@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,39 +15,38 @@ namespace JoostMod.Items.Weapons
         }
 		public override void SetDefaults()
 		{
-			item.damage = 35;
-			item.magic = true;
-			item.width = 38;
-			item.height = 38;
-			item.noMelee = true;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.autoReuse = true;
-			item.mana = 20;
-			Item.staff[item.type] = true; 
-			item.useStyle = 5;
-			item.knockBack = 0;
-			item.value = 40000;
-			item.rare = 4;
-			item.UseSound = SoundID.Item43;
-			item.shoot = mod.ProjectileType("CrystalChunk");
-			item.shootSpeed = 1f;
+			Item.damage = 35;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 38;
+			Item.height = 38;
+			Item.noMelee = true;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.autoReuse = true;
+			Item.mana = 20;
+			Item.staff[Item.type] = true; 
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 0;
+			Item.value = 40000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item43;
+			Item.shoot = Mod.Find<ModProjectile>("CrystalChunk").Type;
+			Item.shootSpeed = 1f;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float distance = player.Distance(Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY));
-            speedX = speedX * (distance / 30);
-            speedY = speedY * (distance / 30);
+            velocity.X = velocity.X * (distance / 30);
+            velocity.Y = velocity.Y * (distance / 30);
             return true;
         }
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.CobaltBar, 10);
-			recipe.AddIngredient(ItemID.CrystalShard, 8);
-			recipe.AddTile(TileID.Anvils); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.CobaltBar, 10)
+				.AddIngredient(ItemID.CrystalShard, 8)
+				.AddTile(TileID.Anvils)
+				.Register();
 		}
 
 	}

@@ -1,5 +1,9 @@
-using System; 
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,61 +18,70 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 1;
-            item.magic = true;
-            item.mana = 30;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 5;
-            item.useAnimation = 30;
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = 10000;
-            item.rare = 7;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Needle2");
-            item.shootSpeed = 16f;
+            Item.damage = 1;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 5;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = 10000;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("Needle2").Type;
+            Item.shootSpeed = 16f;
         }
-        public override void GetWeaponDamage(Player player, ref int damage)
+        /*
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             damage = 1;
         }
+        */
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.player[Main.myPlayer];
+            int dmg = list.FindIndex(x => x.Name == "Damage");
+            list.RemoveAt(dmg);
+            list.Insert(dmg, new TooltipLine(Mod, "Damage", 1 + " magic damage"));
+        }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Needles", 1);
-            recipe.AddIngredient(ItemID.SpellTome, 1);
-            recipe.AddIngredient(ItemID.StyngerBolt, 10);
-            recipe.AddIngredient(ItemID.SpectreBar, 10);
-            recipe.AddIngredient(mod, "Needle", 1000);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Needles>()
+                .AddIngredient(ItemID.SpellTome)
+                .AddIngredient(ItemID.StyngerBolt, 10)
+                .AddIngredient(ItemID.SpectreBar, 10)
+                .AddIngredient<Needle>(1000)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            damage = 1;
             float spread = 15f * 0.0174f;
-            float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-            /*double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
+            float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+            /*double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
             double deltaAngle = spread / 5f;
             double offsetAngle;
             int i;
             for (i = 0; i < 5; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockback, player.whoAmI);
             }*/
 
             for (int i = 0; i < 5; i++)
             {
-                double baseAngle = Math.Atan2(speedX, speedY);
+                double baseAngle = Math.Atan2(velocity.X, velocity.Y);
                 double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-                Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(randomAngle), baseSpeed * (float)Math.Cos(randomAngle), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(randomAngle), baseSpeed * (float)Math.Cos(randomAngle), type, damage, knockback, player.whoAmI);
             }
 
-            Main.PlaySound(2, position, 7);
+            SoundEngine.PlaySound(SoundID.Item7, position);
             return false;
         }
     }

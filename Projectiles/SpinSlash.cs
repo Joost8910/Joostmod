@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,37 +13,37 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spin Slash");
-            Main.projFrames[projectile.type] = 14;
+            Main.projFrames[Projectile.type] = 14;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 280;
-            projectile.height = 64;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
-            projectile.extraUpdates = 1;
+            Projectile.width = 280;
+            Projectile.height = 64;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.extraUpdates = 1;
         }
 
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.ai[0]++;
-            bool channeling = projectile.ai[0] < 75 * 2 && (player.controlUseItem || projectile.ai[0] < 30 * 2) && !player.noItems && !player.CCed;
+            Projectile.ai[0]++;
+            bool channeling = Projectile.ai[0] < 75 * 2 && (player.controlUseItem || Projectile.ai[0] < 30 * 2) && !player.noItems && !player.CCed;
             if (!channeling)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            projectile.frame = (projectile.frame + 1) % 14;
-            if (projectile.ai[0] == 33 * 2)
+            Projectile.frame = (Projectile.frame + 1) % 14;
+            if (Projectile.ai[0] == 33 * 2)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_cyclone_slash_2"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_cyclone_slash_2"));
             }
             /*
             if(projectile.ai[0] % 7 == 0)
@@ -52,15 +53,15 @@ namespace JoostMod.Projectiles
             */
             player.velocity.Y *= 0.9f;
             player.fallStart = (int)(player.position.Y / 16f);
-            player.ChangeDir(projectile.direction * (projectile.ai[0] % 14 < 7 ? projectile.direction : -projectile.direction));
-            projectile.position = vector - projectile.Size / 2f;
-            projectile.rotation = 0;
-            projectile.spriteDirection = projectile.direction;
-            if (projectile.ai[0] % 14 >= 2 && projectile.ai[0] % 14 <= 8)
-                player.heldProj = projectile.whoAmI;
+            player.ChangeDir(Projectile.direction * (Projectile.ai[0] % 14 < 7 ? Projectile.direction : -Projectile.direction));
+            Projectile.position = vector - Projectile.Size / 2f;
+            Projectile.rotation = 0;
+            Projectile.spriteDirection = Projectile.direction;
+            if (Projectile.ai[0] % 14 >= 2 && Projectile.ai[0] % 14 <= 8)
+                player.heldProj = Projectile.whoAmI;
             player.itemTime = 10;
             player.itemAnimation = 10;
-            player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
+            player.itemRotation = MathHelper.WrapAngle(Projectile.rotation);
             return false;
         }
     }

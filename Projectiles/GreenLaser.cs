@@ -9,36 +9,36 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Green Laser");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 6;
-            projectile.timeLeft = 600;
-            projectile.alpha = 120;
-            projectile.light = 0.2f;
-            projectile.extraUpdates = 2;
-            aiType = ProjectileID.Bullet;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 600;
+            Projectile.alpha = 120;
+            Projectile.light = 0.2f;
+            Projectile.extraUpdates = 2;
+            AIType = ProjectileID.Bullet;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.timeLeft -= 60;
-            if (projectile.velocity.X != oldVelocity.X)
+            Projectile.timeLeft -= 60;
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
 
             return false;

@@ -14,27 +14,28 @@ namespace JoostMod.Items.Weapons
         {
             DisplayName.SetDefault("Stinging Weapon Set");
             Tooltip.SetDefault("'NO! Not the bees! NOT THE BEEEES!'");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.width = 48;
-            item.height = 58;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = 4000;
-            item.rare = 2;
-            item.scale = 1f;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item97;
-            item.autoReuse = true;
-            item.shoot = 183;
-            item.shootSpeed = 6f;
-            item.crit = 4;
+            Item.damage = 30;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 48;
+            Item.height = 58;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 4000;
+            Item.rare = ItemRarityID.Green;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item97;
+            Item.autoReuse = true;
+            Item.shoot = 183;
+            Item.shootSpeed = 6f;
+            Item.crit = 4;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -90,51 +91,52 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        */
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 33, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 33, (damage), knockback, player.whoAmI);
             }
             if (wep == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 469, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 469, (damage), knockback, player.whoAmI);
             }
             if (wep == 3)
             {
                 float spread = 5f * 0.0174f;
-                float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
+                float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+                double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
                 double deltaAngle = spread / 2f;
                 double offsetAngle;
                 int i;
                 for (i = 0; i < 5; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Terraria.Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, 181, (damage / 2), 4, player.whoAmI);
+                    Terraria.Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, 181, (damage / 2), 4, player.whoAmI);
                 }
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 183, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 183, (damage), knockback, player.whoAmI);
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ThornChakram);
-            recipe.AddIngredient(2888);
-            recipe.AddIngredient(ItemID.BeeGun);
-            recipe.AddIngredient(ItemID.Beenade, 100);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.ThornChakram)
+                .AddIngredient(ItemID.BeesKnees)
+                .AddIngredient(ItemID.BeeGun)
+                .AddIngredient(ItemID.Beenade, 100)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
     }

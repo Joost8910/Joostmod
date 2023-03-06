@@ -13,35 +13,35 @@ namespace JoostMod.NPCs.Bosses
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 156;
-			npc.height = 38;
-			npc.damage = 0;
-			npc.defense = 0;
-            npc.lifeMax = 500;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.value = 0;
-			npc.knockBackResist = 0f;
-			npc.aiStyle = -1;
-			npc.frameCounter = 0;
-            npc.netAlways = true;
+			NPC.width = 156;
+			NPC.height = 38;
+			NPC.damage = 0;
+			NPC.defense = 0;
+            NPC.lifeMax = 500;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.value = 0;
+			NPC.knockBackResist = 0f;
+			NPC.aiStyle = -1;
+			NPC.frameCounter = 0;
+            NPC.netAlways = true;
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.player.ZoneBeach && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileY > Main.worldSurface && !JoostWorld.downedCactusWorm && JoostWorld.activeQuest.Contains(npc.type) && !NPC.AnyNPCs(npc.type) && !NPC.AnyNPCs(mod.NPCType("AlphaCactusWormHead")) && !NPC.AnyNPCs(mod.NPCType("GrandCactusWormHead")) ? 0.15f : 0f;
+            return !spawnInfo.Player.ZoneBeach && spawnInfo.Player.ZoneDesert && spawnInfo.SpawnTileY > Main.worldSurface && !JoostWorld.downedCactusWorm && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("AlphaCactusWormHead").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type) ? 0.15f : 0f;
         }
         public override void AI()
         {
-            if (NPC.AnyNPCs(mod.NPCType("AlphaCactusWormHead")) || NPC.AnyNPCs(mod.NPCType("GrandCactusWormHead")))
+            if (NPC.AnyNPCs(Mod.Find<ModNPC>("AlphaCactusWormHead").Type) || NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type))
             {
-                npc.active = false;
+                NPC.active = false;
             }
         }
         public override bool CheckDead()
         {
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("AlphaCactusWormHead"));
+                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("AlphaCactusWormHead").Type);
             }
             return true;
         }

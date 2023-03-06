@@ -15,22 +15,22 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 48;
-			item.thrown = true;
-			item.width = 28;
-			item.height = 30;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.useStyle = 1;
-			item.knockBack = 8;
-			item.value = 120000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Pumpkin2");
-			item.shootSpeed = 8f;
+			Item.damage = 48;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 28;
+			Item.height = 30;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 8;
+			Item.value = 120000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item1;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Pumpkin2").Type;
+			Item.shootSpeed = 8f;
 		}
 	}
 }

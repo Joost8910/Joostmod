@@ -8,24 +8,24 @@ namespace JoostMod.Items.Armor
 	[AutoloadEquip(EquipType.Head)]
 	public class SandstormHelmet : ModItem
 	{
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Sandstorm Helmet");
-            Tooltip.SetDefault("25% increased Throwing Damage\n" + "50% chance to not consume thrown items");
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Sandstorm Helmet");
+			Tooltip.SetDefault("25% increased Throwing Damage\n" + "50% chance to not consume thrown items");
+		}
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = 10000;
-			item.rare = 4;
-			item.defense = 15;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.defense = 15;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
 		{
-			return body.type == mod.ItemType("SandstormBreastplate") && legs.type == mod.ItemType("SandstormLeggings");
+			return body.type == Mod.Find<ModItem>("SandstormBreastplate").Type && legs.type == Mod.Find<ModItem>("SandstormLeggings").Type;
 		}
 
 		public override void UpdateArmorSet(Player player)
@@ -36,25 +36,17 @@ namespace JoostMod.Items.Armor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.thrownDamage += 0.25f;
-			player.thrownCost50 = true;
+			player.GetDamage(DamageClass.Throwing) += 0.25f;
+			player.ThrownCost50 = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "DesertCore", 1);
-			recipe.AddIngredient(ItemID.AdamantiteBar, 10);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "DesertCore", 1);
-			recipe.AddIngredient(ItemID.TitaniumBar, 10);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.DesertCore>()
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

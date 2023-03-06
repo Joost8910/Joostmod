@@ -11,30 +11,30 @@ namespace JoostMod.NPCs.Hunts
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dead Man's Fire");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[NPC.type] = 3;
         }
         public override void SetDefaults()
         {
-            npc.width = 68;
-            npc.height = 68;
-            npc.defense = 9999;
-            npc.lifeMax = 6;
-            npc.damage = 50;
-            npc.HitSound = SoundID.NPCHit3;
-            npc.DeathSound = SoundID.Item74;
-            npc.value = Item.buyPrice(0, 0, 0, 0);
-            npc.knockBackResist = 0;
-            npc.aiStyle = -1;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[BuffID.Frostburn] = true;
-            npc.buffImmune[BuffID.CursedInferno] = true;
-            npc.buffImmune[BuffID.Daybreak] = true;
-            npc.buffImmune[mod.BuffType("BoneHurt")] = true;
-            npc.buffImmune[mod.BuffType("CorruptSoul")] = true;
+            NPC.width = 68;
+            NPC.height = 68;
+            NPC.defense = 9999;
+            NPC.lifeMax = 6;
+            NPC.damage = 50;
+            NPC.HitSound = SoundID.NPCHit3;
+            NPC.DeathSound = SoundID.Item74;
+            NPC.value = Item.buyPrice(0, 0, 0, 0);
+            NPC.knockBackResist = 0;
+            NPC.aiStyle = -1;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.buffImmune[BuffID.OnFire] = true;
+            NPC.buffImmune[BuffID.Venom] = true;
+            NPC.buffImmune[BuffID.Poisoned] = true;
+            NPC.buffImmune[BuffID.Frostburn] = true;
+            NPC.buffImmune[BuffID.CursedInferno] = true;
+            NPC.buffImmune[BuffID.Daybreak] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("BoneHurt").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("CorruptSoul").Type] = true;
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
@@ -46,66 +46,66 @@ namespace JoostMod.NPCs.Hunts
             crit = false;
             damage = 1;
         }
-        public override bool PreNPCLoot()
+        public override bool PreKill()
         {
             return false;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            Player P = Main.player[npc.target];
+            Player P = Main.player[NPC.target];
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Fire, -npc.velocity.X / 5, -npc.velocity.Y / 5, 100, default(Color), 2f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
+                Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Torch, -NPC.velocity.X / 5, -NPC.velocity.Y / 5, 100, default(Color), 2f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
             }
-            if (npc.life > 0)
+            if (NPC.life > 0)
             {
-                if (npc.friendly)
+                if (NPC.friendly)
                 {
-                    npc.friendly = false;
-                    npc.velocity = npc.velocity.Length() * npc.DirectionTo(P.Center) * 1.15f;
+                    NPC.friendly = false;
+                    NPC.velocity = NPC.velocity.Length() * NPC.DirectionTo(P.Center) * 1.15f;
                 }
                 else
                 {
-                    npc.friendly = true;
-                    npc.velocity *= -1.15f;
+                    NPC.friendly = true;
+                    NPC.velocity *= -1.15f;
                 }
             }
-            npc.ai[2] = 0;
+            NPC.ai[2] = 0;
         }
         public override void AI()
 		{
-            npc.TargetClosest(true);
-            Player P = Main.player[npc.target];
-            if (npc.ai[0] < 1)
+            NPC.TargetClosest(true);
+            Player P = Main.player[NPC.target];
+            if (NPC.ai[0] < 1)
             {
-                npc.velocity = npc.DirectionTo(P.Center) * 8;
-                npc.ai[0] = 1;
+                NPC.velocity = NPC.DirectionTo(P.Center) * 8;
+                NPC.ai[0] = 1;
             }
-            Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, -npc.velocity.X / 5, -npc.velocity.Y / 5, 100, default(Color), 0.8f + (Main.rand.Next(3) * 0.1f));
-            npc.ai[2]++;
-            if (npc.ai[2] > 200)
+            Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, -NPC.velocity.X / 5, -NPC.velocity.Y / 5, 100, default(Color), 0.8f + (Main.rand.Next(3) * 0.1f));
+            NPC.ai[2]++;
+            if (NPC.ai[2] > 200)
             {
-                npc.life = 0;
+                NPC.life = 0;
             }
-            npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
-            if (npc.life == 1 && !npc.friendly)
+            NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
+            if (NPC.life == 1 && !NPC.friendly)
             {
-                npc.life = 2;
+                NPC.life = 2;
             }
-            npc.lifeRegen = 0;
+            NPC.lifeRegen = 0;
         }
         public override void FindFrame(int frameHeight)
         {
             frameHeight = 100;
-            npc.frameCounter++;
-            if (npc.frameCounter >= 4)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 4)
             {
-                npc.frame.Y += frameHeight;
-                npc.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                NPC.frameCounter = 0;
             }
-            if (npc.frame.Y > frameHeight * 2)
+            if (NPC.frame.Y > frameHeight * 2)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
         }
         public override bool? CanHitNPC(NPC target)
@@ -128,26 +128,26 @@ namespace JoostMod.NPCs.Hunts
         {
             if (target.type != NPCID.BurningSphere)
             {
-                npc.life = 0;
-                Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, npc.damage, 20, npc.target);
+                NPC.life = 0;
+                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage, 20, NPC.target);
             }
-            npc.ai[2] = 0;
+            NPC.ai[2] = 0;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            npc.life = 0;
-            Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 30, 20);
-            npc.ai[2] = 0;
+            NPC.life = 0;
+            Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 30, 20);
+            NPC.ai[2] = 0;
         }
         public override bool CheckDead()
         {
-            if (npc.friendly)
+            if (NPC.friendly)
             {
-                Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, npc.damage*5, 20, npc.target);
+                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage*5, 20, NPC.target);
             }
             else
             {
-                Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 25, 20);
+                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 25, 20);
             }
             return true;
         }

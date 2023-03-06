@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.Enums;
 
@@ -14,14 +15,14 @@ namespace JoostMod.Projectiles
 		private int sound = 0;
 		public float Distance
 		{
-			get { return projectile.ai[0]; }
-			set { projectile.ai[0] = value; }
+			get { return Projectile.ai[0]; }
+			set { Projectile.ai[0] = value; }
 		}
 
 		public float Charge
 		{
-			get { return projectile.localAI[0]; }
-			set { projectile.localAI[0] = value; }
+			get { return Projectile.localAI[0]; }
+			set { Projectile.localAI[0] = value; }
 		}
 
         public override void SetStaticDefaults()
@@ -30,24 +31,24 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.magic = true;
-            projectile.timeLeft = 120;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 10;
+			Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 120;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			if (Charge == MAX_CHARGE)
 			{
-				Vector2 unit = projectile.velocity;
-				DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], 
-					projectile.Center, unit, 10, projectile.damage, 
+				Vector2 unit = Projectile.velocity;
+				DrawLaser(spriteBatch, TextureAssets.Projectile[Projectile.type].Value, 
+					Projectile.Center, unit, 10, Projectile.damage, 
 					-1.57f, 1f, 2000f, Color.White, (int)MOVE_DISTANCE);
             }
 			return false;
@@ -91,9 +92,9 @@ namespace JoostMod.Projectiles
 		{
 			if (Charge == MAX_CHARGE)
 			{
-				Vector2 unit = projectile.velocity;
+				Vector2 unit = Projectile.velocity;
 				float point = 0f;
-				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + unit * Distance, 10, ref point))
+				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + unit * Distance, 10, ref point))
 				{
 					return true;
 				}
@@ -110,17 +111,17 @@ namespace JoostMod.Projectiles
         /// </summary>
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             #region Charging process
-            Vector2 offset = projectile.velocity;
+            Vector2 offset = Projectile.velocity;
             offset *= MOVE_DISTANCE - 20;
-            Vector2 pos = projectile.Center - new Vector2(5, 5);
-            double rot = projectile.velocity.ToRotation();
+            Vector2 pos = Projectile.Center - new Vector2(5, 5);
+            double rot = Projectile.velocity.ToRotation();
             if (Charge == 0)
             {
-                projectile.direction = projectile.velocity.X > 0 ? 1 : -1;
-                projectile.spriteDirection = projectile.direction;
-                rot += 45 * (Math.PI / 180) * projectile.spriteDirection;
+                Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+                Projectile.spriteDirection = Projectile.direction;
+                rot += 45 * (Math.PI / 180) * Projectile.spriteDirection;
             }
             if (Charge < MAX_CHARGE)
             {
@@ -129,10 +130,10 @@ namespace JoostMod.Projectiles
             if (Charge >= MAX_CHARGE)
             {
                 //sound++;
-                rot -= projectile.spriteDirection * (Math.PI / 180);
+                rot -= Projectile.spriteDirection * (Math.PI / 180);
             }
-            projectile.velocity = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
-            projectile.velocity.Normalize();
+            Projectile.velocity = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
+            Projectile.velocity.Normalize();
             /*if (sound >= 15)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
@@ -140,13 +141,13 @@ namespace JoostMod.Projectiles
             }*/
             int chargeFact = (int)(Charge / 20f);
             Vector2 dustVelocity = Vector2.UnitX * 18f;
-            dustVelocity = dustVelocity.RotatedBy(projectile.rotation - 1.57f, default(Vector2));
-            Vector2 spawnPos = projectile.Center + dustVelocity;
+            dustVelocity = dustVelocity.RotatedBy(Projectile.rotation - 1.57f, default(Vector2));
+            Vector2 spawnPos = Projectile.Center + dustVelocity;
             for (int k = 0; k < chargeFact + 1; k++)
             {
                 Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - (chargeFact * 2));
-                Dust dust = Main.dust[Dust.NewDust(pos, 10, 10, 92, projectile.velocity.X / 2f,
-                    projectile.velocity.Y / 2f, 0, default(Color), 1f)];
+                Dust dust = Main.dust[Dust.NewDust(pos, 10, 10, 92, Projectile.velocity.X / 2f,
+                    Projectile.velocity.Y / 2f, 0, default(Color), 1f)];
                 dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
                 dust.noGravity = true;
                 dust.scale = Main.rand.Next(10, 20) * 0.05f;
@@ -156,23 +157,23 @@ namespace JoostMod.Projectiles
 
             #region Set laser tail position and dusts
             if (Charge < MAX_CHARGE) return;
-            Vector2 start = projectile.Center;
-            Vector2 unit = projectile.velocity;
+            Vector2 start = Projectile.Center;
+            Vector2 unit = Projectile.velocity;
             unit *= -1;
             for (Distance = MOVE_DISTANCE; Distance <= 2000f; Distance += 5f)
             {
-                start = projectile.Center + projectile.velocity * Distance;
-                if (!Collision.CanHitLine(projectile.Center, 1, 1, start, 1, 1))
+                start = Projectile.Center + Projectile.velocity * Distance;
+                if (!Collision.CanHitLine(Projectile.Center, 1, 1, start, 1, 1))
                 {
                     Distance -= 5f;
                     break;
                 }
             }
 
-            Vector2 dustPos = projectile.Center + projectile.velocity * Distance;
+            Vector2 dustPos = Projectile.Center + Projectile.velocity * Distance;
             for (int i = 0; i < 2; ++i)
             {
-                float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
+                float num1 = Projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
                 float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
                 Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
                 Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 92, dustVel.X, dustVel.Y, 0, new Color(), 1f)];
@@ -187,7 +188,7 @@ namespace JoostMod.Projectiles
 
             //Add lights
             DelegateMethods.v3_1 = new Vector3(0.1f, 0.8f, 1f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (Distance - MOVE_DISTANCE), 26, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * (Distance - MOVE_DISTANCE), 26, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
 
 		public override bool ShouldUpdatePosition()
@@ -198,8 +199,8 @@ namespace JoostMod.Projectiles
 		public override void CutTiles()
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-			Vector2 unit = projectile.velocity;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * Distance, (projectile.width + 16) * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+			Vector2 unit = Projectile.velocity;
+			Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Distance, (Projectile.width + 16) * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
 		}
 	}
 }

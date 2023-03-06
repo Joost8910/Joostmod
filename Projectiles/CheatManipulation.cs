@@ -10,18 +10,18 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tome of Greater Manipulation");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            projectile.width = 1;
-            projectile.height = 1;
-            projectile.aiStyle = 0;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 4;
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.aiStyle = 0;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 4;
         }
         public override bool CanHitPvp(Player target)
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return Main.myPlayer == projectile.owner && Main.mouseRight;
+            return Main.myPlayer == Projectile.owner && Main.mouseRight;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -42,23 +42,23 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            int enpc = (int)projectile.ai[0] - 1;
+            int enpc = (int)Projectile.ai[0] - 1;
             //int pvp = (int)projectile.ai[1] - 1;
-            Player player = Main.player[projectile.owner];
-            if (Main.myPlayer == projectile.owner)
+            Player player = Main.player[Projectile.owner];
+            if (Main.myPlayer == Projectile.owner)
             {
-                projectile.position = Main.MouseWorld;
-                projectile.netUpdate = true;
+                Projectile.position = Main.MouseWorld;
+                Projectile.netUpdate = true;
             }
             for (int i = 0; i < Main.item.Length; i++)
             {
                 if (Main.item[i].active)
                 {
                     Item I = Main.item[i];
-                    if (projectile.Hitbox.Intersects(I.Hitbox) || projectile.oldPosition == I.Center - I.velocity)
+                    if (Projectile.Hitbox.Intersects(I.Hitbox) || Projectile.oldPosition == I.Center - I.velocity)
                     {
                         I.velocity = Vector2.Zero;
-                        I.position = projectile.position - I.Size / 2;
+                        I.position = Projectile.position - I.Size / 2;
                     }
                 }
             }
@@ -67,12 +67,12 @@ namespace JoostMod.Projectiles
                 NPC target = Main.npc[enpc];
                 if (target.active && target.type != NPCID.TargetDummy)
                 {
-                    target.position = projectile.position - new Vector2(target.width / 2, target.height / 2);
+                    target.position = Projectile.position - new Vector2(target.width / 2, target.height / 2);
                     target.netUpdate = true;
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             else
@@ -105,10 +105,10 @@ namespace JoostMod.Projectiles
                         for (int i = 0; i < 200; i++)
                         {
                             NPC target = Main.npc[i];
-                            if (target.active && projectile.Hitbox.Intersects(target.Hitbox) && target.type != NPCID.TargetDummy)
+                            if (target.active && Projectile.Hitbox.Intersects(target.Hitbox) && target.type != NPCID.TargetDummy)
                             {
                                 enpc = i;
-                                projectile.ai[0] = i + 1;
+                                Projectile.ai[0] = i + 1;
                             }
                         }
                     /*}
@@ -122,8 +122,8 @@ namespace JoostMod.Projectiles
                     NPC target = Main.npc[enpc];
                     if (target.active && target.type != NPCID.TargetDummy)
                     {
-                        Vector2 vel = projectile.position - projectile.oldPosition;
-                        if (projectile.Distance(projectile.oldPosition) > 25)
+                        Vector2 vel = Projectile.position - Projectile.oldPosition;
+                        if (Projectile.Distance(Projectile.oldPosition) > 25)
                         {
                             vel.Normalize();
                             target.velocity = vel * 25;
@@ -153,7 +153,7 @@ namespace JoostMod.Projectiles
                         }
                     }
                 }*/
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

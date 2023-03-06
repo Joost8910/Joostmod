@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,25 +15,25 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Boook's Bullet Hell");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
         {
-            projectile.width = 122;
-            projectile.height = 48;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
+            Projectile.width = 122;
+            Projectile.height = 48;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (Main.myPlayer == projectile.owner && Main.mouseLeft)
+            if (Main.myPlayer == Projectile.owner && Main.mouseLeft)
             {
                 return base.CanHitNPC(target);
             }
@@ -39,7 +41,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPvp(Player target)
         {
-            if (Main.myPlayer == projectile.owner && Main.mouseLeft)
+            if (Main.myPlayer == Projectile.owner && Main.mouseLeft)
             {
                 return base.CanHitPvp(target);
             }
@@ -55,21 +57,21 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            Vector2 offSet = new Vector2(46, -6 * projectile.direction);
-            offSet = offSet.RotatedBy(projectile.rotation + (projectile.direction == -1 ? 3.14f : 0));
+            Vector2 offSet = new Vector2(46, -6 * Projectile.direction);
+            offSet = offSet.RotatedBy(Projectile.rotation + (Projectile.direction == -1 ? 3.14f : 0));
             hitbox.Width = 46;
             hitbox.Height = 46;
-            hitbox.X = (int)(projectile.Center.X + offSet.X - (hitbox.Width / 2));
-            hitbox.Y = (int)(projectile.Center.Y + offSet.Y - (hitbox.Height / 2));
+            hitbox.X = (int)(Projectile.Center.X + offSet.X - (hitbox.Width / 2));
+            hitbox.Y = (int)(Projectile.Center.Y + offSet.Y - (hitbox.Height / 2));
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            bool channeling = (player.controlUseItem || player.controlUseTile) && player.inventory[player.selectedItem].shoot == projectile.type && !player.dead && !player.noItems && !player.CCed;
+            bool channeling = (player.controlUseItem || player.controlUseTile) && player.inventory[player.selectedItem].shoot == Projectile.type && !player.dead && !player.noItems && !player.CCed;
             if (channeling)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();
@@ -77,48 +79,48 @@ namespace JoostMod.Projectiles
                     {
                         vector13 = Vector2.UnitX * (float)player.direction;
                     }
-                    if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = vector13;
+                    Projectile.velocity = vector13;
                 }
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
-            projectile.velocity.Normalize();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
-            projectile.position = (vector - projectile.Size / 2f);
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
+            Projectile.velocity.Normalize();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
+            Projectile.position = (vector - Projectile.Size / 2f);
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
             
-            if (Main.myPlayer == projectile.owner && Main.mouseRight && Main.mouseRightRelease)
+            if (Main.myPlayer == Projectile.owner && Main.mouseRight && Main.mouseRightRelease)
             {
-                projectile.ai[1] = (projectile.ai[1] + 1) % 3;
-                Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 23, 1, projectile.ai[1] * 0.2f);
+                Projectile.ai[1] = (Projectile.ai[1] + 1) % 3;
+                SoundEngine.PlaySound(SoundID.Item23.WithPitchOffset(Projectile.ai[1] * 0.2f), Projectile.Center);
             }
 
-            if (Main.myPlayer == projectile.owner && Main.mouseLeft)
+            if (Main.myPlayer == Projectile.owner && Main.mouseLeft)
             {
-                int rate = Math.Max(8 - ((int)projectile.localAI[0] / 20), 2);
-                projectile.localNPCHitCooldown = rate * 2;
-                if (projectile.localAI[0] < 40 + (projectile.ai[1] * 40))
+                int rate = Math.Max(8 - ((int)Projectile.localAI[0] / 20), 2);
+                Projectile.localNPCHitCooldown = rate * 2;
+                if (Projectile.localAI[0] < 40 + (Projectile.ai[1] * 40))
                 {
-                    projectile.localAI[0] += 0.7f - (projectile.ai[1] * 0.25f);
+                    Projectile.localAI[0] += 0.7f - (Projectile.ai[1] * 0.25f);
                 }
-                else if (projectile.localAI[0] >= 41 + (projectile.ai[1] * 40))
+                else if (Projectile.localAI[0] >= 41 + (Projectile.ai[1] * 40))
                 {
-                    projectile.localAI[0]--;
+                    Projectile.localAI[0]--;
                 }
-                projectile.localAI[1] = (projectile.localAI[1] + 45f / rate) % 360;
+                Projectile.localAI[1] = (Projectile.localAI[1] + 45f / rate) % 360;
 
-                projectile.ai[0]--;
-                if (projectile.ai[0] <= 0)
+                Projectile.ai[0]--;
+                if (Projectile.ai[0] <= 0)
                 {
-                    projectile.ai[0] = rate;
+                    Projectile.ai[0] = rate;
                     float shootSpeed = player.inventory[player.selectedItem].shootSpeed;
                     int type = 0;
                     Item item = new Item();
@@ -148,89 +150,89 @@ namespace JoostMod.Projectiles
                     }
                     if (canShoot)
                     {
-                        Vector2 offSet = new Vector2(46, -6 * projectile.direction);
-                        offSet = offSet.RotatedBy(projectile.rotation + (projectile.direction == -1 ? 3.14f : 0));
+                        Vector2 offSet = new Vector2(46, -6 * Projectile.direction);
+                        offSet = offSet.RotatedBy(Projectile.rotation + (Projectile.direction == -1 ? 3.14f : 0));
 
                         shootSpeed += item.shootSpeed;
-                        Vector2 shootDir = projectile.velocity * shootSpeed;
-                        float spread = Math.Max(1, projectile.localAI[0] - 40) * 0.4f + Math.Max(1, projectile.localAI[0] - 80) * 1.2f;
+                        Vector2 shootDir = Projectile.velocity * shootSpeed;
+                        float spread = Math.Max(1, Projectile.localAI[0] - 40) * 0.4f + Math.Max(1, Projectile.localAI[0] - 80) * 1.2f;
                         shootDir = shootDir.RotatedByRandom(MathHelper.ToRadians(spread));
                         type = item.shoot;
-                        if (projectile.localAI[0] > 1 && item.consumable && ItemLoader.ConsumeAmmo(player.HeldItem, item, player))
+                        if (Projectile.localAI[0] > 1 && item.consumable && ItemLoader.ConsumeAmmo(player.HeldItem, item, player))
                         {
                             player.ConsumeItem(item.type);
                         }
 
-                        int damage = (int)((projectile.damage + item.damage) * player.bulletDamage);
-                        if (ProjectileID.Sets.Homing[type])
+                        int damage = (int)((Projectile.damage + item.damage) * player.bulletDamage);
+                        if (ProjectileID.Sets.CultistIsResistantTo[type])
                         {
                             damage = (int)(damage * 0.6f);
                         }
-                        float knockBack = projectile.knockBack + item.knockBack;
-                        Projectile.NewProjectile(projectile.Center + offSet, shootDir, type, damage, knockBack, projectile.owner);
-                        Main.PlaySound(2, projectile.Center, 41);
+                        float knockback = Projectile.knockBack + item.knockback;
+                        Projectile.NewProjectile(Projectile.Center + offSet, shootDir, type, damage, knockback, Projectile.owner);
+                        SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else
                     {
-                        Main.PlaySound(SoundLoader.customSoundType, projectile.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
+                        SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
                     }
                 }
             }
 
-            projectile.direction = projectile.velocity.X < 0 ? -1 : 1;
-            projectile.frame = (int)(projectile.localAI[1] / 15) % 6;
+            Projectile.direction = Projectile.velocity.X < 0 ? -1 : 1;
+            Projectile.frame = (int)(Projectile.localAI[1] / 15) % 6;
 
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.direction == -1)
+            if (Projectile.direction == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Color color = lightColor;
-            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[projectile.type]) * 0.5f);
-            Rectangle? rect = new Rectangle(0, projectile.frame * (tex.Height / Main.projFrames[projectile.type]), tex.Width, (tex.Height / Main.projFrames[projectile.type]));
+            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[Projectile.type]) * 0.5f);
+            Rectangle? rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, (tex.Height / Main.projFrames[Projectile.type]));
   
-            Texture2D barrelTex = mod.GetTexture("Projectiles/BoookBulletHell_Barrel");
-            Vector2 offSet = new Vector2(46, -6 * projectile.direction);
-            offSet = offSet.RotatedBy(projectile.rotation + (projectile.direction == -1 ? 3.14f : 0));
-            float rot = projectile.rotation + MathHelper.ToRadians(projectile.localAI[1]) * projectile.direction;
-            spriteBatch.Draw(barrelTex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY) + offSet, new Rectangle?(new Rectangle(0, 0, barrelTex.Width, barrelTex.Height)), color, rot, new Vector2(barrelTex.Width / 2, barrelTex.Height / 2), projectile.scale, effects, 0f);
+            Texture2D barrelTex = Mod.GetTexture("Projectiles/BoookBulletHell_Barrel");
+            Vector2 offSet = new Vector2(46, -6 * Projectile.direction);
+            offSet = offSet.RotatedBy(Projectile.rotation + (Projectile.direction == -1 ? 3.14f : 0));
+            float rot = Projectile.rotation + MathHelper.ToRadians(Projectile.localAI[1]) * Projectile.direction;
+            spriteBatch.Draw(barrelTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + offSet, new Rectangle?(new Rectangle(0, 0, barrelTex.Width, barrelTex.Height)), color, rot, new Vector2(barrelTex.Width / 2, barrelTex.Height / 2), Projectile.scale, effects, 0f);
 
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
 
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                Texture2D tex = mod.GetTexture("Projectiles/BoookBulletHell_Gear");
+                Texture2D tex = Mod.GetTexture("Projectiles/BoookBulletHell_Gear");
                 Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / 3) * 0.5f);
-                Rectangle? rect = new Rectangle(0, (tex.Height / 3) * (int)projectile.ai[1], tex.Width, tex.Height / 3);
-                Vector2 drawPos = new Vector2(Main.player[projectile.owner].Center.X - 20, Main.player[projectile.owner].position.Y - 18);
+                Rectangle? rect = new Rectangle(0, (tex.Height / 3) * (int)Projectile.ai[1], tex.Width, tex.Height / 3);
+                Vector2 drawPos = new Vector2(Main.player[Projectile.owner].Center.X - 20, Main.player[Projectile.owner].position.Y - 18);
                 float scale = 1f;
                 Color color = Color.White;
-                spriteBatch.Draw(tex, drawPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rect, color, 0, drawOrigin, scale, effects, 0f);
+                spriteBatch.Draw(tex, drawPos - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, 0, drawOrigin, scale, effects, 0f);
 
-                tex = mod.GetTexture("Projectiles/BoookBulletHell_Speedometer");
+                tex = Mod.GetTexture("Projectiles/BoookBulletHell_Speedometer");
                 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
                 rect = new Rectangle(0, 0, tex.Width, tex.Height);
-                drawPos = new Vector2(Main.player[projectile.owner].Center.X + 20, Main.player[projectile.owner].position.Y - 18);
-                spriteBatch.Draw(tex, drawPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rect, color, 0, drawOrigin, scale, effects, 0f);
+                drawPos = new Vector2(Main.player[Projectile.owner].Center.X + 20, Main.player[Projectile.owner].position.Y - 18);
+                spriteBatch.Draw(tex, drawPos - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, 0, drawOrigin, scale, effects, 0f);
 
-                tex = mod.GetTexture("Projectiles/BoookBulletHell_Speedometer2");
-                float rot = MathHelper.ToRadians(projectile.localAI[0] * 2.25f);
-                spriteBatch.Draw(tex, drawPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rect, color, rot, drawOrigin, scale, effects, 0f);
+                tex = Mod.GetTexture("Projectiles/BoookBulletHell_Speedometer2");
+                float rot = MathHelper.ToRadians(Projectile.localAI[0] * 2.25f);
+                spriteBatch.Draw(tex, drawPos - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, rot, drawOrigin, scale, effects, 0f);
 
             }
         }

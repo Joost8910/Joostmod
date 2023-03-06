@@ -15,34 +15,34 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.thrown = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
         public override void AI()
         {
-            projectile.aiStyle = 3;
+            Projectile.aiStyle = 3;
             if (Main.rand.Next(8) == 0)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 0);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 0);
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }

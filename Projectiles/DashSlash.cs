@@ -13,76 +13,76 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dash Slash");
-            Main.projFrames[projectile.type] = 9;
+            Main.projFrames[Projectile.type] = 9;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 280;
-            projectile.height = 64;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -1;
+            Projectile.width = 280;
+            Projectile.height = 64;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = -1;
         }
 
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.ai[0]++;
-            bool channeling = projectile.ai[0] < 25 && !player.noItems && !player.CCed;
+            Projectile.ai[0]++;
+            bool channeling = Projectile.ai[0] < 25 && !player.noItems && !player.CCed;
             if (!channeling)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.ai[0] < 3)
+            if (Projectile.ai[0] < 3)
 			{
-				projectile.frame = 0;
+				Projectile.frame = 0;
 			}
-            else if (projectile.ai[0] < 6)
+            else if (Projectile.ai[0] < 6)
 			{
-				projectile.frame = 1;
+				Projectile.frame = 1;
 			}
-            else if (projectile.ai[0] < 9)
+            else if (Projectile.ai[0] < 9)
 			{
-				projectile.frame = 2;
+				Projectile.frame = 2;
 			}
-            else if (projectile.ai[0] < 12)
+            else if (Projectile.ai[0] < 12)
 			{
-				projectile.frame = 3;
+				Projectile.frame = 3;
 			}
-            else if (projectile.ai[0] < 15)
+            else if (Projectile.ai[0] < 15)
 			{
-				projectile.frame = 4;
+				Projectile.frame = 4;
 			}
-            else if (projectile.ai[0] < 18)
+            else if (Projectile.ai[0] < 18)
 			{
-				projectile.frame = 5;
+				Projectile.frame = 5;
 			}
-            else if (projectile.ai[0] < 21)
+            else if (Projectile.ai[0] < 21)
 			{
-				projectile.frame = 6;
+				Projectile.frame = 6;
 			}
-            else if (projectile.ai[0] < 24)
+            else if (Projectile.ai[0] < 24)
 			{
-				projectile.frame = 7;
+				Projectile.frame = 7;
 			}
             else
 			{
-				projectile.frame = 8;
+				Projectile.frame = 8;
 			}
-            projectile.position = (projectile.velocity + vector) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
-            projectile.spriteDirection = projectile.direction;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = (Projectile.velocity + vector) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
+            Projectile.spriteDirection = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 10;
             player.itemAnimation = 10;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             return false;
         }
     }

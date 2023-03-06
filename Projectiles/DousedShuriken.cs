@@ -8,23 +8,23 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hellfire Shuriken");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 26;
-			projectile.height = 26;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.ignoreWater = false;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Shuriken;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 26;
+			Projectile.height = 26;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.ignoreWater = false;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Shuriken;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 	}
 }

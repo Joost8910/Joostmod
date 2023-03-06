@@ -14,18 +14,18 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 1;
-			projectile.timeLeft = 450;
-			projectile.tileCollide = true;
-            projectile.alpha = 150;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 1;
+			Projectile.timeLeft = 450;
+			Projectile.tileCollide = true;
+            Projectile.alpha = 150;
+            AIType = ProjectileID.Bullet;
 		}
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 6;
             height = 6;
@@ -41,8 +41,8 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.rotation = projectile.direction * 3 * projectile.timeLeft;
-            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Fire, 0, 0, 100, default(Color), 2f + (Main.rand.Next(5) * 0.1f)).noGravity = true;
+            Projectile.rotation = Projectile.direction * 3 * Projectile.timeLeft;
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0, 0, 100, default(Color), 2f + (Main.rand.Next(5) * 0.1f)).noGravity = true;
         }
     }
 }

@@ -15,22 +15,22 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 164;
-			projectile.height = 300;
-			projectile.aiStyle = 0;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 5;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.width = 164;
+			Projectile.height = 300;
+			Projectile.aiStyle = 0;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 5;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            hitbox = new Rectangle((int)projectile.position.X + 16, (int)projectile.position.Y, 128, 280);
+            hitbox = new Rectangle((int)Projectile.position.X + 16, (int)Projectile.position.Y, 128, 280);
         }
         public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 150, 0, 0, mod.ProjectileType("UltimateIllusion5"), projectile.damage, projectile.knockBack, projectile.owner);				
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 150, 0, 0, Mod.Find<ModProjectile>("UltimateIllusion5").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);				
 		}
 
 	}

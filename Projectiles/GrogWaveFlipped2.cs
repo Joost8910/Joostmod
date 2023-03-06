@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,28 +16,28 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.aiStyle = 2;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.timeLeft = 140;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.extraUpdates = 1;
+            Projectile.width = 36;
+            Projectile.height = 36;
+            Projectile.aiStyle = 2;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.timeLeft = 140;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.extraUpdates = 1;
         }
         public override bool PreAI()
         {
-            projectile.direction = (int)projectile.ai[0];
-            projectile.scale = projectile.ai[1] * 0.5f;
-            projectile.spriteDirection = projectile.direction;
-            projectile.width = (int)(36 * projectile.scale);
-            projectile.height = (int)(36 * projectile.scale);
+            Projectile.direction = (int)Projectile.ai[0];
+            Projectile.scale = Projectile.ai[1] * 0.5f;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.width = (int)(36 * Projectile.scale);
+            Projectile.height = (int)(36 * Projectile.scale);
             return base.PreAI();
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;
@@ -45,7 +46,7 @@ namespace JoostMod.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.velocity.Y += projectile.knockBack * target.knockBackResist * projectile.scale;
+            target.velocity.Y += Projectile.knockBack * target.knockBackResist * Projectile.scale;
             if (target.knockBackResist > 0)
             {
                 target.velocity.X = 0;
@@ -53,31 +54,31 @@ namespace JoostMod.Projectiles
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
             {
-                target.velocity.Y += projectile.knockBack * projectile.scale;
+                target.velocity.Y += Projectile.knockBack * Projectile.scale;
             }
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * projectile.scale);
-            knockback = knockback * projectile.scale;
+            damage = (int)(damage * Projectile.scale);
+            knockback = knockback * Projectile.scale;
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)(damage * projectile.scale);
+            damage = (int)(damage * Projectile.scale);
         }
-        public override bool PreDraw(SpriteBatch sb, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Color color = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
-            sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
+            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
             return false;
         }
     }

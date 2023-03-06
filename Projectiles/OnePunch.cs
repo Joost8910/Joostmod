@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,45 +14,45 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("ONE PAAAUUUUUWWWWNNNCCHH");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -1;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = -1;
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.ai[0] < 1)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.ai[0] < 1)
             {
-                projectile.ai[0] += 0.05f / player.meleeSpeed;
-                if (projectile.ai[0] > 1)
+                Projectile.ai[0] += 0.05f / player.GetAttackSpeed(DamageClass.Melee);
+                if (Projectile.ai[0] > 1)
                 {
-                    projectile.ai[0] = 1;
+                    Projectile.ai[0] = 1;
                 }
             }
-            projectile.scale = projectile.ai[0];
-            projectile.width = (int)((float)28 * projectile.scale);
-            projectile.height = (int)((float)28 * projectile.scale);
+            Projectile.scale = Projectile.ai[0];
+            Projectile.width = (int)((float)28 * Projectile.scale);
+            Projectile.height = (int)((float)28 * Projectile.scale);
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (!player.noItems && !player.CCed)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor = 1f;
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
+                    if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
-                        scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale * ((projectile.ai[1] / 2) + 0.4f);
+                        scaleFactor = player.inventory[player.selectedItem].shootSpeed * Projectile.scale * ((Projectile.ai[1] / 2) + 0.4f);
                     }
                     Vector2 dir = Main.MouseWorld - vector;
                     dir.Normalize();
@@ -59,47 +61,47 @@ namespace JoostMod.Projectiles
                         dir = Vector2.UnitX * (float)player.direction;
                     }
                     dir *= scaleFactor;
-                    if (dir.X != projectile.velocity.X || dir.Y != projectile.velocity.Y)
+                    if (dir.X != Projectile.velocity.X || dir.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = dir;
+                    Projectile.velocity = dir;
                 }
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         
             if (player.channel)
             {
-                if (projectile.ai[0] >= 1 && projectile.soundDelay >= 0)
+                if (Projectile.ai[0] >= 1 && Projectile.soundDelay >= 0)
                 {
                     for (int i = 0; i < 10; i++)
                     {
                         int dust = Dust.NewDust(player.position, player.width, player.height, 90);
                         Main.dust[dust].noGravity = true;
                     }
-                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 212);
-                    projectile.soundDelay = -1;
+                    SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
+                    Projectile.soundDelay = -1;
                 }
             }
             else
             {
-                if (projectile.ai[1] <= 0)
+                if (Projectile.ai[1] <= 0)
                 {
-                    Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 216);
+                    SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
                 }
-                projectile.ai[1] += 0.15f;
-                if (player.velocity.X * projectile.velocity.X <= 0)
+                Projectile.ai[1] += 0.15f;
+                if (player.velocity.X * Projectile.velocity.X <= 0)
                 {
-                    player.velocity.X = projectile.velocity.X * projectile.ai[0] * 2f;
+                    player.velocity.X = Projectile.velocity.X * Projectile.ai[0] * 2f;
                 }
-                if (player.velocity.Y * projectile.velocity.Y <= 0)
+                if (player.velocity.Y * Projectile.velocity.Y <= 0)
                 {
-                    player.velocity.Y = projectile.velocity.Y * projectile.ai[0] * 2f;
+                    player.velocity.Y = Projectile.velocity.Y * Projectile.ai[0] * 2f;
                 }
-                player.velocity += projectile.velocity * projectile.ai[0] * 0.2f;
+                player.velocity += Projectile.velocity * Projectile.ai[0] * 0.2f;
                 if (player.velocity.Y > 10 || (player.gravDir == -1 && player.velocity.Y < -10))
                 {
                     player.portalPhysicsFlag = true;
@@ -109,51 +111,51 @@ namespace JoostMod.Projectiles
                     player.portalPhysicsFlag = false;
                 }
             }
-            if (projectile.ai[1] > 2f)
+            if (Projectile.ai[1] > 2f)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            projectile.position = (projectile.velocity + vector) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57f + (projectile.direction * 0.785f);
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
+            Projectile.position = (Projectile.velocity + vector) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f + (Projectile.direction * 0.785f);
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
             //player.heldProj = projectile.whoAmI;
             player.itemTime = 10;
             player.itemAnimation = 10;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             return false;
         }
-        public override bool PreDraw(SpriteBatch sb, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
+			if (Projectile.spriteDirection == -1)
 			{
 				effects = SpriteEffects.FlipHorizontally;
             }
-            if (projectile.scale >= 1)
+            if (Projectile.scale >= 1)
             {
-                Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-                for (int k = 0; k < projectile.oldPos.Length; k++)
+                Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+                for (int k = 0; k < Projectile.oldPos.Length; k++)
                 {
-                    Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                    Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                    Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                    sb.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color2, projectile.oldRot[k], drawOrigin, projectile.scale, effects, 0f);
+                    Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                    Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                    Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                    sb.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
                 }
             }
-            Color color = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16.0));
-			sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), projectile.scale, effects, 0f);
+            Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16.0));
+			sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), Projectile.scale, effects, 0f);
 			return false;
 		}
         public override bool? CanHitNPC(NPC target)
 		{
-			return !target.friendly && projectile.ai[1] > 0;
+			return !target.friendly && Projectile.ai[1] > 0;
         }
         public override bool CanHitPvp(Player target)
         {
-            if (projectile.ai[1] > 0)
+            if (Projectile.ai[1] > 0)
             {
                 return base.CanHitPvp(target);
             }
@@ -161,54 +163,54 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            knockback = knockback *projectile.scale;
-            damage += (int)(target.life * projectile.scale) + target.defense;
-            if (projectile.scale >= 1)
+            knockback = knockback *Projectile.scale;
+            damage += (int)(target.life * Projectile.scale) + target.defense;
+            if (Projectile.scale >= 1)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 100);
+                SoundEngine.PlaySound(SoundID.Item100, Projectile.position);
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.scale >= 1)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.scale >= 1)
             {
-                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 100);
+                SoundEngine.PlaySound(SoundID.Item100, player.position);
                 if (target.type != NPCID.TargetDummy)
                 {
-                    target.velocity = projectile.velocity / 5 * knockBack;
+                    target.velocity = Projectile.velocity / 5 * knockback;
                 }
             }
             else
             {
-                target.velocity += projectile.velocity / 10 * knockBack * target.knockBackResist * projectile.scale;
+                target.velocity += Projectile.velocity / 10 * knockback * target.knockBackResist * Projectile.scale;
             }
-            for (int i = 0; i < (int)(projectile.scale * 40); i++)
+            for (int i = 0; i < (int)(Projectile.scale * 40); i++)
             {
                 Dust.NewDust(target.position, target.width, target.height, 5, target.velocity.X, target.velocity.Y);
             }
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            damage += (int)(target.statLife * projectile.scale) + target.statDefense;
-            if (projectile.scale >= 1)
+            damage += (int)(target.statLife * Projectile.scale) + target.statDefense;
+            if (Projectile.scale >= 1)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 100);
+                SoundEngine.PlaySound(SoundID.Item100, Projectile.position);
             }
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.scale >= 1)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.scale >= 1)
             {
-                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 100);
-                target.velocity = projectile.velocity / 5 * projectile.knockBack;
+                SoundEngine.PlaySound(SoundID.Item100, player.position);
+                target.velocity = Projectile.velocity / 5 * Projectile.knockBack;
             }
             else if (!target.noKnockback)
             {
-                target.velocity += projectile.velocity / 10 * projectile.knockBack * projectile.scale;
+                target.velocity += Projectile.velocity / 10 * Projectile.knockBack * Projectile.scale;
             }
-            for (int i = 0; i < (int)(projectile.scale * projectile.scale * 40); i++)
+            for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {
                 Dust.NewDust(target.position, target.width, target.height, 5, target.velocity.X, target.velocity.Y);
             }

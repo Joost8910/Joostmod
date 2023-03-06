@@ -7,7 +7,7 @@ namespace JoostMod.Tiles
 {
 	public class BossTrophy : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -15,8 +15,8 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Trophy");
 			AddMapEntry(new Color(120, 85, 60), name);
@@ -28,16 +28,16 @@ namespace JoostMod.Tiles
 			switch (frameX / 54)
 			{
 				case 0:
-					item = mod.ItemType("JumboCactuarTrophy");
+					item = Mod.Find<ModItem>("JumboCactuarTrophy").Type;
 					break;
 				case 1:
-					item = mod.ItemType("SAXTrophy");
+					item = Mod.Find<ModItem>("SAXTrophy").Type;
 					break;
 				case 2:
-					item = mod.ItemType("GilgameshTrophy");
+					item = Mod.Find<ModItem>("GilgameshTrophy").Type;
 					break;
                 case 3:
-                    item = mod.ItemType("GrandCactusWormTrophy");
+                    item = Mod.Find<ModItem>("GrandCactusWormTrophy").Type;
                     break;
             }
 			if (item > 0)

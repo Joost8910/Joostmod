@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,16 +14,16 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 120;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = true;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 120;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = true;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.Bullet;
 		}
 		public override bool? CanHitNPC(NPC target)
 		{
@@ -34,8 +35,8 @@ namespace JoostMod.Projectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);	
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, 0, 1, mod.ProjectileType("GrogWaveFlipped2"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1]);					
+			SoundEngine.PlaySound(SoundID.Item10, Projectile.position);	
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 13, 0, 1, Mod.Find<ModProjectile>("GrogWaveFlipped2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);					
 			return true;
 		}
 

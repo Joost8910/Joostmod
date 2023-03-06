@@ -8,7 +8,7 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
 {
     public class CactusWormBanner : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -19,7 +19,7 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 111;
             TileObjectData.addTile(Type);
-            disableSmartCursor = true;
+            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cactus Worm Banner");
             AddMapEntry(new Color(123, 44, 122), name); //this defines the color and the name when you see this tile on the map
@@ -27,7 +27,7 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
  
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("CactusWormBanner"));//this defines what to drop when this tile is destroyed
+            Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("CactusWormBanner").Type);//this defines what to drop when this tile is destroyed
         }
  
         public override void NearbyEffects(int i, int j, bool closer)   //this make so the banner give an effect to nearby players
@@ -35,9 +35,9 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
             if (closer)          //so if a player is close to the banner
             {
                 Player player = Main.LocalPlayer;
-                player.NPCBannerBuff[mod.NPCType("CactusWormHead")] = true;	
-                player.NPCBannerBuff[mod.NPCType("CactusWormBody")] = true;	
-                player.NPCBannerBuff[mod.NPCType("CactusWormTail")] = true;			
+                player.NPCBannerBuff[Mod.Find<ModNPC>("CactusWormHead").Type] = true;	
+                player.NPCBannerBuff[Mod.Find<ModNPC>("CactusWormBody").Type] = true;	
+                player.NPCBannerBuff[Mod.Find<ModNPC>("CactusWormTail").Type] = true;			
                 player.hasBanner = true;
             }
         }

@@ -1,6 +1,8 @@
+//TODO: Make into 1.4 Summon Whip, but with a funky flail thing as a right click function
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,47 +17,47 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 38;
-			item.melee = true;
-			item.noMelee = true;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.width = 30;
-			item.height = 32;
-			item.useTime = 10;
-			item.useAnimation = 10;
-			item.useStyle = 5;
-			item.knockBack = 4.5f;
-			item.value = 80000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("TailWhip");
-			item.shootSpeed = 20f;
-            item.useTurn = true;
+			Item.damage = 38;
+			Item.DamageType = DamageClass.SummonMeleeSpeed/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.noMelee = true;
+			Item.scale = 1f;
+			Item.noUseGraphic = true;
+			Item.width = 30;
+			Item.height = 32;
+			Item.useTime = 10;
+			Item.useAnimation = 10;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 4.5f;
+			Item.value = 80000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("TailWhip").Type;
+			Item.shootSpeed = 20f;
+            Item.useTurn = true;
 		}
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 return false;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            speedX += player.velocity.X;
-            speedY += player.velocity.Y;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            velocity.X += player.velocity.X;
+            velocity.Y += player.velocity.Y;
+            return true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }

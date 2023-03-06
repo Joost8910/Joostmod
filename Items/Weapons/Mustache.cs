@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,38 +16,37 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 350;
-			item.melee = true;
-			item.width = 128;
-			item.height = 128;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = 1;
-			item.knockBack = 10;
-			item.value = 10000000;
-			item.rare = 11;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Splitend");
-			item.shootSpeed = 32f;
+			Item.damage = 350;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 128;
+			Item.height = 128;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 10;
+			Item.value = 10000000;
+			Item.rare = ItemRarityID.Purple;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Splitend").Type;
+			Item.shootSpeed = 32f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			float numberProjectiles = 2; 
+			float numberProjectiles = 2;
 			float rotation = MathHelper.ToRadians(12);
 			for (int i = 0; i < numberProjectiles; i++)
 			{
-				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f; // Watch out for dividing by 0 if there is only 1 projectile.
-				Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+				Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f; // Watch out for dividing by 0 if there is only 1 projectile.
+				Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
 			}
 			return false;
 		}
-        public override void AddRecipes()
+		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Cactustoken", 1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.Cactustoken>()
+				.Register();
 		}
 	}
 }

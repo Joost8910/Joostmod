@@ -10,20 +10,20 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
             DisplayName.SetDefault("Toxic Water");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.aiStyle = 1;
-            projectile.alpha = 80;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 20;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.aiStyle = 1;
+            Projectile.alpha = 80;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 20;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -35,14 +35,14 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.alpha += 2;
-            if (projectile.timeLeft % 5 == 1)
+            Projectile.alpha += 2;
+            if (Projectile.timeLeft % 5 == 1)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid <= 80)
+            if (Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidAmount <= 80)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public override void Kill(int timeLeft)
@@ -50,9 +50,9 @@ namespace JoostMod.Projectiles
             int numberProjectiles = 6;
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X / 2, projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(100));
+                Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X / 2, Projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(100));
                 perturbedSpeed *= 1f - (Main.rand.NextFloat() * .5f);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("ToxicWater2"), projectile.damage, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("ToxicWater2").Type, Projectile.damage, 0, Projectile.owner);
             }
         }
     }

@@ -1,61 +1,69 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace JoostMod.Mounts
 {
-	public class AirScooter : ModMountData
+	public class AirScooter : ModMount
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.spawnDust = 31;
-			mountData.buff = mod.BuffType("AirScooterMount");
-			mountData.heightBoost = 28;
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 8f;
-			mountData.dashSpeed = 10.5f;
-			mountData.flightTimeMax = 120;
-			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 6;
-			mountData.acceleration = 0.35f;
-			mountData.jumpSpeed = 7f;
-			mountData.blockExtraJumps = false;
-			mountData.totalFrames = 4;
-			mountData.constantJump = true;
-			int[] array = new int[mountData.totalFrames];
+			MountData.spawnDust = 31;
+			MountData.buff = Mod.Find<ModBuff>("AirScooterMount").Type;
+			MountData.heightBoost = 28;
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 8f;
+			MountData.dashSpeed = 10f;
+			MountData.flightTimeMax = 150;
+			MountData.fatigueMax = 0;
+			MountData.jumpHeight = 6;
+			MountData.acceleration = 0.3f;
+			MountData.jumpSpeed = 7f;
+			MountData.blockExtraJumps = false;
+			MountData.totalFrames = 4;
+			MountData.constantJump = true;
+			int[] array = new int[MountData.totalFrames];
 			for (int l = 0; l < array.Length; l++)
 			{
 				array[l] = 30;
 			}
-			mountData.playerYOffsets = array;
-			mountData.xOffset = 10;
-            mountData.bodyFrame = 6;
-            mountData.yOffset = 2;
-			mountData.playerHeadOffset = 22;
-			mountData.standingFrameCount = 4;
-			mountData.standingFrameDelay = 8;
-			mountData.standingFrameStart = 0;
-			mountData.runningFrameCount = 4;
-			mountData.runningFrameDelay = 20;
-			mountData.runningFrameStart = 0;
-			mountData.flyingFrameCount = 4;
-			mountData.flyingFrameDelay = 4;
-			mountData.flyingFrameStart = 0;
-			mountData.inAirFrameCount = 4;
-			mountData.inAirFrameDelay = 6;
-			mountData.inAirFrameStart = 0;
-			mountData.idleFrameCount = 4;
-			mountData.idleFrameDelay = 8;
-			mountData.idleFrameStart = 0;
-			mountData.idleFrameLoop = false;
-			mountData.swimFrameCount = mountData.inAirFrameCount;
-			mountData.swimFrameDelay = mountData.inAirFrameDelay;
-			mountData.swimFrameStart = mountData.inAirFrameStart;
+			MountData.playerYOffsets = array;
+			MountData.xOffset = 10;
+            MountData.bodyFrame = 6;
+            MountData.yOffset = 2;
+			MountData.playerHeadOffset = 22;
+			MountData.standingFrameCount = 4;
+			MountData.standingFrameDelay = 8;
+			MountData.standingFrameStart = 0;
+			MountData.runningFrameCount = 4;
+			MountData.runningFrameDelay = 20;
+			MountData.runningFrameStart = 0;
+			MountData.flyingFrameCount = 4;
+			MountData.flyingFrameDelay = 4;
+			MountData.flyingFrameStart = 0;
+			MountData.inAirFrameCount = 4;
+			MountData.inAirFrameDelay = 6;
+			MountData.inAirFrameStart = 0;
+			MountData.idleFrameCount = 4;
+			MountData.idleFrameDelay = 8;
+			MountData.idleFrameStart = 0;
+			MountData.idleFrameLoop = false;
+			MountData.swimFrameCount = MountData.inAirFrameCount;
+			MountData.swimFrameDelay = MountData.inAirFrameDelay;
+			MountData.swimFrameStart = MountData.inAirFrameStart;
 			if (Main.netMode != 2)
 			{
-				mountData.textureWidth = mountData.backTexture.Width + 20;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width + 20;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
 		}
 
+        public override void UpdateEffects(Player player)
+        {
+            if (player.mount._flyTime > 0 || Main.rand.NextBool(5))
+            {
+                Dust.NewDust(player.position + new Vector2(0, 40), player.width, 40, 31, 0, 0, 0, Color.White, Main.rand.NextFloat() * 0.5f + 0.25f);
+            }
+        }
     }
 }

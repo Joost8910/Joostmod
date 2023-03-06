@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using JoostMod.Items.Materials;
 
 namespace JoostMod.Items.Weapons
 {
@@ -13,37 +14,36 @@ namespace JoostMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Fireball");
 			Tooltip.SetDefault("Explodes into lingering flames");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 38;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 16;
-			item.height = 22;
-			item.useTime = 28;
-			item.useAnimation = 28;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 1;
-			item.value = 500;
-			item.rare = 4;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Fireball");
-			item.shootSpeed = 7.5f;
+			Item.damage = 38;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 16;
+			Item.height = 22;
+			Item.useTime = 28;
+			Item.useAnimation = 28;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 1;
+			Item.value = 500;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Fireball").Type;
+			Item.shootSpeed = 7.5f;
 		}
-				public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Gel, 10);
-			recipe.AddIngredient(null, "FireEssence");
-			recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			CreateRecipe(50)
+				.AddIngredient(ItemID.Gel, 10)
+				.AddIngredient<FireEssence>()
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 
 	}

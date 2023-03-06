@@ -12,20 +12,20 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.aiStyle = 70;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.aiStyle = 70;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
 
 		}
 

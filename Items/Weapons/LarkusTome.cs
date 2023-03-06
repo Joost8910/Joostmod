@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Utilities;
@@ -23,53 +24,52 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.summon = true;
-            item.mana = 10;
-            item.width = 28;
-            item.height = 32;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = 4;
-            item.useTurn = true;
-            item.noMelee = true;
-            item.knockBack = 4;
-            item.value = 300000;
-            item.rare = 9;
-            item.UseSound = SoundID.Item44;
-            item.shoot = mod.ProjectileType("PowerSpirit");
-            item.shootSpeed = 7f;
-            item.buffType = mod.BuffType("PowerSpirit");
-            item.buffTime = 3600;
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = ModContent.GetTexture("JoostMod/Items/Weapons/LarkusTome_Glow");
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.width = 28;
+            Item.height = 32;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTurn = true;
+            Item.noMelee = true;
+            Item.knockBack = 4;
+            Item.value = 300000;
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = Mod.Find<ModProjectile>("PowerSpirit").Type;
+            Item.shootSpeed = 7f;
+            Item.buffType = Mod.Find<ModBuff>("PowerSpirit").Type;
+            Item.buffTime = 3600;
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/LarkusTome_Glow");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Book);
-            recipe.AddIngredient(null, "EvilStone");
-            recipe.AddIngredient(null, "SkullStone");
-            recipe.AddIngredient(null, "JungleStone");
-            recipe.AddIngredient(null, "InfernoStone");
-            recipe.AddTile(null, "ShrineOfLegends");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Book)
+                .AddIngredient<Placeable.EvilStone>()
+                .AddIngredient<Placeable.SkullStone>()
+                .AddIngredient<Placeable.JungleStone>()
+                .AddIngredient<Placeable.InfernoStone>()
+                .AddTile<Tiles.ShrineOfLegends>()
+                .Register();
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+                    line2.OverrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
                 }
             }
         }
@@ -81,16 +81,16 @@ namespace JoostMod.Items.Weapons
         {
             player.GetModPlayer<JoostPlayer>().legendOwn = true;
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            mult *= JoostGlobalItem.LegendaryDamage() * 0.07f;
+            damage *= JoostGlobalItem.LegendaryDamage() * 0.07f;
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
             if (player.ownedProjectileCounts[type] > 0)
@@ -110,7 +110,7 @@ namespace JoostMod.Items.Weapons
                                 slotAmount++;
                             }
                             proj.Kill();
-                            Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI).minionSlots = slotAmount;
+                            Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI).minionSlots = slotAmount;
                             break;
                         }
                     }
@@ -120,13 +120,13 @@ namespace JoostMod.Items.Weapons
             return player.altFunctionUse != 2;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
-            return base.UseItem(player);
+            return null;
         }
 
     }

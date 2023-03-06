@@ -15,37 +15,36 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 44;
-			item.melee = true;
-			item.width = 40;
-			item.height = 40;
-			item.noMelee = true;
-			item.useTime = 12;
-			item.useAnimation = 12;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 6;
-			item.value = 100000;
-			item.rare = 4;
-			item.UseSound = SoundID.Item18;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("CoiledNail");
-			item.shootSpeed = 12f;
+			Item.damage = 44;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 40;
+			Item.height = 40;
+			Item.noMelee = true;
+			Item.useTime = 12;
+			Item.useAnimation = 12;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.knockBack = 6;
+			Item.value = 100000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item18;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("CoiledNail").Type;
+			Item.shootSpeed = 12f;
 		}
 		public override bool CanUseItem(Player player)
         {
-           return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[mod.ProjectileType("CoiledNail2")] + player.ownedProjectileCounts[mod.ProjectileType("GreatSlash")] + player.ownedProjectileCounts[mod.ProjectileType("DashSlash")] + player.ownedProjectileCounts[mod.ProjectileType("SpinSlash")] < 1;
+           return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("CoiledNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("GreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("SpinSlash").Type] < 1;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "ChanneledNail");
-			recipe.AddIngredient(ItemID.SoulofLight, 5);
-			recipe.AddIngredient(ItemID.SoulofNight, 5);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<ChanneledNail>()
+				.AddIngredient(ItemID.SoulofLight, 5)
+				.AddIngredient(ItemID.SoulofNight, 5)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

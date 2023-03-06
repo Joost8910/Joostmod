@@ -13,24 +13,24 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 40;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 28;
-			item.height = 76;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 7;
-			item.value = 200;
-			item.rare = 2;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("GiantKnife");
-			item.shootSpeed = 8f;
+			Item.damage = 40;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 28;
+			Item.height = 76;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 7;
+			Item.value = 200;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("GiantKnife").Type;
+			Item.shootSpeed = 8f;
 		}
 	}
 }

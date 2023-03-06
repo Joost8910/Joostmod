@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,29 +11,29 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bitter End");
-			Main.projFrames[projectile.type] = 18;
+			Main.projFrames[Projectile.type] = 18;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 124;
-			projectile.height = 124;
-			projectile.aiStyle = 0;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 180;
-			projectile.tileCollide = false;
-			projectile.light = 0.95f;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 124;
+			Projectile.height = 124;
+			Projectile.aiStyle = 0;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 180;
+			Projectile.tileCollide = false;
+			Projectile.light = 0.95f;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.Bullet;
 		}
 public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 10)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 10)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 18;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);			
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 18;
+				SoundEngine.PlaySound(SoundID.Item15, Projectile.position);			
 			}
 		}
 		public override bool CanHitPlayer(Player target)
@@ -56,9 +57,9 @@ public override void AI()
 			for (i = 0; i < shootNum;i++ )
 			{
 				offsetAngle = startAngle + deltaAngle * i;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), mod.ProjectileType("BitterEnd2"), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("BitterEnd2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
 			}
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);				
+			SoundEngine.PlaySound(SoundID.Item74, Projectile.position);				
 		}
 
 	}

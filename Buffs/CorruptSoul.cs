@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class CorruptSoul : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Corrupted Soul");
             Description.SetDefault("Losing Life; will spawn a corrupted soul upon death");
@@ -18,7 +18,7 @@ namespace JoostMod.Buffs
             player.GetModPlayer<JoostPlayer>().corruptSoul = true;
             if (Main.rand.Next(5) == 0)
             {
-                Dust.NewDust(player.position, player.width, player.height, 14, Main.rand.Next(-20, 20) * 0.01f, 3f, 0, default(Color), (6 + Main.rand.Next(5)) * 0.1f);
+                Dust.NewDust(player.position, player.width, player.height, 14, Main.rand.Next(-15, 16) * 0.01f, -3f, 0, default(Color), (6 + Main.rand.Next(5)) * 0.1f);
             }
         }
         public override void Update(NPC npc, ref int buffIndex)
@@ -26,7 +26,7 @@ namespace JoostMod.Buffs
             npc.GetGlobalNPC<NPCs.JoostGlobalNPC>().corruptSoul = true;
 			if (Main.rand.Next(5) == 0)
 			{
-            	Dust.NewDust(npc.position, npc.width, npc.height, 14, Main.rand.Next(-20, 20) * 0.01f, 3f, 0, default(Color), (6+Main.rand.Next(5)) * 0.1f);
+            	Dust.NewDust(npc.position, npc.width, npc.height, 14, Main.rand.Next(-15, 16) * 0.01f, -3f, 0, default(Color), (6+Main.rand.Next(5)) * 0.1f);
 			}
         }
     }

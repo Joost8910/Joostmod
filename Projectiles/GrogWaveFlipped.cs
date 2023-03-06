@@ -15,15 +15,15 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 1;
-            projectile.height = 1;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 100;
-            projectile.tileCollide = false;
-            aiType = ProjectileID.Bullet;
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 100;
+            Projectile.tileCollide = false;
+            AIType = ProjectileID.Bullet;
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -35,20 +35,20 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            if (projectile.localAI[0] < 10)
+            if (Projectile.localAI[0] < 10)
             {
-                projectile.direction = projectile.velocity.X > 0 ? 1 : -1;
-                projectile.spriteDirection = projectile.direction;
-                projectile.velocity = Vector2.Zero;
-                projectile.localAI[0] = 10;
+                Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+                Projectile.spriteDirection = Projectile.direction;
+                Projectile.velocity = Vector2.Zero;
+                Projectile.localAI[0] = 10;
             }
-            projectile.scale = projectile.timeLeft * 0.02f;
-            projectile.position.X += projectile.scale * 16 * projectile.spriteDirection;
-            if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            Projectile.scale = Projectile.timeLeft * 0.02f;
+            Projectile.position.X += Projectile.scale * 16 * Projectile.spriteDirection;
+            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                projectile.position.Y += 16 * projectile.scale;
+                Projectile.position.Y += 16 * Projectile.scale;
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, -15f, mod.ProjectileType("GrogWaveFlipped1"), projectile.damage, projectile.knockBack, projectile.owner, projectile.spriteDirection, projectile.scale);
+            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, -15f, Mod.Find<ModProjectile>("GrogWaveFlipped1").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.spriteDirection, Projectile.scale);
         }
 
     }

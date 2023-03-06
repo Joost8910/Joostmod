@@ -13,29 +13,29 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 180;
-			projectile.alpha = 5;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 180;
+			Projectile.alpha = 5;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(10) == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("BoomerangBullet2"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);		
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("BoomerangBullet2").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);		
 			}
 			else
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 39, projectile.velocity.X/2, projectile.velocity.Y/2, 0, default(Color), 0.75f);
+					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 39, Projectile.velocity.X/2, Projectile.velocity.Y/2, 0, default(Color), 0.75f);
 				}
 			}
 		}

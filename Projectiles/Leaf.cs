@@ -12,61 +12,61 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leaf");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 400;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 400;
             //projectile.tileCollide = false;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             hitDirection = target.Center.X < player.Center.X ? -1 : 1;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if ((int)(projectile.ai[0] / 10) % 2 == 0)
+            Player player = Main.player[Projectile.owner];
+            if ((int)(Projectile.ai[0] / 10) % 2 == 0)
             {
-                int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 2, projectile.velocity.X / 10, projectile.velocity.Y / 10, 100, default(Color), 1f);
+                int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 2, Projectile.velocity.X / 10, Projectile.velocity.Y / 10, 100, default(Color), 1f);
                 Main.dust[num1].noGravity = true;
             }
-            double deg = (double)projectile.ai[0];
+            double deg = (double)Projectile.ai[0];
             double rad = deg * (Math.PI / 180);
             double dist = 40;
-            if (projectile.ai[1] >= 1)
+            if (Projectile.ai[1] >= 1)
             {
-                projectile.localAI[0] += projectile.velocity.X;
-                projectile.localAI[1] += projectile.velocity.Y;
-                projectile.netUpdate = true;
-                projectile.ownerHitCheck = false;
-                if (Collision.SolidCollision(new Vector2(projectile.localAI[0] - 5, projectile.localAI[1] - 5), 10, 10))
+                Projectile.localAI[0] += Projectile.velocity.X;
+                Projectile.localAI[1] += Projectile.velocity.Y;
+                Projectile.netUpdate = true;
+                Projectile.ownerHitCheck = false;
+                if (Collision.SolidCollision(new Vector2(Projectile.localAI[0] - 5, Projectile.localAI[1] - 5), 10, 10))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             else
             {
-                projectile.localAI[0] = player.Center.X;
-                projectile.localAI[1] = player.Center.Y;
-                projectile.ownerHitCheck = true;
-                projectile.timeLeft = 400;
+                Projectile.localAI[0] = player.Center.X;
+                Projectile.localAI[1] = player.Center.Y;
+                Projectile.ownerHitCheck = true;
+                Projectile.timeLeft = 400;
             }
-            Vector2 origin = new Vector2(projectile.localAI[0], projectile.localAI[1]);
-            projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;
-            projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            projectile.ai[0] += 10f;
+            Vector2 origin = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
+            Projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
+            Projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+            Projectile.ai[0] += 10f;
         }
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 6;
 			height = 6;

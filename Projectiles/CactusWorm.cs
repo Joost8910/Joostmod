@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,37 +11,37 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cactus Worm");
-            ProjectileID.Sets.DontAttachHideToAlpha[projectile.type] = true;
+            ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true;
         }
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 56;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = 15;
-            projectile.timeLeft = 200;
-            projectile.tileCollide = false;
-            projectile.hide = true;
-            projectile.ignoreWater = true;
-            aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 22;
+            Projectile.width = 56;
+            Projectile.height = 56;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = 15;
+            Projectile.timeLeft = 200;
+            Projectile.tileCollide = false;
+            Projectile.hide = true;
+            Projectile.ignoreWater = true;
+            AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 22;
         }
         public override void AI()
         {
-            projectile.direction = projectile.velocity.X > 0 ? 1 : -1;
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = -projectile.timeLeft * projectile.velocity.X * 0.0174f * 2;
-            projectile.velocity.Y = -8;
+            Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.rotation = -Projectile.timeLeft * Projectile.velocity.X * 0.0174f * 2;
+            Projectile.velocity.Y = -8;
             bool solid = true;
-            for (int i = (int)(projectile.position.X / 16); i < (int)((projectile.position.X + projectile.width) / 16); i++)
+            for (int i = (int)(Projectile.position.X / 16); i < (int)((Projectile.position.X + Projectile.width) / 16); i++)
             {
-                for (int j = (int)((projectile.position.Y + 18) / 16); j < (int)((projectile.position.Y + projectile.height) / 16); j++)
+                for (int j = (int)((Projectile.position.Y + 18) / 16); j < (int)((Projectile.position.Y + Projectile.height) / 16); j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (!tile.active() || !Main.tileSolid[(int)tile.type] || Main.tileSolidTop[(int)tile.type])
+                    if (!tile.HasTile || !Main.tileSolid[(int)tile.TileType] || Main.tileSolidTop[(int)tile.TileType])
                     {
                         solid = false;
                         break;
@@ -49,14 +50,14 @@ namespace JoostMod.Projectiles
             }
             if (!solid)
             {
-                projectile.velocity.Y = 8;
+                Projectile.velocity.Y = 8;
             }
-            else if (projectile.timeLeft % 22 == 0)
+            else if (Projectile.timeLeft % 22 == 0)
             {
-                Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                SoundEngine.PlaySound(SoundID.WormDig, Projectile.position);
             }
         }
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
             drawCacheProjsBehindNPCsAndTiles.Add(index);
         }

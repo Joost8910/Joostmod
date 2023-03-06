@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,29 +13,29 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 34;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 120;
-			projectile.alpha = 150;
-			aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+			Projectile.width = 34;
+			Projectile.height = 34;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 120;
+			Projectile.alpha = 150;
+			AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 12; i++)
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 31);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31);
         }
         public override void AI()
         {
             if (Main.rand.NextBool(3))
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 31);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31);
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 18;
             height = 18;
@@ -42,17 +43,17 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * projectile.velocity.Length() / 10f);
+            damage = (int)(damage * Projectile.velocity.Length() / 10f);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
             {
-                target.velocity = projectile.velocity;
+                target.velocity = Projectile.velocity;
                 target.velocity.Y -= 0.4f;
             }
-            projectile.velocity *= 0.8f;
+            Projectile.velocity *= 0.8f;
         }
     }
 }

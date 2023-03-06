@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,32 +17,32 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 28;
-			item.summon = true;
-			item.mana = 10;
-			item.width = 36;
-			item.height = 36;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = 4;
-			item.noMelee = true; 
-			item.knockBack = 0;
-            item.value = 90000;
-            item.rare = 3;
-            item.UseSound = SoundID.Item44;
-			item.shoot = mod.ProjectileType("StormWyvernMinion");
-			item.shootSpeed = 12.5f;
-			item.buffType = mod.BuffType("StormWyvernMinion");
-			item.buffTime = 3600;
-            item.autoReuse = false;
+			Item.damage = 28;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+			Item.width = 36;
+			Item.height = 36;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.noMelee = true; 
+			Item.knockBack = 0;
+            Item.value = 90000;
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item44;
+			Item.shoot = Mod.Find<ModProjectile>("StormWyvernMinion").Type;
+			Item.shootSpeed = 12.5f;
+			Item.buffType = Mod.Find<ModBuff>("StormWyvernMinion").Type;
+			Item.buffTime = 3600;
+            Item.autoReuse = false;
 		}
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }
@@ -50,13 +51,13 @@ namespace JoostMod.Items.Rewards
 			return true;
 		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
             
             if (player.altFunctionUse != 2)
             {
-                Projectile projectile = Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile projectile = Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 bool foundWyvern = false;
                 int tail = -1;
                 float slots = 0f;
@@ -93,7 +94,7 @@ namespace JoostMod.Items.Rewards
                     int latestProj = projectile.identity;
                     for (int i = 1; i < 4; i++)
                     {
-                        latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, i, latestProj);
+                        latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockback, projectile.owner, i, latestProj);
                         Main.projectile[latestProj].minionSlots = 0;
                     }
                     projectile.ai[0] = 0;
@@ -103,11 +104,11 @@ namespace JoostMod.Items.Rewards
             return false;
         }
 		
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if(player.altFunctionUse == 2)
 			{
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(false);
 			}
 			return base.UseItem(player);
 		}

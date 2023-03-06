@@ -16,24 +16,24 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 188;
-			item.melee = true;
-			item.width = 106;
-			item.height = 110;
-			item.useTime = 48;
-			item.useAnimation = 48;
-			item.reuseDelay = 2;
-			item.useStyle = 1;
-			item.knockBack = 15;
-			item.value = 250000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("DragonTooth");
-			item.shootSpeed = 10f;
+			Item.damage = 188;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 106;
+			Item.height = 110;
+			Item.useTime = 48;
+			Item.useAnimation = 48;
+			Item.reuseDelay = 2;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 15;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item7;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("DragonTooth").Type;
+			Item.shootSpeed = 10f;
         }
         public override void HoldItem(Player player)
         {
@@ -76,9 +76,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -87,15 +87,14 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "EarthEssence", 50);
-			recipe.AddIngredient(ItemID.StoneBlock, 100);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+                .AddIngredient<Materials.EarthEssence>(50)
+                .AddIngredient(ItemID.StoneBlock, 100)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
 		}
 	}
 }

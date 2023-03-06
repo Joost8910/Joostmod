@@ -14,30 +14,30 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 80;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.tileCollide = false;
-            projectile.light = 0.75f;
-            projectile.coldDamage = true;
+            Projectile.width = 80;
+            Projectile.height = 80;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.tileCollide = false;
+            Projectile.light = 0.75f;
+            Projectile.coldDamage = true;
         }
         public override bool PreAI()
         {
-            projectile.Kill();
+            Projectile.Kill();
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            Vector2 pos = projectile.Center;
-            Vector2 dir = projectile.velocity;
-            Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, mod.ProjectileType("IceBeamMinion"), projectile.damage, projectile.knockBack, projectile.owner, 1);
-            Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, mod.ProjectileType("IceBeamMinion"), projectile.damage, projectile.knockBack, projectile.owner);
-            Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, mod.ProjectileType("IceBeamMinion"), projectile.damage, projectile.knockBack, projectile.owner, -1);
+            Vector2 pos = Projectile.Center;
+            Vector2 dir = Projectile.velocity;
+            Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, Mod.Find<ModProjectile>("IceBeamMinion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
+            Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, Mod.Find<ModProjectile>("IceBeamMinion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, Mod.Find<ModProjectile>("IceBeamMinion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
         }
     }
 }

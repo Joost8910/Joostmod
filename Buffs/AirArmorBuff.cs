@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class AirArmorBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Swirling Winds");
 			Description.SetDefault("Greatly increased mobility and life regen");

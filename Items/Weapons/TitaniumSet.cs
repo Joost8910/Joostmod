@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,31 +12,28 @@ namespace JoostMod.Items.Weapons
         {
             DisplayName.SetDefault("Titanium Weapon Set");
             Tooltip.SetDefault("'ALL the titanium!'");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()
         {
-            item.damage = 55;
-            item.width = 58;
-            item.height = 56;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = 150000;
-            item.rare = 5;
-            item.scale = 1f;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TitaniumChainedchainsaw");
-            item.shootSpeed = 6f;
-            item.crit = 4;
-        }
-        public override void GetWeaponCrit(Player player, ref int crit)
-        {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            Item.damage = 55;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 58;
+            Item.height = 56;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 150000;
+            Item.rare = ItemRarityID.Pink;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("TitaniumChainedchainsaw").Type;
+            Item.shootSpeed = 6f;
+            Item.crit = 4;
         }
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
@@ -93,10 +89,6 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-        public override void GetWeaponDamage(Player player, ref int damage)
-        {
-            damage = (int)((double)damage * ((player.magicDamage + player.meleeDamage + player.thrownDamage + player.rangedDamage + player.minionDamage) / 5));
-        }
         public override bool CanUseItem(Player player)
         {
             if (player.ownedProjectileCounts[218] > 0)
@@ -105,37 +97,36 @@ namespace JoostMod.Items.Weapons
             }
             return true;
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 3), (speedY * 3), 278, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, ProjectileID.IchorArrow, damage, knockback, player.whoAmI);
             }
             if (wep == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 218, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, ProjectileID.TitaniumTrident, damage, knockback, player.whoAmI);
             }
             if (wep == 3)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 3), (speedY * 3), mod.ProjectileType("PurpleLaser"), (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, Mod.Find<ModProjectile>("PurpleLaser").Type, damage, knockback, player.whoAmI);
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 3), (speedY * 3), mod.ProjectileType("TitaniumChainedchainsaw"), (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, Mod.Find<ModProjectile>("TitaniumChainedchainsaw").Type, damage, knockback, player.whoAmI);
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumTrident);
-            recipe.AddIngredient(ItemID.TitaniumRepeater);
-            recipe.AddIngredient(null, "TitaniumStaff");
-            recipe.AddIngredient(null, "TitaniumChainedchainsaw", 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.TitaniumTrident)
+                .AddIngredient(ItemID.TitaniumRepeater)
+                .AddIngredient<TitaniumStaff>()
+                .AddIngredient<TitaniumChainedchainsaw>(4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
     }

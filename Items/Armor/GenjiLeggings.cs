@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	[AutoloadEquip(EquipType.Legs)]
 	public class GenjiLeggings : ModItem
 	{
-public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Genji Leggings");
 			Tooltip.SetDefault("Allows the wearer to run incredibly fast\n" + "Life regeneration increased by 8");
@@ -18,23 +18,23 @@ public override void SetStaticDefaults()
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = 10000000;
-			item.rare = 11;
-			item.defense = 20;
-			item.lifeRegen = 8;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = 10000000;
+			Item.rare = ItemRarityID.Purple;
+			Item.defense = 20;
+			Item.lifeRegen = 8;
 		}
-		    public override void ModifyTooltips(List<TooltipLine> list)
-    {
-        foreach (TooltipLine line2 in list)
-        {
-            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-            {
-                line2.overrideColor = new Color(0, 255, 0);
-            }
-        }
-    }
+		public override void ModifyTooltips(List<TooltipLine> list)
+		{
+			foreach (TooltipLine line2 in list)
+			{
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
+				{
+					line2.OverrideColor = new Color(0, 255, 0);
+				}
+			}
+		}
 		public override void UpdateEquip(Player player)
 		{
 			player.moveSpeed *= 1.85f;
@@ -44,10 +44,9 @@ public override void SetStaticDefaults()
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "GenjiToken", 1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.GenjiToken>()
+				.Register();
 		}
 	}
 }

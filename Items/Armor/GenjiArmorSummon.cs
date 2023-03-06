@@ -18,19 +18,19 @@ namespace JoostMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 50;
-            item.value = 10000000;
-            item.rare = 11;
-            item.defense = 25;
+            Item.width = 44;
+            Item.height = 50;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.defense = 25;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, 0);
+                    line2.OverrideColor = new Color(0, 255, 0);
                 }
             }
         }
@@ -42,10 +42,9 @@ namespace JoostMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GenjiToken", 1);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.GenjiToken>()
+                .Register();
         }
     }
 }

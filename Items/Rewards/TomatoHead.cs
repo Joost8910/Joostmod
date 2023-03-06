@@ -16,24 +16,24 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 26;
-			item.melee = true;
-			item.width = 32;
-			item.height = 36;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.reuseDelay = 5;
-			item.useStyle = 5;
-			item.knockBack = 3;
-			item.value = 15000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item13;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("TomatoHead");
-			item.shootSpeed = 10f;
+			Item.damage = 26;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 32;
+			Item.height = 36;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.reuseDelay = 5;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 3;
+			Item.value = 15000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item13;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("TomatoHead").Type;
+			Item.shootSpeed = 10f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -72,9 +72,9 @@ namespace JoostMod.Items.Rewards
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -85,9 +85,9 @@ namespace JoostMod.Items.Rewards
 		{
 			foreach (TooltipLine line2 in list)
 			{
-				if (line2.mod == "Terraria" && line2.Name == "ItemName")
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
 				{
-					line2.overrideColor = new Color(230, 204, 128);
+					line2.OverrideColor = new Color(230, 204, 128);
 				}
 			}
 		}

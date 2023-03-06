@@ -15,35 +15,33 @@ namespace JoostMod.Items.Weapons
         }
 		public override void SetDefaults()
 		{
-			item.damage = 32;
-			item.magic = true;
-			item.width = 52;
-			item.height = 52;
-			item.mana = 6;
-			item.useTime = 10;
-			item.useAnimation = 10;
-			Item.staff[item.type] = true; 
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 0;
-			item.value = 75000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item12;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("GreenLaser");
-			item.shootSpeed = 15f;
+			Item.damage = 32;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 52;
+			Item.height = 52;
+			Item.mana = 6;
+			Item.useTime = 10;
+			Item.useAnimation = 10;
+			Item.staff[Item.type] = true; 
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; 
+			Item.knockBack = 0;
+			Item.value = 75000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item12;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("GreenLaser").Type;
+			Item.shootSpeed = 15f;
 		}
 
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.AdamantiteBar, 12);
-			recipe.AddIngredient(ItemID.Emerald, 1);
-			recipe.AddTile(TileID.MythrilAnvil); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-
+			CreateRecipe()
+				.AddIngredient(ItemID.AdamantiteBar, 12)
+				.AddIngredient(ItemID.Emerald, 1)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 
 	}

@@ -9,26 +9,26 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gray Slime");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
         public override void SetDefaults()
         {
-            npc.width = 44;
-            npc.height = 32;
-            npc.damage = 16;
-            npc.defense = 16;
-            npc.lifeMax = 160;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.value = 0f;
-            npc.knockBackResist = 0.125f;
-            npc.aiStyle = 1;
-            aiType = NPCID.BlueSlime;
-            animationType = NPCID.BlueSlime;
+            NPC.width = 44;
+            NPC.height = 32;
+            NPC.damage = 16;
+            NPC.defense = 16;
+            NPC.lifeMax = 160;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = 0f;
+            NPC.knockBackResist = 0.125f;
+            NPC.aiStyle = 1;
+            AIType = NPCID.BlueSlime;
+            AnimationType = NPCID.BlueSlime;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 23, Main.rand.Next(2, 7));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 23, Main.rand.Next(2, 7));
 
         }
 
@@ -36,8 +36,8 @@ namespace JoostMod.NPCs
         {
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X + 13, (int)npc.Center.Y - 2, mod.NPCType("GraySlime3"));
-                NPC.NewNPC((int)npc.Center.X - 13, (int)npc.Center.Y - 2, mod.NPCType("GraySlime3"));
+                NPC.NewNPC((int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime3").Type);
+                NPC.NewNPC((int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime3").Type);
             }
             return true;
         }

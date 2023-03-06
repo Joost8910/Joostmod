@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Items.Armor
 {
@@ -11,11 +12,11 @@ public override void SetStaticDefaults()
 		}
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 26;
-			item.vanity = true;
-			item.value = 10000;
-			item.rare = 2;
+			Item.width = 18;
+			Item.height = 26;
+			Item.vanity = true;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Green;
 		}
         
 	}

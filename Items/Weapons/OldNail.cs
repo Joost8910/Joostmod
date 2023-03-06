@@ -14,27 +14,27 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 9;
-			item.melee = true;
-			item.width = 30;
-			item.height = 30;
-			item.noMelee = true;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 3;
-			item.value = 8000;
-			item.rare = 0;
-			item.UseSound = SoundID.Item1;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("OldNail");
-			item.shootSpeed = 6f;
+			Item.damage = 9;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 30;
+			Item.height = 30;
+			Item.noMelee = true;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.knockBack = 3;
+			Item.value = 8000;
+			Item.rare = ItemRarityID.White;
+			Item.UseSound = SoundID.Item1;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("OldNail").Type;
+			Item.shootSpeed = 6f;
 		}
 		public override bool CanUseItem(Player player)
-        {
-           return player.ownedProjectileCounts[item.shoot] < 1;
+		{
+			return player.ownedProjectileCounts[Item.shoot] < 1;
 		}
 	}
 }

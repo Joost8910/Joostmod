@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,17 +14,17 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Volcanic Longbow");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
         public override bool? CanHitNPC(NPC target)
 		{
@@ -38,18 +40,18 @@ namespace JoostMod.Projectiles
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
             float speed = 25;
             float shootSpeed = 13f;
 
-            if (player.inventory[player.selectedItem].shoot == projectile.type)
+            if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 shootSpeed = player.inventory[player.selectedItem].shootSpeed;
                 speed = player.inventory[player.selectedItem].useTime;
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 Vector2 vector13 = Main.MouseWorld - vector;
                 vector13.Normalize();
@@ -57,46 +59,46 @@ namespace JoostMod.Projectiles
                 {
                     vector13 = Vector2.UnitX * (float)player.direction;
                 }
-                if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                 {
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
-                projectile.velocity = vector13;
+                Projectile.velocity = vector13;
             }
-            projectile.position = new Vector2(vector.X + projectile.velocity.X * 6, vector.Y + projectile.velocity.Y * 12) - projectile.Size / 2f;
-            projectile.position.Y += player.gravDir * 4 + 2;
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
+            Projectile.position = new Vector2(vector.X + Projectile.velocity.X * 6, vector.Y + Projectile.velocity.Y * 12) - Projectile.Size / 2f;
+            Projectile.position.Y += player.gravDir * 4 + 2;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
             if (player.gravDir < 0)
             {
-                projectile.rotation += 3.14f;
-                projectile.spriteDirection = -projectile.direction;
+                Projectile.rotation += 3.14f;
+                Projectile.spriteDirection = -Projectile.direction;
             }
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             player.itemTime = 2;
             player.itemAnimation = 2;
-            projectile.frame = (projectile.ai[1] > 0 || projectile.localAI[0] >= speed * 0.75f) ? 1 : 0;
-            if (projectile.localAI[0] > speed * 0.75f || projectile.localAI[0] <= speed * 0.25f)
+            Projectile.frame = (Projectile.ai[1] > 0 || Projectile.localAI[0] >= speed * 0.75f) ? 1 : 0;
+            if (Projectile.localAI[0] > speed * 0.75f || Projectile.localAI[0] <= speed * 0.25f)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 10;
             }
-            else if (projectile.localAI[0] > speed * 0.5f)
+            else if (Projectile.localAI[0] > speed * 0.5f)
             {
-                player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+                player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             }
-            else if (projectile.localAI[0] > speed * 0.25f)
+            else if (Projectile.localAI[0] > speed * 0.25f)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height;
             }
-            if ((projectile.ai[1] < 5 || projectile.localAI[0] < speed * 0.2f) && projectile.localAI[0] < speed)
+            if ((Projectile.ai[1] < 5 || Projectile.localAI[0] < speed * 0.2f) && Projectile.localAI[0] < speed)
             {
-                projectile.localAI[0]++;
+                Projectile.localAI[0]++;
             }
-            if (player.noItems || player.CCed || player.dead || !player.active || (projectile.ai[1] <= 0 && !player.controlUseItem && !player.controlUseTile))
+            if (player.noItems || player.CCed || player.dead || !player.active || (Projectile.ai[1] <= 0 && !player.controlUseItem && !player.controlUseTile))
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
@@ -127,120 +129,120 @@ namespace JoostMod.Projectiles
                 }
                 if (canShoot)
                 {
-                    projectile.ai[0] = item.shoot;
+                    Projectile.ai[0] = item.shoot;
                 }
-                if (projectile.ai[0] == ProjectileID.WoodenArrowFriendly)
+                if (Projectile.ai[0] == ProjectileID.WoodenArrowFriendly)
                 {
-                    projectile.ai[0] = mod.ProjectileType("BlazingArrow");
+                    Projectile.ai[0] = Mod.Find<ModProjectile>("BlazingArrow").Type;
                 }
-                if (projectile.ai[1] < 5 && (player.controlUseTile || projectile.ai[1] < 1 || (projectile.localAI[0] > speed * 0.25f && projectile.localAI[0] < speed * 0.9f)) && canShoot)
+                if (Projectile.ai[1] < 5 && (player.controlUseTile || Projectile.ai[1] < 1 || (Projectile.localAI[0] > speed * 0.25f && Projectile.localAI[0] < speed * 0.9f)) && canShoot)
                 {
-                    if (projectile.localAI[0] >= (projectile.ai[1] < 1 ? speed : speed * 0.6f))
+                    if (Projectile.localAI[0] >= (Projectile.ai[1] < 1 ? speed : speed * 0.6f))
                     {
-                        projectile.ai[1]++;
-                        projectile.localAI[0] = 0;
-                        Main.PlaySound(SoundID.Item17, projectile.Center);
+                        Projectile.ai[1]++;
+                        Projectile.localAI[0] = 0;
+                        SoundEngine.PlaySound(SoundID.Item17, Projectile.Center);
                     }
                 }
-                else if (!(player.controlUseTile && player.controlUseItem) && projectile.ai[1] > 0 && (projectile.localAI[0] >= speed * 0.9f || (projectile.localAI[0] <= speed * 0.25f && projectile.ai[1] < 5) || (projectile.localAI[0] >= speed * 0.2f && projectile.ai[1] >= 5)))
+                else if (!(player.controlUseTile && player.controlUseItem) && Projectile.ai[1] > 0 && (Projectile.localAI[0] >= speed * 0.9f || (Projectile.localAI[0] <= speed * 0.25f && Projectile.ai[1] < 5) || (Projectile.localAI[0] >= speed * 0.2f && Projectile.ai[1] >= 5)))
                 {
                     if (canShoot)
                     {
                         shootSpeed += item.shootSpeed;
                         float rotation = MathHelper.ToRadians(22.5f);
-                        int damage = projectile.damage + item.damage;
-                        float knockback = projectile.knockBack + item.knockBack;
-                        if (projectile.ai[0] == mod.ProjectileType("BlazingArrow"))
+                        int damage = Projectile.damage + item.damage;
+                        float knockback = Projectile.knockBack + item.knockback;
+                        if (Projectile.ai[0] == Mod.Find<ModProjectile>("BlazingArrow").Type)
                         {
                             shootSpeed += 4;
                             damage = (int)(damage * 1.5f);
                             knockback += 3;
                         }
-                        Vector2 vel = projectile.velocity * shootSpeed;
-                        for (int i = 0; i < projectile.ai[1]; i++)
+                        Vector2 vel = Projectile.velocity * shootSpeed;
+                        for (int i = 0; i < Projectile.ai[1]; i++)
                         {
                             if (item.consumable)
                             {
                                 player.ConsumeItem(item.type);
                             }
-                            Vector2 perturbedSpeed = (projectile.ai[1] <= 1) ? vel : vel.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (projectile.ai[1] - 1)));
-                            Projectile.NewProjectile(projectile.Center, perturbedSpeed, (int)projectile.ai[0], damage, knockback, projectile.owner);
+                            Vector2 perturbedSpeed = (Projectile.ai[1] <= 1) ? vel : vel.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (Projectile.ai[1] - 1)));
+                            Projectile.NewProjectile(Projectile.Center, perturbedSpeed, (int)Projectile.ai[0], damage, knockback, Projectile.owner);
                         }
-                        //Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, (int)projectile.ai[0], (projectile.damage + item.damage), projectile.knockBack + item.knockBack, projectile.owner);
-                        Main.PlaySound(SoundID.Item5, projectile.Center);
-                        projectile.ai[1] = 0;
+                        //Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, (int)projectile.ai[0], (projectile.damage + item.damage), projectile.knockback + item.knockback, projectile.owner);
+                        SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+                        Projectile.ai[1] = 0;
                     }
                     else
                     {
-                        Main.PlaySound(SoundID.Item7, projectile.Center);
+                        SoundEngine.PlaySound(SoundID.Item7, Projectile.Center);
                     }
                 }
             }
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[projectile.type]) * 0.5f);
-            Rectangle? rect = new Rectangle(0, projectile.frame * (tex.Height / Main.projFrames[projectile.type]), tex.Width, (tex.Height / Main.projFrames[projectile.type]));
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, rect, lightColor, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-            if (projectile.ai[0] != 0)
+            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[Projectile.type]) * 0.5f);
+            Rectangle? rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, (tex.Height / Main.projFrames[Projectile.type]));
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            if (Projectile.ai[0] != 0)
             {
-                Main.instance.LoadProjectile((int)(projectile.ai[0]));
-                Texture2D arrowTex = Main.projectileTexture[(int)(projectile.ai[0])];
-                int frames = (Main.projFrames[(int)(projectile.ai[0])] < 1) ? 1 : Main.projFrames[(int)(projectile.ai[0])];
+                Main.instance.LoadProjectile((int)(Projectile.ai[0]));
+                Texture2D arrowTex = TextureAssets.Projectile[(int)(Projectile.ai[0])].Value;
+                int frames = (Main.projFrames[(int)(Projectile.ai[0])] < 1) ? 1 : Main.projFrames[(int)(Projectile.ai[0])];
                 Vector2 arrowOrigin = new Vector2(arrowTex.Width * 0.5f, (arrowTex.Height / frames) * 0.5f);
                 Rectangle? arrowRect = new Rectangle(0, 0, arrowTex.Width, (arrowTex.Height / frames));
 
-                Player player = Main.player[projectile.owner];
-                if (projectile.ai[1] < 5)
+                Player player = Main.player[Projectile.owner];
+                if (Projectile.ai[1] < 5)
                 {
                     if (player.bodyFrame.Y == player.bodyFrame.Height)
                     {
                         Vector2 off = new Vector2(-10 * player.direction, player.gravDir * -2);
                         float rot = player.gravDir < 0 ? 3.14f : 0;
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, projectile.scale, effects, 0f);
+                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
                     }
                     if (player.bodyFrame.Y == player.bodyFrame.Height * 2)
                     {
                         Vector2 off = new Vector2(0, player.gravDir * -6);
                         float rot = player.direction * player.gravDir  * 0.785f + (player.gravDir < 0 ? 3.14f : 0);
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, projectile.scale, effects, 0f);
+                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
                     }
                     if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
                     {
                         Vector2 off = new Vector2(2 * player.direction, player.gravDir * 2);
                         float rot = player.direction * player.gravDir * 1.92f + (player.gravDir < 0 ? 3.14f : 0);
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, projectile.scale, effects, 0f);
+                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
                     }
                     if (player.bodyFrame.Y == player.bodyFrame.Height * 4)
                     {
                         Vector2 off = new Vector2(0, player.gravDir * 4);
                         float rot = player.direction * player.gravDir * 2.36f + (player.gravDir < 0 ? 3.14f : 0);
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, projectile.scale, effects, 0f);
+                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
                     }
                 }
 
                 float rotOff = MathHelper.ToRadians(22.5f);
-                Vector2 vel = projectile.velocity;
+                Vector2 vel = Projectile.velocity;
                 vel.Normalize();
-                float e = (projectile.ai[1] < 1 && player.bodyFrame.Y == player.bodyFrame.Height * 10 && projectile.frame == 1) ? 1 : projectile.ai[1];
+                float e = (Projectile.ai[1] < 1 && player.bodyFrame.Y == player.bodyFrame.Height * 10 && Projectile.frame == 1) ? 1 : Projectile.ai[1];
                 for (int i = 0; i < e; i++)
                 {
-                    Vector2 dir = (projectile.ai[1] <= 1) ? vel : vel.RotatedBy(MathHelper.Lerp(-rotOff, rotOff, i / (projectile.ai[1] - 1)));
+                    Vector2 dir = (Projectile.ai[1] <= 1) ? vel : vel.RotatedBy(MathHelper.Lerp(-rotOff, rotOff, i / (Projectile.ai[1] - 1)));
                     float rot = dir.ToRotation() + 1.57f;
                     Vector2 offset = (dir * arrowOrigin.Y) - (vel * drawOrigin.X);
                     offset.Y -= player.gravDir;
-                    spriteBatch.Draw(arrowTex, projectile.Center + offset - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, projectile.scale, effects, 0f);
+                    spriteBatch.Draw(arrowTex, Projectile.Center + offset - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
                 }
             }
             return false;

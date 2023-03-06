@@ -15,26 +15,26 @@ namespace JoostMod.NPCs
         }
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.DiggerBody);
-            npc.aiStyle = -1;
-            npc.damage = 10;    
-            npc.defense = 5;         
-            npc.knockBackResist = 0f;
-            npc.width = 12;
-            npc.height = 12;       
-            npc.behindTiles = true;
-            npc.noTileCollide = true;
-            npc.netAlways = true;
-            npc.noGravity = true;
-            npc.dontCountMe = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.CloneDefaults(NPCID.DiggerBody);
+            NPC.aiStyle = -1;
+            NPC.damage = 10;    
+            NPC.defense = 5;         
+            NPC.knockBackResist = 0f;
+            NPC.width = 12;
+            NPC.height = 12;       
+            NPC.behindTiles = true;
+            NPC.noTileCollide = true;
+            NPC.netAlways = true;
+            NPC.noGravity = true;
+            NPC.dontCountMe = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
         }
         public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SucculentCactus"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SucculentCactus").Type, 1);
             }
 		}
     }

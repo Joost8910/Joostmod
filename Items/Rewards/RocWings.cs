@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Rewards
@@ -16,18 +17,18 @@ namespace JoostMod.Items.Rewards
 
 		public override void SetDefaults()
 		{
-			item.width = 46;
-			item.height = 32;
-			item.value = 60000;
-			item.rare = 3;
-			item.accessory = true;
+			Item.width = 46;
+			Item.height = 32;
+			Item.value = 60000;
+			Item.rare = ItemRarityID.Orange;
+			Item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.wingTimeMax = 30;
             player.GetModPlayer<JoostPlayer>().rocWings = true;
 		}
-
+		//TODO: Adjust stats to be a closer to fledgling wings
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
 			ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
@@ -47,9 +48,9 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }

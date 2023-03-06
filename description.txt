@@ -1,247 +1,118 @@
 The Joostmod has to offer
-450 new items
+456 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
 14 new regular enemies
-9 new minibosses
+10 new minibosses
 4 new bosses
 2 new town npcs
 
-Version 0.9.0.1
---- Weapons ---
-Brawler's Glove
-- Can no longer carry bosses even if they are knockback-susceptible
-- Increased time latched onto a non-carryable enemy from 2 to 4 seconds
-- Time limit now also applies to carryable enemies
-
-Earthen Billhook
-- Reduced Right Click attack speed
-- Increased Right Click damage by 15%
-
---- Bug Fixes ---
-Fixed issue where Gilgamesh would fall through the ground when transitioning phases during the lunge attack
-Fixed launching multiplayer crashing and disabling the mod
-
-Version 0.9
+Version 0.9.1
 --- New Additions ---
-Joostmod's Fifth Anniversary, a 10% chance drop from any Joostmod Boss
-Storm Wyvern, new hunt available after the Wall of Flesh
-Scroll of the Storm, reward item for the Storm Wyvern quest
-Actual Mace, melee weapon found in gold chests with a 1 / 5 chance
-Actual Flaming Mace, crafted upgrade to Actual Mace
-Brawler's Glove, melee weapon sold by the travelling merchant
+Glow-In-The-Dark Contacts
+Dirt Board
+Divine Mirror
+Staff of Degeneration
+Clawed Gauntlet
+Twin Claws
+Slime Armor
+Pink Slime Armor
 
---- Weapon Changes ---
-100 needles
- - New sprite
-1000 needles
- - New sprite
-Needle Wrath
- - New sprite
-Soul Spear
-- Increased Use Time from 40 to 50
-Duality Staff
-- Now has a turn speed cap
+--- Weapons ---
+1000 Needles
+- Reduced mana cost from 30 to 20
 
-Stone Fist
-- New function: Right Click while fully charged to grab an enemy, allowing you to either pummel or throw it
-- Attacking with fully charged punch now puts a launching effect on struck enemies that cause them to deal damage as they collide into other enemies
-Dragon Tooth
-- Use Time increased from 44 to 48
-Earth Billhook
-- Increased damage from 64 to 69
-- Increased Boulder left click hit damage multiplier from 2.5 to 3
+Actual Mace
+- Reduced charged attack damage from 60% bonus damage to 45% bonus damage
 
-The Mustache
- - New sprite
+Bone Hurting Juice
+- Reduced damage to 16
+- Recipe updated: now 20 water bottles, a blinkroot, and a deathweed; makes 20
+
+Brawler's Glove
+- Punching player velocity no longer scaled with knockback
+
 Ember Staff
- - New minion sprite
+- Damage decreased from 6 to 5
+
+Frostfire Wand
+- Attack Speed decreased from usetime 35 to usetime 40 
+
 Frostfire Staff
- - New minion sprite
-Gnome staff
-- Damage increased from 30 to 42
-- Minions now stab with close-range spears instead of shooting homing hats
-- New Right Click function: holding Right Click will direct minions to raise shields that block enemies.
-Cactus Staff
-- Damage reduced from 200 to 150
-- Minions now fire a barrage of 10 needles instead of single needles
-Wand of the Forest
-- Damage increased from 8 to 12
-- Repeated use no longer stacks up leaves
-Staff of Nature
-- Damage increased from 29 to 44
-- Repeated use no longer stacks up leaves
-Pumpkin Staff
-- Damage increased from 38 to 52
-- Use Time reduced from 48 to 36
-- Repeated use no longer stacks up pumpkins
+- Damage decreased from 7 to 5
 
---- Legendaries ---
-- Legendary weapons can no longer receive prefixes
-Revamped Scaling:
- Pinkzor              | +5%    | (105% total)
- Rogue Tomato         | +5%    | (110% total)
- Forest's Vengeance   | +5%    | (115% total)
- King Slime           | +10%   | (125% total)
- Flowering Cactoid    | +5%    | (130% total)
- Goblin Army          | +10%   | (140% total)
- Eye of Cthulhu       | +10%   | (150% total)
- ICU                  | +10%   | (160% total)
- Eater / Brain        | +10%   | (170% total)
- Spore Spawn          | +10%   | (180% total)
- Old One's Army       | +10%   | (190% total)
- Queen Bee            | +10%   | (200% total)
- Roc                  | +10%   | (210% total)
- Skeletron            | +20%   | (230% total)
- Skeleton Demoman     | +20%   | (250% total)
- Grand Cactus Worm    | +20%   | (270% total)
- Imp Lord             | +20%   | (290% total)
- Wall of Flesh        | +35%   | (325% total)
- Pirate Invasion      | +25%   | (350% total)
- Storm Wyvern         | +75%   | (425% total)
- The Twins            | +125%  | (550% total) 
- The Destroyer        | +125%  | (675% total) 
- Skeletron Prime      | +125%  | (800% total) 
- Plantera             | +400%  | (1200% total) 
- Golem                | +300%  | (1500% total) 
- Duke Fishron         | +300%  | (1800% total)
- Martian Invasion     | +300%  | (2100% total)
- Mourning Wood        | +150%  | (2250% total) 
- Pumpking             | +150%  | (2400% total) 
- Everscream           | +150%  | (2550% total) 
- Santa NK1            | +150%  | (2700% total) 
- Ice Queen            | +150%  | (2850% total) 
- Lunatic Cultist      | +450%  | (3300% total)
- Nebula Pillar        | +200%  | (3500% total)
- Solar Pillar         | +200%  | (3700% total)
- Vortex Pillar        | +200%  | (3900% total)
- Stardust Pillar      | +200%  | (4100% total)
- Moon Lord            | +900%  | (5000% total)
- JumboCactuar         | +1000% | (6000% total)
- SA-X                 | +1000% | (7000% total)
- Gilgamesh and Enkidu | +1000% | (8000% total)
+Focus Souls
+- Increased charge time
 
-Boook's Bullet Hell
-- New sprite
-- Deals 40% reduced damage with any ammo classified as homing
-- No longer shoot arrows
-- Instead of a large rotary spread, it now fires with rate and accuracy based on gear
-- New Right Click function: now shifts gear, increasing attack speed and reducing accuracy
+Gnome Staff
+- Recipe now uses Garden Gnome instead of Ginger Beard and Silver Dye
 
-Larkus's Tome
-- New Sprite
-- Base damage increased from 5 to 7
-- Now empowers a single minion instead of summoning multiple
-- New Right Click function: now charges up a powerful attack when holding Right Click
-
-Staff of David
-- New Sprite
-- Now has a turn speed cap
-- Right Click projectile movement changed from a small spread to a large spread that turns inwards
-
-Warhammer of Grognak
-- New sprite
-- New Left Click function: Swings in a sideways spinning movement 
-- New Right Click function: Swings in a slow overhead movement that fires a spinning projectile
-- Holding UP during new Right Click performs the jumping slam shockwave
-- Shockwave attack now has a 5 second cooldown
-
-Gnunderson's Glove
-- Now properly affected by throwing speed
-- Increased velocity of the Giant Shuriken by ~15%
-- New Right Click function: now performs a high jump that grants i frames, followed by a barrage of shurikens
-- Holding UP during the new Right Click throws the giant shuriken instead of the barrage
-
-Uncle Carius's Fishing Pole
-- Damage reduced from 8 to 6
-
---- Armor ---
-Tornado Set
-- Set bonus duration increased from 2 seconds per minion to 4 seconds per minion
-- Fixed issue where set bonus prevented you from jumping normally
-
-Havel's Set
-- Set bonus now lasts 30 seconds instead of being toggled at will
+Skeleton Staff
+- Damage decreased from 17 to 16
 
 --- Accessories ---
-Roc Wings
-- Reduced flight time from 0.75 seconds to 0.5 seconds
+Stone of Jordan
+- Updated Sprite
 
-Shield of Flesh
-- Now correctly has a cooldown between dashes
-- Dash can now be extended when holding the directing movement key on the ground
-- Reduced Leech spawnrate
+Hover Boots
+- Updated Visuals
+- No longer hovers while holding jump
+- No longer activates with Fishron or UFO mounts
+- Resets on Minecart tracks or waterwalking
 
-Havel's Greatshield
-- Instead of reducing damage by 80% when blocking, it instead reduces damage by a flat amount equal to its attack damage
+Personal bubble
+- Recipe no longer requires Bubble Shield
 
---- Misc Items ---
-Large Imp Tail
-- New animated sprite
-- Now floats
-- Renamed to Fiery Imp Tail
+--- Grappling Hooks ---
+Swingy Hook
+- Reduced velocity from 15 to 11
+
+Grabby Swingy Hook
+- Reduced velocity from 15 to 11
+
+Enchanted Swingy Hook
+- Reduced velocity from 18 to 12.5
+- Reduced length from 500 pixels to 420 pixels
+
+Enchanted Grabby Swingy Hook
+- Reduced velocity from 18 to 12.5
+- Reduced length from 520 pixels to 420 pixels
+
+Cactus Worm Hook
+- Reduced velocity from 12 to 10
+- Reduced length from 420 pixels to 250 pixels
+
+--- Vanity ---
+The Knight's Mask
+- Updated Sprite
+
+--- Consumables ---
+Wonder Waffle
+- Fixed issue where the Wonder Waffle would not be sold
+- Increased price from 15 silver to ~20 silver
+
+--- Mounts ---
+Scooter
+- No longer reduces fall damage
+- Reduced Acceleration
+
+Water Board
+- Reduced max horizontal speed from 66 mph to 60 mph
+- Now has brief flight time of 0.75 secs instead of a large jump height
+- Now has special slope physics
+
+Slabs of Stone
+- Increased max horizontal speed from 71 mph to 75 mph
+
+Fiery Soles
+- Increased flight time from 1 second to 1.25 seconds
+
+Whirlwind Sphere
+- Reduced max horizontal speed from 53 to 51 mph
+- Reduced acceleration from 1.785 mph per second to 1.53 mph per second
+- Increased flight time from 2 seconds to 2.5 seconds
 
 --- NPCS ---
-Huntmaster
-- Now has a special UI for selecting and turning in quests
-- Allows for multiple hunts to be active at once
-
---- Enemies ---
-Water Elemental
-- Increased health from 200 to 400
-- Increased Water Essence drop from 4-9 to 8-19 (12-29 in Expert Mode)
-- Reduced spawn rate
-- Now has charging attack mimicking the Zora Armor spin
-- In Expert Mode: has an attack where the Water Elemental will create damaging rain over the player
-
-Earth Elemental
-- Increased health from 300 to 600
-- Increased Earth Essence drop from 4-9 to 8-19 (12-29 in Expert Mode)
-- Increased contact damge from 20 to 30
-- Reduced spawn rate
-- In Expert Mode: Now has a powerful charge-up a spin attack
-
-Fire Elemental
-- New Sprite
-- Increased health from 250 to 500
-- Increased Fire Essence drop from 4-9 to 8-19 (12-29 in Expert Mode)
-- Reduced spawn rate
-- Reduced contact damage from 60 to 40
-- In Expert Mode: Now has an attack where it turns into a fireball and dashes at the target
-
-Air Elemental
-- Increased health from 175 to 350
-- Increased contact damage from 20 to 25
-- Increased Air Essence drop from 4-9 to 8-19 (12-29 in Expert Mode)
-- Reduced spawn rate
-- Now will occasionally try to dodge projectiles
-- In Expert Mode: Now has a wind attack mimicking the Chimes of Wind
-
-Desert Golem
-- No longer spawns in beaches
-
-Pinkzor
-- No longer spawns within 500 horizontal tiles of spawn
-
---- Bosses ---
-All Bosses
-- Now drops trophies directly instead of from treasure bags
-- Now have 10% chance to drop Joostmod's Fifth Anniversary
-
-Grand Cactus Worm
-- Reduced health from 15000 to 12500
-- Reduced velocity of Cactus Ball projectile
-- Reduced spawnrate of Cactus Thorns
-- In Expert Mode: Body Segments gain 1000 defense instead of becoming immune to damage
-- In Expert Mode: Now has more aggressive charge attacks
-- Fixed issue where it would not regain aggro when damaged
-
-Jumbo Cactuar
-- Now rapidly increases defense and speed the longer it is enraged. There is no escape.
-
-SA-X
-- Increased damage of Infected! debuffs
-
-Gilgamesh
-- Increase size of the shield drawn during the final sub-phase
+Hunt Master
+- Can now be warped by the King Statue

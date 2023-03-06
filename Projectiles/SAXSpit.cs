@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,17 +14,17 @@ namespace JoostMod.Projectiles
 		}
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 1;
-            projectile.alpha = 20;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 1;
+            Projectile.alpha = 20;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -40,18 +41,18 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.velocity.X *= 0.98f;
-            projectile.velocity.Y = (projectile.velocity.Y < 10 ? projectile.velocity.Y + 0.3f : projectile.velocity.Y);
+            Projectile.velocity.X *= 0.98f;
+            Projectile.velocity.Y = (Projectile.velocity.Y < 10 ? Projectile.velocity.Y + 0.3f : Projectile.velocity.Y);
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, projectile.Center, 9);
+            SoundEngine.PlaySound(SoundID.NPCDeath9, Projectile.Center);
             int numberProjectiles = 6;
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X / 2, projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
+                Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X / 2, Projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
                 perturbedSpeed *= 1f - (Main.rand.NextFloat() * .3f);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("SAXSpit2"), projectile.damage / 2, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("SAXSpit2").Type, Projectile.damage / 2, 0, Projectile.owner);
             }
         }
 	}

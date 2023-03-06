@@ -14,16 +14,16 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 6;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.WoodenArrowFriendly;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.WoodenArrowFriendly;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
         int hitMob = -1;
         bool pvp = false;
@@ -33,46 +33,46 @@ namespace JoostMod.Projectiles
         {
             pvp = false;
             hitMob = target.whoAmI;
-            offSet = target.Center - projectile.Center;
+            offSet = target.Center - Projectile.Center;
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             pvp = true;
             hitMob = target.whoAmI;
-            offSet = target.Center - projectile.Center;
+            offSet = target.Center - Projectile.Center;
         }
         public override void AI()
         {
             if (pvp && hitMob >= 0 && hitMob < 255)
             {
                 Player P = Main.player[hitMob];
-                projectile.velocity = P.velocity;
-                projectile.position = (P.Center - offSet) - (projectile.Size / 2);
+                Projectile.velocity = P.velocity;
+                Projectile.position = (P.Center - offSet) - (Projectile.Size / 2);
                 if (!P.active || P.dead)
                 {
                     hitMob = -1;
                     pvp = false;
                 }
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
             else if (hitMob >= 0)
             {
                 NPC npc = Main.npc[hitMob];
-                projectile.velocity = npc.velocity;
-                projectile.position = (npc.Center - offSet) - (projectile.Size / 2);
+                Projectile.velocity = npc.velocity;
+                Projectile.position = (npc.Center - offSet) - (Projectile.Size / 2);
                 if (!npc.active || npc.friendly || npc.life <= 0)
                 {
                     hitMob = -1;
                 }
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
-            else if (projectile.timeLeft < 560)
+            else if (Projectile.timeLeft < 560)
             {
-                rot += projectile.direction * projectile.velocity.Length() * 0.0174f;
-                projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-                projectile.velocity.X = projectile.velocity.X * 0.99f;
+                rot += Projectile.direction * Projectile.velocity.Length() * 0.0174f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.99f;
             }
-            projectile.rotation = rot;
+            Projectile.rotation = rot;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -89,7 +89,7 @@ namespace JoostMod.Projectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
             return false;
         }
     }

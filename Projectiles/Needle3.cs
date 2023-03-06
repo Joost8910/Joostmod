@@ -15,13 +15,13 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 400;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 400;
 		}
 
 	}

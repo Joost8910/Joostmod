@@ -17,23 +17,23 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.melee = true;
-            item.width = 26;
-            item.height = 24;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = 5;
-            item.noMelee = true;
-			item.noUseGraphic = true;
-            item.knockBack = 5;
-            item.value = 100000;
-            item.rare = 1;
-            item.UseSound = SoundID.Item7;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("GrabGlove");
-            item.shootSpeed = 1f;
-            item.channel = true;
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 26;
+            Item.height = 24;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 5;
+            Item.value = 100000;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item7;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("GrabGlove").Type;
+            Item.shootSpeed = 1f;
+            Item.channel = true;
         }
         public override bool AltFunctionUse(Player player)
         {

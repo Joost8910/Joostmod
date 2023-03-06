@@ -14,21 +14,20 @@ public override void SetStaticDefaults()
 		}
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 26;
-			item.vanity = true;
-			item.value = 10000;
-			item.rare = 0;
+			Item.width = 24;
+			Item.height = 26;
+			Item.vanity = true;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.White;
 		}
 
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Marble, 10);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.Marble, 10)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 	}
 }

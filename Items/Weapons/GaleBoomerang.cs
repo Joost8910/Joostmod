@@ -13,42 +13,41 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 48;
-			item.thrown = true;
-			item.width = 30;
-			item.height = 62;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = 1;
-			item.knockBack = 7f;
-			item.value = 250000;
-			item.rare = 4;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("GaleBoomerang");
-			item.shootSpeed = 7f;
+			Item.damage = 48;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 30;
+			Item.height = 62;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 7f;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("GaleBoomerang").Type;
+			Item.shootSpeed = 7f;
 		}
-        public override bool CanUseItem(Player player)
-        {
-            if ((player.ownedProjectileCounts[item.shoot]) >= item.stack)
-            {
-                return false;
-            }
-            else return true;
-        }
+		public override bool CanUseItem(Player player)
+		{
+			if ((player.ownedProjectileCounts[Item.shoot]) >= Item.stack)
+			{
+				return false;
+			}
+			else return true;
+		}
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "TinyTwister", 50);
-			recipe.AddIngredient(ItemID.WoodenBoomerang);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 3);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 3);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 3);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.TinyTwister>(50)
+				.AddIngredient(ItemID.WoodenBoomerang)
+				.AddRecipeGroup("JoostMod:AnyCobalt", 3)
+				.AddRecipeGroup("JoostMod:AnyMythril", 3)
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 3)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 	}
 }

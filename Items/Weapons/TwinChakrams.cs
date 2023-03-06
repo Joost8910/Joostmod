@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,40 +17,40 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 38;
-			item.thrown = true;
-			item.maxStack = 1;
-			item.consumable = false;
-			item.width = 68;
-			item.height = 62;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 4;
-			item.value = 300000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item84;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Chakram");
-			item.shootSpeed = 2.5f;
+			Item.damage = 38;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 1;
+			Item.consumable = false;
+			Item.width = 68;
+			Item.height = 62;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 4;
+			Item.value = 300000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item84;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Chakram").Type;
+			Item.shootSpeed = 2.5f;
 		}
-		    public override void ModifyTooltips(List<TooltipLine> list)
+		public override void ModifyTooltips(List<TooltipLine> list)
+		{
+			foreach (TooltipLine line2 in list)
 			{
-				foreach (TooltipLine line2 in list)
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
 				{
-					if (line2.mod == "Terraria" && line2.Name == "ItemName")
-					{
-						line2.overrideColor = new Color(255, 128, 0);
-					}
+					line2.OverrideColor = new Color(255, 128, 0);
 				}
 			}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		}
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-					Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Chakram2"), damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Chakram2").Type, damage, knockback, player.whoAmI);
 			return true;
-		} 
+		}
 
 	}
 }

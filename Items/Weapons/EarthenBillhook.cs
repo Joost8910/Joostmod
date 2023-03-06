@@ -1,5 +1,8 @@
+//TODO: Billhook is honestly kinda ugly, change to a cooler polearm
 using Microsoft.Xna.Framework;
-using Terraria;
+using Terraria; 
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -16,54 +19,54 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 69;
-			item.melee = true;
-			item.width = 92;
-			item.height = 90;
-			item.useTime = 32;
-			item.useAnimation = 32;
-			item.reuseDelay = 2;
-			item.useStyle = 1;
-			item.knockBack = 7;
-			item.value = 250000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.noMelee = true;
-            item.shoot = mod.ProjectileType("EarthenBillhook");
-            item.shootSpeed = 7f;
+			Item.damage = 69;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 92;
+			Item.height = 90;
+			Item.useTime = 32;
+			Item.useAnimation = 32;
+			Item.reuseDelay = 2;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 7;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item7;
+			Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.shoot = Mod.Find<ModProjectile>("EarthenBillhook").Type;
+            Item.shootSpeed = 7f;
         }
         public override bool AltFunctionUse(Player player)
         {
-            return (player.ownedProjectileCounts[item.shoot] <= 0);
+            return (player.ownedProjectileCounts[Item.shoot] <= 0);
         }
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                item.useStyle = 1;
+                Item.useStyle = ItemUseStyleID.Swing;
             }
             else
             {
-                item.useStyle = 5;
+                Item.useStyle = ItemUseStyleID.Shoot;
             }
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 return false;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("EarthenBillhook2"), (int)(damage * 1.15f), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, Mod.Find<ModProjectile>("EarthenBillhook2").Type, (int)(damage * 1.15f), knockback, player.whoAmI);
                 return false;
             }
-            Main.PlaySound(2, player.Center, 19);
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            SoundEngine.PlaySound(SoundID.Item19, player.Center);
+            return true;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -102,9 +105,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -113,15 +116,14 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "EarthEssence", 50);
-			recipe.AddIngredient(ItemID.StoneBlock, 100);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+                .AddIngredient<Materials.EarthEssence>(50)
+                .AddIngredient(ItemID.StoneBlock, 100)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
 		}
 	}
 }

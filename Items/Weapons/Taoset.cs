@@ -13,32 +13,35 @@ namespace JoostMod.Items.Weapons
         {
             DisplayName.SetDefault("Tao Weapon Set");
             Tooltip.SetDefault("'You've found your inner pieces!'");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()
         {
-            item.damage = 64;
-            item.width = 42;
-            item.height = 44;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.knockBack = 6;
-            item.value = 40000;
-            item.rare = 6;
-            item.scale = 1f;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("DarkBolt");
-            item.shootSpeed = 12f;
-            item.crit = 4;
+            Item.damage = 64;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 42;
+            Item.height = 44;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6;
+            Item.value = 40000;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("DarkBolt").Type;
+            Item.shootSpeed = 12f;
+            Item.crit = 4;
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
         }
+        */
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
             switch (rand.Next(24))
@@ -93,42 +96,37 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-        public override void GetWeaponDamage(Player player, ref int damage)
-        {
-            damage = (int)((double)damage * ((player.magicDamage + player.meleeDamage + player.thrownDamage + player.rangedDamage + player.minionDamage) / 5));
-        }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 63, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 63, (damage), knockback, player.whoAmI);
             }
             if (wep == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("Darklightarrow"), (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("Darklightarrow").Type, (damage), knockback, player.whoAmI);
             }
             if (wep == 3)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LightBolt"), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("LightBolt").Type, damage, knockback, player.whoAmI);
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("Balancerang"), (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("Balancerang").Type, (damage), knockback, player.whoAmI);
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DaoofPow);
-            recipe.AddIngredient(null, "Shadowlightbow");
-            recipe.AddIngredient(null, "Yinyangcharm");
-            recipe.AddIngredient(null, "Balancerang");
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DaoofPow)
+                .AddIngredient<Shadowlightbow>()
+                .AddIngredient<Yinyangcharm>()
+                .AddIngredient<Balancerang>()
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
     }

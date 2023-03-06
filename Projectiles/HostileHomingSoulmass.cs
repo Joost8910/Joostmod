@@ -2,6 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -14,49 +17,49 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-			projectile.aiStyle = -1;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 360;
-			projectile.tileCollide = false;
-            projectile.alpha = 55;
+			Projectile.width = 36;
+			Projectile.height = 36;
+			Projectile.aiStyle = -1;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 360;
+			Projectile.tileCollide = false;
+            Projectile.alpha = 55;
 		}
 		public override void AI()
 		{
-			if (projectile.timeLeft % 2 == 0)
+			if (Projectile.timeLeft % 2 == 0)
 			{
-                int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 92);
+                int dustIndex = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 92);
                 Main.dust[dustIndex].noGravity = true;
             }
-			double deg = projectile.ai[1];
+			double deg = Projectile.ai[1];
 			double rad = deg * (Math.PI / 180);
-            NPC host = Main.npc[(int)projectile.ai[0]];
+            NPC host = Main.npc[(int)Projectile.ai[0]];
             Player player = Main.player[host.target];
-            if (projectile.localAI[1] == 0)
+            if (Projectile.localAI[1] == 0)
             {
-                projectile.position.X = host.Center.X - (int)(Math.Cos(rad) * 100) - projectile.width / 2;
-                projectile.position.Y = (host.Center.Y - 50) - (int)(Math.Sin(rad) * 100) - projectile.height / 2;
-                projectile.direction = host.direction;
-                if (!host.active || host.type != mod.NPCType("Spectre"))
+                Projectile.position.X = host.Center.X - (int)(Math.Cos(rad) * 100) - Projectile.width / 2;
+                Projectile.position.Y = (host.Center.Y - 50) - (int)(Math.Sin(rad) * 100) - Projectile.height / 2;
+                Projectile.direction = host.direction;
+                if (!host.active || host.type != Mod.Find<ModNPC>("Spectre").Type)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
             Vector2 move = Vector2.Zero;
             float distance = 800f;
             bool target = false;
             for (int k = 0; k < 255; k++)
             {
-                if (projectile.Distance(player.Center) > distance || !player.active || player.dead)
+                if (Projectile.Distance(player.Center) > distance || !player.active || player.dead)
                 {
                     player = Main.player[k];
                 }
-                if (player.active && !player.dead && Collision.CanHit(new Vector2(projectile.Center.X, projectile.Center.Y), 1, 1, player.position, player.width, player.height))
+                if (player.active && !player.dead && Collision.CanHit(new Vector2(Projectile.Center.X, Projectile.Center.Y), 1, 1, player.position, player.width, player.height))
                 {
-                    Vector2 newMove = player.Center - projectile.Center;
+                    Vector2 newMove = player.Center - Projectile.Center;
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                     if (distanceTo < distance)
                     {
@@ -66,60 +69,60 @@ namespace JoostMod.Projectiles
                     }
                 }
             }
-            projectile.rotation = (float)rad + (projectile.timeLeft * -12 * (float)Math.PI / 180f * projectile.direction);
-            if (projectile.timeLeft < 270 && Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1) && projectile.localAI[1] == 0)
+            Projectile.rotation = (float)rad + (Projectile.timeLeft * -12 * (float)Math.PI / 180f * Projectile.direction);
+            if (Projectile.timeLeft < 270 && Collision.CanHitLine(Projectile.Center, 1, 1, player.Center, 1, 1) && Projectile.localAI[1] == 0)
             {
-                projectile.velocity = projectile.DirectionTo(player.Center) * 8;
-                projectile.localAI[0] = projectile.velocity.Length();
-                Main.PlaySound(2, projectile.Center, 9);
-                projectile.localAI[1] = 1;
-                projectile.ai[1] = 0;
-                projectile.tileCollide = true;
+                Projectile.velocity = Projectile.DirectionTo(player.Center) * 8;
+                Projectile.localAI[0] = Projectile.velocity.Length();
+                SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
+                Projectile.localAI[1] = 1;
+                Projectile.ai[1] = 0;
+                Projectile.tileCollide = true;
             }
-            if (projectile.localAI[1] == 1)
+            if (Projectile.localAI[1] == 1)
             {
                 if (target)
                 {
-                    if (move.Length() > projectile.localAI[0] && projectile.localAI[0] > 0)
+                    if (move.Length() > Projectile.localAI[0] && Projectile.localAI[0] > 0)
                     {
-                        move *= projectile.localAI[0] / move.Length();
+                        move *= Projectile.localAI[0] / move.Length();
                     }
                     float home = 30f;
-                    projectile.velocity = ((home - 1f) * projectile.velocity + move) / home;
+                    Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
                 }
-                if (projectile.velocity.Length() < projectile.localAI[0] && projectile.localAI[0] > 0)
+                if (Projectile.velocity.Length() < Projectile.localAI[0] && Projectile.localAI[0] > 0)
                 {
-                    projectile.velocity *= (projectile.localAI[0] / projectile.velocity.Length());
+                    Projectile.velocity *= (Projectile.localAI[0] / Projectile.velocity.Length());
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch sb, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Color color = new Color(255, 255, 255, 150);
-            sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
+            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
             return false;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            projectile.Kill();
+            Projectile.Kill();
         }
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 12; i++)
             {
-                int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 92);
+                int dustIndex = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 92);
                 Main.dust[dustIndex].noGravity = true;
             }
-            Main.PlaySound(2, projectile.Center, 27);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 		}
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 20;
             height = 20;

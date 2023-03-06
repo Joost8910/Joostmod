@@ -18,35 +18,35 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 1;
-            item.magic = true;
-			item.mana = 3;
-            item.width = 32;
-            item.height = 32;
-            item.noMelee = true;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = 5;
-            Item.staff[item.type] = true;
-            item.knockBack = 2.5f;
-            item.autoReuse = true;
-            item.rare = 2;
-            item.value = Item.sellPrice(0, 0, 0, 10);
-			item.UseSound = SoundID.Item8;
-			item.shoot = mod.ProjectileType("DirtBolt");
-			item.shootSpeed = 5.5f;
+            Item.damage = 1;
+            Item.DamageType = DamageClass.Magic;
+			Item.mana = 3;
+            Item.width = 32;
+            Item.height = 32;
+            Item.noMelee = true;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.staff[Item.type] = true;
+            Item.knockBack = 2.5f;
+            Item.autoReuse = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(0, 0, 0, 10);
+			Item.UseSound = SoundID.Item8;
+			Item.shoot = Mod.Find<ModProjectile>("DirtBolt").Type;
+			Item.shootSpeed = 5.5f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(151, 107, 75);
+                    line2.OverrideColor = new Color(151, 107, 75);
                 }
             }
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             int dirt = 0;
             for (int i = 0; i < 58; i++)
@@ -56,7 +56,7 @@ namespace JoostMod.Items.Weapons
                     dirt += player.inventory[i].stack;
                 }
             }
-            flat = (dirt / 666f);
+            damage.Flat = (dirt / 666f);
         }
         public override bool CanUseItem(Player player)
         {
@@ -97,11 +97,10 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock, 666);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DirtBlock, 666)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

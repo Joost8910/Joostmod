@@ -12,55 +12,55 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernal Chakram");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 2400;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 2400;
+			Projectile.extraUpdates = 1;
+			Projectile.tileCollide = false;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
 		{
-			Player owner = Main.player[projectile.owner];
+			Player owner = Main.player[Projectile.owner];
 			n.AddBuff(24, 180);
 		}
 		public override void AI()
 		{
-			if(Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid > 80 && (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquidType() == 0 || Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquidType() == 2))
+			if(Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 80 && (Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidType == 0 || Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidType == 2))
 			{
-				projectile.Kill();
+				Projectile.Kill();
 			}
-			if (projectile.timeLeft % 2 == 0)
+			if (Projectile.timeLeft % 2 == 0)
 			{
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, projectile.velocity.X/10, projectile.velocity.Y/10, 100, default(Color), 1f);
+				int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, Projectile.velocity.X/10, Projectile.velocity.Y/10, 100, default(Color), 1f);
 				Main.dust[num1].noGravity = true;
 			}
-			 double deg = (double)projectile.ai[1];
+			 double deg = (double)Projectile.ai[1];
 			double rad = deg * (Math.PI / 180);
-			double dist = projectile.ai[1] / 60; 
-			Projectile p = Main.projectile[(int)projectile.ai[0]];
-			Player P = Main.player[projectile.owner];
-			if (!p.active || p.timeLeft <= 0 || (p.type != mod.ProjectileType("InfernalChakram") && p.type != mod.ProjectileType("DousedChakram")))
+			double dist = Projectile.ai[1] / 60; 
+			Projectile p = Main.projectile[(int)Projectile.ai[0]];
+			Player P = Main.player[Projectile.owner];
+			if (!p.active || p.timeLeft <= 0 || (p.type != Mod.Find<ModProjectile>("InfernalChakram").Type && p.type != Mod.Find<ModProjectile>("DousedChakram").Type))
 			{
-				projectile.position.X = P.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
-				projectile.position.Y = P.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;
+				Projectile.position.X = P.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width/2;
+				Projectile.position.Y = P.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height/2;
 			}
 			else
 			{
-				projectile.position.X = p.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
-				projectile.position.Y = p.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;				
+				Projectile.position.X = p.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width/2;
+				Projectile.position.Y = p.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height/2;				
 			}
-			projectile.ai[1] += 5f;
-			projectile.rotation = projectile.ai[1] * 0.0174f;
+			Projectile.ai[1] += 5f;
+			Projectile.rotation = Projectile.ai[1] * 0.0174f;
 		}
 	}
 }

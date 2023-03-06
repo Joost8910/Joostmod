@@ -17,11 +17,11 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 30;
-			item.value = 20000;
-			item.rare = 3;
-            item.accessory = true;
+			Item.width = 32;
+			Item.height = 30;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -31,19 +31,18 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("JoostMod:Saplings");
-            recipe.AddIngredient(ItemID.Glowstick);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+.AddRecipeGroup("JoostMod:Saplings")
+.AddIngredient(ItemID.Glowstick)
+.Register();
         }
     }
 }

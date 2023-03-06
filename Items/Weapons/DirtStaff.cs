@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System.Linq;
@@ -20,31 +21,31 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 1;
-            item.summon = true;
-			item.mana = 10;
-            item.width = 46;
-            item.height = 46;
-            item.noMelee = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = 1;
-            item.knockBack = 4;
-            item.rare = 2;
-            item.useTurn = true;
-            item.value = Item.sellPrice(0, 0, 0, 10);
-			item.UseSound = SoundID.Item44;
-			item.shoot = mod.ProjectileType("DirtMinion");
-			item.shootSpeed = 7f;
-			item.buffType = mod.BuffType("DirtMinion");
-			item.buffTime = 3600;
+            Item.damage = 1;
+            Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+            Item.width = 46;
+            Item.height = 46;
+            Item.noMelee = true;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.rare = ItemRarityID.Green;
+            Item.useTurn = true;
+            Item.value = Item.sellPrice(0, 0, 0, 10);
+			Item.UseSound = SoundID.Item44;
+			Item.shoot = Mod.Find<ModProjectile>("DirtMinion").Type;
+			Item.shootSpeed = 7f;
+			Item.buffType = Mod.Find<ModBuff>("DirtMinion").Type;
+			Item.buffTime = 3600;
         }
         public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
 		
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
@@ -90,11 +91,11 @@ namespace JoostMod.Items.Weapons
             }
             return base.CanUseItem(player);
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if(player.altFunctionUse == 2)
 			{
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(false);
 			}
 			return base.UseItem(player);
 		}
@@ -102,13 +103,13 @@ namespace JoostMod.Items.Weapons
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(151, 107, 75);
+                    line2.OverrideColor = new Color(151, 107, 75);
                 }
             }
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             int dirt = 0;
             for (int i = 0; i < 58; i++)
@@ -118,15 +119,14 @@ namespace JoostMod.Items.Weapons
                     dirt += player.inventory[i].stack;
                 }
             }
-            flat = (dirt / 666f);
+            damage.Flat = (dirt / 666f);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock, 666);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DirtBlock, 666)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

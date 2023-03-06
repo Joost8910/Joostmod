@@ -15,50 +15,50 @@ namespace JoostMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.friendly = true;
-			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.extraUpdates = 2;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.width = 6;
+			Projectile.height = 6;
+			Projectile.friendly = true;
+			Projectile.alpha = 255;
+			Projectile.penetrate = -1;
+			Projectile.extraUpdates = 2;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 		}
 
 		public override void AI()
 		{
 			int dustType = 0;
-			if (projectile.owner == Main.myPlayer)
+			if (Projectile.owner == Main.myPlayer)
 			{
-				Convert((int)(projectile.position.X + (float)(projectile.width / 2)) / 16, (int)(projectile.position.Y + (float)(projectile.height / 2)) / 16, 2);
+				Convert((int)(Projectile.position.X + (float)(Projectile.width / 2)) / 16, (int)(Projectile.position.Y + (float)(Projectile.height / 2)) / 16, 2);
 			}
-			if (projectile.timeLeft > 133)
+			if (Projectile.timeLeft > 133)
 			{
-				projectile.timeLeft = 133;
+				Projectile.timeLeft = 133;
 			}
-			if (projectile.ai[0] > 7f)
+			if (Projectile.ai[0] > 7f)
 			{
 				float dustScale = 1f;
-				if (projectile.ai[0] == 8f)
+				if (Projectile.ai[0] == 8f)
 				{
 					dustScale = 0.2f;
 				}
-				else if (projectile.ai[0] == 9f)
+				else if (Projectile.ai[0] == 9f)
 				{
 					dustScale = 0.4f;
 				}
-				else if (projectile.ai[0] == 10f)
+				else if (Projectile.ai[0] == 10f)
 				{
 					dustScale = 0.6f;
 				}
-				else if (projectile.ai[0] == 11f)
+				else if (Projectile.ai[0] == 11f)
 				{
 					dustScale = 0.8f;
 				}
-				projectile.ai[0] += 1f;
+				Projectile.ai[0] += 1f;
 				for (int i = 0; i < 1; i++)
 				{
-					int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
+					int dustIndex = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
 					Dust dust = Main.dust[dustIndex];
 					dust.noGravity = true;
 					dust.scale *= 1.75f;
@@ -69,9 +69,9 @@ namespace JoostMod.Projectiles
 			}
 			else
 			{
-				projectile.ai[0] += 1f;
+				Projectile.ai[0] += 1f;
 			}
-			projectile.rotation += 0.3f * (float)projectile.direction;
+			Projectile.rotation += 0.3f * (float)Projectile.direction;
 		}
 
 		public void Convert(int i, int j, int size = 4)
@@ -82,122 +82,122 @@ namespace JoostMod.Projectiles
 				{
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
-						int type = (int)Main.tile[k, l].type;
-						int wall = (int)Main.tile[k, l].wall;
+						int type = (int)Main.tile[k, l].TileType;
+						int wall = (int)Main.tile[k, l].WallType;
 						if (wall == 187 || wall == 71)
 						{
-							Main.tile[k, l].wall = 1;
+							Main.tile[k, l].WallType = 1;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 216 || wall == 40)
 						{
-							Main.tile[k, l].wall = 2;
+							Main.tile[k, l].WallType = 2;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 217)
 						{
-							Main.tile[k, l].wall = 188;
+							Main.tile[k, l].WallType = 188;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 218)
 						{
-							Main.tile[k, l].wall = 195;
+							Main.tile[k, l].WallType = 195;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 219)
 						{
-							Main.tile[k, l].wall = 203;
+							Main.tile[k, l].WallType = 203;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 220)
 						{
-							Main.tile[k, l].wall = 3;
+							Main.tile[k, l].WallType = 3;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 221)
 						{
-							Main.tile[k, l].wall = 83;
+							Main.tile[k, l].WallType = 83;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (wall == 222)
 						{
-							Main.tile[k, l].wall = 28;
+							Main.tile[k, l].WallType = 28;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 
 
 
-						if (type == 53 || (type == 147 && ((int)Main.tile[k, l-1].type == 5 || !Main.tile[k, l-1].active() || !Main.tile[k-1, l].active()|| !Main.tile[k+1, l].active() || !Main.tile[k, l+1].active()) ))
+						if (type == 53 || (type == 147 && ((int)Main.tile[k, l-1].TileType == 5 || !Main.tile[k, l-1].HasTile || !Main.tile[k-1, l].HasTile|| !Main.tile[k+1, l].HasTile || !Main.tile[k, l+1].HasTile) ))
 						{
-							Main.tile[k, l].type = 2;
+							Main.tile[k, l].TileType = 2;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 112)
 						{
-							Main.tile[k, l].type = 23;
+							Main.tile[k, l].TileType = 23;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 116)
 						{
-							Main.tile[k, l].type = 109;
+							Main.tile[k, l].TileType = 109;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 234)
 						{
-							Main.tile[k, l].type = 199;
+							Main.tile[k, l].TileType = 199;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 396 || type == 161)
 						{
-							Main.tile[k, l].type = 1;
+							Main.tile[k, l].TileType = 1;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						if ((type >= 397 && type <= 399) || type == 402 || (type == 147 && ((int)Main.tile[k, l-1].type != 5 && Main.tile[k, l-1].active() && Main.tile[k-1, l].active() && Main.tile[k+1, l].active() && Main.tile[k, l+1].active()) ))
+						if ((type >= 397 && type <= 399) || type == 402 || (type == 147 && ((int)Main.tile[k, l-1].TileType != 5 && Main.tile[k, l-1].HasTile && Main.tile[k-1, l].HasTile && Main.tile[k+1, l].HasTile && Main.tile[k, l+1].HasTile) ))
 						{
-							Main.tile[k, l].type = 0;
+							Main.tile[k, l].TileType = 0;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 400 || type == 163)
 						{
-							Main.tile[k, l].type = 25;
+							Main.tile[k, l].TileType = 25;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 203 || type == 401)
 						{
-							Main.tile[k, l].type = 203;
+							Main.tile[k, l].TileType = 203;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 403 || type == 164)
 						{
-							Main.tile[k, l].type = 117;
+							Main.tile[k, l].TileType = 117;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 224 || type == 404)
 						{
-							Main.tile[k, l].type = 123;
+							Main.tile[k, l].TileType = 123;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						if (type == 460)
 						{
-							Main.tile[k, l].type = 196;
+							Main.tile[k, l].TileType = 196;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}

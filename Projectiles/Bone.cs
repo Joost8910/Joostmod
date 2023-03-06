@@ -16,15 +16,15 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.tileCollide = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			aiType = ProjectileID.Bone;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.tileCollide = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			AIType = ProjectileID.Bone;
 		}
 		public override bool PreAI()
 		{
@@ -32,8 +32,8 @@ namespace JoostMod.Projectiles
 			{
 				if (Main.rand.Next(5) == 0)
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("BoneX"), projectile.damage * 2, projectile.knockBack * 2, projectile.owner);
-					projectile.timeLeft = 1;
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("BoneX").Type, Projectile.damage * 2, Projectile.knockBack * 2, Projectile.owner);
+					Projectile.timeLeft = 1;
 				}
 				spawn = true;
 			}
@@ -41,14 +41,14 @@ namespace JoostMod.Projectiles
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.timeLeft -= 90;
-			if (projectile.velocity.X != oldVelocity.X)
+			Projectile.timeLeft -= 90;
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y;
+				Projectile.velocity.Y = -oldVelocity.Y;
 			}
 			return false;
 		}

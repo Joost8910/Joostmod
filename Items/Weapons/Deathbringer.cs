@@ -1,5 +1,6 @@
 using System; 
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -15,19 +16,19 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 86;
-			item.melee = true;
-			item.width = 44;
-			item.height = 52;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 1;
-			item.knockBack = 4.5f;
-			item.value = 500000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.useTurn = true;
+			Item.damage = 86;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 44;
+			Item.height = 52;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 4.5f;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.useTurn = true;
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
@@ -51,14 +52,14 @@ namespace JoostMod.Items.Weapons
 				for (int i = 0; i < shootNum;i++ )
 				{
 					offsetAngle = startAngle + deltaAngle * i;
-					Dust.NewDust(target.Center, 8, 8, 109, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), 0, default(Color), 1f);
+					Dust.NewDust(target.Center, 8, 8, DustID.Asphalt, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), 0, default(Color), 1f);
 				}
-				Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 100);
+				SoundEngine.PlaySound(SoundID.Item100, player.position);
             }
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (knockBack == 55 && crit && damage > target.life)
+            if (knockback == 55 && crit && damage > target.life)
             {
                 bool flag = false;
                 for (int i = 0; i < 100; i++)

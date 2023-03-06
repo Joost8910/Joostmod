@@ -12,30 +12,30 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clump of Spiky Balls");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.alpha = 5;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 5;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
 		}
 
 		public override void AI()
 		{
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 150f)
+			Projectile.ai[0] += 1f;
+			if (Projectile.ai[0] >= 150f)
 			{
-				projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-				projectile.velocity.X = projectile.velocity.X = 0.99f;
+				Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+				Projectile.velocity.X = Projectile.velocity.X = 0.99f;
 				
 			}
 
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles
 		{
 			for (int i = 0; i<4; i++)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * .25f, Main.rand.Next(-10, -5) * .25f, 24, (int)(projectile.damage * 1f), 0, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * .25f, Main.rand.Next(-10, -5) * .25f, 24, (int)(Projectile.damage * 1f), 0, Projectile.owner);
 			}
 		}
 

@@ -12,7 +12,7 @@ namespace JoostMod.Tiles
 {
     public class FrostFurnace : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -25,9 +25,9 @@ namespace JoostMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Frost Furnace");
             AddMapEntry(new Color(144, 195, 232), name);
-            dustType = 80;
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Furnaces };
+            DustType = 80;
+            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+            AdjTiles = new int[] { TileID.Furnaces };
         }
         int animationFrameWidth = 54;
 
@@ -45,7 +45,7 @@ namespace JoostMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("FrostFurnace"));
+            Item.NewItem(i * 16, j * 16, 48, 32, Mod.Find<ModItem>("FrostFurnace").Type);
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)

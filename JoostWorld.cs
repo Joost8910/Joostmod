@@ -9,7 +9,7 @@ using Terraria.Utilities;
 
 namespace JoostMod
 {
-    public class JoostWorld : ModWorld
+    public class JoostWorld : ModSystem
     {
         private const int saveVersion = 0;
         public static bool downedJumboCactuar = false;
@@ -30,7 +30,7 @@ namespace JoostMod
 
 
         public static List<int> activeQuest = new List<int>();
-        public override void Initialize()
+        public override void OnWorldLoad()/* tModPorter Suggestion: Also override OnWorldUnload, and mirror your worldgen-sensitive data initialization in PreWorldGen */
         {
             downedJumboCactuar = false;
             downedSAX = false;
@@ -50,7 +50,7 @@ namespace JoostMod
 
             activeQuest = new List<int>();
         }
-        public override TagCompound Save()
+        public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
         {
             var downed = new List<string>();
             if (downedJumboCactuar) downed.Add("JumboCactuar");
@@ -73,7 +73,7 @@ namespace JoostMod
             };
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadWorldData(TagCompound tag)
         {
             var downed = tag.GetList<string>("downed");
             downedJumboCactuar = downed.Contains("JumboCactuar");
@@ -177,10 +177,10 @@ namespace JoostMod
                     i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.025), (int)((double)Main.maxTilesX * 0.4));
                 }
                 int j = WorldGen.genRand.Next((int)Main.worldSurface + 20, (int)Main.rockLayer);
-                if (Main.tile[i, j + 5].type == TileID.JungleGrass && !Main.tile[i, j + 4].active())
+                if (Main.tile[i, j + 5].TileType == TileID.JungleGrass && !Main.tile[i, j + 4].HasTile)
                 { 
                     flag = false;
-                    StoneShrine(i, j, TileID.IridescentBrick, WallID.JungleUnsafe3, mod.TileType("JungleStone"), 4);
+                    StoneShrine(i, j, TileID.IridescentBrick, WallID.JungleUnsafe3, Mod.Find<ModTile>("JungleStone").Type, 4);
                 }
             }
             bool flag2 = true;
@@ -188,19 +188,19 @@ namespace JoostMod
             {
                 int x = WorldGen.dungeonX + WorldGen.genRand.Next(200) - 100;
                 int y = (int)Main.worldSurface + WorldGen.genRand.Next(400) + 10;
-                if (!Main.tile[x - 1, y + 2].active() && Main.tile[x, y + 5].active() && Main.wallDungeon[Main.tile[x - 1, y + 2].wall] && Main.tileDungeon[Main.tile[x, y + 5].type])
+                if (!Main.tile[x - 1, y + 2].HasTile && Main.tile[x, y + 5].HasTile && Main.wallDungeon[Main.tile[x - 1, y + 2].WallType] && Main.tileDungeon[Main.tile[x, y + 5].TileType])
                 {
                     flag2 = false;
                     int wallType = WallID.BlueDungeon;
-                    if (Main.tile[x, y + 5].type == TileID.GreenDungeonBrick)
+                    if (Main.tile[x, y + 5].TileType == TileID.GreenDungeonBrick)
                     {
                         wallType = WallID.GreenDungeon;
                     }
-                    if (Main.tile[x, y + 5].type == TileID.PinkDungeonBrick)
+                    if (Main.tile[x, y + 5].TileType == TileID.PinkDungeonBrick)
                     {
                         wallType = WallID.PinkDungeon;
                     }
-                    StoneShrine(x, y, Main.tile[x, y + 5].type, wallType, mod.TileType("SkullStone"), 19);
+                    StoneShrine(x, y, Main.tile[x, y + 5].TileType, wallType, Mod.Find<ModTile>("SkullStone").Type, 19);
                 }
             }
             bool flag3 = true;
@@ -208,25 +208,63 @@ namespace JoostMod
             {
                 int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
                 int b = Main.maxTilesY - 150 + WorldGen.genRand.Next(50);
-                if (Main.tile[a, b + 5].active() && Main.tileSolid[Main.tile[a, b + 5].type] && !Main.tile[a, b + 4].active())
+                if (Main.tile[a, b + 5].HasTile && Main.tileSolid[Main.tile[a, b + 5].TileType] && !Main.tile[a, b + 4].HasTile)
                 {
                     flag3 = false;
-                    StoneShrine(a, b, TileID.HellstoneBrick, WallID.HellstoneBrickUnsafe, mod.TileType("InfernoStone"), 2);
+                    StoneShrine(a, b, TileID.HellstoneBrick, WallID.HellstoneBrickUnsafe, Mod.Find<ModTile>("InfernoStone").Type, 2);
                 }
             }
 
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36) // Frame 0 is Wooden Chests, Frame 1 is Gold Chest
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers)
                 {
-                    if (WorldGen.genRand.NextBool(5))
+                    // Frame 0 is Wooden Chests, Frame 1 is Gold Chest
+                    int id = 0;
+                    if (Main.tile[chest.x, chest.y].TileFrameX == 0 * 36)
+                    {
+                        int gen = WorldGen.genRand.Next(12);
+                        switch (gen)
+                        {
+                            case 3:
+                                id = Mod.Find<ModItem>("GlowingContacts").Type;
+                                break;
+                            case 6:
+                                id = Mod.Find<ModItem>("ClawedGauntlet").Type;
+                                break;
+                            case 11:
+                                id = Mod.Find<ModItem>("DirtBoard").Type;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (Main.tile[chest.x, chest.y].TileFrameX == 1 * 36)
+                    {
+                        int gen = WorldGen.genRand.Next(9);
+                        switch (gen)
+                        {
+                            case 0:
+                                id = Mod.Find<ModItem>("SapSpell").Type;
+                                break;
+                            case 1:
+                                id = Mod.Find<ModItem>("DivineMirror").Type;
+                                break;
+                            case 4:
+                                id = Mod.Find<ModItem>("ActualMace").Type;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (id > 0)
                     {
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                         {
                             if (chest.item[inventoryIndex].type == 0)
                             {
-                                chest.item[inventoryIndex].SetDefaults(mod.ItemType("ActualMace"));
+                                chest.item[inventoryIndex].SetDefaults(id);
                                 break;
                             }
                         }
@@ -240,10 +278,10 @@ namespace JoostMod
             {
                 for (int j = y; j < y + 6; j++)
                 {
-                    Main.tile[i, j].active(false);
-                    Main.tile[i, j].liquid = 0;
-                    Main.tile[i, j].slope(0);
-                    Main.tile[i, j].halfBrick(false);
+                    Main.tile[i, j].HasTile = false;
+                    Main.tile[i, j].LiquidAmount = 0;
+                    Main.tile[i, j].Slope = 0;
+                    Main.tile[i, j].IsHalfBlock = false;
                     WorldGen.KillWall(i, j);
                     WorldGen.PlaceWall(i, j, wall);
                     WorldGen.paintWall(i, j, color);
@@ -264,67 +302,67 @@ namespace JoostMod
             for (int i = x - 3; i <= x + 4; i++)
             {
                 WorldGen.KillTile(i, y + 3);
-                WorldGen.PlaceTile(i, y + 3, mod.TileType("AncientMossyStone"));
+                WorldGen.PlaceTile(i, y + 3, Mod.Find<ModTile>("AncientMossyStone").Type);
                 //WorldGen.paintTile(i, y + 3, 18);
 
                 WorldGen.KillTile(i, y - 3);
-                WorldGen.PlaceTile(i, y - 3, mod.TileType("AncientMossyStone"));
+                WorldGen.PlaceTile(i, y - 3, Mod.Find<ModTile>("AncientMossyStone").Type);
                 //WorldGen.paintTile(i, y - 3, 18);
 
                 for (int j = y - 2; j <= y + 2; j++)
                 {
-                    Main.tile[i, j].active(false);
-                    Main.tile[i, j].liquid = 0;
-                    Main.tile[i, j].slope(0);
-                    Main.tile[i, j].halfBrick(false);
+                    Main.tile[i, j].HasTile = false;
+                    Main.tile[i, j].LiquidAmount = 0;
+                    Main.tile[i, j].Slope = 0;
+                    Main.tile[i, j].IsHalfBlock = false;
                     WorldGen.KillWall(i, j);
                     WorldGen.PlaceWall(i, j, 54);
                     WorldGen.paintWall(i, j, 18);
                 }
             }
             WorldGen.KillTile(x - 4, y + 3);
-            WorldGen.PlaceTile(x - 4, y + 3, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x - 4, y + 3, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 4, y + 3, 18);
 
             WorldGen.KillTile(x + 5, y + 3);
-            WorldGen.PlaceTile(x + 5, y + 3, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x + 5, y + 3, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 5, y + 3, 18);
 
             WorldGen.KillTile(x - 3, y - 2);
             WorldGen.KillWall(x - 3, y - 2);
-            WorldGen.PlaceTile(x - 3, y - 2, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x - 3, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 3, y - 2, 18);
-            Main.tile[x - 3, y - 2].slope(3);
+            Main.tile[x - 3, y - 2].Slope = 3;
 
             WorldGen.KillTile(x + 4, y - 2);
             WorldGen.KillWall(x + 4, y - 2);
-            WorldGen.PlaceTile(x + 4, y - 2, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x + 4, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 4, y - 2, 18);
-            Main.tile[x + 4, y - 2].slope(4);
+            Main.tile[x + 4, y - 2].Slope = 4;
 
             WorldGen.KillTile(x - 4, y - 2);
-            WorldGen.PlaceTile(x - 4, y - 2, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x - 4, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 4, y - 2, 18);
-            Main.tile[x - 4, y - 2].slope(2);
+            Main.tile[x - 4, y - 2].Slope = 2;
 
             WorldGen.KillTile(x - 4, y - 1);
-            WorldGen.PlaceTile(x - 4, y - 1, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x - 4, y - 1, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 4, y - 1, 18);
 
-            Main.tile[x - 3, y - 3].slope(2);
+            Main.tile[x - 3, y - 3].Slope = 2;
 
             WorldGen.KillTile(x + 5, y - 2);
-            WorldGen.PlaceTile(x + 5, y - 2, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x + 5, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 5, y - 2, 18);
-            Main.tile[x + 5, y - 2].slope(1);
+            Main.tile[x + 5, y - 2].Slope = 1;
 
             WorldGen.KillTile(x + 5, y - 1);
-            WorldGen.PlaceTile(x + 5, y - 1, mod.TileType("AncientMossyStone"));
+            WorldGen.PlaceTile(x + 5, y - 1, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 5, y - 1, 18);
 
-            Main.tile[x + 4, y - 3].slope(1);
+            Main.tile[x + 4, y - 3].Slope = 1;
 
-            WorldGen.PlaceObject(x, y + 2, mod.TileType("ShrineOfLegends"));
+            WorldGen.PlaceObject(x, y + 2, Mod.Find<ModTile>("ShrineOfLegends").Type);
         }
     }
 }

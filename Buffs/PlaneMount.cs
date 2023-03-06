@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class PlaneMount : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Airplane");
 			Description.SetDefault("It can fly!");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("Plane"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("Plane").Type, player);
 			player.buffTime[buffIndex] = 10;
 		}
 	}

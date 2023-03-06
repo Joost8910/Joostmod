@@ -9,7 +9,7 @@ namespace JoostMod.Tiles
 {
 	public class FourthAnniversary : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -26,8 +26,8 @@ namespace JoostMod.Tiles
 				16
 			};
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Joostmod's Fourth Anniversary");
 			AddMapEntry(new Color(93, 137, 92), name);
@@ -35,7 +35,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("FourthAnniversary"));
+			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("FourthAnniversary").Type);
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -45,7 +45,7 @@ namespace JoostMod.Tiles
             {
                 zero = Vector2.Zero;
             }
-            Color paintColor = WorldGen.paintColor(Main.tile[i, j].color());
+            Color paintColor = WorldGen.paintColor(Main.tile[i, j].TileColor);
             Color color = Lighting.GetColor(i, j, paintColor);
             zero.Y += 2;
             float alpha = 1000;
@@ -60,7 +60,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Tiles/FourthAnniversarySolarEclipse"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Mod.GetTexture("Tiles/FourthAnniversarySolarEclipse"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 
@@ -77,7 +77,7 @@ namespace JoostMod.Tiles
             color.A = (byte)((int)(255f * (alpha / 1000f)));
             if (alpha > 0 && !(Main.bloodMoon && Main.time > 200 && Main.time < 31400) && !(Main.eclipse && Main.time > 200 && Main.time < 53000))
             {
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/FourthAnniversaryNight"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Mod.GetTexture("Tiles/FourthAnniversaryNight"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
 
             color = Lighting.GetColor(i, j, paintColor);
@@ -96,7 +96,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Tiles/FourthAnniversaryBloodMoon"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Mod.GetTexture("Tiles/FourthAnniversaryBloodMoon"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
         }

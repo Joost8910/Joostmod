@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -10,23 +11,23 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystal Chunk");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-            projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 30;
-			projectile.alpha = 25;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 36;
+			Projectile.height = 36;
+            Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 30;
+			Projectile.alpha = 25;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
-public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 10;
 			height = 10;
@@ -34,7 +35,7 @@ public override bool TileCollideStyle(ref int width, ref int height, ref bool fa
 		}
         public override void AI()
         {
-            projectile.rotation = projectile.timeLeft * -projectile.direction;
+            Projectile.rotation = Projectile.timeLeft * -Projectile.direction;
         }
         public override void Kill(int timeLeft)
 		{
@@ -47,7 +48,7 @@ public override bool TileCollideStyle(ref int width, ref int height, ref bool fa
             for (i = 0; i < 8; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), 90, projectile.damage, 4, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), 90, Projectile.damage, 4, Projectile.owner);
             }
 		}
 

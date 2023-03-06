@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Items.Placeable
 {
@@ -11,19 +12,19 @@ namespace JoostMod.Items.Placeable
 		}
 		public override void SetDefaults()
 		{
-			item.width = 50;
-			item.height = 34;
-			item.maxStack = 99;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.value = 500000;
-			item.rare = 8;
-			item.createTile = mod.TileType("SecondAnniversary");
-			item.placeStyle = 0;
+			Item.width = 50;
+			Item.height = 34;
+			Item.maxStack = 99;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.createTile = Mod.Find<ModTile>("SecondAnniversary").Type;
+			Item.placeStyle = 0;
 		}
 	}
 }

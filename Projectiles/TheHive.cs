@@ -12,39 +12,39 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Hive");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 32;
-			projectile.aiStyle = 13;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.timeLeft = 600;
-			projectile.penetrate = -1;
-            projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 32;
+			Projectile.height = 32;
+			Projectile.aiStyle = 13;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.timeLeft = 600;
+			Projectile.penetrate = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
         public override void PostAI()
         {
-            if (projectile.timeLeft % 6 == 0)
+            if (Projectile.timeLeft % 6 == 0)
             {
-                Projectile.NewProjectile(projectile.Center, new Vector2(Main.rand.Next(-5, 5), Main.rand.Next(-5, 5)), Main.player[projectile.owner].beeType(), projectile.damage / 3, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, new Vector2(Main.rand.Next(-5, 5), Main.rand.Next(-5, 5)), Main.player[Projectile.owner].beeType(), Projectile.damage / 3, 0, Projectile.owner);
             }
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/TheHive_Chain");
+            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/TheHive_Chain");
 
-            Vector2 position = projectile.Center;
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Vector2 position = Projectile.Center;
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
             Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
             float num1 = (float)texture.Height;
@@ -68,7 +68,7 @@ namespace JoostMod.Projectiles
                     position += vector2_1 * num1;
                     vector2_4 = mountedCenter - position;
                     Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
-                    color2 = projectile.GetAlpha(color2);
+                    color2 = Projectile.GetAlpha(color2);
                     Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
                 }
             }

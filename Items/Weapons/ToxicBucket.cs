@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System;
@@ -16,34 +17,35 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 19;
-            item.ranged = true;
-            item.width = 30;
-            item.height = 30;
-            item.useTime = 45;
-            item.useAnimation = 45;
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.value = 75000;
-            item.rare = 2;
-            item.UseSound = SoundID.Item21;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ToxicWater");
-            item.shootSpeed = 12f;
+            Item.damage = 19;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 30;
+            Item.height = 30;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.value = 75000;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item21;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("ToxicWater").Type;
+            Item.shootSpeed = 12f;
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        /*
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             if (JoostMod.instance.battleRodsLoaded)
             {
-                mult *= BattleRodsFishingDamage / player.rangedDamage;
+                damage *= BattleRodsFishingDamage / player.GetDamage(DamageClass.Ranged);
             }
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
             if (JoostMod.instance.battleRodsLoaded)
             {
-                crit += BattleRodsCrit - player.rangedCrit;
+                crit += BattleRodsCrit - player.GetCritChance(DamageClass.Ranged);
             }
         }
         public float BattleRodsFishingDamage
@@ -61,18 +63,18 @@ namespace JoostMod.Items.Weapons
                 Player player = Main.player[Main.myPlayer];
                 int dmg = list.FindIndex(x => x.Name == "Damage");
                 list.RemoveAt(dmg);
-                list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " Fishing damage"));
+                list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " Fishing damage"));
             }
         }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        */
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int numberProjectiles = 3;
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15));
-                perturbedSpeed *= 1f - (Main.rand.NextFloat() * .3f); 
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+                Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(15));
+                perturbedSpeed *= 1f - (Main.rand.NextFloat() * .3f);
+                Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

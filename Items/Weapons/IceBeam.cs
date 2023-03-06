@@ -13,29 +13,29 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.magic = true;
-            item.width = 24;
-            item.height = 12;
-            item.noMelee = true;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.reuseDelay = 5;
-            item.mana = 10;
-            item.useStyle = 5;
-            item.knockBack = 4;
-            item.value = 10000000;
-            item.rare = 11;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.UseSound = SoundID.Item7;
-            item.shoot = mod.ProjectileType("IceBeamCannon");
-            item.shootSpeed = 16f;
-            item.autoReuse = true;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 24;
+            Item.height = 12;
+            Item.noMelee = true;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.reuseDelay = 5;
+            Item.mana = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 4;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.UseSound = SoundID.Item7;
+            Item.shoot = Mod.Find<ModProjectile>("IceBeamCannon").Type;
+            Item.shootSpeed = 16f;
+            Item.autoReuse = true;
         }
         public override bool CanUseItem(Player player)
         {
-            if ((player.ownedProjectileCounts[item.shoot]) >= item.stack)
+            if ((player.ownedProjectileCounts[Item.shoot]) >= Item.stack)
             {
                 return false;
             }
@@ -43,12 +43,10 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IceCoreX", 1);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.IceCoreX>()
+                .Register();
         }
 
     }
 }
-

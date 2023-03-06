@@ -10,36 +10,36 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Masamune");
-            Main.projFrames[projectile.type] = 9;
+            Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()
         {
-            projectile.width = 192;
-            projectile.height = 192;
-            projectile.aiStyle = 0;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 16;
-            projectile.alpha = 15;
-            projectile.light = 0.2f;
-            projectile.tileCollide = false;
+            Projectile.width = 192;
+            Projectile.height = 192;
+            Projectile.aiStyle = 0;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 16;
+            Projectile.alpha = 15;
+            Projectile.light = 0.2f;
+            Projectile.tileCollide = false;
         }
         public override void AI()
         {
-            NPC host = Main.npc[(int)projectile.ai[0]];
-            projectile.position = host.Center + new Vector2(-24 * host.direction, -43) - projectile.Size / 2;
-            projectile.velocity = host.velocity;
-            if (projectile.timeLeft % 2 == 0)
+            NPC host = Main.npc[(int)Projectile.ai[0]];
+            Projectile.position = host.Center + new Vector2(-24 * host.direction, -43) - Projectile.Size / 2;
+            Projectile.velocity = host.velocity;
+            if (Projectile.timeLeft % 2 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            projectile.rotation = projectile.velocity.ToRotation();
-            projectile.direction = (projectile.velocity.X < 0 ? -1 : 1);
-            if (projectile.ai[1] < 0)
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.direction = (Projectile.velocity.X < 0 ? -1 : 1);
+            if (Projectile.ai[1] < 0)
             {
-                projectile.direction *= -1;
+                Projectile.direction *= -1;
             }
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -48,9 +48,9 @@ namespace JoostMod.Projectiles
                 target.velocity *= 0.3f;
                 target.wingTime -= 10;
             }
-            if (Main.npc[(int)projectile.ai[0]].ai[3] >= 6)
+            if (Main.npc[(int)Projectile.ai[0]].ai[3] >= 6)
             {
-                target.immuneTime = projectile.timeLeft + 10;
+                target.immuneTime = Projectile.timeLeft + 10;
             }
         }
     }

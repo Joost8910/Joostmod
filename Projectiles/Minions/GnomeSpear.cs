@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
@@ -11,66 +12,66 @@ namespace JoostMod.Projectiles.Minions
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gnome");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.timeLeft = 16;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 9;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.timeLeft = 16;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 9;
 		}
 		
 		public override void AI()
 		{
-            Projectile owner = Main.projectile[(int)projectile.ai[0]];
-            projectile.spriteDirection = projectile.direction;
-            projectile.position += projectile.velocity * 10f * projectile.ai[1];
-            projectile.position = owner.Center + new Vector2(0, 9) - (projectile.Size / 2);
-			projectile.position += projectile.velocity * projectile.ai[1];
-            if (projectile.ai[1] == 0f)
+            Projectile owner = Main.projectile[(int)Projectile.ai[0]];
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.position += Projectile.velocity * 10f * Projectile.ai[1];
+            Projectile.position = owner.Center + new Vector2(0, 9) - (Projectile.Size / 2);
+			Projectile.position += Projectile.velocity * Projectile.ai[1];
+            if (Projectile.ai[1] == 0f)
 			{
-				projectile.ai[1] = 3f;
-				projectile.netUpdate = true;
+				Projectile.ai[1] = 3f;
+				Projectile.netUpdate = true;
 			}
-			if (projectile.timeLeft < 10)
+			if (Projectile.timeLeft < 10)
             {
-                projectile.ai[1] -= 0.6f;
-                projectile.frame = 0;
+                Projectile.ai[1] -= 0.6f;
+                Projectile.frame = 0;
             }
 			else
 			{
-				projectile.ai[1] += 1f;
-                projectile.frame = 1;
-                owner.velocity = projectile.velocity * 2f;
+				Projectile.ai[1] += 1f;
+                Projectile.frame = 1;
+                owner.velocity = Projectile.velocity * 2f;
 			}
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-			if (projectile.spriteDirection == -1)
+			Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
+			if (Projectile.spriteDirection == -1)
 			{
-				projectile.rotation -= 1.57f;
+				Projectile.rotation -= 1.57f;
 			}
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.direction == -1)
+            if (Projectile.direction == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Color color = lightColor; 
-            Rectangle? rect = new Rectangle?(new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]));
+            Rectangle? rect = new Rectangle?(new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]));
 
-            Vector2 vel = projectile.velocity;
+            Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - vel * 22 * projectile.scale, rect, color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), projectile.scale, effects, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - vel * 22 * Projectile.scale, rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale, effects, 0f);
             return false;
         }
     }

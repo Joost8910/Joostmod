@@ -13,62 +13,61 @@ namespace JoostMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Greater Elemental Weapon Set");
 			Tooltip.SetDefault("'Unleash the elements!'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 16));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 16));
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 48;
-			item.thrown = true;
-			item.width = 46;
-			item.height = 64;
-			item.useTime = 22;
-			item.useAnimation = 22;
-			item.useStyle = 1;
-			item.noMelee = true; 
-			item.knockBack = 7;
-			item.value = 900000;
-			item.rare = 5;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Boomerain");
-			item.shootSpeed = 7.5f;
+			Item.damage = 48;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 46;
+			Item.height = 64;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.knockBack = 7;
+			Item.value = 900000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Boomerain").Type;
+			Item.shootSpeed = 7.5f;
 
 		}
-		public override bool CanUseItem(Player player)      
-        {
-            return ((player.ownedProjectileCounts[mod.ProjectileType("EarthenHammer")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave1")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave2")] <= 0) || (player.ownedProjectileCounts[mod.ProjectileType("GaleBoomerang")] <= 0) || (player.ownedProjectileCounts[mod.ProjectileType("Boomerain")] <= 0) || (player.ownedProjectileCounts[mod.ProjectileType("InfernalChakram")] + player.ownedProjectileCounts[mod.ProjectileType("DousedChakram")] <= 0));
-        }
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool CanUseItem(Player player)
 		{
-			 if (player.ownedProjectileCounts[mod.ProjectileType("EarthenHammer")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave1")] + player.ownedProjectileCounts[mod.ProjectileType("EarthWave2")] <= 0)
+			return ((player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthenHammer").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave1").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave2").Type] <= 0) || (player.ownedProjectileCounts[Mod.Find<ModProjectile>("GaleBoomerang").Type] <= 0) || (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Boomerain").Type] <= 0) || (player.ownedProjectileCounts[Mod.Find<ModProjectile>("InfernalChakram").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DousedChakram").Type] <= 0));
+		}
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+		{
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthenHammer").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave1").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave2").Type] <= 0)
 			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX * 1.2f), (speedY * 1.2f), mod.ProjectileType("EarthenHammer"), (int)(damage * 1.44f), (knockBack * 2.16f), player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 1.2f), (velocity.Y * 1.2f), Mod.Find<ModProjectile>("EarthenHammer").Type, (int)(damage * 1.44f), (knockback * 2.16f), player.whoAmI);
 			}
-			else if (player.ownedProjectileCounts[mod.ProjectileType("GaleBoomerang")] <= 0)
+			else if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("GaleBoomerang").Type] <= 0)
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GaleBoomerang"), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("GaleBoomerang").Type, damage, knockback, player.whoAmI);
 			}
-			else if (player.ownedProjectileCounts[mod.ProjectileType("Boomerain")] <= 0)
+			else if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Boomerain").Type] <= 0)
 			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), mod.ProjectileType("Boomerain"), (int)(damage * 0.65f), knockBack * 1.16f, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), Mod.Find<ModProjectile>("Boomerain").Type, (int)(damage * 0.65f), knockback * 1.16f, player.whoAmI);
 			}
-			else if (player.ownedProjectileCounts[mod.ProjectileType("InfernalChakram")] + player.ownedProjectileCounts[mod.ProjectileType("DousedChakram")] <= 0)
+			else if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("InfernalChakram").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DousedChakram").Type] <= 0)
 			{
-				Projectile.NewProjectile(position.X, position.Y, (speedX * 1.4f), (speedY * 1.4f), mod.ProjectileType("InfernalChakram"), (int)(damage * 0.75f), knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 1.4f), (velocity.Y * 1.4f), Mod.Find<ModProjectile>("InfernalChakram").Type, (int)(damage * 0.75f), knockback, player.whoAmI);
 			}
 			return false;
 		}
-			public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "EarthenHammer");
-			recipe.AddIngredient(null, "InfernalChakram");
-			recipe.AddIngredient(null, "GaleBoomerang");
-			recipe.AddIngredient(null, "Boomerain");
-			recipe.AddTile(null, "ElementalForge"); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<EarthenHammer>()
+				.AddIngredient<InfernalChakram>()
+				.AddIngredient<GaleBoomerang>()
+				.AddIngredient<Boomerain>()
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 
 	}

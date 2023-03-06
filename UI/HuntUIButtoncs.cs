@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -9,7 +11,7 @@ namespace JoostMod.UI
 {
     public class HuntUIButton : UIElement
     {
-        public static Texture2D bgTex = ModContent.GetTexture("JoostMod/NPCs/Town/HuntScroll");
+        public static Texture2D bgTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll");
         private HuntInfo hunt;
         private float scale = 1f;
         
@@ -31,7 +33,7 @@ namespace JoostMod.UI
                 int item = Main.LocalPlayer.FindItem(hunt.item);
                 if (item != -1)
                 {
-                    scrollTex = ModContent.GetTexture("JoostMod/NPCs/Town/HuntScroll_HasItem");
+                    scrollTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll_HasItem");
                     if (IsMouseHovering)
                     {
                         bgColor = Color.White;
@@ -45,7 +47,7 @@ namespace JoostMod.UI
                 }
                 else if (hunt.completed())
                 {
-                    scrollTex = ModContent.GetTexture("JoostMod/NPCs/Town/HuntScroll_Completed");
+                    scrollTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll_Completed");
                     bgColor = Color.White * 0.85f;
                     iconColor = Color.Gray * 0.7f;
                 }
@@ -70,7 +72,7 @@ namespace JoostMod.UI
             }
             spriteBatch.Draw(scrollTex, dimensions.Position(), null, bgColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0);
             Main.instance.LoadNPC(hunt.NPC);
-            Texture2D tex = Main.npcTexture[hunt.NPC];
+            Texture2D tex = TextureAssets.Npc[hunt.NPC].Value;
             Rectangle rect = tex.Frame(hunt.xFrameCount, Main.npcFrameCount[hunt.NPC], 0, 0); 
 
             float num = 0.6f;
@@ -107,7 +109,7 @@ namespace JoostMod.UI
                     }
                     Main.npcChatText = hunt.completeText;
                     JoostMod.instance.HideHuntUI();
-                    Main.PlaySound(24, -1, -1, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Chat);
                     hunt.reward(player);
                     return;
                 }
@@ -115,7 +117,7 @@ namespace JoostMod.UI
                 {
                     Main.npcChatText = hunt.questText;
                     JoostMod.instance.HideHuntUI();
-                    Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 1, 1, -0.5f);
+                    SoundEngine.PlaySound(SoundID.Item1.WithPitchOffset(-0.5f), player.position);
                     if (!JoostWorld.activeQuest.Contains(hunt.NPC))
                     {
                         Main.NewText(Lang.GetNPCNameValue(hunt.NPC), 225, 25, 25);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Enums;
@@ -16,8 +17,8 @@ namespace JoostMod.Projectiles
         private int sound = 0;
 		public float Distance
 		{
-			get { return projectile.ai[1]; }
-			set { projectile.ai[1] = value; }
+			get { return Projectile.ai[1]; }
+			set { Projectile.ai[1] = value; }
 		}
 
         public override void SetStaticDefaults()
@@ -26,19 +27,19 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-            projectile.timeLeft = 20;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+            Projectile.timeLeft = 20;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 unit = projectile.velocity;
-            DrawLaser(spriteBatch, Main.projectileTexture[projectile.type],
-                Main.npc[(int)projectile.ai[0]].Center, unit, 44, projectile.damage,
+            Vector2 unit = Projectile.velocity;
+            DrawLaser(spriteBatch, TextureAssets.Projectile[Projectile.type].Value,
+                Main.npc[(int)Projectile.ai[0]].Center, unit, 44, Projectile.damage,
                 -1.57f, 1f, MAX_DISTANCE, Color.White, (int)MOVE_DISTANCE);
             return false;
 		}
@@ -50,7 +51,7 @@ namespace JoostMod.Projectiles
 		{
 			Vector2 origin = start;
 			float r = unit.ToRotation() + rotation;
-            int xFrame = (projectile.timeLeft / 3) % 3;
+            int xFrame = (Projectile.timeLeft / 3) % 3;
 
 			#region Draw laser body
 			for (float i = transDist; i <= Distance; i += step)
@@ -75,8 +76,8 @@ namespace JoostMod.Projectiles
         
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            NPC owner = Main.npc[(int)projectile.ai[0]];
-            Vector2 unit = projectile.velocity;
+            NPC owner = Main.npc[(int)Projectile.ai[0]];
+            Vector2 unit = Projectile.velocity;
             float point = 0f;
             if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), owner.Center, owner.Center + unit * Distance, 18, ref point))
             {
@@ -87,16 +88,16 @@ namespace JoostMod.Projectiles
         
 		public override void AI()
 		{
-            NPC owner = Main.npc[(int)projectile.ai[0]];
-			projectile.position = (owner.Center + projectile.velocity * MOVE_DISTANCE) - new Vector2(projectile.width/2, projectile.height/2);
+            NPC owner = Main.npc[(int)Projectile.ai[0]];
+			Projectile.position = (owner.Center + Projectile.velocity * MOVE_DISTANCE) - new Vector2(Projectile.width/2, Projectile.height/2);
             
 			#region Set laser tail position and dusts
 			Vector2 start = owner.Center;
-			Vector2 unit = projectile.velocity;
+			Vector2 unit = Projectile.velocity;
 			unit *= -1;
 			for (Distance = MOVE_DISTANCE; Distance <= MAX_DISTANCE; Distance += 5f)
 			{
-				start = owner.Center + projectile.velocity * Distance;
+				start = owner.Center + Projectile.velocity * Distance;
 				if (!Collision.CanHitLine(owner.Center, 1, 1, start, 1, 1))
 				{
 					Distance -= 5f;
@@ -104,11 +105,11 @@ namespace JoostMod.Projectiles
 				}
 			}
 
-			Vector2 dustPos = owner.Center + projectile.velocity * Distance;
+			Vector2 dustPos = owner.Center + Projectile.velocity * Distance;
 			//Imported dust code from source because I'm lazy
 			for (int i = 0; i < 2; ++i)
 			{
-				float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
+				float num1 = Projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
 				float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
 				Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
 				Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 55, dustVel.X, dustVel.Y, 0, Color.White, 1f)];
@@ -124,7 +125,7 @@ namespace JoostMod.Projectiles
 
 			//Add lights
 			DelegateMethods.v3_1 = new Vector3(1f, 0.8f, 0.2f);
-			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (Distance - MOVE_DISTANCE), 26, new Utils.PerLinePoint(DelegateMethods.CastLight));
+			Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * (Distance - MOVE_DISTANCE), 26, new Utils.PerLinePoint(DelegateMethods.CastLight));
 		}
 
 		public override bool ShouldUpdatePosition()
@@ -135,8 +136,8 @@ namespace JoostMod.Projectiles
 		public override void CutTiles()
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-			Vector2 unit = projectile.velocity;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * Distance, (projectile.width + 16) * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+			Vector2 unit = Projectile.velocity;
+			Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Distance, (Projectile.width + 16) * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
 		}
 	}
 }

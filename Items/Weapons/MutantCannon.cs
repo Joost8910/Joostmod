@@ -15,24 +15,24 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 550;
-            item.melee = true;
-            item.noMelee = true;
-            item.width = 76;
-            item.height = 48;
-            item.useTime = 55;
-            item.useAnimation = 55;
-            item.reuseDelay = 5;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.useStyle = 5;
-            item.knockBack = 11;
-            item.value = 10000000;
-            item.rare = 11;
-            item.UseSound = SoundID.Item13;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("MutantCannon");
-            item.shootSpeed = 10f;
+            Item.damage = 550;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.width = 76;
+            Item.height = 48;
+            Item.useTime = 55;
+            Item.useAnimation = 55;
+            Item.reuseDelay = 5;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 11;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("MutantCannon").Type;
+            Item.shootSpeed = 10f;
         }
 
         public override int ChoosePrefix(UnifiedRandom rand)
@@ -72,9 +72,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -84,10 +84,9 @@ namespace JoostMod.Items.Weapons
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IceCoreX", 1);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.IceCoreX>()
+                .Register();
         }
     }
 }

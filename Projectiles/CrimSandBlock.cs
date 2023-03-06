@@ -10,11 +10,11 @@ namespace JoostMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.CrimsandBallGun);
-            projectile.thrown = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
+            Projectile.CloneDefaults(ProjectileID.CrimsandBallGun);
+            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = 1;
+            AIType = ProjectileID.Bullet;
         }
         public override void SetStaticDefaults()
 		{
@@ -22,44 +22,44 @@ namespace JoostMod.Projectiles
 		}
         public override void AI()
         {
-            if (projectile.velocity.Y < 10)
+            if (Projectile.velocity.Y < 10)
             {
-                projectile.velocity.Y += 0.13f;
+                Projectile.velocity.Y += 0.13f;
             }
-            projectile.rotation -= projectile.timeLeft * projectile.direction * 0.5f;
+            Projectile.rotation -= Projectile.timeLeft * Projectile.direction * 0.5f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return false;
         }
         public override void Kill(int timeLeft)
         {
             int item = -1;
-            int x = (int)(projectile.position.X + (float)(projectile.width / 2)) / 16;
-            int y = (int)(projectile.position.Y + (float)(projectile.width / 2)) / 16;
+            int x = (int)(Projectile.position.X + (float)(Projectile.width / 2)) / 16;
+            int y = (int)(Projectile.position.Y + (float)(Projectile.width / 2)) / 16;
             int tileType = TileID.Crimsand;
             int itemType = ItemID.CrimsandBlock;
-            if (projectile.ai[1] >= 0)
+            if (Projectile.ai[1] >= 0)
             {
-                if (Main.tile[x, y].halfBrick() && projectile.velocity.Y > 0f && Math.Abs(projectile.velocity.Y) > Math.Abs(projectile.velocity.X))
+                if (Main.tile[x, y].IsHalfBlock && Projectile.velocity.Y > 0f && Math.Abs(Projectile.velocity.Y) > Math.Abs(Projectile.velocity.X))
                 {
                     int num535 = y;
                     y = num535 - 1;
                 }
-                if (!Main.tile[x, y].active() && tileType >= 0)
+                if (!Main.tile[x, y].HasTile && tileType >= 0)
                 {
                     bool flag5 = false;
-                    if (y < Main.maxTilesY - 2 && Main.tile[x, y + 1] != null && Main.tile[x, y + 1].active() && Main.tile[x, y + 1].type == 314)
+                    if (y < Main.maxTilesY - 2 && Main.tile[x, y + 1] != null && Main.tile[x, y + 1].HasTile && Main.tile[x, y + 1].TileType == 314)
                     {
                         flag5 = true;
                     }
                     if (!flag5)
                     {
                         WorldGen.PlaceTile(x, y, tileType, false, true, -1, 0);
-                        if (Main.tile[x, y].active() && (int)Main.tile[x, y].type == tileType)
+                        if (Main.tile[x, y].HasTile && (int)Main.tile[x, y].TileType == tileType)
                         {
-                            if (Main.tile[x, y + 1].halfBrick() || Main.tile[x, y + 1].slope() != 0)
+                            if (Main.tile[x, y + 1].IsHalfBlock || Main.tile[x, y + 1].Slope != 0)
                             {
                                 WorldGen.SlopeTile(x, y + 1, 0);
                                 if (Main.netMode == 2)
@@ -75,12 +75,12 @@ namespace JoostMod.Projectiles
                     }
                     else if (itemType > 0 && Main.rand.NextBool(3))
                     {
-                        item = Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, itemType, 1, false, 0, false, false);
+                        item = Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, itemType, 1, false, 0, false, false);
                     }
                 }
                 else if (itemType > 0 && Main.rand.NextBool(3))
                 {
-                    item = Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, itemType, 1, false, 0, false, false);
+                    item = Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, itemType, 1, false, 0, false, false);
                 }
                 if (Main.netMode == 1 && item >= 0)
                 {
@@ -91,7 +91,7 @@ namespace JoostMod.Projectiles
             {
                 if (itemType > 0)
                 {
-                    item = Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, itemType, 1, false, 0, false, false);
+                    item = Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, itemType, 1, false, 0, false, false);
                 }
                 if (Main.netMode == 1 && item >= 0)
                 {

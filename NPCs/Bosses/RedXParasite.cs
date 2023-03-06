@@ -10,54 +10,54 @@ namespace JoostMod.NPCs.Bosses
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("X Parasite");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
         public override void SetDefaults()
         {
-            npc.width = 28;
-            npc.height = 28;
-            npc.damage = 60;
-            npc.defense = 10;
-            npc.lifeMax = 1500;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.value = 0;
-            npc.knockBackResist = 0.3f;
-            npc.aiStyle = -1;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.buffImmune[mod.BuffType("InfectedRed")] = true;
-            npc.buffImmune[mod.BuffType("InfectedGreen")] = true;
-            npc.buffImmune[mod.BuffType("InfectedBlue")] = true;
-            npc.buffImmune[mod.BuffType("InfectedYellow")] = true;
-            npc.frameCounter = 0;
+            NPC.width = 28;
+            NPC.height = 28;
+            NPC.damage = 60;
+            NPC.defense = 10;
+            NPC.lifeMax = 1500;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.value = 0;
+            NPC.knockBackResist = 0.3f;
+            NPC.aiStyle = -1;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedYellow").Type] = true;
+            NPC.frameCounter = 0;
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 6)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 6)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = (npc.frame.Y + 34);
+                NPC.frameCounter = 0;
+                NPC.frame.Y = (NPC.frame.Y + 34);
             }
-            if (npc.frame.Y >= 204)
+            if (NPC.frame.Y >= 204)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
         }
         private ModPacket GetPacket()
         {
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)JoostModMessageType.KillNPC);
-            packet.Write(npc.whoAmI);
+            packet.Write(NPC.whoAmI);
             return packet;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            npc.DeathSound = SoundID.NPCDeath19;
-            target.AddBuff(mod.BuffType("InfectedRed"), 900);
-            npc.life = 0;
-            npc.checkDead();
+            NPC.DeathSound = SoundID.NPCDeath19;
+            target.AddBuff(Mod.Find<ModBuff>("InfectedRed").Type, 900);
+            NPC.life = 0;
+            NPC.checkDead();
             if (Main.netMode != 0)
             {
                 ModPacket netMessage = GetPacket();
@@ -66,72 +66,72 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("InfectedRed"), 900);
-            npc.life = 0;
-            npc.checkDead();
+            target.AddBuff(Mod.Find<ModBuff>("InfectedRed").Type, 900);
+            NPC.life = 0;
+            NPC.checkDead();
         }
-        public override bool PreNPCLoot()
+        public override bool PreKill()
         {
             return false;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/RedXParasite"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/RedXParasite"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/RedXParasite"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/RedXParasite"), npc.scale);
-                Item.NewItem(npc.Center, ItemID.Heart);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/RedXParasite"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/RedXParasite"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/RedXParasite"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/RedXParasite"), NPC.scale);
+                Item.NewItem(NPC.Center, ItemID.Heart);
             }
         }
         public override void AI()
         {
-            if (npc.ai[0] == 0)
+            if (NPC.ai[0] == 0)
             {
-                npc.scale = 0.8f + (Main.rand.Next(7) * 0.05f);
-                npc.width = (int)(28 * npc.scale);
-                npc.height = (int)(28 * npc.scale);
-                npc.damage = (int)(60 * npc.scale * (Main.expertMode ? 2 : 1));
-                npc.life = (int)(1000 * npc.scale * (Main.expertMode ? 2 : 1));
-                npc.lifeMax = npc.life;
-                npc.velocity = new Vector2(Main.rand.Next(11) - 5, Main.rand.Next(11) - 5);
-                npc.ai[0]++;
-                npc.netUpdate = true;
+                NPC.scale = 0.8f + (Main.rand.Next(7) * 0.05f);
+                NPC.width = (int)(28 * NPC.scale);
+                NPC.height = (int)(28 * NPC.scale);
+                NPC.damage = (int)(60 * NPC.scale * (Main.expertMode ? 2 : 1));
+                NPC.life = (int)(1000 * NPC.scale * (Main.expertMode ? 2 : 1));
+                NPC.lifeMax = NPC.life;
+                NPC.velocity = new Vector2(Main.rand.Next(11) - 5, Main.rand.Next(11) - 5);
+                NPC.ai[0]++;
+                NPC.netUpdate = true;
             }
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || P.dead || !P.active)
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || P.dead || !P.active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            npc.ai[1]++;
-            if (npc.ai[1] > 30)
+            NPC.ai[1]++;
+            if (NPC.ai[1] > 30)
             {
-                Vector2 move = P.MountedCenter - npc.Center;
-                npc.localAI[1] = 12f * (1 + (1 - npc.scale));
-                if (npc.Distance(P.MountedCenter) > 480)
+                Vector2 move = P.MountedCenter - NPC.Center;
+                NPC.localAI[1] = 12f * (1 + (1 - NPC.scale));
+                if (NPC.Distance(P.MountedCenter) > 480)
                 {
-                    npc.localAI[1] = 12 * (1 + (1 - npc.scale)) + (npc.Distance(P.MountedCenter) - 480) / 40 * (1 + (1 - npc.scale));
+                    NPC.localAI[1] = 12 * (1 + (1 - NPC.scale)) + (NPC.Distance(P.MountedCenter) - 480) / 40 * (1 + (1 - NPC.scale));
                 }
-                if (move.Length() > npc.localAI[1] && npc.localAI[1] > 0)
+                if (move.Length() > NPC.localAI[1] && NPC.localAI[1] > 0)
                 {
-                    move *= npc.localAI[1] / move.Length();
+                    move *= NPC.localAI[1] / move.Length();
                 }
                 float home = 8f;
-                npc.velocity = ((home - 1f) * npc.velocity + move) / home;
-                if (npc.velocity.Length() < npc.localAI[1] && npc.localAI[1] > 0)
+                NPC.velocity = ((home - 1f) * NPC.velocity + move) / home;
+                if (NPC.velocity.Length() < NPC.localAI[1] && NPC.localAI[1] > 0)
                 {
-                    npc.velocity *= (npc.localAI[1] / npc.velocity.Length());
+                    NPC.velocity *= (NPC.localAI[1] / NPC.velocity.Length());
                 }
             }
-            else if (npc.velocity.Length() > 12)
+            else if (NPC.velocity.Length() > 12)
             {
-                npc.velocity.Normalize();
-                npc.velocity *= 12;
+                NPC.velocity.Normalize();
+                NPC.velocity *= 12;
             }
-            if (npc.ai[1] > 90)
+            if (NPC.ai[1] > 90)
             {
-                npc.ai[1] = 0;
+                NPC.ai[1] = 0;
             }/*
             if (npc.ai[2] > 10)
             {

@@ -14,45 +14,42 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 27;
-			item.melee = true;
-			item.width = 38;
-			item.height = 38;
-			item.noMelee = true;
-			item.useTime = 13;
-			item.useAnimation = 13;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 5;
-			item.value = 50000;
-			item.rare = 2;
-			item.UseSound = SoundID.Item18;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("ChanneledNail");
-			item.shootSpeed = 10f;
+			Item.damage = 27;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 38;
+			Item.height = 38;
+			Item.noMelee = true;
+			Item.useTime = 13;
+			Item.useAnimation = 13;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.knockBack = 5;
+			Item.value = 50000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item18;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("ChanneledNail").Type;
+			Item.shootSpeed = 10f;
 		}
 		public override bool CanUseItem(Player player)
         {
-           return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[mod.ProjectileType("ChanneledNail2")] + player.ownedProjectileCounts[mod.ProjectileType("GreatSlash")] + player.ownedProjectileCounts[mod.ProjectileType("DashSlash")] < 1;
+           return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("ChanneledNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("GreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DashSlash").Type] < 1;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "SharpenedNail");
-			recipe.AddIngredient(ItemID.DemoniteBar, 10);
-			recipe.AddIngredient(ItemID.Bone, 30);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "SharpenedNail");
-			recipe.AddIngredient(ItemID.CrimtaneBar, 10);
-			recipe.AddIngredient(ItemID.Bone, 30);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<SharpenedNail>()
+				.AddIngredient(ItemID.DemoniteBar, 10)
+				.AddIngredient(ItemID.Bone, 30)
+				.AddTile(TileID.Anvils)
+				.Register();
+				CreateRecipe()
+				.AddIngredient<SharpenedNail>()
+				.AddIngredient(ItemID.CrimtaneBar, 10)
+				.AddIngredient(ItemID.Bone, 30)
+				.AddTile(TileID.Anvils)
+				.Register();
 		}
 	}
 }

@@ -9,32 +9,32 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wind");
-            Main.projFrames[projectile.type] = 12;
+            Main.projFrames[Projectile.type] = 12;
         }
 		public override void SetDefaults()
 		{
-			projectile.width = 160;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.hostile = true;
-			projectile.timeLeft = 200;
-			projectile.alpha = 50;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
+			Projectile.width = 160;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.hostile = true;
+			Projectile.timeLeft = 200;
+			Projectile.alpha = 50;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
 		}
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
             hitbox.Y += 14;
             base.ModifyDamageHitbox(ref hitbox);
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             height = 12;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
         public override bool CanHitPlayer(Player target)
         {
-            if (projectile.timeLeft > 170 || projectile.timeLeft < 20)
+            if (Projectile.timeLeft > 170 || Projectile.timeLeft < 20)
             {
                 return false;
             }
@@ -42,7 +42,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.timeLeft > 170 || projectile.timeLeft < 20)
+            if (Projectile.timeLeft > 170 || Projectile.timeLeft < 20)
             {
                 return false;
             }
@@ -50,60 +50,60 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.velocity.Y = 0;
-            if (projectile.timeLeft > 195)
+            Projectile.velocity.Y = 0;
+            if (Projectile.timeLeft > 195)
             {
-                projectile.frame = 0;
-                projectile.position -= projectile.velocity;
-                projectile.spriteDirection = projectile.direction;
+                Projectile.frame = 0;
+                Projectile.position -= Projectile.velocity;
+                Projectile.spriteDirection = Projectile.direction;
             }
-            else if (projectile.timeLeft > 190)
+            else if (Projectile.timeLeft > 190)
             {
-                projectile.frame = 1;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 1;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 25)
+            else if (Projectile.timeLeft > 25)
             {
-                if (projectile.timeLeft % 5 == 0)
+                if (Projectile.timeLeft % 5 == 0)
                 {
-                    projectile.frame = 2 + ((projectile.frame - 1) % 5);
+                    Projectile.frame = 2 + ((Projectile.frame - 1) % 5);
                 }
-                if (projectile.timeLeft < 160)
+                if (Projectile.timeLeft < 160)
                 {
-                    projectile.tileCollide = true;
+                    Projectile.tileCollide = true;
                 }
             }
-            else if (projectile.timeLeft > 20)
+            else if (Projectile.timeLeft > 20)
             {
-                projectile.frame = 7;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 7;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 15)
+            else if (Projectile.timeLeft > 15)
             {
-                projectile.frame = 8;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 8;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 10)
+            else if (Projectile.timeLeft > 10)
             {
-                projectile.frame = 9;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 9;
+                Projectile.position -= Projectile.velocity;
             }
-            else if (projectile.timeLeft > 5)
+            else if (Projectile.timeLeft > 5)
             {
-                projectile.frame = 10;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 10;
+                Projectile.position -= Projectile.velocity;
             }
             else
             {
-                projectile.frame = 11;
-                projectile.position -= projectile.velocity;
+                Projectile.frame = 11;
+                Projectile.position -= Projectile.velocity;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
-            if (projectile.timeLeft > 25)
-                projectile.timeLeft = 25;
+            Projectile.velocity = Vector2.Zero;
+            if (Projectile.timeLeft > 25)
+                Projectile.timeLeft = 25;
             return false;
         }
     }

@@ -13,31 +13,30 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 8;
-			item.magic = true;
-			item.width = 42;
-			item.height = 40;
-			item.noMelee = true;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.autoReuse = true;
-			item.mana = 5;
-			item.useStyle = 4;
-			item.knockBack = 4;
-			item.value = 5000;
-			item.rare = 2;
-			item.UseSound = SoundID.Item43;
-			item.shoot = 9;
-			item.shootSpeed = 12f;
+			Item.damage = 8;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 42;
+			Item.height = 40;
+			Item.noMelee = true;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.autoReuse = true;
+			Item.mana = 5;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.knockBack = 4;
+			Item.value = 5000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item43;
+			Item.shoot = ProjectileID.Starfury;
+			Item.shootSpeed = 12f;
 		}
-			public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LeadBar, 10);
-			recipe.AddIngredient(ItemID.FallenStar, 8);
-			recipe.AddTile(TileID.Anvils); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.LeadBar, 10)
+				.AddIngredient(ItemID.FallenStar, 8)
+				.AddTile(TileID.Anvils)
+				.Register();
 		}
 
 	}

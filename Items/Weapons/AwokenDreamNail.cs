@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,47 +16,47 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 177;
-			item.melee = true;
-			item.width = 56;
-			item.height = 56;
-			item.noMelee = true;
-			item.useTime = 9;
-			item.useAnimation = 9;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 9;
-			item.value = 800000;
-			item.rare = 10;
-			item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("AwokenDreamNail");
-			item.shootSpeed = 19f;
+			Item.damage = 177;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 56;
+			Item.height = 56;
+			Item.noMelee = true;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.knockBack = 9;
+			Item.value = 800000;
+			Item.rare = ItemRarityID.Red;
+			Item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("AwokenDreamNail").Type;
+			Item.shootSpeed = 19f;
 		}
 		public override bool CanUseItem(Player player)
         {
-           return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[mod.ProjectileType("AwokenDreamNail2")] + player.ownedProjectileCounts[mod.ProjectileType("AwokenDreamGreatSlash")] + player.ownedProjectileCounts[mod.ProjectileType("AwokenDreamDashSlash")] + player.ownedProjectileCounts[mod.ProjectileType("AwokenDreamSpinSlash")] < 1;
+           return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamGreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamDashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamSpinSlash").Type] < 1;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.statLife >= player.statLifeMax2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AwokenDreamBeam"), damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("AwokenDreamBeam").Type, damage / 2, 0, player.whoAmI);
             }
             return true;
         }
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "DreamNail");
-			recipe.AddIngredient(ItemID.FragmentNebula, 3);
-			recipe.AddIngredient(ItemID.FragmentSolar, 3);
-			recipe.AddIngredient(ItemID.FragmentVortex, 3);
-			recipe.AddIngredient(ItemID.FragmentStardust, 3);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			//TENTATIVE: Empress of light drop instead of Lunar Fragments?
+			CreateRecipe()
+				.AddIngredient<DreamNail>()
+				.AddIngredient(ItemID.FragmentNebula, 3)
+				.AddIngredient(ItemID.FragmentSolar, 3)
+				.AddIngredient(ItemID.FragmentVortex, 3)
+				.AddIngredient(ItemID.FragmentStardust, 3)
+				.AddTile(TileID.LunarCraftingStation)
+				.Register();
 		}
 	}
 }

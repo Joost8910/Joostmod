@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,86 +32,86 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Death Knight");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
         }
         public override void SetDefaults()
         {
-            npc.width = 32;
-            npc.height = 68;
-            npc.damage = 110;
-            npc.defense = 60;
-            npc.lifeMax = 4000;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.value = Item.buyPrice(0, 5, 0, 0);
-            npc.knockBackResist = 0f;
-            npc.aiStyle = 0;
-            npc.frameCounter = 0;
-            banner = npc.type;
-            bannerItem = mod.ItemType("DeathKnightBanner");
+            NPC.width = 32;
+            NPC.height = 68;
+            NPC.damage = 110;
+            NPC.defense = 60;
+            NPC.lifeMax = 4000;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.value = Item.buyPrice(0, 5, 0, 0);
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = 0;
+            NPC.frameCounter = 0;
+            Banner = NPC.type;
+            BannerItem = Mod.Find<ModItem>("DeathKnightBanner").Type;
 
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (Main.expertMode)
             {
                 if (Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Deathbringer"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Deathbringer").Type);
                 }
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SigilofSkulls"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SigilofSkulls").Type);
                 }
             }
             else
             {
                 if (Main.rand.Next(15) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Deathbringer"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Deathbringer").Type);
                 }
                 if (Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SigilofSkulls"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SigilofSkulls").Type);
                 }
             }
             if (Main.rand.Next(20) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ThirdAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("ThirdAnniversary").Type, 1);
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position + new Vector2(24, 10), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight1"), 1f);
-                Gore.NewGore(npc.position + new Vector2(40, 24), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight2"), 1f);
-                Gore.NewGore(npc.position + new Vector2(14, 24), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight2"), 1f);
-                Gore.NewGore(npc.position + new Vector2(26, 34), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight3"), 1f);
-                Gore.NewGore(npc.position + new Vector2(12, 44), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight4"), 1f);
-                Gore.NewGore(npc.position + new Vector2(42, 44), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight4"), 1f);
-                Gore.NewGore(npc.position + new Vector2(20, 66), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight5"), 1f);
-                Gore.NewGore(npc.position + new Vector2(28, 66), npc.velocity, mod.GetGoreSlot("Gores/DeathKnight5"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(24, 10), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight1"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(40, 24), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight2"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(14, 24), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight2"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(26, 34), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight3"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(12, 44), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight4"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(42, 44), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight4"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(20, 66), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight5"), 1f);
+                Gore.NewGore(NPC.position + new Vector2(28, 66), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight5"), 1f);
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 109, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 109, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return (tile.type == 41 || tile.type == 43 || tile.type == 44) && spawnInfo.planteraDefeated && spawnInfo.spawnTileY >= Main.rockLayer && Main.hardMode ? 0.01f : 0f;
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            return (tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44) && spawnInfo.PlanteraDefeated && spawnInfo.SpawnTileY >= Main.rockLayer && Main.hardMode ? 0.01f : 0f;
         }
         public override void AI()
         {
-            npc.ai[0]++;
-            npc.netUpdate = true;
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            NPC.ai[0]++;
+            NPC.netUpdate = true;
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
             if (chance != 0)
             {
@@ -120,29 +121,29 @@ namespace JoostMod.NPCs
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 20, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 20, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
-                if (npc.velocity.Y == 0 && Collision.CanHitLine(new Vector2(npc.Center.X, npc.Center.Y), 1, 1, new Vector2(P.Center.X, P.Center.Y), 1, 1))
+                if (NPC.velocity.Y == 0 && Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y), 1, 1, new Vector2(P.Center.X, P.Center.Y), 1, 1))
                 {
-                    npc.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs(P.position.Y - npc.Center.Y));
-                    npc.velocity.X = (P.Center.X - npc.Center.X) / 30;
+                    NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs(P.position.Y - NPC.Center.Y));
+                    NPC.velocity.X = (P.Center.X - NPC.Center.X) / 30;
                     slash = true;
                     chance = 1;
                 }
             }
             if (slash)
             {
-                npc.rotation += 36 * npc.direction * 0.0174f;
+                NPC.rotation += 36 * NPC.direction * 0.0174f;
                 if (slashTimer % 10 == 0)
                 {
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, mod.ProjectileType("Deathbringer"), 50, 15f, Main.myPlayer, npc.whoAmI);
+                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("Deathbringer").Type, 50, 15f, Main.myPlayer, NPC.whoAmI);
                     }
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 7);
+                    SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                 }
                 slashTimer++;
-                if (npc.velocity.Y == 0)
+                if (NPC.velocity.Y == 0)
                 {
                     slash = false;
                     slashTimer = 0;
@@ -150,65 +151,65 @@ namespace JoostMod.NPCs
             }
             else
             {
-                npc.rotation = npc.velocity.X * 0.0174f * 1.5f;
+                NPC.rotation = NPC.velocity.X * 0.0174f * 1.5f;
             }
-            if (npc.velocity.X == 0 && npc.velocity.Y == 0)
+            if (NPC.velocity.X == 0 && NPC.velocity.Y == 0)
             {
-                npc.velocity.Y = -8f;
+                NPC.velocity.Y = -8f;
             }
-            if (P.Center.X < npc.Center.X && npc.velocity.X > -6.5f)
+            if (P.Center.X < NPC.Center.X && NPC.velocity.X > -6.5f)
             {
-                npc.velocity.X -= 0.2f;
+                NPC.velocity.X -= 0.2f;
             }
-            if (npc.velocity.X < -6.5f)
+            if (NPC.velocity.X < -6.5f)
             {
-                npc.velocity.X = -6.5f;
+                NPC.velocity.X = -6.5f;
             }
-            if (npc.velocity.X > 6.5f)
+            if (NPC.velocity.X > 6.5f)
             {
-                npc.velocity.X = 6.5f;
+                NPC.velocity.X = 6.5f;
             }
-            if (P.Center.X > npc.Center.X && npc.velocity.X < 6.5f)
+            if (P.Center.X > NPC.Center.X && NPC.velocity.X < 6.5f)
             {
-                npc.velocity.X += 0.2f;
+                NPC.velocity.X += 0.2f;
             }
-            if (npc.life < npc.lifeMax / 2)
+            if (NPC.life < NPC.lifeMax / 2)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 109, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
-                if (npc.ai[0] % 180 == 0 && Main.netMode != 1)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 109, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                if (NPC.ai[0] % 180 == 0 && Main.netMode != 1)
                 {
-                    NPC.NewNPC((int)npc.Center.X + 60, (int)npc.Center.Y + 60, 34, 0, npc.whoAmI);
-                    NPC.NewNPC((int)npc.Center.X - 60, (int)npc.Center.Y + 60, 34, 0, npc.whoAmI);
-                    NPC.NewNPC((int)npc.Center.X + 60, (int)npc.Center.Y - 60, 34, 0, npc.whoAmI);
-                    NPC.NewNPC((int)npc.Center.X - 60, (int)npc.Center.Y - 60, 34, 0, npc.whoAmI);
+                    NPC.NewNPC((int)NPC.Center.X + 60, (int)NPC.Center.Y + 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC((int)NPC.Center.X - 60, (int)NPC.Center.Y + 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC((int)NPC.Center.X + 60, (int)NPC.Center.Y - 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC((int)NPC.Center.X - 60, (int)NPC.Center.Y - 60, 34, 0, NPC.whoAmI);
                 }
             }
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.spriteDirection = npc.direction;
-            npc.frameCounter++;
-            if (npc.velocity.Y == 0)
+            NPC.spriteDirection = NPC.direction;
+            NPC.frameCounter++;
+            if (NPC.velocity.Y == 0)
             {
-                if (npc.frameCounter >= 10)
+                if (NPC.frameCounter >= 10)
                 {
-                    npc.frameCounter = 0;
-                    npc.frame.Y = (npc.frame.Y + 68);
+                    NPC.frameCounter = 0;
+                    NPC.frame.Y = (NPC.frame.Y + 68);
                 }
-                if (npc.frame.Y >= 408)
+                if (NPC.frame.Y >= 408)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
             }
             else
             {
                 if (slash)
                 {
-                    npc.frame.Y = 476;
+                    NPC.frame.Y = 476;
                 }
                 else
                 {
-                    npc.frame.Y = 408;
+                    NPC.frame.Y = 408;
                 }
             }
         }

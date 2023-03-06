@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class AirScooterMount : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Whirlwind Sphere");
 			Description.SetDefault("Floaty");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("AirScooter"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("AirScooter").Type, player);
             player.slowFall = true;
 			player.buffTime[buffIndex] = 10;
 		}

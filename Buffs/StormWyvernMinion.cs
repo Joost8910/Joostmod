@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class StormWyvernMinion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Storm Wyvern");
 			Description.SetDefault("The storm wyvern will fight for you");
@@ -16,8 +16,8 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(mod, "JoostPlayer");
-			if (player.ownedProjectileCounts[mod.ProjectileType("StormWyvernMinion")] > 0)
+			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("StormWyvernMinion").Type] > 0)
 			{
 				modPlayer.stormWyvernMinion = true;
 			}

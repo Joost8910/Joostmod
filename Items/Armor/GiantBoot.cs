@@ -5,29 +5,28 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
 {
-		[AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Body)]
 	public class GiantBoot : ModItem
 	{
-public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Giant Boot");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.vanity = true;
-			item.value = 10000;
-			item.rare = 2;
+			Item.width = 28;
+			Item.height = 28;
+			Item.vanity = true;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Green;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Leather, 10);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.Leather, 10)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 
 	}

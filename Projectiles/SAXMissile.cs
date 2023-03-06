@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,28 +15,28 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
+            AIType = ProjectileID.Bullet;
         }
         public override void AI()
         {
-            if (projectile.timeLeft > 550)
+            if (Projectile.timeLeft > 550)
             {
-                int dustIndex = Dust.NewDust(projectile.Center - projectile.velocity, 1, 1, 127, 0, 0, 0, default(Color), 2f);
+                int dustIndex = Dust.NewDust(Projectile.Center - Projectile.velocity, 1, 1, 127, 0, 0, 0, default(Color), 2f);
                 Main.dust[dustIndex].noGravity = true;
             }
             else
             {
-                projectile.velocity.Y += 0.3f;
-                if (projectile.velocity.Y > 10)
+                Projectile.velocity.Y += 0.3f;
+                if (Projectile.velocity.Y > 10)
                 {
-                    projectile.velocity.Y = 10;
+                    Projectile.velocity.Y = 10;
                 }
             }
         }
@@ -48,12 +49,12 @@ namespace JoostMod.Projectiles
                 target.mount.Dismount(target);
                 target.velocity.Y = 10;
             }
-            projectile.Kill();
+            Projectile.Kill();
         }
         public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("SAXExplosion2"), projectile.damage, projectile.knockBack, projectile.owner);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);				
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("SAXExplosion2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);				
 		}
 	}
 }

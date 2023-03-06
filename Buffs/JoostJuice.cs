@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class JoostJuice : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Joost Juice");
 			Description.SetDefault("Effects of Well fed, Regeneration, Swiftness, Ironskin\n" + 
@@ -24,15 +24,15 @@ namespace JoostMod.Buffs
 			player.lifeForce = true;
 			player.statLifeMax2 += player.statLifeMax / 5 / 20 * 20;
 			player.endurance += 0.1f;
-			player.meleeCrit += 10;
-			player.rangedCrit += 10;
-			player.magicCrit += 10;
-			player.thrownCrit += 10;
-			player.thrownDamage += 0.1f;
-			player.meleeDamage += 0.1f;
-			player.rangedDamage += 0.1f;
-			player.magicDamage += 0.1f;
-			player.minionDamage += 0.1f;
+			player.GetCritChance(DamageClass.Generic) += 10;
+			player.GetCritChance(DamageClass.Ranged) += 10;
+			player.GetCritChance(DamageClass.Magic) += 10;
+			player.GetCritChance(DamageClass.Throwing) += 10;
+			player.GetDamage(DamageClass.Throwing) += 0.1f;
+			player.GetDamage(DamageClass.Melee) += 0.1f;
+			player.GetDamage(DamageClass.Ranged) += 0.1f;
+			player.GetDamage(DamageClass.Magic) += 0.1f;
+			player.GetDamage(DamageClass.Summon) += 0.1f;
 			player.resistCold = true;
 			player.maxMinions++;
 			player.buffImmune[BuffID.WellFed] = true;

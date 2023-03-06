@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,23 +11,23 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Super Missile");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 1500;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 1500;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
         }
         public override void AI()
         {
-            int dustIndex = Dust.NewDust(projectile.Center - projectile.velocity, 1, 1, 127, 0, 0, 0, default(Color), 2f);
+            int dustIndex = Dust.NewDust(Projectile.Center - Projectile.velocity, 1, 1, 127, 0, 0, 0, default(Color), 2f);
             Main.dust[dustIndex].noGravity = true;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -38,15 +39,15 @@ namespace JoostMod.Projectiles
                 target.mount.Dismount(target);
                 target.velocity.Y = 10;
             }
-            projectile.Kill();
+            Projectile.Kill();
         }
         public override void Kill(int timeLeft)
 		{
             if (Main.netMode != 1)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("SAXExplosion"), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("SAXExplosion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            Main.PlaySound(SoundLoader.customSoundType, (int)projectile.Center.X, (int)projectile.Center.Y,  mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));				
+            SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y,  Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileExplode"));				
 		}
 	}
 }

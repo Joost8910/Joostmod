@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,51 +13,51 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bone");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.tileCollide = true;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 1200;
-			projectile.extraUpdates = 1;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-			aiType = ProjectileID.BoneGloveProj;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.tileCollide = true;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 1200;
+			Projectile.extraUpdates = 1;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
+			AIType = ProjectileID.BoneGloveProj;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.timeLeft -= 90;
-			if (projectile.velocity.X != oldVelocity.X)
+			Projectile.timeLeft -= 90;
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y;
+				Projectile.velocity.Y = -oldVelocity.Y;
 			}
 			return false;
 		}
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return true;
         }

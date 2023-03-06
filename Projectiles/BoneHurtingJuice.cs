@@ -13,24 +13,24 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 200;
-			aiType = ProjectileID.WoodenArrowFriendly;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 6;
+			Projectile.height = 6;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 200;
+			AIType = ProjectileID.WoodenArrowFriendly;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BoneHurt"), 600, false);
+            target.AddBuff(Mod.Find<ModBuff>("BoneHurt").Type, 600, false);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("BoneHurt"), 600, false);
+            target.AddBuff(Mod.Find<ModBuff>("BoneHurt").Type, 600, false);
         }
     }
 }

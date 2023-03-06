@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,28 +15,28 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 1000;
-			projectile.height = 500;
-			projectile.aiStyle = -1;
-			projectile.timeLeft = 55;
-			projectile.hostile = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.ignoreWater = true;
+			Projectile.width = 1000;
+			Projectile.height = 500;
+			Projectile.aiStyle = -1;
+			Projectile.timeLeft = 55;
+			Projectile.hostile = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.ignoreWater = true;
 		}
 		public override void AI()
 		{
-            int size = 56 - projectile.timeLeft;
-			projectile.scale = size*0.036f;
-            projectile.position.X = projectile.Center.X - (float)((1000 * projectile.scale) / 2f);
-            projectile.position.Y = projectile.Center.Y - (float)((500 * projectile.scale) / 2f);
-            projectile.width = (int)(Math.Round(1000 * projectile.scale));
-            projectile.height = (int)(Math.Round(500 * projectile.scale));
-            Lighting.AddLight(projectile.Center, 10f, 10f, 10f);
+            int size = 56 - Projectile.timeLeft;
+			Projectile.scale = size*0.036f;
+            Projectile.position.X = Projectile.Center.X - (float)((1000 * Projectile.scale) / 2f);
+            Projectile.position.Y = Projectile.Center.Y - (float)((500 * Projectile.scale) / 2f);
+            Projectile.width = (int)(Math.Round(1000 * Projectile.scale));
+            Projectile.height = (int)(Math.Round(500 * Projectile.scale));
+            Lighting.AddLight(Projectile.Center, 10f, 10f, 10f);
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (Collides(projectile.position, projectile.Size, target.position, target.Size))
+            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitNPC(target);
             }
@@ -43,7 +44,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPlayer(Player target)
         {
-            if (Collides(projectile.position, projectile.Size, target.position, target.Size))
+            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitPlayer(target);
             }
@@ -51,7 +52,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPvp(Player target)
         {
-            if (Collides(projectile.position, projectile.Size, target.position, target.Size))
+            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitPvp(target);
             }
@@ -82,19 +83,19 @@ namespace JoostMod.Projectiles
             float b = ellipseDim.Y / 2f;
             return (x * x) / (a * a) + (y * y) / (b * b) < 1; //point collision detection
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             //Texture2D tex2 = Main.projectileTexture[mod.ProjectileType("PowerBombExplosion2")];
             Color color = Color.Black;
             //sb.Draw(tex2, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex2.Width, tex2.Height)), Color.Black, projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), 7.92f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), projectile.scale * 2, SpriteEffects.None, 0f);
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale * 8, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), Projectile.scale * 2, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 8, SpriteEffects.None, 0f);
             return false;
 		}
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("SAXPowerBombExplosion2"), (int)(projectile.damage * 0.25f), projectile.knockBack);
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("SAXPowerBombExplosion2").Type, (int)(Projectile.damage * 0.25f), Projectile.knockBack);
 		}
 	}
 }

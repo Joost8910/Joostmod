@@ -13,32 +13,35 @@ namespace JoostMod.Items.Weapons
         {
             DisplayName.SetDefault("Plantera Weapon Set");
             Tooltip.SetDefault("'BRING IT ON YOU GIANT F---'");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()
         {
-            item.damage = 70;
-            item.width = 66;
-            item.height = 70;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = 150000;
-            item.rare = 5;
-            item.scale = 1f;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ThornShower");
-            item.shootSpeed = 6f;
-            item.crit = 4;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 66;
+            Item.height = 70;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 150000;
+            Item.rare = ItemRarityID.Pink;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("ThornShower").Type;
+            Item.shootSpeed = 6f;
+            Item.crit = 4;
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
         }
+        */
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
             switch (rand.Next(24))
@@ -93,37 +96,36 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 133, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 133, (damage), knockback, player.whoAmI);
             }
             if (wep == 2)
             {
-                Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), 483, (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), 483, (damage), knockback, player.whoAmI);
             }
             if (wep == 3)
             {
-                Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 5), (speedY * 5), 150, (damage / 2), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 5), (velocity.Y * 5), 150, (damage / 2), knockback, player.whoAmI);
             }
             if (wep == 0)
             {
-                Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 3), (speedY * 3), mod.ProjectileType("ThornShower"), (damage), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 3), (velocity.Y * 3), Mod.Find<ModProjectile>("ThornShower").Type, (damage), knockback, player.whoAmI);
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Seedler);
-            recipe.AddIngredient(ItemID.GrenadeLauncher);
-            recipe.AddIngredient(ItemID.NettleBurst);
-            recipe.AddIngredient(null, "RoseWeave");
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+            .AddIngredient(ItemID.Seedler)
+            .AddIngredient(ItemID.GrenadeLauncher)
+            .AddIngredient(ItemID.NettleBurst)
+            .AddIngredient<RoseWeave>()
+            .AddTile(TileID.MythrilAnvil)
+            .Register();
         }
 
     }

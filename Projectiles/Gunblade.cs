@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,22 +15,22 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 84;
-            projectile.height = 84;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -1;
-            projectile.aiStyle = -1;
+            Projectile.width = 84;
+            Projectile.height = 84;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = -1;
+            Projectile.aiStyle = -1;
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.localAI[0] > 5 && projectile.localAI[0] < 10)
+            if (Projectile.localAI[0] > 5 && Projectile.localAI[0] < 10)
             {
                 return base.CanHitNPC(target);
             }
@@ -37,7 +38,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPvp(Player target)
         {
-            if (projectile.localAI[0] > 5 && projectile.localAI[0] < 10)
+            if (Projectile.localAI[0] > 5 && Projectile.localAI[0] < 10)
             {
                 return base.CanHitPvp(target);
             }
@@ -45,10 +46,10 @@ namespace JoostMod.Projectiles
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                Player player = Main.player[projectile.owner];
-                Vector2 unit = projectile.velocity;
+                Player player = Main.player[Projectile.owner];
+                Vector2 unit = Projectile.velocity;
                 Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
                 float point = 0f;
                 if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), vector, vector + unit * 118, 16, ref point))
@@ -60,14 +61,14 @@ namespace JoostMod.Projectiles
         }
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            bool channeling = !player.dead && projectile.localAI[0] < 20 && !player.noItems && !player.CCed;
+            bool channeling = !player.dead && Projectile.localAI[0] < 20 && !player.noItems && !player.CCed;
             if (channeling)
             {
-                if (projectile.localAI[0] <= 5)
+                if (Projectile.localAI[0] <= 5)
                 {
-                    if (Main.myPlayer == projectile.owner)
+                    if (Main.myPlayer == Projectile.owner)
                     {
                         Vector2 vector13 = Main.MouseWorld - vector;
                         vector13.Normalize();
@@ -75,34 +76,34 @@ namespace JoostMod.Projectiles
                         {
                             vector13 = Vector2.UnitX * (float)player.direction;
                         }
-                        if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                        if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                         {
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
-                        projectile.velocity = vector13;
-                        if (projectile.velocity.X < 0)
+                        Projectile.velocity = vector13;
+                        if (Projectile.velocity.X < 0)
                         {
-                            projectile.direction = -1;
+                            Projectile.direction = -1;
                         }
                         else
                         {
-                            projectile.direction = 1;
+                            Projectile.direction = 1;
                         }
                     }
                 }
-                else if (projectile.localAI[0] < 10)
+                else if (Projectile.localAI[0] < 10)
                 {
-                    float rot = projectile.velocity.ToRotation();
-                    rot -= 15f * 0.0174f * projectile.direction;
-                    projectile.velocity = rot.ToRotationVector2();
+                    float rot = Projectile.velocity.ToRotation();
+                    rot -= 15f * 0.0174f * Projectile.direction;
+                    Projectile.velocity = rot.ToRotationVector2();
                 }
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            projectile.localAI[0]++;
-            if (projectile.localAI[0] == 5)
+            Projectile.localAI[0]++;
+            if (Projectile.localAI[0] == 5)
             {
                 float vel = 16;
                 int type = 0;
@@ -139,36 +140,36 @@ namespace JoostMod.Projectiles
                     {
                         player.ConsumeItem(item.type);
                     }
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * vel, type, (int)(projectile.damage * 0.75f) + item.damage, projectile.knockBack + item.knockBack, projectile.owner);
-                    Main.PlaySound(2, projectile.Center, 41);
+                    Projectile.NewProjectile(Projectile.Center, Projectile.velocity * vel, type, (int)(Projectile.damage * 0.75f) + item.damage, Projectile.knockBack + item.knockback, Projectile.owner);
+                    SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                 }
                 else
                 {
-                    Main.PlaySound(SoundLoader.customSoundType, projectile.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
+                    SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
                 }
             }
-            projectile.velocity.Normalize();
-            projectile.position = (vector - (projectile.Size / 2f)) + (projectile.velocity * projectile.width * 0.7f);
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 1.57f : 0) + 0.785f;
-            projectile.spriteDirection = projectile.direction;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            Projectile.velocity.Normalize();
+            Projectile.position = (vector - (Projectile.Size / 2f)) + (Projectile.velocity * Projectile.width * 0.7f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 1.57f : 0) + 0.785f;
+            Projectile.spriteDirection = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.ai[0] > 0)
+            if (Projectile.ai[0] > 0)
             {
-                projectile.velocity.Normalize();
+                Projectile.velocity.Normalize();
                 float shootSpeed = player.inventory[player.selectedItem].shootSpeed;
-                for (int i = 0; i < projectile.frame; i++)
+                for (int i = 0; i < Projectile.frame; i++)
                 {
-                    Vector2 vel = projectile.velocity * (shootSpeed + (i * shootSpeed / 11));
-                    Projectile.NewProjectile(vector, vel, (int)projectile.ai[1], projectile.damage, projectile.knockBack / 2f, projectile.owner);
-                    Main.PlaySound(2, projectile.Center, 63);
+                    Vector2 vel = Projectile.velocity * (shootSpeed + (i * shootSpeed / 11));
+                    Projectile.NewProjectile(vector, vel, (int)Projectile.ai[1], Projectile.damage, Projectile.knockBack / 2f, Projectile.owner);
+                    SoundEngine.PlaySound(SoundID.Item63, Projectile.Center);
                 }
             }
         }

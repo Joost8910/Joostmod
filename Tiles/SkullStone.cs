@@ -10,7 +10,7 @@ namespace JoostMod.Tiles
 {
 	public class SkullStone : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -24,14 +24,14 @@ namespace JoostMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stone of Death");
 			AddMapEntry(new Color(0, 51, 76), name);
-			dustType = 197;
-            disableSmartCursor = true;
+			DustType = 197;
+            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             WorldGen.KillTile(i, j, false, false, false);
-            if (Main.netMode == 1 && !Main.tile[i, j].active())
+            if (Main.netMode == 1 && !Main.tile[i, j].HasTile)
             {
                 NetMessage.SendData(17, -1, -1, null, 4, (float)i, (float)j, 0f, 0, 0, 0);
             }
@@ -41,10 +41,10 @@ namespace JoostMod.Tiles
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("SkullStone");
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = Mod.Find<ModItem>("SkullStone").Type;
         }
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             drawColor = new Color(0, 51 + (int)(Main.DiscoG * 0.3f), 76 + (int)(Main.DiscoG * 0.3f));
         }
@@ -63,7 +63,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(0, Main.DiscoG, Main.DiscoG);
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/SkullStoneEyes"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Mod.GetTexture("Tiles/SkullStoneEyes"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -73,7 +73,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("SkullStone"));
+			Item.NewItem(i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SkullStone").Type);
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

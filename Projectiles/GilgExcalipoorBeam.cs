@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,35 +12,35 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Excalipoor... somehow");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 80;
-            projectile.aiStyle = 27;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 35;
-            projectile.alpha = 75;
-            projectile.light = 0.7f;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            Projectile.width = 80;
+            Projectile.height = 80;
+            Projectile.aiStyle = 27;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 35;
+            Projectile.alpha = 75;
+            Projectile.light = 0.7f;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
         }
         public override void AI()
         {
-            projectile.damage = 1;
-            projectile.direction = 1;
-            if (projectile.velocity.X < 0)
+            Projectile.damage = 1;
+            Projectile.direction = 1;
+            if (Projectile.velocity.X < 0)
             {
-                projectile.direction = -1;
+                Projectile.direction = -1;
             }
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction < 0 ? 3.14f : 0);
-            projectile.velocity *= 0.94f;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction < 0 ? 3.14f : 0);
+            Projectile.velocity *= 0.94f;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 30;
             height = 30;
@@ -49,24 +50,24 @@ namespace JoostMod.Projectiles
         {
             for (int i = 0; i < 15; i++)
             {
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 261);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 261);
                 Main.dust[dust].noGravity = true;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
         }

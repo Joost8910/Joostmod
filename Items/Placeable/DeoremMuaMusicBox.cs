@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Items.Placeable
 {
@@ -8,21 +9,23 @@ namespace JoostMod.Items.Placeable
 		{
 			DisplayName.SetDefault("Music Box (Deorem/Mua Boss Fight)");
 			Tooltip.SetDefault("From Metroid: Zero Mission");
-		}
-		public override void SetDefaults()
+
+            MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DeoremMua"), ModContent.ItemType<DeoremMuaMusicBox>(), ModContent.TileType<Tiles.DeoremMuaMusicBox>());
+        }
+        public override void SetDefaults()
 		{
-			item.useStyle = 1;
-			item.useTurn = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = mod.TileType("DeoremMuaMusicBox");
-			item.width = 24;
-			item.height = 24;
-			item.rare = 8;
-			item.value = 10000;
-			item.accessory = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTurn = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<Tiles.DeoremMuaMusicBox>();
+			Item.width = 24;
+			Item.height = 24;
+			Item.rare = ItemRarityID.Yellow;
+			Item.value = 10000;
+			Item.accessory = true;
 		}
 	}
 }

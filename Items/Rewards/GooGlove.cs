@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -18,42 +19,42 @@ namespace JoostMod.Items.Rewards
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			item.thrown = true;
-			item.width = 32;
-			item.height = 34;
-			item.useTime = 43;
-			item.useAnimation = 43;
-			item.useStyle = 1;
-			item.noMelee = true;
-            item.noUseGraphic = true;
-			item.knockBack = 2;
-			item.value = 10000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("PinkGoo"); 
-			item.shootSpeed = 9.5f;
+			Item.damage = 10;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 32;
+			Item.height = 34;
+			Item.useTime = 43;
+			Item.useAnimation = 43;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+            Item.noUseGraphic = true;
+			Item.knockBack = 2;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("PinkGoo").Type; 
+			Item.shootSpeed = 9.5f;
 		}
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{
 			foreach (TooltipLine line2 in list)
 			{
-				if (line2.mod == "Terraria" && line2.Name == "ItemName")
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
 				{
-					line2.overrideColor = new Color(230, 204, 128);
+					line2.OverrideColor = new Color(230, 204, 128);
 				}
 			}
 		}
-public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			int numberProjectiles = 2 + Main.rand.Next(3); 
 			for (int i = 0; i < numberProjectiles; i++)
 			{
-				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(30)); 
+				Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(30)); 
 				float scale = 1f - (Main.rand.NextFloat() * .3f);
 				perturbedSpeed = perturbedSpeed * scale; 
-				Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
 			}
 			return false; 
 		}

@@ -15,28 +15,28 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mega Bubble Shield");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 72;
-			projectile.height = 72;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 64;
-			projectile.alpha = 100;
-			projectile.extraUpdates = 1;
+			Projectile.width = 72;
+			Projectile.height = 72;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 64;
+			Projectile.alpha = 100;
+			Projectile.extraUpdates = 1;
 		} 
 		public override void AI()
 		{
-			projectile.position.X = Main.player[projectile.owner].MountedCenter.X - projectile.width/2;
-			projectile.position.Y = Main.player[projectile.owner].MountedCenter.Y - projectile.height/2;
-			projectile.velocity.Y = 0;
-			projectile.rotation = 0;
+			Projectile.position.X = Main.player[Projectile.owner].MountedCenter.X - Projectile.width/2;
+			Projectile.position.Y = Main.player[Projectile.owner].MountedCenter.Y - Projectile.height/2;
+			Projectile.velocity.Y = 0;
+			Projectile.rotation = 0;
 		}
 
 	}

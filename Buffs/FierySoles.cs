@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class FierySoles : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fiery Soles");
 			Description.SetDefault("Hawt");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("FierySoles"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("FierySoles").Type, player);
 			player.buffTime[buffIndex] = 10;
 		}
 	}

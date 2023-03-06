@@ -6,28 +6,28 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
-	public class DirtHelmet : ModItem
-	{
+    [AutoloadEquip(EquipType.Head)]
+    public class DirtHelmet : ModItem
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Soil Helm");
-		}
-		public override void SetDefaults()
-		{
-			item.width = 22;
-			item.height = 16;
-            item.value = Item.sellPrice(0, 0, 0, 10);
-			item.rare = 2;
-		}
+        {
+            DisplayName.SetDefault("Soil Helm");
+        }
+        public override void SetDefaults()
+        {
+            Item.width = 22;
+            Item.height = 16;
+            Item.value = Item.sellPrice(0, 0, 0, 10);
+            Item.rare = ItemRarityID.Green;
+        }
         public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == mod.ItemType("DirtBreastplate") && legs.type == mod.ItemType("DirtLeggings");
-		}
+        {
+            return body.type == Mod.Find<ModItem>("DirtBreastplate").Type && legs.type == Mod.Find<ModItem>("DirtLeggings").Type;
+        }
 
-		public override void UpdateArmorSet(Player player)
-		{
-			player.setBonus = "Grants 1 more defense for every 666 blocks of dirt in your inventory\n" + 
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "Grants 1 more defense for every 666 blocks of dirt in your inventory\n" +
                 "Getting hit consumes dirt equal to the attack's damage, up to a maximum of half of the defense provided";
             player.GetModPlayer<JoostPlayer>().dirtArmor = true;
         }
@@ -35,19 +35,18 @@ namespace JoostMod.Items.Armor
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(151, 107, 75);
+                    line2.OverrideColor = new Color(151, 107, 75);
                 }
             }
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock, 666);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DirtBlock, 666)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
-	}
+    }
 }

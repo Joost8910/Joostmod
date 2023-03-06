@@ -14,28 +14,27 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 21;
-			item.melee = true;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.knockBack = 7;
-			item.value = 5400;
-			item.rare = 1;
-			item.UseSound = SoundID.Item1;
-			item.hammer = 60;
-			item.useStyle = 1;
-			item.autoReuse = true;
+			Item.damage = 21;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.knockBack = 7;
+			Item.value = 5400;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item1;
+			Item.hammer = 60;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.autoReuse = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.JungleSpores, 6);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.JungleSpores, 6)
+				.AddTile(TileID.Anvils)
+				.Register();
 		}
 	}
 }

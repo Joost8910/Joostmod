@@ -14,40 +14,39 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 33;
-			item.thrown = true;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.width = 28;
-			item.height = 56;
-			item.useTime = 17;
-			item.useAnimation = 17;
-			item.useStyle = 1;
-			item.knockBack = 5;
-			item.value = 12000;
-			item.rare = 4;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("TitaniumChainedchainsaw");
-			item.shootSpeed = 16f;
-		item.maxStack = 4;
+			Item.damage = 33;
+			Item.DamageType = DamageClass.Throwing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.width = 28;
+			Item.height = 56;
+			Item.useTime = 17;
+			Item.useAnimation = 17;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 5;
+			Item.value = 12000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("TitaniumChainedchainsaw").Type;
+			Item.shootSpeed = 16f;
+			Item.maxStack = 4;
 		}
 		public override bool CanUseItem(Player player)
-        {
-      if ((player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[mod.ProjectileType("TitaniumChainedchainsaw2")]) >= item.stack) 
-			             {
-                    return false;
-                }
-            else return true;
-		}
-				public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.TitaniumBar, 2);
-			recipe.AddIngredient(ItemID.Chain);
-			recipe.AddTile(TileID.MythrilAnvil); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			if ((player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("TitaniumChainedchainsaw2").Type]) >= Item.stack)
+			{
+				return false;
+			}
+			else return true;
+		}
+		public override void AddRecipes()
+		{
+			CreateRecipe()
+				.AddIngredient(ItemID.TitaniumBar, 2)
+				.AddIngredient(ItemID.Chain)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 
 	}

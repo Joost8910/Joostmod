@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -13,20 +14,20 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.aiStyle = 2;
-            projectile.friendly = true;
-            projectile.thrown = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 150;
-            aiType = ProjectileID.Shuriken;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.aiStyle = 2;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 150;
+            AIType = ProjectileID.Shuriken;
         }
         public override void PostAI()
         {
-            projectile.spriteDirection = -projectile.direction;
+            Projectile.spriteDirection = -Projectile.direction;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 18;
             height = 18;
@@ -43,7 +44,7 @@ namespace JoostMod.Projectiles
             for (i = 0; i < 8; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("CactusThorn"), (int)(projectile.damage * 0.6f), projectile.knockBack/3, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("CactusThorn").Type, (int)(Projectile.damage * 0.6f), Projectile.knockBack/3, Projectile.owner);
             }
         }
     }

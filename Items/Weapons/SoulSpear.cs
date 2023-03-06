@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -16,24 +18,24 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 225;
-			item.thrown = true;
-            item.magic = true;
-            item.mana = 20;
-			item.width = 36;
-			item.height = 36;
-			item.useTime = 25;
-			item.useAnimation = 50;
-			item.useStyle = 4;
-			item.noMelee = true;
-            item.noUseGraphic = true;
-			item.knockBack = 6.5f;
-			item.value = 500000;
-			item.rare = 8;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item8;
-			item.shoot = mod.ProjectileType("SoulSpear");
-			item.shootSpeed = 15f;
+			Item.damage = 225;
+			Item.DamageType = DamageClass.Throwing;
+            Item.CountsAsClass(DamageClass.Magic);
+            Item.mana = 20;
+			Item.width = 36;
+			Item.height = 36;
+			Item.useTime = 25;
+			Item.useAnimation = 50;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.noMelee = true;
+            Item.noUseGraphic = true;
+			Item.knockBack = 6.5f;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item8;
+			Item.shoot = Mod.Find<ModProjectile>("SoulSpear").Type;
+			Item.shootSpeed = 15f;
         }
         /*
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
@@ -42,21 +44,23 @@ namespace JoostMod.Items.Weapons
             mult *= player.magicDamageMult;
         }
         */
-        public override void GetWeaponCrit(Player player, ref int crit)
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
-            crit += player.thrownCrit;
+            crit += player.GetCritChance(DamageClass.Throwing);
             crit /= 2;
         }
+        */
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];
             int dmg = list.FindIndex(x => x.Name == "Damage");
             list.RemoveAt(dmg);
-            list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " throwing and magic damage"));
+            list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " throwing and magic damage"));
         }
         public override void HoldItem(Player player)
         {
-            if (player.itemAnimation > 1 && player.itemAnimation > item.useTime)
+            if (player.itemAnimation > 1 && player.itemAnimation > Item.useTime)
             {
                 int dustType = 92;
                 Vector2 pos = player.MountedCenter + (new Vector2((6 * player.direction) - 9, -16));
@@ -66,15 +70,15 @@ namespace JoostMod.Items.Weapons
             }
             base.HoldItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.itemAnimation > item.useTime)
+            if (player.itemAnimation > Item.useTime)
             {
-                Main.PlaySound(42, player.Center, 203);
+                SoundEngine.PlaySound(SoundID.Trackable, player.Center);
                 return false;
             }
-            Main.PlaySound(2, player.Center, 28);
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            SoundEngine.PlaySound(SoundID.Item28, player.Center);
+            return true;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {

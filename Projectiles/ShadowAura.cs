@@ -15,33 +15,33 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadow Aura");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 5;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 5;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 40;
-			projectile.height = 48;
-			projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 20;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 1;
-			projectile.alpha = 100;
+			Projectile.width = 40;
+			Projectile.height = 48;
+			Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 20;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 1;
+			Projectile.alpha = 100;
 		} 
 		public override void AI()
 		{
-			projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width/2;
-			projectile.position.Y = Main.player[projectile.owner].Center.Y - projectile.height/2;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 5)
+			Projectile.position.X = Main.player[Projectile.owner].Center.X - Projectile.width/2;
+			Projectile.position.Y = Main.player[Projectile.owner].Center.Y - Projectile.height/2;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 5)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 4;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 4;
 			}
 		}
 	}

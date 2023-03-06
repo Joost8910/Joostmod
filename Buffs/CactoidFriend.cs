@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class CactoidFriend : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Friend of Cactoids");
 			Description.SetDefault("Cactoids become friendly and will fight for you");
@@ -14,8 +14,8 @@ namespace JoostMod.Buffs
 		}
         public override void Update(Player player, ref int buffIndex)
         {
-            player.npcTypeNoAggro[mod.NPCType("Cactoid")] = true;
-            player.npcTypeNoAggro[mod.NPCType("Cactite")] = true;
+            player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactoid").Type] = true;
+            player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactite").Type] = true;
         }
     }
 }

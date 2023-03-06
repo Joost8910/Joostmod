@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,26 +10,23 @@ namespace JoostMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cactuar Coat");
-		}
+			ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
+
+        }
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.vanity = true;
-			item.value = 10000;
-			item.rare = 2;
-		}
-		public override bool DrawBody()
-		{
-			return false;
+			Item.width = 18;
+			Item.height = 18;
+			Item.vanity = true;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Green;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Cactus, 20);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.Cactus, 20)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 	}
 }

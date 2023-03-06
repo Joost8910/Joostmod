@@ -5,32 +5,32 @@ using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
-	public class PetEyeball : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pet Eyeball");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 76;
-			item.melee = true;
-			item.width = 42;
-			item.height = 50;
-			item.useTime = 10;
-			item.useAnimation = 10;
-			item.reuseDelay = 5;
-			item.useStyle = 5;
-			item.knockBack = 5;
-			item.value = 100000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("PetEyeball");
-			item.shootSpeed = 18f;
+    public class PetEyeball : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Pet Eyeball");
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 76;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 42;
+            Item.height = 50;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.reuseDelay = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = 100000;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.shoot = Mod.Find<ModProjectile>("PetEyeball").Type;
+            Item.shootSpeed = 18f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -69,9 +69,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -80,14 +80,13 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Lens, 1);
-            recipe.AddIngredient(ItemID.SoulofSight, 15);
-            recipe.AddIngredient(ItemID.SoulofFlight, 5);
-            recipe.AddIngredient(ItemID.Chain, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Lens)
+                .AddIngredient(ItemID.SoulofSight, 15)
+                .AddIngredient(ItemID.SoulofFlight, 5)
+                .AddIngredient(ItemID.Chain, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

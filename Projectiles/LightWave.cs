@@ -12,16 +12,16 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 1;
-			projectile.height = 1;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 120;
-            projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 1;
+			Projectile.height = 1;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 120;
+            Projectile.extraUpdates = 1;
+			Projectile.tileCollide = false;
+			AIType = ProjectileID.Bullet;
 		}
 		public override bool? CanHitNPC(NPC target)
 		{
@@ -30,10 +30,10 @@ namespace JoostMod.Projectiles
 		private int z = 0;
 		public override void AI()
 		{
-			int x = 8 + (int)(projectile.position.X/16)*16;
+			int x = 8 + (int)(Projectile.position.X/16)*16;
 			if (x != z)
 			{
-				Projectile.NewProjectile(x, projectile.position.Y, 0, 15f * projectile.ai[0], mod.ProjectileType("LightWave1"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0]);			
+				Projectile.NewProjectile(x, Projectile.position.Y, 0, 15f * Projectile.ai[0], Mod.Find<ModProjectile>("LightWave1").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);			
 				z = x;
 			}
 		}

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,16 +13,16 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 164;
-			projectile.height = 48;
-			projectile.aiStyle = 0;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 60;
-			projectile.tileCollide = false;
-			projectile.light = 0.95f;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 164;
+			Projectile.height = 48;
+			Projectile.aiStyle = 0;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 60;
+			Projectile.tileCollide = false;
+			Projectile.light = 0.95f;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.Bullet;
 		}
 		public override bool CanHitPlayer(Player target)
 		{
@@ -29,8 +30,8 @@ namespace JoostMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 76, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("UltimateIllusion3"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);		
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 66);				
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 76, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("UltimateIllusion3").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);		
+			SoundEngine.PlaySound(SoundID.Item66, Projectile.position);				
 		}
 
 	}

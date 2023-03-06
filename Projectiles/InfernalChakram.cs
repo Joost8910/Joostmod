@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,86 +16,86 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 1800;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 12;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 1800;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 12;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
 		{
-			if(Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid > 80 && (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquidType() == 0 || Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquidType() == 2))
+			if(Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 80 && (Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidType == 0 || Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidType == 2))
 			{
-				int d = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X/2, projectile.velocity.Y/2, mod.ProjectileType("DousedChakram"), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
+				int d = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X/2, Projectile.velocity.Y/2, Mod.Find<ModProjectile>("DousedChakram").Type, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
 				for (int k = 0; k < 200; k++)
 				{
 					Projectile g = Main.projectile[k];
-					if ((g.type == mod.ProjectileType("Fires") || g.type == mod.ProjectileType("Fires2")) && g.active && g.owner == projectile.owner)
+					if ((g.type == Mod.Find<ModProjectile>("Fires").Type || g.type == Mod.Find<ModProjectile>("Fires2").Type) && g.active && g.owner == Projectile.owner)
 					{
 						g.ai[0] = d;
 					}
 				}
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
-				projectile.Kill();
+				SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
+				Projectile.Kill();
 			}
-			projectile.rotation = projectile.timeLeft * 6;
-			if (projectile.timeLeft >= 1799)
+			Projectile.rotation = Projectile.timeLeft * 6;
+			if (Projectile.timeLeft >= 1799)
 			{
 				for (int l = 0; l < 200; l++)
 				{
 					Projectile f = Main.projectile[l];
-					if ((f.type == mod.ProjectileType("Fires") || f.type == mod.ProjectileType("Fires2")) && f.active && f.owner == projectile.owner)
+					if ((f.type == Mod.Find<ModProjectile>("Fires").Type || f.type == Mod.Find<ModProjectile>("Fires2").Type) && f.active && f.owner == Projectile.owner)
 					{
-						f.ai[0] = projectile.whoAmI;
+						f.ai[0] = Projectile.whoAmI;
 					}
 				}
 			}
-			if (projectile.timeLeft % 5 == 0)
+			if (Projectile.timeLeft % 5 == 0)
 			{
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, projectile.velocity.X/10, projectile.velocity.Y/10, 100, default(Color), 1f);
+				int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, Projectile.velocity.X/10, Projectile.velocity.Y/10, 100, default(Color), 1f);
 				Main.dust[num1].noGravity = true;
 			}
-			if (projectile.timeLeft % 30 == 0)
+			if (Projectile.timeLeft % 30 == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Fires"), projectile.damage, projectile.knockBack / 3, projectile.owner, projectile.whoAmI);	
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Fires2"), projectile.damage, projectile.knockBack / 3, projectile.owner, projectile.whoAmI);	
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("Fires").Type, Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);	
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("Fires2").Type, Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);	
 			}
-			if (projectile.timeLeft <= 1760)
+			if (Projectile.timeLeft <= 1760)
 			{
-				projectile.aiStyle = 3;
-				projectile.tileCollide = false;
+				Projectile.aiStyle = 3;
+				Projectile.tileCollide = false;
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(BuffID.OnFire, 300);
-            if (projectile.aiStyle != 3)
+            if (Projectile.aiStyle != 3)
             {
-                projectile.velocity *= -1;
+                Projectile.velocity *= -1;
             }
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 300);
-            if (projectile.aiStyle != 3)
+            if (Projectile.aiStyle != 3)
             {
-                projectile.velocity *= -1;
+                Projectile.velocity *= -1;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.velocity.X != oldVelocity.X)
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y;
+				Projectile.velocity.Y = -oldVelocity.Y;
 			}
 			return false;
 		}

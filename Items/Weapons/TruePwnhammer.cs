@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,47 +13,46 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 90;
-			item.melee = true;
-			item.width = 54;
-			item.height = 52;
-			item.useTime = 8;
-			item.useAnimation = 24;
-			item.knockBack = 9;
-			item.value = 500000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item1;
-			item.hammer = 100;
-			item.useStyle = 1;
-			item.tileBoost = 2;
-			item.autoReuse = true;
-            item.useTurn = true;
-        }
-        public override bool UseItem(Player player)
-        {
-            if (player.itemAnimation <= item.useTime)
-            {
-                if (player.velocity.Y == 0)
-                {
-                    Main.PlaySound(42, player.position, 207 + Main.rand.Next(3));
-                    Projectile.NewProjectile(player.Center.X + 50 * player.direction * item.scale, player.Center.Y - 40 * player.gravDir, 3f * player.direction, 0f, mod.ProjectileType("LightWave"), item.damage, item.knockBack, player.whoAmI, player.gravDir);
-                }
-                else
-                {
-                    Main.PlaySound(42, player.position, 213 + Main.rand.Next(4));
-                }
-            }
-            return true;
-        }
-
-        public override void AddRecipes()
+			Item.damage = 90;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 54;
+			Item.height = 52;
+			Item.useTime = 8;
+			Item.useAnimation = 24;
+			Item.knockBack = 9;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item1;
+			Item.hammer = 100;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.tileBoost = 2;
+			Item.autoReuse = true;
+			Item.useTurn = true;
+		}
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Pwnhammer);
-			recipe.AddIngredient(null, "BrokenHeroHammer");
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			if (player.itemAnimation <= Item.useTime)
+			{
+				if (player.velocity.Y == 0)
+				{
+					SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, player.Center);
+					Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 50 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, 3f * player.direction, 0f, Mod.Find<ModProjectile>("LightWave").Type, Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
+				}
+				else
+				{
+					SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, player.Center);
+				}
+			}
+			return true;
+		}
+
+		public override void AddRecipes()
+		{
+			CreateRecipe()
+				.AddIngredient(ItemID.Pwnhammer)
+				.AddIngredient<Materials.BrokenHeroHammer>()
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

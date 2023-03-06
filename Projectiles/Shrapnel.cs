@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,29 +15,29 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 1200;
-            projectile.arrow = true;
-            aiType = ProjectileID.WoodenArrowFriendly;
-            projectile.extraUpdates = 1;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 1200;
+            Projectile.arrow = true;
+            AIType = ProjectileID.WoodenArrowFriendly;
+            Projectile.extraUpdates = 1;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.timeLeft -= 600;
-            if (projectile.velocity.X != oldVelocity.X)
+            Projectile.timeLeft -= 600;
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             return false;
         }
 
@@ -46,8 +47,8 @@ namespace JoostMod.Projectiles
             float rotation = MathHelper.ToRadians(45);
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .5f; 
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Needle4"), projectile.damage/2, projectile.knockBack/2, projectile.owner);
+                Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .5f; 
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("Needle4").Type, Projectile.damage/2, Projectile.knockBack/2, Projectile.owner);
             }
         }
 

@@ -14,35 +14,35 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 1200;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 15;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 1200;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 15;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
 		{
-			projectile.aiStyle = 3;
+			Projectile.aiStyle = 3;
 			//projectile.tileCollide = false;
-			if (projectile.timeLeft % 8 == 0)
+			if (Projectile.timeLeft % 8 == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-projectile.width/2, projectile.width/2), projectile.Center.Y, 0, 7, mod.ProjectileType("Rain"), projectile.damage, 0, projectile.owner);	
+				Projectile.NewProjectile(Projectile.Center.X + Main.rand.Next(-Projectile.width/2, Projectile.width/2), Projectile.Center.Y, 0, 7, Mod.Find<ModProjectile>("Rain").Type, Projectile.damage, 0, Projectile.owner);	
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.velocity.X != oldVelocity.X)
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y;
+				Projectile.velocity.Y = -oldVelocity.Y;
 			}
 			return false;
 		}

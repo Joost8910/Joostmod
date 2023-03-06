@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,66 +13,66 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Root");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[Projectile.type] = 3;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 70;
-			projectile.aiStyle = 0;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 150;
-			projectile.tileCollide = false;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 18;
+			Projectile.height = 70;
+			Projectile.aiStyle = 0;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 150;
+			Projectile.tileCollide = false;
+			AIType = ProjectileID.Bullet;
 		}
         public override bool CanHitPlayer(Player target)
         {
-            return projectile.timeLeft <= 60 && projectile.timeLeft > 10;
+            return Projectile.timeLeft <= 60 && Projectile.timeLeft > 10;
         }
         public override void AI()
 		{
-			if (projectile.timeLeft > 60)
+			if (Projectile.timeLeft > 60)
 			{
-				projectile.frame = 0;
-				projectile.height = 16;
+				Projectile.frame = 0;
+				Projectile.height = 16;
 			}
-			if (projectile.timeLeft == 60)
+			if (Projectile.timeLeft == 60)
 			{
-				projectile.position.Y = projectile.position.Y - 26;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 65);
+				Projectile.position.Y = Projectile.position.Y - 26;
+                SoundEngine.PlaySound(SoundID.Item65, Projectile.position);
             }
-			if (projectile.timeLeft <= 60 && projectile.timeLeft > 55)
+			if (Projectile.timeLeft <= 60 && Projectile.timeLeft > 55)
 			{
-				projectile.frame = 1;
-				projectile.height = 42;
+				Projectile.frame = 1;
+				Projectile.height = 42;
 			}
-			if (projectile.timeLeft == 55)
+			if (Projectile.timeLeft == 55)
 			{
-				projectile.position.Y = projectile.position.Y - 27;
+				Projectile.position.Y = Projectile.position.Y - 27;
 			}
-			if (projectile.timeLeft <= 55 && projectile.timeLeft > 10)
+			if (Projectile.timeLeft <= 55 && Projectile.timeLeft > 10)
 			{
-				projectile.frame = 2;
-				projectile.height = 70;
+				Projectile.frame = 2;
+				Projectile.height = 70;
 			}
-			if (projectile.timeLeft == 10)
+			if (Projectile.timeLeft == 10)
 			{
-				projectile.position.Y = projectile.position.Y + 27;
+				Projectile.position.Y = Projectile.position.Y + 27;
 			}
-			if (projectile.timeLeft <= 10 && projectile.timeLeft > 5)
+			if (Projectile.timeLeft <= 10 && Projectile.timeLeft > 5)
 			{
-				projectile.frame = 1;
-				projectile.height = 42;
+				Projectile.frame = 1;
+				Projectile.height = 42;
 			}
-			if (projectile.timeLeft == 5)
+			if (Projectile.timeLeft == 5)
 			{
-				projectile.position.Y = projectile.position.Y + 26;		
+				Projectile.position.Y = Projectile.position.Y + 26;		
 			}
-			if (projectile.timeLeft <= 5)
+			if (Projectile.timeLeft <= 5)
 			{
-				projectile.frame = 0;
-				projectile.height = 16;
+				Projectile.frame = 0;
+				Projectile.height = 16;
 			}
 		}
 	}

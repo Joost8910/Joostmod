@@ -14,32 +14,31 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 120;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 28;
-			item.height = 28;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 5;
-			item.value = 20000;
-			item.rare = 9;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("LunarShuriken");
-			item.shootSpeed = 23f;
+			Item.damage = 120;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 28;
+			Item.height = 28;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 5;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Cyan;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("LunarShuriken").Type;
+			Item.shootSpeed = 23f;
 		}
-				public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LunarBar, 1); 
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this, 333);
-			recipe.AddRecipe();
+			CreateRecipe(333)
+				.AddIngredient(ItemID.LunarBar)
+				.AddTile(TileID.LunarCraftingStation)
+				.Register();
 		}
 
 	}

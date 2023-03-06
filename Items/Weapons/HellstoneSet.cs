@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,38 +6,41 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Items.Weapons
 {
-	public class HellstoneSet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hellfire Weapon Set");
-			Tooltip.SetDefault("'Hot, HOT! Way too hot!'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 30;
-			item.width = 32;
-			item.height = 38;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 3;
-			item.value = 9000;
-			item.rare = 3;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("HellstoneShuriken");
-			item.shootSpeed = 12f;
-            item.crit = 4;
-        }
-        public override void GetWeaponCrit(Player player, ref int crit)
+    public class HellstoneSet : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            DisplayName.SetDefault("Hellfire Weapon Set");
+            Tooltip.SetDefault("'Hot, HOT! Way too hot!'");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
+        public override void SetDefaults()
+        {
+            Item.damage = 30;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 32;
+            Item.height = 38;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 9000;
+            Item.rare = ItemRarityID.Orange;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("HellstoneShuriken").Type;
+            Item.shootSpeed = 12f;
+            Item.crit = 4;
+        }
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
+        }
+        */
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
             switch (rand.Next(24))
@@ -93,40 +95,39 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int wep = Main.rand.Next(4);
-			if (wep == 1)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), 19, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 2)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), 41, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 3)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), 15, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 0)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("HellstoneShuriken"), 1, knockBack, player.whoAmI);
-			}
-			return false;
-		}
-			public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.FlowerofFire);
-			recipe.AddIngredient(ItemID.MoltenFury);
-			recipe.AddIngredient(ItemID.Flamarang);
-			recipe.AddIngredient(null, "HellstoneShuriken");
-			recipe.AddTile(TileID.Anvils); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int wep = Main.rand.Next(4);
+            if (wep == 1)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), ProjectileID.Flamarang, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 2)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), ProjectileID.HellfireArrow, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 3)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), ProjectileID.BallofFire, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 0)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("HellstoneShuriken").Type, 1, knockback, player.whoAmI);
+            }
+            return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.FlowerofFire)
+                .AddIngredient(ItemID.MoltenFury)
+                .AddIngredient(ItemID.Flamarang)
+                .AddIngredient<HellstoneGlove>()
+                .AddTile(TileID.Anvils)
+                .Register();
+        }
 
-	}
+    }
 }
 
 

@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class LifeDrink : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Life Rend");
             Description.SetDefault("Will heal a nearby enemy player on death");

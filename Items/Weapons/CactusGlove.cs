@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,29 +14,28 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.thrown = true;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = 1;
-            item.noMelee = true;
-			item.noUseGraphic = true;
-            item.knockBack = 4;
-            item.value = 60000;
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ThornyCactus");
-            item.shootSpeed = 11f;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Throwing;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+			Item.noUseGraphic = true;
+            Item.knockBack = 4;
+            Item.value = 60000;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("ThornyCactus").Type;
+            Item.shootSpeed = 11f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LusciousCactus", 10);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.LusciousCactus>(10)
+                .Register();
         }
     }
 }

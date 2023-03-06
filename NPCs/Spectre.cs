@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,60 +14,60 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spectre");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetDefaults()
         {
-            npc.width = 120;
-            npc.height = 192;
-            npc.damage = 50;
-            npc.defense = 0;
-            npc.lifeMax = 7500;
-            npc.HitSound = SoundID.NPCHit54;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.value = Item.buyPrice(0, 10, 0, 0);
-            npc.knockBackResist = 0f;
-            npc.aiStyle = -1;
-            npc.noTileCollide = true;
-            npc.noGravity = true;
-            npc.frameCounter = 0;
-            banner = npc.type;
-            bannerItem = mod.ItemType("SpectreBanner");
-            npc.behindTiles = false;
-            npc.alpha = 150;
+            NPC.width = 120;
+            NPC.height = 192;
+            NPC.damage = 50;
+            NPC.defense = 0;
+            NPC.lifeMax = 7500;
+            NPC.HitSound = SoundID.NPCHit54;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.value = Item.buyPrice(0, 10, 0, 0);
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = -1;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.frameCounter = 0;
+            Banner = NPC.type;
+            BannerItem = Mod.Find<ModItem>("SpectreBanner").Type;
+            NPC.behindTiles = false;
+            NPC.alpha = 150;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1508, Main.rand.Next(4, 12));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 1508, Main.rand.Next(4, 12));
             int chance = Main.expertMode ? 6 : 9;
             if (Main.rand.NextBool(chance))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SoulGreatsword"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SoulGreatsword").Type, 1);
             }
             if (Main.rand.NextBool(chance))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SoulArrow"), Main.rand.Next(500) + 500);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SoulArrow").Type, Main.rand.Next(500) + 500);
             }
             if (Main.rand.NextBool(chance))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SoulSpear"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SoulSpear").Type, 1);
             }
             if (Main.rand.NextBool(chance))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HomingSoulmass"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("HomingSoulmass").Type, 1);
             }
             if (Main.rand.NextBool(chance))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FocusSouls"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FocusSouls").Type, 1);
             }
             if (Main.rand.Next(20) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ThirdAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("ThirdAnniversary").Type, 1);
             }
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (Vector2.Distance(npc.Center, target.Center) > 40)
+            if (Vector2.Distance(NPC.Center, target.Center) > 40)
             {
                 return false;
             }
@@ -74,203 +76,203 @@ namespace JoostMod.NPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 92, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 92, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return (tile.type == 41 || tile.type == 43 || tile.type == 44) && spawnInfo.planteraDefeated && spawnInfo.spawnTileY >= Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(npc.type) ? 0.0075f : 0f;
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            return (tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44) && spawnInfo.PlanteraDefeated && spawnInfo.SpawnTileY >= Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(NPC.type) ? 0.0075f : 0f;
 
         }
         public override void AI()
         {
-            npc.ai[0]++;
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            NPC.ai[0]++;
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            npc.netUpdate = true;
-            if (!(npc.ai[3] == 5 && npc.ai[0] > 100))
+            NPC.netUpdate = true;
+            if (!(NPC.ai[3] == 5 && NPC.ai[0] > 100))
             {
-                if (npc.Center.X < P.Center.X - 50)
+                if (NPC.Center.X < P.Center.X - 50)
                 {
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
-                if (npc.Center.X > P.Center.X + 50)
+                if (NPC.Center.X > P.Center.X + 50)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
             }
-            if (npc.Center.Y < P.Center.Y)
+            if (NPC.Center.Y < P.Center.Y)
             {
-                npc.directionY = 1;
+                NPC.directionY = 1;
             }
-            if (npc.Center.Y > P.Center.Y)
+            if (NPC.Center.Y > P.Center.Y)
             {
-                npc.directionY = -1;
+                NPC.directionY = -1;
             }
-            if ((npc.ai[0] % 7) == 0)
+            if ((NPC.ai[0] % 7) == 0)
             {
                 int dustType = 92;
-                int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, dustType);
+                int dustIndex = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType);
                 Dust dust = Main.dust[dustIndex];
-                dust.velocity.Y = dust.velocity.X - 5 * npc.direction;
+                dust.velocity.Y = dust.velocity.X - 5 * NPC.direction;
                 dust.velocity.Y = dust.velocity.Y + 5;
                 dust.noGravity = true;
             }
-            float speedX = 2f;
-            float speedY = 1.5f;
+            float velocity.X = 2f;
+            float velocity.Y = 1.5f;
             float Xlration = 0.1f;
             float Ylration = 0.05f;
-            if (npc.ai[3] == 0)
+            if (NPC.ai[3] == 0)
             {
-                if (npc.ai[0] == 26)
+                if (NPC.ai[0] == 26)
                 {
-                    if (Main.rand.NextBool(3) && Collision.CanHitLine(npc.Center, 1, 1, P.Center, 1, 1))
+                    if (Main.rand.NextBool(3) && Collision.CanHitLine(NPC.Center, 1, 1, P.Center, 1, 1))
                     {
-                        npc.ai[3] = 1;
-                        npc.ai[0] = 0;
+                        NPC.ai[3] = 1;
+                        NPC.ai[0] = 0;
                     }
                 }
-                if (npc.ai[0] == 82)
+                if (NPC.ai[0] == 82)
                 {
                     if (Main.rand.NextBool(2))
                     {
-                        npc.ai[3] = 3;
+                        NPC.ai[3] = 3;
                         if (Main.rand.NextBool(2))
                         {
-                            npc.ai[0] = 0;
+                            NPC.ai[0] = 0;
                         }
                         else
                         {
-                            npc.ai[0] = 55;
+                            NPC.ai[0] = 55;
                         }
                     }
                 }
-                if (npc.ai[0] == 138)
+                if (NPC.ai[0] == 138)
                 {
-                    if (Main.rand.NextBool(2) && Collision.CanHitLine(npc.Center, 1, 1, P.Center, 1, 1))
+                    if (Main.rand.NextBool(2) && Collision.CanHitLine(NPC.Center, 1, 1, P.Center, 1, 1))
                     {
-                        npc.ai[3] = 5;
-                        npc.ai[0] = 0;
+                        NPC.ai[3] = 5;
+                        NPC.ai[0] = 0;
                     }
                 }
-                if (npc.ai[0] > 140)
+                if (NPC.ai[0] > 140)
                 {
-                    speedX = 5;
+                    velocity.X = 5;
                     Xlration = 0.2f;
-                    speedY = 4;
+                    velocity.Y = 4;
                     Ylration = 0.2f;
-                    if (npc.Distance(P.Center) < 150 && P.Center.Y - npc.Center.Y < 75)
+                    if (NPC.Distance(P.Center) < 150 && P.Center.Y - NPC.Center.Y < 75)
                     {
-                        npc.ai[3] = 3;
-                        npc.ai[0] = 160;
+                        NPC.ai[3] = 3;
+                        NPC.ai[0] = 160;
                     }
                 }
             }
-            if (npc.velocity.X * npc.direction < speedX)
+            if (NPC.velocity.X * NPC.direction < velocity.X)
             {
-                npc.velocity.X += Xlration * npc.direction;
+                NPC.velocity.X += Xlration * NPC.direction;
             }
-            if (npc.velocity.Y * npc.directionY < speedY)
+            if (NPC.velocity.Y * NPC.directionY < velocity.Y)
             {
-                npc.velocity.Y += Ylration * npc.directionY;
+                NPC.velocity.Y += Ylration * NPC.directionY;
             }
-            if (npc.ai[3] == 1)
+            if (NPC.ai[3] == 1)
             {
-                npc.velocity *= 0.9f;
-                if (npc.ai[0] > 25)
+                NPC.velocity *= 0.9f;
+                if (NPC.ai[0] > 25)
                 {
-                    npc.ai[3] = 2;
-                    npc.ai[0] = 0;
+                    NPC.ai[3] = 2;
+                    NPC.ai[0] = 0;
                 }
-                if (npc.ai[0] % 6 < npc.ai[0] / 4)
+                if (NPC.ai[0] % 6 < NPC.ai[0] / 4)
                 {
                     int dustType = 92;
-                    int dustIndex = Dust.NewDust(npc.Center, 18, 18, dustType);
+                    int dustIndex = Dust.NewDust(NPC.Center, 18, 18, dustType);
                     Dust dust = Main.dust[dustIndex];
                     dust.noGravity = true;
                 }
             }
-            if (npc.ai[3] == 2)
+            if (NPC.ai[3] == 2)
             {
-                npc.velocity *= 0.9f;
-                if (npc.ai[0] == 0)
+                NPC.velocity *= 0.9f;
+                if (NPC.ai[0] == 0)
                 {
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                if (npc.ai[0] == 10)
+                if (NPC.ai[0] == 10)
                 {
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center, npc.DirectionTo(P.Center) * 12, mod.ProjectileType("HostileSoulArrow"), 30, 0, Main.myPlayer, npc.target);
+                        Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(P.Center) * 12, Mod.Find<ModProjectile>("HostileSoulArrow").Type, 30, 0, Main.myPlayer, NPC.target);
                     }
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                if (npc.ai[0] > 25)
+                if (NPC.ai[0] > 25)
                 {
-                    npc.ai[3] = 0;
-                    npc.ai[0] = 0;
+                    NPC.ai[3] = 0;
+                    NPC.ai[0] = 0;
                 }
             }
-            if (npc.ai[3] == 3)
+            if (NPC.ai[3] == 3)
             {
-                if (npc.ai[0] == 0)
+                if (NPC.ai[0] == 0)
                 {
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                npc.velocity *= 0.9f;
-                if (npc.ai[0] < 26)
+                NPC.velocity *= 0.9f;
+                if (NPC.ai[0] < 26)
                 {
-                    if (npc.ai[0] % 6 < npc.ai[0] / 4)
+                    if (NPC.ai[0] % 6 < NPC.ai[0] / 4)
                     {
                         int dustType = 92;
-                        Vector2 pos = npc.Center + (new Vector2((40 * npc.direction) - 10, -100));
+                        Vector2 pos = NPC.Center + (new Vector2((40 * NPC.direction) - 10, -100));
                         int dustIndex = Dust.NewDust(pos, 18, 18, dustType);
                         Dust dust = Main.dust[dustIndex];
                         dust.noGravity = true;
                     }
                 }
-                if (npc.ai[0] == 26)
+                if (NPC.ai[0] == 26)
                 {
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileHomingSoulmass"), 25, 0, Main.myPlayer, npc.whoAmI, 0);
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileHomingSoulmass"), 25, 0, Main.myPlayer, npc.whoAmI, 45);
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileHomingSoulmass"), 25, 0, Main.myPlayer, npc.whoAmI, 90);
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileHomingSoulmass"), 25, 0, Main.myPlayer, npc.whoAmI, 135);
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileHomingSoulmass"), 25, 0, Main.myPlayer, npc.whoAmI, 180);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 0);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 45);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 90);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 135);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 180);
                     }
-                    Main.PlaySound(2, npc.Center, 28);
+                    SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                 }
-                if (npc.ai[0] > 26 && npc.ai[0] < 54)
+                if (NPC.ai[0] > 26 && NPC.ai[0] < 54)
                 {
-                    npc.velocity = Vector2.Zero;
+                    NPC.velocity = Vector2.Zero;
                 }
-                if (npc.ai[0] == 54)
+                if (NPC.ai[0] == 54)
                 {
-                    npc.ai[0] = 0;
-                    npc.ai[3] = 0;
+                    NPC.ai[0] = 0;
+                    NPC.ai[3] = 0;
                 }
-                if (npc.ai[0] == 55)
+                if (NPC.ai[0] == 55)
                 {
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                if (npc.ai[0] > 54 && npc.ai[0] < 135)
+                if (NPC.ai[0] > 54 && NPC.ai[0] < 135)
                 {
-                    float e = npc.ai[0] - 80;
+                    float e = NPC.ai[0] - 80;
                     if (e > 40)
                     {
                         e -= 40;
                         int dustType = 92;
-                        Vector2 pos = npc.Center + (new Vector2((40 * npc.direction) - 10, -100));
+                        Vector2 pos = NPC.Center + (new Vector2((40 * NPC.direction) - 10, -100));
                         int dustIndex = Dust.NewDust(pos, 18, 18, dustType);
                         Dust dust = Main.dust[dustIndex];
                         dust.scale *= 1.5f;
@@ -279,139 +281,139 @@ namespace JoostMod.NPCs
                     if (e % 10 < e / 4)
                     {
                         int dustType = 92;
-                        Vector2 pos = npc.Center + (new Vector2((40 * npc.direction) - 10, -100));
+                        Vector2 pos = NPC.Center + (new Vector2((40 * NPC.direction) - 10, -100));
                         int dustIndex = Dust.NewDust(pos, 18, 18, dustType);
                         Dust dust = Main.dust[dustIndex];
                         dust.noGravity = true;
                     }
                 }
-                if (npc.ai[0] == 115)
+                if (NPC.ai[0] == 115)
                 {
-                    Main.PlaySound(42, npc.Center, 203);
+                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
                 }
-                if (npc.ai[0] == 135)
+                if (NPC.ai[0] == 135)
                 {
-                    Vector2 pos = npc.Center + (new Vector2((40 * npc.direction) - 10, -100));
+                    Vector2 pos = NPC.Center + (new Vector2((40 * NPC.direction) - 10, -100));
                     float speed = 15;
-                    Vector2 dir = Vector2.Normalize((P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, npc.Center) / speed), P.velocity.Y * (Vector2.Distance(P.Center, npc.Center) / speed))) - pos);
+                    Vector2 dir = Vector2.Normalize((P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / speed), P.velocity.Y * (Vector2.Distance(P.Center, NPC.Center) / speed))) - pos);
                     dir *= speed;
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(pos, dir, mod.ProjectileType("HostileSoulSpear"), 45, 0, Main.myPlayer, npc.target);
+                        Projectile.NewProjectile(pos, dir, Mod.Find<ModProjectile>("HostileSoulSpear").Type, 45, 0, Main.myPlayer, NPC.target);
                     }
-                    Main.PlaySound(2, npc.Center, 28);
+                    SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                 }
-                if (npc.ai[0] > 115 && npc.ai[0] < 155)
+                if (NPC.ai[0] > 115 && NPC.ai[0] < 155)
                 {
-                    npc.velocity = Vector2.Zero;
+                    NPC.velocity = Vector2.Zero;
                 }
-                if (npc.ai[0] == 155)
+                if (NPC.ai[0] == 155)
                 {
-                    npc.ai[0] = 0;
-                    npc.ai[3] = 0;
+                    NPC.ai[0] = 0;
+                    NPC.ai[3] = 0;
                 }
-                if (npc.ai[0] == 160)
+                if (NPC.ai[0] == 160)
                 {
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileSoulGreatsword"), 60, 0, Main.myPlayer, npc.whoAmI);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileSoulGreatsword").Type, 60, 0, Main.myPlayer, NPC.whoAmI);
                     }
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                if (npc.ai[0] == 200)
+                if (NPC.ai[0] == 200)
                 {
-                    npc.ai[0] = 0;
-                    npc.ai[3] = 4;
+                    NPC.ai[0] = 0;
+                    NPC.ai[3] = 4;
                 }
             }
-            if (npc.ai[3] == 4)
+            if (NPC.ai[3] == 4)
             {
-                npc.velocity = Vector2.Zero;
-                if (npc.ai[0] == 22)
+                NPC.velocity = Vector2.Zero;
+                if (NPC.ai[0] == 22)
                 {
-                    npc.ai[0] = 0;
-                    npc.ai[3] = 0;
+                    NPC.ai[0] = 0;
+                    NPC.ai[3] = 0;
                 }
             }
-            if (npc.ai[3] == 5)
+            if (NPC.ai[3] == 5)
             {
-                npc.velocity *= 0.9f;
-                if (npc.ai[0] > 60)
+                NPC.velocity *= 0.9f;
+                if (NPC.ai[0] > 60)
                 {
-                    npc.velocity = Vector2.Zero;
+                    NPC.velocity = Vector2.Zero;
                 }
-                if (npc.ai[0] == 30)
+                if (NPC.ai[0] == 30)
                 {
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("HostileFocusSouls"), 50, 0, Main.myPlayer, npc.whoAmI);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileFocusSouls").Type, 50, 0, Main.myPlayer, NPC.whoAmI);
                     }
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                if (npc.ai[0] == 230)
+                if (NPC.ai[0] == 230)
                 {
-                    npc.ai[0] = 0;
-                    npc.ai[3] = 0;
+                    NPC.ai[0] = 0;
+                    NPC.ai[3] = 0;
                 }
             }
-            if (npc.ai[0] % 60 > 30)
+            if (NPC.ai[0] % 60 > 30)
             {
-                npc.alpha = 150 + (int)npc.ai[0] % 30 * 2;
+                NPC.alpha = 150 + (int)NPC.ai[0] % 30 * 2;
             }
             else
             {
-                npc.alpha = 210 - (int)npc.ai[0] % 30 * 2;
+                NPC.alpha = 210 - (int)NPC.ai[0] % 30 * 2;
             }
-            if (npc.ai[0] > 300)
+            if (NPC.ai[0] > 300)
             {
-                npc.ai[0] = 0;
+                NPC.ai[0] = 0;
             }
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.spriteDirection = npc.direction;
-            npc.frameCounter++;
-            if (npc.frameCounter >= 7)
+            NPC.spriteDirection = NPC.direction;
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 7)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = (npc.frame.Y + 220);
+                NPC.frameCounter = 0;
+                NPC.frame.Y = (NPC.frame.Y + 220);
             }
-            if (npc.ai[3] == 4)
+            if (NPC.ai[3] == 4)
             {
-                if (npc.ai[0] < 4)
+                if (NPC.ai[0] < 4)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
-                else if (npc.ai[0] < 8)
+                else if (NPC.ai[0] < 8)
                 {
-                    npc.frame.Y = 220;
+                    NPC.frame.Y = 220;
                 }
-                else if (npc.ai[0] < 12)
+                else if (NPC.ai[0] < 12)
                 {
-                    npc.frame.Y = 220 * 2;
+                    NPC.frame.Y = 220 * 2;
                 }
                 else
                 {
-                    npc.frame.Y = 220 * 3;
+                    NPC.frame.Y = 220 * 3;
                 }
             }
-            if (npc.frame.Y >= 880 || (npc.ai[3] > 0 && (npc.ai[0] <= 0 || npc.ai[0] == 55)))
+            if (NPC.frame.Y >= 880 || (NPC.ai[3] > 0 && (NPC.ai[0] <= 0 || NPC.ai[0] == 55)))
             {
-                npc.frame.Y = 0;
-                npc.frameCounter = 0;
+                NPC.frame.Y = 0;
+                NPC.frameCounter = 0;
             }
-            if (npc.ai[3] == 3 && ((npc.ai[0] >= 190 && npc.ai[0] <= 200) || (npc.ai[0] >= 135 && npc.ai[0] <= 165) || (npc.ai[0] >= 26 && npc.ai[0] <= 54)))
+            if (NPC.ai[3] == 3 && ((NPC.ai[0] >= 190 && NPC.ai[0] <= 200) || (NPC.ai[0] >= 135 && NPC.ai[0] <= 165) || (NPC.ai[0] >= 26 && NPC.ai[0] <= 54)))
             {
-                npc.frame.Y = 3 * 220;
-                npc.frameCounter = 0;
+                NPC.frame.Y = 3 * 220;
+                NPC.frameCounter = 0;
             }
-            npc.frame.X = (int)npc.ai[3] * 240;
+            NPC.frame.X = (int)NPC.ai[3] * 240;
         }
-        public override bool PreDraw(SpriteBatch sb, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
@@ -421,28 +423,28 @@ namespace JoostMod.NPCs
             }
             int xFrameCount = 6;
             Color alpha = Color.White;
-            alpha.A = (byte)npc.alpha;
-            Texture2D texture = Main.npcTexture[npc.type];
-            Rectangle rect = new Rectangle((int)npc.frame.X, (int)npc.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[npc.type]));
-            Vector2 vect = new Vector2((float)((texture.Width / xFrameCount) / 2), (float)((texture.Height / Main.npcFrameCount[npc.type]) / 2));
-            sb.Draw(texture, new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)(texture.Height / Main.npcFrameCount[npc.type]) + 4f + vect.Y), new Rectangle?(rect), alpha, npc.rotation, vect, 1f, effects, 0f);
+            alpha.A = (byte)NPC.alpha;
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Rectangle rect = new Rectangle((int)NPC.frame.X, (int)NPC.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[NPC.type]));
+            Vector2 vect = new Vector2((float)((texture.Width / xFrameCount) / 2), (float)((texture.Height / Main.npcFrameCount[NPC.type]) / 2));
+            sb.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + 4f + vect.Y), new Rectangle?(rect), alpha, NPC.rotation, vect, 1f, effects, 0f);
             return false;
         }
         public override bool CheckDead()
         {
-            float targetX = npc.Center.X;
-            float targetY = npc.Center.Y;
+            float targetX = NPC.Center.X;
+            float targetY = NPC.Center.Y;
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X + 42, (int)npc.Center.Y, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X - 42, (int)npc.Center.Y, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X + 30, (int)npc.Center.Y + 30, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X - 30, (int)npc.Center.Y + 30, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X - 30, (int)npc.Center.Y - 30, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X + 30, (int)npc.Center.Y - 30, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 42, 288, 0, npc.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 42, 288, 0, npc.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X + 42, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X - 42, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X + 30, (int)NPC.Center.Y + 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X - 30, (int)NPC.Center.Y + 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X - 30, (int)NPC.Center.Y - 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X + 30, (int)NPC.Center.Y - 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + 42, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 42, 288, 0, NPC.whoAmI, targetX, targetY);
             }
             return true;
         }

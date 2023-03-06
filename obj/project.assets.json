@@ -1,24 +1,24 @@
 {
   "version": 3,
   "targets": {
-    ".NETFramework,Version=v4.5": {
-      "tModLoader.CodeAssist/0.1.1": {
+    "net6.0": {
+      "tModLoader.CodeAssist/0.1.5": {
         "type": "package"
       }
     }
   },
   "libraries": {
-    "tModLoader.CodeAssist/0.1.1": {
-      "sha512": "mX0SfS72ADg1viuaR1AgKsGs4uuTzn0Gw3EEkhRZ+aTZiVfSoW4umxs36ou3QXvQCRrSM5W00H2+LjGqHezTJg==",
+    "tModLoader.CodeAssist/0.1.5": {
+      "sha512": "Sg/jKEg/z5eN+Cdi3/9CU4JfJwvXHVH+UDJf4Lipo26uTa+guLLJXH1XDJNPShTFwKK8jMUYbthINP4QhsgHSA==",
       "type": "package",
-      "path": "tmodloader.codeassist/0.1.1",
+      "path": "tmodloader.codeassist/0.1.5",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "NugetIcon.png",
         "analyzers/dotnet/cs/tModLoader.CodeAssist.dll",
-        "tmodloader.codeassist.0.1.1.nupkg.sha512",
+        "tmodloader.codeassist.0.1.5.nupkg.sha512",
         "tmodloader.codeassist.nuspec",
         "tools/install.ps1",
         "tools/uninstall.ps1"
@@ -26,7 +26,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETFramework,Version=v4.5": [
+    "net6.0": [
       "tModLoader.CodeAssist >= 0.1.*"
     ]
   },
@@ -36,37 +36,61 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\JoostMod\\JoostMod.csproj",
+      "projectUniqueName": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\JoostMod.csproj",
       "projectName": "JoostMod",
-      "projectPath": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\JoostMod\\JoostMod.csproj",
+      "projectPath": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\JoostMod.csproj",
       "packagesPath": "C:\\Users\\Justin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\JoostMod\\obj\\",
+      "outputPath": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Justin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net45"
+        "net6.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net45": {
+        "net6.0": {
+          "targetAlias": "net6.0",
           "projectReferences": {}
         }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
       }
     },
     "frameworks": {
-      "net45": {
+      "net6.0": {
+        "targetAlias": "net6.0",
         "dependencies": {
           "tModLoader.CodeAssist": {
             "target": "Package",
             "version": "[0.1.*, )"
           }
-        }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -15,38 +15,37 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 5;
-            item.magic = true;
-            item.width = 24;
-            item.height = 24;
-            item.mana = 3;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = 1;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = 10;
-            item.rare = 1;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Flame");
-            item.shootSpeed = 7f;
+            Item.damage = 5;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 24;
+            Item.height = 24;
+            Item.mana = 3;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = 10;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("Flame").Type;
+            Item.shootSpeed = 7f;
         }
         public override void HoldItem(Player player)
         {
-            if (Main.rand.Next(player.itemAnimation > 0 ? 40 : 80) == 0)
+            if (Main.rand.NextBool(player.itemAnimation > 0 ? 40 : 80))
             {
                 Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, 6);
             }
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Torch);
-            recipe.AddRecipeGroup("Wood", 6);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Torch)
+                .AddRecipeGroup("Wood", 6)
+                .AddTile(TileID.WorkBenches)
+                .Register();
 
         }
 

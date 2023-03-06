@@ -14,26 +14,26 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-            projectile.tileCollide = false;
-			projectile.timeLeft = 600;
-			projectile.alpha = 15;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 15;
+			AIType = ProjectileID.Bullet;
 		}
         public override void AI()
         {
-            projectile.rotation = -projectile.timeLeft * 12 * 0.174f;
-            if (projectile.timeLeft % 5 == 0)
+            Projectile.rotation = -Projectile.timeLeft * 12 * 0.174f;
+            if (Projectile.timeLeft % 5 == 0)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 13);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 13);
             }
-            if (projectile.position.Y < 700)
+            if (Projectile.position.Y < 700)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public override void Kill(int timeLeft)

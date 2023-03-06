@@ -17,25 +17,25 @@ namespace JoostMod.Items.Armor
         }
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = 10000000;
-            item.rare = 11;
-            item.defense = 35;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.defense = 35;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, 0);
+                    line2.OverrideColor = new Color(0, 255, 0);
                 }
             }
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("GenjiArmorThrown") && legs.type == mod.ItemType("GenjiLeggings");
+            return body.type == Mod.Find<ModItem>("GenjiArmorThrown").Type && legs.type == Mod.Find<ModItem>("GenjiLeggings").Type;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -47,19 +47,19 @@ namespace JoostMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<JoostModPlayer>().throwConsume = 0;
-            player.thrownVelocity *= 1.60f;
-            player.thrownDamage += 0.60f;
+            player.ThrownVelocity *= 1.60f;
+            player.GetDamage(DamageClass.Throwing) += 0.60f;
         }
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawShadowSubtle = true;
             player.armorEffectDrawShadowLokis = true;
             player.armorEffectDrawOutlines = true;
-            if (player.HasBuff(mod.BuffType("gThrownCooldown")))
+            if (player.HasBuff(Mod.Find<ModBuff>("gThrownCooldown").Type))
             {
                 player.armorEffectDrawOutlines = false;
             }
-            if (player.HasBuff(mod.BuffType("gThrownDodge")) || player.HasBuff(mod.BuffType("gThrownBuff")))
+            if (player.HasBuff(Mod.Find<ModBuff>("gThrownDodge").Type) || player.HasBuff(Mod.Find<ModBuff>("gThrownBuff").Type))
             {
                 player.armorEffectDrawOutlines = true;
                 player.armorEffectDrawShadow = true;
@@ -69,10 +69,9 @@ namespace JoostMod.Items.Armor
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GenjiToken", 1);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.GenjiToken>()
+                .Register();
         }
     }
 }

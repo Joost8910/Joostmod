@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,194 +17,194 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Earth Elemental");
-            NPCID.Sets.TrailingMode[npc.type] = 0;
-            NPCID.Sets.TrailCacheLength[npc.type] = 6;
+            NPCID.Sets.TrailingMode[NPC.type] = 0;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 6;
         }
         public override void SetDefaults()
         {
-            npc.width = 44;
-            npc.height = 44;
-            npc.damage = 30;
-            npc.defense = 30;
-            npc.lifeMax = 600;
-            npc.HitSound = SoundID.NPCHit3;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.value = Item.buyPrice(0, 0, 7, 50);
-            npc.knockBackResist = 0.05f;
-            npc.aiStyle = 26;
-            aiType = NPCID.Unicorn;
-            banner = npc.type;
-            bannerItem = mod.ItemType("EarthElementalBanner");
+            NPC.width = 44;
+            NPC.height = 44;
+            NPC.damage = 30;
+            NPC.defense = 30;
+            NPC.lifeMax = 600;
+            NPC.HitSound = SoundID.NPCHit3;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.value = Item.buyPrice(0, 0, 7, 50);
+            NPC.knockBackResist = 0.05f;
+            NPC.aiStyle = 26;
+            AIType = NPCID.Unicorn;
+            Banner = NPC.type;
+            BannerItem = Mod.Find<ModItem>("EarthElementalBanner").Type;
 
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EarthEssence"), (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EarthEssence").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
             if (Main.rand.Next(50) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SecondAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
             }
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if (npc.ai[2] >= 100 && (npc.ai[2] < 300 || npc.ai[2] > 400))
+            if (NPC.ai[2] >= 100 && (NPC.ai[2] < 300 || NPC.ai[2] > 400))
             {
                 damage *= 2;
             }
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
             }
 
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return !spawnInfo.playerInTown && ((!spawnInfo.invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse) || spawnInfo.spawnTileY > Main.worldSurface) && (tile.type == 1 || tile.type == 25 || tile.type == 117 || tile.type == 203 || tile.type == 357 || tile.type == 367 || tile.type == 368 || tile.type == 369) && Main.hardMode ? 0.06f : 0f;
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            return !spawnInfo.PlayerInTown && ((!spawnInfo.Invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse) || spawnInfo.SpawnTileY > Main.worldSurface) && (tile.TileType == 1 || tile.TileType == 25 || tile.TileType == 117 || tile.TileType == 203 || tile.TileType == 357 || tile.TileType == 367 || tile.TileType == 368 || tile.TileType == 369) && Main.hardMode ? 0.06f : 0f;
         }
         public override void AI()
         {
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            if (npc.ai[2] < 400)
+            if (NPC.ai[2] < 400)
             {
-                if (npc.Center.X < P.Center.X)
+                if (NPC.Center.X < P.Center.X)
                 {
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
                 else
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
             }
-            npc.spriteDirection = npc.direction;
-            npc.netUpdate = true;
-            npc.rotation += (npc.velocity.X * 0.0174f * 2.5f);
+            NPC.spriteDirection = NPC.direction;
+            NPC.netUpdate = true;
+            NPC.rotation += (NPC.velocity.X * 0.0174f * 2.5f);
             if (Main.expertMode)
             {
-                npc.ai[1]++;
-                if (npc.velocity.Y == 0 && npc.ai[1] > 300 && npc.ai[2] < 1 && Collision.CanHitLine(npc.Center, 1, 1, P.Center, 1, 1))
+                NPC.ai[1]++;
+                if (NPC.velocity.Y == 0 && NPC.ai[1] > 300 && NPC.ai[2] < 1 && Collision.CanHitLine(NPC.Center, 1, 1, P.Center, 1, 1))
                 {
-                    npc.ai[2] = 1;
+                    NPC.ai[2] = 1;
                 }
-                if (npc.ai[2] > 0)
+                if (NPC.ai[2] > 0)
                 {
-                    npc.knockBackResist = 0f;
-                    npc.aiStyle = -1;
-                    npc.ai[2]++;
-                    npc.rotation += (npc.direction * 0.0174f * npc.ai[2]);
-                    int freq = (int)((100 - npc.ai[2]) / 10) + 10;
-                    if (npc.ai[2] == 90)
+                    NPC.knockBackResist = 0f;
+                    NPC.aiStyle = -1;
+                    NPC.ai[2]++;
+                    NPC.rotation += (NPC.direction * 0.0174f * NPC.ai[2]);
+                    int freq = (int)((100 - NPC.ai[2]) / 10) + 10;
+                    if (NPC.ai[2] == 90)
                     {
-                        Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 22, 0.5f, -0.1f);
+                        SoundEngine.PlaySound(SoundID.Item22.WithVolumeScale(0.5f).WithPitchOffset(-0.1f), NPC.Center);
                     }
-                    if (npc.ai[2] == 100)
+                    if (NPC.ai[2] == 100)
                     {
-                        if (npc.Center.Y > P.Center.Y + 100 && Math.Abs(npc.Center.X - P.Center.X) < 400)
+                        if (NPC.Center.Y > P.Center.Y + 100 && Math.Abs(NPC.Center.X - P.Center.X) < 400)
                         {
-                            npc.velocity.Y = -4;
-                            npc.ai[2] = 300;
+                            NPC.velocity.Y = -4;
+                            NPC.ai[2] = 300;
                         }
                         else
                         {
-                            npc.velocity.X = 15 * npc.direction;
+                            NPC.velocity.X = 15 * NPC.direction;
                         }
                     }
-                    if (npc.ai[2] >= 300)
+                    if (NPC.ai[2] >= 300)
                     {
-                        if (npc.velocity.Y == 0 && npc.oldVelocity.Y > 0)
+                        if (NPC.velocity.Y == 0 && NPC.oldVelocity.Y > 0)
                         {
-                            if (npc.ai[2] < 400)
+                            if (NPC.ai[2] < 400)
                             {
-                                npc.velocity.X = 5 * npc.direction;
-                                npc.velocity.Y = -18;
-                                npc.ai[2] = 400;
+                                NPC.velocity.X = 5 * NPC.direction;
+                                NPC.velocity.Y = -18;
+                                NPC.ai[2] = 400;
                             }
-                            else if (npc.ai[2] < 600)
+                            else if (NPC.ai[2] < 600)
                             {
-                                npc.velocity.X = 4 * npc.direction;
-                                npc.velocity.Y = -14;
-                                npc.ai[2] = 600;
+                                NPC.velocity.X = 4 * NPC.direction;
+                                NPC.velocity.Y = -14;
+                                NPC.ai[2] = 600;
                             }
-                            else if (npc.ai[2] < 800)
+                            else if (NPC.ai[2] < 800)
                             {
-                                npc.velocity.X = 3 * npc.direction;
-                                npc.velocity.Y = -10;
-                                npc.ai[2] = 800;
+                                NPC.velocity.X = 3 * NPC.direction;
+                                NPC.velocity.Y = -10;
+                                NPC.ai[2] = 800;
                             }
                             else
                             {
-                                npc.ai[1] = 0;
-                                npc.ai[2] = 0;
+                                NPC.ai[1] = 0;
+                                NPC.ai[2] = 0;
                             }
-                            Main.PlaySound(SoundID.Item10, npc.Center);
+                            SoundEngine.PlaySound(SoundID.Item10, NPC.Center);
                         }
-                        if (npc.velocity.X == 0 && npc.oldVelocity.X != 0)
+                        if (NPC.velocity.X == 0 && NPC.oldVelocity.X != 0)
                         {
-                            npc.velocity.X = -npc.oldVelocity.X;
-                            npc.direction = Math.Sign(npc.velocity.X);
-                            Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 10, 0.5f);
+                            NPC.velocity.X = -NPC.oldVelocity.X;
+                            NPC.direction = Math.Sign(NPC.velocity.X);
+                            SoundEngine.PlaySound(SoundID.Item10.WithVolumeScale(0.5f), NPC.Center);
                         }
                     }
-                    else if (npc.ai[2] >= 100)
+                    else if (NPC.ai[2] >= 100)
                     {
-                        if (Collision.SolidCollision(npc.position + new Vector2(npc.velocity.X, 0), npc.width, npc.height))
+                        if (Collision.SolidCollision(NPC.position + new Vector2(NPC.velocity.X, 0), NPC.width, NPC.height))
                         {
-                            npc.velocity.Y = -15;
-                            Main.PlaySound(SoundID.Item10, npc.Center);
+                            NPC.velocity.Y = -15;
+                            SoundEngine.PlaySound(SoundID.Item10, NPC.Center);
                         }
-                        if (npc.ai[2] > 200 || npc.velocity.X == 0)
+                        if (NPC.ai[2] > 200 || NPC.velocity.X == 0)
                         {
-                            npc.ai[1] = 0;
-                            npc.ai[2] = 0;
-                            npc.velocity.X = -npc.oldVelocity.X;
-                            npc.velocity.Y = -8;
-                            Main.PlaySound(SoundID.Item10, npc.Center);
+                            NPC.ai[1] = 0;
+                            NPC.ai[2] = 0;
+                            NPC.velocity.X = -NPC.oldVelocity.X;
+                            NPC.velocity.Y = -8;
+                            SoundEngine.PlaySound(SoundID.Item10, NPC.Center);
                         }
                     }
                     else
                     {
-                        npc.velocity = Vector2.Zero;
-                        if (npc.ai[2] % freq == 0)
+                        NPC.velocity = Vector2.Zero;
+                        if (NPC.ai[2] % freq == 0)
                         {
-                            Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 23, 0.5f, -0.2f);
+                            SoundEngine.PlaySound(SoundID.Item23.WithVolumeScale(0.5f).WithPitchOffset(-0.2f), NPC.Center);
                         }
-                        Vector2 posi = new Vector2(npc.Center.X, npc.position.Y + npc.height + 4);
+                        Vector2 posi = new Vector2(NPC.Center.X, NPC.position.Y + NPC.height + 4);
                         Point pos = posi.ToTileCoordinates();
                         Tile tile = Framing.GetTileSafely(pos.X, pos.Y);
-                        if (tile.active())
+                        if (tile.HasTile)
                         {
                             Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tile)];
-                            dust.velocity.Y = -npc.ai[2] / 30;
-                            dust.velocity.X = -npc.direction * npc.ai[2] / 10;
+                            dust.velocity.Y = -NPC.ai[2] / 30;
+                            dust.velocity.X = -NPC.direction * NPC.ai[2] / 10;
                         }
                     }
                 }
                 else
                 {
-                    npc.aiStyle = 26;
-                    npc.knockBackResist = 0.05f;
+                    NPC.aiStyle = 26;
+                    NPC.knockBackResist = 0.05f;
                 }
             }
-            npc.velocity.Y += 0.2f;
+            NPC.velocity.Y += 0.2f;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
@@ -210,24 +212,24 @@ namespace JoostMod.NPCs
             {
                 effects = SpriteEffects.None;
             }
-            if (npc.ai[2] >= 100 && (npc.ai[2] < 300 || npc.ai[2] > 400))
+            if (NPC.ai[2] >= 100 && (NPC.ai[2] < 300 || NPC.ai[2] > 400))
             {
-                Texture2D tex = Main.npcTexture[npc.type];
+                Texture2D tex = TextureAssets.Npc[NPC.type].Value;
                 Vector2 drawOrigin = new Vector2((tex.Width / 2), (tex.Height / 2));
-                for (int i = 0; i < npc.oldPos.Length; i++)
+                for (int i = 0; i < NPC.oldPos.Length; i++)
                 {
-                    Color color2 = drawColor * ((npc.oldPos.Length - i) / (float)npc.oldPos.Length) * 0.8f;
-                    Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + new Vector2(npc.width / 2, npc.height / 2) + new Vector2(0f, npc.gfxOffY);
+                    Color color2 = drawColor * ((NPC.oldPos.Length - i) / (float)NPC.oldPos.Length) * 0.8f;
+                    Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0f, NPC.gfxOffY);
                     Rectangle? rect = new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height));
-                    spriteBatch.Draw(tex, drawPos, rect, color2, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                    spriteBatch.Draw(tex, drawPos, rect, color2, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
                 }
             }
             return base.PreDraw(spriteBatch, drawColor);
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
@@ -235,11 +237,11 @@ namespace JoostMod.NPCs
             {
                 effects = SpriteEffects.None;
             }
-            Texture2D tex = ModContent.GetTexture("JoostMod/NPCs/EarthElemental_Pupils");
+            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/EarthElemental_Pupils");
             Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
             Vector2 drawOrigin = new Vector2((tex.Width / 2), (tex.Height / 2));
-            Vector2 offSet = npc.DirectionTo(Main.player[npc.target].Center) * 2;
-            spriteBatch.Draw(tex, new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)(tex.Width) / 2f + drawOrigin.X + offSet.X, npc.position.Y - Main.screenPosition.Y + npc.height - tex.Height + 4f + drawOrigin.Y + offSet.Y), new Rectangle?(rect), drawColor, npc.rotation, drawOrigin, 1f, effects, 0f);
+            Vector2 offSet = NPC.DirectionTo(Main.player[NPC.target].Center) * 2;
+            spriteBatch.Draw(tex, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(tex.Width) / 2f + drawOrigin.X + offSet.X, NPC.position.Y - Main.screenPosition.Y + NPC.height - tex.Height + 4f + drawOrigin.Y + offSet.Y), new Rectangle?(rect), drawColor, NPC.rotation, drawOrigin, 1f, effects, 0f);
 
         }
     }

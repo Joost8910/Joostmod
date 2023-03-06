@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class PowerSpirit : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit of Power");
 			Description.SetDefault("The Spirit of Power will protect you\n" + "Max minions increased by 1");
@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 		{
 			player.maxMinions++;
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-			if (player.ownedProjectileCounts[mod.ProjectileType("PowerSpirit")] > 0)
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("PowerSpirit").Type] > 0)
 			{
 				modPlayer.powerSpirit = true;
 			}

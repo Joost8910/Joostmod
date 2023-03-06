@@ -17,34 +17,35 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 42;
-			item.ranged = true;
-			item.width = 46;
-			item.height = 22;
-			item.useTime = 16;
-			item.useAnimation = 16;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 5;
-			item.value = Item.sellPrice(0, 6, 5, 0);
-			item.rare = 5;
-			item.UseSound = SoundID.Item11;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Larpoon"); 
-			item.shootSpeed = 18f;
+			Item.damage = 42;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 46;
+			Item.height = 22;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; 
+			Item.knockBack = 5;
+			Item.value = Item.sellPrice(0, 6, 5, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item11;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Larpoon").Type; 
+			Item.shootSpeed = 18f;
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        /*
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             if (JoostMod.instance.battleRodsLoaded)
             {
-                mult *= BattleRodsFishingDamage / player.rangedDamage;
+                damage *= BattleRodsFishingDamage / player.GetDamage(DamageClass.Ranged);
             }
         }
-        public override void GetWeaponCrit(Player player, ref int crit)
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
             if (JoostMod.instance.battleRodsLoaded)
             {
-                crit += BattleRodsCrit - player.rangedCrit;
+                crit += BattleRodsCrit - player.GetCritChance(DamageClass.Ranged);
             }
         }
         public float BattleRodsFishingDamage
@@ -62,13 +63,13 @@ namespace JoostMod.Items.Weapons
                 Player player = Main.player[Main.myPlayer];
                 int dmg = list.FindIndex(x => x.Name == "Damage");
                 list.RemoveAt(dmg);
-                list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " Fishing damage"));
+                list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " Fishing damage"));
             }
         }
-
+        */
         public override bool CanUseItem(Player player)      
         {
-			return player.ownedProjectileCounts[mod.ProjectileType("Larpoon")] == 0;
+			return player.ownedProjectileCounts[Item.shoot] == 0;
         }
 	}
 }

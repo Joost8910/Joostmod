@@ -13,27 +13,26 @@ namespace JoostMod.Items.Placeable
 		}
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.maxStack = 99;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.value = 5000;
-			item.rare = 9;
-			item.createTile = mod.TileType("Fury");
+			Item.width = 32;
+			Item.height = 32;
+			Item.maxStack = 99;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.value = 5000;
+			Item.rare = Item.RarityID.Cyan;
+			Item.createTile = Mod.Find<ModTile>("Fury").Type;
 		}
 				public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddRecipeGroup("Wood", 10);
-			recipe.AddRecipeGroup("IronBar");
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+.AddRecipeGroup("Wood", 10)
+.AddRecipeGroup("IronBar")
+.AddTile(TileID.WorkBenches)
+.Register();
 		}
 	}
 }

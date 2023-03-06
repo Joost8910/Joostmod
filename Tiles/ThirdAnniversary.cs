@@ -8,7 +8,7 @@ namespace JoostMod.Tiles
 {
 	public class ThirdAnniversary : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -25,8 +25,8 @@ namespace JoostMod.Tiles
 				16
 			};
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Joostmod's Third Anniversary");
 			AddMapEntry(new Color(81, 145, 86), name);
@@ -34,7 +34,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("ThirdAnniversary"));
+			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("ThirdAnniversary").Type);
 		}
 	}
 }

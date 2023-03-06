@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,32 +18,32 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 48;
-			item.ranged = true;
-			item.width = 52;
-			item.height = 36;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = 5;
-			item.knockBack = 4.5f;
-			item.value = 250000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("SearingBow");
-			item.shootSpeed = 13f;
-            item.useAmmo = AmmoID.Arrow;
+			Item.damage = 48;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 52;
+			Item.height = 36;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 4.5f;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item7;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("SearingBow").Type;
+			Item.shootSpeed = 13f;
+            Item.useAmmo = AmmoID.Arrow;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return false;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 return false;
             }
@@ -50,24 +51,23 @@ namespace JoostMod.Items.Weapons
         }
         public override bool AltFunctionUse(Player player)
         {
-            return (player.ownedProjectileCounts[item.shoot] <= 0);
+            return (player.ownedProjectileCounts[Item.shoot] <= 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = mod.ProjectileType("SearingBow");
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            type = Mod.Find<ModProjectile>("SearingBow").Type;
+            return true;
         }
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MoltenFury);
-            recipe.AddIngredient(null, "FireEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.MoltenFury)
+				.AddIngredient<Materials.FireEssence>(50)
+				.AddRecipeGroup("JoostMod:AnyCobalt", 4)
+				.AddRecipeGroup("JoostMod:AnyMythril", 4)
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 	}
 }

@@ -12,36 +12,36 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Corrupted Soul");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-            projectile.alpha = 120;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+            Projectile.alpha = 120;
+            AIType = ProjectileID.Bullet;
 		}
         public override void AI()
         {
             float max = 800;
-            if (projectile.timeLeft % 5 == 0)
+            if (Projectile.timeLeft % 5 == 0)
 			{
-            	Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, Main.rand.Next(-20, 20) * 0.01f, 3f, 0, default(Color), (6+Main.rand.Next(5)) * 0.1f);
+            	Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, Main.rand.Next(-20, 20) * 0.01f, 3f, 0, default(Color), (6+Main.rand.Next(5)) * 0.1f);
                 for (int i = 0; i < 200; i++)
                 {
                     NPC target = Main.npc[i];
-                    if (!target.friendly && target.type != 488 && !target.dontTakeDamage && target.active && Collision.CanHitLine(projectile.Center, 1, 1, target.Center, 1, 1) && Vector2.Distance(projectile.Center, target.Center) < max)
+                    if (!target.friendly && target.type != 488 && !target.dontTakeDamage && target.active && Collision.CanHitLine(Projectile.Center, 1, 1, target.Center, 1, 1) && Vector2.Distance(Projectile.Center, target.Center) < max)
                     {
-                        projectile.velocity = projectile.DirectionTo(target.Center) * 8;
-                        max = Vector2.Distance(projectile.Center, target.Center);
+                        Projectile.velocity = Projectile.DirectionTo(target.Center) * 8;
+                        max = Vector2.Distance(Projectile.Center, target.Center);
                     }
                 }
-                projectile.frame = (projectile.frame + 1) % 4;
+                Projectile.frame = (Projectile.frame + 1) % 4;
 			}
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -72,52 +72,52 @@ namespace JoostMod.Projectiles
         {
             for (int i = 0; i < 100; i++)
             {
-                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
+                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
                 {
                     Main.combatText[i].active = false;
                 }
             }
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkViolet, damage, true, false);
             float damag = target.lifeMax * 0.25f;
-            if ((int)damag > 0 && target.type != NPCID.TargetDummy && target.life <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
+            if ((int)damag > 0 && target.type != NPCID.TargetDummy && target.life <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, projectile.owner);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
             }
-            target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+            target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             for (int i = 0; i < 100; i++)
             {
-                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
+                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
                 {
                     Main.combatText[i].active = false;
                 }
             }
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkViolet, damage, true, false);
             float damag = target.statLifeMax2 * 0.25f;
-            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
+            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, projectile.owner);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
             }
-            target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+            target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             for (int i = 0; i < 100; i++)
             {
-                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
+                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
                 {
                     Main.combatText[i].active = false;
                 }
             }
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkViolet, damage, true, false);
             float damag = target.statLifeMax2 * 0.25f;
-            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
+            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, projectile.owner);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
             }
-            target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+            target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
         }
     }
 }

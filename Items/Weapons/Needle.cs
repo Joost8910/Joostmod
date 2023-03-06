@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,39 +16,38 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 1;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 2;
-			item.height = 12;
-			item.useTime = 4;
-			item.useAnimation = 5;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 0;
-			item.value = 0;
-			item.rare = 0;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Needle");
-			item.shootSpeed = 8f;
+			Item.damage = 1;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 2;
+			Item.height = 12;
+			Item.useTime = 4;
+			Item.useAnimation = 5;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 0;
+			Item.value = 0;
+			Item.rare = ItemRarityID.White;
+			Item.UseSound = SoundID.Item7;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Needle").Type;
+			Item.shootSpeed = 8f;
 		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(10));
-            speedX = perturbedSpeed.X;
-            speedY = perturbedSpeed.Y;
-            return true;
-        }
-        public override void AddRecipes()
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Cactus);
-			recipe.SetResult(this, 60);
-			recipe.AddRecipe();
+			Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(10));
+			velocity.X = perturbedSpeed.X;
+			velocity.Y = perturbedSpeed.Y;
+			return true;
+		}
+		public override void AddRecipes()
+		{
+			CreateRecipe(60)
+				.AddIngredient(ItemID.Cactus)
+				.Register();
 		}
 	}
 }

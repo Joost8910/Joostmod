@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,42 +14,42 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Elemental");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
         public override void SetDefaults()
         {
-            npc.width = 32;
-            npc.height = 62;
-            npc.damage = 40;
-            npc.defense = 18;
-            npc.lifeMax = 500;
-            npc.HitSound = SoundID.NPCHit54;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.value = Item.buyPrice(0, 0, 7, 50);
-            npc.knockBackResist = 0.35f;
-            npc.aiStyle = 22;
-            npc.noTileCollide = true;
-            npc.noGravity = true;
-            npc.frameCounter = 0;
-            aiType = NPCID.Wraith;
-            banner = npc.type;
-            bannerItem = mod.ItemType("FireElementalBanner");
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.lavaImmune = true;
+            NPC.width = 32;
+            NPC.height = 62;
+            NPC.damage = 40;
+            NPC.defense = 18;
+            NPC.lifeMax = 500;
+            NPC.HitSound = SoundID.NPCHit54;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.value = Item.buyPrice(0, 0, 7, 50);
+            NPC.knockBackResist = 0.35f;
+            NPC.aiStyle = 22;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.frameCounter = 0;
+            AIType = NPCID.Wraith;
+            Banner = NPC.type;
+            BannerItem = Mod.Find<ModItem>("FireElementalBanner").Type;
+            NPC.buffImmune[BuffID.OnFire] = true;
+            NPC.buffImmune[BuffID.ShadowFlame] = true;
+            NPC.lavaImmune = true;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2701, Main.rand.Next(10, 20));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FireEssence"), (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 2701, Main.rand.Next(10, 20));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FireEssence").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
             if (Main.rand.Next(50) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SecondAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
             }
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if (npc.localAI[1] >= 40)
+            if (NPC.localAI[1] >= 40)
             {
                 //crit = true;
                 damage *= 2;
@@ -60,37 +62,37 @@ namespace JoostMod.NPCs
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 127, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 127, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return !spawnInfo.playerInTown && spawnInfo.spawnTileY >= Main.maxTilesY - 250 && Main.hardMode ? 0.06f : 0f;
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            return !spawnInfo.PlayerInTown && spawnInfo.SpawnTileY >= Main.maxTilesY - 250 && Main.hardMode ? 0.06f : 0f;
 
         }
         public override void AI()
         {
-            npc.localAI[0]++;
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            NPC.localAI[0]++;
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            if (Main.expertMode && npc.localAI[0] > 800 && npc.ai[3] < 370 && npc.ai[3] > 60)
+            if (Main.expertMode && NPC.localAI[0] > 800 && NPC.ai[3] < 370 && NPC.ai[3] > 60)
             {
-                npc.aiStyle = -1;
-                npc.knockBackResist = 0f;
-                if (npc.localAI[1] < 1)
+                NPC.aiStyle = -1;
+                NPC.knockBackResist = 0f;
+                if (NPC.localAI[1] < 1)
                 {
-                    npc.targetRect = P.getRect();
-                    npc.FaceTarget();
-                    float speed = (Math.Abs(npc.Center.X - P.Center.X) - 200) / 5f;
+                    NPC.targetRect = P.getRect();
+                    NPC.FaceTarget();
+                    float speed = (Math.Abs(NPC.Center.X - P.Center.X) - 200) / 5f;
                     if (speed < -6)
                     {
                         speed = -6;
@@ -99,82 +101,82 @@ namespace JoostMod.NPCs
                     {
                         speed = 6;
                     }
-                    npc.velocity.X = speed * npc.direction;
-                    npc.velocity.Y = 4 * npc.directionY;
-                    if (Math.Abs(npc.Center.Y - P.Center.Y) < 10 && Math.Abs(npc.Center.X - P.Center.X) < 400)
+                    NPC.velocity.X = speed * NPC.direction;
+                    NPC.velocity.Y = 4 * NPC.directionY;
+                    if (Math.Abs(NPC.Center.Y - P.Center.Y) < 10 && Math.Abs(NPC.Center.X - P.Center.X) < 400)
                     {
-                        npc.localAI[1]++;
-                        npc.netUpdate = true;
+                        NPC.localAI[1]++;
+                        NPC.netUpdate = true;
                     }
                 }
                 else
                 {
-                    if (npc.localAI[1] == 1)
+                    if (NPC.localAI[1] == 1)
                     {
-                        Main.PlaySound(42, (int)npc.Center.X, (int)npc.Center.Y, 230, 1, -0.4f);
+                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.4f), NPC.Center);
                     }
-                    npc.velocity = Vector2.Zero;
-                    npc.localAI[1]++;
-                    if (npc.localAI[1] >= 40)
+                    NPC.velocity = Vector2.Zero;
+                    NPC.localAI[1]++;
+                    if (NPC.localAI[1] >= 40)
                     {
-                        npc.width = 56;
-                        if (npc.localAI[1] == 40)
+                        NPC.width = 56;
+                        if (NPC.localAI[1] == 40)
                         {
-                            Main.PlaySound(42, (int)npc.Center.X, (int)npc.Center.Y, 217, 1, 0.1f);
+                            SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.1f), NPC.Center);
                         }
-                        npc.velocity.X = 15 * npc.direction;
-                        Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Fire, -npc.velocity.X, -npc.velocity.Y, 0, default(Color), 4f).noGravity = true;
+                        NPC.velocity.X = 15 * NPC.direction;
+                        Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Torch, -NPC.velocity.X, -NPC.velocity.Y, 0, default(Color), 4f).noGravity = true;
                     }
-                    if (npc.localAI[1] > 90)
+                    if (NPC.localAI[1] > 90)
                     {
-                        npc.width = 32;
-                        npc.localAI[1] = 0;
-                        npc.localAI[0] = 0;
+                        NPC.width = 32;
+                        NPC.localAI[1] = 0;
+                        NPC.localAI[0] = 0;
                     }
                 }
             }
             else
             {
-                npc.knockBackResist = 0.35f;
-                npc.aiStyle = 22;
-                npc.FaceTarget();
-                Vector2 spherePos = new Vector2(npc.Center.X, npc.position.Y - 20);
-                npc.ai[3]++;
-                if (npc.ai[3] == 370)
+                NPC.knockBackResist = 0.35f;
+                NPC.aiStyle = 22;
+                NPC.FaceTarget();
+                Vector2 spherePos = new Vector2(NPC.Center.X, NPC.position.Y - 20);
+                NPC.ai[3]++;
+                if (NPC.ai[3] == 370)
                 {
-                    Main.PlaySound(SoundID.Item20, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
                 }
-                if (npc.ai[3] > 370)
+                if (NPC.ai[3] > 370)
                 {
-                    npc.velocity *= 0.8f;
-                    int amount = (int)(npc.ai[3] - 370);
+                    NPC.velocity *= 0.8f;
+                    int amount = (int)(NPC.ai[3] - 370);
                     for (int d = 0; d < amount; d++)
                     {
-                        Dust dust = Dust.NewDustDirect(spherePos - new Vector2(5, 5), 10, 10, 6, npc.velocity.X * 0.8f, npc.velocity.Y * 0.8f, 0, default(Color), 1.5f);
+                        Dust dust = Dust.NewDustDirect(spherePos - new Vector2(5, 5), 10, 10, 6, NPC.velocity.X * 0.8f, NPC.velocity.Y * 0.8f, 0, default(Color), 1.5f);
                         Vector2 vel = spherePos - dust.position;
                         vel.Normalize();
                         dust.position -= vel * 12;
-                        dust.velocity = vel + npc.velocity * 0.8f;
+                        dust.velocity = vel + NPC.velocity * 0.8f;
                         dust.noGravity = true;
                     }
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
-                if (npc.ai[3] > 400)
+                if (NPC.ai[3] > 400)
                 {
                     if (Main.netMode != 1)
                     {
                         NPC.NewNPC((int)spherePos.X, (int)spherePos.Y, NPCID.BurningSphere);
                     }
-                    Main.PlaySound(SoundID.Item45, npc.Center);
-                    npc.ai[3] = 0;
+                    SoundEngine.PlaySound(SoundID.Item45, NPC.Center);
+                    NPC.ai[3] = 0;
                 }
             }
 
-            if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+            if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
             {
-                npc.velocity *= 0.92f;
+                NPC.velocity *= 0.92f;
             }
-            if ((npc.localAI[0] % 10) == 0)
+            if ((NPC.localAI[0] % 10) == 0)
             {
                 int dustGen = Main.rand.Next(3);
                 int dustType = 158;
@@ -186,7 +188,7 @@ namespace JoostMod.NPCs
                 {
                     dustType = 127;
                 }
-                int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, dustType);
+                int dustIndex = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType);
                 Dust dust = Main.dust[dustIndex];
                 dust.velocity.X = dust.velocity.X + Main.rand.Next(-50, 51) * 0.01f;
                 dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-50, 51) * 0.01f;
@@ -196,57 +198,57 @@ namespace JoostMod.NPCs
         public override void FindFrame(int frameHeight)
         {
             frameHeight = 74;
-            npc.spriteDirection = npc.direction;
-            if (npc.localAI[1] > 0)
+            NPC.spriteDirection = NPC.direction;
+            if (NPC.localAI[1] > 0)
             {
-                if (npc.localAI[1] < 20)
+                if (NPC.localAI[1] < 20)
                 {
-                    npc.frame.X = 140 * 4;
+                    NPC.frame.X = 140 * 4;
                 }
-                else if (npc.localAI[1] < 40)
+                else if (NPC.localAI[1] < 40)
                 {
-                    npc.frame.X = 140 * 5;
+                    NPC.frame.X = 140 * 5;
                 }
                 else
                 {
-                    npc.frame.X = 140 * 6;
+                    NPC.frame.X = 140 * 6;
                 }
-                npc.frame.Y = frameHeight * ((int)(npc.localAI[1] / 4) % 5);
+                NPC.frame.Y = frameHeight * ((int)(NPC.localAI[1] / 4) % 5);
             }
             else
             {
-                npc.frameCounter++;
-                if (npc.frameCounter >= 5)
+                NPC.frameCounter++;
+                if (NPC.frameCounter >= 5)
                 {
-                    npc.frameCounter = 0;
-                    npc.frame.Y = (npc.frame.Y + frameHeight);
+                    NPC.frameCounter = 0;
+                    NPC.frame.Y = (NPC.frame.Y + frameHeight);
                 }
-                if (npc.frame.Y >= frameHeight * 5)
+                if (NPC.frame.Y >= frameHeight * 5)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
-                if (npc.ai[3] > 360)
+                if (NPC.ai[3] > 360)
                 {
-                    npc.frame.X = 140 * 3;
+                    NPC.frame.X = 140 * 3;
                 }
                 else
                 {
-                    npc.frame.X = 0;
-                    if (npc.velocity.X * npc.direction > 1)
+                    NPC.frame.X = 0;
+                    if (NPC.velocity.X * NPC.direction > 1)
                     {
-                        npc.frame.X = 140;
+                        NPC.frame.X = 140;
                     }
-                    if (npc.velocity.X * npc.direction < -1)
+                    if (NPC.velocity.X * NPC.direction < -1)
                     {
-                        npc.frame.X = 140 * 2;
+                        NPC.frame.X = 140 * 2;
                     }
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
@@ -257,10 +259,10 @@ namespace JoostMod.NPCs
             int xFrameCount = 7;
             Color alpha = Color.White;
             alpha *= 0.8f;
-            Texture2D texture = Main.npcTexture[npc.type];
-            Rectangle rect = new Rectangle((int)npc.frame.X, (int)npc.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[npc.type]));
-            Vector2 vect = new Vector2((float)((texture.Width / xFrameCount) / 2), (float)((texture.Height / Main.npcFrameCount[npc.type]) / 2));
-            spriteBatch.Draw(texture, new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)(texture.Height / Main.npcFrameCount[npc.type]) + 4f + vect.Y), new Rectangle?(rect), alpha, npc.rotation, vect, 1f, effects, 0f);
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Rectangle rect = new Rectangle((int)NPC.frame.X, (int)NPC.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[NPC.type]));
+            Vector2 vect = new Vector2((float)((texture.Width / xFrameCount) / 2), (float)((texture.Height / Main.npcFrameCount[NPC.type]) / 2));
+            spriteBatch.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + 4f + vect.Y), new Rectangle?(rect), alpha, NPC.rotation, vect, 1f, effects, 0f);
             return false;
         }
 

@@ -7,7 +7,7 @@ namespace JoostMod.Buffs
 {
 	public class gThrownDodge : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Counter Dodge");
 			Description.SetDefault("You will dodge the next attack and gain Counter Attack");

@@ -2,6 +2,8 @@ using System;
 
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -11,17 +13,17 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Doom Cannon");
-			Main.projFrames[projectile.type] = 12;
+			Main.projFrames[Projectile.type] = 12;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 666;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 666;
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -33,9 +35,9 @@ namespace JoostMod.Projectiles
         }
         public override bool PreAI()
         {
-            NPC owner = Main.npc[(int)projectile.ai[0]];
+            NPC owner = Main.npc[(int)Projectile.ai[0]];
             Vector2 vector = owner.Center;
-            bool channeling = owner.active && owner.life > 0 && owner.ai[2] == 4 && owner.type == mod.NPCType("SkeletonDemoman") && projectile.ai[1] < 660;
+            bool channeling = owner.active && owner.life > 0 && owner.ai[2] == 4 && owner.type == Mod.Find<ModNPC>("SkeletonDemoman").Type && Projectile.ai[1] < 660;
             if (channeling)
             {
                 Vector2 vector13 = Main.player[owner.target].Center - vector;
@@ -44,95 +46,95 @@ namespace JoostMod.Projectiles
                 {
                     vector13 = Vector2.UnitX * owner.direction;
                 }
-                if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                 {
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
-                projectile.velocity = vector13;
+                Projectile.velocity = vector13;
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
-            if (projectile.ai[1] < 60)
+            if (Projectile.ai[1] < 60)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            else if (projectile.ai[1] < 120)
+            else if (Projectile.ai[1] < 120)
             {
-                projectile.frame = 1;
+                Projectile.frame = 1;
             }
-            else if (projectile.ai[1] < 180)
+            else if (Projectile.ai[1] < 180)
             {
-                projectile.frame = 2;
+                Projectile.frame = 2;
             }
-            else if (projectile.ai[1] < 240)
+            else if (Projectile.ai[1] < 240)
             {
-                projectile.frame = 3;
+                Projectile.frame = 3;
             }
-            else if (projectile.ai[1] < 300)
+            else if (Projectile.ai[1] < 300)
             {
-                projectile.frame = 4;
+                Projectile.frame = 4;
             }
-            else if (projectile.ai[1] < 360)
+            else if (Projectile.ai[1] < 360)
             {
-                projectile.frame = 5;
+                Projectile.frame = 5;
             }
-            else if (projectile.ai[1] < 420)
+            else if (Projectile.ai[1] < 420)
             {
-                projectile.frame = 6;
+                Projectile.frame = 6;
             }
-            else if (projectile.ai[1] < 480)
+            else if (Projectile.ai[1] < 480)
             {
-                projectile.frame = 7;
+                Projectile.frame = 7;
             }
-            else if (projectile.ai[1] < 540)
+            else if (Projectile.ai[1] < 540)
             {
-                projectile.frame = 8;
+                Projectile.frame = 8;
             }
-            else if (projectile.ai[1] < 600)
+            else if (Projectile.ai[1] < 600)
             {
-                projectile.frame = 9;
+                Projectile.frame = 9;
             }
-            else if (projectile.ai[1] < 660)
+            else if (Projectile.ai[1] < 660)
             {
-                projectile.frame = 10;
+                Projectile.frame = 10;
             }
-            projectile.ai[1]++;
-            if (projectile.ai[1] % 60 == 0)
+            Projectile.ai[1]++;
+            if (Projectile.ai[1] % 60 == 0)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 75);
-                if (projectile.ai[1] >= 360)
+                SoundEngine.PlaySound(SoundID.Item75, Projectile.position);
+                if (Projectile.ai[1] >= 360)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 114);
+                    SoundEngine.PlaySound(SoundID.Item114, Projectile.position);
                 }
             }
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1 ? 3.14f : 0);
-            projectile.position = vector - projectile.Size / 2 + new Vector2(-14, 10) + new Vector2((float)Math.Cos(projectile.rotation - (Math.PI / 2)), (float)Math.Sin(projectile.rotation - (Math.PI / 2))) * 14;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            owner.direction = projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
+            Projectile.position = vector - Projectile.Size / 2 + new Vector2(-14, 10) + new Vector2((float)Math.Cos(Projectile.rotation - (Math.PI / 2)), (float)Math.Sin(Projectile.rotation - (Math.PI / 2))) * 14;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            owner.direction = Projectile.direction;
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            NPC owner = Main.npc[(int)projectile.ai[0]];
-            if (owner.active && owner.life > 0 && owner.ai[2] == 4 && owner.type == mod.NPCType("SkeletonDemoman") && projectile.ai[1] >= 660)
+            NPC owner = Main.npc[(int)Projectile.ai[0]];
+            if (owner.active && owner.life > 0 && owner.ai[2] == 4 && owner.type == Mod.Find<ModNPC>("SkeletonDemoman").Type && Projectile.ai[1] >= 660)
             {
-                Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 217);
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item62, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
                 if (Main.netMode != 1)
                 {
-                    Vector2 pos = owner.Center + projectile.velocity * 140;
+                    Vector2 pos = owner.Center + Projectile.velocity * 140;
                     float speed = 7;
-                    int type = mod.ProjectileType("DoomSkullHostile");
-                    if (float.IsNaN(projectile.velocity.X) || float.IsNaN(projectile.velocity.Y))
+                    int type = Mod.Find<ModProjectile>("DoomSkullHostile").Type;
+                    if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
                     {
-                        projectile.velocity = -Vector2.UnitY;
+                        Projectile.velocity = -Vector2.UnitY;
                     }
-                    Projectile.NewProjectile(pos, projectile.velocity * speed, type, projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(pos, Projectile.velocity * speed, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

@@ -17,25 +17,25 @@ namespace JoostMod.Items.Armor
         }
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = 10000000;
-            item.rare = 11;
-            item.defense = 40;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = 10000000;
+            Item.rare = ItemRarityID.Purple;
+            Item.defense = 40;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, 0);
+                    line2.OverrideColor = new Color(0, 255, 0);
                 }
             }
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("GenjiArmorMelee") && legs.type == mod.ItemType("GenjiLeggings");
+            return body.type == Mod.Find<ModItem>("GenjiArmorMelee").Type && legs.type == Mod.Find<ModItem>("GenjiLeggings").Type;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -51,16 +51,15 @@ namespace JoostMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.50f;
-            player.meleeSpeed *= 1.25f;
+            player.GetDamage(DamageClass.Melee) += 0.50f;
+            player.GetAttackSpeed(DamageClass.Melee) *= 1.25f;
 
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GenjiToken", 1);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.GenjiToken>()
+                .Register();
         }
     }
 }

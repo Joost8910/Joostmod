@@ -11,36 +11,36 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("True Blood Breaker");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 34;
-			projectile.aiStyle = 27;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 120;
-			projectile.alpha = 75;
-			projectile.light = 0.5f;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 1;
+			Projectile.width = 34;
+			Projectile.height = 34;
+			Projectile.aiStyle = 27;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 120;
+			Projectile.alpha = 75;
+			Projectile.light = 0.5f;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 1;
 
 		}
 		public override void AI()
 		{
-			if ((projectile.timeLeft % 5) == 0)
+			if ((Projectile.timeLeft % 5) == 0)
 			{
 				//say you wanted to add particles that stay mostly still to leave a trail behind a projectile
 int num1 = Dust.NewDust(
-         projectile.position,
-         projectile.width,
-         projectile.height,
+         Projectile.position,
+         Projectile.width,
+         Projectile.height,
          228, //Dust ID
-         projectile.velocity.X,
-         projectile.velocity.Y,
+         Projectile.velocity.X,
+         Projectile.velocity.Y,
          100, //alpha goes from 0 to 255
          default(Color),
          1f

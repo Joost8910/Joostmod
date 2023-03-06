@@ -12,32 +12,32 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grenade Fish");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 92;
-			projectile.height = 92;
-			projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 92;
+			Projectile.height = 92;
+			Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 3)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 3)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 6;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 6;
 			}
 		}
 

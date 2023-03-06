@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,73 +17,73 @@ namespace JoostMod.Projectiles
         }
 		public override void SetDefaults()
 		{
-			projectile.width = 104;
-			projectile.height = 104;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 114;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.magic = true;
+			Projectile.width = 104;
+			Projectile.height = 104;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 114;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Magic;
         }
         public override void AI()
         {
-	        Player player = Main.player[projectile.owner];
+	        Player player = Main.player[Projectile.owner];
             Vector2 center = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.velocity = Vector2.Zero;
-            projectile.localAI[0]++;
+            Projectile.velocity = Vector2.Zero;
+            Projectile.ai[0]++;
             if (!player.noItems && !player.CCed)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     //projectile.ai[0]++;
                     float scaleFactor6 = 1f;
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
+                    if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     }
-                    Vector2 vector13 = Main.MouseWorld - projectile.Center;
+                    Vector2 vector13 = Main.MouseWorld - Projectile.Center;
                     vector13.Normalize();
                     if (vector13.HasNaNs())
                     {
                         vector13 = Vector2.UnitX * (float)player.direction;
                     }
                     vector13 *= scaleFactor6;
-                    if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = vector13;
-                    projectile.netUpdate = true;
+                    Projectile.velocity = vector13;
+                    Projectile.netUpdate = true;
                 }
             }
-            if (projectile.localAI[0] == 15)
+            if (Projectile.ai[0] == 25)
             {
-                Main.PlaySound(42, projectile.Center, 202);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
             }
-            if (projectile.localAI[0] < 30)
+            if (Projectile.ai[0] < 45)
             {
-                projectile.alpha -= 6;
+                Projectile.alpha -= 4;
             }
-            if (projectile.localAI[0] > 30 && projectile.localAI[0] < 33 && player.channel && !player.noItems && !player.CCed)
+            if (Projectile.ai[0] > 45 && Projectile.ai[0] < 48 && player.channel && !player.noItems && !player.CCed)
             {
-                projectile.localAI[0] = 31;
+                Projectile.ai[0] = 46;
             }
-            if (projectile.localAI[0] == 33)
+            if (Projectile.ai[0] == 58)
             {
-                Main.PlaySound(42, projectile.Center, 164);
-                double rot = projectile.rotation + (-35f * (Math.PI / 180));
-                Vector2 pos1 = projectile.Center + new Vector2((float)Math.Cos(rot) * 24, (float)Math.Sin(rot) * 24);
-                rot = projectile.rotation + (35f * (Math.PI / 180));
-                Vector2 pos2 = projectile.Center + new Vector2((float)Math.Cos(rot) * 26, (float)Math.Sin(rot) * 26);
-                rot = projectile.rotation + (145f * (Math.PI / 180));
-                Vector2 pos3 = projectile.Center + new Vector2((float)Math.Cos(rot) * 26, (float)Math.Sin(rot) * 26);
-                rot = projectile.rotation + (-145f * (Math.PI / 180));
-                Vector2 pos4 = projectile.Center + new Vector2((float)Math.Cos(rot) * 24, (float)Math.Sin(rot) * 24);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                double rot = Projectile.rotation + (-35f * (Math.PI / 180));
+                Vector2 pos1 = Projectile.Center + new Vector2((float)Math.Cos(rot) * 24, (float)Math.Sin(rot) * 24);
+                rot = Projectile.rotation + (35f * (Math.PI / 180));
+                Vector2 pos2 = Projectile.Center + new Vector2((float)Math.Cos(rot) * 26, (float)Math.Sin(rot) * 26);
+                rot = Projectile.rotation + (145f * (Math.PI / 180));
+                Vector2 pos3 = Projectile.Center + new Vector2((float)Math.Cos(rot) * 26, (float)Math.Sin(rot) * 26);
+                rot = Projectile.rotation + (-145f * (Math.PI / 180));
+                Vector2 pos4 = Projectile.Center + new Vector2((float)Math.Cos(rot) * 24, (float)Math.Sin(rot) * 24);
 
                 Vector2 mousePos = Main.MouseWorld;
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     mousePos = Main.MouseWorld;
                 }
@@ -95,39 +97,39 @@ namespace JoostMod.Projectiles
                 Vector2 dir4 = (mousePos - pos4);
                 dir4.Normalize();
 
-                Projectile.NewProjectile(pos1, dir1, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
-                Projectile.NewProjectile(pos2, dir2, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
-                Projectile.NewProjectile(pos3, dir3, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
-                Projectile.NewProjectile(pos4, dir4, mod.ProjectileType("FocusSoulBeam"), projectile.damage, projectile.knockBack, projectile.owner);
-                projectile.netUpdate = true;
+                Projectile.NewProjectile(pos1, dir1, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(pos2, dir2, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(pos3, dir3, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(pos4, dir4, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.netUpdate = true;
             }
-            if (projectile.localAI[0] == 60)
+            if (Projectile.ai[0] == 85)
             {
-                Main.PlaySound(42, projectile.Center, 217);
-                Main.PlaySound(42, projectile.Center, 222);
-                Main.PlaySound(42, projectile.Center, 44);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
             }
-            if (projectile.timeLeft <= 10)
+            if (Projectile.timeLeft <= 10)
             {
-                projectile.alpha += 16;
+                Projectile.alpha += 16;
             }
-            if (projectile.localAI[0] < 33)
+            if (Projectile.ai[0] < 48)
             {
-                projectile.direction = projectile.velocity.X > 0 ? 1 : -1;
-                projectile.spriteDirection = projectile.direction;
-                projectile.position = (center - projectile.velocity) - projectile.Size / 2f + new Vector2(0, -50 * player.gravDir);
-                projectile.localAI[1] = projectile.velocity.ToRotation() + 1.57f;
-                player.ChangeDir(projectile.direction);
-                player.heldProj = projectile.whoAmI;
+                Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+                Projectile.spriteDirection = Projectile.direction;
+                Projectile.position = (center - Projectile.velocity) - Projectile.Size / 2f + new Vector2(0, -50 * player.gravDir);
+                Projectile.localAI[1] = Projectile.velocity.ToRotation() + 1.57f;
+                player.ChangeDir(Projectile.direction);
+                player.heldProj = Projectile.whoAmI;
                 player.itemTime = 10;
                 player.itemAnimation = 10;
-                projectile.timeLeft = 130;
+                Projectile.timeLeft = 140;
             }
             else
             {
-                projectile.velocity = Vector2.Zero;
+                Projectile.velocity = Vector2.Zero;
             }
-            projectile.rotation = projectile.localAI[1];
+            Projectile.rotation = Projectile.localAI[1];
         }
         public override bool CanHitPvp(Player target)
         {
@@ -137,17 +139,17 @@ namespace JoostMod.Projectiles
         {
             return false;
         }
-        public override bool PreDraw(SpriteBatch sb, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Color color = Color.White * (1f - (projectile.alpha / 255f));
+            Color color = Color.White * (1f - (Projectile.alpha / 255f));
             //color.A = (byte)projectile.alpha;
-            sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, effects, 0f);
+            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
             return false;
         }
     }

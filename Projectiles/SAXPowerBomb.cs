@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,17 +11,17 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Power Bomb");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.aiStyle = 0;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 138;
-            projectile.light = 0.15f;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.aiStyle = 0;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 138;
+            Projectile.light = 0.15f;
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -36,35 +37,35 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.velocity = Vector2.Zero;
-            projectile.rotation = 0;
-            if (projectile.timeLeft == 138)
+            Projectile.velocity = Vector2.Zero;
+            Projectile.rotation = 0;
+            if (Projectile.timeLeft == 138)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge1"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge1"));
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 5)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 6;
+                Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 6;
             }
-            if (projectile.timeLeft == 108)
+            if (Projectile.timeLeft == 108)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge2"));
-            }
-
-            if (projectile.timeLeft == 78)
-            {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge3"));
-            }
-            if (projectile.timeLeft == 48)
-            {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge4"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge2"));
             }
 
-            if (projectile.timeLeft == 18)
+            if (Projectile.timeLeft == 78)
             {
-                Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge5"));
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge3"));
+            }
+            if (Projectile.timeLeft == 48)
+            {
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge4"));
+            }
+
+            if (Projectile.timeLeft == 18)
+            {
+                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/PowerBombCharge5"));
             }
         }
 
@@ -76,9 +77,9 @@ namespace JoostMod.Projectiles
         {
             if (Main.netMode != 1)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("SAXPowerBombExplosion"), projectile.damage, projectile.knockBack);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("SAXPowerBombExplosion").Type, Projectile.damage, Projectile.knockBack);
             }
-            Main.PlaySound(SoundLoader.customSoundType, (int)projectile.position.X, (int)projectile.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/FusionPowerBombExplosion"));
+            SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.position.X, (int)Projectile.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/FusionPowerBombExplosion"));
         }
     }
 }

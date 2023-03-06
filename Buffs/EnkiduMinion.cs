@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class EnkiduMinion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Enkidu");
 			Description.SetDefault("Enkidu will fight for you");
@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-			if (player.ownedProjectileCounts[mod.ProjectileType("EnkiduMinion")] == 1)
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnkiduMinion").Type] == 1)
 			{
 				modPlayer.EnkiduMinion = true;
 			}

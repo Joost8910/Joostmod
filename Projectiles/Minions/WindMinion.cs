@@ -12,36 +12,36 @@ namespace JoostMod.Projectiles.Minions
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Miniature Tornado");
-			Main.projFrames[projectile.type] = 6;
-			Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.MinionShot[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 6;
+			Main.projPet[Projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.MinionShot[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 46;
-			projectile.height = 58;
-			projectile.friendly = true;
-			Main.projPet[projectile.type] = true;
-			projectile.minion = true;
-			projectile.minionSlots = 1;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.netImportant = true;
+			Projectile.width = 46;
+			Projectile.height = 58;
+			Projectile.friendly = true;
+			Main.projPet[Projectile.type] = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 1;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 			inertia = 20f;
 			shootCool = 40f;
-			shoot = mod.ProjectileType("WindBall");
+			shoot = Mod.Find<ModProjectile>("WindBall").Type;
 			shootSpeed = 12f;
             spacingMult = 0.8f;
 		}
 
 		public override void CheckActive()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
@@ -49,16 +49,16 @@ namespace JoostMod.Projectiles.Minions
 			}
 			if (modPlayer.WindMinion)
 			{
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			}
         }
         public override void SelectFrame(Microsoft.Xna.Framework.Vector2 dir)
         {
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 3)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 3)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 6;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 6;
 			}
 		}
 	}

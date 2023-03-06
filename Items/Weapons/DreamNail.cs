@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,46 +16,45 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 99;
-			item.melee = true;
-			item.width = 50;
-			item.height = 50;
-			item.noMelee = true;
-			item.useTime = 10;
-			item.useAnimation = 10;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 8;
-			item.value = 400000;
-			item.rare = 8;
-			item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("DreamNail");
-			item.shootSpeed = 17f;
+			Item.damage = 99;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 50;
+			Item.height = 50;
+			Item.noMelee = true;
+			Item.useTime = 10;
+			Item.useAnimation = 10;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.knockBack = 8;
+			Item.value = 400000;
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("DreamNail").Type;
+			Item.shootSpeed = 17f;
 		}
 		public override bool CanUseItem(Player player)
         {
-           return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[mod.ProjectileType("DreamNail2")] + player.ownedProjectileCounts[mod.ProjectileType("DreamGreatSlash")] + player.ownedProjectileCounts[mod.ProjectileType("DreamDashSlash")] + player.ownedProjectileCounts[mod.ProjectileType("DreamSpinSlash")] < 1;
+           return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamGreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamDashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamSpinSlash").Type] < 1;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.statLife >= player.statLifeMax2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DreamBeam"), damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("DreamBeam").Type, damage / 2, 0, player.whoAmI);
             }
             return true;
         }
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "PureNail");
-			recipe.AddIngredient(ItemID.BrokenHeroSword);
-			recipe.AddIngredient(ItemID.SoulofLight, 25);
-			recipe.AddIngredient(ItemID.LightShard, 2);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<PureNail>()
+				.AddIngredient(ItemID.BrokenHeroSword)
+				.AddIngredient(ItemID.SoulofLight, 25)
+				.AddIngredient(ItemID.LightShard, 2)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

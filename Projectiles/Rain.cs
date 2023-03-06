@@ -11,18 +11,18 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 40;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 2;
+			Projectile.height = 40;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
 		{
-			projectile.rotation = 0;
+			Projectile.rotation = 0;
 		}
 	}
 }

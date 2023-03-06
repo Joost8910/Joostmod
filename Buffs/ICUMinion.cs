@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class ICUMinion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("ICU");
 			Description.SetDefault("The ICU will fight for you");
@@ -16,8 +16,8 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(mod, "JoostPlayer");
-			if (player.ownedProjectileCounts[mod.ProjectileType("ICUMinion")] > 0)
+			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("ICUMinion").Type] > 0)
 			{
 				modPlayer.icuMinion = true;
 			}

@@ -3,6 +3,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,10 +21,10 @@ namespace JoostMod.Projectiles
         private float controlSpeed = 0;
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.light = 0.15f;
+            Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.light = 0.15f;
 
 
         }
@@ -57,7 +59,7 @@ namespace JoostMod.Projectiles
             int oldestHookTimeLeft = 100000;
             for (int i = 0; i < 1000; i++)
             {
-                if (Main.projectile[i].active && Main.projectile[i].owner == projectile.whoAmI && Main.projectile[i].type == projectile.type)
+                if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.whoAmI && Main.projectile[i].type == Projectile.type)
                 {
                     hooksOut++;
                     if (Main.projectile[i].timeLeft < oldestHookTimeLeft)
@@ -93,22 +95,22 @@ namespace JoostMod.Projectiles
         }
         public override void PostAI()
         {
-            Player player = Main.player[projectile.owner];
-            if (Vector2.Distance(player.Center, projectile.Center) > (isHooked ? 600 : 500))
+            Player player = Main.player[Projectile.owner];
+            if (Vector2.Distance(player.Center, Projectile.Center) > (isHooked ? 520 : 420))
             {
                 retreat = true;
                 isHooked = false;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > 1000 || player.dead || !player.active)
+            if (Vector2.Distance(player.Center, Projectile.Center) > 1000 || player.dead || !player.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Vector2 vector6 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
+            Vector2 vector6 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
             float num69 = mountedCenter.X - vector6.X;
             float controlSpeed0 = mountedCenter.Y - vector6.Y;
             float controlSpeed1 = (float)Math.Sqrt((double)(num69 * num69 + controlSpeed0 * controlSpeed0));
-            projectile.rotation = (float)Math.Atan2((double)controlSpeed0, (double)num69) - 1.57f;
+            Projectile.rotation = (float)Math.Atan2((double)controlSpeed0, (double)num69) - 1.57f;
             /*if (!retreat && !isHooked)
             {
                 projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -120,22 +122,22 @@ namespace JoostMod.Projectiles
             }*/
             if (retreat) 
             {
-                projectile.velocity = projectile.DirectionTo(player.Center) * 18;
-                if (Vector2.Distance(player.Center, projectile.Center) < 16 && !isHooked)
+                Projectile.velocity = Projectile.DirectionTo(player.Center) * 18;
+                if (Vector2.Distance(player.Center, Projectile.Center) < 16 && !isHooked)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             if (isHooked)
             {
-                projectile.ai[0] = 2f;
+                Projectile.ai[0] = 2f;
 
-                projectile.velocity = default(Vector2);
-                projectile.timeLeft = 2;
-                int num124 = (int)(projectile.position.X / 16f) - 1;
-                int num125 = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
-                int num126 = (int)(projectile.position.Y / 16f) - 1;
-                int num127 = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
+                Projectile.velocity = default(Vector2);
+                Projectile.timeLeft = 2;
+                int num124 = (int)(Projectile.position.X / 16f) - 1;
+                int num125 = (int)((Projectile.position.X + (float)Projectile.width) / 16f) + 2;
+                int num126 = (int)(Projectile.position.Y / 16f) - 1;
+                int num127 = (int)((Projectile.position.Y + (float)Projectile.height) / 16f) + 2;
                 if (num124 < 0)
                 {
                     num124 = 0;
@@ -164,7 +166,7 @@ namespace JoostMod.Projectiles
                         Vector2 vector9;
                         vector9.X = (float)(num128 * 16);
                         vector9.Y = (float)(num129 * 16);
-                        if (projectile.position.X + (float)(projectile.width / 2) > vector9.X && projectile.position.X + (float)(projectile.width / 2) < vector9.X + 16f && projectile.position.Y + (float)(projectile.height / 2) > vector9.Y && projectile.position.Y + (float)(projectile.height / 2) < vector9.Y + 16f && Main.tile[num128, num129].nactive() && (Main.tileSolid[(int)Main.tile[num128, num129].type] || Main.tile[num128, num129].type == 314))
+                        if (Projectile.position.X + (float)(Projectile.width / 2) > vector9.X && Projectile.position.X + (float)(Projectile.width / 2) < vector9.X + 16f && Projectile.position.Y + (float)(Projectile.height / 2) > vector9.Y && Projectile.position.Y + (float)(Projectile.height / 2) < vector9.Y + 16f && Main.tile[num128, num129].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num128, num129].TileType] || Main.tile[num128, num129].TileType == 314))
                         {
                             flag3 = false;
                         }
@@ -176,16 +178,16 @@ namespace JoostMod.Projectiles
                 }
                 else
                 {
-                    grappleSwing = projectile.whoAmI;
+                    grappleSwing = Projectile.whoAmI;
                 }
             }
             else if (!retreat)
             {
-                projectile.ai[0] = 0f;
-                int num111 = (int)(projectile.position.X / 16f) - 1;
-                int num112 = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
-                int num113 = (int)(projectile.position.Y / 16f) - 1;
-                int num114 = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
+                Projectile.ai[0] = 0f;
+                int num111 = (int)(Projectile.position.X / 16f) - 1;
+                int num112 = (int)((Projectile.position.X + (float)Projectile.width) / 16f) + 2;
+                int num113 = (int)(Projectile.position.Y / 16f) - 1;
+                int num114 = (int)((Projectile.position.Y + (float)Projectile.height) / 16f) + 2;
                 if (num111 < 0)
                 {
                     num111 = 0;
@@ -214,18 +216,18 @@ namespace JoostMod.Projectiles
                         Vector2 vector8;
                         vector8.X = (float)(num115 * 16);
                         vector8.Y = (float)(num116 * 16);
-                        if (projectile.position.X + (float)projectile.width > vector8.X && projectile.position.X < vector8.X + 16f && projectile.position.Y + (float)projectile.height > vector8.Y && projectile.position.Y < vector8.Y + 16f && Main.tile[num115, num116].nactive() && (Main.tileSolid[(int)Main.tile[num115, num116].type] || Main.tile[num115, num116].type == 314))
+                        if (Projectile.position.X + (float)Projectile.width > vector8.X && Projectile.position.X < vector8.X + 16f && Projectile.position.Y + (float)Projectile.height > vector8.Y && Projectile.position.Y < vector8.Y + 16f && Main.tile[num115, num116].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num115, num116].TileType] || Main.tile[num115, num116].TileType == 314))
                         {
-                            maxDist = Vector2.Distance(player.Center, projectile.Center);
-                            grappleSwing = projectile.whoAmI;
-                            projectile.velocity.X = 0f;
-                            projectile.velocity.Y = 0f;
-                            Main.PlaySound(0, num115 * 16, num116 * 16, 1, 1f, 0f);
+                            maxDist = Vector2.Distance(player.Center, Projectile.Center);
+                            grappleSwing = Projectile.whoAmI;
+                            Projectile.velocity.X = 0f;
+                            Projectile.velocity.Y = 0f;
+                            SoundEngine.PlaySound(SoundID.Dig, new Vector2(num115 * 16, num116 * 16));
                             isHooked = true;
-                            projectile.position.X = (float)(num115 * 16 + 8 - projectile.width / 2);
-                            projectile.position.Y = (float)(num116 * 16 + 8 - projectile.height / 2);
-                            projectile.damage = 0;
-                            projectile.netUpdate = true;
+                            Projectile.position.X = (float)(num115 * 16 + 8 - Projectile.width / 2);
+                            Projectile.position.Y = (float)(num116 * 16 + 8 - Projectile.height / 2);
+                            Projectile.damage = 0;
+                            Projectile.netUpdate = true;
                             break;
                         }
                         else
@@ -239,7 +241,7 @@ namespace JoostMod.Projectiles
                     }
                 }
             }
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 int num117 = 0;
                 int num118 = -1;
@@ -265,7 +267,7 @@ namespace JoostMod.Projectiles
                 {
                     player.mount.Dismount(player);
                 }
-                float targetrotation = (float)Math.Atan2(((projectile.Center.Y - player.Center.Y) * player.direction), ((projectile.Center.X - player.Center.X) * player.direction));
+                float targetrotation = (float)Math.Atan2(((Projectile.Center.Y - player.Center.Y) * player.direction), ((Projectile.Center.X - player.Center.X) * player.direction));
                 grappleRotation = targetrotation;
                 player.GetModPlayer<JoostPlayer>().hoverBootsTimer = 0;
                 player.wingTime = 0f;
@@ -279,10 +281,10 @@ namespace JoostMod.Projectiles
                 if (player.velocity.Y != 0 && player.itemAnimation == 0)
                 {
                     player.fullRotationOrigin = player.Center - player.position;
-                    player.fullRotation = projectile.rotation;
+                    player.fullRotation = Projectile.rotation;
                     if (player.gravDir == -1)
                     {
-                        player.fullRotation = projectile.rotation + (float)Math.PI;
+                        player.fullRotation = Projectile.rotation + (float)Math.PI;
                     }
                 }
                 else
@@ -290,14 +292,14 @@ namespace JoostMod.Projectiles
                     player.fullRotation = 0;
                 }
 
-                Vector2 v = player.Center - projectile.Center;
-                float dist = Vector2.Distance(player.Center, projectile.Center);
+                Vector2 v = player.Center - Projectile.Center;
+                float dist = Vector2.Distance(player.Center, Projectile.Center);
                 bool up = (player.controlUp);
-                bool down = (player.controlDown && maxDist < 500);
-                float ndist = Vector2.Distance(player.Center + player.velocity, projectile.Center);
+                bool down = (player.controlDown && maxDist < 420);
+                float ndist = Vector2.Distance(player.Center + player.velocity, Projectile.Center);
                 float ddist = ndist - dist;
-                float num4 = projectile.Center.X - player.Center.X;
-                float num5 = projectile.Center.Y - player.Center.Y;
+                float num4 = Projectile.Center.X - player.Center.X;
+                float num5 = Projectile.Center.Y - player.Center.Y;
                 float num6 = (float)Math.Sqrt(num4 * num4 + num5 * num5);
                 float num7 = ddist + player.gravity;
                 player.maxFallSpeed += 15;
@@ -305,10 +307,10 @@ namespace JoostMod.Projectiles
                 {
                     player.velocity.X *= 1.03f;
                 }
-                projectile.localAI[1] = (dist / maxDist) * 100;
-                if (projectile.localAI[1] > 100f)
+                Projectile.localAI[1] = (dist / maxDist) * 100;
+                if (Projectile.localAI[1] > 100f)
                 {
-                    projectile.localAI[1] = 100f;
+                    Projectile.localAI[1] = 100f;
                 }
                 if (up)
                 {
@@ -374,29 +376,29 @@ namespace JoostMod.Projectiles
 
                 if (player.controlJump && jump >= 1)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     player.wingTime = (float)player.wingTimeMax;
-                    if (player.doubleJumpCloud)
+                    if (player.hasJumpOption_Cloud)
                     {
                         player.jumpAgainCloud = true;
                     }
-                    if (player.doubleJumpSandstorm)
+                    if (player.hasJumpOption_Sandstorm)
                     {
                         player.jumpAgainSandstorm = true;
                     }
-                    if (player.doubleJumpBlizzard)
+                    if (player.hasJumpOption_Blizzard)
                     {
                         player.jumpAgainBlizzard = true;
                     }
-                    if (player.doubleJumpFart)
+                    if (player.hasJumpOption_Fart)
                     {
                         player.jumpAgainFart = true;
                     }
-                    if (player.doubleJumpSail)
+                    if (player.hasJumpOption_Sail)
                     {
                         player.jumpAgainSail = true;
                     }
-                    if (player.doubleJumpUnicorn)
+                    if (player.hasJumpOption_Unicorn)
                     {
                         player.jumpAgainUnicorn = true;
                     }
@@ -413,13 +415,13 @@ namespace JoostMod.Projectiles
         }
         public override void Kill(int timeLeft)
         {
-            Main.player[projectile.owner].fullRotation = 0;
+            Main.player[Projectile.owner].fullRotation = 0;
         }
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 pos = player.Center + new Vector2(-4, 0);
-            Vector2 value = projectile.Center + new Vector2(-8, -4) - (projectile.rotation - 1.57f).ToRotationVector2() * 12;
+            Vector2 value = Projectile.Center + new Vector2(-8, -4) - (Projectile.rotation - 1.57f).ToRotationVector2() * 12;
             float projPosX = pos.X - 4 - value.X;
             float projPosY = pos.Y - 4 - value.Y;
             Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
@@ -470,7 +472,7 @@ namespace JoostMod.Projectiles
                         {
                             num4 = 0.8f;
                         }
-                        float num5 = Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y);
+                        float num5 = Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y);
                         if (num5 > 16f)
                         {
                             num5 = 16f;
@@ -487,7 +489,7 @@ namespace JoostMod.Projectiles
                         {
                             num4 = 0f;
                         }
-                        num5 = 1f - projectile.localAI[1] / 100f;
+                        num5 = 1f - Projectile.localAI[1] / 100f;
                         num4 *= num5;
                         if (projPosY > 0f)
                         {
@@ -496,7 +498,7 @@ namespace JoostMod.Projectiles
                         }
                         else
                         {
-                            num5 = Math.Abs(projectile.velocity.X) / 3f;
+                            num5 = Math.Abs(Projectile.velocity.X) / 3f;
                             if (num5 > 1f)
                             {
                                 num5 = 1f;
@@ -513,7 +515,7 @@ namespace JoostMod.Projectiles
                     }
                     rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                     Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f));
-                    Main.spriteBatch.Draw(Main.chainsTexture[4], new Vector2(value.X - Main.screenPosition.X + (float)Main.chainsTexture[4].Width * 0.5f, value.Y - Main.screenPosition.Y + (float)Main.chainsTexture[4].Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.chainsTexture[4].Width, (int)num)), color2, rotation2, new Vector2((float)Main.chainsTexture[4].Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(TextureAssets.Chains[4].Value, new Vector2(value.X - Main.screenPosition.X + (float)TextureAssets.Chains[4].Value.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)TextureAssets.Chains[4].Value.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Chains[4].Value.Width, (int)num)), color2, rotation2, new Vector2((float)TextureAssets.Chains[4].Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return false;

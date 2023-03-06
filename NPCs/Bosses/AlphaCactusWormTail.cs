@@ -14,20 +14,20 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.DiggerTail);
-            npc.aiStyle = -1;
-            npc.damage = 20;
-            npc.defense = 10;
-            npc.knockBackResist = 0f;
-            npc.width = 26;
-            npc.height = 26;
-            npc.behindTiles = true;
-            npc.noTileCollide = true;
-            npc.netAlways = true;
-            npc.noGravity = true;
-            npc.dontCountMe = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.CloneDefaults(NPCID.DiggerTail);
+            NPC.aiStyle = -1;
+            NPC.damage = 20;
+            NPC.defense = 10;
+            NPC.knockBackResist = 0f;
+            NPC.width = 26;
+            NPC.height = 26;
+            NPC.behindTiles = true;
+            NPC.noTileCollide = true;
+            NPC.netAlways = true;
+            NPC.noGravity = true;
+            NPC.dontCountMe = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
         }
         public override void Init()
         {
@@ -36,7 +36,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (Vector2.Distance(target.Center, npc.Center) > 24)
+            if (Vector2.Distance(target.Center, NPC.Center) > 24)
             {
                 return false;
             }
@@ -44,18 +44,18 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AlphaCactusWormBody"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AlphaCactusWormBody"), NPC.scale);
             }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = (int)(npc.damage * 0.7f);
+            NPC.damage = (int)(NPC.damage * 0.7f);
         }
         public override void BossHeadRotation(ref float rotation)
         {
-            rotation = npc.rotation;
+            rotation = NPC.rotation;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class ScooterMount : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scooter");
 			Description.SetDefault("Scoot... Scoot...");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("Scooter"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("Scooter").Type, player);
 			player.buffTime[buffIndex] = 10;
 		}
 	}

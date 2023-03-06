@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class fireArmorBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overwhelming Fire");
 			Description.SetDefault("Ranged damage and movement speed increased by 40%, rapidly losing life");

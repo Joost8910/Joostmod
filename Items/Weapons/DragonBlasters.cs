@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -17,32 +18,32 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 24;
-			item.ranged = true;
-			item.width = 52;
-			item.height = 36;
-			item.useTime = 11;
-			item.useAnimation = 11;
-			item.useStyle = 5;
-			item.knockBack = 3;
-			item.value = 250000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("DragonBlaster");
-			item.shootSpeed = 13f;
-            item.useAmmo = AmmoID.Bullet;
+			Item.damage = 24;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 52;
+			Item.height = 36;
+			Item.useTime = 11;
+			Item.useAnimation = 11;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 3;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item7;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = Mod.Find<ModProjectile>("DragonBlaster").Type;
+			Item.shootSpeed = 13f;
+            Item.useAmmo = AmmoID.Bullet;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return Main.rand.NextFloat() > 0.35f;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 return false;
             }
@@ -50,29 +51,28 @@ namespace JoostMod.Items.Weapons
         }
         public override bool AltFunctionUse(Player player)
         {
-            return (player.ownedProjectileCounts[item.shoot] <= 0);
+            return (player.ownedProjectileCounts[Item.shoot] <= 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = mod.ProjectileType("DragonBlaster");
+            type = Mod.Find<ModProjectile>("DragonBlaster").Type;
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 1);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 1);
                 return false;
             }
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return true;
         }
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PhoenixBlaster);
-            recipe.AddIngredient(null, "FireEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+                .AddIngredient(ItemID.PhoenixBlaster)
+                .AddIngredient<Materials.FireEssence>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
 		}
 	}
 }

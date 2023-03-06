@@ -1,41 +1,43 @@
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
-	public class TrueNightsFury : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("True Night's Fury");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 100;
-			item.melee = true;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.width = 54;
-			item.height = 54;
-			item.useTime = 44;
-			item.useAnimation = 44;
-			item.useStyle = 5;
-			item.knockBack = 10;
-			item.value = 500000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
-			item.channel = true;
-            item.useTurn = true;
-			item.shoot = mod.ProjectileType("TrueNightsFury");
-			item.shootSpeed = 16f;
-        }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+    public class TrueNightsFury : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            position.Y -= (item.scale * 50) - 50;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            DisplayName.SetDefault("True Night's Fury");
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 54;
+            Item.height = 54;
+            Item.useTime = 44;
+            Item.useAnimation = 44;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 10;
+            Item.value = 500000;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = false;
+            Item.channel = true;
+            Item.useTurn = true;
+            Item.shoot = Mod.Find<ModProjectile>("TrueNightsFury").Type;
+            Item.shootSpeed = 16f;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            position.Y -= (Item.scale * 50) - 50;
+            return true;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -74,9 +76,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -84,15 +86,14 @@ namespace JoostMod.Items.Weapons
             return base.ChoosePrefix(rand);
         }
         public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "NightsFury");
-			recipe.AddIngredient(null, "BrokenHeroFlail");
-			recipe.AddTile(TileID.MythrilAnvil); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        {
+            CreateRecipe()
+                .AddIngredient<NightsFury>()
+                .AddIngredient<Materials.BrokenHeroFlail>()
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
 
-	}
+    }
 }
 

@@ -9,39 +9,39 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Richoshot");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 300;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-			projectile.alpha = 50;
-			projectile.extraUpdates = 1;
-            projectile.scale = 1.5f;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 5;
+			Projectile.timeLeft = 300;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
+			Projectile.alpha = 50;
+			Projectile.extraUpdates = 1;
+            Projectile.scale = 1.5f;
+			AIType = ProjectileID.Bullet;
 		}
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-				if (projectile.velocity.X != oldVelocity.X)
-				{
-					projectile.velocity.X = -oldVelocity.X;
-				}
-				if (projectile.velocity.Y != oldVelocity.Y)
-				{
-					projectile.velocity.Y = -oldVelocity.Y;
-				}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.velocity.X != oldVelocity.X)
+            {
+                Projectile.velocity.X = -oldVelocity.X;
+            }
+            if (Projectile.velocity.Y != oldVelocity.Y)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
 	}
 }

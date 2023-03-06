@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class WaterBoard : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Water Board");
 			Description.SetDefault("Hang ten!");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("WaterBoard"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("WaterBoard").Type, player);
 			player.buffTime[buffIndex] = 10;
             player.waterWalk2 = true;
             player.ignoreWater = true;

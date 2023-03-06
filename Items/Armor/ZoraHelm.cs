@@ -4,38 +4,34 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
-	public class ZoraHelm : ModItem
+    [AutoloadEquip(EquipType.Head)]
+    public class ZoraHelm : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zora Helm");
             Tooltip.SetDefault("18% increased magic crit chance");
+            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = 225000;
-            item.rare = 5;
-            item.defense = 8;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
         }
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 18;
+            player.GetCritChance(DamageClass.Magic) += 18;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ZoraArmor") && legs.type == mod.ItemType("ZoraGreaves");
+            return body.type == Mod.Find<ModItem>("ZoraArmor").Type && legs.type == Mod.Find<ModItem>("ZoraGreaves").Type;
         }
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawAltHair = true;
-        }
-
         public override void UpdateArmorSet(Player player)
-		{
-			player.setBonus = "Allows you to swim and breathe water\n" +
+        {
+            player.setBonus = "Allows you to swim and breathe water\n" +
                 "Press the Armor Ability key to do a watery spin attack\n" +
                 "The spin attack is far less effective out of water";
             player.accFlipper = true;
@@ -46,14 +42,13 @@ namespace JoostMod.Items.Armor
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WaterEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.WaterEssence>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
         }
     }
 }

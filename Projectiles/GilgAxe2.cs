@@ -12,17 +12,17 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilgamesh's Axe");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 52;
-			projectile.height = 52;
-			projectile.aiStyle = 3;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 180;
+			Projectile.width = 52;
+			Projectile.height = 52;
+			Projectile.aiStyle = 3;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 180;
 
 		}
 

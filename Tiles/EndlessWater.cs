@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -12,7 +13,7 @@ namespace JoostMod.Tiles
 {
 	public class EndlessWater : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -27,7 +28,7 @@ namespace JoostMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Endless Water Pump");
 			AddMapEntry(new Color(105, 107, 125), name);
-			dustType = 1;
+			DustType = 1;
 		}
 		public override bool Slope(int i, int j)
 		{
@@ -41,22 +42,22 @@ namespace JoostMod.Tiles
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = mod.ItemType("EndlessWater");
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = Mod.Find<ModItem>("EndlessWater").Type;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("EndlessWater"));
+			Item.NewItem(i * 16, j * 16, 48, 48, Mod.Find<ModItem>("EndlessWater").Type);
 		}
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             HitWire(i, j);
             return true;
         }
         public override void HitWire(int i, int j)
 		{
-			int x = i - (Main.tile[i, j].frameX / 18) % 3;
-            int y = j - (Main.tile[i, j].frameY / 18) % 3;
+			int x = i - (Main.tile[i, j].TileFrameX / 18) % 3;
+            int y = j - (Main.tile[i, j].TileFrameY / 18) % 3;
 
             Wiring.SkipWire(x, y);
             Wiring.SkipWire(x, y + 1);
@@ -71,11 +72,11 @@ namespace JoostMod.Tiles
 			{
                 for (int m = y; m < y + 3; m++)
                 {
-                    if (Main.tile[l, m].liquid == 0 || Main.tile[l,m].liquidType() == 0)
+                    if (Main.tile[l, m].LiquidAmount == 0 || Main.tile[l,m].LiquidType == 0)
                     {
-                        Main.PlaySound(19, x * 16, y * 16, 1);
-                        Main.tile[l, m].liquidType(0);
-                        Main.tile[l, m].liquid = 255;
+                        SoundEngine.PlaySound(SoundID.SplashWeak, new Vector2(x * 16, y * 16));
+                        Main.tile[l, m].LiquidType = 0;
+                        Main.tile[l, m].LiquidAmount = 255;
                         WorldGen.SquareTileFrame(l, m, true);
                         if (Main.netMode == 1)
                         {

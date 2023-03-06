@@ -13,34 +13,33 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 21;
-			item.magic = true;
-            item.mana = 14;
-			item.width = 50;
-			item.height = 50;
-			item.useTime = 28;
-			item.useAnimation = 28;
-            item.reuseDelay = 5;
-			item.useStyle = 5;
-            Item.staff[item.type] = true;
-            item.channel = true;
-			item.noMelee = true; 
-			item.knockBack = 2;
-			item.value = 60000;
-			item.rare = 2;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("VileCactusWorm");
-			item.shootSpeed = 10f;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LusciousCactus", 10);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+			Item.damage = 21;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 14;
+			Item.width = 50;
+			Item.height = 50;
+			Item.useTime = 28;
+			Item.useAnimation = 28;
+			Item.reuseDelay = 5;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.value = 60000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("VileCactusWorm").Type;
+			Item.shootSpeed = 10f;
+		}
+		public override void AddRecipes()
+		{
+			CreateRecipe()
+				.AddIngredient<Materials.LusciousCactus>(10)
+				.Register();
+		}
+	}
 }
 
 

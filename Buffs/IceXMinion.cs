@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class IceXMinion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Core-X Minion");
 			Description.SetDefault("The Ice Core-X will fight for you");
@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-			if (player.ownedProjectileCounts[mod.ProjectileType("IceXMinion")] > 0)
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("IceXMinion").Type] > 0)
 			{
 				modPlayer.IceXMinion = true;
 			}

@@ -15,23 +15,23 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.DiggerHead);
-            npc.aiStyle = -1;
-            npc.lifeMax = 10000;
-            npc.damage = 40;
-            npc.defense = 0;
-            npc.knockBackResist = 0f;
-            npc.width = 26;
-            npc.height = 26;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.behindTiles = true;
-            npc.value = Item.buyPrice(0, 1, 50, 0);
-            npc.netAlways = true;
-            npc.boss = true;
-            music = MusicID.Boss5;
+            NPC.CloneDefaults(NPCID.DiggerHead);
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 10000;
+            NPC.damage = 40;
+            NPC.defense = 0;
+            NPC.knockBackResist = 0f;
+            NPC.width = 26;
+            NPC.height = 26;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.behindTiles = true;
+            NPC.value = Item.buyPrice(0, 1, 50, 0);
+            NPC.netAlways = true;
+            NPC.boss = true;
+            Music = MusicID.Boss5;
         }
         public override void Init()
         {
@@ -40,7 +40,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (Vector2.Distance(target.Center, npc.Center) > 24)
+            if (Vector2.Distance(target.Center, NPC.Center) > 24)
             {
                 return false;
             }
@@ -48,38 +48,38 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale) + 1;
-            npc.damage = (int)(npc.damage * 0.7f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale) + 1;
+            NPC.damage = (int)(NPC.damage * 0.7f);
         }
         public override void BossHeadRotation(ref float rotation)
         {
-            rotation = npc.rotation;
+            rotation = NPC.rotation;
         }
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.Heart;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (Main.netMode == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AlphaCactusWorm"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("AlphaCactusWorm").Type, 1);
             }
             for (int i = 0; i < 10 + Main.rand.Next(6); i++)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FifthAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
             }
         }
         public override bool CheckDead()
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
             if (Main.netMode == 2)
             {
-                NPC.NewNPC((int)player.Center.X - 300, (int)player.Center.Y - 300, mod.NPCType("GrandCactusWormHead"));
+                NPC.NewNPC((int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
             }
             return base.CheckDead();
         }
@@ -97,16 +97,16 @@ namespace JoostMod.NPCs.Bosses
         {
             if (chargeTimer <= 0)
             {
-                npc.velocity = npc.DirectionTo(Main.player[npc.target].Center) * 9;
+                NPC.velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * 9;
                 chargeTimer = 200;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             chargeTimer--;
-            if (NPC.AnyNPCs(mod.NPCType("GrandCactusWormHead")))
+            if (NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type))
             {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
+                NPC.life = 0;
+                NPC.HitEffect(0, 10.0);
+                NPC.active = false;
             }
         }
     }

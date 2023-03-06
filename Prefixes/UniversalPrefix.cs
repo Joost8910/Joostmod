@@ -32,11 +32,11 @@ namespace JoostMod.Prefixes
             this.knockback = knockback;
 		}
 
-		public override bool Autoload(ref string name)
+		public override bool IsLoadingEnabled(Mod mod)
 		{
-			if (base.Autoload(ref name))
+			if (base.IsLoadingEnabled(ref name))
 			{
-				mod.AddPrefix("Decisive", new UniversalPrefix(1f, 1f, 20, 1f));
+				Mod.AddPrefix("Decisive", new UniversalPrefix(1f, 1f, 20, 1f));
 			}
 			return false;
 		}
@@ -48,7 +48,7 @@ namespace JoostMod.Prefixes
             item.useAnimation = (int)(item.useAnimation * (1 / speed));
             item.reuseDelay = (int)(item.reuseDelay * (1 / speed));
             item.crit += crit;
-            item.knockBack *= knockback;
+            item.knockback *= knockback;
         }
 
 		public override void ModifyValue(ref float valueMult)

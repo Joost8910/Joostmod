@@ -3,6 +3,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,39 +16,39 @@ namespace JoostMod.NPCs.Bosses
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("SA-X");
-            Main.npcFrameCount[npc.type] = 17;
+            Main.npcFrameCount[NPC.type] = 17;
         }
         public override void SetDefaults()
         {
-            npc.width = 72;
-            npc.height = 72;
-            npc.damage = 150;
-            npc.defense = 20;
-            npc.lifeMax = 100000;
-            npc.boss = true;
-            npc.lavaImmune = true;
-            npc.HitSound = SoundID.NPCHit3;
-            npc.DeathSound = SoundID.NPCDeath43;
-            npc.value = Item.buyPrice(12, 50, 0, 0);
-            npc.knockBackResist = 0f;
-            npc.aiStyle = 0;
-            npc.coldDamage = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.buffImmune[mod.BuffType("InfectedRed")] = true;
-            npc.buffImmune[mod.BuffType("InfectedGreen")] = true;
-            npc.buffImmune[mod.BuffType("InfectedBlue")] = true;
-            npc.buffImmune[mod.BuffType("InfectedYellow")] = true;
-            npc.buffImmune[BuffID.Frostburn] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            bossBag = mod.ItemType("XBag");
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/VsSAX");
+            NPC.width = 72;
+            NPC.height = 72;
+            NPC.damage = 150;
+            NPC.defense = 20;
+            NPC.lifeMax = 100000;
+            NPC.boss = true;
+            NPC.lavaImmune = true;
+            NPC.HitSound = SoundID.NPCHit3;
+            NPC.DeathSound = SoundID.NPCDeath43;
+            NPC.value = Item.buyPrice(12, 50, 0, 0);
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = 0;
+            NPC.coldDamage = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;
+            NPC.buffImmune[Mod.Find<ModBuff>("InfectedYellow").Type] = true;
+            NPC.buffImmune[BuffID.Frostburn] = true;
+            NPC.buffImmune[BuffID.OnFire] = true;
+            bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("XBag").Type;
+            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/VsSAX");
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.75f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.75f);
         }
         public override void BossLoot(ref string name, ref int potionType)
         {
@@ -54,49 +56,49 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SAX"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SAX"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SAX"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SAX"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
             }
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
             JoostWorld.downedSAX = true;
 
             if (Main.expertMode)
             {
-                npc.DropBossBags();
+                NPC.DropBossBags();
             }
             else
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IceCoreX"), 1 + Main.rand.Next(2));
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("IceCoreX").Type, 1 + Main.rand.Next(2));
                 if (Main.rand.Next(4) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SAXMusicBox"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMusicBox").Type);
                 }
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SAXMask"));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMask").Type);
                 }
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SAXTrophy"));
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXTrophy").Type);
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FifthAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
             }
         }
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Vector2 vect = npc.velocity;
+            Vector2 vect = NPC.velocity;
             vect.Normalize();
-            Rectangle eye = new Rectangle((int)(npc.Center.X + (vect.X * 24)) - 16, (int)(npc.Center.Y + (vect.Y * 24)) - 16, 32, 32);
-            if (npc.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
+            Rectangle eye = new Rectangle((int)(NPC.Center.X + (vect.X * 24)) - 16, (int)(NPC.Center.Y + (vect.Y * 24)) - 16, 32, 32);
+            if (NPC.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
             {
                 if (projectile.minion || projectile.sentry)
                 {
@@ -116,14 +118,14 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                Main.PlaySound(SoundID.NPCHit18, npc.Center);
+                SoundEngine.PlaySound(SoundID.NPCHit18, NPC.Center);
                 damage = damage / 2;
                 crit = true;
             }
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
-            if (npc.ai[0] < 56)
+            if (NPC.ai[0] < 56)
             {
                 damage = damage / 3;
                 crit = false;
@@ -132,19 +134,19 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                Main.PlaySound(SoundID.NPCHit18, npc.Center);
+                SoundEngine.PlaySound(SoundID.NPCHit18, NPC.Center);
             }
         }
         bool message = false;
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
-            if (npc.ai[0] < 56)
+            if (NPC.ai[0] < 56)
             {
-                npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                NPC.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
                 if (Main.netMode != 0)
                 {
                     ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
-                    netMessage.Write((int)npc.ai[2]);
+                    netMessage.Write((int)NPC.ai[2]);
                     if (Main.netMode == 1)
                     {
                         netMessage.Write(Main.myPlayer);
@@ -160,16 +162,16 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-            Vector2 vect = npc.velocity;
+            Vector2 vect = NPC.velocity;
             vect.Normalize();
-            Rectangle eye = new Rectangle((int)(npc.Center.X + (vect.X * 24)) - 16, (int)(npc.Center.Y + (vect.Y * 24)) - 16, 32, 32);
-            if (npc.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
+            Rectangle eye = new Rectangle((int)(NPC.Center.X + (vect.X * 24)) - 16, (int)(NPC.Center.Y + (vect.Y * 24)) - 16, 32, 32);
+            if (NPC.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
             {
-                npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                NPC.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
                 if (Main.netMode != 0)
                 {
                     ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
-                    netMessage.Write((int)npc.ai[2]);
+                    netMessage.Write((int)NPC.ai[2]);
                     if (Main.netMode == 1)
                     {
                         netMessage.Write(Main.myPlayer);
@@ -185,23 +187,23 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write((int)npc.localAI[0]);
-            writer.Write((int)npc.localAI[1]);
-            writer.Write((int)npc.localAI[2]);
+            writer.Write((int)NPC.localAI[0]);
+            writer.Write((int)NPC.localAI[1]);
+            writer.Write((int)NPC.localAI[2]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.localAI[0] = reader.ReadInt32();
-            npc.localAI[1] = reader.ReadInt32();
-            npc.localAI[2] = reader.ReadInt32();
+            NPC.localAI[0] = reader.ReadInt32();
+            NPC.localAI[1] = reader.ReadInt32();
+            NPC.localAI[2] = reader.ReadInt32();
         }
 
         private ModPacket GetPacket(SAXCoreMessageType type)
         {
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)JoostModMessageType.SAXCore);
-            packet.Write(npc.whoAmI);
+            packet.Write(NPC.whoAmI);
             packet.Write((byte)type);
             return packet;
         }
@@ -211,7 +213,7 @@ namespace JoostMod.NPCs.Bosses
             if (type == SAXCoreMessageType.ShellHit)
             {
                 int ai2 = reader.ReadInt32();
-                npc.ai[2] = ai2;
+                NPC.ai[2] = ai2;
                 if (Main.netMode == 2)
                 {
                     ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
@@ -223,56 +225,56 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void AI()
         {
-            npc.ai[0]++;
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            NPC.ai[0]++;
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(false);
-                P = Main.player[npc.target];
+                NPC.TargetClosest(false);
+                P = Main.player[NPC.target];
                 if (!P.active || P.dead)
                 {
-                    npc.velocity = new Vector2(0f, -100f);
-                    npc.active = false;
+                    NPC.velocity = new Vector2(0f, -100f);
+                    NPC.active = false;
                 }
             }
-            npc.direction = 1;
+            NPC.direction = 1;
             float moveSpeed = 3;
-            if (npc.Distance(P.MountedCenter) > 120)
+            if (NPC.Distance(P.MountedCenter) > 120)
             {
-                moveSpeed = 3 + (npc.Distance(P.MountedCenter) - 120) / 40;
+                moveSpeed = 3 + (NPC.Distance(P.MountedCenter) - 120) / 40;
             }
-            if (npc.ai[0] < 56)
+            if (NPC.ai[0] < 56)
             {
-                npc.velocity = npc.DirectionTo(P.Center) * moveSpeed;
-                npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+                NPC.velocity = NPC.DirectionTo(P.Center) * moveSpeed;
+                NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
             }
-            if (npc.ai[0] % 5 == 0)
+            if (NPC.ai[0] % 5 == 0)
             {
-                npc.localAI[0]++;
-                if (npc.localAI[0] > 7)
+                NPC.localAI[0]++;
+                if (NPC.localAI[0] > 7)
                 {
-                    npc.localAI[0] = 0;
+                    NPC.localAI[0] = 0;
                 }
             }
-            if (npc.ai[1] > 0 && npc.ai[0] > 90)
+            if (NPC.ai[1] > 0 && NPC.ai[0] > 90)
             {
-                if (npc.ai[0] == 100)
+                if (NPC.ai[0] == 100)
                 {
-                    Main.PlaySound(2, npc.Center, 13);
+                    SoundEngine.PlaySound(SoundID.Item13, NPC.Center);
                 }
-                if (npc.ai[0] % 12 == 0)
+                if (NPC.ai[0] % 12 == 0)
                 {
-                    Main.PlaySound(2, npc.Center, 15);
+                    SoundEngine.PlaySound(SoundID.Item15, NPC.Center);
                 }
-                npc.velocity = Vector2.Zero;
-                if (npc.ai[0] < 200)
+                NPC.velocity = Vector2.Zero;
+                if (NPC.ai[0] < 200)
                 {
-                    npc.localAI[1] += 0.1f;
+                    NPC.localAI[1] += 0.1f;
                 }
-                Vector2 vect = npc.velocity;
+                Vector2 vect = NPC.velocity;
                 vect.Normalize();
-                Vector2 pos = new Vector2((int)(npc.Center.X + (vect.X * 24)) - 16, (int)(npc.Center.Y + (vect.Y * 24)) - 16);
-                float e = npc.ai[0] - 90;
+                Vector2 pos = new Vector2((int)(NPC.Center.X + (vect.X * 24)) - 16, (int)(NPC.Center.Y + (vect.Y * 24)) - 16);
+                float e = NPC.ai[0] - 90;
                 if (e > 40)
                 {
                     e -= 40;
@@ -289,57 +291,57 @@ namespace JoostMod.NPCs.Bosses
                     Dust dust = Main.dust[dustIndex];
                     dust.noGravity = true;
                 }
-                npc.rotation = npc.ai[0] * 0.0174f * npc.localAI[1];
-                if (npc.ai[0] == 180)
+                NPC.rotation = NPC.ai[0] * 0.0174f * NPC.localAI[1];
+                if (NPC.ai[0] == 180)
                 {
-                    Main.PlaySound(42, npc.Center, 44);
+                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
                 }
-                if (npc.ai[0] > 200)
+                if (NPC.ai[0] > 200)
                 {
                     float speed = 12f;
                     int damage = 75;
-                    int type = mod.ProjectileType("SAXBeam");
-                    Main.PlaySound(SoundLoader.customSoundType, (int)npc.position.X, (int)npc.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
-                    float rotation = npc.rotation;
+                    int type = Mod.Find<ModProjectile>("SAXBeam").Type;
+                    SoundEngine.PlaySound(SoundLoader.customSoundType, (int)NPC.position.X, (int)NPC.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
+                    float rotation = NPC.rotation;
                     if (Main.netMode != 1)
                     {
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation - 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation - 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation - 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation - 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation + 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation + 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation + 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation + 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
-                if (npc.ai[0] > 240)
+                if (NPC.ai[0] > 240)
                 {
-                    npc.ai[0] = -150;
-                    npc.ai[3] = 0;
-                    npc.localAI[1] = 0;
-                    npc.ai[1] = 0;
+                    NPC.ai[0] = -150;
+                    NPC.ai[3] = 0;
+                    NPC.localAI[1] = 0;
+                    NPC.ai[1] = 0;
                 }
             }
             else
             {
-                if (npc.ai[0] >= 56)
+                if (NPC.ai[0] >= 56)
                 {
                     float speed = 24f;
-                    Vector2 predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(P.MountedCenter, npc.Center) / speed));
-                    predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, npc.Center) / speed));
-                    predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, npc.Center) / speed));
-                    Vector2 dir = npc.DirectionTo(predictedPos);
-                    npc.velocity = dir * moveSpeed;
-                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+                    Vector2 predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(P.MountedCenter, NPC.Center) / speed));
+                    predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, NPC.Center) / speed));
+                    predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, NPC.Center) / speed));
+                    Vector2 dir = NPC.DirectionTo(predictedPos);
+                    NPC.velocity = dir * moveSpeed;
+                    NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
                 }
-                if (npc.ai[0] > 90 && npc.ai[0] < 200)
+                if (NPC.ai[0] > 90 && NPC.ai[0] < 200)
                 {
-                    if (npc.ai[0] % 18 == 0)
+                    if (NPC.ai[0] % 18 == 0)
                     {
-                        Main.PlaySound(2, npc.Center, 15);
+                        SoundEngine.PlaySound(SoundID.Item15, NPC.Center);
                     }
-                    Vector2 vect = npc.velocity;
+                    Vector2 vect = NPC.velocity;
                     vect.Normalize();
-                    Vector2 pos = new Vector2((int)(npc.Center.X + (vect.X * 24)) - 16, (int)(npc.Center.Y + (vect.Y * 24)) - 16);
-                    float e = npc.ai[0] - 90;
+                    Vector2 pos = new Vector2((int)(NPC.Center.X + (vect.X * 24)) - 16, (int)(NPC.Center.Y + (vect.Y * 24)) - 16);
+                    float e = NPC.ai[0] - 90;
                     if (e > 40)
                     {
                         e -= 40;
@@ -357,152 +359,152 @@ namespace JoostMod.NPCs.Bosses
                         dust.noGravity = true;
                     }
                 }
-                if (npc.ai[0] == 200)
+                if (NPC.ai[0] == 200)
                 {
                     float speed = 12f;
-                    if (npc.velocity.Length() > speed)
+                    if (NPC.velocity.Length() > speed)
                     {
-                        speed += (npc.velocity.Length() - speed) / 2;
+                        speed += (NPC.velocity.Length() - speed) / 2;
                     }
                     int damage = 100;
-                    int type = mod.ProjectileType("SAXBeamCharged");
-                    Main.PlaySound(SoundLoader.customSoundType, (int)npc.position.X, (int)npc.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
-                    float rotation = npc.rotation;
+                    int type = Mod.Find<ModProjectile>("SAXBeamCharged").Type;
+                    SoundEngine.PlaySound(SoundLoader.customSoundType, (int)NPC.position.X, (int)NPC.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
+                    float rotation = NPC.rotation;
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
+                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
+                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
-                if (npc.ai[0] >= 200)
+                if (NPC.ai[0] >= 200)
                 {
-                    npc.velocity = Vector2.Zero;
+                    NPC.velocity = Vector2.Zero;
                 }
-                if (npc.ai[0] > 240)
+                if (NPC.ai[0] > 240)
                 {
-                    npc.ai[0] = -150;
-                    npc.ai[3]++;
-                    if (npc.ai[3] > 20)
+                    NPC.ai[0] = -150;
+                    NPC.ai[3]++;
+                    if (NPC.ai[3] > 20)
                     {
-                        npc.ai[1] = 1;
+                        NPC.ai[1] = 1;
                     }
                 }
             }
-            npc.ai[2]++;
-            if (npc.ai[2] > 400)
+            NPC.ai[2]++;
+            if (NPC.ai[2] > 400)
             {
                 if (Main.netMode != 1)
                 {
                     switch (Main.rand.Next(4))
                     {
                         case 1:
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GreenXParasite"));
+                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
                             break;
                         case 2:
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("RedXParasite"));
+                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("RedXParasite").Type);
                             break;
                         case 3:
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("IceXParasite"));
+                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("IceXParasite").Type);
                             break;
                         default:
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("XParasite"));
+                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("XParasite").Type);
                             break;
                     }
                         
                 }
-                npc.ai[2] = 1;
-                npc.ai[3]++;
+                NPC.ai[2] = 1;
+                NPC.ai[3]++;
             }
-            if (npc.localAI[2] < 90)
+            if (NPC.localAI[2] < 90)
             {
-                npc.localAI[2]++;
-                if (npc.localAI[2] < 60)
+                NPC.localAI[2]++;
+                if (NPC.localAI[2] < 60)
                 {
-                    npc.dontTakeDamage = true;
-                    npc.velocity = Vector2.Zero;
-                    Vector2 rote = npc.localAI[3].ToRotationVector2();
-                    Vector2 move = P.Center - npc.Center;
+                    NPC.dontTakeDamage = true;
+                    NPC.velocity = Vector2.Zero;
+                    Vector2 rote = NPC.localAI[3].ToRotationVector2();
+                    Vector2 move = P.Center - NPC.Center;
                     move.Normalize();
-                    float home = 21f - (npc.localAI[2] / 3);
+                    float home = 21f - (NPC.localAI[2] / 3);
                     Vector2 vecRot = ((home - 1f) * rote + move) / home;
-                    npc.rotation = (float)Math.Atan2(vecRot.Y, vecRot.X);
-                    npc.localAI[3] = npc.rotation;
+                    NPC.rotation = (float)Math.Atan2(vecRot.Y, vecRot.X);
+                    NPC.localAI[3] = NPC.rotation;
                 }
                 else
                 {
-                    npc.dontTakeDamage = false;
-                    moveSpeed = moveSpeed * ((npc.localAI[2] - 60) / 30);
-                    npc.velocity = npc.DirectionTo(P.Center) * moveSpeed;
-                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+                    NPC.dontTakeDamage = false;
+                    moveSpeed = moveSpeed * ((NPC.localAI[2] - 60) / 30);
+                    NPC.velocity = NPC.DirectionTo(P.Center) * moveSpeed;
+                    NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            Color color = Lighting.GetColor((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16));
-            Texture2D tex = mod.GetTexture("NPCs/Bosses/IceCoreX");
-            Rectangle rect = new Rectangle(0, (int)npc.localAI[0] * 64, (tex.Width), (tex.Height / 8));
+            Color color = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
+            Texture2D tex = Mod.GetTexture("NPCs/Bosses/IceCoreX");
+            Rectangle rect = new Rectangle(0, (int)NPC.localAI[0] * 64, (tex.Width), (tex.Height / 8));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 16);
             float rotation = 0;
-            spriteBatch.Draw(tex, new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)(tex.Width / 1) / 2f + vect.X - 2f, npc.position.Y - Main.screenPosition.Y + (float)(npc.height / 2) - (float)(tex.Height / 16) + 2f + vect.Y), new Rectangle?(rect), color, rotation, vect, npc.scale, effects, 0f);
+            spriteBatch.Draw(tex, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(tex.Width / 1) / 2f + vect.X - 2f, NPC.position.Y - Main.screenPosition.Y + (float)(NPC.height / 2) - (float)(tex.Height / 16) + 2f + vect.Y), new Rectangle?(rect), color, rotation, vect, NPC.scale, effects, 0f);
 
             int xFrameCount = 1;
-            Texture2D texture = Main.npcTexture[npc.type];
-            Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[npc.type]));
-            Vector2 vector = new Vector2(((texture.Width / xFrameCount) / 2f), ((texture.Height / Main.npcFrameCount[npc.type]) / 2f));
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Rectangle rectangle = new Rectangle(NPC.frame.X, NPC.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[NPC.type]));
+            Vector2 vector = new Vector2(((texture.Width / xFrameCount) / 2f), ((texture.Height / Main.npcFrameCount[NPC.type]) / 2f));
             
-            spriteBatch.Draw(texture, new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vector.X, npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)(texture.Height / Main.npcFrameCount[npc.type]) + 12f + vector.Y), new Rectangle?(rectangle), color, npc.rotation, vector, npc.scale, effects, 0f);
+            spriteBatch.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vector.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + 12f + vector.Y), new Rectangle?(rectangle), color, NPC.rotation, vector, NPC.scale, effects, 0f);
             return false;
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.spriteDirection = -1;
-            if (npc.ai[0] < 0)
+            NPC.spriteDirection = -1;
+            if (NPC.ai[0] < 0)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
-            else if (npc.ai[0] < 90)
+            else if (NPC.ai[0] < 90)
             {
-                if (npc.ai[0] % 8 == 0)
+                if (NPC.ai[0] % 8 == 0)
                 {
-                    npc.frame.Y += 96;
+                    NPC.frame.Y += 96;
                 }
-                if (npc.frame.Y > 96 * 7)
+                if (NPC.frame.Y > 96 * 7)
                 {
-                    npc.frame.Y = 96 * 7;
+                    NPC.frame.Y = 96 * 7;
                 }
             }
-            else if (npc.ai[0] < 200)
+            else if (NPC.ai[0] < 200)
             {
-                if (npc.ai[0] % 8 == 0)
+                if (NPC.ai[0] % 8 == 0)
                 {
-                    npc.frame.Y += 96;
+                    NPC.frame.Y += 96;
                 }
-                if (npc.frame.Y > 96 * 15)
+                if (NPC.frame.Y > 96 * 15)
                 {
-                    npc.frame.Y = 96 * 7;
+                    NPC.frame.Y = 96 * 7;
                 }
             }
             else
             {
-                npc.frame.Y = 96 * 16;
-                if (npc.ai[0] > 208)
+                NPC.frame.Y = 96 * 16;
+                if (NPC.ai[0] > 208)
                 {
-                    npc.frame.Y = 96 * 4;
+                    NPC.frame.Y = 96 * 4;
                 }
-                if (npc.ai[0] > 216)
+                if (NPC.ai[0] > 216)
                 {
-                    npc.frame.Y = 96 * 3;
+                    NPC.frame.Y = 96 * 3;
                 }
-                if (npc.ai[0] > 224)
+                if (NPC.ai[0] > 224)
                 {
-                    npc.frame.Y = 96 * 2;
+                    NPC.frame.Y = 96 * 2;
                 }
-                if (npc.ai[0] > 232)
+                if (NPC.ai[0] > 232)
                 {
-                    npc.frame.Y = 96 * 1;
+                    NPC.frame.Y = 96 * 1;
                 }
             }
         }

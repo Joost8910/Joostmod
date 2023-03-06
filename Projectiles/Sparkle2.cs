@@ -12,26 +12,26 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 90;
-			projectile.light = 0.3f;
-			projectile.ignoreWater = false;
-			projectile.tileCollide = false;
-			projectile.alpha = 128;
-			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 6;
+			Projectile.height = 6;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 90;
+			Projectile.light = 0.3f;
+			Projectile.ignoreWater = false;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 128;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
         public override void AI()
         {
-            projectile.velocity.X += Main.rand.NextFloat(-0.1f, 0.1f);
-            projectile.velocity.Y += Main.rand.NextFloat(-0.1f, 0.1f);
-            projectile.scale = projectile.timeLeft / 90f;
+            Projectile.velocity.X += Main.rand.NextFloat(-0.1f, 0.1f);
+            Projectile.velocity.Y += Main.rand.NextFloat(-0.1f, 0.1f);
+            Projectile.scale = Projectile.timeLeft / 90f;
         }
 
     }

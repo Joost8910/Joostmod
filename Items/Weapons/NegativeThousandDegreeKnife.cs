@@ -10,36 +10,35 @@ namespace JoostMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("-1000'C Degrees Knife");
-			Tooltip.SetDefault("'That's physically impossible, it's below absolute zero!'\n" + 
+			Tooltip.SetDefault("'That's physically impossible, it's below absolute zero!'\n" +
 			"'Theoretically, AT absolute zero, its atoms wouldn't be able to move at ALL");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 200;
-			item.melee = true;
-			item.width = 20;
-			item.height = 18;	
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 5;
-			item.knockBack = 1;
-			item.value = 500000;
-			item.rare = 10;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("NegativeThousandDegreeKnife");
-			item.shootSpeed = 0f;
+			Item.damage = 200;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 20;
+			Item.height = 18;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 1;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Red;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.shoot = Mod.Find<ModProjectile>("NegativeThousandDegreeKnife").Type;
+			Item.shootSpeed = 0f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LunarBar, 8); 
-			recipe.AddIngredient(ItemID.FrostCore);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.LunarBar, 8)
+				.AddIngredient(ItemID.FrostCore)
+				.AddTile(TileID.LunarCraftingStation)
+				.Register();
 		}
 	}
 }

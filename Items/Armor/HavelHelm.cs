@@ -4,56 +4,51 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
-	public class HavelHelm : ModItem
+    [AutoloadEquip(EquipType.Head)]
+    public class HavelHelm : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Havel's Helmet");
             Tooltip.SetDefault("8% increased melee crit Chance\n" +
                 "10% reduced movement speed");
+            ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = 225000;
-            item.rare = 5;
-            item.defense = 18;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 18;
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 8;
+            player.GetCritChance(DamageClass.Generic) += 8;
             player.moveSpeed *= 0.9f;
             player.maxRunSpeed *= 0.9f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.9f;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("HavelArmor") && legs.type == mod.ItemType("HavelLeggings");
+            return body.type == Mod.Find<ModItem>("HavelArmor").Type && legs.type == Mod.Find<ModItem>("HavelLeggings").Type;
         }
-        public override bool DrawHead()
-        {
-            return false;
-        }
-
         public override void UpdateArmorSet(Player player)
-		{
-			player.setBonus = "Press the Armor Ability key to reduce damage taken at the cost of mobility\n" +
+        {
+            player.setBonus = "Press the Armor Ability key to reduce damage taken at the cost of mobility\n" +
                 "30 second duration";
             player.GetModPlayer<JoostPlayer>().havelArmor = true;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EarthEssence", 50);
-            recipe.AddIngredient(ItemID.StoneBlock, 100);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.EarthEssence>(50)
+                .AddIngredient(ItemID.StoneBlock, 100)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
         }
     }
 }

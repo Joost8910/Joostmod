@@ -49,47 +49,47 @@ namespace JoostMod.Projectiles.Minions
 
 		public override void Behavior()
 		{
-			Player player = Main.player[projectile.owner];
-			float spacing = (float)projectile.width * spacingMult;
+			Player player = Main.player[Projectile.owner];
+			float spacing = (float)Projectile.width * spacingMult;
 			for (int k = 0; k < 1000; k++)
 			{
 				Projectile otherProj = Main.projectile[k];
-				if (k != projectile.whoAmI && otherProj.active && otherProj.owner == projectile.owner && otherProj.type == projectile.type && System.Math.Abs(projectile.position.X - otherProj.position.X) + System.Math.Abs(projectile.position.Y - otherProj.position.Y) < spacing)
+				if (k != Projectile.whoAmI && otherProj.active && otherProj.owner == Projectile.owner && otherProj.type == Projectile.type && System.Math.Abs(Projectile.position.X - otherProj.position.X) + System.Math.Abs(Projectile.position.Y - otherProj.position.Y) < spacing)
 				{
-					if (projectile.position.X < Main.projectile[k].position.X)
+					if (Projectile.position.X < Main.projectile[k].position.X)
 					{
-						projectile.velocity.X -= idleAccel;
+						Projectile.velocity.X -= idleAccel;
 					}
 					else
 					{
-						projectile.velocity.X += idleAccel;
+						Projectile.velocity.X += idleAccel;
 					}
-					if (projectile.position.Y < Main.projectile[k].position.Y)
+					if (Projectile.position.Y < Main.projectile[k].position.Y)
 					{
-						projectile.velocity.Y -= idleAccel;
+						Projectile.velocity.Y -= idleAccel;
 					}
 					else
 					{
-						projectile.velocity.Y += idleAccel;
+						Projectile.velocity.Y += idleAccel;
 					}
 				}
 			}
-			Vector2 targetPos = projectile.Center + new Vector2(projectile.direction, 0) + projectile.velocity;
+			Vector2 targetPos = Projectile.Center + new Vector2(Projectile.direction, 0) + Projectile.velocity;
 			float targetDist = viewDist;
 			bool target = false;
-			projectile.tileCollide = !noCollide;
+			Projectile.tileCollide = !noCollide;
 			if(player.HasMinionAttackTargetNPC)
 			{
 				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				if(noCollide || Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+				if(noCollide || Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                 {
-                    targetDist = Vector2.Distance(projectile.Center, targetPos);
+                    targetDist = Vector2.Distance(Projectile.Center, targetPos);
 					targetPos = npc.Center;
                     if (predict)
                     {
-                        Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, projectile.Center) / shootSpeed));
-                        predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, projectile.Center) / shootSpeed));
-                        targetDist = Vector2.Distance(projectile.Center, predictedPos);
+                        Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, Projectile.Center) / shootSpeed));
+                        predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, Projectile.Center) / shootSpeed));
+                        targetDist = Vector2.Distance(Projectile.Center, predictedPos);
                         targetPos = predictedPos;
                     }
                     target = true;
@@ -100,16 +100,16 @@ namespace JoostMod.Projectiles.Minions
 				NPC npc = Main.npc[k];
 				if (npc.CanBeChasedBy(this, false))
 				{
-					float distance = Vector2.Distance(npc.Center, projectile.Center);
-                    if ((distance < targetDist || !target) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+					float distance = Vector2.Distance(npc.Center, Projectile.Center);
+                    if ((distance < targetDist || !target) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
                         targetDist = distance;
                         targetPos = npc.Center;
                         if (predict)
                         {
-                            Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, projectile.Center) / shootSpeed));
-                            predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, projectile.Center) / shootSpeed));
-                            targetDist = Vector2.Distance(projectile.Center, predictedPos);
+                            Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, Projectile.Center) / shootSpeed));
+                            predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, Projectile.Center) / shootSpeed));
+                            targetDist = Vector2.Distance(Projectile.Center, predictedPos);
                             targetPos = predictedPos;
                         }
                         target = true;
@@ -118,7 +118,7 @@ namespace JoostMod.Projectiles.Minions
 			}
             if (grounded)
             {
-                if (targetPos.Y > projectile.position.Y + projectile.height)
+                if (targetPos.Y > Projectile.position.Y + Projectile.height)
                 {
                     fallThroughPlat = true;
                 }
@@ -127,58 +127,58 @@ namespace JoostMod.Projectiles.Minions
                     fallThroughPlat = false;
                 }
             }
-			if (Vector2.Distance(player.Center, projectile.Center) > (player.HasMinionAttackTargetNPC ? 1500 : 750f)) 
+			if (Vector2.Distance(player.Center, Projectile.Center) > (player.HasMinionAttackTargetNPC ? 1500 : 750f)) 
 			{
-				projectile.ai[0] = 1f;
-				projectile.netUpdate = true;
+				Projectile.ai[0] = 1f;
+				Projectile.netUpdate = true;
 			}
-			if (projectile.ai[0] == 1f)
+			if (Projectile.ai[0] == 1f)
 			{
-				projectile.tileCollide = false;
+				Projectile.tileCollide = false;
             }
-            if (target && (projectile.ai[0] == 0f || player.HasMinionAttackTargetNPC))
+            if (target && (Projectile.ai[0] == 0f || player.HasMinionAttackTargetNPC))
 			{
-				Vector2 direction = targetPos - projectile.Center;
+				Vector2 direction = targetPos - Projectile.Center;
 				if (direction.Length() > chaseDist)
 				{
 					direction.Normalize();
-					projectile.velocity.X = (projectile.velocity.X * inertia + direction.X * chaseAccel) / (inertia + 1);
+					Projectile.velocity.X = (Projectile.velocity.X * inertia + direction.X * chaseAccel) / (inertia + 1);
                     if (!grounded)
                     {
-                        projectile.velocity.Y = (projectile.velocity.Y * inertia + direction.Y * chaseAccel) / (inertia + 1);
+                        Projectile.velocity.Y = (Projectile.velocity.Y * inertia + direction.Y * chaseAccel) / (inertia + 1);
                     }
-                    else if (jump && projectile.velocity.Y == 0)
+                    else if (jump && Projectile.velocity.Y == 0)
                     {
-                        projectile.velocity.Y = -(float)Math.Sqrt(2 * 0.25f * Math.Abs(projectile.Center.Y - targetPos.Y));
+                        Projectile.velocity.Y = -(float)Math.Sqrt(2 * 0.25f * Math.Abs(Projectile.Center.Y - targetPos.Y));
                     }
                 }
 				else
 				{
-					projectile.velocity.X *= (float)Math.Pow(0.97, 40.0 / inertia);
+					Projectile.velocity.X *= (float)Math.Pow(0.97, 40.0 / inertia);
                     if (!grounded)
                     {
-                        projectile.velocity.Y *= (float)Math.Pow(0.97, 40.0 / inertia);
+                        Projectile.velocity.Y *= (float)Math.Pow(0.97, 40.0 / inertia);
                     }
 				}
 			}
 			else
 			{
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
+				if (!Collision.CanHitLine(Projectile.Center, 1, 1, player.Center, 1, 1))
 				{
-					projectile.ai[0] = 1f;
+					Projectile.ai[0] = 1f;
 				}
 				float speed = 6f;
-				if (projectile.ai[0] == 1f)
+				if (Projectile.ai[0] == 1f)
 				{
-					speed = projectile.Distance(player.Center) / 60;
+					speed = Projectile.Distance(player.Center) / 60;
 				}
-				Vector2 center = projectile.Center;
+				Vector2 center = Projectile.Center;
 				Vector2 direction = player.Center - center;
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 				int num = 1;
-				for (int k = 0; k < projectile.whoAmI; k++)
+				for (int k = 0; k < Projectile.whoAmI; k++)
 				{
-					if (Main.projectile[k].active && Main.projectile[k].owner == projectile.owner && Main.projectile[k].type == projectile.type)
+					if (Main.projectile[k].active && Main.projectile[k].owner == Projectile.owner && Main.projectile[k].type == Projectile.type)
 					{
 						num++;
 					}
@@ -193,113 +193,113 @@ namespace JoostMod.Projectiles.Minions
 				{
 					speed = 9f;
 				}
-				if (distanceTo < 100f && projectile.ai[0] == 1f && (noCollide || !Collision.SolidCollision(projectile.position, projectile.width, projectile.height)))
+				if (distanceTo < 100f && Projectile.ai[0] == 1f && (noCollide || !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height)))
 				{
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
+					Projectile.ai[0] = 0f;
+					Projectile.netUpdate = true;
 				}
 				if (distanceTo > 3000f)
 				{
-					projectile.Center = player.Center;
+					Projectile.Center = player.Center;
 				}
 				if (distanceTo > 48f)
 				{
 					direction.Normalize();
 					direction *= speed;
 					float temp = inertia / 2f;
-                    projectile.velocity.X = (projectile.velocity.X * temp + direction.X) / (temp + 1);
+                    Projectile.velocity.X = (Projectile.velocity.X * temp + direction.X) / (temp + 1);
                     if (!grounded)
                     {
-                        projectile.velocity.Y = (projectile.velocity.Y * temp + direction.Y) / (temp + 1);
+                        Projectile.velocity.Y = (Projectile.velocity.Y * temp + direction.Y) / (temp + 1);
                     }
                 }
 				else
 				{
-					projectile.direction = Main.player[projectile.owner].direction;
-                    projectile.velocity.X *= (float)Math.Pow(0.9, 40.0 / inertia);
+					Projectile.direction = Main.player[Projectile.owner].direction;
+                    Projectile.velocity.X *= (float)Math.Pow(0.9, 40.0 / inertia);
                     if (!grounded)
                     {
-                        projectile.velocity.Y *= (float)Math.Pow(0.9, 40.0 / inertia);
+                        Projectile.velocity.Y *= (float)Math.Pow(0.9, 40.0 / inertia);
                     }
                 }
             }
             if (grounded)
             {
-                if (projectile.velocity.X == 0f && projectile.velocity.Y >= 0f)
+                if (Projectile.velocity.X == 0f && Projectile.velocity.Y >= 0f)
                 {
-                    projectile.velocity.Y -= 3f;
+                    Projectile.velocity.Y -= 3f;
                 }
-                if (projectile.ai[0] == 1f)
+                if (Projectile.ai[0] == 1f)
                 {
                     int num = 1;
-                    for (int k = 0; k < projectile.whoAmI; k++)
+                    for (int k = 0; k < Projectile.whoAmI; k++)
                     {
-                        if (Main.projectile[k].active && Main.projectile[k].owner == projectile.owner && Main.projectile[k].type == projectile.type)
+                        if (Main.projectile[k].active && Main.projectile[k].owner == Projectile.owner && Main.projectile[k].type == Projectile.type)
                         {
                             num++;
                         }
                     }
                     if (target || player.HasMinionAttackTargetNPC)
                     {
-                        projectile.ai[0] = 0;
+                        Projectile.ai[0] = 0;
                     }
                     Vector2 playerPos = player.Center + new Vector2(((10 + num * spacing) * -player.direction), 0);
-                    projectile.tileCollide = false;
-                    projectile.velocity = projectile.DirectionTo(playerPos) * Math.Max(projectile.Distance(playerPos) / 30, 1);
-                    projectile.rotation = projectile.velocity.X * 0.05f;
+                    Projectile.tileCollide = false;
+                    Projectile.velocity = Projectile.DirectionTo(playerPos) * Math.Max(Projectile.Distance(playerPos) / 30, 1);
+                    Projectile.rotation = Projectile.velocity.X * 0.05f;
                     FlyingDust();
                 }
                 else
                 {
-                    projectile.rotation = 0f;
-                    projectile.velocity.Y += 0.25f;
+                    Projectile.rotation = 0f;
+                    Projectile.velocity.Y += 0.25f;
                 }
             }
             else
             {
-                projectile.rotation = projectile.velocity.X * 0.05f;
+                Projectile.rotation = Projectile.velocity.X * 0.05f;
             }
 
-            if (projectile.velocity.X > 0f)
+            if (Projectile.velocity.X > 0f)
             {
-                projectile.spriteDirection = (projectile.direction = -1);
+                Projectile.spriteDirection = (Projectile.direction = -1);
             }
-            else if (projectile.velocity.X < 0f)
+            else if (Projectile.velocity.X < 0f)
             {
-                projectile.spriteDirection = (projectile.direction = 1);
+                Projectile.spriteDirection = (Projectile.direction = 1);
             }
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
 			{
-				projectile.ai[1] += 1f;
+				Projectile.ai[1] += 1f;
 				if (Main.rand.Next(3) == 0)
 				{
-					projectile.ai[1] += 1f;
+					Projectile.ai[1] += 1f;
 				}
             }
             if (target)
             {
-                if (projectile.ai[1] > shootCool && (maxShootDist < 0 || targetDist < maxShootDist))
+                if (Projectile.ai[1] > shootCool && (maxShootDist < 0 || targetDist < maxShootDist))
                 {
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
-                if ((targetPos - projectile.Center).X > 0f)
+                if ((targetPos - Projectile.Center).X > 0f)
                 {
-                    projectile.spriteDirection = (projectile.direction = -1);
+                    Projectile.spriteDirection = (Projectile.direction = -1);
                 }
-                else if ((targetPos - projectile.Center).X < 0f)
+                else if ((targetPos - Projectile.Center).X < 0f)
                 {
-                    projectile.spriteDirection = (projectile.direction = 1);
+                    Projectile.spriteDirection = (Projectile.direction = 1);
                 }
                 if (rapidAmount <= 1)
                 {
-                    if (projectile.ai[1] == 0f)
+                    if (Projectile.ai[1] == 0f)
                     {
-                        projectile.ai[1] = 1f;
-                        if (Main.myPlayer == projectile.owner)
+                        Projectile.ai[1] = 1f;
+                        if (Main.myPlayer == Projectile.owner)
                         {
                             ShootEffects();
-                            Vector2 shootVel = targetPos - projectile.Center;
+                            Vector2 shootVel = targetPos - Projectile.Center;
                             if (shootVel == Vector2.Zero)
                             {
                                 shootVel = new Vector2(0f, 1f);
@@ -317,27 +317,27 @@ namespace JoostMod.Projectiles.Minions
                                 for (i = 0; i < shootNum; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(projectile.damage * damageMult), projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
+                                    int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
                                     Main.projectile[proj].netUpdate = true;
                                 }
                             }
                             else
                             {
-                                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(projectile.damage * damageMult), projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
+                                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
                                 Main.projectile[proj].netUpdate = true;
                             }
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
                     }
                 }
                 else
                 {
-                    if (projectile.ai[1] <= 0)
+                    if (Projectile.ai[1] <= 0)
                     {
-                        if (projectile.ai[1] % rapidRate == 0 && Main.myPlayer == projectile.owner)
+                        if (Projectile.ai[1] % rapidRate == 0 && Main.myPlayer == Projectile.owner)
                         {
                             ShootEffects();
-                            Vector2 shootVel = targetPos - projectile.Center;
+                            Vector2 shootVel = targetPos - Projectile.Center;
                             if (shootVel == Vector2.Zero)
                             {
                                 shootVel = new Vector2(0f, 1f);
@@ -355,21 +355,21 @@ namespace JoostMod.Projectiles.Minions
                                 for (i = 0; i < shootNum; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(projectile.damage * damageMult), projectile.knockBack, Main.myPlayer, 0f, 0f);
+                                    int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, 0f, 0f);
                                     Main.projectile[proj].netUpdate = true;
                                 }
                             }
                             else
                             {
-                                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(projectile.damage * damageMult), projectile.knockBack, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].netUpdate = true;
                             }
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
-                        projectile.ai[1]--;
-                        if (projectile.ai[1] <= -rapidAmount * rapidRate)
+                        Projectile.ai[1]--;
+                        if (Projectile.ai[1] <= -rapidAmount * rapidRate)
                         {
-                            projectile.ai[1] = 1;
+                            Projectile.ai[1] = 1;
                         }
                     }
                 }
@@ -377,7 +377,7 @@ namespace JoostMod.Projectiles.Minions
             SelectFrame(targetPos);
             CreateDust();
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = fallThroughPlat;
 			return true;

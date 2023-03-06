@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -13,24 +14,23 @@ namespace JoostMod.Items.Placeable
 
 		public override void SetDefaults()
 		{
-			item.width = 8;
-			item.height = 10;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 3;
-			item.useTime = 2;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.createTile = mod.TileType("DirtPlatform");
+			Item.width = 8;
+			Item.height = 10;
+			Item.maxStack = 999;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 3;
+			Item.useTime = 2;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.createTile = Mod.Find<ModTile>("DirtPlatform").Type;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.DirtBlock);
-			recipe.SetResult(this, 2);
-			recipe.AddRecipe();
+			CreateRecipe(2)
+				.AddIngredient(ItemID.DirtBlock)
+				.Register();
 		}
 	}
 }

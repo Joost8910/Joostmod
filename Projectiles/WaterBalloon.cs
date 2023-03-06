@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,14 +16,14 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			aiType = ProjectileID.Shuriken;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			AIType = ProjectileID.Shuriken;
 		}
 		
 		public override void Kill(int timeLeft)
@@ -30,17 +31,17 @@ namespace JoostMod.Projectiles
 			int shootNum = 16;
 			float shootSpread = 360f;
 			float spread = shootSpread * 0.0174f;
-			float baseSpeed = (float)Math.Sqrt(projectile.velocity.X/2 * projectile.velocity.X/2 + projectile.velocity.Y/2 * projectile.velocity.Y/2);
-			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y)- spread/shootNum;
+			float baseSpeed = (float)Math.Sqrt(Projectile.velocity.X/2 * Projectile.velocity.X/2 + Projectile.velocity.Y/2 * Projectile.velocity.Y/2);
+			double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y)- spread/shootNum;
 			double deltaAngle = spread/shootNum;
 			double offsetAngle;
 			int i;
 			for (i = 0; i < shootNum;i++ )
 			{
 				offsetAngle = startAngle + deltaAngle * i;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), 22, projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), 22, Projectile.damage, Projectile.knockBack, Projectile.owner);
 			}
-			Main.PlaySound(19, (int)projectile.position.X, (int)projectile.position.Y, 0);				
+			SoundEngine.PlaySound(SoundID.Splash, Projectile.position);				
 		}
 	}
 }

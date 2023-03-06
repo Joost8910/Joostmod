@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Quest
@@ -13,12 +14,12 @@ namespace JoostMod.Items.Quest
 
         public override void SetDefaults()
         {
-            item.questItem = true;
-            item.maxStack = 1;
-            item.width = 38;
-            item.height = 26;
-            item.uniqueStack = true;
-            item.rare = -11;
+            Item.questItem = true;
+            Item.maxStack = 1;
+            Item.width = 38;
+            Item.height = 26;
+            Item.uniqueStack = true;
+            Item.rare = ItemRarityID.Quest;
         }
     }
 }

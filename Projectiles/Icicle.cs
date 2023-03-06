@@ -11,21 +11,21 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Icicle");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 180;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.coldDamage = true;
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 180;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.coldDamage = true;
 		}
 		
 	}

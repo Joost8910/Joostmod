@@ -1,43 +1,44 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
 namespace JoostMod.Items.Weapons
 {
-	public class PlatinumFlail : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Platinum Flail");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 13;
-			item.melee = true;
-			item.noMelee = true;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.width = 30;
-			item.height = 32;
-			item.useTime = 44;
-			item.useAnimation = 44;
-			item.useStyle = 5;
-			item.knockBack = 6;
-			item.value = 1000;
-			item.rare = 1;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
-			item.channel = true;
-            item.useTurn = true;
-            item.shoot = mod.ProjectileType("PlatinumFlail");
-			item.shootSpeed = 11.5f;
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+    public class PlatinumFlail : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            position.Y -= (item.scale * 30) - 30;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            DisplayName.SetDefault("Platinum Flail");
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 13;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.width = 30;
+            Item.height = 32;
+            Item.useTime = 44;
+            Item.useAnimation = 44;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 6;
+            Item.value = 1000;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = false;
+            Item.channel = true;
+            Item.useTurn = true;
+            Item.shoot = Mod.Find<ModProjectile>("PlatinumFlail").Type;
+            Item.shootSpeed = 11.5f;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            position.Y -= (Item.scale * 30) - 30;
+            return true;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -76,9 +77,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -86,14 +87,13 @@ namespace JoostMod.Items.Weapons
             return base.ChoosePrefix(rand);
         }
         public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.PlatinumBar, 8);
-			recipe.AddTile(TileID.Anvils); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.PlatinumBar, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
+        }
 
-	}
+    }
 }
 

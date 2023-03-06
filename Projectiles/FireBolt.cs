@@ -10,23 +10,23 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lord's Flame");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[Projectile.type] = 3;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 5;
-			projectile.timeLeft = 450;
-			projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 5;
+			Projectile.timeLeft = 450;
+			Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            AIType = ProjectileID.Bullet;
 		}
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 10;
             height = 10;
@@ -42,13 +42,13 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.frameCounter++;
-			if (projectile.frameCounter >= 4)
+            Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 4)
 			{
-				projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 3;
+				Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 3;
             }
-            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Fire, -projectile.velocity.X / 5, -projectile.velocity.Y / 5, 100, default(Color), 1f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, -Projectile.velocity.X / 5, -Projectile.velocity.Y / 5, 100, default(Color), 1f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
         }
     }
 }

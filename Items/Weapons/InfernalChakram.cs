@@ -12,42 +12,41 @@ namespace JoostMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Infernal Chakram");
 			Tooltip.SetDefault("A flaming chakram that creates orbiting fireballs");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 36;
-			item.thrown = true;
-			item.width = 38;
-			item.height = 38;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = 1;
-			item.knockBack = 6;
-			item.value = 225000;
-			item.rare = 4;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("InfernalChakram");
-			item.shootSpeed = 10f;
+			Item.damage = 36;
+			Item.DamageType = DamageClass.Throwing;
+			Item.width = 38;
+			Item.height = 38;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 6;
+			Item.value = 225000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("InfernalChakram").Type;
+			Item.shootSpeed = 10f;
 		}
 		public override bool CanUseItem(Player player)
-        {
-			return (player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[mod.ProjectileType("DousedChakram")] < 1) ;
+		{
+			return (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DousedChakram").Type] < 1);
 		}
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "FireEssence", 50);
-			recipe.AddIngredient(ItemID.ThornChakram);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 3);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 3);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 3);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.FireEssence>(50)
+				.AddIngredient(ItemID.ThornChakram)
+				.AddRecipeGroup("JoostMod:AnyCobalt", 3)
+				.AddRecipeGroup("JoostMod:AnyMythril", 3)
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 3)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 	}
 }

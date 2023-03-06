@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,25 +15,25 @@ namespace JoostMod.Projectiles
 		}
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.aiStyle = 1;
-            projectile.alpha = 40;
-            projectile.hostile = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 300;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.aiStyle = 1;
+            Projectile.alpha = 40;
+            Projectile.hostile = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 300;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.timeLeft > 290)
+            if (Projectile.timeLeft > 290)
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
                 return false;
             }
@@ -52,14 +53,14 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.velocity.X *= 0.98f;
-            projectile.velocity.Y = (projectile.velocity.Y < 10 ? projectile.velocity.Y + 0.3f : projectile.velocity.Y);
+            Projectile.velocity.X *= 0.98f;
+            Projectile.velocity.Y = (Projectile.velocity.Y < 10 ? Projectile.velocity.Y + 0.3f : Projectile.velocity.Y);
         }
         public override void Kill(int timeLeft)
         {
-            if (Main.tile[(int)projectile.Center.ToTileCoordinates().X, (int)projectile.Center.ToTileCoordinates().Y].liquid <= 80)
+            if (Main.tile[(int)Projectile.Center.ToTileCoordinates().X, (int)Projectile.Center.ToTileCoordinates().Y].LiquidAmount <= 80)
             {
-                Main.PlaySound(19, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                SoundEngine.PlaySound(SoundID.SplashWeak, Projectile.position);
             }
         }
 	}

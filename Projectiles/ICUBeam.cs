@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,30 +10,30 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eye Laser");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 600;
-			projectile.alpha = 170;
-			projectile.light = 0.2f;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 170;
+			Projectile.light = 0.2f;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 5;
 		}
 		public override void AI()
 		{
-			if (projectile.timeLeft >= 600)
+			if (Projectile.timeLeft >= 600)
 			{
-                Main.PlaySound(2, projectile.position, 12);
+                SoundEngine.PlaySound(SoundID.Item12, Projectile.position);
 			}
 		}
 	}

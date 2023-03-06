@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,30 +19,30 @@ namespace JoostMod.Items.Quest
 
         public override void SetDefaults()
         {
-            item.questItem = true;
-            item.maxStack = 1;
-            item.width = 26;
-            item.height = 30;
-            item.uniqueStack = true;
-            item.rare = -11;
-            item.consumable = true;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = 4;
-            item.noMelee = true; 
-            item.UseSound = SoundID.Item1;
+            Item.questItem = true;
+            Item.maxStack = 1;
+            Item.width = 26;
+            Item.height = 30;
+            Item.uniqueStack = true;
+            Item.rare = ItemRarityID.Quest;
+            Item.consumable = true;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true; 
+            Item.UseSound = SoundID.Item1;
         }
         public override bool OnPickup(Player player)
         {
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)player.Center.X - 300, (int)player.Center.Y - 300, mod.NPCType("GrandCactusWormHead"));
+                NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
             }
             return false;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.position.Y/16 > Main.worldSurface && !NPC.AnyNPCs(mod.NPCType("AlphaCactusWormHead")) && !NPC.AnyNPCs(mod.NPCType("GrandCactusWormHead")))
+            if (player.position.Y/16 > Main.worldSurface && !NPC.AnyNPCs(Mod.Find<ModNPC>("AlphaCactusWormHead").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type))
             {
                 return true;
             }
@@ -50,10 +51,10 @@ namespace JoostMod.Items.Quest
                 return false;
             }
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
-            NPC.NewNPC((int)player.Center.X - 300, (int)player.Center.Y - 300, mod.NPCType("GrandCactusWormHead"));
-            Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
+            NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
+            SoundEngine.PlaySound(SoundID.Roar, player.position);
             return true;
         }
     }

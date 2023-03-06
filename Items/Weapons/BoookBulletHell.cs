@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Utilities;
@@ -22,43 +23,42 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 100;
-			item.ranged = true;
-			item.width = 64;
-			item.height = 48;
-			item.useTime = 4;
-			item.useAnimation = 4;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 3;
-            item.value = 300000;
-            item.rare = 9;
-			item.UseSound = SoundID.Item23;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("BoookBulletHell"); 
-			item.shootSpeed = 10f;
-			item.useAmmo = AmmoID.Bullet;
-            item.noUseGraphic = true;
+			Item.damage = 100;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 64;
+			Item.height = 48;
+			Item.useTime = 4;
+			Item.useAnimation = 4;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; 
+			Item.knockBack = 3;
+            Item.value = 300000;
+            Item.rare = Item.RarityID.Cyan;
+			Item.UseSound = SoundID.Item23;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("BoookBulletHell").Type; 
+			Item.shootSpeed = 10f;
+			Item.useAmmo = AmmoID.Bullet;
+            Item.noUseGraphic = true;
 		}
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(null, "EvilStone");
-            recipe.AddIngredient(null, "SkullStone");
-            recipe.AddIngredient(null, "JungleStone");
-            recipe.AddIngredient(null, "InfernoStone");
-            recipe.AddTile(null, "ShrineOfLegends");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.IllegalGunParts)
+                .AddIngredient<Placeable.EvilStone>()
+                .AddIngredient<Placeable.SkullStone>()
+                .AddIngredient<Placeable.JungleStone>()
+                .AddIngredient<Placeable.InfernoStone>()
+                .AddTile<Tiles.ShrineOfLegends>()
+                .Register();
         }
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{
 			foreach (TooltipLine line2 in list)
 			{
-				if (line2.mod == "Terraria" && line2.Name == "ItemName")
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName")
 				{
-					line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+					line2.OverrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
                 }
 			}
 		}
@@ -66,9 +66,9 @@ namespace JoostMod.Items.Weapons
         {
             return false;
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            mult *= JoostGlobalItem.LegendaryDamage() * 0.04f;
+            damage *= JoostGlobalItem.LegendaryDamage() * 0.04f;
         }
         public override void UpdateInventory (Player player)
 		{
@@ -78,14 +78,14 @@ namespace JoostMod.Items.Weapons
         {
             return true;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return Main.rand.NextFloat() < 0.5f;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = mod.ProjectileType("BoookBulletHell");
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            type = Mod.Find<ModProjectile>("BoookBulletHell").Type;
+            return true;
         }
         /*
 		public override Vector2? HoldoutOffset()
@@ -112,9 +112,9 @@ namespace JoostMod.Items.Weapons
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float velocity.X, ref float velocity.Y, ref int type, ref int damage, ref float knockback)
         {
-            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 32;
+            Vector2 muzzleOffset = Vector2.Normalize(velocity) * 32;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
             {
                 position += muzzleOffset;
@@ -126,18 +126,18 @@ namespace JoostMod.Items.Weapons
             bool arrow = item.useAmmo == AmmoID.Arrow;
             damage = (int)(damage * (arrow ? player.arrowDamage : player.bulletDamage));
             float spread = 180f * 0.0174f;
-			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-			double startAngle = Math.Atan2(speedX, speedY)- spread/2;
+			float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+			double startAngle = Math.Atan2(velocity.X, velocity.Y)- spread/2;
 			double deltaAngle = spread/16f;
 			double offsetAngle;
 			int dir = arrow ? player.itemAnimation : 15 - player.itemAnimation;
             Main.PlaySound(2, player.Center, arrow ? 102 : 11);
 			offsetAngle = startAngle + deltaAngle * dir;
-            Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockback, player.whoAmI);
 
             dir = arrow ? (player.itemAnimation-1) : 15 - (player.itemAnimation-1);
             offsetAngle = startAngle + deltaAngle * dir;
-            Projectile.NewProjectile(position.X, position.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, baseSpeed*(float)Math.Sin(offsetAngle), baseSpeed*(float)Math.Cos(offsetAngle), type, damage, knockback, player.whoAmI);
 			return false;
 		}
         */

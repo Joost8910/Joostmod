@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,30 +16,30 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
-            projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.timeLeft = 600;
-			projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+			Projectile.width = 14;
+			Projectile.height = 14;
+            Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.timeLeft = 600;
+			Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 600);
-            projectile.ai[1] += 5;
+            Projectile.ai[1] += 5;
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Venom, 600);
-            projectile.ai[1] += 5;
+            Projectile.ai[1] += 5;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(0, projectile.Center);
-            projectile.ai[1] += 10;
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+            Projectile.ai[1] += 10;
             return false;
         }
         /*public override bool PreAI()
@@ -179,13 +180,13 @@ namespace JoostMod.Projectiles
         }*/
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 playerCenter = player.MountedCenter;
-            if (projectile.Center.X > player.Center.X)
+            if (Projectile.Center.X > player.Center.X)
             {
                 player.direction = 1;
             }
-            if (projectile.Center.X < player.Center.X)
+            if (Projectile.Center.X < player.Center.X)
             {
                 player.direction = -1;
             }
@@ -194,12 +195,12 @@ namespace JoostMod.Projectiles
                 player.itemAnimation = 2;
                 player.itemTime = 2;
             }
-            projectile.ai[0]++;
-            projectile.ai[1]++;
+            Projectile.ai[0]++;
+            Projectile.ai[1]++;
             bool channeling = player.channel && !player.noItems && !player.CCed;
             if (channeling)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     if (Main.MouseWorld.X > player.Center.X)
                     {
@@ -238,35 +239,35 @@ namespace JoostMod.Projectiles
                 playerCenter.Y += -14 * player.gravDir;
             }
         
-            projectile.rotation = projectile.DirectionFrom(playerCenter).ToRotation() + 1.57f;
-            if (projectile.ai[1] > 4)
+            Projectile.rotation = Projectile.DirectionFrom(playerCenter).ToRotation() + 1.57f;
+            if (Projectile.ai[1] > 4)
             {
-                if (projectile.ai[1] > 30 || !channeling)
+                if (Projectile.ai[1] > 30 || !channeling)
                 {
-                    projectile.velocity = projectile.DirectionTo(player.MountedCenter) * 20 + player.velocity;
-                    projectile.tileCollide = false;
+                    Projectile.velocity = Projectile.DirectionTo(player.MountedCenter) * 20 + player.velocity;
+                    Projectile.tileCollide = false;
                 }
-                else if (projectile.owner == Main.myPlayer && (projectile.ai[1] % 5 == 0) && channeling)
+                else if (Projectile.owner == Main.myPlayer && (Projectile.ai[1] % 5 == 0) && channeling)
                 {
-                    projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * 20 + player.velocity;
-                    projectile.netUpdate = true;
+                    Projectile.velocity = Projectile.DirectionTo(Main.MouseWorld) * 20 + player.velocity;
+                    Projectile.netUpdate = true;
                 }
-                if (projectile.Distance(player.Center) < 16)
+                if (Projectile.Distance(player.Center) < 16)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/TailWhip_Chain");
+            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/TailWhip_Chain");
 
-            Vector2 position = projectile.Center;
-            Player player = Main.player[projectile.owner];
+            Vector2 position = Projectile.Center;
+            Player player = Main.player[Projectile.owner];
             Vector2 playerCenter = player.MountedCenter;
             if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
             {
@@ -311,7 +312,7 @@ namespace JoostMod.Projectiles
                     position += vector2_1 * num1;
                     vector2_4 = playerCenter - position;
                     Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
-                    color2 = projectile.GetAlpha(color2);
+                    color2 = Projectile.GetAlpha(color2);
                     Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
                 }
             }

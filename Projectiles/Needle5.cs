@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,17 +12,17 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 30;
-			aiType = ProjectileID.WoodenArrowFriendly;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 30;
+			AIType = ProjectileID.WoodenArrowFriendly;
 		}
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 2;
             height = 2;

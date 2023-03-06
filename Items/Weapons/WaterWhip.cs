@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,32 +11,32 @@ namespace JoostMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Tendril");
-            Tooltip.SetDefault("Left click for a slapping tendril\n" + 
+            Tooltip.SetDefault("Left click for a slapping tendril\n" +
                 "Damage dealt is based on the tendril's speed\n" +
                 "Right click for a grasping tendril\n" +
                 "Grabs hit enemies and items");
         }
         public override void SetDefaults()
         {
-            item.damage = 66;
-            item.magic = true;
-            item.width = 36;
-            item.height = 36;
-            item.mana = 12;
-            item.channel = true;
-            item.useStyle = 5;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.reuseDelay = 2;
-            item.value = 225000;
-            item.rare = 5;
-            item.knockBack = 8;
-            item.UseSound = SoundID.Item21;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("WaterWhip");
-            item.shootSpeed = 5f;
+            Item.damage = 66;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 36;
+            Item.height = 36;
+            Item.mana = 12;
+            Item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.reuseDelay = 2;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.knockBack = 8;
+            Item.UseSound = SoundID.Item21;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("WaterWhip").Type;
+            Item.shootSpeed = 5f;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -45,33 +46,32 @@ namespace JoostMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.UseSound = SoundID.Item21;
+                Item.UseSound = SoundID.Item21;
             }
             else
             {
-                item.UseSound = SoundID.Item21;
+                Item.UseSound = SoundID.Item21;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                type = mod.ProjectileType("WaterWhip2");
+                type = Mod.Find<ModProjectile>("WaterWhip2").Type;
             }
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0, -1);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, -1);
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WaterEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.WaterEssence>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
 
         }
 

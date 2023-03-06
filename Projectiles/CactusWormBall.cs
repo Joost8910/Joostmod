@@ -1,3 +1,4 @@
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,21 +15,21 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 38;
-			projectile.height = 38;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-            projectile.tileCollide = false;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 38;
+			Projectile.height = 38;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+			AIType = ProjectileID.Bullet;
         }
-        public override void PostDraw(SpriteBatch sb, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.GreenYellow, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.GreenYellow, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, SpriteEffects.None, 0f);
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 26;
             height = 26;
@@ -43,20 +44,20 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            if (projectile.velocity.Length() > 0)
+            if (Projectile.velocity.Length() > 0)
             {
-                projectile.rotation = projectile.timeLeft * -projectile.direction * 0.0174f * 12;
+                Projectile.rotation = Projectile.timeLeft * -Projectile.direction * 0.0174f * 12;
             }
-            if (projectile.timeLeft < 280)
+            if (Projectile.timeLeft < 280)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
-            projectile.timeLeft -= 100;
-            projectile.damage -= 10;
+            Projectile.velocity = Vector2.Zero;
+            Projectile.timeLeft -= 100;
+            Projectile.damage -= 10;
             return false;
         }
         /*public override void Kill(int timeLeft)

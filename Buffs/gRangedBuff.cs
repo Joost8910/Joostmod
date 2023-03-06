@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class gRangedBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ranged Mastery");
 			Description.SetDefault("Defense reduced to 0, ranged damage increased by 0.5% per defense point lost");

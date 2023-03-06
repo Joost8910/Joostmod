@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -18,43 +19,45 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 42;
-			item.melee = true;
-            item.ranged = true;
-			item.width = 140;
-			item.height = 20;
-			item.noMelee = true;
-			item.useTime = 14;
-			item.useAnimation = 14;
-			item.useStyle = 5;
-			item.autoReuse = true;
-			item.knockBack = 7.5f;
-			item.value = 250000;
-			item.rare = 1;
-			item.UseSound = SoundID.Item7;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.shoot = 10;
-			item.shootSpeed = 15f;
+			Item.damage = 42;
+			Item.DamageType = DamageClass.Melee;
+            Item.CountsAsClass(DamageClass.Ranged); //TODO: Check if this works? If not, then uncomment the modifying tomfoolery
+            //Item.DamageType = DamageClass.Ranged;
+			Item.width = 140;
+			Item.height = 20;
+			Item.noMelee = true;
+			Item.useTime = 14;
+			Item.useAnimation = 14;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.knockBack = 7.5f;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item7;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.shoot = 10;
+			Item.shootSpeed = 15f;
         }
+        //TODO: see if using CountsAsClass() Simplifies this tomfoolery
         /*
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            add += (player.rangedDamage - 1f);
-            mult *= player.rangedDamageMult;
+            damage.CombineWith(player.GetDamage(DamageClass.Ranged));
+        }
+
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            crit += player.GetCritChance(DamageClass.Ranged);
         }
         */
-        public override void GetWeaponCrit(Player player, ref int crit)
-        {
-            crit += player.rangedCrit;
-            crit /= 2;
-        }
+
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];
             int dmg = list.FindIndex(x => x.Name == "Damage");
             list.RemoveAt(dmg);
-            list.Insert(dmg, new TooltipLine(mod, "Damage", player.GetWeaponDamage(item) + " melee and ranged damage"));
+            list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " melee and ranged damage"));
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -64,30 +67,30 @@ namespace JoostMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.useAmmo = AmmoID.Dart;
+                Item.useAmmo = AmmoID.Dart;
             }
             else
             {
-                item.useAmmo = AmmoID.None;
+                Item.useAmmo = AmmoID.None;
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("AscendedBambooShoot")] < 1)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("AscendedBambooShoot").Type] < 1)
             {
                 return base.CanUseItem(player);
             }
             return false;
 		}
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return false;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int mode = 0;
             if (player.altFunctionUse == 2)
             {
                 mode = 1;
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AscendedBambooShoot"), damage, knockBack, player.whoAmI, mode, type);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("AscendedBambooShoot").Type, damage, knockback, player.whoAmI, mode, type);
             return false;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
@@ -157,9 +160,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -168,13 +171,12 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType("MightyBambooShoot"));
-            recipe.AddIngredient(ItemID.SoulofMight, 15);
-            recipe.AddIngredient(ItemID.HallowedBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-            recipe.AddRecipe();
+			CreateRecipe()
+                .AddIngredient<MightyBambooShoot>()
+                .AddIngredient(ItemID.SoulofMight, 15)
+                .AddIngredient(ItemID.HallowedBar, 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 	}
 }

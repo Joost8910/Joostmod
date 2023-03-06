@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class gThrownCooldown : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Counter Dodge Cooldown");
 			Description.SetDefault("Cannot use Counter Dodge");
@@ -13,7 +13,7 @@ namespace JoostMod.Buffs
 			Main.buffNoSave[Type] = true;
             Main.persistentBuff[Type] = true;
             Main.debuff[Type] = true;
-            canBeCleared = false;
+            canBeCleared/* tModPorter Note: Removed. Use BuffID.Sets.NurseCannotRemoveDebuff instead, and invert the logic */ = false;
 		}
 		/*public override void Update(Player player, ref int buffIndex)
 		{

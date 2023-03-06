@@ -1,5 +1,4 @@
-using System;
-using Microsoft.Xna.Framework;
+//TODO: Make this cooler to compete with new Muramasa
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,29 +13,28 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 16;
-			item.melee = true;
-			item.width = 42;
-			item.height = 46;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.knockBack = 3;
-			item.value = 5400;
-			item.rare = 1;
-			item.UseSound = SoundID.Item1;
-			item.hammer = 65;
-			item.useStyle = 1;
-			item.autoReuse = true;
+			Item.damage = 16;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 42;
+			Item.height = 46;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.knockBack = 3;
+			Item.value = 5400;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item1;
+			Item.hammer = 65;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.autoReuse = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Bone, 30);
-			recipe.AddIngredient(ItemID.WaterCandle, 1);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.Bone, 30)
+				.AddIngredient(ItemID.WaterCandle, 1)
+				.AddTile(TileID.Anvils)
+				.Register();
 		}
 	}
 }

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,18 +16,18 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 54;
-            projectile.aiStyle = 2;
-            projectile.friendly = true;
-            projectile.thrown = true;
-            projectile.penetrate = -1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
-            projectile.timeLeft = 660;
-            aiType = ProjectileID.Shuriken;
+            Projectile.width = 54;
+            Projectile.height = 54;
+            Projectile.aiStyle = 2;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.penetrate = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 6;
+            Projectile.timeLeft = 660;
+            AIType = ProjectileID.Shuriken;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             height = 34;
             width = 34;
@@ -34,85 +35,85 @@ namespace JoostMod.Projectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[1] = 2;
+            Projectile.ai[1] = 2;
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.ai[1] != 2)
+            if (Projectile.ai[1] != 2)
             {
-                projectile.ai[0] = 0;
-                projectile.ai[1] = 1;
-                projectile.rotation = projectile.DirectionTo(target.Center).ToRotation();
+                Projectile.ai[0] = 0;
+                Projectile.ai[1] = 1;
+                Projectile.rotation = Projectile.DirectionTo(target.Center).ToRotation();
             }
-            projectile.velocity = target.velocity + projectile.DirectionTo(target.Center) * 0.5f;
+            Projectile.velocity = target.velocity + Projectile.DirectionTo(target.Center) * 0.5f;
             if (!target.noGravity && target.velocity.Y != 0)
             {
-                projectile.velocity.Y += 0.3f;
+                Projectile.velocity.Y += 0.3f;
             }
-            if (projectile.timeLeft > 600)
+            if (Projectile.timeLeft > 600)
             {
-                projectile.timeLeft = 600;
+                Projectile.timeLeft = 600;
             }
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.timeLeft == 660)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.timeLeft == 660)
             {
-                Main.PlaySound(SoundID.Item23, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item23, Projectile.Center);
             }
-            projectile.localAI[0]--;
-            if (projectile.localAI[0] <= 0)
+            Projectile.localAI[0]--;
+            if (Projectile.localAI[0] <= 0)
             {
-                projectile.localAI[0] = 30;
-                Main.PlaySound(SoundID.Item22, projectile.Center);
+                Projectile.localAI[0] = 30;
+                SoundEngine.PlaySound(SoundID.Item22, Projectile.Center);
             }
-            if (projectile.ai[1] == 0)
+            if (Projectile.ai[1] == 0)
             {
-                if (projectile.timeLeft <= 600)
+                if (Projectile.timeLeft <= 600)
                 {
-                    projectile.ai[1] = 1;
+                    Projectile.ai[1] = 1;
                 }
             }
-            if (projectile.ai[1] == 1)
+            if (Projectile.ai[1] == 1)
             {
-                if (projectile.ai[0] > 8 || projectile.timeLeft < 500 || projectile.Distance(player.Center) > 600)
+                if (Projectile.ai[0] > 8 || Projectile.timeLeft < 500 || Projectile.Distance(player.Center) > 600)
                 {
-                    projectile.ai[1] = 2;
+                    Projectile.ai[1] = 2;
                 }
-                projectile.ai[0]++;
-                if (projectile.timeLeft % 4 < 2)
+                Projectile.ai[0]++;
+                if (Projectile.timeLeft % 4 < 2)
                 {
-                    projectile.position += projectile.rotation.ToRotationVector2();
+                    Projectile.position += Projectile.rotation.ToRotationVector2();
                 }
                 else
                 {
-                    projectile.position -= projectile.rotation.ToRotationVector2();
+                    Projectile.position -= Projectile.rotation.ToRotationVector2();
                 }
-                projectile.aiStyle = 0;
-                aiType = 0;
+                Projectile.aiStyle = 0;
+                AIType = 0;
             }
-            if (projectile.ai[1] == 2)
+            if (Projectile.ai[1] == 2)
             {
-                projectile.aiStyle = 3;
-                aiType = 0;
-                if (projectile.timeLeft < 360)
+                Projectile.aiStyle = 3;
+                AIType = 0;
+                if (Projectile.timeLeft < 360)
                 {
-                    projectile.velocity = projectile.DirectionTo(player.Center) * ((540 - projectile.timeLeft) / 20);
+                    Projectile.velocity = Projectile.DirectionTo(player.Center) * ((540 - Projectile.timeLeft) / 20);
                 }
             }
-            if (projectile.Distance(player.Center) > 720)
+            if (Projectile.Distance(player.Center) > 720)
             {
-                projectile.position += projectile.DirectionTo(player.Center) * (projectile.Distance(player.Center) - 720);
+                Projectile.position += Projectile.DirectionTo(player.Center) * (Projectile.Distance(player.Center) - 720);
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/Cobalt_Chain");
+            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Cobalt_Chain");
 
-            Vector2 position = projectile.Center;
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Vector2 position = Projectile.Center;
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
             Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
             float num1 = (float)texture.Height;
@@ -136,7 +137,7 @@ namespace JoostMod.Projectiles
                     position += vector2_1 * num1;
                     vector2_4 = mountedCenter - position;
                     Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
-                    color2 = projectile.GetAlpha(color2);
+                    color2 = Projectile.GetAlpha(color2);
                     Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
                 }
             }

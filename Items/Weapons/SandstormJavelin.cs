@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,40 +13,32 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.thrown = true;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.reuseDelay = 8;
-            item.channel = true;
-            item.useStyle = 1;
-            item.noMelee = true;
-			item.noUseGraphic = true;
-            item.knockBack = 5;
-            item.value = 225000;
-            item.rare = 5;
-            item.UseSound = SoundID.Item7;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SandstormJavelin");
-            item.shootSpeed = 12f;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Throwing;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.reuseDelay = 8;
+            Item.channel = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+			Item.noUseGraphic = true;
+            Item.knockBack = 5;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item7;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("SandstormJavelin").Type;
+            Item.shootSpeed = 12f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DesertCore", 1);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DesertCore", 1);
-            recipe.AddIngredient(ItemID.TitaniumBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.DesertCore>()
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
@@ -12,16 +14,16 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 11;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 20;
-            projectile.extraUpdates = 4;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 11;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 20;
+            Projectile.extraUpdates = 4;
         }
         public override bool? CanCutTiles()
         {
@@ -52,7 +54,7 @@ namespace JoostMod.Projectiles
             
             for (int i = 0; i < 100; i++)
             {
-                if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
+                if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
                 {
                     Main.combatText[i].active = false;
                     break;
@@ -60,13 +62,13 @@ namespace JoostMod.Projectiles
             }
             //CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkGreen, "BLOCKED", true, false);
             
-            Main.PlaySound(3, projectile.Center, 4);
+            SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.Center);
             if (target.knockBackResist > 0)
             {
-                target.velocity.X = projectile.direction * projectile.knockBack;
+                target.velocity.X = Projectile.direction * Projectile.knockBack;
                 if (Main.netMode != 0)
                 {
-                    ModPacket packet = mod.GetPacket();
+                    ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)JoostModMessageType.NPCpos);
                     packet.Write(target.whoAmI);
                     packet.WriteVector2(target.position);
@@ -86,7 +88,7 @@ namespace JoostMod.Projectiles
             
             for (int i = 0; i < 100; i++)
             {
-                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && projectile.Distance(Main.combatText[i].position) < 250)
+                if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
                 {
                     Main.combatText[i].active = false;
                     break;
@@ -98,23 +100,23 @@ namespace JoostMod.Projectiles
             {
                 target.statLife++;
             }
-            Main.PlaySound(3, projectile.Center, 4);
-            target.velocity.X = projectile.direction * projectile.knockBack;
+            SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.Center);
+            target.velocity.X = Projectile.direction * Projectile.knockBack;
         }
         public override void AI()
 		{
-            Player player = Main.player[projectile.owner];
-            projectile.position.X = player.MountedCenter.X - projectile.width/2;
-			projectile.position.Y = player.position.Y + (player.height / 2) - projectile.height/2;
-            projectile.velocity.X = -player.direction * 8;
-            projectile.direction = -player.direction;
-			projectile.velocity.Y = 4 * player.gravDir;
-			projectile.rotation = 0;
-            projectile.position = projectile.Center.RotatedBy(player.fullRotation, player.MountedCenter) + new Vector2(-projectile.width/2, -projectile.height/2);
-            projectile.velocity = projectile.velocity.RotatedBy(player.fullRotation);
+            Player player = Main.player[Projectile.owner];
+            Projectile.position.X = player.MountedCenter.X - Projectile.width/2;
+			Projectile.position.Y = player.position.Y + (player.height / 2) - Projectile.height/2;
+            Projectile.velocity.X = -player.direction * 8;
+            Projectile.direction = -player.direction;
+			Projectile.velocity.Y = 4 * player.gravDir;
+			Projectile.rotation = 0;
+            Projectile.position = Projectile.Center.RotatedBy(player.fullRotation, player.MountedCenter) + new Vector2(-Projectile.width/2, -Projectile.height/2);
+            Projectile.velocity = Projectile.velocity.RotatedBy(player.fullRotation);
             if (player.GetModPlayer<JoostPlayer>().shieldSapling && !player.dead)
             {
-                projectile.timeLeft = 4;
+                Projectile.timeLeft = 4;
             }
             /*for (int i = 0; i < Main.projectile.Length; i++)
             {

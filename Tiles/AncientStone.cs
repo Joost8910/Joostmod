@@ -6,19 +6,19 @@ namespace JoostMod.Tiles
 {
 	public class AncientStone : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
-            drop = mod.ItemType("AncientStone");
+            ItemDrop = Mod.Find<ModItem>("AncientStone").Type;
 			AddMapEntry(new Color(56, 94, 51));
-            dustType = 46;
-            minPick = 100;
-            mineResist = 3f;
-            soundType = 21;
+            DustType = 46;
+            MinPick = 100;
+            MineResist = 3f;
+            HitSound = 21;
         }
         public override bool CanExplode(int i, int j)
         {

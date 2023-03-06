@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,25 +17,25 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 44;
-            item.thrown = true;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 3;
-            item.useAnimation = 15;
-            item.reuseDelay = 12;
-            item.useStyle = 6;
-            item.noMelee = true;
-			item.noUseGraphic = true;
-            item.knockBack = 3.5f;
-            item.value = 225000;
-            item.rare = 5;
-            item.UseSound = SoundID.Item7;
-            item.autoReuse = true;
-            item.shootSpeed = 13.5f;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.shoot = mod.ProjectileType("SandKunai");
+            Item.damage = 44;
+            Item.DamageType = DamageClass.Throwing;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 3;
+            Item.useAnimation = 15;
+            Item.reuseDelay = 12;
+            Item.useStyle = 6;
+            Item.noMelee = true;
+			Item.noUseGraphic = true;
+            Item.knockBack = 3.5f;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item7;
+            Item.autoReuse = true;
+            Item.shootSpeed = 13.5f;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.shoot = Mod.Find<ModProjectile>("SandKunai").Type;
         }
         public override bool UseItemFrame(Player player)
         {
@@ -59,33 +61,25 @@ namespace JoostMod.Items.Weapons
         {
             return player.reuseDelay > 0;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float spread = 60f * 0.0174f;
-            float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-            double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
+            float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+            double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
             double deltaAngle = spread / 18f;
-            int dir = speedX > 0 ? player.itemAnimation : 17 - player.itemAnimation;
+            int dir = velocity.X > 0 ? player.itemAnimation : 17 - player.itemAnimation;
             double offsetAngle = startAngle + deltaAngle * dir;
-            Main.PlaySound(2, player.Center, 39);
-            Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockBack, player.whoAmI);
+            SoundEngine.PlaySound(SoundID.Item39, player.Center);
+            Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockback, player.whoAmI);
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DesertCore", 1);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 999);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DesertCore", 1);
-            recipe.AddIngredient(ItemID.TitaniumBar, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 999);
-            recipe.AddRecipe();
+            CreateRecipe(999)
+                .AddIngredient<Materials.DesertCore>()
+                .AddRecipeGroup("JoostMod:AnyAdamantite")
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,34 +13,33 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 165;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 22;
-			item.height = 22;
-			item.useTime = 33;
-			item.useAnimation = 33;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 10;
-			item.value = 300;
-			item.rare = 4;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Rock");
-			item.shootSpeed = 10f;
+			Item.damage = 165;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 22;
+			Item.height = 22;
+			Item.useTime = 33;
+			Item.useAnimation = 33;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 10;
+			Item.value = 300;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Rock").Type;
+			Item.shootSpeed = 10f;
 		}
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 25);
-            recipe.AddIngredient(null, "EarthEssence");
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this, 50);
-            recipe.AddRecipe();
-        }
+		public override void AddRecipes()
+		{
+			CreateRecipe(50)
+				.AddIngredient(ItemID.StoneBlock, 25)
+				.AddIngredient<Materials.EarthEssence>()
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
+		}
 
 	}
 }

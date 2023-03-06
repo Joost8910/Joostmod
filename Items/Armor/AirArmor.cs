@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
@@ -10,34 +11,30 @@ namespace JoostMod.Items.Armor
         {
             DisplayName.SetDefault("Tornado Plate");
             Tooltip.SetDefault("Increases your max number of minions");
+            ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesHands[Item.bodySlot] = true;
         }
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 18;
-            item.value = 300000;
-            item.rare = 5;
-            item.defense = 10;
+            Item.width = 30;
+            Item.height = 18;
+            Item.value = 300000;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 10;
         }
         public override void UpdateEquip(Player player)
         {
             player.maxMinions++;
         }
-        public override void DrawHands(ref bool drawHands, ref bool drawArms)
-        {
-            drawArms = false;
-            drawHands = false;
-        }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TinyTwister", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 8);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 8);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 8);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.TinyTwister>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 8)
+                .AddRecipeGroup("JoostMod:AnyMythril", 8)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 8)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,25 +12,25 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hallowed Drill Bullet");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 0;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.aiStyle = 1;
+            AIType = ProjectileID.Bullet;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 0;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.velocity.Normalize();
-            projectile.ai[0] = 5;
+            Projectile.velocity.Normalize();
+            Projectile.ai[0] = 5;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -37,39 +38,39 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            if (projectile.timeLeft >= 300)
+            if (Projectile.timeLeft >= 300)
             {
-                projectile.penetrate = projectile.damage;
-                if (projectile.penetrate > 40)
+                Projectile.penetrate = Projectile.damage;
+                if (Projectile.penetrate > 40)
                 {
-                    projectile.penetrate = 40;
+                    Projectile.penetrate = 40;
                 }
-                projectile.knockBack = 0;
-                projectile.ai[1] = projectile.velocity.Length();
+                Projectile.knockBack = 0;
+                Projectile.ai[1] = Projectile.velocity.Length();
             }
-            projectile.ai[0]--;
-            if (projectile.ai[0] < 0)
+            Projectile.ai[0]--;
+            if (Projectile.ai[0] < 0)
             {
-                projectile.velocity.Normalize();
-                projectile.velocity *= projectile.ai[1];
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= Projectile.ai[1];
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 2)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 2)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 3;
+                Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 3;
             }
-            if (projectile.timeLeft % 20 == 0)
+            if (Projectile.timeLeft % 20 == 0)
             {
-                Main.PlaySound(2, projectile.Center, 22);
+                SoundEngine.PlaySound(SoundID.Item22, Projectile.Center);
             }
-            float x = (int)(projectile.Center.X / 16);
-            float y = (int)(projectile.Center.Y / 16);
-            if (Main.tile[(int)Math.Round(x), (int)Math.Round(y)].active())
+            float x = (int)(Projectile.Center.X / 16);
+            float y = (int)(Projectile.Center.Y / 16);
+            if (Main.tile[(int)Math.Round(x), (int)Math.Round(y)].HasTile)
             {
-                Main.PlaySound(2, projectile.Center, 23);
-                Main.player[projectile.owner].PickTile((int)Math.Round(x), (int)Math.Round(y), 200);
-                projectile.Kill();
+                SoundEngine.PlaySound(SoundID.Item23, Projectile.Center);
+                Main.player[Projectile.owner].PickTile((int)Math.Round(x), (int)Math.Round(y), 200);
+                Projectile.Kill();
             }
         }
     }

@@ -14,20 +14,20 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 46;
-			projectile.height = 46;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 300;
-			projectile.alpha = 95;
-			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.width = 46;
+			Projectile.height = 46;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 10;
+			Projectile.timeLeft = 300;
+			Projectile.alpha = 95;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 
-	public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+	public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 30;
 			height = 30;
@@ -35,33 +35,33 @@ namespace JoostMod.Projectiles
 		}
 		public override void AI()
 		{
-            projectile.rotation = projectile.timeLeft * -projectile.direction;
-			if (projectile.velocity.Y < 2.5f)
+            Projectile.rotation = Projectile.timeLeft * -Projectile.direction;
+			if (Projectile.velocity.Y < 2.5f)
 			{
-				projectile.velocity.Y += 0.1f;
+				Projectile.velocity.Y += 0.1f;
 			}
-			if (projectile.velocity.Y > 2.5f)
+			if (Projectile.velocity.Y > 2.5f)
 			{
-				projectile.velocity.Y -= 0.2f;
+				Projectile.velocity.Y -= 0.2f;
 			}
-			projectile.ai[1]++;
-			if(projectile.ai[1] >= 15)
+			Projectile.ai[1]++;
+			if(Projectile.ai[1] >= 15)
 			{
 				if(Main.rand.Next(2) == 0)
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 3f, 344, projectile.damage, 3, projectile.owner);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 3f, 0f, 344, projectile.damage, 3, projectile.owner);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -3f, 344, projectile.damage, 3, projectile.owner);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -3f, 0f, 344, projectile.damage, 3, projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 3f, 344, Projectile.damage, 3, Projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 3f, 0f, 344, Projectile.damage, 3, Projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, -3f, 344, Projectile.damage, 3, Projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -3f, 0f, 344, Projectile.damage, 3, Projectile.owner);
 				}
 				else
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 2.2f, 2.2f, 344, projectile.damage, 3, projectile.owner);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 2.2f, -2.2f, 344, projectile.damage, 3, projectile.owner);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -2.2f, -2.2f, 344, projectile.damage, 3, projectile.owner);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -2.2f, 2.2f, 344, projectile.damage, 3, projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 2.2f, 2.2f, 344, Projectile.damage, 3, Projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 2.2f, -2.2f, 344, Projectile.damage, 3, Projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -2.2f, -2.2f, 344, Projectile.damage, 3, Projectile.owner);
+					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -2.2f, 2.2f, 344, Projectile.damage, 3, Projectile.owner);
 				}
-				projectile.ai[1] -= 15;
+				Projectile.ai[1] -= 15;
 			}
 		}
 	}

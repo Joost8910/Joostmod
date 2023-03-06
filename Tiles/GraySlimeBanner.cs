@@ -8,7 +8,7 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
 {
     public class GraySlimeBanner : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -19,7 +19,7 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 111;
             TileObjectData.addTile(Type);
-            disableSmartCursor = true;
+            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Gray Slime Banner");
             AddMapEntry(new Color(123, 44, 122), name); //this defines the color and the name when you see this tile on the map
@@ -27,7 +27,7 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
  
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("GraySlimeBanner"));//this defines what to drop when this tile is destroyed
+            Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("GraySlimeBanner").Type);//this defines what to drop when this tile is destroyed
         }
  
         public override void NearbyEffects(int i, int j, bool closer)   //this make so the banner give an effect to nearby players
@@ -35,12 +35,12 @@ namespace JoostMod.Tiles     //We need this to basically indicate the folder whe
             if (closer)          //so if a player is close to the banner
             {
                 Player player = Main.LocalPlayer;
-                player.NPCBannerBuff[mod.NPCType("GraySlime")] = true;
-                player.NPCBannerBuff[mod.NPCType("GraySlime2")] = true;
-                player.NPCBannerBuff[mod.NPCType("GraySlime3")] = true;
-                player.NPCBannerBuff[mod.NPCType("GraySlime4")] = true;
-                player.NPCBannerBuff[mod.NPCType("GraySlime5")] = true;
-                player.NPCBannerBuff[mod.NPCType("GraySlime6")] = true;				
+                player.NPCBannerBuff[Mod.Find<ModNPC>("GraySlime").Type] = true;
+                player.NPCBannerBuff[Mod.Find<ModNPC>("GraySlime2").Type] = true;
+                player.NPCBannerBuff[Mod.Find<ModNPC>("GraySlime3").Type] = true;
+                player.NPCBannerBuff[Mod.Find<ModNPC>("GraySlime4").Type] = true;
+                player.NPCBannerBuff[Mod.Find<ModNPC>("GraySlime5").Type] = true;
+                player.NPCBannerBuff[Mod.Find<ModNPC>("GraySlime6").Type] = true;				
                 player.hasBanner = true;
             }
         }

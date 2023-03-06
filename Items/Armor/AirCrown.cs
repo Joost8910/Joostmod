@@ -15,22 +15,22 @@ namespace JoostMod.Items.Armor
         }
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = 225000;
-            item.rare = 5;
-            item.defense = 6;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 6;
         }
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.2f;
+            player.GetDamage(DamageClass.Summon) += 0.2f;
             player.maxMinions++;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("AirArmor") && legs.type == mod.ItemType("AirLegs");
+            return body.type == Mod.Find<ModItem>("AirArmor").Type && legs.type == Mod.Find<ModItem>("AirLegs").Type;
         }
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)/* tModPorter Note: Removed. In SetStaticDefaults, use ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true if you had drawHair set to true, and ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true if you had drawAltHair set to true */
         {
             drawAltHair = true;
         }
@@ -45,14 +45,13 @@ namespace JoostMod.Items.Armor
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TinyTwister", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.TinyTwister>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
         }
     }
 }

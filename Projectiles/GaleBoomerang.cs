@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,34 +12,34 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gale Boomerang");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 64;
-			projectile.height = 64;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 1800;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 9;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 64;
+			Projectile.height = 64;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 1800;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 9;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            projectile.rotation = 0;
-			if (projectile.timeLeft % 5 == 0)
+            Player player = Main.player[Projectile.owner];
+            Projectile.rotation = 0;
+			if (Projectile.timeLeft % 5 == 0)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
 				int num1 = Dust.NewDust(
-				projectile.position,
-				projectile.width,
-				projectile.height,
+				Projectile.position,
+				Projectile.width,
+				Projectile.height,
 				51, //Dust ID
 				Main.rand.Next(5) - 2,
 				Main.rand.Next(5) - 2,
@@ -58,61 +59,61 @@ namespace JoostMod.Projectiles
 					if(Main.item[i].active)
 					{
 						Item I = Main.item[i];
-						if(projectile.Hitbox.Intersects(I.Hitbox))
+						if(Projectile.Hitbox.Intersects(I.Hitbox))
 						{
-							I.velocity = I.DirectionTo(projectile.Center)*5;
+							I.velocity = I.DirectionTo(Projectile.Center)*5;
 							I.position += I.velocity;
 						}
 					}
 				}
-			if (projectile.timeLeft <= 1695)
+			if (Projectile.timeLeft <= 1695)
 			{
-				projectile.aiStyle = 3;
-				projectile.tileCollide = false;
+				Projectile.aiStyle = 3;
+				Projectile.tileCollide = false;
 			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 3)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 3)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 6;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 6;
 			}
             for (int n = 0; n < 200; n++)
             {
                 NPC target = Main.npc[n];
-                if (projectile.Colliding(projectile.getRect(), target.getRect()))
+                if (Projectile.Colliding(Projectile.getRect(), target.getRect()))
                 {
-                    bool tooClose = player.Distance(projectile.Center) < 80 && player.Distance(projectile.Center) < player.Distance(projectile.oldPosition + projectile.Size / 2);
+                    bool tooClose = player.Distance(Projectile.Center) < 80 && player.Distance(Projectile.Center) < player.Distance(Projectile.oldPosition + Projectile.Size / 2);
                     if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
                     {
-                        if (target.knockBackResist > 1f - projectile.knockBack / 10)
+                        if (target.knockBackResist > 1f - Projectile.knockBack / 10)
                         {
                             if (tooClose)
                             {
-                                target.velocity = new Vector2(projectile.knockBack * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                                target.velocity = new Vector2(Projectile.knockBack * (target.Center.X < player.Center.X ? -0.5f : 0.5f), Projectile.knockBack * (player.Center.Y < Projectile.Center.Y ? 1 : -1));
                             }
                             else
                             {
-                                target.velocity = projectile.velocity;
-                                target.velocity.Y -= target.noGravity || projectile.aiStyle == 3 || player.Distance(projectile.Center) < 80 ? 0 : 0.4f;
+                                target.velocity = Projectile.velocity;
+                                target.velocity.Y -= target.noGravity || Projectile.aiStyle == 3 || player.Distance(Projectile.Center) < 80 ? 0 : 0.4f;
                             }
                         }
                         else
                         {
                             if (tooClose)
                             {
-                                target.velocity = new Vector2(projectile.knockBack * target.knockBackResist * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * target.knockBackResist * projectile.velocity.Length() * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                                target.velocity = new Vector2(Projectile.knockBack * target.knockBackResist * (target.Center.X < player.Center.X ? -0.5f : 0.5f), Projectile.knockBack * target.knockBackResist * Projectile.velocity.Length() * (player.Center.Y < Projectile.Center.Y ? 1 : -1));
                             }
                             else
                             {
-                                target.velocity = projectile.velocity * target.knockBackResist;
-                                target.velocity.Y -= target.noGravity || projectile.aiStyle == 3 || player.Distance(projectile.Center) < 80 ? 0 : 0.4f * target.knockBackResist;
+                                target.velocity = Projectile.velocity * target.knockBackResist;
+                                target.velocity.Y -= target.noGravity || Projectile.aiStyle == 3 || player.Distance(Projectile.Center) < 80 ? 0 : 0.4f * target.knockBackResist;
                             }
                         }
                     }
                 }
             }
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 20;
 			height = 20;
@@ -125,11 +126,11 @@ namespace JoostMod.Projectiles
             bool tooClose = player.Distance(projectile.Center) < 80 && player.Distance(projectile.Center) < player.Distance(projectile.oldPosition + projectile.Size / 2);
             if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
             {
-                if (target.knockBackResist > 1f - projectile.knockBack / 10)
+                if (target.knockBackResist > 1f - projectile.knockback / 10)
                 {
                     if (tooClose)
                     {
-                        target.velocity = new Vector2(projectile.knockBack * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                        target.velocity = new Vector2(projectile.knockback * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockback * (player.Center.Y < projectile.Center.Y ? 1 : -1));
                     }
                     else
                     {
@@ -141,7 +142,7 @@ namespace JoostMod.Projectiles
                 {
                     if (tooClose)
                     {
-                        target.velocity = new Vector2(projectile.knockBack * target.knockBackResist * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockBack * target.knockBackResist * projectile.velocity.Length() * (player.Center.Y < projectile.Center.Y ? 1 : -1));
+                        target.velocity = new Vector2(projectile.knockback * target.knockBackResist * (target.Center.X < player.Center.X ? -0.5f : 0.5f), projectile.knockback * target.knockBackResist * projectile.velocity.Length() * (player.Center.Y < projectile.Center.Y ? 1 : -1));
                     }
                     else
                     {
@@ -154,13 +155,13 @@ namespace JoostMod.Projectiles
         */
         public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.velocity.X != oldVelocity.X)
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y;
+				Projectile.velocity.Y = -oldVelocity.Y;
 			}
 			return false;
 		}

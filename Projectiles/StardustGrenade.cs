@@ -15,26 +15,26 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.alpha = 5;
-			projectile.light = 0.5f;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 5;
+			Projectile.light = 0.5f;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
 		}
 
 		public override void AI()
 		{
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 150f)
+			Projectile.ai[0] += 1f;
+			if (Projectile.ai[0] >= 150f)
 			{
-				projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-				projectile.velocity.X = projectile.velocity.X = 0.99f;
+				Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+				Projectile.velocity.X = Projectile.velocity.X = 0.99f;
 				
 			}
 
@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles
 		{
 			for (int i = 0; i<5; i++)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-10, 11) * .15f, Main.rand.Next(-10, -5) * .05f, mod.ProjectileType("StardustGrenadeFragment"), (int)(projectile.damage * 1f), 7, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .15f, Main.rand.Next(-10, -5) * .05f, Mod.Find<ModProjectile>("StardustGrenadeFragment").Type, (int)(Projectile.damage * 1f), 7, Projectile.owner);
 			}	
 		}
 

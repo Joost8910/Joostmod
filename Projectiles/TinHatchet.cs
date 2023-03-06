@@ -15,34 +15,34 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 26;
-			projectile.height = 22;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 90;
-			aiType = ProjectileID.Shuriken;
+			Projectile.width = 26;
+			Projectile.height = 22;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 90;
+			AIType = ProjectileID.Shuriken;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.Distance(player.Center) > 550)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.Distance(player.Center) > 550)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public override void Kill(int timeLeft)
 		{
 
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("TinHatchet2"), (int)(projectile.damage * 1f), 3, projectile.owner);
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("TinHatchet2").Type, (int)(Projectile.damage * 1f), 3, Projectile.owner);
 				
-		}        public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
+		}        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/TinFlail_Chain");
+            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/TinFlail_Chain");
 
-            Vector2 position = projectile.Center;
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Vector2 position = Projectile.Center;
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Microsoft.Xna.Framework.Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
             Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
             float num1 = (float)texture.Height;
@@ -66,7 +66,7 @@ namespace JoostMod.Projectiles
                     position += vector2_1 * num1;
                     vector2_4 = mountedCenter - position;
                     Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
-                    color2 = projectile.GetAlpha(color2);
+                    color2 = Projectile.GetAlpha(color2);
                     Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
                 }
             }

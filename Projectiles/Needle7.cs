@@ -12,37 +12,37 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 400;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 400;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
 		{
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 60f)
+			Projectile.ai[0] += 1f;
+			if (Projectile.ai[0] >= 60f)
 			{
-				projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-				projectile.velocity.X = projectile.velocity.X = 0.99f;
+				Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+				Projectile.velocity.X = Projectile.velocity.X = 0.99f;
 				
 			}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.timeLeft -= 50;
-				if (projectile.velocity.X != oldVelocity.X)
+			Projectile.timeLeft -= 50;
+				if (Projectile.velocity.X != oldVelocity.X)
 				{
-					projectile.velocity.X = -oldVelocity.X;
+					Projectile.velocity.X = -oldVelocity.X;
 				}
-				if (projectile.velocity.Y != oldVelocity.Y)
+				if (Projectile.velocity.Y != oldVelocity.Y)
 				{
-					projectile.velocity.Y = -oldVelocity.Y;
+					Projectile.velocity.Y = -oldVelocity.Y;
 				}
 			
 			return false;

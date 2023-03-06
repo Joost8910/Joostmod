@@ -14,25 +14,25 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = 27;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 150;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.aiStyle = 27;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 150;
 		}
 		public override void AI()
 		{
-			if ((projectile.timeLeft % 5) == 0)
+			if ((Projectile.timeLeft % 5) == 0)
 			{
 				int num1 = Dust.NewDust(
-						projectile.position,
-						projectile.width,
-						projectile.height,
+						Projectile.position,
+						Projectile.width,
+						Projectile.height,
 						58, //Dust ID
-						projectile.velocity.X,
-						projectile.velocity.Y,
+						Projectile.velocity.X,
+						Projectile.velocity.Y,
 						100, //alpha goes from 0 to 255
 						default(Color),
 						1f

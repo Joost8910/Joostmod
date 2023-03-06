@@ -15,13 +15,13 @@ namespace JoostMod.Items.Rewards
         }
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 28;
-            item.value = 75000;
-            item.rare = 3;
-            item.accessory = true;
-            item.damage = 18;
-            item.summon = true;
+            Item.width = 34;
+            Item.height = 28;
+            Item.value = 75000;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,15 +32,15 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria")
+                if (line2.Mod == "Terraria")
                 {
                     if (line2.Name == "ItemName")
                     {
-                        line2.overrideColor = new Color(230, 204, 128);
+                        line2.OverrideColor = new Color(230, 204, 128);
                     }
-                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "knockback")
                     {
-                        line2.overrideColor = Color.DarkGray;
+                        line2.OverrideColor = Color.DarkGray;
                     }
                 }
             }

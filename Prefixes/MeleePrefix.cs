@@ -24,12 +24,12 @@ namespace JoostMod.Prefixes
             this.size = size;
             this.knockback = knockback;
 		}
-        public override bool Autoload(ref string name)
+        public override bool IsLoadingEnabled(Mod mod)
         {
-            if (base.Autoload(ref name))
+            if (base.IsLoadingEnabled(ref name))
             {
-                mod.AddPrefix("Impractically Oversized", new MeleePrefix(1.15f, 0.666f, 0, 2f, 1.3f));
-                mod.AddPrefix("Miniature", new MeleePrefix(0.8f, 1.5f, 0, 0.5f, 0.7f));
+                Mod.AddPrefix("Impractically Oversized", new MeleePrefix(1.15f, 0.666f, 0, 2f, 1.3f));
+                Mod.AddPrefix("Miniature", new MeleePrefix(0.8f, 1.5f, 0, 0.5f, 0.7f));
             }
             return false;
         }
@@ -55,7 +55,7 @@ namespace JoostMod.Prefixes
             item.reuseDelay = (int)(item.reuseDelay * (1 / speed));
             item.crit += crit;
             item.scale *= size;
-            item.knockBack *= knockback;
+            item.knockback *= knockback;
         }
 
         public override void ModifyValue(ref float valueMult)

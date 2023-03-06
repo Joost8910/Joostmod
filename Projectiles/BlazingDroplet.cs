@@ -12,15 +12,15 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 18;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 300;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
+			Projectile.width = 6;
+			Projectile.height = 18;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 300;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 6;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -32,14 +32,14 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
 		{
-			projectile.rotation = 0;
-            if (projectile.timeLeft % 10 == 0)
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, -2, 0, default, 2f).noGravity = true;
+			Projectile.rotation = 0;
+            if (Projectile.timeLeft % 10 == 0)
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, -2, 0, default, 2f).noGravity = true;
         }
         public override void Kill(int timeLeft)
         {
             for(int i = 0; i < 3; i++)
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, -10, 0, default, 2f);
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, -10, 0, default, 2f);
         }
     }
 }

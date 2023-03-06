@@ -1,4 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,29 +14,29 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 120;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 120;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.Bullet;
 		}
 		public override bool CanHitPlayer(Player target)
 		{
 			return false;
 		}
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
         public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);	
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0, projectile.velocity.Y * 0, mod.ProjectileType("UltimateIllusion2"), (int)(projectile.damage * 1f), projectile.knockBack, projectile.owner);					
+			SoundEngine.PlaySound(SoundID.Item10, Projectile.position);	
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("UltimateIllusion2").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);					
 		}
 
 	}

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,21 +14,21 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 20;
-			item.ranged = true;
-			item.width = 50;
-			item.height = 36;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 0;
-			item.value = 60000;
-			item.rare = 2;
-			item.UseSound = SoundID.Item61;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("StickyCactus");
-			item.shootSpeed = 14f;
+			Item.damage = 20;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 50;
+			Item.height = 36;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; 
+			Item.knockBack = 0;
+			Item.value = 60000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item61;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("StickyCactus").Type;
+			Item.shootSpeed = 14f;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -35,10 +36,9 @@ namespace JoostMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LusciousCactus", 10);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+				.AddIngredient<Materials.LusciousCactus>(10)
+				.Register();
         }
     }
 }

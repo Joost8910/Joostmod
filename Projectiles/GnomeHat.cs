@@ -15,24 +15,24 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.localAI[0] == 0)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.localAI[0] == 0)
             {
-                projectile.localAI[0] = projectile.velocity.Length();
+                Projectile.localAI[0] = Projectile.velocity.Length();
             }
             Vector2 move = Vector2.Zero;
             float distance = 250f;
@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                Vector2 newMove = npc.Center - projectile.Center;
+                Vector2 newMove = npc.Center - Projectile.Center;
                 float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                 move = newMove;
                 distance = distanceTo;
@@ -49,9 +49,9 @@ namespace JoostMod.Projectiles
             else for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
-                    if (npc.active && !npc.dontTakeDamage && npc.lifeMax > 5 && npc.CanBeChasedBy(this, false) && Collision.CanHit(new Vector2(projectile.Center.X, projectile.Center.Y), 1, 1, npc.position, npc.width, npc.height))
+                    if (npc.active && !npc.dontTakeDamage && npc.lifeMax > 5 && npc.CanBeChasedBy(this, false) && Collision.CanHit(new Vector2(Projectile.Center.X, Projectile.Center.Y), 1, 1, npc.position, npc.width, npc.height))
                     {
-                        Vector2 newMove = npc.Center - projectile.Center;
+                        Vector2 newMove = npc.Center - Projectile.Center;
                         float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                         if (distanceTo < distance)
                         {
@@ -63,12 +63,12 @@ namespace JoostMod.Projectiles
                 }
             if (target)
             {
-                if (move.Length() > projectile.localAI[0] && projectile.localAI[0] > 0)
+                if (move.Length() > Projectile.localAI[0] && Projectile.localAI[0] > 0)
                 {
-                    move *= projectile.localAI[0] / move.Length();
+                    move *= Projectile.localAI[0] / move.Length();
                 }
                 float home = 40f;
-                projectile.velocity = ((home - 1f) * projectile.velocity + move) / home;
+                Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
             }
         }
     }

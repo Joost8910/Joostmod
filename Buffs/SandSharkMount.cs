@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class SandSharkMount : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sand Shark");
 			Description.SetDefault("'The desert DOES have fish'");
@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("SandShark"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("SandShark").Type, player);
 			player.buffTime[buffIndex] = 10;
             player.suffocating = false;
         }

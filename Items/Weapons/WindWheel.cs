@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,36 +13,35 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 25;
-			item.summon = true;
-			item.mana = 12;
-			item.width = 54;
-			item.height = 56;
-			item.useTime = 16;
-			item.useAnimation = 16;
-			item.useStyle = 5;
-			item.knockBack = 0f;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.value = 225000;
-            item.rare = 5;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Swirlwind");
-			item.shootSpeed = 1f;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TinyTwister", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+			Item.damage = 25;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 12;
+			Item.width = 54;
+			Item.height = 56;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 0f;
+			Item.channel = true;
+			Item.noUseGraphic = true;
+			Item.value = 225000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Swirlwind").Type;
+			Item.shootSpeed = 1f;
+		}
+		public override void AddRecipes()
+		{
+			CreateRecipe()
+				.AddIngredient<Materials.TinyTwister>(50)
+				.AddRecipeGroup("JoostMod:AnyCobalt", 4)
+				.AddRecipeGroup("JoostMod:AnyMythril", 4)
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
+		}
+	}
 }
 

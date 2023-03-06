@@ -12,18 +12,18 @@ namespace JoostMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Kraken);
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			Projectile.CloneDefaults(ProjectileID.Kraken);
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
 		}
 
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Egg Sack");
-			ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20;
-			ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 300f;
+			ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 20;
+			ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 300f;
 		}
 public override void AI()
 {
@@ -31,7 +31,7 @@ public override void AI()
               if(SPIDERS > 35f) 
            {
                  
-               Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 379, (int)(projectile.damage * 0.5f), 0, projectile.owner, 0f, 0f); //Spawning a projectile
+               Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, 379, (int)(Projectile.damage * 0.5f), 0, Projectile.owner, 0f, 0f); //Spawning a projectile
 
            }
 }

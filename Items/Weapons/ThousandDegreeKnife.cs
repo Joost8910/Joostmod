@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,27 +13,26 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 200;
-			item.melee = true;
-			item.width = 20;
-			item.height = 18;
-			item.useTime = 5;
-			item.useAnimation = 5;
-			item.useStyle = 1;
-			item.knockBack = 1;
-			item.value = 500000;
-			item.rare = 10;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
+			Item.damage = 200;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 20;
+			Item.height = 18;
+			Item.useTime = 5;
+			Item.useAnimation = 5;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 1;
+			Item.value = 500000;
+			Item.rare = ItemRarityID.Red;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LunarBar, 8); 
-			recipe.AddIngredient(null, "FireEssence", 30);
-			recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.LunarBar, 8)
+				.AddIngredient<Materials.FireEssence>(30)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 	}
 }

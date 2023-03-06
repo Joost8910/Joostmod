@@ -12,33 +12,33 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			projectile.alpha = 5;
-			projectile.arrow = true;
-			aiType = ProjectileID.WoodenArrowFriendly;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			Projectile.alpha = 5;
+			Projectile.arrow = true;
+			AIType = ProjectileID.WoodenArrowFriendly;
 		}
 		public override void AI()
 		{
-			projectile.velocity.Y += 0.3f;
-			projectile.velocity.X *= 0.99f;
+			Projectile.velocity.Y += 0.3f;
+			Projectile.velocity.X *= 0.99f;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.timeLeft -= 100;
-			if (projectile.velocity.X != oldVelocity.X)
+			Projectile.timeLeft -= 100;
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y;
+				Projectile.velocity.Y = -oldVelocity.Y;
 			}
 
 			return false;

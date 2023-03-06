@@ -8,23 +8,22 @@ namespace JoostMod.Items.Armor
 	[AutoloadEquip(EquipType.Legs)]
 	public class LunarCactusLeggings : ModItem
 	{
-public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lunar Cactus Leggings");
 			Tooltip.SetDefault("Allows the wearer to run super fast");
+			ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
+
 		}
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = 100000;
-			item.rare = 9;
-			item.defense = 20;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = 100000;
+			Item.rare = ItemRarityID.Cyan;
+			Item.defense = 20;
 		}
-		public override bool DrawLegs()
-		{
-			return false;
-		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.moveSpeed *= 1.50f;
@@ -34,12 +33,11 @@ public override void SetStaticDefaults()
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Cactus, 30);
-			recipe.AddIngredient(ItemID.LunarBar, 10);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.Cactus, 30)
+				.AddIngredient(ItemID.LunarBar, 10)
+				.AddTile(TileID.LunarCraftingStation)
+				.Register();
 		}
 	}
 }

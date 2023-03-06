@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,27 +14,27 @@ namespace JoostMod.Projectiles
         }
 		public override void SetDefaults()
 		{
-			projectile.width = 102;
-			projectile.height = 102;
-			projectile.aiStyle = 2;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			aiType = ProjectileID.Shuriken;
+			Projectile.width = 102;
+			Projectile.height = 102;
+			Projectile.aiStyle = 2;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			AIType = ProjectileID.Shuriken;
         }
         public override void AI()
         {
-            projectile.damage = 1;
+            Projectile.damage = 1;
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, projectile.Center, 4);
-            Item.NewItem(projectile.Center, mod.ItemType("BrokenExcalipoor"));
-            Vector2 dir = projectile.velocity * 0.5f;
+            SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.Center);
+            Item.NewItem(Projectile.Center, Mod.Find<ModItem>("BrokenExcalipoor").Type);
+            Vector2 dir = Projectile.velocity * 0.5f;
             dir.Y *= -1;
-            Gore.NewGore(projectile.position, dir, mod.GetGoreSlot("Gores/Excalipoor1"), 1f);
+            Gore.NewGore(Projectile.position, dir, Mod.GetGoreSlot("Gores/Excalipoor1"), 1f);
             dir.X *= -1;
-            Gore.NewGore(projectile.position, dir, mod.GetGoreSlot("Gores/Excalipoor2"), 1f);
+            Gore.NewGore(Projectile.position, dir, Mod.GetGoreSlot("Gores/Excalipoor2"), 1f);
         }
     }
 }

@@ -6,18 +6,18 @@ namespace JoostMod.Tiles
 {
 	public class AncientMossyStone : ModTile
 	{
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileMoss[Type] = true;
-            drop = mod.ItemType("AncientStone");
+            ItemDrop = Mod.Find<ModItem>("AncientStone").Type;
             AddMapEntry(new Color(18, 104, 60));
-            dustType = 93;
-            minPick = 100;
-            mineResist = 2f;
+            DustType = 93;
+            MinPick = 100;
+            MineResist = 2f;
         }
         public override bool CanExplode(int i, int j)
         {
@@ -28,7 +28,7 @@ namespace JoostMod.Tiles
             if (fail)
             {
                 noItem = true;
-                Main.tile[i, j].type = (ushort)mod.TileType("AncientStone");
+                Main.tile[i, j].TileType = (ushort)Mod.Find<ModTile>("AncientStone").Type;
                 WorldGen.SquareTileFrame(i, j, true);
                 if (Main.netMode == 1)
                 {

@@ -22,61 +22,58 @@ namespace JoostMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.melee = true;
-            item.width = 64;
-            item.height = 62;
-            item.useTime = 40;
-            item.useAnimation = 40;
-            item.useStyle = 5;
-            item.knockBack = 7;
-            item.rare = 9;
-            item.UseSound = SoundID.Item7;
-            item.autoReuse = true;
-            item.value = 300000;
-            item.shootSpeed = 1f;
-            item.shoot = mod.ProjectileType("GrognakHammer");
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = ModContent.GetTexture("JoostMod/Items/Weapons/GrognakHammerGem");
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 64;
+            Item.height = 62;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 7;
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item7;
+            Item.autoReuse = true;
+            Item.value = 300000;
+            Item.shootSpeed = 1f;
+            Item.shoot = Mod.Find<ModProjectile>("GrognakHammer").Type;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/GrognakHammerGem");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldHammer);
-            recipe.AddIngredient(null, "EvilStone");
-            recipe.AddIngredient(null, "SkullStone");
-            recipe.AddIngredient(null, "JungleStone");
-            recipe.AddIngredient(null, "InfernoStone");
-            recipe.AddTile(null, "ShrineOfLegends");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PlatinumHammer);
-            recipe.AddIngredient(null, "EvilStone");
-            recipe.AddIngredient(null, "SkullStone");
-            recipe.AddIngredient(null, "JungleStone");
-            recipe.AddIngredient(null, "InfernoStone");
-            recipe.AddTile(null, "ShrineOfLegends");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.GoldHammer)
+                .AddIngredient<Placeable.EvilStone>()
+                .AddIngredient<Placeable.SkullStone>()
+                .AddIngredient<Placeable.JungleStone>()
+                .AddIngredient<Placeable.InfernoStone>()
+                .AddTile<Tiles.ShrineOfLegends>()
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.PlatinumHammer)
+                .AddIngredient<Placeable.EvilStone>()
+                .AddIngredient<Placeable.SkullStone>()
+                .AddIngredient<Placeable.JungleStone>()
+                .AddIngredient<Placeable.InfernoStone>()
+                .AddTile<Tiles.ShrineOfLegends>()
+                .Register();
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
+                    line2.OverrideColor = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.75f)));
                 }
             }
         }
@@ -88,7 +85,7 @@ namespace JoostMod.Items.Weapons
         {
             player.GetModPlayer<JoostPlayer>().legendOwn = true;
         }
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             mult *= JoostGlobalItem.LegendaryDamage() * 0.18f;
         }
@@ -100,11 +97,11 @@ namespace JoostMod.Items.Weapons
         {
             if (player.altFunctionUse != 0)
             {
-                item.useStyle = 1;
+                Item.useStyle = ItemUseStyleID.Swing;
             }
             else
             {
-                item.useStyle = 5;
+                Item.useStyle = ItemUseStyleID.Shoot;
             }
             return base.CanUseItem(player);
         }

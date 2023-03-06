@@ -10,18 +10,18 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Imp Lord's Fire");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[Projectile.type] = 3;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 450;
-			projectile.tileCollide = false;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 450;
+			Projectile.tileCollide = false;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
@@ -32,13 +32,13 @@ namespace JoostMod.Projectiles
 		}
         public override void AI()
         {
-            projectile.frameCounter++;
-			if (projectile.frameCounter >= 4)
+            Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 4)
 			{
-				projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 3;
+				Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 3;
             }
-            Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Fire, -projectile.velocity.X / 5, -projectile.velocity.Y / 5, 100, default(Color), 1f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, -Projectile.velocity.X / 5, -Projectile.velocity.Y / 5, 100, default(Color), 1f + (Main.rand.Next(20) * 0.1f)).noGravity = true;
         }
     }
 }

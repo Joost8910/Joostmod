@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class HarpyMinion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Miniature Harpy");
 			Description.SetDefault("The Harpy will fight with you");
@@ -16,8 +16,8 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(mod, "JoostPlayer");
-			if (player.ownedProjectileCounts[mod.ProjectileType("HarpyMinion")] > 0)
+			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("HarpyMinion").Type] > 0)
 			{
 				modPlayer.HarpyMinion = true;
 			}

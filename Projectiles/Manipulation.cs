@@ -10,18 +10,18 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tome of Manipulation");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            projectile.width = 1;
-            projectile.height = 1;
-            projectile.aiStyle = 0;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 4;
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.aiStyle = 0;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 4;
         }
         public override bool CanHitPvp(Player target)
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return target.friendly && Main.myPlayer == projectile.owner && Main.mouseRight && target.type != mod.NPCType("FireBall");
+            return target.friendly && Main.myPlayer == Projectile.owner && Main.mouseRight && target.type != Mod.Find<ModNPC>("FireBall").Type;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -42,24 +42,24 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            int enpc = (int)projectile.ai[0] - 1;
-            Player player = Main.player[projectile.owner];
-            if (Main.myPlayer == projectile.owner)
+            int enpc = (int)Projectile.ai[0] - 1;
+            Player player = Main.player[Projectile.owner];
+            if (Main.myPlayer == Projectile.owner)
             {
-                projectile.position = Main.MouseWorld;
-                projectile.netUpdate = true;
+                Projectile.position = Main.MouseWorld;
+                Projectile.netUpdate = true;
             }
             if (enpc >= 0)
             {
                 NPC target = Main.npc[enpc];
-                if (target.friendly && target.active && target.type != mod.NPCType("FireBall"))
+                if (target.friendly && target.active && target.type != Mod.Find<ModNPC>("FireBall").Type)
                 {
-                    target.position = projectile.position - new Vector2(target.width / 2, target.height / 2);
+                    target.position = Projectile.position - new Vector2(target.width / 2, target.height / 2);
                     target.netUpdate = true;
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             else
@@ -67,10 +67,10 @@ namespace JoostMod.Projectiles
                 for (int i = 0; i < 200; i++)
                 {
                     NPC target = Main.npc[i];
-                    if (target.friendly && target.active && projectile.Hitbox.Intersects(target.Hitbox) && target.type != mod.NPCType("FireBall"))
+                    if (target.friendly && target.active && Projectile.Hitbox.Intersects(target.Hitbox) && target.type != Mod.Find<ModNPC>("FireBall").Type)
                     {
                         enpc = i;
-                        projectile.ai[0] = i + 1;
+                        Projectile.ai[0] = i + 1;
                     }
                 }
             }
@@ -80,10 +80,10 @@ namespace JoostMod.Projectiles
                 if (enpc >= 0)
                 {
                     NPC target = Main.npc[enpc];
-                    if (target.friendly && target.active && target.type != mod.NPCType("FireBall"))
+                    if (target.friendly && target.active && target.type != Mod.Find<ModNPC>("FireBall").Type)
                     {
-                        Vector2 vel = projectile.position - projectile.oldPosition;
-                        if (projectile.Distance(projectile.oldPosition) > 25)
+                        Vector2 vel = Projectile.position - Projectile.oldPosition;
+                        if (Projectile.Distance(Projectile.oldPosition) > 25)
                         {
                             vel.Normalize();
                             target.velocity = vel * 25;
@@ -96,7 +96,7 @@ namespace JoostMod.Projectiles
                         }
                     }
                 }
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

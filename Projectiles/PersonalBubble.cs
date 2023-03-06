@@ -11,19 +11,19 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 56;
-			projectile.height = 56;
-			projectile.aiStyle = 0;
-            projectile.friendly = true;
-			projectile.magic = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 4;
-			projectile.alpha = 50;
-			projectile.extraUpdates = 1;
-            drawHeldProjInFrontOfHeldItemAndArms = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
+			Projectile.width = 56;
+			Projectile.height = 56;
+			Projectile.aiStyle = 0;
+            Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 4;
+			Projectile.alpha = 50;
+			Projectile.extraUpdates = 1;
+            DrawHeldProjInFrontOfHeldItemAndArms = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
 		}
         public override bool? CanCutTiles()
         {
@@ -52,21 +52,21 @@ namespace JoostMod.Projectiles
         */
         public override void AI()
 		{
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (player.active && !player.dead && player.GetModPlayer<JoostPlayer>().waterBubble && !player.GetModPlayer<JoostPlayer>().hideBubble)
             {
-                projectile.position.X = player.MountedCenter.X - projectile.width / 2;
-                projectile.position.Y = player.MountedCenter.Y - projectile.height / 2;
-                projectile.velocity.Y = 0;
-                projectile.rotation = 0;
-                player.heldProj = projectile.whoAmI;
-                projectile.timeLeft = 2;
+                Projectile.position.X = player.MountedCenter.X - Projectile.width / 2;
+                Projectile.position.Y = player.MountedCenter.Y - Projectile.height / 2;
+                Projectile.velocity.Y = 0;
+                Projectile.rotation = 0;
+                player.heldProj = Projectile.whoAmI;
+                Projectile.timeLeft = 2;
                 for (int i = 0; i < 255; i++)
                 {
                     if (Main.netMode != 0)
                     {
                         Player o = Main.player[i];
-                        if (o != player && projectile.Hitbox.Intersects(o.Hitbox))
+                        if (o != player && Projectile.Hitbox.Intersects(o.Hitbox))
                         {
                             o.wet = true;
                             if (o.wetCount != 0)
@@ -78,23 +78,23 @@ namespace JoostMod.Projectiles
                     if (i < 200)
                     {
                         NPC target = Main.npc[i];
-                        if (target.active && !target.friendly && projectile.Hitbox.Intersects(target.Hitbox))
+                        if (target.active && !target.friendly && Projectile.Hitbox.Intersects(target.Hitbox))
                         {
                             int dir = 0;
-                            if (target.Center.X > projectile.Center.X)
+                            if (target.Center.X > Projectile.Center.X)
                             {
                                 dir = 1;
                             }
-                            if (target.Center.X < projectile.Center.X)
+                            if (target.Center.X < Projectile.Center.X)
                             {
                                 dir = -1;
                             }
                             int dirY = 0;
-                            if (target.Center.Y > projectile.Center.Y)
+                            if (target.Center.Y > Projectile.Center.Y)
                             {
                                 dirY = 1;
                             }
-                            if (target.Center.Y < projectile.Center.Y)
+                            if (target.Center.Y < Projectile.Center.Y)
                             {
                                 dirY = -1;
                             }

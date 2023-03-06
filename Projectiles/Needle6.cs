@@ -11,15 +11,15 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 1;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 1;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
 		}
 
 	}

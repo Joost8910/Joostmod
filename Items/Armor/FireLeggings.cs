@@ -14,11 +14,11 @@ namespace JoostMod.Items.Armor
         }
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = 250000;
-            item.rare = 5;
-            item.defense = 12;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = 250000;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 12;
         }
         public override void UpdateEquip(Player player)
         {
@@ -26,14 +26,13 @@ namespace JoostMod.Items.Armor
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FireEssence", 50);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 6);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 6);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 6);
-            recipe.AddTile(null, "ElementalForge");
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.FireEssence>(50)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 6)
+                .AddRecipeGroup("JoostMod:AnyMythril", 6)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 6)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
         }
     }
 }

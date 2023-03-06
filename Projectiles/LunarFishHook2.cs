@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +12,7 @@ namespace JoostMod.Projectiles
 	{
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.BobberGolden);
+			Projectile.CloneDefaults(ProjectileID.BobberGolden);
 			
 		}
 
@@ -20,22 +21,22 @@ namespace JoostMod.Projectiles
 			DisplayName.SetDefault("Lunar Fish Hook");
 		}
 
-public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws the fishing line correctly
+public override bool PreDrawExtras()      //this draws the fishing line correctly
         {
-            Lighting.AddLight(projectile.Center, 0.13f, 0.86f, 0.59f);  //this defines the projectile/bobber light color
-            Player player = Main.player[projectile.owner];
-            if (projectile.bobber && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].holdStyle > 0)
+            Lighting.AddLight(Projectile.Center, 0.13f, 0.86f, 0.59f);  //this defines the projectile/bobber light color
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.bobber && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
-                pPosY += Main.player[projectile.owner].gfxOffY;
-                int type = Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type;
-                float gravDir = Main.player[projectile.owner].gravDir;
+                pPosY += Main.player[Projectile.owner].gfxOffY;
+                int type = Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].type;
+                float gravDir = Main.player[Projectile.owner].gravDir;
  
-                if (type == mod.ItemType("LunarRod")) //add your Fishing Pole name here
+                if (type == Mod.Find<ModItem>("LunarRod").Type) //add your Fishing Pole name here
                 {
-                    pPosX += (float)(50 * Main.player[projectile.owner].direction);
-                    if (Main.player[projectile.owner].direction < 0)
+                    pPosX += (float)(50 * Main.player[Projectile.owner].direction);
+                    if (Main.player[Projectile.owner].direction < 0)
                     {
                        pPosX -= 13f;
                     }
@@ -47,9 +48,9 @@ public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws th
                     pPosY -= 12f;
                 }
                 Vector2 value = new Vector2(pPosX, pPosY);
-                value = Main.player[projectile.owner].RotatedRelativePoint(value + new Vector2(8f), true) - new Vector2(8f);
-                float projPosX = projectile.position.X + (float)projectile.width * 0.5f - value.X;
-                float projPosY = projectile.position.Y + (float)projectile.height * 0.5f - value.Y;
+                value = Main.player[Projectile.owner].RotatedRelativePoint(value + new Vector2(8f), true) - new Vector2(8f);
+                float projPosX = Projectile.position.X + (float)Projectile.width * 0.5f - value.X;
+                float projPosY = Projectile.position.Y + (float)Projectile.height * 0.5f - value.Y;
                 Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
                 float rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                 bool flag2 = true;
@@ -65,8 +66,8 @@ public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws th
                     projPosY *= projPosXY;
                     value.X -= projPosX;
                     value.Y -= projPosY;
-                    projPosX = projectile.position.X + (float)projectile.width * 0.5f - value.X;
-                    projPosY = projectile.position.Y + (float)projectile.height * 0.5f - value.Y;
+                    projPosX = Projectile.position.X + (float)Projectile.width * 0.5f - value.X;
+                    projPosY = Projectile.position.Y + (float)Projectile.height * 0.5f - value.Y;
                 }
                 while (flag2)
                 {
@@ -89,12 +90,12 @@ public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws th
                         projPosY *= num2;
                         value.X += projPosX;
                         value.Y += projPosY;
-                        projPosX = projectile.position.X + (float)projectile.width * 0.5f - value.X;
-                        projPosY = projectile.position.Y + (float)projectile.height * 0.1f - value.Y;
+                        projPosX = Projectile.position.X + (float)Projectile.width * 0.5f - value.X;
+                        projPosY = Projectile.position.Y + (float)Projectile.height * 0.1f - value.Y;
                         if (num3 > 12f)
                         {
                             float num4 = 0.3f;
-                            float num5 = Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y);
+                            float num5 = Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y);
                             if (num5 > 16f)
                             {
                                 num5 = 16f;
@@ -111,7 +112,7 @@ public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws th
                             {
                                 num4 = 0f;
                             }
-                            num5 = 1f - projectile.localAI[0] / 100f;
+                            num5 = 1f - Projectile.localAI[0] / 100f;
                             num4 *= num5;
                             if (projPosY > 0f)
                             {
@@ -120,7 +121,7 @@ public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws th
                             }
                             else
                             {
-                                num5 = Math.Abs(projectile.velocity.X) / 3f;
+                                num5 = Math.Abs(Projectile.velocity.X) / 3f;
                                 if (num5 > 1f)
                                 {
                                     num5 = 1f;
@@ -138,7 +139,7 @@ public override bool PreDrawExtras(SpriteBatch spriteBatch)      //this draws th
                         rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                         Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Microsoft.Xna.Framework.Color(34, 221, 151, 100));
  
-                        Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(value.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.fishingLineTexture.Width, (int)num)), color2, rotation2, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(TextureAssets.FishingLine.Value, new Vector2(value.X - Main.screenPosition.X + (float)TextureAssets.FishingLine.Value.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)TextureAssets.FishingLine.Value.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.FishingLine.Value.Width, (int)num)), color2, rotation2, new Vector2((float)TextureAssets.FishingLine.Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
                     }
                 }
             }

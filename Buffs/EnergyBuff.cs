@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class EnergyBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Enhanced Energy");
 			Description.SetDefault("Damage and Movement Speed increased by 10%");
@@ -14,7 +14,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-            player.allDamageMult += 0.1f;
+            player.GetDamage(DamageClass.Generic) += 0.1f;
             player.moveSpeed += 0.1f;
             player.accRunSpeed *= 1.1f;
             player.maxRunSpeed *= 1.1f;

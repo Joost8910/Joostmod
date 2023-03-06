@@ -16,45 +16,44 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 30;
-			item.ranged = true;
-			item.width = 64;
-			item.height = 64;
-			item.useTime = 18;
-			item.useAnimation = 18;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 1;
-			item.value = 225000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item11;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Napalm");
-			item.shootSpeed = 8f;
-			item.useAmmo = mod.ItemType("Napalm");
+			Item.damage = 30;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 64;
+			Item.height = 64;
+			Item.useTime = 18;
+			Item.useAnimation = 18;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; 
+			Item.knockBack = 1;
+			Item.value = 225000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item11;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Napalm").Type;
+			Item.shootSpeed = 8f;
+			Item.useAmmo = Mod.Find<ModItem>("Napalm").Type;
 		}
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-8, 0);
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
 		{
 			return Main.rand.NextFloat() > .25f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "FireEssence", 50);
-			recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-			recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-			recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-			recipe.AddTile(null, "ElementalForge"); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.FireEssence>(50)
+				.AddRecipeGroup("JoostMod:AnyCobalt", 4)
+				.AddRecipeGroup("JoostMod:AnyMythril", 4)
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            mult *= player.rocketDamage;
+            damage.CombineWith(player.rocketDamage);
         }
     }
 }

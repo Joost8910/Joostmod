@@ -16,66 +16,66 @@ namespace JoostMod.NPCs.Hunts
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pinkzor");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 50;
-			npc.height = 40;
-			npc.damage = 18;
-			npc.defense = 4;
-			npc.lifeMax = 500;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.value = 0f;
-			npc.knockBackResist = 0.1f;
-			npc.aiStyle = 1;
-			aiType = NPCID.BlueSlime;
-			animationType = NPCID.BlueSlime;
-			npc.buffImmune[20] = true;
-            npc.netAlways = true;
+			NPC.width = 50;
+			NPC.height = 40;
+			NPC.damage = 18;
+			NPC.defense = 4;
+			NPC.lifeMax = 500;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.value = 0f;
+			NPC.knockBackResist = 0.1f;
+			NPC.aiStyle = 1;
+			AIType = NPCID.BlueSlime;
+			AnimationType = NPCID.BlueSlime;
+			NPC.buffImmune[20] = true;
+            NPC.netAlways = true;
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale + 1);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return !spawnInfo.sky && !spawnInfo.playerInTown && Math.Abs(spawnInfo.spawnTileX - Main.spawnTileX) > 500 && spawnInfo.spawnTileY < Main.maxTilesY - 450 && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(npc.type) && !NPC.AnyNPCs(mod.NPCType("Hunt Master")) ? 0.006f : 0f;
+			return !spawnInfo.Sky && !spawnInfo.PlayerInTown && Math.Abs(spawnInfo.SpawnTileX - Main.spawnTileX) > 500 && spawnInfo.SpawnTileY < Main.maxTilesY - 450 && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Hunt Master").Type) ? 0.006f : 0f;
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			JoostWorld.downedPinkzor = true;
-            npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Pinkzor"), 1, false);
+            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("Pinkzor").Type, 1, false);
             if (Main.expertMode && Main.rand.Next(100) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EvilStone"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
             }
         }
 		int chance = 1;
         bool regen = false;
 		public override void AI()
 		{
-			Player P = Main.player[npc.target];
-            npc.netUpdate = true;
-            if (Vector2.Distance(npc.Center, P.Center) > 1500 || npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			Player P = Main.player[NPC.target];
+            NPC.netUpdate = true;
+            if (Vector2.Distance(NPC.Center, P.Center) > 1500 || NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
 			{
-				npc.TargetClosest(true);
-                P = Main.player[npc.target];
-                if (!P.active || P.dead || Vector2.Distance(npc.Center, P.Center) > 1500)
+				NPC.TargetClosest(true);
+                P = Main.player[NPC.target];
+                if (!P.active || P.dead || Vector2.Distance(NPC.Center, P.Center) > 1500)
                 {
                     regen = true;
                 }
             }
             if (!regen)
             {
-                npc.life = npc.life < npc.lifeMax ? npc.life + 1 + (int)((float)npc.lifeMax * 0.001f) : npc.lifeMax;
-                if (Collision.CanHitLine(new Vector2(npc.Center.X, npc.Center.Y), 1, 1, new Vector2(P.Center.X, P.Center.Y), 1, 1) || Vector2.Distance(npc.Center, P.Center) < 400)
+                NPC.life = NPC.life < NPC.lifeMax ? NPC.life + 1 + (int)((float)NPC.lifeMax * 0.001f) : NPC.lifeMax;
+                if (Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y), 1, 1, new Vector2(P.Center.X, P.Center.Y), 1, 1) || Vector2.Distance(NPC.Center, P.Center) < 400)
                 {
                     regen = true;
                 }
             }
-            if (npc.velocity.Y == 0)
+            if (NPC.velocity.Y == 0)
 			{
 				if (chance != 0)
 				{
@@ -83,10 +83,10 @@ namespace JoostMod.NPCs.Hunts
 				}
 				else
 				{
-					if (Collision.CanHitLine(new Vector2(npc.Center.X, npc.Center.Y), 1, 1, new Vector2(P.Center.X, P.Center.Y), 1, 1))
+					if (Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y), 1, 1, new Vector2(P.Center.X, P.Center.Y), 1, 1))
 					{
-						npc.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs((P.position.Y-100) - npc.Center.Y));
-						npc.velocity.X = (P.Center.X+P.velocity.X - npc.Center.X) / 90;
+						NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs((P.position.Y-100) - NPC.Center.Y));
+						NPC.velocity.X = (P.Center.X+P.velocity.X - NPC.Center.X) / 90;
 						chance = 1;
 					}
 				}
@@ -96,10 +96,10 @@ public override bool CheckDead()
         {
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Hunt Master"));
-                NPC.NewNPC((int)npc.Center.X + 28, (int)npc.Center.Y - 2, NPCID.Pinky);
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 2, NPCID.Pinky);
-                NPC.NewNPC((int)npc.Center.X - 28, (int)npc.Center.Y - 2, NPCID.Pinky);
+                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("Hunt Master").Type);
+                NPC.NewNPC((int)NPC.Center.X + 28, (int)NPC.Center.Y - 2, NPCID.Pinky);
+                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 2, NPCID.Pinky);
+                NPC.NewNPC((int)NPC.Center.X - 28, (int)NPC.Center.Y - 2, NPCID.Pinky);
             }
             return true;
         }

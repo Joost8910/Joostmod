@@ -15,51 +15,51 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 58;
-			projectile.height = 58;
-			projectile.scale = 1f;
-			projectile.aiStyle = 19;
-			projectile.timeLeft = 20;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.ownerHitCheck = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 7;
-			projectile.hide = true;
+			Projectile.width = 58;
+			Projectile.height = 58;
+			Projectile.scale = 1f;
+			Projectile.aiStyle = 19;
+			Projectile.timeLeft = 20;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.ownerHitCheck = true;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 7;
+			Projectile.hide = true;
 		}
 		
 		public override void AI()
 		{
-			Main.player[projectile.owner].direction = projectile.direction;
-			Main.player[projectile.owner].heldProj = projectile.whoAmI;
-			Main.player[projectile.owner].itemTime = Main.player[projectile.owner].itemAnimation;
-			projectile.position.X = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - (float)(projectile.width / 2);
-			projectile.position.Y = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - (float)(projectile.height / 2);
-			projectile.position += projectile.velocity * projectile.ai[0];
-            if (projectile.ai[0] == 0f)
+			Main.player[Projectile.owner].direction = Projectile.direction;
+			Main.player[Projectile.owner].heldProj = Projectile.whoAmI;
+			Main.player[Projectile.owner].itemTime = Main.player[Projectile.owner].itemAnimation;
+			Projectile.position.X = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - (float)(Projectile.width / 2);
+			Projectile.position.Y = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - (float)(Projectile.height / 2);
+			Projectile.position += Projectile.velocity * Projectile.ai[0];
+            if (Projectile.ai[0] == 0f)
 			{
-				projectile.ai[0] = 1f;
-				projectile.netUpdate = true;
+				Projectile.ai[0] = 1f;
+				Projectile.netUpdate = true;
 			}
-			if (projectile.timeLeft < 10)
+			if (Projectile.timeLeft < 10)
 			{
-				projectile.ai[0] -= 1.9f;
+				Projectile.ai[0] -= 1.9f;
 			}
 			else
 			{
-				projectile.ai[0] += 1.9f;
+				Projectile.ai[0] += 1.9f;
 			}
-			if (Main.player[projectile.owner].itemAnimation == 0)
+			if (Main.player[Projectile.owner].itemAnimation == 0)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 			}
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-			if (projectile.spriteDirection == -1)
+			Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
+			if (Projectile.spriteDirection == -1)
 			{
-				projectile.rotation -= 1.57f;
+				Projectile.rotation -= 1.57f;
 			}
 		}
 	}

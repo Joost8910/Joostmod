@@ -14,24 +14,24 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 30;
-			item.thrown = true;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.width = 20;
-			item.height = 20;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.useStyle = 1;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.knockBack = 0;
-			item.value = 150;
-			item.rare = 0;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Spikyballclump");
-			item.shootSpeed = 11f;
+			Item.damage = 30;
+			Item.DamageType = DamageClass.Throwing;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.knockBack = 0;
+			Item.value = 150;
+			Item.rare = ItemRarityID.White;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("Spikyballclump").Type;
+			Item.shootSpeed = 11f;
 		}
 
 

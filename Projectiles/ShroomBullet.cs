@@ -12,24 +12,24 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 399;
-            projectile.alpha = 5;
-            projectile.extraUpdates = 1;
-            projectile.scale = 1.5f;
-            aiType = ProjectileID.Bullet;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 399;
+            Projectile.alpha = 5;
+            Projectile.extraUpdates = 1;
+            Projectile.scale = 1.5f;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft % 10 == 0)
+            if (Projectile.timeLeft % 10 == 0)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, 131, (int)(projectile.damage * 0.5f), 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, 131, (int)(Projectile.damage * 0.5f), 0, Projectile.owner);
             }
         }
 

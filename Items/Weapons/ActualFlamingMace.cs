@@ -17,33 +17,31 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 30;
-			item.melee = true;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.width = 46;
-			item.height = 46;
-			item.useTime = 33;
-			item.useAnimation = 33;
-			item.useStyle = 1;
-			item.knockBack = 6.4f;
-			item.value = 20000;
-			item.rare = 1;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = false;
-			item.channel = true;
-            item.useTurn = false;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ActualFlamingMace");
-			item.shootSpeed = 1f;
+			Item.damage = 30;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.width = 46;
+			Item.height = 46;
+			Item.useTime = 33;
+			Item.useAnimation = 33;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 6.4f;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item7;
+			Item.channel = true;
+            Item.useTurn = false;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("ActualFlamingMace").Type;
+			Item.shootSpeed = 1f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ActualMace"));
-            recipe.AddIngredient(ItemID.Torch, 99);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<ActualMace>()
+                .AddIngredient(ItemID.Torch, 99)
+                .Register();
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -82,9 +80,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }

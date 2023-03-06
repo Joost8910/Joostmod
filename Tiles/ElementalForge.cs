@@ -12,7 +12,7 @@ namespace JoostMod.Tiles
 {
 	public class ElementalForge : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -25,9 +25,9 @@ namespace JoostMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elemental Forge");
 			AddMapEntry(new Color(192, 189, 221), name);
-			dustType = 146;
-			disableSmartCursor = true;
-			adjTiles = new int[]{ TileID.MythrilAnvil, TileID.Anvils, TileID.AdamantiteForge, TileID.Hellforge, TileID.Furnaces };
+			DustType = 146;
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+			AdjTiles = new int[]{ TileID.MythrilAnvil, TileID.Anvils, TileID.AdamantiteForge, TileID.Hellforge, TileID.Furnaces };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -37,7 +37,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("ElementalForge"));
+			Item.NewItem(i * 16, j * 16, 48, 32, Mod.Find<ModItem>("ElementalForge").Type);
 		}
 	}
 }

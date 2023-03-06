@@ -12,21 +12,21 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
         {
-            projectile.rotation = projectile.timeLeft * -projectile.direction * 0.0174f * 20f;
+            Projectile.rotation = Projectile.timeLeft * -Projectile.direction * 0.0174f * 20f;
             if (Main.rand.Next(8) == 0)
 			{	
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 0);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 0);
 			}
 		}
 	}

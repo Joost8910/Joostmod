@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,90 +19,94 @@ namespace JoostMod.NPCs.Town
 		}
 
 
-		public override bool Autoload(ref string name)
+		public override bool IsLoadingEnabled(Mod mod)
 		{
 			name = "Hunt Master";
-			return mod.Properties.Autoload;
+			return Mod.Properties/* tModPorter Note: Removed. Instead, assign the properties directly (ContentAutoloadingEnabled, GoreAutoloadingEnabled, MusicAutoloadingEnabled, and BackgroundAutoloadingEnabled) */.Autoload;
 		}
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hunt Master");
-			Main.npcFrameCount[npc.type] = 25;
-			NPCID.Sets.ExtraFramesCount[npc.type] = 5;
-			NPCID.Sets.AttackFrameCount[npc.type] = 4;
-			NPCID.Sets.DangerDetectRange[npc.type] = 600;
-			NPCID.Sets.AttackType[npc.type] = 0;
-			NPCID.Sets.AttackTime[npc.type] = 25;
-			NPCID.Sets.AttackAverageChance[npc.type] = 2;
-			NPCID.Sets.HatOffsetY[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 25;
+			NPCID.Sets.ExtraFramesCount[NPC.type] = 5;
+			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+			NPCID.Sets.DangerDetectRange[NPC.type] = 600;
+			NPCID.Sets.AttackType[NPC.type] = 0;
+			NPCID.Sets.AttackTime[NPC.type] = 25;
+			NPCID.Sets.AttackAverageChance[NPC.type] = 2;
+			NPCID.Sets.HatOffsetY[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.townNPC = true;
-			npc.friendly = true;
-			npc.width = 18;
-			npc.height = 42;
-			npc.aiStyle = 7;
-			npc.damage = 17;
-			npc.defense = 25;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.7f;
-			animationType = NPCID.GoblinTinkerer;
+			NPC.townNPC = true;
+			NPC.friendly = true;
+			NPC.width = 18;
+			NPC.height = 42;
+			NPC.aiStyle = 7;
+			NPC.damage = 17;
+			NPC.defense = 25;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0.7f;
+			AnimationType = NPCID.GoblinTinkerer;
 		}
 
-
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanGoToStatue(bool toKingStatue)
+        {
+            toKingStatue = true;
+            return true;
+        }
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
 			return JoostWorld.downedPinkzor;
         }
         public override void PostAI()
         {
-            int x = (int)((npc.position.X - 2) / 16f);
-            int x2 = (int)((npc.position.X + npc.width + 2) / 16f);
-            int y = (int)((npc.position.Y + npc.height + 2) / 16f);
-            if (npc.velocity.X < -4)
+            int x = (int)((NPC.position.X - 2) / 16f);
+            int x2 = (int)((NPC.position.X + NPC.width + 2) / 16f);
+            int y = (int)((NPC.position.Y + NPC.height + 2) / 16f);
+            if (NPC.velocity.X < -4)
             {
-                npc.direction = -1;
+                NPC.direction = -1;
             }
-            if (npc.velocity.X > 4)
+            if (NPC.velocity.X > 4)
             {
-                npc.direction = 1;
+                NPC.direction = 1;
             }
-            if (npc.velocity.Y == 0)
+            if (NPC.velocity.Y == 0)
             {
-                if (Main.tile[x2, y].type == TileID.ConveyorBeltRight)
+                if (Main.tile[x2, y].TileType == TileID.ConveyorBeltRight)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
-                if (Main.tile[x, y].type == TileID.ConveyorBeltLeft)
+                if (Main.tile[x, y].TileType == TileID.ConveyorBeltLeft)
                 {
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
-                if (npc.oldVelocity.X < 0 && npc.velocity.X > 0)
+                if (NPC.oldVelocity.X < 0 && NPC.velocity.X > 0)
                 {
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
-                if (npc.oldVelocity.X > 0 && npc.velocity.X < 0)
+                if (NPC.oldVelocity.X > 0 && NPC.velocity.X < 0)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
-                if (Math.Abs(npc.oldVelocity.X) > 4 && npc.velocity.X == 0)
+                if (Math.Abs(NPC.oldVelocity.X) > 4 && NPC.velocity.X == 0)
                 {
-                    npc.velocity.Y = -6;
-                    npc.velocity.X = npc.oldVelocity.X;
+                    NPC.velocity.Y = -6;
+                    NPC.velocity.X = NPC.oldVelocity.X;
                 }
             }
-            else if (npc.velocity.X == 0)
+            else if (NPC.velocity.X == 0)
             {
-                npc.velocity.X = npc.direction;
+                NPC.velocity.X = NPC.direction;
             }
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
 		{
 			switch (WorldGen.genRand.Next(8))
 			{
@@ -119,7 +125,7 @@ namespace JoostMod.NPCs.Town
                 case 7:
                     return "Bodega";
 				default:
-					return "Joost";
+					return "Greg";
 			}
 		}
 
@@ -200,8 +206,8 @@ namespace JoostMod.NPCs.Town
 			if (firstButton)
 			{
 				Main.npcChatCornerItem = 0;
-				Main.PlaySound(12, -1, -1, 1, 1f, 0f);
-				int pinkzor = player.FindItem(mod.ItemType("Pinkzor"));
+				SoundEngine.PlaySound(SoundID.MenuTick);
+				int pinkzor = player.FindItem(Mod.Find<ModItem>("Pinkzor").Type);
 				if (pinkzor != -1)
 				{
 					player.inventory[pinkzor].stack--;
@@ -209,9 +215,9 @@ namespace JoostMod.NPCs.Town
 					{
 						player.inventory[pinkzor] = new Item();
 					}
-					Main.npcChatText = "'Ello there! My name's " + Main.npc[NPC.FindFirstNPC(npc.type)].GivenName + ", I'm the Hunt Master. I seek out unique monsters and take 'em down before they can take us down. Thanks for helpin' me outta that slime; it got the jump on me. How about ya do some work for me? I'll let ya know if there's a creep needin' huntin' and I'll pay if ya bring back proof of it's death. Here's somethin' for helpin' out with that big pink slime";
-					Main.PlaySound(24, -1, -1, 1, 1f, 0f);
-					player.QuickSpawnItem(mod.ItemType("GooGlove"));
+					Main.npcChatText = "'Ello there! My name's " + Main.npc[NPC.FindFirstNPC(NPC.type)].GivenName + ", I'm the Hunt Master. I seek out unique monsters and take 'em down before they can take us down. Thanks for helpin' me outta that slime; it got the jump on me. How about ya do some work for me? I'll let ya know if there's a creep needin' huntin' and I'll pay if ya bring back proof of it's death. Here's somethin' for helpin' out with that big pink slime";
+					SoundEngine.PlaySound(SoundID.Chat);
+					player.QuickSpawnItem(Mod.Find<ModItem>("GooGlove").Type);
 				}
 				else
 				{

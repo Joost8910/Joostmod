@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,20 +13,20 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 200;
-			aiType = ProjectileID.Shuriken;
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 200;
+			AIType = ProjectileID.Shuriken;
 		}
 		
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 15, 0, 0, mod.ProjectileType("Nado"), projectile.damage, projectile.knockBack, projectile.owner);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);				
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 15, 0, 0, Mod.Find<ModProjectile>("Nado").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);				
 		}
 	}
 }

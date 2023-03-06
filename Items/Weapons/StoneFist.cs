@@ -7,36 +7,36 @@ namespace JoostMod.Items.Weapons
 {
     [AutoloadEquip(EquipType.HandsOff)]
     public class StoneFist : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stone Fist");
-			Tooltip.SetDefault("'The real fist of Fury'\n" +
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Stone Fist");
+            Tooltip.SetDefault("'The real fist of Fury'\n" +
                 "Charges up a powerful punch\n" +
                 "Right Click while charged to grab an enemy\n" +
                 "Hold Right Click to pummel the grabbed enemy\n" +
                 "Let go of Left Click to throw the grabbed enemy");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 333;
-			item.melee = true;
-			item.width = 64;
-			item.height = 64;
-			item.useTime = 55;
-			item.useAnimation = 55;
-			item.reuseDelay = 5;
-			item.useStyle = 5;
-			item.knockBack = 50;
-			item.value = 225000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item13;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = mod.ProjectileType("Stonefist");
-			item.shootSpeed = 10f;
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 333;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = 55;
+            Item.useAnimation = 55;
+            Item.reuseDelay = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 50;
+            Item.value = 225000;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.shoot = Mod.Find<ModProjectile>("Stonefist").Type;
+            Item.shootSpeed = 10f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -75,9 +75,9 @@ namespace JoostMod.Items.Weapons
                     case 15:
                         return PrefixID.Light;
                     case 16:
-                        return mod.PrefixType("Impractically Oversized");
+                        return Mod.Find<ModPrefix>("Impractically Oversized").Type;
                     case 17:
-                        return mod.PrefixType("Miniature");
+                        return Mod.Find<ModPrefix>("Miniature").Type;
                     default:
                         return PrefixID.Legendary;
                 }
@@ -85,17 +85,16 @@ namespace JoostMod.Items.Weapons
             return base.ChoosePrefix(rand);
         }
         public override void AddRecipes()
-		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "EarthEssence", 50);
-			recipe.AddIngredient(ItemID.StoneBlock, 100);
-            recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-            recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-            recipe.AddTile(null, "ElementalForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        {
+            CreateRecipe()
+                .AddIngredient<Materials.EarthEssence>(50)
+                .AddIngredient(ItemID.StoneBlock, 100)
+                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
+                .AddRecipeGroup("JoostMod:AnyMythril", 4)
+                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddTile<Tiles.ElementalForge>()
+                .Register();
+        }
+    }
 }
 

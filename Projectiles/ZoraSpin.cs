@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,24 +14,24 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Zora Spin");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
         {
-            projectile.scale = 1.5f;
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.timeLeft = 60;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
-            projectile.alpha = 120;
-            drawHeldProjInFrontOfHeldItemAndArms = true;
+            Projectile.scale = 1.5f;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.timeLeft = 60;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.alpha = 120;
+            DrawHeldProjInFrontOfHeldItemAndArms = true;
         }
         /*
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -56,64 +58,64 @@ namespace JoostMod.Projectiles
         */
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.ai[0] == 0 && projectile.ai[1] == 0)
+            if (Projectile.ai[0] == 0 && Projectile.ai[1] == 0)
             {
-                projectile.timeLeft = 40;
-                projectile.localNPCHitCooldown = 12;
+                Projectile.timeLeft = 40;
+                Projectile.localNPCHitCooldown = 12;
             }
-            if ((int)projectile.ai[1] % 12 == 0)
+            if ((int)Projectile.ai[1] % 12 == 0)
             {
-                Main.PlaySound(42, player.Center, 205);
+                SoundEngine.PlaySound(SoundID.Trackable, player.Center);
             }
-            if (projectile.timeLeft < 20)
+            if (Projectile.timeLeft < 20)
             {
-                projectile.ai[1]++;
-                projectile.velocity *= 0.95f;
-                projectile.localNPCHitCooldown = 12;
-                projectile.alpha += 6;
-                if ((int)projectile.ai[1] % 2 == 0)
+                Projectile.ai[1]++;
+                Projectile.velocity *= 0.95f;
+                Projectile.localNPCHitCooldown = 12;
+                Projectile.alpha += 6;
+                if ((int)Projectile.ai[1] % 2 == 0)
                 {
-                    projectile.frame = (projectile.frame + 1) % 6;
+                    Projectile.frame = (Projectile.frame + 1) % 6;
                 }
             }
-            else if (projectile.timeLeft < 10)
+            else if (Projectile.timeLeft < 10)
             {
-                projectile.localNPCHitCooldown = 18;
-                projectile.velocity *= 0.9f;
-                projectile.ai[1]++;
-                projectile.alpha += 6;
-                if ((int)projectile.ai[1] % 3 == 0)
+                Projectile.localNPCHitCooldown = 18;
+                Projectile.velocity *= 0.9f;
+                Projectile.ai[1]++;
+                Projectile.alpha += 6;
+                if ((int)Projectile.ai[1] % 3 == 0)
                 {
-                    projectile.frame = (projectile.frame + 1) % 6;
+                    Projectile.frame = (Projectile.frame + 1) % 6;
                 }
             }
             else
             {
-                projectile.ai[1] += 1 + projectile.ai[0];
-                if ((int)projectile.ai[1] % 2 == 0)
+                Projectile.ai[1] += 1 + Projectile.ai[0];
+                if ((int)Projectile.ai[1] % 2 == 0)
                 {
-                    projectile.frame = (projectile.frame + 1) % 6;
+                    Projectile.frame = (Projectile.frame + 1) % 6;
                 }
-                if (!player.wet && projectile.velocity.Y < player.maxFallSpeed)
+                if (!player.wet && Projectile.velocity.Y < player.maxFallSpeed)
                 {
-                    projectile.velocity.Y += player.gravity;
+                    Projectile.velocity.Y += player.gravity;
                 }
             }
-            bool rain = (Main.raining && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, new Vector2(projectile.Center.X + ((Main.screenPosition.Y - projectile.Center.Y) / 14f * Main.windSpeed * 12f), Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0);
+            bool rain = (Main.raining && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, new Vector2(Projectile.Center.X + ((Main.screenPosition.Y - Projectile.Center.Y) / 14f * Main.windSpeed * 12f), Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0);
             if (player.wet || rain)
             {
-                if (projectile.ai[0] == 0)
+                if (Projectile.ai[0] == 0)
                 {
-                    if (projectile.ai[1] % 2 == 1)
+                    if (Projectile.ai[1] % 2 == 1)
                     {
-                        projectile.ai[1]++;
+                        Projectile.ai[1]++;
                     }
-                    projectile.ai[0] = 1;
-                    projectile.timeLeft = 60;
-                    projectile.localNPCHitCooldown = 6;
-                    projectile.alpha = 120;
+                    Projectile.ai[0] = 1;
+                    Projectile.timeLeft = 60;
+                    Projectile.localNPCHitCooldown = 6;
+                    Projectile.alpha = 120;
                 }
                 Vector2 vel = Vector2.Zero;
                 float speed = 10;
@@ -148,35 +150,35 @@ namespace JoostMod.Projectiles
                 player.jump = 0;
                 float home = 30f;
                 if (vel != Vector2.Zero)
-                    projectile.velocity = ((home - 1f) * projectile.velocity + vel) / home;
+                    Projectile.velocity = ((home - 1f) * Projectile.velocity + vel) / home;
             }
-            if (Math.Abs(player.velocity.X) < 0.0001f && Math.Abs(projectile.velocity.X) > 1)
+            if (Math.Abs(player.velocity.X) < 0.0001f && Math.Abs(Projectile.velocity.X) > 1)
             {
-                projectile.velocity.X *= -1;
-                Main.PlaySound(19, projectile.Center, 1);
+                Projectile.velocity.X *= -1;
+                SoundEngine.PlaySound(SoundID.SplashWeak, Projectile.Center);
             }
-            if (Math.Abs(player.velocity.Y) < 0.0001f && Math.Abs(projectile.velocity.Y) > 1)
+            if (Math.Abs(player.velocity.Y) < 0.0001f && Math.Abs(Projectile.velocity.Y) > 1)
             {
-                projectile.velocity.Y *= -1;
-                Main.PlaySound(19, projectile.Center, 1);
+                Projectile.velocity.Y *= -1;
+                SoundEngine.PlaySound(SoundID.SplashWeak, Projectile.Center);
             }
-            player.velocity = projectile.velocity;
+            player.velocity = Projectile.velocity;
             player.fallStart = (int)(player.position.Y / 16f);
-            player.ChangeDir(projectile.direction * (projectile.ai[1] % 12 < 6 ? projectile.direction : -projectile.direction));
-            projectile.position = vector - projectile.Size / 2f - projectile.velocity;
-            projectile.rotation = 0;
-            projectile.spriteDirection = projectile.direction;
-            player.heldProj = projectile.whoAmI;
+            player.ChangeDir(Projectile.direction * (Projectile.ai[1] % 12 < 6 ? Projectile.direction : -Projectile.direction));
+            Projectile.position = vector - Projectile.Size / 2f - Projectile.velocity;
+            Projectile.rotation = 0;
+            Projectile.spriteDirection = Projectile.direction;
+            player.heldProj = Projectile.whoAmI;
             player.noItems = true;
             player.mount.Dismount(player);
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
             player.fullRotationOrigin = player.Center - player.position;
-            player.fullRotation = MathHelper.WrapAngle(projectile.rotation);
+            player.fullRotation = MathHelper.WrapAngle(Projectile.rotation);
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (player.immuneTime < 6)
             {
                 player.immune = true;
@@ -184,28 +186,28 @@ namespace JoostMod.Projectiles
             }
             if (target.knockBackResist > 0)
             {
-                target.velocity = projectile.velocity;
+                target.velocity = Projectile.velocity;
             }
         }
         public override void Kill(int timeLeft)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             player.fullRotation = 0;
-            Main.PlaySound(19, player.Center, 0);
+            SoundEngine.PlaySound(SoundID.Splash, player.Center);
             for (int i = 0; i <= 20; i++)
             {
-                Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 33, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f + Main.rand.NextFloat());
+                Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 33, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1f + Main.rand.NextFloat());
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ModContent.GetTexture("JoostMod/Projectiles/ZoraSpin_Glow");
-            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[projectile.type]) * 0.5f);
-            Rectangle? rect = new Rectangle?(new Rectangle(0, (tex.Height / Main.projFrames[projectile.type]) * projectile.frame, tex.Width, tex.Height / Main.projFrames[projectile.type]));
+            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/ZoraSpin_Glow");
+            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[Projectile.type]) * 0.5f);
+            Rectangle? rect = new Rectangle?(new Rectangle(0, (tex.Height / Main.projFrames[Projectile.type]) * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type]));
             SpriteEffects effects = SpriteEffects.None;
-            Vector2 drawPosition = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, rect, lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-            spriteBatch.Draw(tex, drawPosition, rect, lightColor, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPosition, rect, lightColor * (1 - (Projectile.alpha / 255f)), Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            spriteBatch.Draw(tex, drawPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             return false;
         }
     }

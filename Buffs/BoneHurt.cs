@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class BoneHurt : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Your bones hurt");
             Description.SetDefault("Losing life, amount lost increases over time");

@@ -11,18 +11,18 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = 3;
-			projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 1800;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 12;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = 3;
+			Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 1800;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 12;
+			AIType = ProjectileID.Bullet;
 		}
 
 	}

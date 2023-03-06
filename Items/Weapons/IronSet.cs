@@ -7,37 +7,37 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Items.Weapons
 {
-	public class IronSet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Iron Weapon Set");
-			Tooltip.SetDefault("'ALL the iron!'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 16;
-			item.width = 42;
-			item.height = 42;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 3;
-			item.value = 4000;
-			item.rare = 2;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("IronHatchet");
-			item.shootSpeed = 12f;
-            item.crit = 4;
-        }
-        public override void GetWeaponCrit(Player player, ref int crit)
+    public class IronSet : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            DisplayName.SetDefault("Iron Weapon Set");
+            Tooltip.SetDefault("'ALL the iron!'");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 16;
+            Item.width = 42;
+            Item.height = 42;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 4000;
+            Item.rare = ItemRarityID.Green;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("IronHatchet").Type;
+            Item.shootSpeed = 12f;
+            Item.crit = 4;
+        }
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
         }
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
@@ -93,40 +93,39 @@ namespace JoostMod.Items.Weapons
                     return PrefixID.Zealous;
             }
         }
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int wep = Main.rand.Next(4);
-			if (wep == 1)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 2), (speedY * 2), mod.ProjectileType("IronFlail"), (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 2)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), 1, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 3)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), 9, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 0)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX), (speedY), mod.ProjectileType("IronHatchet"), (damage), knockBack, player.whoAmI);
-			}
-			return false;
-		}
-			public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "IronFlail");
-			recipe.AddIngredient(ItemID.IronBow);
-			recipe.AddIngredient(null, "IronStaff");
-			recipe.AddIngredient(null, "IronHatchet", 3);
-			recipe.AddTile(TileID.Anvils); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int wep = Main.rand.Next(4);
+            if (wep == 1)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 2), (velocity.Y * 2), Mod.Find<ModProjectile>("IronFlail").Type, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 2)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), ProjectileID.WoodenArrowFriendly, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 3)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), ProjectileID.Starfury, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 0)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X), (velocity.Y), Mod.Find<ModProjectile>("IronHatchet").Type, (damage), knockback, player.whoAmI);
+            }
+            return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient<IronFlail>()
+                .AddIngredient(ItemID.IronBow)
+                .AddIngredient<IronStaff>()
+                .AddIngredient<IronHatchet>(3)
+                .AddTile(TileID.Anvils)
+                .Register();
+        }
 
-	}
+    }
 }
 
 

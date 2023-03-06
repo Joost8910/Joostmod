@@ -7,7 +7,7 @@ namespace JoostMod.Tiles
 {
 	public class Fury : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -15,8 +15,8 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Furious Forging");
 			AddMapEntry(new Color(255, 222, 0), name);
@@ -24,7 +24,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("Fury"));
+			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("Fury").Type);
 		}
 	}
 }

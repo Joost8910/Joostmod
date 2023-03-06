@@ -13,35 +13,34 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 555;
-			item.ranged = true;
-			item.width = 96;
-			item.height = 198;
-			item.noMelee = true;
-			item.useTime = 40;
-			item.useAnimation = 40;
-            item.reuseDelay = 5;
-            item.noUseGraphic = true;
-			item.useStyle = 5;
-			item.knockBack = 10;
-			item.value = 10000000;
-			item.rare = 11;
-			item.UseSound = SoundID.Item7;
-			item.autoReuse = true;
-            item.channel = true;
-			item.shoot = mod.ProjectileType("Jumbow");
-			item.shootSpeed = 16f;
+			Item.damage = 555;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 96;
+			Item.height = 198;
+			Item.noMelee = true;
+			Item.useTime = 40;
+			Item.useAnimation = 40;
+			Item.reuseDelay = 5;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 10;
+			Item.value = 10000000;
+			Item.rare = ItemRarityID.Purple;
+			Item.UseSound = SoundID.Item7;
+			Item.autoReuse = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("Jumbow").Type;
+			Item.shootSpeed = 16f;
 		}
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            mult *= player.arrowDamage * (player.archery ? 1.2f : 1f);
-        }
-        public override void AddRecipes()
+		public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Cactustoken", 1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			damage.CombineWith(player.arrowDamage);
+		}
+		public override void AddRecipes()
+		{
+			CreateRecipe()
+				.AddIngredient<Materials.Cactustoken>()
+				.Register();
 		}
 	}
 }

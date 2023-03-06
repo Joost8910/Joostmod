@@ -10,62 +10,62 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cactite");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetDefaults()
         {
-            npc.width = 24;
-            npc.height = 46;
-            npc.defense = 0;
-            npc.lifeMax = 75;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.value = Item.buyPrice(0, 0, 0, 70);
-            npc.knockBackResist = 0.5f;
-            npc.aiStyle = 3;
-            aiType = NPCID.ArmoredSkeleton;
-            npc.damage = 15;
-            npc.frameCounter = 0;
-            banner = mod.NPCType("Cactoid");
-            bannerItem = mod.ItemType("CactoidBanner");
+            NPC.width = 24;
+            NPC.height = 46;
+            NPC.defense = 0;
+            NPC.lifeMax = 75;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = Item.buyPrice(0, 0, 0, 70);
+            NPC.knockBackResist = 0.5f;
+            NPC.aiStyle = 3;
+            AIType = NPCID.ArmoredSkeleton;
+            NPC.damage = 15;
+            NPC.frameCounter = 0;
+            Banner = Mod.Find<ModNPC>("Cactoid").Type;
+            BannerItem = Mod.Find<ModItem>("CactoidBanner").Type;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Cactus, 10);
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, 10);
             if (Main.rand.Next(100) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Anniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Anniversary").Type, 1);
             }
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CrimsonCactite1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CrimsonCactite2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CrimsonCactite2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CrimsonCactite1"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CrimsonCactite2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CrimsonCactite2"), 1f);
             }
 
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.spriteDirection = npc.direction;
-            npc.frameCounter++;
-            if (npc.frameCounter >= 15 / (1 + Math.Abs(npc.velocity.X)))
+            NPC.spriteDirection = NPC.direction;
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 15 / (1 + Math.Abs(NPC.velocity.X)))
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = (npc.frame.Y + 54);
+                NPC.frameCounter = 0;
+                NPC.frame.Y = (NPC.frame.Y + 54);
             }
-            if (npc.frame.Y >= 216)
+            if (NPC.frame.Y >= 216)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return !spawnInfo.player.ZoneBeach && !spawnInfo.playerInTown && !spawnInfo.invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.spawnTileY < Main.rockLayer && spawnInfo.player.ZoneDesert && spawnInfo.player.ZoneCrimson && !Main.hardMode ? 0.15f : 0f;
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            return !spawnInfo.Player.ZoneBeach && !spawnInfo.PlayerInTown && !spawnInfo.Invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.SpawnTileY < Main.rockLayer && spawnInfo.Player.ZoneDesert && spawnInfo.Player.ZoneCrimson && !Main.hardMode ? 0.15f : 0f;
         }
     }
 }

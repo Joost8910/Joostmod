@@ -8,23 +8,23 @@ using Terraria.ModLoader;
 namespace JoostMod.Items.Rewards
 {
     [AutoloadEquip(EquipType.Back)]
-	public class StaffSapling : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sapling - Staff");
-			Tooltip.SetDefault("Shoots enemies behind you\n" + "5% reduced mana usage");
-		}
-		public override void SetDefaults()
-		{
-			item.width = 42;
-			item.height = 30;
-			item.value = 20000;
-			item.rare = 3;
-            item.accessory = true;
-            item.damage = 15;
-            item.magic = true;
-            item.knockBack = 3.5f;
+    public class StaffSapling : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sapling - Staff");
+            Tooltip.SetDefault("Shoots enemies behind you\n" + "5% reduced mana usage");
+        }
+        public override void SetDefaults()
+        {
+            Item.width = 42;
+            Item.height = 30;
+            Item.value = 20000;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Magic;
+            Item.knockBack = 3.5f;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -35,32 +35,29 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria")
+                if (line2.Mod == "Terraria")
                 {
                     if (line2.Name == "ItemName")
                     {
-                        line2.overrideColor = new Color(230, 204, 128);
+                        line2.OverrideColor = new Color(230, 204, 128);
                     }
-                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "knockback")
                     {
-                        line2.overrideColor = Color.DarkGray;
+                        line2.OverrideColor = Color.DarkGray;
                     }
                 }
             }
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("JoostMod:Saplings");
-            recipe.AddIngredient(ItemID.AmethystStaff);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("JoostMod:Saplings");
-            recipe.AddIngredient(ItemID.TopazStaff);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddRecipeGroup("JoostMod:Saplings")
+                .AddIngredient(ItemID.AmethystStaff)
+                .Register();
+            CreateRecipe()
+                .AddRecipeGroup("JoostMod:Saplings")
+                .AddIngredient(ItemID.TopazStaff)
+                .Register();
         }
     }
 }

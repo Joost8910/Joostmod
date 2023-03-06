@@ -1,41 +1,43 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Weapons
 {
-	public class PumpkinStaff : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pumpkin Staff");
-			Tooltip.SetDefault("Summons a swirling shield of pumpkins\n" + "Right click to send the pumpkins outwards");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 52;
-			item.summon = true;
-			item.mana = 15;
-			item.width = 50;
-			item.height = 48;
-			item.useTime = 36;
-			item.useAnimation = 36;
-			item.useStyle = 1;
-			item.knockBack = 8;
-			item.value = 120000;
-			item.rare = 8;
-			item.UseSound = SoundID.Item78;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Pumpkin");
-			item.shootSpeed = 11f;
+    public class PumpkinStaff : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Pumpkin Staff");
+            Tooltip.SetDefault("Summons a swirling shield of pumpkins\n" + "Right click to send the pumpkins outwards");
+        }
+        public override void SetDefaults()
+        {
+            Item.damage = 52;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 15;
+            Item.width = 50;
+            Item.height = 48;
+            Item.useTime = 36;
+            Item.useAnimation = 36;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8;
+            Item.value = 120000;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item78;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("Pumpkin").Type;
+            Item.shootSpeed = 11f;
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool create = true;
             for (int l = 0; l < 200; l++)
@@ -58,11 +60,11 @@ namespace JoostMod.Items.Weapons
             if (create)
             {
                 for (int i = 0; i < 12; i++)
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, i * -30);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, i * -30);
             }
             return false;
-		}		
-	}
+        }
+    }
 }
 
 

@@ -15,91 +15,91 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pumpkin");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 26;
-			projectile.height = 28;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.minion = true;
+			Projectile.width = 26;
+			Projectile.height = 28;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
 			//projectile.tileCollide = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 1801;
-			projectile.extraUpdates = 1;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 1801;
+			Projectile.extraUpdates = 1;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             hitDirection = target.Center.X < player.Center.X ? -1 : 1;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.ai[0] < 0)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.ai[0] < 0)
             {
-                projectile.hide = true;
+                Projectile.hide = true;
             }
             else
             {
-                projectile.hide = false;
-                if ((int)(projectile.ai[0] / 5f) % 10 == 0)
+                Projectile.hide = false;
+                if ((int)(Projectile.ai[0] / 5f) % 10 == 0)
                 {
-                    int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f);
+                    int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, Projectile.velocity.X, Projectile.velocity.Y, 100, default(Color), 1f);
                     Main.dust[num1].noGravity = true;
                     Main.dust[num1].velocity *= 0.01f;
                 }
             }
-            if ((int)projectile.ai[0] == 0)
+            if ((int)Projectile.ai[0] == 0)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     Vector2 diff = Main.MouseWorld - player.Center;
                     diff.Normalize();
-                    projectile.velocity = diff * projectile.velocity.Length();
-                    projectile.netUpdate = true;
+                    Projectile.velocity = diff * Projectile.velocity.Length();
+                    Projectile.netUpdate = true;
                 }
             }
-			double deg = (double)projectile.ai[0] + 90;
+			double deg = (double)Projectile.ai[0] + 90;
 			double rad = deg * (Math.PI / 180);
 			double dist = 64; 
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-			if (projectile.ai[1] >= 1)
+			Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+			if (Projectile.ai[1] >= 1)
 			{
-                projectile.localAI[0] += projectile.velocity.X;
-                projectile.localAI[1] += projectile.velocity.Y;
-                projectile.netUpdate = true;
-                dist = projectile.timeLeft < 1744 ? 8 : (projectile.timeLeft - 1736);
-				projectile.rotation = (float)rad;
-				projectile.ownerHitCheck = false;
-                if (Collision.SolidCollision(new Vector2(projectile.localAI[0] - 5, projectile.localAI[1] - 5), 10, 10))
+                Projectile.localAI[0] += Projectile.velocity.X;
+                Projectile.localAI[1] += Projectile.velocity.Y;
+                Projectile.netUpdate = true;
+                dist = Projectile.timeLeft < 1744 ? 8 : (Projectile.timeLeft - 1736);
+				Projectile.rotation = (float)rad;
+				Projectile.ownerHitCheck = false;
+                if (Collision.SolidCollision(new Vector2(Projectile.localAI[0] - 5, Projectile.localAI[1] - 5), 10, 10))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 			else
             {
-                projectile.localAI[0] = player.Center.X;
-                projectile.localAI[1] = player.Center.Y;
-                projectile.ownerHitCheck = true;
-                projectile.timeLeft = 1800;
+                Projectile.localAI[0] = player.Center.X;
+                Projectile.localAI[1] = player.Center.Y;
+                Projectile.ownerHitCheck = true;
+                Projectile.timeLeft = 1800;
             }
-            Vector2 origin = new Vector2(projectile.localAI[0], projectile.localAI[1]);
-            projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
-			projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;	
-			projectile.ai[0] += 5;
+            Vector2 origin = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
+            Projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - Projectile.width/2;
+			Projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - Projectile.height/2;	
+			Projectile.ai[0] += 5;
 		}
         public override bool? CanHitNPC(NPC target)
         {
-            return projectile.ai[0] > 0;
+            return Projectile.ai[0] > 0;
         }
         public override bool CanHitPvp(Player target)
         {
-            return projectile.ai[0] > 0;
+            return Projectile.ai[0] > 0;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 8;
 			height = 8;

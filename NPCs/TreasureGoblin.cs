@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,156 +13,156 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Treasure Goblin");
-            Main.npcFrameCount[npc.type] = 40;
+            Main.npcFrameCount[NPC.type] = 40;
         }
         public override void SetDefaults()
         {
-            npc.width = 40;
-            npc.height = 40;
-            npc.rarity = 4;
-            npc.damage = 0;
-            npc.defense = 20;
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.rarity = 4;
+            NPC.damage = 0;
+            NPC.defense = 20;
             if (Main.expertMode)
             {
-                npc.lifeMax = 3000;
+                NPC.lifeMax = 3000;
             }
             else
             {
-                npc.lifeMax = 1500;
+                NPC.lifeMax = 1500;
             }
-            npc.HitSound = SoundID.NPCHit40.WithPitchVariance(.75f);
-            npc.DeathSound = SoundID.NPCDeath45.WithPitchVariance(.75f);
-            npc.value = 0f;
-            npc.knockBackResist = 0f;
-            npc.aiStyle = -1;
-            banner = npc.type;
-            bannerItem = mod.ItemType("TreasureGoblinBanner");
+            NPC.HitSound = SoundID.NPCHit40.WithPitchVariance(.75f);
+            NPC.DeathSound = SoundID.NPCDeath45.WithPitchVariance(.75f);
+            NPC.value = 0f;
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = -1;
+            Banner = NPC.type;
+            BannerItem = Mod.Find<ModItem>("TreasureGoblinBanner").Type;
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
-            if (npc.ai[3] > 2)
+            if (NPC.ai[3] > 2)
             {
                 crit = true;
             }
         }
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (npc.ai[3] > 2)
+            if (NPC.ai[3] > 2)
             {
                 crit = true;
             }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 2f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 2f);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            return !spawnInfo.playerInTown && !Main.pumpkinMoon && !Main.snowMoon && !spawnInfo.sky && !Main.eclipse && spawnInfo.spawnTileY < Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(npc.type) ? 0.0017f : 0f;
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            return !spawnInfo.PlayerInTown && !Main.pumpkinMoon && !Main.snowMoon && !spawnInfo.Sky && !Main.eclipse && spawnInfo.SpawnTileY < Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(NPC.type) ? 0.0017f : 0f;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FourthAnniversary"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FourthAnniversary").Type, 1);
             }
             bool drop = false;
             while (!drop)
             {
-                if (Main.rand.Next(10) == 0 && player.ZoneHoly)
+                if (Main.rand.Next(10) == 0 && player.ZoneHallow)
                 {
-                    Item.NewItem(npc.Center, npc.width, npc.height, ItemID.HallowedKey);
+                    Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.HallowedKey);
                     drop = true;
                 }
                 if (Main.rand.Next(10) == 0 && player.ZoneJungle)
                 {
-                    Item.NewItem(npc.Center, npc.width, npc.height, ItemID.JungleKey);
+                    Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.JungleKey);
                     drop = true;
                 }
                 if (Main.rand.Next(10) == 0 && player.ZoneCorrupt)
                 {
-                    Item.NewItem(npc.Center, npc.width, npc.height, ItemID.CorruptionKey);
+                    Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.CorruptionKey);
                     drop = true;
                 }
                 if (Main.rand.Next(10) == 0 && player.ZoneCrimson)
                 {
-                    Item.NewItem(npc.Center, npc.width, npc.height, ItemID.CrimsonKey);
+                    Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.CrimsonKey);
                     drop = true;
                 }
                 if (Main.rand.Next(10) == 0 && player.ZoneSnow)
                 {
-                    Item.NewItem(npc.Center, npc.width, npc.height, ItemID.FrozenKey);
+                    Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.FrozenKey);
                     drop = true;
                 }
                 if (Main.expertMode)
                 {
                     if (Main.rand.NextBool(100))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EvilStone"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
                     }
                     else if (Main.rand.NextBool(99))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SkullStone"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SkullStone").Type, 1);
                     }
                     else if (Main.rand.NextBool(98))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JungleStone"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("JungleStone").Type, 1);
                     }
                     else if (Main.rand.NextBool(97))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("InfernoStone"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("InfernoStone").Type, 1);
                     }
                     else if (Main.rand.NextBool(96))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneDeep"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneDeep").Type, 1);
                     }
                     else if (Main.rand.NextBool(95))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneEast"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneEast").Type, 1);
                     }
                     else if (Main.rand.NextBool(94))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneHigh"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneHigh").Type, 1);
                     }
                     else if (Main.rand.NextBool(93))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaStoneWest"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneWest").Type, 1);
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem(npc.Center, npc.width, npc.height, ItemID.PDA);
+                        Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.PDA);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StoneofJordan"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("StoneofJordan").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrozenOrb"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FrozenOrb").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HungeringArrow"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("HungeringArrow").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TwinChakrams"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TwinChakrams").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Whirlwind"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Whirlwind").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueOfToads"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("PlagueOfToads").Type, 1);
                         drop = true;
                     }
 
@@ -170,37 +171,37 @@ namespace JoostMod.NPCs
                 {
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem(npc.Center, npc.width, npc.height, ItemID.PDA);
+                        Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.PDA);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StoneofJordan"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("StoneofJordan").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrozenOrb"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FrozenOrb").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HungeringArrow"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("HungeringArrow").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TwinChakrams"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TwinChakrams").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Whirlwind"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Whirlwind").Type, 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueOfToads"), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("PlagueOfToads").Type, 1);
                         drop = true;
                     }
                 }
@@ -209,169 +210,169 @@ namespace JoostMod.NPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.spriteDirection = npc.direction;
-            if (npc.ai[3] > 2)
+            NPC.spriteDirection = NPC.direction;
+            if (NPC.ai[3] > 2)
             {
-                if (npc.frame.Y < 10 * frameHeight)
+                if (NPC.frame.Y < 10 * frameHeight)
                 {
-                    npc.frame.Y = 10 * frameHeight;
+                    NPC.frame.Y = 10 * frameHeight;
                 }
-                if (npc.ai[3] % 8 == 0 && npc.frame.Y < frameHeight * 39)
+                if (NPC.ai[3] % 8 == 0 && NPC.frame.Y < frameHeight * 39)
                 {
-                    npc.frame.Y = (npc.frame.Y + frameHeight);
+                    NPC.frame.Y = (NPC.frame.Y + frameHeight);
                 }
             }
             else
             {
-                npc.frameCounter++;
-                if (npc.ai[1] <= 0)
+                NPC.frameCounter++;
+                if (NPC.ai[1] <= 0)
                 {
-                    if (npc.frameCounter < 90)
+                    if (NPC.frameCounter < 90)
                     {
-                        if (npc.frameCounter % 15 == 0)
+                        if (NPC.frameCounter % 15 == 0)
                         {
-                            npc.frame.Y = (npc.frame.Y + frameHeight);
+                            NPC.frame.Y = (NPC.frame.Y + frameHeight);
                         }
-                        if (npc.frame.Y >= frameHeight * 2)
+                        if (NPC.frame.Y >= frameHeight * 2)
                         {
-                            npc.frame.Y = 0;
-                        }
-                    }
-                    else if (npc.frameCounter < 150)
-                    {
-                        if (npc.frameCounter % 12 == 0 && npc.frame.Y < frameHeight * 3)
-                        {
-                            npc.frame.Y = (npc.frame.Y + frameHeight);
+                            NPC.frame.Y = 0;
                         }
                     }
-                    else if (npc.frameCounter < 180)
+                    else if (NPC.frameCounter < 150)
                     {
-                        npc.frame.Y = frameHeight * 4;
+                        if (NPC.frameCounter % 12 == 0 && NPC.frame.Y < frameHeight * 3)
+                        {
+                            NPC.frame.Y = (NPC.frame.Y + frameHeight);
+                        }
+                    }
+                    else if (NPC.frameCounter < 180)
+                    {
+                        NPC.frame.Y = frameHeight * 4;
                     }
                     else
                     {
-                        if (npc.frameCounter % 12 == 0)
+                        if (NPC.frameCounter % 12 == 0)
                         {
-                            npc.frame.Y = (npc.frame.Y + frameHeight);
+                            NPC.frame.Y = (NPC.frame.Y + frameHeight);
                         }
-                        if (npc.frame.Y >= frameHeight * 8)
+                        if (NPC.frame.Y >= frameHeight * 8)
                         {
-                            npc.frame.Y = 0;
-                            npc.frameCounter = 0;
+                            NPC.frame.Y = 0;
+                            NPC.frameCounter = 0;
                         }
                     }
                 }
                 else
                 {
-                    if (npc.frame.Y < frameHeight * 8)
+                    if (NPC.frame.Y < frameHeight * 8)
                     {
-                        npc.frame.Y = frameHeight * 8;
+                        NPC.frame.Y = frameHeight * 8;
                     }
-                    if (npc.frameCounter >= 3)
+                    if (NPC.frameCounter >= 3)
                     {
-                        npc.frameCounter = 0;
-                        npc.frame.Y = (npc.frame.Y + frameHeight);
+                        NPC.frameCounter = 0;
+                        NPC.frame.Y = (NPC.frame.Y + frameHeight);
                     }
-                    if (npc.frame.Y >= frameHeight * 10)
+                    if (NPC.frame.Y >= frameHeight * 10)
                     {
-                        npc.frame.Y = frameHeight * 8;
+                        NPC.frame.Y = frameHeight * 8;
                     }
                 }
             }
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            npc.ai[1] += 5;
-            if (npc.life <= 0)
+            NPC.ai[1] += 5;
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TreasureGoblin"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/TreasureGoblin"), 1f);
                 for (int i = 0; i < 4; i++)
                 {
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(npc.position.X, npc.position.Y, Main.rand.Next(-10, 10), Main.rand.Next(-10, -5), 518, 0, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.position.X, NPC.position.Y, Main.rand.Next(-10, 10), Main.rand.Next(-10, -5), 518, 0, 0f, Main.myPlayer);
                     }
                     for (int j = 0; j < 3; j++)
                     {
                         //Projectile.NewProjectile(npc.position.X, npc.position.Y, Main.rand.Next(-7, 7), Main.rand.Next(-7, -1), 413, 0, 0f, Main.myPlayer);
-                        Item.NewItem(npc.Center, npc.width, npc.height, ItemID.GoldCoin);
-                        Main.PlaySound(18, npc.Center);
+                        Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.GoldCoin);
+                        SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
                     }
                 }
             }
         }
         public override void AI()
         {
-            npc.ai[0]++;
-            Player P = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || P.dead || !P.active)
+            NPC.ai[0]++;
+            Player P = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == 255 || P.dead || !P.active)
             {
-                npc.TargetClosest(false);
+                NPC.TargetClosest(false);
             }
-            if (npc.velocity.X > 0)
+            if (NPC.velocity.X > 0)
             {
-                npc.direction = 1;
+                NPC.direction = 1;
             }
-            if (npc.velocity.X < 0)
+            if (NPC.velocity.X < 0)
             {
-                npc.direction = -1;
+                NPC.direction = -1;
             }
-            Lighting.AddLight((int)(npc.Center.X + 24 * npc.direction) / 16, (int)(npc.Center.Y + 12) / 16, 0.08f, 0.66f, 0.7f);
-            if (npc.ai[2] < 496)
+            Lighting.AddLight((int)(NPC.Center.X + 24 * NPC.direction) / 16, (int)(NPC.Center.Y + 12) / 16, 0.08f, 0.66f, 0.7f);
+            if (NPC.ai[2] < 496)
             {
-                npc.ai[2] += 1 + Main.rand.Next(5);
-                npc.netUpdate = true;
+                NPC.ai[2] += 1 + Main.rand.Next(5);
+                NPC.netUpdate = true;
             }
             else
             {
-                npc.ai[2]++;
+                NPC.ai[2]++;
             }
-            if (npc.ai[2] == 500)
+            if (NPC.ai[2] == 500)
             {
-                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 79, 1, 0.3f);
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 40, 1, 0.4f);
+                SoundEngine.PlaySound(SoundID.Zombie79.WithPitchOffset(0.3f), NPC.position);
+                SoundEngine.PlaySound(SoundID.NPCHit40.WithPitchOffset(0.4f), NPC.position);
             }
-            if (npc.ai[2] == 510)
+            if (NPC.ai[2] == 510)
             {
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 40, 1, 0.4f);
+                SoundEngine.PlaySound(SoundID.NPCHit40.WithPitchOffset(0.4f), NPC.position);
             }
-            if (npc.ai[2] == 515)
+            if (NPC.ai[2] == 515)
             {
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 40, 1, 0.6f);
-                npc.ai[2] = 0;
+                SoundEngine.PlaySound(SoundID.NPCHit40.WithPitchOffset(0.6f), NPC.position);
+                NPC.ai[2] = 0;
             }
-            if (npc.ai[1] > 1 && npc.ai[3] <= 0)
+            if (NPC.ai[1] > 1 && NPC.ai[3] <= 0)
             {
-                if (npc.velocity.X == 0)
+                if (NPC.velocity.X == 0)
                 {
-                    if (npc.velocity.Y >= 0)
+                    if (NPC.velocity.Y >= 0)
                     {
-                        npc.ai[1]++;
-                        if (npc.ai[1] > 120)
+                        NPC.ai[1]++;
+                        if (NPC.ai[1] > 120)
                         {
-                            npc.ai[1] = 2;
-                            npc.ai[3] = 1;
+                            NPC.ai[1] = 2;
+                            NPC.ai[3] = 1;
                             //npc.position.X += npc.direction * 8;
                         }
                     }
-                    if (npc.velocity.Y < 0)
+                    if (NPC.velocity.Y < 0)
                     {
-                        npc.rotation = -90 * npc.direction * 0.0174f;
+                        NPC.rotation = -90 * NPC.direction * 0.0174f;
                     }
-                    npc.velocity.Y = -5f;
+                    NPC.velocity.Y = -5f;
                 }
                 else
                 {
-                    npc.ai[1] = 2;
-                    npc.rotation = 0;
+                    NPC.ai[1] = 2;
+                    NPC.rotation = 0;
                 }
-                if (npc.Center.X < P.Center.X)
+                if (NPC.Center.X < P.Center.X)
                 {
-                    npc.velocity.X = -6f;
+                    NPC.velocity.X = -6f;
                 }
                 else
                 {
-                    npc.velocity.X = 6f;
+                    NPC.velocity.X = 6f;
                 }/*
                 if (Collision.SolidCollision(npc.position + new Vector2(8, 8), 8, 28))
                 {
@@ -388,82 +389,82 @@ namespace JoostMod.NPCs
                 }
                 */
 
-                if (npc.ai[0] % 60 == 0 && npc.ai[1] > 1)
+                if (NPC.ai[0] % 60 == 0 && NPC.ai[1] > 1)
                 {
-                    if (npc.localAI[0] < 30 && !npc.noTileCollide)
+                    if (NPC.localAI[0] < 30 && !NPC.noTileCollide)
                     {
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -3, 413, 0, 0f, Main.myPlayer);
-                        Item.NewItem((int)npc.Center.X - 16 * npc.direction, (int)npc.Center.Y, 2, 2, ItemID.GoldCoin);
-                        Main.PlaySound(18, npc.Center);
-                        npc.localAI[0]++;
+                        Item.NewItem((int)NPC.Center.X - 16 * NPC.direction, (int)NPC.Center.Y, 2, 2, ItemID.GoldCoin);
+                        SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
+                        NPC.localAI[0]++;
                     }
                 }
             }
-            if (npc.ai[3] > 0)
+            if (NPC.ai[3] > 0)
             {
-                npc.defense = 0;
-                npc.rotation = 0;
-                npc.velocity.X = 0;
-                if (npc.velocity.Y == 0 || npc.ai[3] > 2)
+                NPC.defense = 0;
+                NPC.rotation = 0;
+                NPC.velocity.X = 0;
+                if (NPC.velocity.Y == 0 || NPC.ai[3] > 2)
                 {
-                    npc.ai[3]++;
-                    npc.noGravity = true;
+                    NPC.ai[3]++;
+                    NPC.noGravity = true;
                 }
-                if (npc.ai[3] == 8)
+                if (NPC.ai[3] == 8)
                 {
-                    Main.PlaySound(0, npc.Center);
-                    Dust.NewDustDirect(new Vector2(npc.Center.X + 20 * npc.direction, npc.Center.Y + 6), 1, 1, 16);
+                    SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
+                    Dust.NewDustDirect(new Vector2(NPC.Center.X + 20 * NPC.direction, NPC.Center.Y + 6), 1, 1, 16);
                 }
-                if (npc.ai[3] == 24)
+                if (NPC.ai[3] == 24)
                 {
-                    Main.PlaySound(16, npc.Center);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center);
                 }
-                if (npc.ai[3] == 32 || npc.ai[3] == 48 || npc.ai[3] == 64)
+                if (NPC.ai[3] == 32 || NPC.ai[3] == 48 || NPC.ai[3] == 64)
                 {
-                    Main.PlaySound(6, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
                 }
-                if (npc.ai[3] == 16 || npc.ai[3] == 40 || npc.ai[3] == 72)
+                if (NPC.ai[3] == 16 || NPC.ai[3] == 40 || NPC.ai[3] == 72)
                 {
-                    Main.PlaySound(18, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
                 }
-                if (npc.ai[3] == 56)
+                if (NPC.ai[3] == 56)
                 {
-                    Main.PlaySound(13, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Shatter, NPC.Center);
                 }
-                if (npc.ai[3] == 80)
+                if (NPC.ai[3] == 80)
                 {
-                    Main.PlaySound(7, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Grab, NPC.Center);
                 }
-                if (npc.ai[3] == 88 || npc.ai[3] == 112)
+                if (NPC.ai[3] == 88 || NPC.ai[3] == 112)
                 {
-                    Main.PlaySound(2, npc.Center, 7);
+                    SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
                 }
-                if (npc.ai[3] == 116)
+                if (NPC.ai[3] == 116)
                 {
-                    Main.PlaySound(18, npc.Center);
-                    Main.PlaySound(0, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
+                    SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
                 }
-                if (npc.ai[3] == 156)
+                if (NPC.ai[3] == 156)
                 {
-                    Main.PlaySound(7, npc.Center);
+                    SoundEngine.PlaySound(SoundID.Grab, NPC.Center);
                 }
-                if (npc.ai[3] == 176)
+                if (NPC.ai[3] == 176)
                 {
-                    Main.PlaySound(2, npc.Center, 8);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
-                if (npc.ai[3] >= 224)
+                if (NPC.ai[3] >= 224)
                 {
-                    npc.dontTakeDamage = true;
+                    NPC.dontTakeDamage = true;
                 }
-                if (npc.ai[3] >= 240)
+                if (NPC.ai[3] >= 240)
                 {
-                    Item.NewItem((int)npc.Center.X + 36 * npc.direction, (int)npc.Center.Y + 6, 12, 12, ItemID.GoldCoin);
-                    npc.active = false;
+                    Item.NewItem((int)NPC.Center.X + 36 * NPC.direction, (int)NPC.Center.Y + 6, 12, 12, ItemID.GoldCoin);
+                    NPC.active = false;
                     if (Main.netMode == 2)
                     {
-                        npc.netSkip = -1;
-                        npc.life = 0;
-                        NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        NPC.netSkip = -1;
+                        NPC.life = 0;
+                        NetMessage.SendData(23, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
@@ -471,7 +472,7 @@ namespace JoostMod.NPCs
 
         public override void BossHeadSpriteEffects(ref SpriteEffects spriteEffects)
         {
-            if (npc.direction == 1)
+            if (NPC.direction == 1)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }

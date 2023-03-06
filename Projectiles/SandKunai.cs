@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,16 +15,16 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 330;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 330;
+            AIType = ProjectileID.Bullet;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 10;
             height = 10;
@@ -40,23 +41,23 @@ namespace JoostMod.Projectiles
         {
             for (int i = 0; i < 12; i++)
             {
-                int dustIndex = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 100);
+                int dustIndex = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 100);
                 Main.dust[dustIndex].noGravity = true;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(0, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
             return base.OnTileCollide(oldVelocity);
         }
         public override void AI()
         {
-            if (projectile.timeLeft < 300)
+            if (Projectile.timeLeft < 300)
             {
-                if (projectile.velocity.Y < 15)
-                    projectile.velocity.Y += 0.4f;
-                projectile.velocity.X *= 0.98f;
-                projectile.rotation = projectile.timeLeft * projectile.direction * 0.0174f * -45f;
+                if (Projectile.velocity.Y < 15)
+                    Projectile.velocity.Y += 0.4f;
+                Projectile.velocity.X *= 0.98f;
+                Projectile.rotation = Projectile.timeLeft * Projectile.direction * 0.0174f * -45f;
             }
         }
     }

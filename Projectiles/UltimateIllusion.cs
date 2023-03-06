@@ -15,16 +15,16 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 1;
-            projectile.height = 1;
-            projectile.aiStyle = 1;
-            projectile.hostile = false;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 500;
-            projectile.tileCollide = false;
-            aiType = ProjectileID.Bullet;
-            projectile.extraUpdates = 1;
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.aiStyle = 1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 500;
+            Projectile.tileCollide = false;
+            AIType = ProjectileID.Bullet;
+            Projectile.extraUpdates = 1;
         }
         public override bool CanHitPlayer(Player target)
         {
@@ -32,15 +32,15 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.ai[1]++;
-            if (projectile.ai[1] >= 10)
+            Projectile.ai[1]++;
+            if (Projectile.ai[1] >= 10)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 15f, mod.ProjectileType("UltimateIllusion1"), projectile.damage, 20, projectile.owner);
-                projectile.ai[1] -= 10;
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 15f, Mod.Find<ModProjectile>("UltimateIllusion1").Type, Projectile.damage, 20, Projectile.owner);
+                Projectile.ai[1] -= 10;
             }
-            if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                projectile.position.Y -= 16 * projectile.scale;
+                Projectile.position.Y -= 16 * Projectile.scale;
             }
         }
     }

@@ -12,38 +12,38 @@ namespace JoostMod.NPCs
         }
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.DiggerHead);
-            npc.aiStyle = -1;
-            npc.lifeMax = 25;        
-            npc.damage = 15;    
-            npc.defense = 0;         
-            npc.knockBackResist = 0f;
-            npc.width = 12;
-            npc.height = 12;       
-            npc.noGravity = true;           
-            npc.noTileCollide = true;     
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.behindTiles = true;
-            npc.value = Item.buyPrice(0, 0, 0, 75);
-            npc.npcSlots = 1f;
-            npc.netAlways = true;
-            banner = npc.type;
-			bannerItem = mod.ItemType("CactusWormBanner");
+            NPC.CloneDefaults(NPCID.DiggerHead);
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 25;        
+            NPC.damage = 15;    
+            NPC.defense = 0;         
+            NPC.knockBackResist = 0f;
+            NPC.width = 12;
+            NPC.height = 12;       
+            NPC.noGravity = true;           
+            NPC.noTileCollide = true;     
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.behindTiles = true;
+            NPC.value = Item.buyPrice(0, 0, 0, 75);
+            NPC.npcSlots = 1f;
+            NPC.netAlways = true;
+            Banner = NPC.type;
+			BannerItem = Mod.Find<ModItem>("CactusWormBanner").Type;
         }
         public override void Init()
         {
             base.Init();
             head = true;
         }
-        public override void NPCLoot()
+        public override void OnKill()
 		{
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SucculentCactus"), 1);
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SucculentCactus").Type, 1);
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-			return !spawnInfo.player.ZoneBeach && !spawnInfo.playerInTown && !spawnInfo.invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneHoly ? (JoostWorld.downedCactusWorm ? 0.005f : 0.025f) : 0f;
+			Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+			return !spawnInfo.Player.ZoneBeach && !spawnInfo.PlayerInTown && !spawnInfo.Invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.Player.ZoneDesert && !spawnInfo.Player.ZoneCorrupt && !spawnInfo.Player.ZoneCrimson && !spawnInfo.Player.ZoneHallow ? (JoostWorld.downedCactusWorm ? 0.005f : 0.025f) : 0f;
 		}
     }
 }

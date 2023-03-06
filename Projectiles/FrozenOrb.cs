@@ -15,21 +15,21 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 50;
-			projectile.height = 50;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 90;
-			projectile.alpha = 95;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-			projectile.coldDamage = true;
+			Projectile.width = 50;
+			Projectile.height = 50;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 10;
+			Projectile.timeLeft = 90;
+			Projectile.alpha = 95;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesIDStaticNPCImmunity = true;
+			Projectile.idStaticNPCHitCooldown = 10;
+			Projectile.coldDamage = true;
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 20;
 			height = 20;
@@ -45,37 +45,37 @@ namespace JoostMod.Projectiles
             double deltaAngle = spread / shootNum;
             double offsetAngle;
             int i;
-            int damage = (int)(projectile.damage * 0.5f);
-            float knockback = projectile.knockBack * 0.5f;
+            int damage = (int)(Projectile.damage * 0.5f);
+            float knockback = Projectile.knockBack * 0.5f;
             for (i = 0; i < shootNum; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("Icicle"), damage, knockback, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("Icicle").Type, damage, knockback, Projectile.owner);
             }
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.ai[1] * 6;
-            if ((int)projectile.ai[1] % 10 == 0)
+            Projectile.rotation = Projectile.ai[1] * 6;
+            if ((int)Projectile.ai[1] % 10 == 0)
             {
                 int shootNum = 3;
                 float shootSpread = 360f;
                 float spread = shootSpread * 0.0174f;
                 float baseSpeed = 3f;
-                double startAngle = projectile.rotation - spread / shootNum;
+                double startAngle = Projectile.rotation - spread / shootNum;
                 double deltaAngle = spread / shootNum;
                 double offsetAngle;
                 int i;
-                int damage = (int)(projectile.damage * 0.5f);
-                float knockback = projectile.knockBack * 0.5f;
+                int damage = (int)(Projectile.damage * 0.5f);
+                float knockback = Projectile.knockBack * 0.5f;
                 for (i = 0; i < shootNum; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("Icicle"), damage, knockback, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("Icicle").Type, damage, knockback, Projectile.owner);
                 }
             }
-            projectile.ai[1]++;
+            Projectile.ai[1]++;
         }
 
 	}

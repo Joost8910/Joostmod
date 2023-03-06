@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,28 +13,28 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ascended Blast");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 4;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 4;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 48;
-			projectile.height = 48;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-			projectile.ranged = true;
-			projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
-			projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 100;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 48;
+			Projectile.height = 48;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 1;
+			Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 100;
+            AIType = ProjectileID.Bullet;
 		}
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 34;
             height = 34;
@@ -49,31 +50,31 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            projectile.direction = projectile.velocity.X > 0 ? 1 : -1;
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + (projectile.direction == -1 ? 3.14f : 0); ;
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
+            Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + (Projectile.direction == -1 ? 3.14f : 0); ;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 4;
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 56, projectile.velocity.X * -0.2f, projectile.velocity.Y * -0.2f, 100);
+                Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 4;
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 56, Projectile.velocity.X * -0.2f, Projectile.velocity.Y * -0.2f, 100);
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return true;
         }

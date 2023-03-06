@@ -7,38 +7,41 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Items.Weapons
 {
-	public class HallowedSet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hallowed Weapon Set");
-			Tooltip.SetDefault("'You fell a holy presence emanating from these weapons'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(48, 4));
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 60;
-			item.width = 72;
-			item.height = 58;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 5;
-			item.noMelee = true; 
-			item.knockBack = 3;
-			item.value = 200000;
-			item.rare = 6;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("HallowedSickle");
-			item.shootSpeed = 1f;
-            item.crit = 4;
-        }
-        public override void GetWeaponCrit(Player player, ref int crit)
+    public class HallowedSet : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            crit += (player.meleeCrit + player.rangedCrit + player.magicCrit + player.thrownCrit) / 4;
+            DisplayName.SetDefault("Hallowed Weapon Set");
+            Tooltip.SetDefault("'You fell a holy presence emanating from these weapons'");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
+        public override void SetDefaults()
+        {
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Generic;
+            Item.width = 72;
+            Item.height = 58;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = 200000;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.scale = 1f;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("HallowedSickle").Type;
+            Item.shootSpeed = 1f;
+            Item.crit = 4;
+        }
+        /*
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            crit += (player.GetCritChance(DamageClass.Generic) + player.GetCritChance(DamageClass.Ranged) + player.GetCritChance(DamageClass.Magic) + player.GetCritChance(DamageClass.Throwing)) / 4;
+        }
+        */
         public override int ChoosePrefix(Terraria.Utilities.UnifiedRandom rand)
         {
             switch (rand.Next(24))
@@ -101,49 +104,48 @@ namespace JoostMod.Items.Weapons
             }
             return true;
         }
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int wep = Main.rand.Next(4);
-			if (wep == 1)
-			{
-				for (int i = 1; i < 11;i++)
-				{
-					float spread = 15f * 0.0174f;
-					float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-					double baseAngle = Math.Atan2(speedX, speedY);
-					double randomAngle = baseAngle+(Main.rand.NextFloat()-0.5f)*spread;
-					speedX = baseSpeed*(float)Math.Sin(randomAngle);
-					speedY = baseSpeed*(float)Math.Cos(randomAngle);
-					Terraria.Projectile.NewProjectile(position.X, position.Y, speedX * i, speedY * i, mod.ProjectileType("Sparkle"), damage, knockBack, player.whoAmI);
-				}
-			}
-			if (wep == 2)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 16), (speedY * 16), 91, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 3)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX * 6), (speedY * 6), 105, (damage), knockBack, player.whoAmI);
-			}
-			if (wep == 0)
-			{
-				Terraria.Projectile.NewProjectile(position.X, position.Y, (speedX / 3), (speedY / 3), mod.ProjectileType("HallowedSickle"), (damage / 2), knockBack, player.whoAmI);
-			}
-			return false;
-		}
-			public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Gungnir);
-			recipe.AddIngredient(ItemID.HallowedRepeater);
-			recipe.AddIngredient(null, "SparkleStaff");
-			recipe.AddIngredient(null, "HallowedSickle", 333);
-			recipe.AddTile(TileID.MythrilAnvil); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int wep = Main.rand.Next(4);
+            if (wep == 1)
+            {
+                for (int i = 1; i < 11; i++)
+                {
+                    float spread = 15f * 0.0174f;
+                    float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+                    double baseAngle = Math.Atan2(velocity.X, velocity.Y);
+                    double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
+                    velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+                    velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
+                    Projectile.NewProjectile(source, position.X, position.Y, velocity.X * i, velocity.Y * i, Mod.Find<ModProjectile>("Sparkle").Type, damage, knockback, player.whoAmI);
+                }
+            }
+            if (wep == 2)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 16), (velocity.Y * 16), ProjectileID.HolyArrow, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 3)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * 6), (velocity.Y * 6), ProjectileID.Gungnir, (damage), knockback, player.whoAmI);
+            }
+            if (wep == 0)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, (velocity.X / 3), (velocity.Y / 3), Mod.Find<ModProjectile>("HallowedSickle").Type, (damage / 2), knockback, player.whoAmI);
+            }
+            return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.Gungnir)
+                .AddIngredient(ItemID.HallowedRepeater)
+                .AddIngredient<SparkleStaff>()
+                .AddIngredient<HallowedSickle>(333)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
 
-	}
+    }
 }
 
 

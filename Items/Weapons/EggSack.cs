@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,30 +13,29 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 40;
-			item.melee = true;
-			item.width = 30;
-			item.height = 26;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = 5;
-			item.knockBack = 2;
-			item.channel = true;
-			item.value = 50000;
-			item.rare = 5;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.shoot = mod.ProjectileType("EggSack");
-			item.shootSpeed = 16f;
+			Item.damage = 40;
+			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.width = 30;
+			Item.height = 26;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 2;
+			Item.channel = true;
+			Item.value = 50000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.shoot = Mod.Find<ModProjectile>("EggSack").Type;
+			Item.shootSpeed = 16f;
 		}
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.SpiderFang, 7);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.SpiderFang, 7)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

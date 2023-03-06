@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,25 +17,25 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.DiggerBody);
-            npc.aiStyle = -1;
-            npc.damage = 35;
-            npc.defense = 0;
-            npc.knockBackResist = 0f;
-            npc.width = 82;
-            npc.height = 98;
-            npc.behindTiles = true;
-            npc.noTileCollide = true;
-            npc.netAlways = true;
-            npc.noGravity = true;
-            npc.dontCountMe = true;
-            npc.lavaImmune = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.CloneDefaults(NPCID.DiggerBody);
+            NPC.aiStyle = -1;
+            NPC.damage = 35;
+            NPC.defense = 0;
+            NPC.knockBackResist = 0f;
+            NPC.width = 82;
+            NPC.height = 98;
+            NPC.behindTiles = true;
+            NPC.noTileCollide = true;
+            NPC.netAlways = true;
+            NPC.noGravity = true;
+            NPC.dontCountMe = true;
+            NPC.lavaImmune = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (Vector2.Distance(target.Center, npc.Center) > 50)
+            if (Vector2.Distance(target.Center, NPC.Center) > 50)
             {
                 return false;
             }
@@ -46,105 +47,105 @@ namespace JoostMod.NPCs.Bosses
             {
                 damage = (int)(damage * 0.6f);
             }
-            if (projectile.type == mod.ProjectileType("DoomSkull3"))
+            if (projectile.type == Mod.Find<ModProjectile>("DoomSkull3").Type)
             {
                 damage /= 2; 
             }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = (int)(npc.damage * 0.7f);
+            NPC.damage = (int)(NPC.damage * 0.7f);
         }
         public override void BossHeadRotation(ref float rotation)
         {
-            rotation = npc.rotation;
+            rotation = NPC.rotation;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GrandCactusWormBody"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GrandCactusWormBody"), NPC.scale);
             }
-            if (Main.npc[npc.realLife].ai[3] == 0)
+            if (Main.npc[NPC.realLife].ai[3] == 0)
             {
-                Main.npc[npc.realLife].ai[2] = 1;
-                Main.npc[npc.realLife].netUpdate = true;
+                Main.npc[NPC.realLife].ai[2] = 1;
+                Main.npc[NPC.realLife].netUpdate = true;
             }
         }
         public override bool PreAI()
         {
-            if (npc.ai[3] > 0)
+            if (NPC.ai[3] > 0)
             {
-                npc.realLife = (int)npc.ai[3];
+                NPC.realLife = (int)NPC.ai[3];
             }
-            if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead)
+            if (NPC.target < 0 || NPC.target == byte.MaxValue || Main.player[NPC.target].dead)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
             if (Main.netMode != 1)
             {
-                if (!Main.npc[(int)npc.ai[1]].active)
+                if (!Main.npc[(int)NPC.ai[1]].active)
                 {
-                    npc.life = 0;
-                    npc.HitEffect(0, 10.0);
-                    npc.active = false;
+                    NPC.life = 0;
+                    NPC.HitEffect(0, 10.0);
+                    NPC.active = false;
                     if (Main.netMode == 2)
                     {
-                        NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
+                        NetMessage.SendData(28, -1, -1, null, NPC.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
                     }
                 }
-                if (Main.npc[(int)npc.ai[3]].ai[1] >= 225 && Main.npc[(int)npc.ai[3]].ai[1] < 425 || Main.npc[(int)npc.ai[3]].ai[1] >= 624 && Main.npc[(int)npc.ai[3]].ai[1] < 820)
+                if (Main.npc[(int)NPC.ai[3]].ai[1] >= 225 && Main.npc[(int)NPC.ai[3]].ai[1] < 425 || Main.npc[(int)NPC.ai[3]].ai[1] >= 624 && Main.npc[(int)NPC.ai[3]].ai[1] < 820)
                 {
-                    if (Main.npc[(int)npc.ai[3]].ai[1] % 45 == 0)
+                    if (Main.npc[(int)NPC.ai[3]].ai[1] % 45 == 0)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CactusThorn"));
+                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("CactusThorn").Type);
                     }
                 }
-                if (Main.npc[(int)npc.ai[3]].ai[0] >= 2)
+                if (Main.npc[(int)NPC.ai[3]].ai[0] >= 2)
                 {
                     //npc.dontTakeDamage = true;
-                    npc.defense = 1000;
-                    npc.HitSound = SoundID.NPCHit4;
-                    npc.netUpdate = true;
+                    NPC.defense = 1000;
+                    NPC.HitSound = SoundID.NPCHit4;
+                    NPC.netUpdate = true;
                 }
                 else
                 {
                     //npc.dontTakeDamage = false;
-                    npc.defense = 0;
-                    npc.HitSound = SoundID.NPCHit1;
-                    npc.netUpdate = true;
+                    NPC.defense = 0;
+                    NPC.HitSound = SoundID.NPCHit1;
+                    NPC.netUpdate = true;
                 }
             }
 
-            if (npc.ai[1] < (double)Main.npc.Length)
+            if (NPC.ai[1] < (double)Main.npc.Length)
             {
-                float dirX = Main.npc[(int)npc.ai[1]].Center.X + Main.npc[(int)npc.ai[1]].velocity.X - npc.Center.X;
-                float dirY = Main.npc[(int)npc.ai[1]].Center.Y + Main.npc[(int)npc.ai[1]].velocity.Y - npc.Center.Y;
-                npc.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
+                float dirX = Main.npc[(int)NPC.ai[1]].Center.X + Main.npc[(int)NPC.ai[1]].velocity.X - NPC.Center.X;
+                float dirY = Main.npc[(int)NPC.ai[1]].Center.Y + Main.npc[(int)NPC.ai[1]].velocity.Y - NPC.Center.Y;
+                NPC.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
                 float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
-                float dist = (length - (float)npc.width) / length;
-                if (npc.ai[1] == npc.ai[3])
+                float dist = (length - (float)NPC.width) / length;
+                if (NPC.ai[1] == NPC.ai[3])
                 {
-                    dist = (length - npc.width/2) / length;
+                    dist = (length - NPC.width/2) / length;
                 }
                 float posX = dirX * dist;
                 float posY = dirY * dist;
-                npc.velocity = Vector2.Zero;
-                npc.position.X = npc.position.X + posX;
-                npc.position.Y = npc.position.Y + posY;
-                npc.netUpdate = true;
+                NPC.velocity = Vector2.Zero;
+                NPC.position.X = NPC.position.X + posX;
+                NPC.position.Y = NPC.position.Y + posY;
+                NPC.netUpdate = true;
             }
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
-            if (npc.defense >= 1000)
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            if (NPC.defense >= 1000)
             {
-                texture = mod.GetTexture("NPCs/Bosses/GrandCactusWormBodyInvincible");
+                texture = Mod.GetTexture("NPCs/Bosses/GrandCactusWormBodyInvincible");
             }
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, new Rectangle?(), drawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, new Rectangle?(), drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

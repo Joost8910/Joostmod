@@ -6,7 +6,7 @@ namespace JoostMod.Buffs
 {
 	public class fishMinion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pufferfish Minion");
 			Description.SetDefault("The pufferfish will fight for you");
@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-			if (player.ownedProjectileCounts[mod.ProjectileType("fishMinion")] > 0)
+			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("fishMinion").Type] > 0)
 			{
 				modPlayer.fishMinion = true;
 			}

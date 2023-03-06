@@ -12,102 +12,102 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leaf");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 8;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 8;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 751;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 751;
             //projectile.tileCollide = false;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             hitDirection = target.Center.X < player.Center.X ? -1 : 1;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.timeLeft >= 751)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.timeLeft >= 751)
             {
-                projectile.localAI[0] = player.Center.X;
-                projectile.localAI[1] = player.Center.Y;
-                projectile.frame = Main.rand.Next(8);
-                projectile.netUpdate = true;
+                Projectile.localAI[0] = player.Center.X;
+                Projectile.localAI[1] = player.Center.Y;
+                Projectile.frame = Main.rand.Next(8);
+                Projectile.netUpdate = true;
             }
-            if ((int)(projectile.ai[0] / 10f) % 2 == 0)
+            if ((int)(Projectile.ai[0] / 10f) % 2 == 0)
 			{
 				Color color = new Color(255, 255, 255);
-				if (projectile.frame == 0)
+				if (Projectile.frame == 0)
 				{
 					color = new Color(240, 170, 0);
 				}
-				if (projectile.frame == 1)
+				if (Projectile.frame == 1)
 				{
 					color = new Color(211, 115, 0);
 				}
-				if (projectile.frame == 2)
+				if (Projectile.frame == 2)
 				{
 					color = new Color(170, 80, 35);
 				}
-				if (projectile.frame == 3)
+				if (Projectile.frame == 3)
 				{
 					color = new Color(170, 40, 35);
 				}
-				if (projectile.frame == 4)
+				if (Projectile.frame == 4)
 				{
 					color = new Color(255, 0, 85);
 				}
-				if (projectile.frame == 5)
+				if (Projectile.frame == 5)
 				{
 					color = new Color(190, 0, 90);
 				}
-				if (projectile.frame == 6)
+				if (Projectile.frame == 6)
 				{
 					color = new Color(165, 35, 170);
 				}
-				if (projectile.frame == 7)
+				if (Projectile.frame == 7)
 				{
 					color = new Color(60, 35, 170);
 				}
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1, projectile.velocity.X/10, projectile.velocity.Y/10, 100, color, 1f);
+				int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 1, Projectile.velocity.X/10, Projectile.velocity.Y/10, 100, color, 1f);
 				Main.dust[num1].noGravity = true;
 			}
-			double deg = (double)projectile.ai[0];
+			double deg = (double)Projectile.ai[0];
 			double rad = deg * (Math.PI / 180);
 			double dist = 55; 
-			if (projectile.ai[1] >= 1)
+			if (Projectile.ai[1] >= 1)
             {
-                projectile.localAI[0] += projectile.velocity.X;
-                projectile.localAI[1] += projectile.velocity.Y;
-                projectile.netUpdate = true;
-                projectile.ownerHitCheck = false;
-                if (Collision.SolidCollision(new Vector2(projectile.localAI[0] - 5, projectile.localAI[1] - 5), 10, 10))
+                Projectile.localAI[0] += Projectile.velocity.X;
+                Projectile.localAI[1] += Projectile.velocity.Y;
+                Projectile.netUpdate = true;
+                Projectile.ownerHitCheck = false;
+                if (Collision.SolidCollision(new Vector2(Projectile.localAI[0] - 5, Projectile.localAI[1] - 5), 10, 10))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 			else
             {
-                projectile.localAI[0] = player.Center.X;
-                projectile.localAI[1] = player.Center.Y;
-                projectile.ownerHitCheck = true;
-                projectile.timeLeft = 750;
+                Projectile.localAI[0] = player.Center.X;
+                Projectile.localAI[1] = player.Center.Y;
+                Projectile.ownerHitCheck = true;
+                Projectile.timeLeft = 750;
             }
-            Vector2 origin = new Vector2(projectile.localAI[0], projectile.localAI[1]);
-            projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
-			projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;	
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-			projectile.ai[0] += 10f;
+            Vector2 origin = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
+            Projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - Projectile.width/2;
+			Projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - Projectile.height/2;	
+			Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+			Projectile.ai[0] += 10f;
         }
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 6;
 			height = 6;

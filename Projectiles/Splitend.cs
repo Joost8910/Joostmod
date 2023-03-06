@@ -14,29 +14,29 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 28;
-			projectile.height = 28;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			projectile.alpha = 55;
-			projectile.extraUpdates = 1;
+			Projectile.width = 28;
+			Projectile.height = 28;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			Projectile.alpha = 55;
+			Projectile.extraUpdates = 1;
 		}
         public override void AI()
         {
-            projectile.rotation += projectile.timeLeft * -projectile.direction * 0.0174f * 5;
+            Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
 
             return false;

@@ -8,20 +8,20 @@ using Terraria.ModLoader;
 namespace JoostMod.Items.Rewards
 {
     [AutoloadEquip(EquipType.Back)]
-	public class ShieldSapling : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sapling - Shield");
+    public class ShieldSapling : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sapling - Shield");
             Tooltip.SetDefault("Tries to block attackers behind you\n" + "Cannot block projectiles that deal more than 30 damage (60 in Expert Mode)");
         }
-		public override void SetDefaults()
-		{
-			item.width = 26;
-			item.height = 30;
-			item.value = 20000;
-			item.rare = 3;
-            item.accessory = true;
+        public override void SetDefaults()
+        {
+            Item.width = 26;
+            Item.height = 30;
+            Item.value = 20000;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
             //item.defense = 4;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,25 +32,22 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("JoostMod:Saplings");
-            recipe.AddIngredient(ItemID.CopperBar, 7);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("JoostMod:Saplings");
-            recipe.AddIngredient(ItemID.TinBar, 7);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddRecipeGroup("JoostMod:Saplings")
+                .AddIngredient(ItemID.CopperBar, 7)
+                .Register();
+            CreateRecipe()
+                .AddRecipeGroup("JoostMod:Saplings")
+                .AddIngredient(ItemID.TinBar, 7)
+                .Register();
         }
     }
 }

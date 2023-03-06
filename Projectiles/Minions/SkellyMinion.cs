@@ -12,40 +12,40 @@ namespace JoostMod.Projectiles.Minions
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skelly");
-			Main.projFrames[projectile.type] = 4;
-			Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.MinionShot[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 4;
+			Main.projPet[Projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.MinionShot[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 30;
-			projectile.height = 31;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.minionSlots = 1;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = false;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			Projectile.netImportant = true;
+			Projectile.width = 30;
+			Projectile.height = 31;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 1;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = false;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 10;
 			inertia = 17f;
-			shoot = mod.ProjectileType("Bone");
+			shoot = Mod.Find<ModProjectile>("Bone").Type;
 			shootSpeed = 14f;
 			shootCool = 80f;
             grounded = true;
         }
 		public override void FlyingDust()
 		{
-			Dust.NewDust(projectile.Center, projectile.width, projectile.height, 111, 0f, 0f, 0, default(Color), 0.7f);
+			Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 111, 0f, 0f, 0, default(Color), 0.7f);
 		}
 		public override void CheckActive()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
@@ -53,24 +53,24 @@ namespace JoostMod.Projectiles.Minions
 			}
 			if (modPlayer.Skelly)
 			{
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			}
 		}
 		public override void SelectFrame(Vector2 tPos)
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 5 && projectile.ai[0] != 1f && Math.Abs(projectile.velocity.X) > 0.1f)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 5 && Projectile.ai[0] != 1f && Math.Abs(Projectile.velocity.X) > 0.1f)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 4;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 4;
 			}
-			if (projectile.ai[0] == 1f)
+			if (Projectile.ai[0] == 1f)
 			{
-				projectile.frame = 1;
+				Projectile.frame = 1;
 			}
-			else if (Math.Abs(projectile.velocity.X) <= 0.1f)
+			else if (Math.Abs(Projectile.velocity.X) <= 0.1f)
 			{
-				projectile.frame = 2;
+				Projectile.frame = 2;
 			}
 		}
 	}

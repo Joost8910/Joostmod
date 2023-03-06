@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,53 +15,52 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 30;
-			item.summon = true;
-			item.mana = 10;
-			item.width = 36;
-			item.height = 36;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = 1;
-			item.noMelee = true; 
-			item.knockBack = 3;
-			item.value = 225000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item44;
-			item.shoot = mod.ProjectileType("WindMinion");
-			item.shootSpeed = 7f;
-			item.buffType = mod.BuffType("WindMinion");
-			item.buffTime = 3600;
+			Item.damage = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+			Item.width = 36;
+			Item.height = 36;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.value = 225000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item44;
+			Item.shoot = Mod.Find<ModProjectile>("WindMinion").Type;
+			Item.shootSpeed = 7f;
+			Item.buffType = Mod.Find<ModBuff>("WindMinion").Type;
+			Item.buffTime = 3600;
 		}
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-		
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
 		}
-		
-		public override bool UseItem(Player player)
+
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			if(player.altFunctionUse == 2)
+			if (player.altFunctionUse == 2)
 			{
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(false);
 			}
 			return base.UseItem(player);
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "TinyTwister", 50);
-			recipe.AddRecipeGroup("JoostMod:AnyCobalt", 4);
-			recipe.AddRecipeGroup("JoostMod:AnyMythril", 4);
-			recipe.AddRecipeGroup("JoostMod:AnyAdamantite", 4);
-			recipe.AddTile(null, "ElementalForge"); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<Materials.TinyTwister>(50)
+				.AddRecipeGroup("JoostMod:AnyCobalt", 4)
+				.AddRecipeGroup("JoostMod:AnyMythril", 4)
+				.AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+				.AddTile<Tiles.ElementalForge>()
+				.Register();
 		}
 
 	}

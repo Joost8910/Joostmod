@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -64,7 +65,7 @@ namespace JoostMod.Items
             myClone.fishingPower = fishingPower;
             return myClone;
         }
-        public override bool NewPreReforge(Item item)
+        public override bool PreReforge(Item item)
         {
             meleeDamage = 0;
             thrownDamage = 0;
@@ -74,61 +75,61 @@ namespace JoostMod.Items
             maxHealth = 0;
             lifeRegen = 0;
             fishingPower = 0;
-            return base.NewPreReforge(item);
+            return base.PreReforge(item);
         }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             if (item.type == ItemID.LivingLoom)
             {
-                TooltipLine line = new TooltipLine(mod, "CraftedAt", "Crafted at a living tree's leaves");
+                TooltipLine line = new TooltipLine(Mod, "CraftedAt", "Crafted at a living tree's leaves");
                 tooltips.Add(line);
             }
             if (meleeDamage > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "meleePrefix", "+" + meleeDamage + "% melee damage");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "meleePrefix", "+" + meleeDamage + "% melee damage");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (thrownDamage > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "thrownPrefix", "+" + thrownDamage + "% thrown damage");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "thrownPrefix", "+" + thrownDamage + "% thrown damage");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (rangedDamage > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "rangedPrefix", "+" + rangedDamage + "% ranged damage");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "rangedPrefix", "+" + rangedDamage + "% ranged damage");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (magicDamage > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "magicPrefix", "+" + magicDamage + "% magic damage");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "magicPrefix", "+" + magicDamage + "% magic damage");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (summonDamage > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "summonPrefix", "+" + summonDamage + "% summon damage");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "summonPrefix", "+" + summonDamage + "% summon damage");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (maxHealth > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "maxLifePrefix", "+" + maxHealth + " max life");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "maxLifePrefix", "+" + maxHealth + " max life");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (lifeRegen > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "lifeRegenPrefix", "+" + lifeRegen + " life regen");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "lifeRegenPrefix", "+" + lifeRegen + " life regen");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
             if (fishingPower > 0)
             {
-                TooltipLine line = new TooltipLine(mod, "fishPrefix", "+" + fishingPower + " fishing power");
-                line.isModifier = true;
+                TooltipLine line = new TooltipLine(Mod, "fishPrefix", "+" + fishingPower + " fishing power");
+                line.IsModifier = true;
                 tooltips.Add(line);
             }
         }
@@ -136,11 +137,11 @@ namespace JoostMod.Items
         {
             if (item.prefix > 0)
             {
-                player.meleeDamage += meleeDamage * 0.01f;
-                player.thrownDamage += thrownDamage * 0.01f;
-                player.rangedDamage += rangedDamage * 0.01f;
-                player.magicDamage += magicDamage * 0.01f;
-                player.minionDamage += summonDamage * 0.01f;
+                player.GetDamage(DamageClass.Melee) += meleeDamage * 0.01f;
+                player.GetDamage(DamageClass.Throwing) += thrownDamage * 0.01f;
+                player.GetDamage(DamageClass.Ranged) += rangedDamage * 0.01f;
+                player.GetDamage(DamageClass.Magic) += magicDamage * 0.01f;
+                player.GetDamage(DamageClass.Summon) += summonDamage * 0.01f;
                 player.statLifeMax2 += maxHealth;
                 player.lifeRegen += lifeRegen;
                 player.fishingSkill += fishingPower;
@@ -174,7 +175,7 @@ namespace JoostMod.Items
             {
                 if (arg == ItemID.SkeletronBossBag)
                 {
-                    player.QuickSpawnItem(mod.ItemType("SkellyStaff"), 1);
+                    player.QuickSpawnItem(Mod.Find<ModItem>("SkellyStaff").Type, 1);
                 }
                 if (arg == ItemID.WallOfFleshBossBag)
                 {
@@ -185,22 +186,22 @@ namespace JoostMod.Items
                     player.QuickSpawnItem(ItemID.LifeFruit, 2 + Main.rand.Next(3));
                     if (Main.rand.Next(2) == 0)
                     {
-                        player.QuickSpawnItem(mod.ItemType("RoseWeave"), 1);
+                        player.QuickSpawnItem(Mod.Find<ModItem>("RoseWeave").Type, 1);
                     }
                 }
                 if (arg == ItemID.FishronBossBag)
                 {
                     if (Main.rand.Next(2) == 0)
                     {
-                        player.QuickSpawnItem(mod.ItemType("BubbleBottle"), 999);
+                        player.QuickSpawnItem(Mod.Find<ModItem>("BubbleBottle").Type, 999);
                     }
                     if (Main.rand.Next(2) == 0)
                     {
-                        player.QuickSpawnItem(mod.ItemType("DukeFishRod"), 1);
+                        player.QuickSpawnItem(Mod.Find<ModItem>("DukeFishRod").Type, 1);
                     }
                     if (Main.rand.Next(2) == 0)
                     {
-                        player.QuickSpawnItem(mod.ItemType("MegaBubbleShield"), 1);
+                        player.QuickSpawnItem(Mod.Find<ModItem>("MegaBubbleShield").Type, 1);
                     }
                 }
             }
@@ -222,18 +223,19 @@ namespace JoostMod.Items
             (NPC.downedQueenBee ? 0.1f : 0f) +                  //2
             (JoostWorld.downedRoc ? 0.1f : 0f) +                //2.1
             (NPC.downedBoss3 ? 0.2f : 0f) +                     //2.3
-            (JoostWorld.downedSkeletonDemoman ? 0.2f : 0f) +    //2.5
-            (JoostWorld.downedCactusWorm ? 0.2f : 0f) +         //2.7
-            (JoostWorld.downedImpLord ? 0.2f : 0f) +            //2.9
+            (JoostWorld.downedSkeletonDemoman ? 0.1f : 0f) +    //2.4
+            (NPC.downedDeerclops ? 0.2f : 0f) +                 //2.6
+            (JoostWorld.downedCactusWorm ? 0.2f : 0f) +         //2.8
+            (JoostWorld.downedImpLord ? 0.1f : 0f) +            //2.9
             (Main.hardMode ? 0.35f : 0f) +                      //3.25
             (NPC.downedPirates ? 0.25f : 0f) +                  //3.5
-            (JoostWorld.downedStormWyvern ? 0.5f + 0.25f : 0f) +//4.25 TEMP add Queen Slime to Storm Wyvern and Mech Bosses | 4
-            //(Queen Slime ? 1f : 0f) +                         //                                           | 5
-            (NPC.downedMechBoss1 ? 1f + 0.25f : 0f) +           //5.5                                        | 6
-            (NPC.downedMechBoss2 ? 1f + 0.25f: 0f) +            //6.75                                       | 7
-            (NPC.downedMechBoss3 ? 1f + 0.25f: 0f) +            //8                                          
-            //(DD2Event.DownedInvasionT2 ? 2f : 0f) +           // DD2Event Bools are bugged until tmod 1.4  | 10
-            (NPC.downedPlantBoss ? 2f + 2f : 0f) +              //12 TEMP add T2 OOA completion to Plantera
+            (JoostWorld.downedStormWyvern ? 0.5f : 0f) +        //4
+            (NPC.downedQueenSlime ? 1f : 0f) +                  //5
+            (NPC.downedMechBoss1 ? 1f : 0f) +                   //6
+            (NPC.downedMechBoss2 ? 1f : 0f) +                   //7
+            (NPC.downedMechBoss3 ? 1f : 0f) +                   //8                                          
+            (DD2Event.DownedInvasionT2 ? 2f : 0f) +             //10
+            (NPC.downedPlantBoss ? 2f : 0f) +                   //12
             (NPC.downedGolemBoss ? 3f : 0f) +                   //15
             (NPC.downedFishron ? 3f : 0f) +                     //18
             (NPC.downedMartians ? 3f : 0f) +                    //21
@@ -242,13 +244,13 @@ namespace JoostMod.Items
             (NPC.downedChristmasTree ? 1.5f : 0f) +             //25.5
             (NPC.downedChristmasSantank ? 1.5f : 0f) +          //27
             (NPC.downedChristmasIceQueen ? 1.5f : 0f) +         //28.5
-            //(Empress of Light ? 3.5f : 0f) +                  //                                           | 32
-            //(DD2Event.DownedInvasionT3 ? 4f : 0f) +           // DD2Event Bools are bugged until tmod 1.4  | 36
-            (NPC.downedAncientCultist ? 1f + 3.5f : 0f) +       //33 TEMP add Empress calculation to Cultist | 37
-            (NPC.downedTowerNebula ? 1f + 1f : 0f) +            //35 TEMP add Betsy completion to pillars    | 38
-            (NPC.downedTowerSolar ? 1f + 1f : 0f) +             //37                                         | 39
-            (NPC.downedTowerVortex ? 1f + 1f : 0f) +            //39                                         | 40
-            (NPC.downedTowerStardust ? 1f + 1f : 0f) +          //41                                         | 41
+            (NPC.downedEmpressOfLight ? 3.5f : 0f) +            //32
+            (DD2Event.DownedInvasionT3 ? 4f : 0f) +             //36
+            (NPC.downedAncientCultist ? 1f : 0f) +              //37
+            (NPC.downedTowerNebula ? 1f : 0f) +                 //38
+            (NPC.downedTowerSolar ? 1f : 0f) +                  //39
+            (NPC.downedTowerVortex ? 1f: 0f) +                  //40
+            (NPC.downedTowerStardust ? 1f : 0f) +               //41
             (NPC.downedMoonlord ? 9f : 0f) +                    //50
             (JoostWorld.downedJumboCactuar ? 10f : 0f) +        //60
             (JoostWorld.downedSAX ? 10f : 0f) +                 //70
@@ -275,16 +277,16 @@ namespace JoostMod.Items
     }
     public class AncientStoneMoss : GlobalItem
     {
-        public override bool UseItem(Item item, Player player)
+        public override bool? UseItem(Item item, Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             if (item.type == ItemID.StaffofRegrowth && player.controlUseItem)
             {
                 int i = Player.tileTargetX;
                 int j = Player.tileTargetY;
-                if (Main.tile[i, j] != null && Main.tile[i, j].type == mod.TileType("AncientStone"))
+                if (Main.tile[i, j] != null && Main.tile[i, j].TileType == Mod.Find<ModTile>("AncientStone").Type)
                 {
-                    Main.PlaySound(0, i * 16, j * 16);
-                    Main.tile[i, j].type = (ushort)mod.TileType("AncientMossyStone");
+                    SoundEngine.PlaySound(SoundID.Dig, new Vector2(i * 16, j * 16));
+                    Main.tile[i, j].TileType = (ushort)Mod.Find<ModTile>("AncientMossyStone").Type;
                     WorldGen.SquareTileFrame(i, j, true);
                     if (Main.netMode == 1)
                     {
@@ -297,7 +299,7 @@ namespace JoostMod.Items
     }
     public class AmmoChance : GlobalItem
     {
-        public override bool ConsumeAmmo(Item item, Player player)
+        public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player)
         {
             if (Main.rand.NextFloat() <= (1f - player.GetModPlayer<JoostModPlayer>().ammoConsume))
             {
@@ -310,7 +312,7 @@ namespace JoostMod.Items
     {
         public override void GrabRange(Item item, Player player, ref int grabRange)
         {
-            if (player.ownedProjectileCounts[mod.ProjectileType("IceBeamCannon")] > 0)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("IceBeamCannon").Type] > 0)
             {
                 grabRange = 600;
             }
@@ -320,7 +322,7 @@ namespace JoostMod.Items
     {
         public override bool ConsumeItem(Item item, Player player)
         {
-            if (item.thrown && Main.rand.NextFloat() <= (1f - player.GetModPlayer<JoostModPlayer>().throwConsume))
+            if (item.CountsAsClass(DamageClass.Throwing) && Main.rand.NextFloat() <= (1f - player.GetModPlayer<JoostModPlayer>().throwConsume))
             {
                 return false;
             }
@@ -329,11 +331,11 @@ namespace JoostMod.Items
     }
     public class MeleeStrike : GlobalItem
     {
-        public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
-                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("LifeDrink")))
+                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
                 {
                     float lifeStoled = target.lifeMax * 0.04f;
                     if ((int)lifeStoled > 0 && !player.moonLeech)
@@ -341,26 +343,26 @@ namespace JoostMod.Items
                         Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                     }
                 }
-                target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
+                target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
             }
             if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
             {
-                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(mod.BuffType("CorruptSoul")))
+                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
                 {
                     float damag = target.lifeMax * 0.25f;
                     if ((int)damag > 0)
                     {
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, player.whoAmI);
+                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                     }
                 }
-                target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+                target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
             }
         }
         public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
         {
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
-                if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("LifeDrink")))
+                if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
                 {
                     float lifeStoled = target.statLifeMax2 * 0.04f;
                     if ((int)lifeStoled > 0 && !player.moonLeech)
@@ -368,19 +370,19 @@ namespace JoostMod.Items
                         Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                     }
                 }
-                target.AddBuff(mod.BuffType("LifeDrink"), 1200, false);
+                target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
             }
             if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
             {
-                if (target.statLife <= 0 && !target.HasBuff(mod.BuffType("CorruptSoul")))
+                if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
                 {
                     float damag = target.statLifeMax2 * 0.25f;
                     if ((int)damag > 0)
                     {
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, mod.ProjectileType("CorruptedSoul"), (int)damag, 0, player.whoAmI);
+                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                     }
                 }
-                target.AddBuff(mod.BuffType("CorruptSoul"), 1200, false);
+                target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
             }
         }
     }

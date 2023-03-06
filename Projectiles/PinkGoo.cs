@@ -14,26 +14,26 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.aiStyle = 2;
-			projectile.friendly = true;
-			projectile.thrown= true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			projectile.alpha = 50;
-			aiType = ProjectileID.Shuriken;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.aiStyle = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType= DamageClass.Throwing;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			Projectile.alpha = 50;
+			AIType = ProjectileID.Shuriken;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.timeLeft -= 15;
-			if (projectile.velocity.X != oldVelocity.X)
+			Projectile.timeLeft -= 15;
+			if (Projectile.velocity.X != oldVelocity.X)
 			{
-				projectile.velocity.X = -oldVelocity.X;
+				Projectile.velocity.X = -oldVelocity.X;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y)
+			if (Projectile.velocity.Y != oldVelocity.Y)
 			{
-				projectile.velocity.Y = -oldVelocity.Y * 0.7f;
+				Projectile.velocity.Y = -oldVelocity.Y * 0.7f;
 			}
 			return false;
 		}

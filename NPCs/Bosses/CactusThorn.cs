@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -14,60 +15,60 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SetDefaults()
         {
-            npc.width = 10;
-            npc.height = 10;
-            npc.defense = 0;
-            npc.lifeMax = 1;
+            NPC.width = 10;
+            NPC.height = 10;
+            NPC.defense = 0;
+            NPC.lifeMax = 1;
             if (Main.expertMode)
             {
-                npc.damage = 60;
+                NPC.damage = 60;
             }
             else
             {
-                npc.damage = 30;
+                NPC.damage = 30;
             }
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath9;
-            npc.value = Item.buyPrice(0, 0, 0, 0);
-            npc.knockBackResist = 0;
-            npc.behindTiles = true;
-            npc.aiStyle = -1;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath9;
+            NPC.value = Item.buyPrice(0, 0, 0, 0);
+            NPC.knockBackResist = 0;
+            NPC.behindTiles = true;
+            NPC.aiStyle = -1;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
         }
-        public override void PostDraw(SpriteBatch sb, Color lightColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Main.npcTexture[npc.type];
-            sb.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.GreenYellow, npc.rotation, new Vector2(tex.Width / 2, tex.Height / 2), npc.scale, SpriteEffects.None, 0f);
+            Texture2D tex = TextureAssets.Npc[NPC.type].Value;
+            sb.Draw(tex, NPC.Center - Main.screenPosition + new Vector2(0f, NPC.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.GreenYellow, NPC.rotation, new Vector2(tex.Width / 2, tex.Height / 2), NPC.scale, SpriteEffects.None, 0f);
         }
-        public override bool PreNPCLoot()
+        public override bool PreKill()
         {
             return false;
         }
         public override void AI()
         {
-            npc.rotation = (float)System.Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
-            if (npc.ai[0] <= 1)
+            NPC.rotation = (float)System.Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
+            if (NPC.ai[0] <= 1)
             {
-                npc.velocity = new Vector2(Main.rand.Next(-3, 4), Main.rand.Next(2) - 2);
-                npc.netUpdate = true;
+                NPC.velocity = new Vector2(Main.rand.Next(-3, 4), Main.rand.Next(2) - 2);
+                NPC.netUpdate = true;
             }
             else
             {
-                if (npc.velocity.X != npc.oldVelocity.X)
+                if (NPC.velocity.X != NPC.oldVelocity.X)
                 {
-                    npc.velocity.X = -npc.oldVelocity.X;
+                    NPC.velocity.X = -NPC.oldVelocity.X;
                 }
-                if (npc.velocity.Y != npc.oldVelocity.Y)
+                if (NPC.velocity.Y != NPC.oldVelocity.Y)
                 {
-                    npc.velocity.Y = -npc.oldVelocity.Y * 0.9f;
-                    npc.ai[0] += 20;
+                    NPC.velocity.Y = -NPC.oldVelocity.Y * 0.9f;
+                    NPC.ai[0] += 20;
                 }
             }
-            npc.ai[0]++;
-            if (npc.ai[0] > 180)
+            NPC.ai[0]++;
+            if (NPC.ai[0] > 180)
             {
-                npc.active = false;
+                NPC.active = false;
             }
         }
     }

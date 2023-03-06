@@ -9,26 +9,26 @@ namespace JoostMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gray Slime");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
         public override void SetDefaults()
         {
-            npc.width = 16;
-            npc.height = 16;
-            npc.damage = 2;
-            npc.defense = 2;
-            npc.lifeMax = 20;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.value = 0f;
-            npc.knockBackResist = 0.75f;
-            npc.aiStyle = 1;
-            aiType = NPCID.BlueSlime;
-            animationType = NPCID.BlueSlime;
+            NPC.width = 16;
+            NPC.height = 16;
+            NPC.damage = 2;
+            NPC.defense = 2;
+            NPC.lifeMax = 20;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = 0f;
+            NPC.knockBackResist = 0.75f;
+            NPC.aiStyle = 1;
+            AIType = NPCID.BlueSlime;
+            AnimationType = NPCID.BlueSlime;
         }
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 23, Main.rand.Next(1, 2));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 23, Main.rand.Next(1, 2));
 
         }
 
@@ -36,8 +36,8 @@ namespace JoostMod.NPCs
         {
             if (Main.netMode != 1)
             {
-                NPC.NewNPC((int)npc.Center.X + 13, (int)npc.Center.Y - 2, mod.NPCType("GraySlime6"));
-                NPC.NewNPC((int)npc.Center.X - 13, (int)npc.Center.Y - 2, mod.NPCType("GraySlime6"));
+                NPC.NewNPC((int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
+                NPC.NewNPC((int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
             }
             return true;
         }

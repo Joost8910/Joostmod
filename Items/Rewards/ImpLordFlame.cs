@@ -13,35 +13,35 @@ namespace JoostMod.Items.Rewards
 		{
 			DisplayName.SetDefault("Lord's Flame");
             Tooltip.SetDefault("Hold attack to charge a bigger fireball");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 8));
-            ItemID.Sets.ItemNoGravity[item.type] = true;
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 		public override void SetDefaults()
 		{
-			item.damage = 60;
-            item.mana = 10;
-            item.magic = true;
-			item.noMelee = true;
-			item.scale = 1f;
-			item.noUseGraphic = true;
-			item.width = 26;
-			item.height = 26;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = 1;
-			item.knockBack = 3.5f;
-			item.value = 80000;
-			item.rare = 3;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.channel = true;
-			item.shoot = mod.ProjectileType("ImpLordFlame");
-			item.shootSpeed = 12f;
-            item.useTurn = true;
+			Item.damage = 60;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Magic;
+			Item.noMelee = true;
+			Item.scale = 1f;
+			Item.noUseGraphic = true;
+			Item.width = 26;
+			Item.height = 26;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 3.5f;
+			Item.value = 80000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.channel = true;
+			Item.shoot = Mod.Find<ModProjectile>("ImpLordFlame").Type;
+			Item.shootSpeed = 12f;
+            Item.useTurn = true;
 		}
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 return false;
             }
@@ -51,9 +51,9 @@ namespace JoostMod.Items.Rewards
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(230, 204, 128);
+                    line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
         }

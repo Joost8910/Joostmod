@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,28 +15,28 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 44;
-			item.summon = true;
-			item.mana = 12;
-			item.width = 48;
-			item.height = 48;
-			item.useTime = 38;
-			item.useAnimation = 38;
-			item.useStyle = 4;
-			item.noMelee = true; 
-			item.knockBack = 4.5f;
-			item.value = 250000;
-			item.rare = 5;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item78;
-			item.shoot = mod.ProjectileType("Leaf2");
-			item.shootSpeed = 9f;
+			Item.damage = 44;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 12;
+			Item.width = 48;
+			Item.height = 48;
+			Item.useTime = 38;
+			Item.useAnimation = 38;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.noMelee = true; 
+			Item.knockBack = 4.5f;
+			Item.value = 250000;
+			Item.rare = ItemRarityID.Pink;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item78;
+			Item.shoot = Mod.Find<ModProjectile>("Leaf2").Type;
+			Item.shootSpeed = 9f;
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool create = true;
             for (int l = 0; l < 200; l++)
@@ -57,26 +58,19 @@ namespace JoostMod.Items.Weapons
             }
             if (create)
 			{
- 				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 45f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 90f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 135f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 180f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 225f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 270f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 315f, 0f);
+				for(int i = 0; i < 8; i++)
+ 					Projectile.NewProjectile(source, player.Center.X, player.Center.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 45f * i, 0f);
 			}
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "ForestWand");
-			recipe.AddIngredient(ItemID.JungleSpores, 8);
-			recipe.AddIngredient(ItemID.SoulofFright, 12);
-			recipe.AddTile(TileID.MythrilAnvil); 
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<ForestWand>()
+				.AddIngredient(ItemID.JungleSpores, 8)
+				.AddIngredient(ItemID.SoulofFright, 12)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

@@ -14,54 +14,54 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 60;
-			projectile.height = 60;
-			projectile.aiStyle = -1;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 16;
-			projectile.tileCollide = false;
+			Projectile.width = 60;
+			Projectile.height = 60;
+			Projectile.aiStyle = -1;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 16;
+			Projectile.tileCollide = false;
 		}
         public override void AI()
 		{
-            NPC host = Main.npc[(int)projectile.ai[0]];
-            projectile.direction = -host.direction;
-            projectile.spriteDirection = projectile.direction;
-            projectile.position = host.Center - projectile.Size/2;
-            projectile.velocity = host.velocity;
-            projectile.rotation = (16-projectile.timeLeft) * (float)(Math.PI / 180) * 22.5f * projectile.direction;
-			projectile.ai[1] += 2f * (projectile.timeLeft / 400);
+            NPC host = Main.npc[(int)Projectile.ai[0]];
+            Projectile.direction = -host.direction;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.position = host.Center - Projectile.Size/2;
+            Projectile.velocity = host.velocity;
+            Projectile.rotation = (16-Projectile.timeLeft) * (float)(Math.PI / 180) * 22.5f * Projectile.direction;
+			Projectile.ai[1] += 2f * (Projectile.timeLeft / 400);
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            if (projectile.timeLeft > 12)
+            if (Projectile.timeLeft > 12)
             {
-                hitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, 60, 30);
+                hitbox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, 60, 30);
             }
-            else if (projectile.timeLeft > 8)
+            else if (Projectile.timeLeft > 8)
             {
-                if (projectile.spriteDirection < 0)
+                if (Projectile.spriteDirection < 0)
                 {
-                    hitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, 30, 60);
+                    hitbox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, 30, 60);
                 }
                 else
                 {
-                    hitbox = new Rectangle((int)projectile.Center.X, (int)projectile.position.Y, 30, 60);
+                    hitbox = new Rectangle((int)Projectile.Center.X, (int)Projectile.position.Y, 30, 60);
                 }
             }
-            else if (projectile.timeLeft > 4)
+            else if (Projectile.timeLeft > 4)
             {
-                hitbox = new Rectangle((int)projectile.position.X, (int)projectile.Center.Y, 60, 30);
+                hitbox = new Rectangle((int)Projectile.position.X, (int)Projectile.Center.Y, 60, 30);
             }
             else
             {
-                if (projectile.spriteDirection > 0)
+                if (Projectile.spriteDirection > 0)
                 {
-                    hitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, 30, 60);
+                    hitbox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, 30, 60);
                 }
                 else
                 {
-                    hitbox = new Rectangle((int)projectile.Center.X, (int)projectile.position.Y, 30, 60);
+                    hitbox = new Rectangle((int)Projectile.Center.X, (int)Projectile.position.Y, 30, 60);
                 }
             }
         }

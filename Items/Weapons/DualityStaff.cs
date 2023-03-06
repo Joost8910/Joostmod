@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -17,28 +18,28 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 28;
-			item.mana = 4;
-			item.width = 48;
-			item.height = 48;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.UseSound = SoundID.Item8;
-			item.useStyle = 5;
+			Item.damage = 28;
+			Item.mana = 4;
+			Item.width = 48;
+			Item.height = 48;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.UseSound = SoundID.Item8;
+			Item.useStyle = ItemUseStyleID.Shoot;
 			//Item.staff[item.type] = true; 
-			item.knockBack = 0;
-			item.value = 144000;
-			item.rare = 5;
-			item.noMelee = true;
-			item.magic = true;
-			item.channel = true;                            
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("LightLaser");
-			item.shootSpeed = 12f;
+			Item.knockBack = 0;
+			Item.value = 144000;
+			Item.rare = ItemRarityID.Pink;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.channel = true;                            
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("LightLaser").Type;
+			Item.shootSpeed = 12f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			Projectile.NewProjectile(position.X, position.Y, -speedX, -speedY, mod.ProjectileType("DarkLaser"), damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, position.X, position.Y, -velocity.X, -velocity.Y, Mod.Find<ModProjectile>("DarkLaser").Type, damage, knockback, player.whoAmI);
 			return true;
 		}
 		public override Vector2? HoldoutOffset()
@@ -47,14 +48,13 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LightShard, 1);
-			recipe.AddIngredient(ItemID.DarkShard, 1);
-			recipe.AddIngredient(ItemID.SoulofLight, 7);
-			recipe.AddIngredient(ItemID.SoulofNight, 7);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemID.LightShard, 1)
+				.AddIngredient(ItemID.DarkShard, 1)
+				.AddIngredient(ItemID.SoulofLight, 7)
+				.AddIngredient(ItemID.SoulofNight, 7)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 		}
 	}
 }

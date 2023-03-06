@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,41 +16,40 @@ namespace JoostMod.Items.Weapons
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 136;
-			item.ranged = true;
-			item.width = 12;
-			item.height = 88;
-			item.noMelee = true;
-			item.useTime = 85;
-			item.useAnimation = 85;
-			item.useStyle = 5;
-			item.knockBack = 15;
-			item.value = 100000;
-			item.rare = 5;
-			item.UseSound = SoundID.Item11;
-			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("BFE5000");
-			item.shootSpeed = 12f;
+			Item.damage = 136;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 12;
+			Item.height = 88;
+			Item.noMelee = true;
+			Item.useTime = 85;
+			Item.useAnimation = 85;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 15;
+			Item.value = 100000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item11;
+			Item.autoReuse = true;
+			Item.shoot = Mod.Find<ModProjectile>("BFE5000").Type;
+			Item.shootSpeed = 12f;
 		}
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            mult *= player.rocketDamage;
+            damage.CombineWith(player.rocketDamage);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            position += Vector2.Normalize(new Vector2(speedX, speedY))*80;
+            position += Vector2.Normalize(velocity)*80;
             return true;
         }
         public override void AddRecipes()
 		{
-				ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "KerbalKannon");
-			recipe.AddIngredient(ItemID.HallowedBar, 12);
-			recipe.AddIngredient(ItemID.SoulofMight, 15);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient<KerbalKannon>()
+				.AddIngredient(ItemID.HallowedBar, 12)
+				.AddIngredient(ItemID.SoulofMight, 15)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
 
 		}
 	}

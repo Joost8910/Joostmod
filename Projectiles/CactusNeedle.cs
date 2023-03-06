@@ -14,15 +14,15 @@ namespace JoostMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.tileCollide = false;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 300;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 300;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
 		{
@@ -31,10 +31,10 @@ namespace JoostMod.Projectiles
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.immuneTime = 1;
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 		}
 	}

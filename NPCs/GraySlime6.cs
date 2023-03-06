@@ -9,27 +9,27 @@ namespace JoostMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gray Slime");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 12;
-			npc.height = 12;
-			npc.damage = 1;
-			npc.defense = 1;
-			npc.lifeMax = 10;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-            npc.value = Item.buyPrice(0, 0, 1, 0);
-            npc.knockBackResist = 1f;
-			npc.aiStyle = 1;
-			aiType = NPCID.BlueSlime;
-			animationType = NPCID.BlueSlime;
+			NPC.width = 12;
+			NPC.height = 12;
+			NPC.damage = 1;
+			NPC.defense = 1;
+			NPC.lifeMax = 10;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = Item.buyPrice(0, 0, 1, 0);
+            NPC.knockBackResist = 1f;
+			NPC.aiStyle = 1;
+			AIType = NPCID.BlueSlime;
+			AnimationType = NPCID.BlueSlime;
 
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 23, 1);
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 23, 1);
 
 		}
 

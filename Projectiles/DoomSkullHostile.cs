@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,52 +13,52 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skull of Destruction");
-	        ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 4;
+	        ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 4;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 350;
-			projectile.height = 350;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-            projectile.penetrate = -1;
-			projectile.timeLeft = 300;
-			projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            aiType = ProjectileID.Bullet;
+			Projectile.width = 350;
+			Projectile.height = 350;
+			Projectile.aiStyle = 1;
+			Projectile.hostile = true;
+            Projectile.penetrate = -1;
+			Projectile.timeLeft = 300;
+			Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            AIType = ProjectileID.Bullet;
 		}
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            hitbox = new Rectangle((int)projectile.position.X + 50, (int)projectile.position.Y + 50, 250, 250);
+            hitbox = new Rectangle((int)Projectile.position.X + 50, (int)Projectile.position.Y + 50, 250, 250);
         }
         public override void AI()
         {
-            projectile.direction = projectile.velocity.X > 0 ? 1 : -1;
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + (projectile.direction == -1 ? 3.14f : 0); ;
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
+            Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + (Projectile.direction == -1 ? 3.14f : 0); ;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = (projectile.frame + 1) % 4;
+                Projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % 4;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return true;
         }

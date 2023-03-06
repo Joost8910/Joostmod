@@ -10,23 +10,23 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fire Blast");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 184;
-			projectile.height = 184;
-			projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 6;
-			projectile.tileCollide = false;
-			projectile.light = 1f;
-            projectile.alpha = 150;
-			aiType = ProjectileID.Bullet;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -1;
+			Projectile.width = 184;
+			Projectile.height = 184;
+			Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 6;
+			Projectile.tileCollide = false;
+			Projectile.light = 1f;
+            Projectile.alpha = 150;
+			AIType = ProjectileID.Bullet;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = -1;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -38,10 +38,10 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
 		{
-            projectile.frame = 6 - projectile.timeLeft;
-            if (projectile.timeLeft == 4)
+            Projectile.frame = 6 - Projectile.timeLeft;
+            if (Projectile.timeLeft == 4)
             {
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, projectile.damage / 6, 5, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, Projectile.damage / 6, 5, Projectile.owner);
             }
         }
     }

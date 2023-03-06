@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,18 +13,18 @@ namespace JoostMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilgamesh's Flail");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.aiStyle = -1;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.tileCollide = false;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.aiStyle = -1;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -32,7 +33,7 @@ namespace JoostMod.Projectiles
                 target.wingTime = 0;
                 target.rocketTime = 0;
                 target.mount.Dismount(target);
-                target.velocity.Y += projectile.knockBack;
+                target.velocity.Y += Projectile.knockBack;
             }
             if (Main.rand.NextBool(2))
             {
@@ -41,48 +42,48 @@ namespace JoostMod.Projectiles
         }
         public override void AI()
         {
-            NPC host = Main.npc[(int)projectile.ai[0]];
+            NPC host = Main.npc[(int)Projectile.ai[0]];
             Vector2 arm = host.Center + new Vector2(40 * host.direction, -31);
-            if (projectile.localAI[0] < 250)
+            if (Projectile.localAI[0] < 250)
             {
-                projectile.localAI[0] += 2.5f;
+                Projectile.localAI[0] += 2.5f;
             }
-            double deg = projectile.localAI[1];
+            double deg = Projectile.localAI[1];
             double rad = deg * (Math.PI / 180);
-            double dist = projectile.localAI[0];
-            if (projectile.timeLeft < 100)
+            double dist = Projectile.localAI[0];
+            if (Projectile.timeLeft < 100)
             {
-                dist = projectile.timeLeft * 2.5f;
+                dist = Projectile.timeLeft * 2.5f;
             }
-            projectile.position.X = arm.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;
-            projectile.position.Y = arm.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
-            projectile.rotation = (float)rad + 1.57f;
-            projectile.localAI[1] += 6f * projectile.ai[1];
+            Projectile.position.X = arm.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
+            Projectile.position.Y = arm.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
+            Projectile.rotation = (float)rad + 1.57f;
+            Projectile.localAI[1] += 6f * Projectile.ai[1];
             if (!host.active || host.life <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, (Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]));
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, rect, color2, projectile.oldRot[k], drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
             }
             
-            Texture2D texture = ModContent.GetTexture("JoostMod/Projectiles/Flail_Chain");
-            NPC host = Main.npc[(int)projectile.ai[0]];
-            Vector2 position = projectile.Center;
+            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Flail_Chain");
+            NPC host = Main.npc[(int)Projectile.ai[0]];
+            Vector2 position = Projectile.Center;
             Vector2 arm = host.Center + new Vector2(40 * host.direction, -31);
             Vector2 dir = position - arm;
             dir.Normalize();
@@ -110,7 +111,7 @@ namespace JoostMod.Projectiles
                     position += vector2_1 * num1;
                     vector2_4 = arm - position;
                     Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
-                    color2 = projectile.GetAlpha(color2);
+                    color2 = Projectile.GetAlpha(color2);
                     Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
                 }
             }

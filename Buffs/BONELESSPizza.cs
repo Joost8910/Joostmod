@@ -5,7 +5,7 @@ namespace JoostMod.Buffs
 {
 	public class BONELESSPizza : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("BONELESS Pizza");
 			Description.SetDefault("Max health increased by 50");

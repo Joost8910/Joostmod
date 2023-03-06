@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,48 +13,48 @@ namespace JoostMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit of Power");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 500;
-			projectile.height = 500;
-			projectile.aiStyle = 0;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -1;
-			projectile.timeLeft = 14;
-			projectile.tileCollide = false;
+			Projectile.width = 500;
+			Projectile.height = 500;
+			Projectile.aiStyle = 0;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = -1;
+			Projectile.timeLeft = 14;
+			Projectile.tileCollide = false;
 		}
         public override void AI()
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                projectile.ai[0] = 1;
-                projectile.ai[1] = 14;
+                Projectile.ai[0] = 1;
+                Projectile.ai[1] = 14;
             }
-            if (projectile.ai[1] == 0)
+            if (Projectile.ai[1] == 0)
             {
-                projectile.ai[1] = 14;
+                Projectile.ai[1] = 14;
             }
-            if (projectile.localAI[0] == 0)
+            if (Projectile.localAI[0] == 0)
             {
-                projectile.timeLeft = (int)projectile.ai[1];
-                projectile.localAI[0] = 1;
+                Projectile.timeLeft = (int)Projectile.ai[1];
+                Projectile.localAI[0] = 1;
             }
-            int size = (int)projectile.ai[1] - projectile.timeLeft;
-            projectile.scale = size * (1f / projectile.ai[1]) * projectile.ai[0];
-            projectile.position.X = projectile.Center.X - (float)((500 * projectile.scale) / 2f);
-            projectile.position.Y = projectile.Center.Y - (float)((500 * projectile.scale) / 2f);
-            projectile.width = (int)(Math.Round(500 * projectile.scale));
-            projectile.height = (int)(Math.Round(500 * projectile.scale));
+            int size = (int)Projectile.ai[1] - Projectile.timeLeft;
+            Projectile.scale = size * (1f / Projectile.ai[1]) * Projectile.ai[0];
+            Projectile.position.X = Projectile.Center.X - (float)((500 * Projectile.scale) / 2f);
+            Projectile.position.Y = Projectile.Center.Y - (float)((500 * Projectile.scale) / 2f);
+            Projectile.width = (int)(Math.Round(500 * Projectile.scale));
+            Projectile.height = (int)(Math.Round(500 * Projectile.scale));
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (Collides(projectile.position, projectile.Size, target.position, target.Size))
+            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitNPC(target);
             }
@@ -61,7 +62,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPlayer(Player target)
         {
-            if (Collides(projectile.position, projectile.Size, target.position, target.Size))
+            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitPlayer(target);
             }
@@ -69,7 +70,7 @@ namespace JoostMod.Projectiles
         }
         public override bool CanHitPvp(Player target)
         {
-            if (Collides(projectile.position, projectile.Size, target.position, target.Size))
+            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitPvp(target);
             }
@@ -100,18 +101,18 @@ namespace JoostMod.Projectiles
             float b = ellipseDim.Y / 2f;
             return (x * x) / (a * a) + (y * y) / (b * b) < 1; //point collision detection
         }
-        public override bool PreDraw(SpriteBatch sb, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Color color = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
-            color *= (projectile.timeLeft / projectile.ai[1]);
-            float scale = (projectile.ai[1] - projectile.timeLeft) * (1f / projectile.ai[1]) * projectile.ai[0];
-            sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), scale, effects, 0f);
+            color *= (Projectile.timeLeft / Projectile.ai[1]);
+            float scale = (Projectile.ai[1] - Projectile.timeLeft) * (1f / Projectile.ai[1]) * Projectile.ai[0];
+            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), scale, effects, 0f);
             return false;
         }
     }

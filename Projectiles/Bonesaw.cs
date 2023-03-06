@@ -16,17 +16,17 @@ namespace JoostMod.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = 20;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.hide = true;
-            projectile.ownerHitCheck = true; 
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true; 
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void ModifyHitNPC(NPC npc, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -48,7 +48,7 @@ namespace JoostMod.Projectiles
                         //Vector2 dir = pos - npc.Center;
                         //dir.Normalize();
                         Vector2 vel = new Vector2(Main.rand.Next(9) - 4, Main.rand.Next(9) - 4);
-                        Projectile.NewProjectile(pos, vel, ProjectileID.Bone, projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(pos, vel, ProjectileID.Bone, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }
