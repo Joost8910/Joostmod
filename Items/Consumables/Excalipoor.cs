@@ -48,19 +48,21 @@ namespace JoostMod.Items.Consumables
             NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("Gilgamesh").Type);
             NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("Enkidu").Type);
             SoundEngine.PlaySound(SoundID.Roar, player.position);
-            if (JoostWorld.downedGilgamesh)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Main.NewText("<Gilgamesh> Oh, so you want to go again?", 225, 25, 25);
-                Main.NewText("Then let us fight! This won't go as easily as last time!", 225, 25, 25);
-                Main.NewText("<Enkidu> It probably will though.", 25, 225, 25);
+                if (JoostWorld.downedGilgamesh)
+                {
+                    Main.NewText("<Gilgamesh> Oh, so you want to go again?", 225, 25, 25);
+                    Main.NewText("Then let us fight! This won't go as easily as last time!", 225, 25, 25);
+                    Main.NewText("<Enkidu> It probably will though.", 25, 225, 25);
+                }
+                else
+                {
+                    Main.NewText("<Gilgamesh> AhHA! The legendary Excalibur!", 225, 25, 25);
+                    Main.NewText("Come Enkidu, my faithful sidekick, let's return the trouble", 225, 25, 25);
+                    Main.NewText("and make it double! Come on!", 225, 25, 25);
+                }
             }
-            else
-            {
-                Main.NewText("<Gilgamesh> AhHA! The legendary Excalibur!", 225, 25, 25);
-                Main.NewText("Come Enkidu, my faithful sidekick, let's return the trouble", 225, 25, 25);
-                Main.NewText("and make it double! Come on!", 225, 25, 25);
-            }
-
             return true;
         }
         public override void AddRecipes()

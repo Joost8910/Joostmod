@@ -55,7 +55,8 @@ namespace JoostMod.Items.Consumables
             }*/
             while (buffID == BuffID.DrillMount && !NPC.downedGolemBoss)
             {
-                Main.NewText("You can't get the drill containment unit from the Wonder Waffle until after beating the Golem", Color.OrangeRed);
+                if (Main.netMode != NetmodeID.Server)
+                    Main.NewText("You can't get the drill containment unit from the Wonder Waffle until after beating the Golem", Color.OrangeRed);
                 buffID = Main.rand.Next(buffCount);
             }
             while (ModContent.GetModBuff(buffID).Name == "PrimordiaCurse")

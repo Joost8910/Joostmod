@@ -263,8 +263,10 @@ namespace JoostMod.NPCs.Bosses
 				NPC.ai[3] = 0;
                 if (NPC.localAI[3] == 0)
                 {
-                    Main.NewText("The Jumbo Cactuar enrages as you leave the desert!", Color.DarkOliveGreen);
-                    NPC.localAI[3] = 1;
+					if (Main.netMode != NetmodeID.Server)
+						Main.NewText("The Jumbo Cactuar enrages as you leave the desert!", Color.DarkOliveGreen);
+                    
+					NPC.localAI[3] = 1;
                 }
 			}
 			else

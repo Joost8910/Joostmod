@@ -46,17 +46,18 @@ namespace JoostMod.Items.Consumables
         public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             //NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Gilgamesh2"));
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X - 1500, (int)player.Center.Y - 200, Mod.Find<ModNPC>("Gilgamesh2").Type, 0, 610, 0, 0, 1);
             }
             NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("Enkidu").Type);
             SoundEngine.PlaySound(SoundID.Roar, player.position);
-            
-            Main.NewText("<Gilgamesh> Oho, so you want a rematch?", 225, 25, 25);
-            Main.NewText("Then let us skip phase 1 and jump right into the real fight!", 225, 25, 25);
-            Main.NewText("<Enkidu> You better hope you're good at dodging", 25, 225, 25);
-            
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Main.NewText("<Gilgamesh> Oho, so you want a rematch?", 225, 25, 25);
+                Main.NewText("Then let us skip phase 1 and jump right into the real fight!", 225, 25, 25);
+                Main.NewText("<Enkidu> You better hope you're good at dodging", 25, 225, 25);
+            }
             return null;
         }
     }

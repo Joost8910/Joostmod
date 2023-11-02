@@ -49,13 +49,13 @@ namespace JoostMod.NPCs.Bosses
         {
             for (int i = 0; i < 15; i++)
             {
-                Item.NewItem(NPC.getRect(), ItemID.Heart);
+                Item.NewItem(NPC.GetSource_FromAI(), NPC.getRect(), ItemID.Heart);
             }
             return !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type);
         }
         public override void OnKill()
         {
-            if (!JoostWorld.downedGilgamesh)
+            if (!JoostWorld.downedGilgamesh && Main.netMode != NetmodeID.Server)
                 Main.NewText("With Gilgamesh and Enkidu's defeat, you can now fish the legendary stones from their respective biomes", 125, 25, 225);
             JoostWorld.downedGilgamesh = true;
             if (Main.expertMode)
@@ -64,23 +64,23 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GenjiToken").Type, 1 + Main.rand.Next(2));
+                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GenjiToken").Type, 1 + Main.rand.Next(2));
                 if (Main.rand.Next(4) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("COTBBMusicBox").Type);
+                    Item.NewItem(NPC.GetSource_FromAI(),(int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("COTBBMusicBox").Type);
                 }
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshMask").Type);
+                    Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshMask").Type);
                 }
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshTrophy").Type);
+                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshTrophy").Type);
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
             }
         }
 
@@ -161,7 +161,7 @@ namespace JoostMod.NPCs.Bosses
                     if (Main.netMode != 1)
                     {
                         //TODO Center on player for future enkidu rework
-                        Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-15, 15) * 120), NPC.Center.Y - (120 * 8), Speed, Math.Abs(Speed), Mod.Find<ModProjectile>("EnkiduWind").Type, 50, 15f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (Main.rand.Next(-15, 15) * 120), NPC.Center.Y - (120 * 8), Speed, Math.Abs(Speed), Mod.Find<ModProjectile>("EnkiduWind").Type, 50, 15f, Main.myPlayer);
                     }
                 }
             }
@@ -192,7 +192,7 @@ namespace JoostMod.NPCs.Bosses
                         for (int i = 0; i < 3; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 15f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 15f, Main.myPlayer);
                         }
                     }
                     NPC.ai[3] = 0;
@@ -211,7 +211,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CheckDead()
         {
-            if (NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) || NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type))
+            if (Main.netMode != NetmodeID.Server && (NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) || NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type)))
             {
                 Main.NewText("<Enkidu> I'm out of here.", 25, 225, 25);
                 Main.NewText("<Gilgamesh> Hey! Sidekicks are NOT to abandon the hero!", 225, 25, 25);

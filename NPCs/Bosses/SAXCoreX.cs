@@ -168,11 +168,11 @@ namespace JoostMod.NPCs.Bosses
             if (NPC.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
             {
                 NPC.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
-                if (Main.netMode != 0)
+                if (Main.netMode != NetmodeID.SinglePlayer)
                 {
                     ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
                     netMessage.Write((int)NPC.ai[2]);
-                    if (Main.netMode == 1)
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         netMessage.Write(Main.myPlayer);
                     }
@@ -180,7 +180,9 @@ namespace JoostMod.NPCs.Bosses
                 }
                 if (!message)
                 {
-                    Main.NewText("It seems hitting it in the 'shell' isn't very effective...", Color.SkyBlue);
+                    if (Main.netMode != NetmodeID.Server)
+                        Main.NewText("It seems hitting it in the 'shell' isn't very effective...", Color.SkyBlue);
+                    
                     message = true;
                 }
             }

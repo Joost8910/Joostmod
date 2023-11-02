@@ -753,21 +753,24 @@ namespace JoostMod.NPCs.Bosses
                     NPC.HitEffect(0, 0);
                     NPC.checkDead();
                 }
-                if (NPC.ai[0] == 400)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Main.NewText("<Gilgamesh> Enough expository banter!", 225, 25, 25);
-                }
-                if (NPC.ai[0] == 300)
-                {
-                    Main.NewText("Now, we fight like men! And ladies!", 225, 25, 25);
-                }
-                if (NPC.ai[0] == 200)
-                {
-                    Main.NewText("And ladies who dress like men!", 225, 25, 25);
-                }
-                if (NPC.ai[0] == 100)
-                {
-                    Main.NewText("For Gilgamesh...it is morphing time!", 225, 75, 25);
+                    if (NPC.ai[0] == 400)
+                    {
+                        Main.NewText("<Gilgamesh> Enough expository banter!", 225, 25, 25);
+                    }
+                    if (NPC.ai[0] == 300)
+                    {
+                        Main.NewText("Now, we fight like men! And ladies!", 225, 25, 25);
+                    }
+                    if (NPC.ai[0] == 200)
+                    {
+                        Main.NewText("And ladies who dress like men!", 225, 25, 25);
+                    }
+                    if (NPC.ai[0] == 100)
+                    {
+                        Main.NewText("For Gilgamesh...it is morphing time!", 225, 75, 25);
+                    }
                 }
                 return false;
             }

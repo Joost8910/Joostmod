@@ -120,8 +120,11 @@ namespace JoostMod.UI
                     SoundEngine.PlaySound(SoundID.Item1.WithPitchOffset(-0.5f), player.position);
                     if (!JoostWorld.activeQuest.Contains(hunt.NPC))
                     {
-                        Main.NewText(Lang.GetNPCNameValue(hunt.NPC), 225, 25, 25);
-                        Main.NewText("The Hunt Begins!", 225, 25, 25);
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            Main.NewText(Lang.GetNPCNameValue(hunt.NPC), 225, 25, 25);
+                            Main.NewText("The Hunt Begins!", 225, 25, 25);
+                        }
                         JoostWorld.activeQuest.Add(hunt.NPC);
                         if (Main.netMode == 1)
                         {

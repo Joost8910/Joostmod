@@ -60,7 +60,7 @@ namespace JoostMod.NPCs.Bosses
             }
             if (!NPC.AnyNPCs(Mod.Find<ModNPC>("Enkidu").Type))
             {
-                if (!JoostWorld.downedGilgamesh)
+                if (!JoostWorld.downedGilgamesh && Main.netMode != NetmodeID.Server)
                     Main.NewText("With Gilgamesh and Enkidu's defeat, you can now fish the legendary stones from their respective biomes", 125, 25, 225);
                 JoostWorld.downedGilgamesh = true;
                 if (Main.expertMode)
@@ -325,17 +325,32 @@ namespace JoostMod.NPCs.Bosses
                 NPC.ai[0]++;
                 NPC.localAI[0] = 0;
                 NPC.localAI[1] = 0;
-                if (NPC.ai[0] == 0)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Main.NewText("<Gilgamesh> Now that it's mine,", 225, 25, 25);
-                }
-                if (NPC.ai[0] == 80)
-                {
-                    Main.NewText("let's see how good this Excalibur really is!", 225, 25, 25);
+                    if (NPC.ai[0] == 0)
+                    {
+                        Main.NewText("<Gilgamesh> Now that it's mine,", 225, 25, 25);
+                    }
+                    if (NPC.ai[0] == 80)
+                    {
+                        Main.NewText("let's see how good this Excalibur really is!", 225, 25, 25);
+                    }
+
+
+                    if (NPC.ai[0] == 400)
+                    {
+                        Main.NewText("Ehhh!? Why, I've been had!", 225, 25, 25);
+                    }
+                    if (NPC.ai[0] == 500)
+                    {
+                        Main.NewText("This is far from the strongest of swords!", 225, 25, 25);
+                    }
                 }
                 if (NPC.ai[0] == 190)
                 {
-                    Main.NewText("Have at you!", 225, 25, 25);
+                    if (Main.netMode != NetmodeID.Server)
+                        Main.NewText("Have at you!", 225, 25, 25);
+
                     NPC.velocity.Y = -20;
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                 }
@@ -348,22 +363,15 @@ namespace JoostMod.NPCs.Bosses
                     float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     int type = Mod.Find<ModProjectile>("GilgExcalipoorBeam").Type;
                     int damage = 1;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10f, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10f, Main.myPlayer, NPC.whoAmI);
                     }
-                }
-                if (NPC.ai[0] == 400)
-                {
-                    Main.NewText("Ehhh!? Why, I've been had!", 225, 25, 25);
-                }
-                if (NPC.ai[0] == 500)
-                {
-                    Main.NewText("This is far from the strongest of swords!", 225, 25, 25);
                 }
                 if (NPC.ai[0] == 600)
                 {
-                    Main.NewText("Nyeh!", 225, 25, 25);
+                    if (Main.netMode != NetmodeID.Server)
+                        Main.NewText("Nyeh!", 225, 25, 25);
                     float Speed = 12f;
                     Vector2 arm = NPC.Center + new Vector2(-26 * NPC.direction, -46);
                     Vector2 pos = P.MountedCenter;
@@ -373,7 +381,7 @@ namespace JoostMod.NPCs.Bosses
                     SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(arm, dir, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), arm, dir, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                     }
                 }
                 if (NPC.ai[0] > 630)
@@ -2039,7 +2047,7 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                if (NPC.AnyNPCs(Mod.Find<ModNPC>("Enkidu").Type))
+                if (Main.netMode != NetmodeID.Server && NPC.AnyNPCs(Mod.Find<ModNPC>("Enkidu").Type))
                 {
                     //Main.NewText("<Gilgamesh> Ack! Uh, up to you now Enkidu!", 225, 25, 25);
                     Main.NewText("<Enkidu> Now you've gone and made me angry.", 25, 225, 25);
