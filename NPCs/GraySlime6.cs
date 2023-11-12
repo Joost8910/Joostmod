@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,14 +27,12 @@ namespace JoostMod.NPCs
 			AIType = NPCID.BlueSlime;
 			AnimationType = NPCID.BlueSlime;
 
-		}
-		public override void OnKill()
-		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 23, 1);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1));
+        }
 
-		}
-
-
-	}
+    }
 }
 

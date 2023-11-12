@@ -4,7 +4,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.IO;
+using JoostMod.Items.Placeable;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Materials;
 
 namespace JoostMod.NPCs
 {
@@ -30,26 +32,26 @@ namespace JoostMod.NPCs
             Banner = NPC.type;
             BannerItem = Mod.Find<ModItem>("DesertGolemBanner").Type;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FourthAnniversary").Type, 1);
-            }
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SandBlock, 100 + Main.rand.Next(151));
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("DesertCore").Type);
+            npcLoot.Add(ItemDropRule.Common(ItemID.SandBlock, 1, 100, 250));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DesertCore>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FourthAnniversary>(), 10));
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SandGolem1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SandGolem2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SandGolem2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SandGolem3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SandGolem3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SandGolem4"), 1f);
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SandGolem1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SandGolem2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SandGolem2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SandGolem3").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SandGolem3").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SandGolem4").Type);
             }
+
+            //The HitEffect hook is client side, these bits will need to be moved
             if (NPC.ai[3] <= 0)
             {
                 NPC.ai[0]++;
@@ -91,7 +93,7 @@ namespace JoostMod.NPCs
                 NPC.ai[3] = 0;
                 if (NPC.velocity.Y == 0 && NPC.velocity.X == 0 && NPC.ai[1] <= 550)
                 {
-                    if (Main.rand.Next(3) == 0)
+                    if (Main.rand.NextBool(3))
                     {
                         NPC.direction *= -1;
                     }
@@ -181,9 +183,9 @@ namespace JoostMod.NPCs
                     int type = Mod.Find<ModProjectile>("SandBall").Type;
                     SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                     float rotation = (float)Math.Atan2(vector8.Y - (P.position.Y + (P.height * 0.5f)), vector8.X - (P.position.X + (P.width * 0.5f)));
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                     }
                 }
                 if (NPC.ai[1] >= 20)
@@ -222,9 +224,9 @@ namespace JoostMod.NPCs
                 {
                     NPC.velocity.X = 0;
                     Vector2 pos = new Vector2(NPC.Center.X, NPC.position.Y + 26);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(pos.X, pos.Y, 4f * NPC.direction, 0, Mod.Find<ModProjectile>("ShockWave").Type, 75, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 4f * NPC.direction, 0, Mod.Find<ModProjectile>("ShockWave").Type, 75, 0f, Main.myPlayer);
                     }
                     for (int i = 0; i < 100; i++)
                     {

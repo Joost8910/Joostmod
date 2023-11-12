@@ -1,5 +1,7 @@
+using JoostMod.Items.Placeable;
 using System;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,23 +31,20 @@ namespace JoostMod.NPCs
             Banner = Mod.Find<ModNPC>("Cactoid").Type;
             BannerItem = Mod.Find<ModItem>("CactoidBanner").Type;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, 10);
-            if (Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Anniversary").Type, 1);
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.Cactus, 1, 3, 6));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Anniversary>(), 100));
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CrimsonCactite1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CrimsonCactite2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CrimsonCactite2"), 1f);
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CrimsonCactite1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CrimsonCactite2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CrimsonCactite2").Type);
             }
-
         }
         public override void FindFrame(int frameHeight)
         {

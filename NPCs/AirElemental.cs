@@ -2,8 +2,13 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Placeable;
+using JoostMod.Projectiles;
 
 namespace JoostMod.NPCs
 {
@@ -13,6 +18,16 @@ namespace JoostMod.NPCs
         {
             DisplayName.SetDefault("Air Elemental");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Poisoned,
+                    BuffID.Venom,
+                    BuffID.Ichor
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -31,11 +46,34 @@ namespace JoostMod.NPCs
             NPC.frameCounter = 0;
             Banner = NPC.type;
             BannerItem = Mod.Find<ModItem>("AirElementalBanner").Type;
+            /*
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Venom] = true;
             NPC.buffImmune[BuffID.Ichor] = true;
+            */
             NPC.alpha = 75;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            //I think elementals dropping multiple stacks would make them more aesthetically pleasing to kill
+            int essence = ModContent.ItemType<TinyTwister>();
+            var parameters = new DropOneByOne.Parameters()
+            {
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 2,
+                MaximumStackPerChunkBase = 6,
+                MinimumItemDropsCount = 8,
+                MaximumItemDropsCount = 20,
+            };
+            var expertParamaters = parameters;
+            expertParamaters.MinimumItemDropsCount = 12;
+            expertParamaters.MaximumItemDropsCount = 30;
+            npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
+        }
+
+        /*
         public override void OnKill()
         {
             Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TinyTwister").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
@@ -45,6 +83,7 @@ namespace JoostMod.NPCs
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
             }
         }
+        */
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -114,20 +153,20 @@ namespace JoostMod.NPCs
                         NPC.velocity *= 0.98f;
 
                         Vector2 position = NPC.Center;
-                        float velocity.X = ((7f + Main.rand.NextFloat() * 7f) * NPC.direction) + (NPC.direction * NPC.velocity.X > 0 ? NPC.velocity.X : 0);
+                        float speedX = ((7f + Main.rand.NextFloat() * 7f) * NPC.direction) + (NPC.direction * NPC.velocity.X > 0 ? NPC.velocity.X : 0);
                         position.X -= 1000 * NPC.direction;
                         position.Y += Main.rand.Next(-8, 8) * 10;
                         if (NPC.ai[2] % 2 == 0)
                         {
-                            Dust.NewDustPerfect(position, 31, new Vector2(velocity.X * 3, 0), 0, Color.White, 2f);
+                            Dust.NewDustPerfect(position, 31, new Vector2(speedX * 3, 0), 0, Color.White, 2f);
                         }
                         if (NPC.ai[2] % 16 == 0)
                         {
                             SoundEngine.PlaySound(SoundID.Item7.WithVolumeScale(1.8f).WithPitchOffset(-0.8f), NPC.position);
 
-                            if (Main.netMode != 1)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, 0, Mod.Find<ModProjectile>("HostileWind").Type, 25, 10f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), position.X, position.Y, speedX, 0, ModContent.ProjectileType<HostileWind>(), 25, 10f);
                             }
                         }
                         if (NPC.ai[2] > 200)
@@ -147,7 +186,7 @@ namespace JoostMod.NPCs
                     Vector2 dir = NPC.DirectionTo(P.Center);
                     if (Main.netMode != 1)
                     {
-                        Projectile.NewProjectile(NPC.Center, dir * Speed, type, damage, 10f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dir * Speed, type, damage, 10f);
                     }
                     for (int d = 0; d < 10; d++)
                     {
@@ -188,11 +227,14 @@ namespace JoostMod.NPCs
                 {
                     Dust.NewDustPerfect(new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height / 2)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
                 }
+                //this is probably bad for performance...
+                //optimize this later
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile proj = Main.projectile[i];
                     float collisionPoint = 0;
-                    if (proj.active && proj.friendly && proj.damage > 0 && proj.CanHit(NPC) && Collision.CheckAABBvLineCollision(NPC.position, NPC.Size, proj.Center, proj.Center + proj.velocity * 10 * (proj.extraUpdates + 1), proj.width, ref collisionPoint))
+                    //projectile.CanHit doesnt exist anymore and im not certain what the replacement should be
+                    if (proj.active && proj.friendly && proj.damage > 0 && /*(proj.CanHit(NPC) &&*/ Collision.CheckAABBvLineCollision(NPC.position, NPC.Size, proj.Center, proj.Center + proj.velocity * 10 * (proj.extraUpdates + 1), proj.width, ref collisionPoint))
                     {
                         Vector2 vel = proj.velocity;
                         vel.Normalize();

@@ -1,7 +1,9 @@
 using System;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,34 +34,23 @@ namespace JoostMod.NPCs
             Banner = NPC.type;
             BannerItem = Mod.Find<ModItem>("DerangedMutantKillerMonsterSnowGoonBanner").Type;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 593, 10);
-            if (Main.rand.Next(40) == 0 && !Main.expertMode)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 1921);
-            }
-            if (Main.rand.Next(25) == 0 && Main.expertMode)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 1921);
-            }
-            if (Main.rand.Next(50) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("ThirdAnniversary").Type, 1);
-            }
-
+            npcLoot.Add(ItemDropRule.Common(ItemID.SnowBlock, 1, 5, 10));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ThirdAnniversary>(), 50));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.HandWarmer, 40, 25));
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DerangedMutantKillerMonsterSnowGoon1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DerangedMutantKillerMonsterSnowGoon1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DerangedMutantKillerMonsterSnowGoon2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DerangedMutantKillerMonsterSnowGoon2"), 1f);
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DerangedMutantKillerMonsterSnowGoon1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DerangedMutantKillerMonsterSnowGoon1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DerangedMutantKillerMonsterSnowGoon2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DerangedMutantKillerMonsterSnowGoon2").Type);
             }
-
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -85,9 +76,9 @@ namespace JoostMod.NPCs
                 int type = 109;
                 SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                 float rotation = (float)Math.Atan2(vector8.Y - (P.position.Y + (P.height * 0.5f)), vector8.X - (P.position.X + (P.width * 0.5f)));
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, 0);
                 }
                 NPC.ai[1] -= 300;
             }

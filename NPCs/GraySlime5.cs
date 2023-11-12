@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,18 +27,17 @@ namespace JoostMod.NPCs
             AIType = NPCID.BlueSlime;
             AnimationType = NPCID.BlueSlime;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 23, Main.rand.Next(1, 2));
-
+            npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1, 1, 2));
         }
 
         public override bool CheckDead()
         {
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
-                NPC.NewNPC((int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
             }
             return true;
         }

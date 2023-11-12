@@ -9,6 +9,9 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Items.Materials;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Placeable;
 
 namespace JoostMod.NPCs
 {
@@ -19,6 +22,15 @@ namespace JoostMod.NPCs
             DisplayName.SetDefault("Earth Elemental");
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Poisoned,
+                    BuffID.Venom
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -37,6 +49,26 @@ namespace JoostMod.NPCs
             BannerItem = Mod.Find<ModItem>("EarthElementalBanner").Type;
 
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            //I think elementals dropping multiple stacks would make them more aesthetically pleasing to kill
+            int essence = ModContent.ItemType<EarthEssence>();
+            var parameters = new DropOneByOne.Parameters()
+            {
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 2,
+                MaximumStackPerChunkBase = 6,
+                MinimumItemDropsCount = 8,
+                MaximumItemDropsCount = 20,
+            };
+            var expertParamaters = parameters;
+            expertParamaters.MinimumItemDropsCount = 12;
+            expertParamaters.MaximumItemDropsCount = 30;
+            npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
+        }
+        /*
         public override void OnKill()
         {
             Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EarthEssence").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
@@ -45,6 +77,7 @@ namespace JoostMod.NPCs
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
             }
         }
+        */
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             if (NPC.ai[2] >= 100 && (NPC.ai[2] < 300 || NPC.ai[2] > 400))

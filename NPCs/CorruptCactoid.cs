@@ -1,5 +1,7 @@
+using JoostMod.Items.Placeable;
 using System;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,25 +41,22 @@ namespace JoostMod.NPCs
         {
             NPC.velocity.X = NPC.velocity.X * 0.99f;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, 10);
-            if (Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Anniversary").Type, 1);
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.Cactus, 1, 8, 12));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Anniversary>(), 100));
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CorruptCactite1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CorruptCactite2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CorruptCactite2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CorruptCactoid1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CorruptCactoid2"), 1f);
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CorruptCactite1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CorruptCactite2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CorruptCactite2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CorruptCactoid1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("CorruptCactoid2").Type);
             }
-
         }
         public override void FindFrame(int frameHeight)
         {

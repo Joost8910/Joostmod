@@ -1,6 +1,5 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using JoostMod.Items.Materials;
+using Terraria.GameContent.ItemDropRules;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,12 +29,18 @@ namespace JoostMod.NPCs
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
         }
+        /*
         public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
             {
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SucculentCactus").Type, 1);
             }
-		}
+        }
+        */
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SucculentCactus>()));
+        }
     }
 }

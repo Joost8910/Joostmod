@@ -8,6 +8,10 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Items.Placeable;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Weapons;
+using JoostMod.Items.Accessories;
 
 namespace JoostMod.NPCs
 {
@@ -51,48 +55,26 @@ namespace JoostMod.NPCs
             BannerItem = Mod.Find<ModItem>("DeathKnightBanner").Type;
 
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (Main.expertMode)
-            {
-                if (Main.rand.Next(10) == 0)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Deathbringer").Type);
-                }
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SigilofSkulls").Type);
-                }
-            }
-            else
-            {
-                if (Main.rand.Next(15) == 0)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Deathbringer").Type);
-                }
-                if (Main.rand.Next(10) == 0)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SigilofSkulls").Type);
-                }
-            }
-            if (Main.rand.Next(20) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("ThirdAnniversary").Type, 1);
-            }
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ThirdAnniversary>(), 20));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Deathbringer>(), 15, 10));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<SigilofSkulls>(), 10, 7));
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position + new Vector2(24, 10), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight1"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(40, 24), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight2"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(14, 24), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight2"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(26, 34), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight3"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(12, 44), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight4"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(42, 44), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight4"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(20, 66), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight5"), 1f);
-                Gore.NewGore(NPC.position + new Vector2(28, 66), NPC.velocity, Mod.GetGoreSlot("Gores/DeathKnight5"), 1f);
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight3").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight4").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight4").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight5").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight5").Type);
                 for (int k = 0; k < 50; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 109, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
@@ -136,9 +118,9 @@ namespace JoostMod.NPCs
                 NPC.rotation += 36 * NPC.direction * 0.0174f;
                 if (slashTimer % 10 == 0)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("Deathbringer").Type, 50, 15f, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("Deathbringer").Type, 50, 15f, Main.myPlayer, NPC.whoAmI);
                     }
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                 }
@@ -176,12 +158,12 @@ namespace JoostMod.NPCs
             if (NPC.life < NPC.lifeMax / 2)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 109, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
-                if (NPC.ai[0] % 180 == 0 && Main.netMode != 1)
+                if (NPC.ai[0] % 180 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    NPC.NewNPC((int)NPC.Center.X + 60, (int)NPC.Center.Y + 60, 34, 0, NPC.whoAmI);
-                    NPC.NewNPC((int)NPC.Center.X - 60, (int)NPC.Center.Y + 60, 34, 0, NPC.whoAmI);
-                    NPC.NewNPC((int)NPC.Center.X + 60, (int)NPC.Center.Y - 60, 34, 0, NPC.whoAmI);
-                    NPC.NewNPC((int)NPC.Center.X - 60, (int)NPC.Center.Y - 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 60, (int)NPC.Center.Y + 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 60, (int)NPC.Center.Y + 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 60, (int)NPC.Center.Y - 60, 34, 0, NPC.whoAmI);
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 60, (int)NPC.Center.Y - 60, 34, 0, NPC.whoAmI);
                 }
             }
         }

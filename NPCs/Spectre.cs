@@ -1,9 +1,12 @@
+using JoostMod.Items.Ammo;
+using JoostMod.Items.Placeable;
+using JoostMod.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,34 +39,15 @@ namespace JoostMod.NPCs
             NPC.behindTiles = false;
             NPC.alpha = 150;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 1508, Main.rand.Next(4, 12));
-            int chance = Main.expertMode ? 6 : 9;
-            if (Main.rand.NextBool(chance))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SoulGreatsword").Type, 1);
-            }
-            if (Main.rand.NextBool(chance))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SoulArrow").Type, Main.rand.Next(500) + 500);
-            }
-            if (Main.rand.NextBool(chance))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SoulSpear").Type, 1);
-            }
-            if (Main.rand.NextBool(chance))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("HomingSoulmass").Type, 1);
-            }
-            if (Main.rand.NextBool(chance))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FocusSouls").Type, 1);
-            }
-            if (Main.rand.Next(20) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("ThirdAnniversary").Type, 1);
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.Ectoplasm, 1, 4, 12));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ThirdAnniversary>(), 20));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<SoulGreatsword>(), 9, 6));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<SoulSpear>(), 9, 6));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<HomingSoulmass>(), 9, 6));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<FocusSouls>(), 9, 6));
+            npcLoot.Add(new DropBasedOnExpertMode(ItemDropRule.Common(ModContent.ItemType<SoulArrow>(), 9, 500, 999), ItemDropRule.Common(ModContent.ItemType<SoulArrow>(), 6, 500, 999)));
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
@@ -127,8 +111,7 @@ namespace JoostMod.NPCs
                 dust.velocity.Y = dust.velocity.Y + 5;
                 dust.noGravity = true;
             }
-            float velocity.X = 2f;
-            float velocity.Y = 1.5f;
+            Vector2 vel = new(2f, 1.5f);
             float Xlration = 0.1f;
             float Ylration = 0.05f;
             if (NPC.ai[3] == 0)
@@ -166,9 +149,9 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[0] > 140)
                 {
-                    velocity.X = 5;
+                    vel.X = 5;
                     Xlration = 0.2f;
-                    velocity.Y = 4;
+                    vel.Y = 4;
                     Ylration = 0.2f;
                     if (NPC.Distance(P.Center) < 150 && P.Center.Y - NPC.Center.Y < 75)
                     {
@@ -177,11 +160,11 @@ namespace JoostMod.NPCs
                     }
                 }
             }
-            if (NPC.velocity.X * NPC.direction < velocity.X)
+            if (NPC.velocity.X * NPC.direction < vel.X)
             {
                 NPC.velocity.X += Xlration * NPC.direction;
             }
-            if (NPC.velocity.Y * NPC.directionY < velocity.Y)
+            if (NPC.velocity.Y * NPC.directionY < vel.Y)
             {
                 NPC.velocity.Y += Ylration * NPC.directionY;
             }
@@ -201,6 +184,7 @@ namespace JoostMod.NPCs
                     dust.noGravity = true;
                 }
             }
+            var sauce = NPC.GetSource_FromAI();
             if (NPC.ai[3] == 2)
             {
                 NPC.velocity *= 0.9f;
@@ -210,9 +194,9 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[0] == 10)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(P.Center) * 12, Mod.Find<ModProjectile>("HostileSoulArrow").Type, 30, 0, Main.myPlayer, NPC.target);
+                        Projectile.NewProjectile(sauce, NPC.Center, NPC.DirectionTo(P.Center) * 12, Mod.Find<ModProjectile>("HostileSoulArrow").Type, 30, 0, Main.myPlayer, NPC.target);
                     }
                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
@@ -242,13 +226,13 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[0] == 26)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 0);
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 45);
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 90);
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 135);
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 180);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 0);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 45);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 90);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 135);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 180);
                     }
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                 }
@@ -289,7 +273,7 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[0] == 115)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_2"), NPC.Center); //203
                 }
                 if (NPC.ai[0] == 135)
                 {
@@ -297,9 +281,9 @@ namespace JoostMod.NPCs
                     float speed = 15;
                     Vector2 dir = Vector2.Normalize((P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / speed), P.velocity.Y * (Vector2.Distance(P.Center, NPC.Center) / speed))) - pos);
                     dir *= speed;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(pos, dir, Mod.Find<ModProjectile>("HostileSoulSpear").Type, 45, 0, Main.myPlayer, NPC.target);
+                        Projectile.NewProjectile(sauce, pos, dir, Mod.Find<ModProjectile>("HostileSoulSpear").Type, 45, 0, Main.myPlayer, NPC.target);
                     }
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                 }
@@ -314,9 +298,9 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[0] == 160)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileSoulGreatsword").Type, 60, 0, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileSoulGreatsword").Type, 60, 0, Main.myPlayer, NPC.whoAmI);
                     }
                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
@@ -344,9 +328,9 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[0] == 30)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileFocusSouls").Type, 50, 0, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileFocusSouls").Type, 50, 0, Main.myPlayer, NPC.whoAmI);
                     }
                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
@@ -427,24 +411,25 @@ namespace JoostMod.NPCs
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Rectangle rect = new Rectangle((int)NPC.frame.X, (int)NPC.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[NPC.type]));
             Vector2 vect = new Vector2((float)((texture.Width / xFrameCount) / 2), (float)((texture.Height / Main.npcFrameCount[NPC.type]) / 2));
-            sb.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + 4f + vect.Y), new Rectangle?(rect), alpha, NPC.rotation, vect, 1f, effects, 0f);
+            spriteBatch.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + 4f + vect.Y), new Rectangle?(rect), alpha, NPC.rotation, vect, 1f, effects, 0f);
             return false;
         }
         public override bool CheckDead()
         {
             float targetX = NPC.Center.X;
             float targetY = NPC.Center.Y;
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X + 42, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X - 42, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X + 30, (int)NPC.Center.Y + 30, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X - 30, (int)NPC.Center.Y + 30, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X - 30, (int)NPC.Center.Y - 30, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X + 30, (int)NPC.Center.Y - 30, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + 42, 288, 0, NPC.whoAmI, targetX, targetY);
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 42, 288, 0, NPC.whoAmI, targetX, targetY);
+                var sauce = NPC.GetSource_Death();
+                NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X + 42, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X - 42, (int)NPC.Center.Y, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X + 30, (int)NPC.Center.Y + 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X - 30, (int)NPC.Center.Y + 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X - 30, (int)NPC.Center.Y - 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X + 30, (int)NPC.Center.Y - 30, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y + 42, 288, 0, NPC.whoAmI, targetX, targetY);
+                NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y - 42, 288, 0, NPC.whoAmI, targetX, targetY);
             }
             return true;
         }

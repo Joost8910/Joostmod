@@ -1,6 +1,8 @@
 using System;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -68,13 +70,11 @@ namespace JoostMod.NPCs
 			Banner = NPC.type;
 			BannerItem = Mod.Find<ModItem>("CactoidBanner").Type;  
 		}
-        public override void OnKill()
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, 10);
-            if (Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Anniversary").Type, 1);
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.Cactus, 1, 8, 12));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Anniversary>(), 100));
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -114,8 +114,19 @@ namespace JoostMod.NPCs
 			}
 		}
 		 public override void HitEffect(int hitDirection, double damage)
-		 {
-			NPC.ai[2]++;
+        {
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactite1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactite2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactite2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactoid1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactoid2").Type);
+            }
+
+            //The HitEffect hook is client side, these bits will need to be moved
+            NPC.ai[2]++;
             for (int n = 0; n < 200; n++)
             {
                 NPC N = Main.npc[n];
@@ -126,14 +137,6 @@ namespace JoostMod.NPCs
                     N.netUpdate = true;
                 }
             }
-            if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactite1"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactite2"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactite2"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactoid1"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactoid2"), 1f);
-			}
             if (NPC.friendly)
             {
                 NPC.ai[3] = 45;
@@ -241,9 +244,9 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.localAI[1] <= 0)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("Cactite").Type, NPC.damage, 2, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("Cactite").Type, NPC.damage, 2, Main.myPlayer, NPC.whoAmI);
                     }
                     NPC.localAI[1] = 40;
                 }

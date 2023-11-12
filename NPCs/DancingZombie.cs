@@ -35,11 +35,10 @@ namespace JoostMod.NPCs
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DancingZombie"), 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DancingZombie").Type);
             }
-
         }
         public override void FindFrame(int frameHeight)
         {

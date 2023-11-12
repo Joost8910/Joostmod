@@ -1,4 +1,6 @@
+using JoostMod.Items.Materials;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
  
@@ -32,12 +34,9 @@ namespace JoostMod.NPCs
             base.Init();
             tail = true;
         }
-        public override void HitEffect(int hitDirection, double damage)
-		{
-			if (NPC.life <= 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SucculentCactus").Type, 1);
-            }
-		}
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SucculentCactus>()));
+        }
     }
 }

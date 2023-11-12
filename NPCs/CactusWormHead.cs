@@ -1,4 +1,6 @@
+using JoostMod.Items.Materials;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
  
@@ -36,10 +38,10 @@ namespace JoostMod.NPCs
             base.Init();
             head = true;
         }
-        public override void OnKill()
-		{
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SucculentCactus").Type, 1);
-		}
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SucculentCactus>()));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];

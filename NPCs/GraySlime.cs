@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,10 +29,9 @@ namespace JoostMod.NPCs
             Banner = NPC.type;
             BannerItem = Mod.Find<ModItem>("GraySlimeBanner").Type;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 23, Main.rand.Next(10, 20));
-
+            npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1, 10, 20));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -41,10 +41,10 @@ namespace JoostMod.NPCs
         }
         public override bool CheckDead()
         {
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime2").Type);
-                NPC.NewNPC((int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime2").Type);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime2").Type);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime2").Type);
             }
             return true;
         }

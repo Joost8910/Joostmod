@@ -9,6 +9,9 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Items.Materials;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Placeable;
 
 namespace JoostMod.NPCs
 {
@@ -40,13 +43,24 @@ namespace JoostMod.NPCs
             NPC.buffImmune[BuffID.OnFire] = true;
             NPC.alpha = 50;
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("WaterEssence").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
-            if (Main.rand.Next(50) == 0)
+            //I think elementals dropping multiple stacks would make them more aesthetically pleasing to kill
+            int essence = ModContent.ItemType<WaterEssence>();
+            var parameters = new DropOneByOne.Parameters()
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
-            }
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 2,
+                MaximumStackPerChunkBase = 6,
+                MinimumItemDropsCount = 8,
+                MaximumItemDropsCount = 20,
+            };
+            var expertParamaters = parameters;
+            expertParamaters.MinimumItemDropsCount = 12;
+            expertParamaters.MaximumItemDropsCount = 30;
+            npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
@@ -101,13 +115,13 @@ namespace JoostMod.NPCs
                 {
                     NPC.velocity = NPC.DirectionTo(P.Center) * speed;
                     NPC.knockBackResist = Main.expertMode ? 0f : 0.01f;
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_0"), NPC.Center); //201
                 }
                 if (NPC.ai[1] > 40)
                 {
                     if ((int)NPC.ai[1] % 6 == 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_ghastly_glaive_pierce_1"), NPC.Center); // 205
                     }
                     Vector2 vel = new Vector2(speed * NPC.direction, speed * NPC.directionY);
                     if (vel.Length() > speed)
@@ -234,7 +248,7 @@ namespace JoostMod.NPCs
                         {
                             Vector2 pos = NPC.Center;
                             pos.X += Main.rand.NextFloat(-NPC.width / 2f, NPC.width / 2f);
-                            Projectile.NewProjectile(pos, new Vector2(0, 10), ProjectileID.RainNimbus, 20, 1);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, new Vector2(0, 10), ProjectileID.RainNimbus, 20, 1);
                         }
                         if (NPC.ai[3] > 190)
                         {

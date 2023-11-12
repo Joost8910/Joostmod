@@ -1,9 +1,13 @@
 using System;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,6 +19,17 @@ namespace JoostMod.NPCs
         {
             DisplayName.SetDefault("Fire Elemental");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.OnFire,
+                    BuffID.ShadowFlame,
+                    BuffID.Poisoned,
+                    BuffID.Venom
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -34,10 +49,29 @@ namespace JoostMod.NPCs
             AIType = NPCID.Wraith;
             Banner = NPC.type;
             BannerItem = Mod.Find<ModItem>("FireElementalBanner").Type;
-            NPC.buffImmune[BuffID.OnFire] = true;
-            NPC.buffImmune[BuffID.ShadowFlame] = true;
             NPC.lavaImmune = true;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            //I think elementals dropping multiple stacks would make them more aesthetically pleasing to kill
+            int essence = ModContent.ItemType<FireEssence>();
+            var parameters = new DropOneByOne.Parameters()
+            {
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 2,
+                MaximumStackPerChunkBase = 6,
+                MinimumItemDropsCount = 8,
+                MaximumItemDropsCount = 20,
+            };
+            var expertParamaters = parameters;
+            expertParamaters.MinimumItemDropsCount = 12;
+            expertParamaters.MaximumItemDropsCount = 30;
+            npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
+            npcLoot.Add(ItemDropRule.Common(ItemID.LivingFireBlock, 4, 20, 50));
+        }
+        /*
         public override void OnKill()
         {
             Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 2701, Main.rand.Next(10, 20));
@@ -47,6 +81,7 @@ namespace JoostMod.NPCs
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
             }
         }
+        */
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             if (NPC.localAI[1] >= 40)

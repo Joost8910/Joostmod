@@ -1,7 +1,9 @@
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -83,25 +85,23 @@ namespace JoostMod.NPCs
             }
             return base.CanHitNPC(target);
         }
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, 10);
-            if (Main.rand.Next(50) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Anniversary").Type, 1);
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.Cactus, 1, 8, 12));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Anniversary>(), 50));
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactuar1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactuar2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactuar2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactuar2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactuar2"), 1f);
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactuar1").Type);
+                for (int i =  0; i < 4; i++)
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactuar2").Type);
             }
+
+            //The HitEffect hook is client side, these bits will need to be moved
             NPC.ai[3]++;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -305,9 +305,9 @@ namespace JoostMod.NPCs
                     }
                     Vector2 vel = new Vector2(dir.X, dir.Y).RotatedByRandom(MathHelper.ToRadians(3));
                     dir = vel * speed;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, dir.X, dir.Y, type, 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, dir.X, dir.Y, type, 1, 0f, Main.myPlayer);
                     }
                 }
                 if ((NPC.ai[3] >= 220 && !Main.expertMode) || (Main.expertMode && NPC.ai[3] >= 230))

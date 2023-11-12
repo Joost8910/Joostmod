@@ -1,7 +1,12 @@
+using JoostMod.Items.Accessories;
+using JoostMod.Items.Ammo;
+using JoostMod.Items.Placeable;
+using JoostMod.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,9 +35,15 @@ namespace JoostMod.NPCs
             {
                 NPC.lifeMax = 1500;
             }
-            NPC.HitSound = SoundID.NPCHit40.WithPitchVariance(.75f);
-            NPC.DeathSound = SoundID.NPCDeath45.WithPitchVariance(.75f);
-            NPC.value = 0f;
+            NPC.HitSound = SoundID.NPCHit40 with 
+            { 
+                PitchVariance = 0.75f 
+            };
+            NPC.DeathSound = SoundID.NPCDeath45 with
+            {
+                PitchVariance = 0.75f
+            };
+            NPC.value = 10000;
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             Banner = NPC.type;
@@ -61,6 +72,7 @@ namespace JoostMod.NPCs
             Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
             return !spawnInfo.PlayerInTown && !Main.pumpkinMoon && !Main.snowMoon && !spawnInfo.Sky && !Main.eclipse && spawnInfo.SpawnTileY < Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(NPC.type) ? 0.0017f : 0f;
         }
+        /*
         public override void OnKill()
         {
             Player player = Main.player[NPC.target];
@@ -207,7 +219,62 @@ namespace JoostMod.NPCs
                 }
             }
         }
+        */
 
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            var parameters = new DropOneByOne.Parameters()
+            {
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 1,
+                MaximumStackPerChunkBase = 1,
+                MinimumItemDropsCount = 7,
+                MaximumItemDropsCount = 13,
+            };
+            npcLoot.Add(new DropOneByOne(ItemID.GoldCoin, parameters));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FourthAnniversary>(), 20));
+            npcLoot.Add(ItemDropRule.AlwaysAtleastOneSuccess(
+                ItemDropRule.NormalvsExpert(ItemID.PDA, 4, 3),
+                ItemDropRule.NormalvsExpert(ModContent.ItemType<StoneofJordan>(), 4, 3),
+                ItemDropRule.NormalvsExpert(ModContent.ItemType<FrozenOrb>(), 4, 3),
+                ItemDropRule.NormalvsExpert(ModContent.ItemType<HungeringArrow>(), 4, 3),
+                ItemDropRule.NormalvsExpert(ModContent.ItemType<TwinChakrams>(), 4, 3),
+                ItemDropRule.NormalvsExpert(ModContent.ItemType<Whirlwind>(), 4, 3),
+                ItemDropRule.NormalvsExpert(ModContent.ItemType<PlagueOfToads>(), 4, 3)));
+
+            LeadingConditionRule stones = new LeadingConditionRule(new Conditions.IsExpert());
+            stones.OnSuccess(ItemDropRule.OneFromOptions(100,
+                ModContent.ItemType<EvilStone>(),
+                ModContent.ItemType<SkullStone>(),
+                ModContent.ItemType<JungleStone>(),
+                ModContent.ItemType<InfernoStone>(),
+                ModContent.ItemType<SeaStoneHigh>(),
+                ModContent.ItemType<SeaStoneEast>(),
+                ModContent.ItemType<SeaStoneWest>(),
+                ModContent.ItemType<SeaStoneDeep>()));
+            npcLoot.Add(stones);
+
+            //Need to test this especiialy to make sure it doesnt use vanilla key drop rates
+            LeadingConditionRule jKey = new LeadingConditionRule(new Conditions.JungleKeyCondition());
+            LeadingConditionRule coKey = new LeadingConditionRule(new Conditions.CorruptKeyCondition());
+            LeadingConditionRule crKey = new LeadingConditionRule(new Conditions.CrimsonKeyCondition());
+            LeadingConditionRule hKey = new LeadingConditionRule(new Conditions.HallowKeyCondition());
+            LeadingConditionRule fKey = new LeadingConditionRule(new Conditions.FrozenKeyCondition());
+            LeadingConditionRule dKey = new LeadingConditionRule(new Conditions.DesertKeyCondition());
+            jKey.OnSuccess(ItemDropRule.Common(ItemID.JungleKey, 10));
+            coKey.OnSuccess(ItemDropRule.Common(ItemID.CorruptionKey, 10));
+            crKey.OnSuccess(ItemDropRule.Common(ItemID.CrimsonKey, 10));
+            hKey.OnSuccess(ItemDropRule.Common(ItemID.HallowedKey, 10));
+            fKey.OnSuccess(ItemDropRule.Common(ItemID.FrozenKey, 10));
+            dKey.OnSuccess(ItemDropRule.Common(ItemID.DungeonDesertKey, 10));
+            npcLoot.Add(jKey);
+            npcLoot.Add(coKey);
+            npcLoot.Add(crKey);
+            npcLoot.Add(hKey);
+            npcLoot.Add(fKey);
+            npcLoot.Add(dKey);
+        }
         public override void FindFrame(int frameHeight)
         {
             NPC.spriteDirection = NPC.direction;
@@ -282,24 +349,25 @@ namespace JoostMod.NPCs
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            NPC.ai[1] += 5;
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/TreasureGoblin"), 1f);
-                for (int i = 0; i < 4; i++)
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("TreasureGoblin").Type);
+            }
+
+            //The HitEffect hook is client side, these bits will need to be moved
+            NPC.ai[1] += 5;
+        }
+        public override bool CheckDead()
+        {
+            SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
+            for (int i = 0; i < 4; i++)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (Main.netMode != 1)
-                    {
-                        Projectile.NewProjectile(NPC.position.X, NPC.position.Y, Main.rand.Next(-10, 10), Main.rand.Next(-10, -5), 518, 0, 0f, Main.myPlayer);
-                    }
-                    for (int j = 0; j < 3; j++)
-                    {
-                        //Projectile.NewProjectile(npc.position.X, npc.position.Y, Main.rand.Next(-7, 7), Main.rand.Next(-7, -1), 413, 0, 0f, Main.myPlayer);
-                        Item.NewItem(NPC.Center, NPC.width, NPC.height, ItemID.GoldCoin);
-                        SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
-                    }
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.position.X, NPC.position.Y, Main.rand.Next(-10, 10), Main.rand.Next(-10, -5), ProjectileID.CoinPortal, 0, 0f, Main.myPlayer);
                 }
             }
+            return base.CheckDead();
         }
         public override void AI()
         {
@@ -394,12 +462,13 @@ namespace JoostMod.NPCs
                     if (NPC.localAI[0] < 30 && !NPC.noTileCollide)
                     {
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -3, 413, 0, 0f, Main.myPlayer);
-                        Item.NewItem((int)NPC.Center.X - 16 * NPC.direction, (int)NPC.Center.Y, 2, 2, ItemID.GoldCoin);
+                        Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.Center.X - 16 * NPC.direction, (int)NPC.Center.Y, 2, 2, ItemID.GoldCoin);
                         SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
                         NPC.localAI[0]++;
                     }
                 }
             }
+            //Escape Portal
             if (NPC.ai[3] > 0)
             {
                 NPC.defense = 0;
@@ -413,7 +482,7 @@ namespace JoostMod.NPCs
                 if (NPC.ai[3] == 8)
                 {
                     SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
-                    Dust.NewDustDirect(new Vector2(NPC.Center.X + 20 * NPC.direction, NPC.Center.Y + 6), 1, 1, 16);
+                    Dust.NewDustDirect(new Vector2(NPC.Center.X + 20 * NPC.direction, NPC.Center.Y + 6), 1, 1, DustID.Cloud);
                 }
                 if (NPC.ai[3] == 24)
                 {
@@ -458,13 +527,13 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[3] >= 240)
                 {
-                    Item.NewItem((int)NPC.Center.X + 36 * NPC.direction, (int)NPC.Center.Y + 6, 12, 12, ItemID.GoldCoin);
+                    Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.Center.X + 36 * NPC.direction, (int)NPC.Center.Y + 6, 12, 12, ItemID.GoldCoin);
                     NPC.active = false;
-                    if (Main.netMode == 2)
+                    if (Main.netMode == NetmodeID.Server)
                     {
                         NPC.netSkip = -1;
                         NPC.life = 0;
-                        NetMessage.SendData(23, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
