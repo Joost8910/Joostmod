@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,6 +20,22 @@ namespace JoostMod.NPCs.Bosses
             Main.npcFrameCount[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Confused,
+                    BuffID.Frostburn,
+                    BuffID.Frostburn2,
+                    BuffID.OnFire,
+                    BuffID.OnFire3,
+                    Mod.Find<ModBuff>("InfectedRed").Type,
+                    Mod.Find<ModBuff>("InfectedGreen").Type,
+                    Mod.Find<ModBuff>("InfectedBlue").Type,
+                    Mod.Find<ModBuff>("InfectedYellow").Type
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -36,13 +53,8 @@ namespace JoostMod.NPCs.Bosses
             NPC.aiStyle = -1;
             NPC.noTileCollide = false;
             NPC.noGravity = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedYellow").Type] = true;
-            NPC.buffImmune[BuffID.Frostburn] = true;
-            NPC.buffImmune[BuffID.OnFire] = true;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/VsSAX");
+            if (!Main.dedServ)
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSax");
             NPC.frameCounter = 0;
             NPC.scale = 0.625f;
         }
@@ -304,6 +316,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void AI()
         {
+            var source = NPC.GetSource_FromAI();
             NPC.localAI[0]++;
             Player P = Main.player[NPC.target];
             if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -445,10 +458,10 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (NPC.localAI[1] > 0)
                         {
-                            if (Main.netMode != 1)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 8f, 0, Mod.Find<ModProjectile>("SaxWave").Type, 100, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, -8f, 0, Mod.Find<ModProjectile>("SaxWave").Type, 100, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, 8f, 0, Mod.Find<ModProjectile>("SaxWave").Type, 100, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, -8f, 0, Mod.Find<ModProjectile>("SaxWave").Type, 100, 0f, Main.myPlayer);
                             }
                             SoundEngine.PlaySound(SoundID.Item14, NPC.position);
                             for (int i = 0; i < 60; i++)
@@ -477,7 +490,7 @@ namespace JoostMod.NPCs.Bosses
                             NPC.velocity = NPC.DirectionTo(jumpos) * 30;
                             NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs((jumpos.Y) - (NPC.position.Y + NPC.height)));
                             NPC.frame.Y = 1400;
-                            SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                            SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_1"), NPC.Center); //214
                         }
                         NPC.noTileCollide = true;
                         if (Math.Abs(NPC.Center.Y - jumpos.Y) < 200)
@@ -531,7 +544,7 @@ namespace JoostMod.NPCs.Bosses
                     }
                     if (NPC.ai[2] == 20)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_2"), NPC.Center); //212
                     }
                     if (NPC.ai[2] == 40)
                     {
@@ -555,13 +568,13 @@ namespace JoostMod.NPCs.Bosses
                             Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(spread));
                             float scale = 1f - (Main.rand.NextFloat() * .3f);
                             perturbedSpeed = perturbedSpeed * scale;
-                            if (Main.netMode != 1)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 4, Main.myPlayer);
                             }
                         }
-                        SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
-                        SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileShoot"));
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_3"), NPC.Center); //216
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot"), NPC.Center);
                     }
                     if (NPC.ai[2] > 40 && NPC.ai[2] < 100)
                     {
@@ -618,12 +631,12 @@ namespace JoostMod.NPCs.Bosses
                                 Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(spread));
                                 float scale = 1f - (Main.rand.NextFloat() * .3f);
                                 perturbedSpeed = perturbedSpeed * scale;
-                                if (Main.netMode != 1)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 4, Main.myPlayer);
                                 }
                             }
-                            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileShoot"));
+                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot"), NPC.Center);
                         }
                         if (NPC.ai[3] == 17)
                         {
@@ -634,12 +647,12 @@ namespace JoostMod.NPCs.Bosses
                                 Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(spread));
                                 float scale = 1f - (Main.rand.NextFloat() * .3f);
                                 perturbedSpeed = perturbedSpeed * scale;
-                                if (Main.netMode != 1)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 4, Main.myPlayer);
                                 }
                             }
-                            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileShoot"));
+                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot"), NPC.Center);
                         }
                         if (NPC.ai[3] == 24)
                         {
@@ -650,12 +663,12 @@ namespace JoostMod.NPCs.Bosses
                                 Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(spread));
                                 float scale = 1f - (Main.rand.NextFloat() * .3f);
                                 perturbedSpeed = perturbedSpeed * scale;
-                                if (Main.netMode != 1)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 4, Main.myPlayer);
                                 }
                             }
-                            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileShoot"));
+                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot"), NPC.Center);
                         }
                         if (NPC.ai[3] > 28)
                         {
@@ -678,14 +691,14 @@ namespace JoostMod.NPCs.Bosses
                             Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(90));
                             float scale = 1f - (Main.rand.NextFloat() * .3f);
                             perturbedSpeed = perturbedSpeed * scale;
-                            if (Main.netMode != 1)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 2, Main.myPlayer);
                             }
                         }
                         position = NPC.Center + new Vector2(-42 * NPC.direction, -70);
                         velocity = new Vector2(-10 * NPC.direction, 3);
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, 2, Main.myPlayer);
                         }
@@ -744,10 +757,10 @@ namespace JoostMod.NPCs.Bosses
                 {
                     Color color2 = color * ((NPC.oldPos.Length - i) / (float)NPC.oldPos.Length) * 0.5f;
                     Vector2 drawPos = new Vector2(NPC.oldPos[i].X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vector.X, NPC.oldPos[i].Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + yOffset + vector.Y);
-                    spritebatch.Draw(texture, drawPos, rectangle, color2, NPC.rotation, vector, NPC.scale, effects, 0f);
+                    spriteBatch.Draw(texture, drawPos, rectangle, color2, NPC.rotation, vector, NPC.scale, effects, 0f);
                 }
             }
-            spritebatch.Draw(texture, drawPosition, new Rectangle?(rectangle), color, NPC.rotation, vector, NPC.scale, effects, 0f);
+            spriteBatch.Draw(texture, drawPosition, new Rectangle?(rectangle), color, NPC.rotation, vector, NPC.scale, effects, 0f);
             return false;
         }
         public override bool CheckDead()
@@ -768,9 +781,9 @@ namespace JoostMod.NPCs.Bosses
                 NPC.noTileCollide = false;
                 return false;
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + 40, Mod.Find<ModNPC>("SAXCoreX").Type);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y + 40, Mod.Find<ModNPC>("SAXCoreX").Type);
             }
             //Main.NewText("The SA-X shimmers and reverts to its true form!", 175, 75, 225);
 

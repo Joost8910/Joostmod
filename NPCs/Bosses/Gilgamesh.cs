@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,6 +20,14 @@ namespace JoostMod.NPCs.Bosses
 			Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Confused
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 		public override void SetDefaults()
 		{
@@ -34,9 +43,9 @@ namespace JoostMod.NPCs.Bosses
 			NPC.value = Item.buyPrice(0, 0, 0, 0);
 			NPC.knockBackResist = 0f;
 			NPC.aiStyle = -1;
-            NPC.buffImmune[BuffID.Confused] = true;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ClashOnTheBigBridge");
-			NPC.frameCounter = 0;
+            if (!Main.dedServ)
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ClashOnTheBigBridge");
+            NPC.frameCounter = 0;
             SceneEffectPriority = SceneEffectPriority.BossHigh;
             NPC.noGravity = true;
         }
@@ -50,7 +59,7 @@ namespace JoostMod.NPCs.Bosses
         {
             for (int i = 0; i < 15; i++)
             {
-                Item.NewItem(NPC.getRect(), ItemID.Heart);
+                Item.NewItem(NPC.GetSource_Death(), NPC.getRect(), ItemID.Heart);
             }
             return false;
         }
@@ -112,6 +121,7 @@ namespace JoostMod.NPCs.Bosses
 		}
         public override void AI()
         {
+            var sauce = NPC.GetSource_FromAI();
             NPC.ai[0]++;
             NPC.TargetClosest(false);
             Player P = Main.player[NPC.target];
@@ -189,9 +199,9 @@ namespace JoostMod.NPCs.Bosses
                     int type = Mod.Find<ModProjectile>("GilgNaginata1").Type;
                     float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 7f, Main.myPlayer, NPC.whoAmI, 4f);
+                        Projectile.NewProjectile(sauce, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 7f, Main.myPlayer, NPC.whoAmI, 4f);
                     }
                     NPC.ai[1] = 0;
                     NPC.direction = NPC.Center.X < P.Center.X ? 1 : -1;
@@ -219,9 +229,9 @@ namespace JoostMod.NPCs.Bosses
                     int type = Mod.Find<ModProjectile>("GilgTomahawk").Type;
                     float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     SoundEngine.PlaySound(SoundID.Item1, NPC.position);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 2f, Main.myPlayer, NPC.whoAmI, 4f);
+                        Projectile.NewProjectile(sauce, arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 2f, Main.myPlayer, NPC.whoAmI, 4f);
                     }
                 }
                 if (NPC.ai[2] == 60)
@@ -237,9 +247,9 @@ namespace JoostMod.NPCs.Bosses
                     int type = Mod.Find<ModProjectile>("GilgTomahawk").Type;
                     float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     SoundEngine.PlaySound(SoundID.Item19, NPC.position);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 2f, Main.myPlayer, NPC.whoAmI, 4f);
+                        Projectile.NewProjectile(sauce, arm.X, arm.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 2f, Main.myPlayer, NPC.whoAmI, 4f);
                     }
                 }
                 if (NPC.ai[2] > 75)
@@ -296,9 +306,9 @@ namespace JoostMod.NPCs.Bosses
                     int type = Mod.Find<ModProjectile>("GilgNaginata1").Type;
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                     float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 15f, Main.myPlayer, NPC.whoAmI, 4f);
+                        Projectile.NewProjectile(sauce, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 15f, Main.myPlayer, NPC.whoAmI, 4f);
                     }
                     NPC.ai[3] = 180;
                 }
@@ -355,7 +365,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            /*Texture2D armTex = mod.GetTexture("NPCs/Bosses/Gilgamesh_BackArm");
+            /*Texture2D armTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackArm").Value;
             int totalArmFrames = 3;
             int armFrame = 0;
             float armRotation = 0;
@@ -394,7 +404,7 @@ namespace JoostMod.NPCs.Bosses
             armOffset = armOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
             armRotation += npc.rotation;*/
 
-            Texture2D shoulderTex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_BackShoulder");
+            Texture2D shoulderTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackShoulder").Value;
             int totalShoulderFrames = 1;
             int shoulderFrame = 0;
             float shoulderRotation = 0;
@@ -419,7 +429,7 @@ namespace JoostMod.NPCs.Bosses
                 shoulderOffset.X += 2;
             }
 
-            Texture2D forearmTex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_BackForearm");
+            Texture2D forearmTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackForearm").Value;
             int totalForearmFrames = 1;
             int forearmFrame = 0;
             float forearmRotation = 0;
@@ -429,7 +439,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 forearmVect = new Vector2((float)forearmTex.Width / 2, (float)forearmTex.Height / (2 * totalForearmFrames));
 
 
-            Texture2D handTex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_BackHand");
+            Texture2D handTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackHand").Value;
             int totalHandFrames = 3;
             int handFrame = 0;
             float handRotation = 0;
@@ -541,7 +551,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Texture2D shoulderTex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_FrontShoulder");
+            Texture2D shoulderTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontShoulder").Value;
             int totalShoulderFrames = 1;
             int shoulderFrame = 0;
             float shoulderRotation = 0;
@@ -566,7 +576,7 @@ namespace JoostMod.NPCs.Bosses
                 shoulderOffset.X += 2;
             }
 
-            Texture2D forearmTex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_FrontForearm");
+            Texture2D forearmTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontForearm").Value;
             int totalForearmFrames = 1;
             int forearmFrame = 0;
             float forearmRotation = 0;
@@ -576,7 +586,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 forearmVect = new Vector2((float)forearmTex.Width / 2, (float)forearmTex.Height / (2 * totalForearmFrames));
 
 
-            Texture2D handTex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_FrontHand");
+            Texture2D handTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontHand").Value;
             int totalHandFrames = 3;
             int handFrame = 0;
             float handRotation = 0;
@@ -664,10 +674,10 @@ namespace JoostMod.NPCs.Bosses
 
             if (NPC.dontTakeDamage && NPC.ai[0] < 40)
             {
-                Texture2D tex = Mod.GetTexture("NPCs/Bosses/Gilgamesh_SpinToWin");
+                Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_SpinToWin").Value;
                 if (NPC.ai[0] < 20)
                 {
-                    tex = Mod.GetTexture("NPCs/Bosses/Gilgamesh2_SpinToWin");
+                    tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_SpinToWin").Value;
                 }
                 Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height * 0.5f) / 2);
                 for (int i = 0; i < NPC.oldPos.Length; i++)
@@ -717,16 +727,16 @@ namespace JoostMod.NPCs.Bosses
             {
                 if (JoostWorld.downedGilgamesh)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 10, Mod.Find<ModNPC>("Gilgamesh2").Type, 0, 510, 0, 0, 1);
+                        NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y - 10, Mod.Find<ModNPC>("Gilgamesh2").Type, 0, 510, 0, 0, 1);
                     }
                 }
                 else
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 10, Mod.Find<ModNPC>("Gilgamesh2").Type);
+                        NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y - 10, Mod.Find<ModNPC>("Gilgamesh2").Type);
                     }
                 }
                 for (int i = 0; i < 80; i++)

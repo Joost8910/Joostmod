@@ -1,3 +1,7 @@
+using JoostMod.Items.Armor;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -5,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
  
@@ -35,8 +40,8 @@ namespace JoostMod.NPCs.Bosses
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.lavaImmune = true;
-            bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("GrandCactusWormBag").Type;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
+            if (!Main.dedServ)
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DeoremMua");
             SceneEffectPriority = SceneEffectPriority.BossHigh;
         }
         public override void FindFrame(int frameHeight)
@@ -173,10 +178,12 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0 && JoostWorld.downedCactusWorm)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GrandCactusWormHead"), NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("GrandCactusWormHead").Type);
             }
+
+            //The HitEffect hook is client side, these bits will need to be moved
             if (NPC.ai[3] == 0)
             {
                 NPC.ai[2] = 1;
@@ -188,6 +195,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("GrandCactusWorm").Type, 1, false);
             }
+            /*
             if (Main.expertMode)
             {
                 NPC.DropBossBags();
@@ -212,8 +220,20 @@ namespace JoostMod.NPCs.Bosses
             {
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
             }
+            */
             JoostWorld.downedCactusWorm = true;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<GrandCactusWormBag>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GrandCactusWormTrophy>(), 10));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FifthAnniversary>(), 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<LusciousCactus>(), 1, 8, 15));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<DeoremMuaMusicBox>(), 4));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<GrandCactusWormMask>(), 7));
+        }
+
+
         Vector2 targetPos = Vector2.Zero;
         double speed = 10f;
         public override void SendExtraAI(BinaryWriter writer)
@@ -228,6 +248,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool PreAI()
         {
+            var sauce = NPC.GetSource_FromAI();
             Player P = Main.player[NPC.target];
             if (Vector2.Distance(NPC.Center, P.MountedCenter) > 4000 || NPC.target < 0 || NPC.target == 255 || P.dead || !P.active)
             {
@@ -239,7 +260,7 @@ namespace JoostMod.NPCs.Bosses
                     NPC.ai[2] = 0;
                 }
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (NPC.ai[0] == 0)
                 {
@@ -248,11 +269,11 @@ namespace JoostMod.NPCs.Bosses
                     int cactusWormLength = 18;
                     for (int i = 0; i < cactusWormLength; ++i)
                     {
-                        latestNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormBody").Type, NPC.whoAmI, 0, latestNPC);
+                        latestNPC = NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormBody").Type, NPC.whoAmI, 0, latestNPC);
                         Main.npc[(int)latestNPC].realLife = NPC.whoAmI;
                         Main.npc[(int)latestNPC].ai[3] = NPC.whoAmI;
                     }
-                    latestNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormTail").Type, NPC.whoAmI, 0, latestNPC);
+                    latestNPC = NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormTail").Type, NPC.whoAmI, 0, latestNPC);
                     Main.npc[(int)latestNPC].realLife = NPC.whoAmI;
                     Main.npc[(int)latestNPC].ai[3] = NPC.whoAmI;
                     NPC.ai[0] = 1;
@@ -299,7 +320,8 @@ namespace JoostMod.NPCs.Bosses
                 float projSpeed = Main.expertMode ? 13.5f : 12;
                 NPC.ai[2] = 0;
                 NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
-                Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
+                if (!Main.dedServ)
+                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DeoremMua");
                 if (NPC.ai[1] == 0)
                 {
                     targetPos = new Vector2(NPC.Center.X, NPC.Center.Y + 500);
@@ -346,9 +368,9 @@ namespace JoostMod.NPCs.Bosses
                     NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                     if (NPC.ai[1] % 25 == 0)
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -393,9 +415,9 @@ namespace JoostMod.NPCs.Bosses
                     NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                     if (NPC.ai[1] % 25 == 0)
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -563,9 +585,9 @@ namespace JoostMod.NPCs.Bosses
                     NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                     if ((NPC.ai[1] == 1494 || NPC.ai[1] == 1524 || NPC.ai[1] == 1620))
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -593,9 +615,9 @@ namespace JoostMod.NPCs.Bosses
                     NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                     if (NPC.ai[1] % 25 == 20)
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -637,9 +659,9 @@ namespace JoostMod.NPCs.Bosses
                     NPC.rotation = (float)Math.Atan2(dir.Y, dir.X) + 1.57f;
                     if (NPC.ai[1] % 25 == 15)
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -654,7 +676,8 @@ namespace JoostMod.NPCs.Bosses
                     targetPos = new Vector2(P.MountedCenter.X - 300, P.MountedCenter.Y - 300);
                     speed = 25;
                 }
-                Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DeoremMua");
+                if (!Main.dedServ)
+                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DeoremMua");
                 NPC.ai[1]++;
                 if (NPC.ai[1] > 2410)
                 {
@@ -697,7 +720,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = Mod.GetTexture("NPCs/Bosses/GrandCactusWormEyes");
+            Texture2D texture = Mod.Assets.Request<Texture2D>("NPCs/Bosses/GrandCactusWormEyes").Value;
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             int eyeFrame = 0;
             Color color = Color.YellowGreen;

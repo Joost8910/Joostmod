@@ -43,7 +43,7 @@ namespace JoostMod.Projectiles
         }
         public override void Kill(int timeLeft)
 		{
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("SAXExplosion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }

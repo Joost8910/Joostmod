@@ -1,9 +1,16 @@
 using System;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.ItemDropRules.DropConditions;
+using Terraria.DataStructures;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Armor;
 
 namespace JoostMod.NPCs.Bosses
 {
@@ -14,6 +21,15 @@ namespace JoostMod.NPCs.Bosses
         {
             DisplayName.SetDefault("Enkidu");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Confused,
+                    BuffID.Ichor
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -29,9 +45,9 @@ namespace JoostMod.NPCs.Bosses
             NPC.aiStyle = 0;
             NPC.noTileCollide = true;
             NPC.boss = true;
-            bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("GilgBag").Type;
-            NPC.buffImmune[BuffID.Ichor] = true;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ClashOnTheBigBridge");
+            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("GilgBag").Type;
+            if (!Main.dedServ)
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ClashOnTheBigBridge");
             NPC.noGravity = true;
             NPC.frameCounter = 0;
             SceneEffectPriority = SceneEffectPriority.BossHigh;
@@ -47,10 +63,11 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool PreKill()
         {
+            /*
             for (int i = 0; i < 15; i++)
             {
                 Item.NewItem(NPC.GetSource_FromAI(), NPC.getRect(), ItemID.Heart);
-            }
+            }*/
             return !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type);
         }
         public override void OnKill()
@@ -58,6 +75,7 @@ namespace JoostMod.NPCs.Bosses
             if (!JoostWorld.downedGilgamesh && Main.netMode != NetmodeID.Server)
                 Main.NewText("With Gilgamesh and Enkidu's defeat, you can now fish the legendary stones from their respective biomes", 125, 25, 225);
             JoostWorld.downedGilgamesh = true;
+            /*
             if (Main.expertMode)
             {
                 NPC.DropBossBags();
@@ -82,8 +100,28 @@ namespace JoostMod.NPCs.Bosses
             {
                 Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
             }
+            */
         }
-
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            LeadingConditionRule rule = new LeadingConditionRule(new GilgameshDropCondition());
+            rule.OnSuccess(ItemDropRule.BossBag(ModContent.ItemType<GilgBag>()));
+            rule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<GilgameshTrophy>(), 10));
+            rule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<FifthAnniversary>(), 10));
+            rule.OnSuccess(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<GenjiToken>(), 1, 1, 2));
+            rule.OnSuccess(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<COTBBMusicBox>(), 4));
+            rule.OnSuccess(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<GilgameshMask>(), 7));
+            npcLoot.Add(rule);
+            npcLoot.Add(new DropOneByOne(ItemID.Heart, new DropOneByOne.Parameters()
+            {
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 1,
+                MaximumStackPerChunkBase = 1,
+                MinimumItemDropsCount = 10,
+                MaximumItemDropsCount = 15,
+            }));
+        }
         public override void AI()
         {
             NPC.ai[0]++;
@@ -158,7 +196,7 @@ namespace JoostMod.NPCs.Bosses
                 if (NPC.ai[1] % 4 == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item34, NPC.position);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         //TODO Center on player for future enkidu rework
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (Main.rand.Next(-15, 15) * 120), NPC.Center.Y - (120 * 8), Speed, Math.Abs(Speed), Mod.Find<ModProjectile>("EnkiduWind").Type, 50, 15f, Main.myPlayer);
@@ -187,7 +225,7 @@ namespace JoostMod.NPCs.Bosses
                     double startAngle = Math.Atan2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1)) - spread / 3;
                     double deltaAngle = spread / 3;
                     double offsetAngle;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         for (int i = 0; i < 3; i++)
                         {

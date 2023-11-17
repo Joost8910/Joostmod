@@ -1,10 +1,16 @@
 using System;
 using System.IO;
+using JoostMod.Items.Armor;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,6 +23,20 @@ namespace JoostMod.NPCs.Bosses
         {
             DisplayName.SetDefault("SA-X");
             Main.npcFrameCount[NPC.type] = 17;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Confused,
+                    BuffID.Frostburn,
+                    BuffID.Frostburn2,
+                    Mod.Find<ModBuff>("InfectedRed").Type,
+                    Mod.Find<ModBuff>("InfectedGreen").Type,
+                    Mod.Find<ModBuff>("InfectedBlue").Type,
+                    Mod.Find<ModBuff>("InfectedYellow").Type
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -35,14 +55,9 @@ namespace JoostMod.NPCs.Bosses
             NPC.coldDamage = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedYellow").Type] = true;
-            NPC.buffImmune[BuffID.Frostburn] = true;
-            NPC.buffImmune[BuffID.OnFire] = true;
-            bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("XBag").Type;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/VsSAX");
+            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("XBag").Type;
+            if (!Main.dedServ)
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSax");
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -56,42 +71,52 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SAX"), NPC.scale);
+                var sauce = NPC.GetSource_Death();
+                for (int i = 0; i < 4; i++)
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SAX").Type);
             }
         }
         public override void OnKill()
         {
             JoostWorld.downedSAX = true;
 
-            if (Main.expertMode)
-            {
-                NPC.DropBossBags();
-            }
-            else
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("IceCoreX").Type, 1 + Main.rand.Next(2));
-                if (Main.rand.Next(4) == 0)
+            /*
+                if (Main.expertMode)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMusicBox").Type);
+                    NPC.DropBossBags();
                 }
-                if (Main.rand.Next(7) == 0)
+                else
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMask").Type);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("IceCoreX").Type, 1 + Main.rand.Next(2));
+                    if (Main.rand.Next(4) == 0)
+                    {
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMusicBox").Type);
+                    }
+                    if (Main.rand.Next(7) == 0)
+                    {
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMask").Type);
+                    }
                 }
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXTrophy").Type);
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
-            }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXTrophy").Type);
+                }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                }
+            */
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<XBag>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SAXTrophy>(), 10));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FifthAnniversary>(), 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<IceCoreX>(), 1, 1, 2));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<SAXMusicBox>(), 4));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<SAXMask>(), 7));
         }
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -227,6 +252,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void AI()
         {
+            var source = NPC.GetSource_FromAI();
             NPC.ai[0]++;
             Player P = Main.player[NPC.target];
             if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -296,21 +322,22 @@ namespace JoostMod.NPCs.Bosses
                 NPC.rotation = NPC.ai[0] * 0.0174f * NPC.localAI[1];
                 if (NPC.ai[0] == 180)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_betsy_wind_attack_1"), NPC.Center); //44
                 }
                 if (NPC.ai[0] > 200)
                 {
                     float speed = 12f;
                     int damage = 75;
                     int type = Mod.Find<ModProjectile>("SAXBeam").Type;
-                    SoundEngine.PlaySound(SoundLoader.customSoundType, (int)NPC.position.X, (int)NPC.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeam"));
+                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
                     float rotation = NPC.rotation;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation - 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation - 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation - 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation - 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation + 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation + 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation + 0.0174f * 2.5f) * speed)), (float)((Math.Sin(rotation + 0.0174f * 2.5f) * speed)), type, damage, 0f, Main.myPlayer);
                         //Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
@@ -370,13 +397,13 @@ namespace JoostMod.NPCs.Bosses
                     }
                     int damage = 100;
                     int type = Mod.Find<ModProjectile>("SAXBeamCharged").Type;
-                    SoundEngine.PlaySound(SoundLoader.customSoundType, (int)NPC.position.X, (int)NPC.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/IceBeamCharged"));
+                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeamCharged"), NPC.Center);
                     float rotation = NPC.rotation;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
+                        Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, 1);
+                        Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * speed)), (float)((Math.Sin(rotation) * speed)), type, damage, 0f, Main.myPlayer, -1);
                     }
                 }
                 if (NPC.ai[0] >= 200)
@@ -396,21 +423,21 @@ namespace JoostMod.NPCs.Bosses
             NPC.ai[2]++;
             if (NPC.ai[2] > 400)
             {
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     switch (Main.rand.Next(4))
                     {
                         case 1:
-                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
                             break;
                         case 2:
-                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("RedXParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("RedXParasite").Type);
                             break;
                         case 3:
-                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("IceXParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("IceXParasite").Type);
                             break;
                         default:
-                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("XParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("XParasite").Type);
                             break;
                     }
                         
@@ -446,7 +473,7 @@ namespace JoostMod.NPCs.Bosses
         {
             SpriteEffects effects = SpriteEffects.None;
             Color color = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
-            Texture2D tex = Mod.GetTexture("NPCs/Bosses/IceCoreX");
+            Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/IceCoreX").Value;
             Rectangle rect = new Rectangle(0, (int)NPC.localAI[0] * 64, (tex.Width), (tex.Height / 8));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 16);
             float rotation = 0;

@@ -409,7 +409,7 @@ namespace JoostMod.Projectiles
                 {
                     if (num13 == 2673)
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             NPC.SpawnOnPlayer(player.whoAmI, 370);
                         }

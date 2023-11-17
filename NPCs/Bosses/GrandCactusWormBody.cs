@@ -62,10 +62,12 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GrandCactusWormBody"), NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("GrandCactusWormBody").Type);
             }
+
+            //The HitEffect hook is client side, these bits will need to be moved
             if (Main.npc[NPC.realLife].ai[3] == 0)
             {
                 Main.npc[NPC.realLife].ai[2] = 1;
@@ -82,7 +84,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 NPC.TargetClosest(true);
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!Main.npc[(int)NPC.ai[1]].active)
                 {
@@ -98,7 +100,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     if (Main.npc[(int)NPC.ai[3]].ai[1] % 45 == 0)
                     {
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("CactusThorn").Type);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("CactusThorn").Type);
                     }
                 }
                 if (Main.npc[(int)NPC.ai[3]].ai[0] >= 2)
@@ -142,7 +144,7 @@ namespace JoostMod.NPCs.Bosses
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             if (NPC.defense >= 1000)
             {
-                texture = Mod.GetTexture("NPCs/Bosses/GrandCactusWormBodyInvincible");
+                texture = Mod.Assets.Request<Texture2D>("NPCs/Bosses/GrandCactusWormBodyInvincible").Value;
             }
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, new Rectangle?(), drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);

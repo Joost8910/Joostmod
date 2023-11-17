@@ -4,6 +4,13 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using JoostMod.Items.Armor;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Weapons;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Placeable;
+using JoostMod.Items.Accessories;
+using JoostMod.NPCs.Bosses;
 
 namespace JoostMod.Items.Consumables
 {
@@ -12,9 +19,10 @@ namespace JoostMod.Items.Consumables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("Right click to open");
+            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
+            ItemID.Sets.BossBag[Item.type] = true;
         }
         public override void SetDefaults()
         {
@@ -26,13 +34,26 @@ namespace JoostMod.Items.Consumables
             Item.rare = ItemRarityID.Expert;
         }
 
-        public override int BossBagNPC => Mod.Find<ModNPC>("SAXCoreX").Type;
+        //public override int BossBagNPC => Mod.Find<ModNPC>("SAXCoreX").Type;
 
         public override bool CanRightClick()
         {
             return true;
         }
-
+        public override void RightClick(Player player)
+        {
+            player.TryGettingDevArmor(player.GetSource_OpenItem(Item.type));
+            player.TryGettingDevArmor(player.GetSource_OpenItem(Item.type));
+        }
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SAXCoreX>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<XShield>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceCoreX>(), 1, 1, 3));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<SAXMusicBox>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<SAXMask>(), 4));
+        }
+        /*
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
@@ -47,6 +68,7 @@ namespace JoostMod.Items.Consumables
                 player.QuickSpawnItem(Mod.Find<ModItem>("SAXMask").Type);
             }
         }
+        */
     }
 }
 

@@ -149,7 +149,7 @@ namespace JoostMod.NPCs.Hunts
                     if (NPC.ai[1] > ai+15)
                     {
                         SoundEngine.PlaySound(SoundID.Item11, NPC.position);
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation) * Speed) * -1), (float)((Math.Sin(NPC.rotation) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 1.57f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 1.57f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);

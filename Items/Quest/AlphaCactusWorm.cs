@@ -34,7 +34,7 @@ namespace JoostMod.Items.Quest
         }
         public override bool OnPickup(Player player)
         {
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
             }

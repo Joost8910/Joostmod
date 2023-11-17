@@ -153,7 +153,7 @@ namespace JoostMod.NPCs.Hunts
                         }
                         if (NPC.ai[3] % 60 == 0)
                         {
-                            if (Main.netMode != 1)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("LeafHostile").Type, 7, 0, Main.myPlayer, NPC.whoAmI, 0f);
                                 Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("LeafHostile").Type, 7, 0, Main.myPlayer, NPC.whoAmI, 180f);
@@ -213,7 +213,7 @@ namespace JoostMod.NPCs.Hunts
                             NPC.frame.Y = 672;
                             if (NPC.ai[1] == 3)
                             {
-                                if (Main.netMode != 1)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     for (int i = 0; i < 14; i++)
                                     {

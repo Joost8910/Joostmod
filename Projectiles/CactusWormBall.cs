@@ -62,7 +62,7 @@ namespace JoostMod.Projectiles
         }
         /*public override void Kill(int timeLeft)
         {
-            if (Main.expertMode && Main.netMode != 1)
+            if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int i = 0; i < 4; i++)
                 {

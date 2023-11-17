@@ -66,7 +66,7 @@ namespace JoostMod.NPCs.Hunts
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 26, 2.5f * hitDirection, -2.5f, 0, default(Color), 1f);
                 }
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     for (int i = 0; i < 4; i++)
                     {
@@ -164,7 +164,7 @@ namespace JoostMod.NPCs.Hunts
                 {
                     SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
                     SoundEngine.PlaySound(SoundID.Grab, NPC.Center);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile(8 * NPC.direction + ((int)NPC.Center.X / 16) * 16, NPC.Center.Y, 0, 5, Mod.Find<ModProjectile>("Landmine").Type, 40, 25, Main.myPlayer);
                     }
@@ -279,7 +279,7 @@ namespace JoostMod.NPCs.Hunts
                             NPC.ai[2] = 0;
                             NPC.velocity.X = NPC.direction * 2.5f;
                         }
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float Speed = 5.5f;
                             int damage = 20;
@@ -303,7 +303,7 @@ namespace JoostMod.NPCs.Hunts
                             NPC.velocity.X = 5f * NPC.direction;
                             NPC.velocity.Y = -8;
                         }
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float Speed = 5.5f;
                             int damage = 20;
@@ -325,7 +325,7 @@ namespace JoostMod.NPCs.Hunts
                 if (NPC.ai[2] == 4)
                 {
                     NPC.velocity.X = 0;
-                    if (NPC.ai[3] == 0 && Main.netMode != 1)
+                    if (NPC.ai[3] == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int damage = 200;
                         int type = Mod.Find<ModProjectile>("DoomCannonHostile").Type;

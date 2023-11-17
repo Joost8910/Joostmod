@@ -90,7 +90,7 @@ namespace JoostMod.NPCs.Hunts
             {
                 NPC.ai[1]++;
                 NPC.direction = NPC.velocity.X > 0 ? -1 : 1;
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (NPC.ai[1] % 50 == 0)
                     {

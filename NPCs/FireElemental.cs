@@ -198,7 +198,7 @@ namespace JoostMod.NPCs
                 }
                 if (NPC.ai[3] > 400)
                 {
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NPC.NewNPC((int)spherePos.X, (int)spherePos.Y, NPCID.BurningSphere);
                     }

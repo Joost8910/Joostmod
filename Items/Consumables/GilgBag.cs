@@ -1,6 +1,12 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Placeable;
+using JoostMod.Items.Weapons;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Armor;
+using JoostMod.NPCs.Bosses;
 
 namespace JoostMod.Items.Consumables
 {
@@ -26,7 +32,29 @@ namespace JoostMod.Items.Consumables
         {
             return true;
         }
-
+        public override void RightClick(Player player)
+        {
+            for (int i = 0; i < 3; i++)
+                player.TryGettingDevArmor(player.GetSource_OpenItem(Item.type));
+        }
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Gilgamesh2>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Gilgameshset>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<GenjiToken>(), 1, 2, 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<COTBBMusicBox>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<GilgameshMask>(), 4));
+            itemLoot.Add(ItemDropRule.OneFromOptions(100,
+                ModContent.ItemType<EvilStone>(),
+                ModContent.ItemType<SkullStone>(),
+                ModContent.ItemType<JungleStone>(),
+                ModContent.ItemType<InfernoStone>(),
+                ModContent.ItemType<SeaStoneHigh>(),
+                ModContent.ItemType<SeaStoneEast>(),
+                ModContent.ItemType<SeaStoneWest>(),
+                ModContent.ItemType<SeaStoneDeep>()));
+        }
+        /*
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
@@ -76,5 +104,6 @@ namespace JoostMod.Items.Consumables
                 player.QuickSpawnItem(Mod.Find<ModItem>("SeaStoneWest").Type);
             }
         }
+        */
     }
 }

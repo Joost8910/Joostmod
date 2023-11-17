@@ -263,7 +263,7 @@ namespace JoostMod.NPCs.Hunts
                         int type = Mod.Find<ModProjectile>("RocFeather").Type;
                         float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                         int numberProjectiles = 2 + Main.rand.Next(3);
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             for (int i = 0; i < numberProjectiles; i++)
                             {

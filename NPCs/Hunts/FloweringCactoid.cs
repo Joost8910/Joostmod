@@ -137,7 +137,7 @@ namespace JoostMod.NPCs.Hunts
             }
             if (NPC.ai[0] < 1)
 			{
-                if (idle == 0 && Main.netMode != 1)
+                if (idle == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     for (int i = 0; i < 6; i++)
                     {
@@ -194,7 +194,7 @@ namespace JoostMod.NPCs.Hunts
             }
 			else
             {
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     for (int n = 0; n < 200; n++)
                     {
@@ -252,7 +252,7 @@ namespace JoostMod.NPCs.Hunts
                         }
                         NPC.ai[3] = 0;
                     }
-                    if (NPC.ai[2] > 1000 && NPC.ai[2] % 17 == 0 && NPC.ai[1] < 1 && Main.netMode != 1)
+                    if (NPC.ai[2] > 1000 && NPC.ai[2] % 17 == 0 && NPC.ai[1] < 1 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NPC.ai[3]++;
                     }
@@ -282,7 +282,7 @@ namespace JoostMod.NPCs.Hunts
                         SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                         float rotation = (float)Math.Atan2(NPC.Center.Y - (P.Center.Y), NPC.Center.X - (P.Center.X));
                         float randRot = Main.rand.Next(360);
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(randRot) * Speed) * -1), (float)((Math.Sin(randRot) * Speed) * -1), type, 1, 0, Main.myPlayer);
                             if (Main.expertMode)

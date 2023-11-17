@@ -1,7 +1,12 @@
 using System;
+using JoostMod.Items.Armor;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,9 +36,10 @@ namespace JoostMod.NPCs.Bosses
 			NPC.knockBackResist = 0f;
 			NPC.aiStyle = 0;
 			NPC.frameCounter = 0;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDecisiveBattle");
-			bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("JumboCactuarBag").Type;
-			NPC.noTileCollide = true;
+            if (!Main.dedServ)
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/TheDecisiveBattle");
+            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("JumboCactuarBag").Type;
+            NPC.noTileCollide = true;
 			NPC.noGravity = true;
             SceneEffectPriority = SceneEffectPriority.BossMedium;
         }
@@ -90,48 +96,60 @@ namespace JoostMod.NPCs.Bosses
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/JumboCactuar1"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GiantNeedle"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GiantNeedle"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GiantNeedle"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/JumboCactuar2"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/JumboCactuar2"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/JumboCactuar2"), NPC.scale);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/JumboCactuar2"), NPC.scale);
-			}
-		}
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("JumboCactuar1").Type);
+				for (int i = 0; i < 3; i++)
+                {
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("GiantNeedle").Type);
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("JumboCactuar2").Type);
+                }
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("JumboCactuar2").Type);
+            }
+        }
 		public override void OnKill()
 		{
 			JoostWorld.downedJumboCactuar = true;
 
-			if (Main.expertMode)
-			{
-				NPC.DropBossBags();
-			}
-			else
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Cactustoken").Type, 1 + Main.rand.Next(2));
-                if (Main.rand.Next(4) == 0)
+            /*
+                if (Main.expertMode)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("DecisiveBattleMusicBox").Type);
+                    NPC.DropBossBags();
                 }
-                if (Main.rand.Next(7) == 0)
+                else
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("JumboCactuarMask").Type);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Cactustoken").Type, 1 + Main.rand.Next(2));
+                    if (Main.rand.Next(4) == 0)
+                    {
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("DecisiveBattleMusicBox").Type);
+                    }
+                    if (Main.rand.Next(7) == 0)
+                    {
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("JumboCactuarMask").Type);
+                    }
                 }
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("JumboCactuarTrophy").Type);
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
-            }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("JumboCactuarTrophy").Type);
+                }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                }
+            */
         }
-		public override void AI()
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<JumboCactuarBag>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<JumboCactuarTrophy>(), 10));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FifthAnniversary>(), 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Cactustoken>(), 1, 1, 2));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<DecisiveBattleMusicBox>(), 4));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<JumboCactuarMask>(), 7));
+        }
+        public override void AI()
 		{
 			NPC.netUpdate = true;
 			Player P = Main.player[NPC.target];
@@ -321,7 +339,7 @@ namespace JoostMod.NPCs.Bosses
 				if (NPC.localAI[2] > 0)
 				{
                     NPC.localAI[2]++;
-					if (NPC.localAI[2] % 15 == 0 && Main.netMode != 1)
+					if (NPC.localAI[2] % 15 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int spwn = 700+Main.rand.Next(200);
 						if (corrupt)
@@ -381,7 +399,7 @@ namespace JoostMod.NPCs.Bosses
 				}
 				else
 				{
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (NPC.direction == -1)
                         {
@@ -414,7 +432,7 @@ namespace JoostMod.NPCs.Bosses
 					int type = Mod.Find<ModProjectile>("CactusNeedle").Type;
 					SoundEngine.PlaySound(SoundID.Item1, NPC.position);
 					float rotation = (float)Math.Atan2(vector8.Y - P.Center.Y, vector8.X - P.Center.X);
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile(vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                     }
@@ -446,7 +464,7 @@ namespace JoostMod.NPCs.Bosses
 				int type = Mod.Find<ModProjectile>("CactusNeedle").Type;
 				SoundEngine.PlaySound(SoundID.Item1, NPC.position);
 				float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-20, 20) * 20), NPC.Center.Y + (Main.rand.Next(-20, 15) * 30), (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                 }

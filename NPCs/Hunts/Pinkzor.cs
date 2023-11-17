@@ -94,7 +94,7 @@ namespace JoostMod.NPCs.Hunts
 		}
 public override bool CheckDead()
         {
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("Hunt Master").Type);
                 NPC.NewNPC((int)NPC.Center.X + 28, (int)NPC.Center.Y - 2, NPCID.Pinky);

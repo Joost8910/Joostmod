@@ -1,5 +1,8 @@
+using JoostMod.Items.Consumables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,6 +14,17 @@ namespace JoostMod.NPCs.Bosses
         {
             DisplayName.SetDefault("X Parasite");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    Mod.Find<ModBuff>("InfectedRed").Type,
+                    Mod.Find<ModBuff>("InfectedGreen").Type,
+                    Mod.Find<ModBuff>("InfectedBlue").Type,
+                    Mod.Find<ModBuff>("InfectedYellow").Type
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
         public override void SetDefaults()
         {
@@ -21,10 +35,6 @@ namespace JoostMod.NPCs.Bosses
             NPC.lifeMax = 1000;
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("InfectedYellow").Type] = true;
             NPC.value = 0;
             NPC.knockBackResist = 0.5f;
             NPC.aiStyle = -1;
@@ -76,14 +86,18 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GreenXParasite"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GreenXParasite"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GreenXParasite"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GreenXParasite"), NPC.scale);
-                Item.NewItem(NPC.position, Mod.Find<ModItem>("EnergyFragment").Type);
+                var sauce = NPC.GetSource_Death();
+                for (int i = 0; i < 4; i++)
+                {
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("GreenXParasite").Type);
+                }
             }
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnergyFragment>()));
         }
         public override void AI()
         {

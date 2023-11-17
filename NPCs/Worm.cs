@@ -114,7 +114,7 @@ namespace JoostMod.NPCs
 			{
 				NPC.timeLeft = 300;
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
                 if (customSegments)
                 {
@@ -202,7 +202,7 @@ namespace JoostMod.NPCs
 								{
 									WorldGen.KillTile(num184, num185, true, true, false);
 								}
-								if (Main.netMode != 1 && Main.tile[num184, num185].TileType == 2)
+								if (Main.netMode != NetmodeID.MultiplayerClient && Main.tile[num184, num185].TileType == 2)
 								{
 									ushort arg_BFCA_0 = Main.tile[num184, num185 - 1].TileType;
 								}
@@ -368,7 +368,7 @@ namespace JoostMod.NPCs
 
 						if (flag20)
 						{
-							if (Main.netMode != 1 && (double)(NPC.position.Y / 16f) > (Main.rockLayer + (double)Main.maxTilesY) / 2.0)
+							if (Main.netMode != NetmodeID.MultiplayerClient && (double)(NPC.position.Y / 16f) > (Main.rockLayer + (double)Main.maxTilesY) / 2.0)
 							{
 								NPC.active = false;
 								int num200 = (int)NPC.ai[0];

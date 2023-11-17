@@ -123,7 +123,7 @@ namespace JoostMod.Projectiles
                 else if (Projectile.ai[0] == 100)
                 {
                     /*
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int n = NPC.NewNPC((int)pos.X, (int)pos.Y + 14, mod.NPCType("FireBall2"), 1, dir.X * 8, dir.Y * 8, projectile.damage * 3, 0, projectile.owner);
                         Main.npc[n].netUpdate = true;

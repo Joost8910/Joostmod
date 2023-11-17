@@ -244,7 +244,7 @@ namespace JoostMod.NPCs
                             SoundEngine.PlaySound(SoundID.Item13.WithPitchOffset(-0.3f), NPC.Center);
                         }
                         
-                        if (NPC.ai[3] % 2 == 0 && Main.netMode != 1)
+                        if (NPC.ai[3] % 2 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Vector2 pos = NPC.Center;
                             pos.X += Main.rand.NextFloat(-NPC.width / 2f, NPC.width / 2f);

@@ -42,7 +42,7 @@ namespace JoostMod.Items.Consumables
             {
                 return false;
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, Mod.Find<ModNPC>("Cactoid").Type);
             }

@@ -39,7 +39,7 @@ namespace JoostMod.NPCs.Bosses
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = TextureAssets.Npc[NPC.type].Value;
-            sb.Draw(tex, NPC.Center - Main.screenPosition + new Vector2(0f, NPC.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.GreenYellow, NPC.rotation, new Vector2(tex.Width / 2, tex.Height / 2), NPC.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2(0f, NPC.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.GreenYellow, NPC.rotation, new Vector2(tex.Width / 2, tex.Height / 2), NPC.scale, SpriteEffects.None, 0f);
         }
         public override bool PreKill()
         {

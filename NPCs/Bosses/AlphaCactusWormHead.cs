@@ -1,6 +1,8 @@
+using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -61,25 +63,31 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void OnKill()
         {
-            if (Main.netMode == 0)
+            if (Main.netMode == NetmodeID.SinglePlayer) //bandaid fix only due to multiplayer compatiability troubles
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("AlphaCactusWorm").Type, 1);
+                Item.NewItem(NPC.GetSource_Death(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Quest.AlphaCactusWorm>());
             }
-            for (int i = 0; i < 10 + Main.rand.Next(6); i++)
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            var parameters = new DropOneByOne.Parameters()
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
-            }
+                ChanceNumerator = 1,
+                ChanceDenominator = 1,
+                MinimumStackPerChunkBase = 1,
+                MaximumStackPerChunkBase = 1,
+                MinimumItemDropsCount = 10,
+                MaximumItemDropsCount = 16, 
+            };
+            npcLoot.Add(new DropOneByOne(ItemID.Heart, parameters));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FifthAnniversary>()));
         }
         public override bool CheckDead()
         {
             Player player = Main.player[NPC.target];
-            if (Main.netMode == 2)
+            if (Main.netMode == NetmodeID.Server)
             {
-                NPC.NewNPC((int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
             }
             return base.CheckDead();
         }

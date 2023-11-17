@@ -125,7 +125,7 @@ namespace JoostMod.Projectiles
                 SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
                 SoundEngine.PlaySound(SoundID.Item62, Projectile.position);
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 pos = owner.Center + Projectile.velocity * 140;
                     float speed = 7;

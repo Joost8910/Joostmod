@@ -22,7 +22,7 @@ namespace JoostMod.Items.Accessories
 		}
         public override void UpdateEquip(Player player)
         {
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Main.checkForSpawns += 23;
             }

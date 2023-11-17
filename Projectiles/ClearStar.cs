@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles
             Sandstorm.Happening = false;
             Sandstorm.TimeLeft = 0;
             Sandstorm.IntendedSeverity = 0f;
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
