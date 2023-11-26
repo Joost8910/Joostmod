@@ -51,11 +51,11 @@ namespace JoostMod.Items.Rewards
         {
             CreateRecipe()
                 .AddRecipeGroup("JoostMod:Saplings")
-                .AddIngredient<Weapons.CopperHatchet>(3)
+                .AddIngredient<JoostMod.Items.Weapons.Thrown.CopperHatchet>(3)
                 .Register();
             CreateRecipe()
                 .AddRecipeGroup("JoostMod:Saplings")
-                .AddIngredient<Weapons.TinHatchet>(3)
+                .AddIngredient<JoostMod.Items.Weapons.Thrown.TinHatchet>(3)
                 .Register();
         }
     }

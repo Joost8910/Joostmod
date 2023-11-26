@@ -144,7 +144,7 @@ namespace JoostMod.Projectiles
                 effects = SpriteEffects.FlipHorizontally;
             }
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-            spriteBatch.Draw(tex, drawPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

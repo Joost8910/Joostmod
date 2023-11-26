@@ -4,6 +4,51 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Prefixes
 {
+
+    public class MeleePrefix : ModPrefix
+    {
+        public override PrefixCategory Category => PrefixCategory.Melee;
+        public virtual float damage => 0;
+        public virtual float knockback => 0;
+        public virtual float speed => 0;
+        public virtual float size => 0;
+        public virtual int crit => 0;
+        public override bool CanRoll(Item item)
+        {
+            return false;
+        }
+        public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
+        {
+            damageMult = 1f + damage;
+            knockbackMult = 1f + knockback;
+            useTimeMult = 1f - speed;
+            scaleMult = 1f + size;
+            critBonus = crit;
+        }
+    }
+    public class ImpracticallyOversizedPrefix : MeleePrefix
+    {
+        public override float damage => 0.15f;
+        public override float speed => -0.5f;
+        public override float knockback => -0.3f;
+        public override float size => -0.5f;
+        public override bool CanRoll(Item item)
+        {
+            return item.damage > 0 && !(item.pick > 0 || item.hammer > 0 || item.axe > 0);
+        }
+    }
+    public class MiniaturePrefix : MeleePrefix
+    {
+        public override float damage => -0.2f;
+        public override float speed => 0.333f;
+        public override float knockback => 0.3f;
+        public override float size => 1f;
+        public override bool CanRoll(Item item)
+        {
+            return item.damage > 1 && item.useTime > 4;
+        }
+    }
+    /* 1.3 code
 	public class MeleePrefix : ModPrefix
 	{
 		private float damage = 0;
@@ -63,4 +108,5 @@ namespace JoostMod.Prefixes
             valueMult = damage * speed * (1 + crit * 0.01f) * knockback;
 		}
 	}
+    */
 }

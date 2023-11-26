@@ -230,10 +230,10 @@ namespace JoostMod.Projectiles
                 {
                     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(Projectile.width / 2, Projectile.height / 2);
                     Color color2 = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                    spriteBatch.Draw(texture, drawPos, rectangle, color2, Projectile.oldRot[k], vector, Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(texture, drawPos, rectangle, color2, Projectile.oldRot[k], vector, Projectile.scale, effects, 0);
                 }
             }
-            spriteBatch.Draw(texture, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(texture.Width) / 2f + vector.X, Projectile.position.Y - Main.screenPosition.Y + (4 + (7 * Projectile.scale)) - (texture.Height / Main.projFrames[Projectile.type]) + vector.Y * 1.5f), new Rectangle?(rectangle), color, Projectile.rotation, vector, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(texture, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(texture.Width) / 2f + vector.X, Projectile.position.Y - Main.screenPosition.Y + (4 + (7 * Projectile.scale)) - (texture.Height / Main.projFrames[Projectile.type]) + vector.Y * 1.5f), new Rectangle?(rectangle), color, Projectile.rotation, vector, Projectile.scale, effects, 0);
             return false;
         }
         public override void Kill(int timeLeft)

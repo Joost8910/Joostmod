@@ -376,7 +376,7 @@ namespace JoostMod.Projectiles
                     {
                         effects = SpriteEffects.FlipHorizontally;
                     }
-                    Main.spriteBatch.Draw(Mod.GetTexture("Projectiles/CactusHookChain"), new Vector2(vector14.X - Main.screenPosition.X, vector14.Y - Main.screenPosition.Y), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Chain30.Value.Width, TextureAssets.Chain30.Value.Height)), color15, rotation13, new Vector2((float)TextureAssets.Chain30.Value.Width * 0.5f, (float)TextureAssets.Chain30.Value.Height * 0.5f), 1f, effects, 0f);
+                    Main.EntitySpriteDraw(Mod.Assets.Request<Texture2D>("Projectiles/CactusHookChain").Value, new Vector2(vector14.X - Main.screenPosition.X, vector14.Y - Main.screenPosition.Y), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Chain30.Value.Width, TextureAssets.Chain30.Value.Height)), color15, rotation13, new Vector2((float)TextureAssets.Chain30.Value.Width * 0.5f, (float)TextureAssets.Chain30.Value.Height * 0.5f), 1f, effects, 0);
                 }
             }
             return true;

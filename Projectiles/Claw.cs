@@ -268,7 +268,7 @@ namespace JoostMod.Projectiles
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             if (Projectile.ai[0] == 2)
             {
-                tex = Mod.GetTexture("Projectiles/Claw2");
+                tex = Mod.Assets.Request<Texture2D>("Projectiles/Claw2").Value;
             }
             SpriteEffects effects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -285,10 +285,10 @@ namespace JoostMod.Projectiles
                     {
                         Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(Projectile.width / 2, Projectile.height / 2);
                         Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                        spriteBatch.Draw(tex, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
+                        Main.EntitySpriteDraw(tex, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0);
                     }
                 }
-                spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             }
             return false;
 		}

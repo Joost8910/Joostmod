@@ -69,7 +69,7 @@ namespace JoostMod.Projectiles
 			{
 				Color c = Color.White;
 				origin = start + i * unit;
-				spriteBatch.Draw(texture, origin - Main.screenPosition,
+				Main.EntitySpriteDraw(texture, origin - Main.screenPosition,
 					new Rectangle(0, 26, 18, 26), i < transDist ? Color.Transparent : c, r,
 					new Vector2(18 / 2, 26 / 2), scale, 0, 0);
 			}

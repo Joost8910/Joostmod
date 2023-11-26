@@ -10,8 +10,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Items.Placeable;
 using Terraria.GameContent.ItemDropRules;
-using JoostMod.Items.Weapons;
 using JoostMod.Items.Accessories;
+using JoostMod.Items.Weapons.Melee;
 
 namespace JoostMod.NPCs
 {

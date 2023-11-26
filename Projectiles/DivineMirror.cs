@@ -165,7 +165,7 @@ namespace JoostMod.Projectiles
         public override void PostDraw(Color lightColor)
         {
             SpriteEffects effects = Projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D tex = Mod.GetTexture("Projectiles/DivineMirror_Light");
+            Texture2D tex = Mod.Assets.Request<Texture2D>("Projectiles/DivineMirror_Light").Value;
             float op = (Projectile.ai[0] - 20) / 60f;
             if (Projectile.ai[0] > 80)
             {
@@ -177,12 +177,12 @@ namespace JoostMod.Projectiles
             }
             Color color = Color.White * op;
             Rectangle rect = new Rectangle(0, 0, 2, tex.Height);
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(12 * Projectile.spriteDirection, Projectile.gfxOffY), new Rectangle?(rect), color, Projectile.rotation, new Vector2(1, tex.Height / 2), Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(12 * Projectile.spriteDirection, Projectile.gfxOffY), new Rectangle?(rect), color, Projectile.rotation, new Vector2(1, tex.Height / 2), Projectile.scale, effects, 0);
 
             if (Projectile.ai[0] > 80)
             {
                 rect = new Rectangle(0, 0, tex.Width, tex.Height);
-                spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2((11 + tex.Width / 2) * Projectile.spriteDirection, Projectile.gfxOffY), new Rectangle?(rect), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2((11 + tex.Width / 2) * Projectile.spriteDirection, Projectile.gfxOffY), new Rectangle?(rect), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             }
         }
     }

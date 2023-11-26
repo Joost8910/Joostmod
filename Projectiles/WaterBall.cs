@@ -263,7 +263,7 @@ namespace JoostMod.Projectiles
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Color color = lightColor;
             color.A = 100;
-            spriteBatch.Draw(tex, drawPosition, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = Projectile.oldPos[k] + (Projectile.Size / 2) - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
@@ -277,7 +277,7 @@ namespace JoostMod.Projectiles
                 }
                 float scale = ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.scale;
                 Rectangle? rect2 = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
-                spriteBatch.Draw(tex, drawPos, rect2, color2, Projectile.rotation, drawOrigin, scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(tex, drawPos, rect2, color2, Projectile.rotation, drawOrigin, scale, SpriteEffects.None, 0);
             }
             return false;
         }

@@ -207,7 +207,7 @@ namespace JoostMod.Projectiles
             SpriteEffects effects = SpriteEffects.None;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPosition, rect, lightColor * (1 - (Projectile.alpha / 255f)), Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
-            spriteBatch.Draw(tex, drawPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             return false;
         }
     }

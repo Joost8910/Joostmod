@@ -7,23 +7,23 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles
 {
-	public class Axe2 : ModProjectile
-	{
+    public class Axe2 : ModProjectile
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Axe");
-		}
-		public override void SetDefaults()
-		{
-			Projectile.width = 52;
-			Projectile.height = 52;
-			Projectile.aiStyle = 3;
-			Projectile.friendly = true;
-			Projectile.DamageType = DamageClass.Throwing;
-			Projectile.penetrate = -1;
-			Projectile.timeLeft = 900;
+        {
+            DisplayName.SetDefault("Axe");
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 52;
+            Projectile.height = 52;
+            Projectile.aiStyle = 3;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 900;
             Projectile.usesIDStaticNPCImmunity = true;
-			Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.idStaticNPCHitCooldown = 10;
             Projectile.extraUpdates = 1;
         }
         public override void AI()
@@ -64,13 +64,13 @@ namespace JoostMod.Projectiles
                     vector2_1.Normalize();
                     position += vector2_1 * num1;
                     vector2_4 = mountedCenter - position;
-                    Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
+                    Color color2 = Lighting.GetColor((int)position.X / 16, (int)((double)position.Y / 16.0));
                     color2 = Projectile.GetAlpha(color2);
-                    Main.spriteBatch.Draw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0.0f);
+                    Main.EntitySpriteDraw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0);
                 }
             }
 
             return true;
         }
-}
+    }
 }

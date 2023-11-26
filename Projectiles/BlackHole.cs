@@ -140,7 +140,7 @@ namespace JoostMod.Projectiles
                 effects = SpriteEffects.FlipHorizontally;
             }
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-            spriteBatch.Draw(tex, drawPosition, rect, lightColor * 0.85f * ((255f - Projectile.alpha) / 255f), Projectile.rotation, drawOrigin, Projectile.scale * 2.5f, effects, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, rect, lightColor * 0.85f * ((255f - Projectile.alpha) / 255f), Projectile.rotation, drawOrigin, Projectile.scale * 2.5f, effects, 0);
             //spriteBatch.Draw(tex, drawPosition, rect, lightColor * ((255f - projectile.alpha) / 255f), projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
             return true;
         }

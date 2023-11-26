@@ -183,7 +183,7 @@ namespace JoostMod.Projectiles
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Rectangle rectangle = new Rectangle(0, Projectile.frame * (texture.Height / Main.projFrames[Projectile.type]), texture.Width, (texture.Height / Main.projFrames[Projectile.type]));
             Vector2 vector = new Vector2((texture.Width / 2f), ((texture.Height / Main.projFrames[Projectile.type]) / 2f));
-            spriteBatch.Draw(texture, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(texture.Width) / 2f + vector.X, Projectile.position.Y - Main.screenPosition.Y + (25) - (texture.Height / Main.projFrames[Projectile.type]) + vector.Y * 1.5f), new Rectangle?(rectangle), color, Projectile.rotation, vector, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(texture, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(texture.Width) / 2f + vector.X, Projectile.position.Y - Main.screenPosition.Y + (25) - (texture.Height / Main.projFrames[Projectile.type]) + vector.Y * 1.5f), new Rectangle?(rectangle), color, Projectile.rotation, vector, Projectile.scale, effects, 0);
             return false;
         }
     }

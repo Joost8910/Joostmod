@@ -316,7 +316,7 @@ namespace JoostMod.Projectiles
                     Vector2 drawPos = Projectile.oldPos[k] + drawOrigin - Main.screenPosition;
                     Color color2 = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
                     Rectangle? rect = new Rectangle?(new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, tex.Height / Main.projFrames[Projectile.type]));
-                    spriteBatch.Draw(tex, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(tex, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0);
                 }
             }
             //color.A = (byte)projectile.alpha;

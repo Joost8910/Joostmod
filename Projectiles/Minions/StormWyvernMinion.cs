@@ -465,7 +465,7 @@ namespace JoostMod.Projectiles.Minions
             Rectangle rect = new Rectangle(frameX * (tex.Width / xFrameCount), Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), (tex.Width / xFrameCount), (tex.Height / Main.projFrames[Projectile.type]));
             Vector2 vect = new Vector2(((tex.Width / xFrameCount) / 2f), ((tex.Height / Main.projFrames[Projectile.type]) / 2f));
 
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, lightColor, Projectile.rotation, vect, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), rect, lightColor, Projectile.rotation, vect, Projectile.scale, effects, 0f);
 
             int max = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type] * 24;
             if (Projectile.ai[0] == 0 && Projectile.localAI[0] > 0 && Projectile.localAI[0] < max + aimWindow)

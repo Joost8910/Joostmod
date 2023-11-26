@@ -515,7 +515,7 @@ namespace JoostMod.Projectiles
                     }
                     rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                     Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f));
-                    Main.spriteBatch.Draw(TextureAssets.Chains[4].Value, new Vector2(value.X - Main.screenPosition.X + (float)TextureAssets.Chains[4].Value.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)TextureAssets.Chains[4].Value.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Chains[4].Value.Width, (int)num)), color2, rotation2, new Vector2((float)TextureAssets.Chains[4].Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(TextureAssets.Chains[4].Value, new Vector2(value.X - Main.screenPosition.X + (float)TextureAssets.Chains[4].Value.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)TextureAssets.Chains[4].Value.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Chains[4].Value.Width, (int)num)), color2, rotation2, new Vector2((float)TextureAssets.Chains[4].Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0);
                 }
             }
             return false;

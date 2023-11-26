@@ -270,7 +270,7 @@ namespace JoostMod.Projectiles
             Color color = lightColor;
             sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
 
-            Texture2D gemTex = Mod.GetTexture("Projectiles/GrognakHammerGem");
+            Texture2D gemTex = Mod.Assets.Request<Texture2D>("Projectiles/GrognakHammerGem").Value;
             Color gemColor = new Color(90, 255, (int)(51 + (Main.DiscoG * 0.75f)));
             sb.Draw(gemTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), gemColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
             return false;

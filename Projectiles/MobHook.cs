@@ -575,7 +575,7 @@ namespace JoostMod.Projectiles
                     rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                     Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/MobHook_Chain");
                     Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f));
-                    Main.spriteBatch.Draw(tex, new Vector2(value.X - Main.screenPosition.X + (float)tex.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)tex.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, tex.Width, (int)num)), color2, rotation2, new Vector2((float)tex.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(tex, new Vector2(value.X - Main.screenPosition.X + (float)tex.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)tex.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, tex.Width, (int)num)), color2, rotation2, new Vector2((float)tex.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0);
                 }
             }
             return false;

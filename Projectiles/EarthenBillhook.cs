@@ -118,7 +118,7 @@ namespace JoostMod.Projectiles
             Color color = lightColor;
             Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - vel * 60 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 60 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             return false;
         }
     }

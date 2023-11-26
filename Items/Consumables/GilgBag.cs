@@ -3,10 +3,11 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Placeable;
-using JoostMod.Items.Weapons;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Armor;
 using JoostMod.NPCs.Bosses;
+using JoostMod.Items.Weapons.Hybrid;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.Items.Consumables
 {

@@ -1,7 +1,11 @@
 using JoostMod.Items.Accessories;
 using JoostMod.Items.Ammo;
+using JoostMod.Items.Legendaries;
 using JoostMod.Items.Placeable;
-using JoostMod.Items.Weapons;
+using JoostMod.Items.Weapons.Magic;
+using JoostMod.Items.Weapons.Melee;
+using JoostMod.Items.Weapons.Summon;
+using JoostMod.Items.Weapons.Thrown;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;

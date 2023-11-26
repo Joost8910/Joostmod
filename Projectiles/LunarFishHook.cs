@@ -138,7 +138,7 @@ namespace JoostMod.Projectiles
                 int type = Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].type;
                 float gravDir = Main.player[Projectile.owner].gravDir;
  
-                if (type == Mod.Find<ModItem>("LunarFishingGun>().Type) //add your Fishing Pole name here
+                if (type == Mod.Find<ModItem>("LunarFishingGun").Type) //add your Fishing Pole name here
                 {
                     pPosX += (float)(50 * Main.player[Projectile.owner].direction);
                     if (Main.player[Projectile.owner].direction < 0)
@@ -244,7 +244,7 @@ namespace JoostMod.Projectiles
                         rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                         Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Microsoft.Xna.Framework.Color(34, 221, 151, 100));
  
-                        Main.spriteBatch.Draw(TextureAssets.FishingLine.Value, new Vector2(value.X - Main.screenPosition.X + (float)TextureAssets.FishingLine.Value.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)TextureAssets.FishingLine.Value.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.FishingLine.Value.Width, (int)num)), color2, rotation2, new Vector2((float)TextureAssets.FishingLine.Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                        Main.EntitySpriteDraw(TextureAssets.FishingLine.Value, new Vector2(value.X - Main.screenPosition.X + (float)TextureAssets.FishingLine.Value.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)TextureAssets.FishingLine.Value.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.FishingLine.Value.Width, (int)num)), color2, rotation2, new Vector2((float)TextureAssets.FishingLine.Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0);
                     }
                 }
             }

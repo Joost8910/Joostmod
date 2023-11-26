@@ -87,7 +87,7 @@ namespace JoostMod.Projectiles
         public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.Black, Projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), Projectile.scale, SpriteEffects.None, 0f);
+			Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), Color.Black, Projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

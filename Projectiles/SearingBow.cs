@@ -190,7 +190,7 @@ namespace JoostMod.Projectiles
             }
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height / Main.projFrames[Projectile.type]) * 0.5f);
             Rectangle? rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, (tex.Height / Main.projFrames[Projectile.type]));
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             if (Projectile.ai[0] != 0)
             {
                 Main.instance.LoadProjectile((int)(Projectile.ai[0]));
@@ -207,28 +207,28 @@ namespace JoostMod.Projectiles
                         Vector2 off = new Vector2(-10 * player.direction, player.gravDir * -2);
                         float rot = player.gravDir < 0 ? 3.14f : 0;
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
+                        Main.EntitySpriteDraw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0);
                     }
                     if (player.bodyFrame.Y == player.bodyFrame.Height * 2)
                     {
                         Vector2 off = new Vector2(0, player.gravDir * -6);
                         float rot = player.direction * player.gravDir  * 0.785f + (player.gravDir < 0 ? 3.14f : 0);
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
+                        Main.EntitySpriteDraw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0);
                     }
                     if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
                     {
                         Vector2 off = new Vector2(2 * player.direction, player.gravDir * 2);
                         float rot = player.direction * player.gravDir * 1.92f + (player.gravDir < 0 ? 3.14f : 0);
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
+                        Main.EntitySpriteDraw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0);
                     }
                     if (player.bodyFrame.Y == player.bodyFrame.Height * 4)
                     {
                         Vector2 off = new Vector2(0, player.gravDir * 4);
                         float rot = player.direction * player.gravDir * 2.36f + (player.gravDir < 0 ? 3.14f : 0);
                         off += (rot - 1.57f).ToRotationVector2() * arrowOrigin.Y;
-                        spriteBatch.Draw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
+                        Main.EntitySpriteDraw(arrowTex, player.MountedCenter + off - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0);
                     }
                 }
 
@@ -242,7 +242,7 @@ namespace JoostMod.Projectiles
                     float rot = dir.ToRotation() + 1.57f;
                     Vector2 offset = (dir * arrowOrigin.Y) - (vel * drawOrigin.X);
                     offset.Y -= player.gravDir;
-                    spriteBatch.Draw(arrowTex, Projectile.Center + offset - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(arrowTex, Projectile.Center + offset - Main.screenPosition, arrowRect, lightColor, rot, arrowOrigin, Projectile.scale, effects, 0);
                 }
             }
             return false;

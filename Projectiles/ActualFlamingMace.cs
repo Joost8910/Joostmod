@@ -276,7 +276,7 @@ namespace JoostMod.Projectiles
             }
             if (Projectile.localAI[1] != 0)
             {
-                tex = Mod.GetTexture("Items/Weapons/ActualMace");
+                tex = Mod.Assets.Request<Texture2D>("Items/Weapons/ActualMace").Value;
             }
             Color color = lightColor;
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
@@ -288,11 +288,11 @@ namespace JoostMod.Projectiles
                 {
                     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(Projectile.width / 2, Projectile.height / 2);
                     Color color2 = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                    spriteBatch.Draw(tex, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(tex, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0);
                 }
             }
             //color.A = (byte)projectile.alpha;
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             return false;
         }
     }

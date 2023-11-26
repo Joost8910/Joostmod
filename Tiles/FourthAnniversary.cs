@@ -60,7 +60,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(Mod.GetTexture("Tiles/FourthAnniversarySolarEclipse"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/FourthAnniversarySolarEclipse").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 
@@ -77,7 +77,7 @@ namespace JoostMod.Tiles
             color.A = (byte)((int)(255f * (alpha / 1000f)));
             if (alpha > 0 && !(Main.bloodMoon && Main.time > 200 && Main.time < 31400) && !(Main.eclipse && Main.time > 200 && Main.time < 53000))
             {
-                Main.spriteBatch.Draw(Mod.GetTexture("Tiles/FourthAnniversaryNight"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/FourthAnniversaryNight").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
 
             color = Lighting.GetColor(i, j, paintColor);
@@ -96,7 +96,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(Mod.GetTexture("Tiles/FourthAnniversaryBloodMoon"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/FourthAnniversaryBloodMoon").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
         }

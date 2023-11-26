@@ -5,6 +5,103 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Prefixes
 {
+    public class AccessoryPrefix : ModPrefix
+    {
+        public override PrefixCategory Category => PrefixCategory.Accessory;
+        public virtual byte meleeDamage => 0;
+        public virtual byte thrownDamage => 0;
+        public virtual byte rangedDamage => 0;
+        public virtual byte magicDamage => 0;
+        public virtual byte summonDamage => 0;
+        public virtual byte maxHealth => 0;
+        public virtual byte lifeRegen => 0;
+        public virtual byte fishingPower => 0;
+        public override bool CanRoll(Item item)
+        {
+            return false;
+        }
+        public override void Apply(Item item)
+        {
+            item.GetGlobalItem<JoostGlobalItem>().meleeDamage = meleeDamage;
+            item.GetGlobalItem<JoostGlobalItem>().thrownDamage = thrownDamage;
+            item.GetGlobalItem<JoostGlobalItem>().rangedDamage = rangedDamage;
+            item.GetGlobalItem<JoostGlobalItem>().magicDamage = magicDamage;
+            item.GetGlobalItem<JoostGlobalItem>().summonDamage = summonDamage;
+            item.GetGlobalItem<JoostGlobalItem>().maxHealth = maxHealth;
+            item.GetGlobalItem<JoostGlobalItem>().lifeRegen = lifeRegen;
+            item.GetGlobalItem<JoostGlobalItem>().fishingPower = fishingPower;
+        }
+        public override void ModifyValue(ref float valueMult)
+        {
+            float multiplier = 1f * (1 + meleeDamage * 0.034f) * (1 + thrownDamage * 0.034f) * (1 + rangedDamage * 0.034f) * (1 + magicDamage * 0.034f) * (1 + summonDamage * 0.034f) * (1 + maxHealth * 0.008f) * (1 + lifeRegen * 0.2f) * (1 + fishingPower * 0.04f);
+            valueMult *= multiplier;
+        }
+    }
+    public class GrognakPrefix : AccessoryPrefix
+    {
+        public override byte meleeDamage => 6;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class GnundersonPrefix : AccessoryPrefix
+    {
+        public override byte thrownDamage => 6;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class BoookPrefix : AccessoryPrefix
+    {
+        public override byte rangedDamage => 6;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class DavidPrefix : AccessoryPrefix
+    {
+        public override byte magicDamage => 6;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class LarkusPrefix : AccessoryPrefix
+    {
+        public override byte summonDamage => 6; 
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class UncleCariusPrefix : AccessoryPrefix
+    {
+        public override byte fishingPower => 5;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class HeartyPrefix : AccessoryPrefix
+    {
+        public override byte maxHealth => 25;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    public class RejuvenatingPrefix : AccessoryPrefix
+    {
+        public override byte lifeRegen => 1;
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+    }
+    /* 1.3 code
 	public class AccessoryPrefix : ModPrefix
 	{
 		private byte meleeDamage = 0;
@@ -74,4 +171,5 @@ namespace JoostMod.Prefixes
 			valueMult *= multiplier;
 		}
 	}
+    */
 }
