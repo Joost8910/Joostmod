@@ -28,8 +28,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.width = 22;
 			Projectile.height = 22;
 			Projectile.friendly = true;
-			Projectile.minion = true;
-			Projectile.minionSlots = 1;
+			Projectile.DamageType = DamageClass.Summon;
+            Projectile.minion = true;
+            Projectile.minionSlots = 1;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 18000;
 			Projectile.tileCollide = false;
@@ -151,10 +152,10 @@ namespace JoostMod.Projectiles.Minions
                             if (Main.myPlayer == Projectile.owner)
                             {
                                 ShootEffects();
-                                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
+                                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
                                 Main.projectile[proj].netUpdate = true;
                                 Projectile.netUpdate = true;
-                                SoundEngine.PlaySound(SoundID.Trackable.WithVolumeScale(scale * 0.3f).WithPitchOffset(0.2f), Projectile.Center);
+                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_book_staff_cast_2") with { Volume = scale * 0.3f, Pitch = 1.2f}, Projectile.Center); // 203
                             }
                             Projectile.localAI[0] = 0;
                             Projectile.ai[1] = 0f;
@@ -168,10 +169,10 @@ namespace JoostMod.Projectiles.Minions
                             if (Projectile.localAI[1] % (rapidRate * 2) == 0 && Main.myPlayer == Projectile.owner)
                             {
                                 ShootEffects();
-                                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
+                                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
                                 Main.projectile[proj].netUpdate = true;
                                 Projectile.netUpdate = true;
-                                SoundEngine.PlaySound(SoundID.Trackable.WithVolumeScale(scale * 0.3f).WithPitchOffset(0.2f), Projectile.Center);
+                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_book_staff_cast_2") with { Volume = scale * 0.3f, Pitch = 1.2f }, Projectile.Center); // 203
                             }
                             Projectile.localAI[1]--;
                             if (Projectile.localAI[1] <= -rapidAmount * rapidRate * 2)
@@ -216,19 +217,19 @@ namespace JoostMod.Projectiles.Minions
             Texture2D tex3 = Mod.Assets.Request<Texture2D>("Projectiles/Minions/PowerSpirit_T2").Value;
             Rectangle rectangle3 = new Rectangle(0, 0, tex3.Width, (tex3.Height / 16));
             
-            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, tex.Height / 2 - Projectile.height / 2), new Rectangle?(rectangle), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, tex.Height / 2 - Projectile.height / 2), new Rectangle?(rectangle), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             for (int i = 1; i < Projectile.minionSlots; i++)
             {
                 if (i <= 2)
                 {
                     rectangle2.Y = (((Projectile.frameCounter / 5) + i * 4) % 8) * rectangle2.Height;
-                    sb.Draw(tex2, Projectile.Center - Main.screenPosition + new Vector2(0f, tex2.Height / 2 - Projectile.height / 2), new Rectangle?(rectangle2), color, Projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(tex2, Projectile.Center - Main.screenPosition + new Vector2(0f, tex2.Height / 2 - Projectile.height / 2), new Rectangle?(rectangle2), color, Projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), Projectile.scale, effects, 0);
                 }
                 else
                 {
                     int m = (Projectile.minionSlots == 5) ? 8 : ((Projectile.minionSlots == 6) ? 5 : 4);
                     rectangle3.Y = (((Projectile.frameCounter / 2) + i * m) % 16) * rectangle3.Height;
-                    sb.Draw(tex3, Projectile.Center - Main.screenPosition + new Vector2(0f, tex3.Height / 2 - Projectile.height + 1), new Rectangle?(rectangle3), color, Projectile.rotation, new Vector2(tex3.Width / 2, tex3.Height / 2), Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(tex3, Projectile.Center - Main.screenPosition + new Vector2(0f, tex3.Height / 2 - Projectile.height + 1), new Rectangle?(rectangle3), color, Projectile.rotation, new Vector2(tex3.Width / 2, tex3.Height / 2), Projectile.scale, effects, 0);
                 }
             }
 

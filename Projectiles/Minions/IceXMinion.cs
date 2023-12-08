@@ -24,8 +24,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.width = 54;
 			Projectile.height = 52;
 			Projectile.friendly = true;
-			Projectile.minion = true;
-			Projectile.minionSlots = 1;
+			Projectile.DamageType = DamageClass.Summon;
+            Projectile.minion = true;
+            Projectile.minionSlots = 1;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 18000;
 			Projectile.tileCollide = false;
@@ -65,7 +66,7 @@ namespace JoostMod.Projectiles.Minions
             Rectangle rect = new Rectangle(0, (int)(Projectile.frameCounter / 6) * 34, (tex.Width), (tex.Height / 6));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 12);
             float rotation = 0;
-            spriteBatch.Draw(tex, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(tex.Width / 1) / 2f + vect.X - 2f, Projectile.position.Y - Main.screenPosition.Y + (float)(Projectile.height / 2) - (float)(tex.Height / 12) + 1f + vect.Y), new Rectangle?(rect), color, rotation, vect, Projectile.scale * 0.9f, effects, 0f);
+            Main.EntitySpriteDraw(tex, new Vector2(Projectile.position.X - Main.screenPosition.X + (float)(Projectile.width / 2) - (float)(tex.Width / 1) / 2f + vect.X - 2f, Projectile.position.Y - Main.screenPosition.Y + (float)(Projectile.height / 2) - (float)(tex.Height / 12) + 1f + vect.Y), new Rectangle?(rect), color, rotation, vect, Projectile.scale * 0.9f, effects, 0);
 
             /*
             int xFrameCount = 1;

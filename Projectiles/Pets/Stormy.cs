@@ -34,12 +34,12 @@ namespace JoostMod.Projectiles.Pets
         {
             width = 56;
             height = 54;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return true;
         }
         public override void PostAI()
         {
             Player player = Main.player[Projectile.owner];
-            JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
             if (!player.active || player.dead)
             {
                 modPlayer.stormy = false;

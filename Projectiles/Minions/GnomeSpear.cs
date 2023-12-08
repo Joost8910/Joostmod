@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
@@ -13,6 +14,7 @@ namespace JoostMod.Projectiles.Minions
 		{
 			DisplayName.SetDefault("Gnome");
             Main.projFrames[Projectile.type] = 2;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 		public override void SetDefaults()
 		{
@@ -21,8 +23,8 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.aiStyle = -1;
 			Projectile.timeLeft = 16;
 			Projectile.friendly = true;
-			Projectile.minion = true;
-			Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.penetrate = -1;
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = true;
 			Projectile.usesLocalNPCImmunity = true;
@@ -71,7 +73,7 @@ namespace JoostMod.Projectiles.Minions
 
             Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - vel * 22 * Projectile.scale, rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 22 * Projectile.scale, rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale, effects, 0);
             return false;
         }
     }

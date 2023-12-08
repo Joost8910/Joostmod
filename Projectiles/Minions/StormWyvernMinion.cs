@@ -26,8 +26,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.width = 18;
 			Projectile.height = 18;
 			Projectile.friendly = true;
-			Projectile.minion = true;
-			Projectile.minionSlots = 1;
+			Projectile.DamageType = DamageClass.Summon;
+            Projectile.minion = true;
+            Projectile.minionSlots = 1;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 18000;
 			Projectile.tileCollide = false;
@@ -105,7 +106,7 @@ namespace JoostMod.Projectiles.Minions
                 }
                 if (!foundWings)
                 {
-                    Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1, Projectile.identity).minionSlots = 0;
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1, Projectile.identity).minionSlots = 0;
                     Projectile.netUpdate = true;
                     /*
                     int latestProj = projectile.whoAmI;
@@ -175,11 +176,11 @@ namespace JoostMod.Projectiles.Minions
                     
                     if (Projectile.localAI[0] == 12 || Projectile.localAI[0] == 24)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_lightning_aura_zap_1"), Projectile.Center); // 21
                     }
                     if (Projectile.localAI[0] > 0 && Projectile.localAI[0] == max - 115)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_sky_dragons_fury_circle_1"), Projectile.Center); // 224
                     }
                     if (Projectile.localAI[0] < max - 12)
                     {
@@ -206,7 +207,7 @@ namespace JoostMod.Projectiles.Minions
                     }
                     if (Projectile.localAI[0] == max)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.3f), Projectile.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_shot_0") with { Pitch = 0.7f }, Projectile.Center); // 226
                     }
                     if (Projectile.localAI[0] >= max && Projectile.localAI[0] < max+ aimWindow)
                     {
@@ -223,7 +224,7 @@ namespace JoostMod.Projectiles.Minions
                         SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
                         dir.Normalize();
                         Projectile.velocity = dir;
-                        Projectile.NewProjectile(Projectile.Center, dir, Mod.Find<ModProjectile>("StormWyvernMinionZap").Type, (int)(Projectile.damage * player.ownedProjectileCounts[Projectile.type]), Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, dir, Mod.Find<ModProjectile>("StormWyvernMinionZap").Type, (int)(Projectile.damage * player.ownedProjectileCounts[Projectile.type]), Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
                     }
                     if (Projectile.localAI[0] >= max+ aimWindow + 20)
                     {
@@ -261,7 +262,7 @@ namespace JoostMod.Projectiles.Minions
                     }
                     if (!foundLegs)
                     {
-                        Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 2, Projectile.whoAmI).minionSlots = 0;
+                        Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 2, Projectile.whoAmI).minionSlots = 0;
                         Projectile.netUpdate = true;
                     }
                 }
@@ -289,7 +290,7 @@ namespace JoostMod.Projectiles.Minions
                         }
                         if (prevSeg.ai[0] == 1)
                         {
-                            Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 3, Projectile.whoAmI).minionSlots = 0;
+                            Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 3, Projectile.whoAmI).minionSlots = 0;
                             Projectile.netUpdate = true;
                         }
                     }
@@ -303,7 +304,7 @@ namespace JoostMod.Projectiles.Minions
                     Projectile.localAI[0]++;
                     if (Projectile.localAI[0] == 12 || Projectile.localAI[0] == 24)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_lightning_aura_zap_1"), Projectile.Center); // 21
                     }
                     Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 55, 0, 0, 0, default(Color), 0.5f);
                 }
@@ -465,7 +466,7 @@ namespace JoostMod.Projectiles.Minions
             Rectangle rect = new Rectangle(frameX * (tex.Width / xFrameCount), Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), (tex.Width / xFrameCount), (tex.Height / Main.projFrames[Projectile.type]));
             Vector2 vect = new Vector2(((tex.Width / xFrameCount) / 2f), ((tex.Height / Main.projFrames[Projectile.type]) / 2f));
 
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), rect, lightColor, Projectile.rotation, vect, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), rect, lightColor, Projectile.rotation, vect, Projectile.scale, effects, 0);
 
             int max = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type] * 24;
             if (Projectile.ai[0] == 0 && Projectile.localAI[0] > 0 && Projectile.localAI[0] < max + aimWindow)
@@ -476,7 +477,7 @@ namespace JoostMod.Projectiles.Minions
                 rect = new Rectangle((texture.Width / 3) * ((int)Projectile.localAI[0] / 2) % 3, 0, (texture.Width / 3), (texture.Height / 3));
                 vect = new Vector2(((texture.Width / 3) / 2f), ((texture.Height / 3) / 2f));
                 Vector2 offSet = (Projectile.rotation - 1.57f).ToRotationVector2() * 30;
-                spriteBatch.Draw(texture, offSet + new Vector2(Projectile.position.X - Main.screenPosition.X + (Projectile.width / 2f) - (texture.Width / 3) / 2f + vect.X, Projectile.position.Y - Main.screenPosition.Y + (float)(Projectile.height / 2) - (float)(texture.Height / 3) / 2 + 4f + vect.Y), new Rectangle?(rect), Color.White, rot, vect, scale, effects, 0f);
+                Main.EntitySpriteDraw(texture, offSet + new Vector2(Projectile.position.X - Main.screenPosition.X + (Projectile.width / 2f) - (texture.Width / 3) / 2f + vect.X, Projectile.position.Y - Main.screenPosition.Y + (float)(Projectile.height / 2) - (float)(texture.Height / 3) / 2 + 4f + vect.Y), new Rectangle?(rect), Color.White, rot, vect, scale, effects, 0);
 
             }
             return false;

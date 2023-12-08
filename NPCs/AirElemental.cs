@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
-using JoostMod.Projectiles;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs
 {

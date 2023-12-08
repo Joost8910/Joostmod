@@ -1,6 +1,4 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,8 +23,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.width = 116;
 			Projectile.height = 100;
 			Projectile.friendly = true;
-			Projectile.minion = true;
-			Projectile.minionSlots = 0;
+			Projectile.DamageType = DamageClass.Summon;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 18000;
 			Projectile.tileCollide = false;
@@ -45,7 +44,7 @@ namespace JoostMod.Projectiles.Minions
 		public override void CheckActive()
 		{
 			Player player = Main.player[Projectile.owner];
-			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
 			if (player.dead)
 			{
 				modPlayer.EnkiduMinion = false;

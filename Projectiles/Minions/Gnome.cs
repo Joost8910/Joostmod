@@ -27,8 +27,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.width = 14;
 			Projectile.height = 30;
 			Projectile.friendly = true;
-			Projectile.minion = true;
-			Projectile.minionSlots = 1;
+			Projectile.DamageType = DamageClass.Summon;
+            Projectile.minion = true;
+            Projectile.minionSlots = 1;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 18000;
 			Projectile.tileCollide = true;
@@ -119,7 +120,7 @@ namespace JoostMod.Projectiles.Minions
             }
             Projectile.localAI[0] = 0;
             Player player = Main.player[Projectile.owner];
-            if (player.HeldItem.type == Mod.Find<ModItem>("GnomeStaff>().Type && !player.noItems && !player.CCed && !player.dead)
+            if (player.HeldItem.type == Mod.Find<ModItem>("GnomeStaff").Type && !player.noItems && !player.CCed && !player.dead)
             {
                 if (player.controlUseTile && player.itemTime > 0 && player.itemTime < 5)
                 {
@@ -262,7 +263,7 @@ namespace JoostMod.Projectiles.Minions
                 }
                 if ((int)Projectile.localAI[1] == shootCool + bashTime)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable.WithVolumeScale(0.9f).WithPitchOffset(0.3f), Projectile.position);
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_0") with { Volume = 0.9f, Pitch = 1.3f}, Projectile.Center); // 213
                 }
             }
             if ((int)Projectile.localAI[1] != 0 || Projectile.localAI[0] > 0)
@@ -389,15 +390,15 @@ namespace JoostMod.Projectiles.Minions
 
             if (shieldFrame == 0)
             {
-                spriteBatch.Draw(shieldTex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.height / 2 + armYOff + shieldRect.Height / 2 - 5), new Rectangle?(shieldRect), lightColor, Projectile.rotation, new Vector2(shieldTex.Width * 0.5f, shieldTex.Height * 0.5f), Projectile.scale, effects, 0f);
-                spriteBatch.Draw(armTex, Projectile.Center - Main.screenPosition + new Vector2(10 * -Projectile.spriteDirection, tex.Height / 2 - Projectile.height + armYOff), new Rectangle?(armRect), lightColor, Projectile.rotation, new Vector2(armTex.Width * 0.5f, armTex.Height * 0.5f), Projectile.scale, effects, 0f);
-                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, tex.Height / 2 - Projectile.height / 2 + yOff), new Rectangle?(rectangle), lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
+                Main.EntitySpriteDraw(shieldTex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.height / 2 + armYOff + shieldRect.Height / 2 - 5), new Rectangle?(shieldRect), lightColor, Projectile.rotation, new Vector2(shieldTex.Width * 0.5f, shieldTex.Height * 0.5f), Projectile.scale, effects, 0);
+                Main.EntitySpriteDraw(armTex, Projectile.Center - Main.screenPosition + new Vector2(10 * -Projectile.spriteDirection, tex.Height / 2 - Projectile.height + armYOff), new Rectangle?(armRect), lightColor, Projectile.rotation, new Vector2(armTex.Width * 0.5f, armTex.Height * 0.5f), Projectile.scale, effects, 0);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, tex.Height / 2 - Projectile.height / 2 + yOff), new Rectangle?(rectangle), lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             }
             else
             {
-                spriteBatch.Draw(armTex, Projectile.Center - Main.screenPosition + new Vector2(10 * -Projectile.spriteDirection, tex.Height / 2 - Projectile.height + armYOff), new Rectangle?(armRect), lightColor, Projectile.rotation, new Vector2(armTex.Width * 0.5f, armTex.Height * 0.5f), Projectile.scale, effects, 0f);
-                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, tex.Height / 2 - Projectile.height / 2 + yOff), new Rectangle?(rectangle), lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0f);
-                spriteBatch.Draw(shieldTex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.height / 2 + armYOff + shieldRect.Height / 2 - 5), new Rectangle?(shieldRect), lightColor, Projectile.rotation, new Vector2(shieldTex.Width * 0.5f, shieldTex.Height * 0.5f), Projectile.scale, effects, 0f);
+                Main.EntitySpriteDraw(armTex, Projectile.Center - Main.screenPosition + new Vector2(10 * -Projectile.spriteDirection, tex.Height / 2 - Projectile.height + armYOff), new Rectangle?(armRect), lightColor, Projectile.rotation, new Vector2(armTex.Width * 0.5f, armTex.Height * 0.5f), Projectile.scale, effects, 0);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, tex.Height / 2 - Projectile.height / 2 + yOff), new Rectangle?(rectangle), lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
+                Main.EntitySpriteDraw(shieldTex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.height / 2 + armYOff + shieldRect.Height / 2 - 5), new Rectangle?(shieldRect), lightColor, Projectile.rotation, new Vector2(shieldTex.Width * 0.5f, shieldTex.Height * 0.5f), Projectile.scale, effects, 0);
             }
             armFrame = 0;
             for (int i = 0; i < Main.maxProjectiles; i++)
@@ -424,7 +425,7 @@ namespace JoostMod.Projectiles.Minions
                 }
             }
             armRect = new Rectangle(0, armFrame * armTex.Height / 6, armTex.Width, armTex.Height / 6);
-            Main.EntitySpriteDraw(armTex, Projectile.Center - Main.screenPosition + new Vector2(0, tex.Height / 2 - Projectile.height + armYOff), new Rectangle?(armRect), lightColor, Projectile.rotation, new Vector2(armTex.Width * 0.5f, armTex.Height * 0.5f), Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(armTex, Projectile.Center - Main.screenPosition + new Vector2(0, tex.Height / 2 - Projectile.height + armYOff), new Rectangle?(armRect), lightColor, Projectile.rotation, new Vector2(armTex.Width * 0.5f, armTex.Height * 0.5f), Projectile.scale, effects, 0);
 
             return false;
         }

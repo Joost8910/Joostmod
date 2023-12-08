@@ -26,8 +26,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.height = 40;
 			Projectile.friendly = true;
 			Main.projPet[Projectile.type] = true;
-			Projectile.minion = true;
-			Projectile.minionSlots = 1;
+			Projectile.DamageType = DamageClass.Summon;
+            Projectile.minion = true;
+            Projectile.minionSlots = 1;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 18000;
 			Projectile.tileCollide = false;

@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.width = 80;
 			Projectile.height = 97;
 			Projectile.friendly = true;
-			Projectile.minion = true;
+			Projectile.DamageType = DamageClass.Summon;
 			Projectile.sentry = true;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = Projectile.SentryLifeTime;
@@ -58,7 +58,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.velocity.X = 0;
 	        Projectile.rotation = 0;
 			Main.player[Projectile.owner].UpdateMaxTurrets();
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 17, Main.rand.Next(-3, 3), Main.rand.Next(-3, 3), 100, default(Color), 1f);
 				Main.dust[num1].noGravity = true;
@@ -89,7 +89,7 @@ namespace JoostMod.Projectiles.Minions
 			}
 			if (Projectile.ai[0] % 20 == 0 && Projectile.ai[0] > 30)
 			{
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-20, 20)* 0.1f, Main.rand.Next(-20, 20) * 0.1f, Mod.Find<ModProjectile>("Spore").Type, Projectile.damage, Projectile.knockBack/5, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-20, 20)* 0.1f, Main.rand.Next(-20, 20) * 0.1f, Mod.Find<ModProjectile>("Spore").Type, Projectile.damage, Projectile.knockBack/5, Projectile.owner);
 			}
 		}
 	}

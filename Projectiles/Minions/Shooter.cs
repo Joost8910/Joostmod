@@ -271,7 +271,7 @@ namespace JoostMod.Projectiles.Minions
             if (Projectile.ai[1] > 0f)
 			{
 				Projectile.ai[1] += 1f;
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					Projectile.ai[1] += 1f;
 				}
@@ -317,13 +317,13 @@ namespace JoostMod.Projectiles.Minions
                                 for (i = 0; i < shootNum; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
+                                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
                                     Main.projectile[proj].netUpdate = true;
                                 }
                             }
                             else
                             {
-                                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
+                                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, shootAI0, shootAI1);
                                 Main.projectile[proj].netUpdate = true;
                             }
                             Projectile.netUpdate = true;
@@ -355,13 +355,13 @@ namespace JoostMod.Projectiles.Minions
                                 for (i = 0; i < shootNum; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, 0f, 0f);
+                                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, 0f, 0f);
                                     Main.projectile[proj].netUpdate = true;
                                 }
                             }
                             else
                             {
-                                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, shootVel.X, shootVel.Y, shoot, (int)(Projectile.damage * damageMult), Projectile.knockBack, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].netUpdate = true;
                             }
                             Projectile.netUpdate = true;

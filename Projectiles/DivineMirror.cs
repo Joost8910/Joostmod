@@ -104,7 +104,7 @@ namespace JoostMod.Projectiles
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC n = Main.npc[i];
-                    if (n.active && n.knockBackResist > 0 && !n.boss && n.type != NPCID.TargetDummy && Projectile.CanHit(n))
+                    if (n.active && n.knockBackResist > 0 && !n.boss && n.type != NPCID.TargetDummy /*&& Projectile.CanHit(n)*/)
                     {
                         if (Collides(center, dim, n.position, n.Size))
                         {

@@ -93,7 +93,7 @@ namespace JoostMod.Projectiles.Hostile
             color.A = (byte)(255 * (1f - Projectile.alpha / 255f));
             Rectangle rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 
-            sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / (2 * Main.projFrames[Projectile.type])), Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / (2 * Main.projFrames[Projectile.type])), Projectile.scale, effects, 0f);
             return false;
         }
         public override bool CanHitPlayer(Player target)
