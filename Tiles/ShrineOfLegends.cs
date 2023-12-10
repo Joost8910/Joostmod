@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -19,7 +20,7 @@ namespace JoostMod.Tiles
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Shrine of Legends");
             AddMapEntry(new Color(0, 145, 100), name);
@@ -50,7 +51,7 @@ namespace JoostMod.Tiles
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("ShrineOfLegends").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>("ShrineOfLegends").Type);
 		}
 	}
 }

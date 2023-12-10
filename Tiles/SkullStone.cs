@@ -25,7 +25,7 @@ namespace JoostMod.Tiles
             name.SetDefault("Stone of Death");
 			AddMapEntry(new Color(0, 51, 76), name);
 			DustType = 197;
-            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
         }
 
         public override bool RightClick(int i, int j)
@@ -46,7 +46,7 @@ namespace JoostMod.Tiles
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            drawColor = new Color(0, 51 + (int)(Main.DiscoG * 0.3f), 76 + (int)(Main.DiscoG * 0.3f));
+            drawData.colorTint = new Color(0, 51 + (int)(Main.DiscoG * 0.3f), 76 + (int)(Main.DiscoG * 0.3f));
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -73,7 +73,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SkullStone").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SkullStone").Type);
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

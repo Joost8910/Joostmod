@@ -1,13 +1,10 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using System;
 
 namespace JoostMod.Tiles
 {
@@ -24,9 +21,8 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 16, 16 };
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Super Absorbtion Pump");
+			name.SetDefault("Ultra Absorbtion Pump");
 			AddMapEntry(new Color(105, 107, 125), name);
 			DustType = 1;
 		}
@@ -47,7 +43,7 @@ namespace JoostMod.Tiles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 48, Mod.Find<ModItem>("SpongeStation").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, Mod.Find<ModItem>("SpongeStation").Type);
 		}
         public override bool RightClick(int i, int j)
 		{
@@ -72,14 +68,14 @@ namespace JoostMod.Tiles
 			{
                 for (int m = y; m < y + 3; m++)
                 {
-                    if (Main.tile[l, m].LiquidAmount > 0)
+                    Tile tile = Main.tile[l, m];
+                    if (tile.LiquidAmount > 0)
                     {
                         SoundEngine.PlaySound(SoundID.SplashWeak, new Vector2(x * 16, y * 16));
-                        Main.tile[l, m].LiquidAmount = 0;
-                        Main.tile[l, m].lava/* tModPorter Suggestion: LiquidType = ... */(false);
-                        Main.tile[l, m].honey/* tModPorter Suggestion: LiquidType = ... */(false);
+                        tile.LiquidAmount = 0;
+						tile.LiquidType = 0;
                         WorldGen.SquareTileFrame(l, m, false);
-                        if (Main.netMode == 1)
+                        if (Main.netMode == NetmodeID.MultiplayerClient)
                         {
                             NetMessage.sendWater(l, m);
                         }

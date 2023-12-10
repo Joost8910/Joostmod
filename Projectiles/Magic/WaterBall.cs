@@ -225,6 +225,10 @@ namespace JoostMod.Projectiles.Magic
             {
                 NetMessage.sendWater(x, y);
             }
+            else
+            {
+                Liquid.AddWater(x, y);
+            }
             Vector2 vel = Projectile.velocity;
             vel.Normalize();
             vel *= 15;

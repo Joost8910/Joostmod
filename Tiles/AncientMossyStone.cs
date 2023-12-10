@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Tiles
 {
@@ -30,9 +31,9 @@ namespace JoostMod.Tiles
                 noItem = true;
                 Main.tile[i, j].TileType = (ushort)Mod.Find<ModTile>("AncientStone").Type;
                 WorldGen.SquareTileFrame(i, j, true);
-                if (Main.netMode == 1)
+                if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
                 }
             }
 

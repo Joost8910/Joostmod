@@ -25,7 +25,7 @@ namespace JoostMod.Tiles
             name.SetDefault("Stone of the East Sea");
 			AddMapEntry(new Color(0, 255, 153), name);
 			DustType = 103;
-            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
         }
 
         public override bool RightClick(int i, int j)
@@ -46,7 +46,7 @@ namespace JoostMod.Tiles
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            drawColor = new Color(0, Main.DiscoB, (int)(153 + ((float)(255 - Main.DiscoB) * 0.4f)));
+            drawData.colorTint = new Color(0, Main.DiscoB, (int)(153 + ((float)(255 - Main.DiscoB) * 0.4f)));
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -61,7 +61,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SeaStoneEast").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SeaStoneEast").Type);
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

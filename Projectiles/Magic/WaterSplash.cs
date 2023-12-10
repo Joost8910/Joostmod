@@ -50,7 +50,6 @@ namespace JoostMod.Projectiles.Magic
         {
             int x = Projectile.Center.ToTileCoordinates().X;
             int y = Projectile.Center.ToTileCoordinates().Y;
-            /*
             Tile tile = Main.tile[x, y];
             tile.LiquidType = 0;
             tile.LiquidAmount = 255;
@@ -59,8 +58,10 @@ namespace JoostMod.Projectiles.Magic
             {
                 NetMessage.sendWater(x, y);
             }
-            */
-            Liquid.AddWater(x, y);
+            else
+            {
+                Liquid.AddWater(x, y);
+            }
             SoundEngine.PlaySound(SoundID.SplashWeak, Projectile.position);
         }
     }

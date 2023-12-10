@@ -7,9 +7,9 @@ namespace JoostMod.Items.Placeable
 	public class SpongeStation : ModItem
 	{
 		public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Super Absorbtion Pump");
-            Tooltip.SetDefault("'Drain the world!'");
+		{
+			DisplayName.SetDefault("Ultra Absorbtion Pump");
+			Tooltip.SetDefault("'Drain the world!'");
 		}
 
 		public override void SetDefaults()
@@ -24,19 +24,39 @@ namespace JoostMod.Items.Placeable
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
 			Item.createTile = Mod.Find<ModTile>("SpongeStation").Type;
-            Item.rare = ItemRarityID.Blue;
-            Item.mech = true;
+			Item.rare = ItemRarityID.Yellow;
+			Item.mech = true;
 		}
-
 		public override void AddRecipes()
-		{
-			CreateRecipe()
-.AddIngredient(ItemID.SuperAbsorbantSponge)
-.AddIngredient(ItemID.InletPump)
-.AddIngredient(ItemID.OutletPump)
-.AddIngredient(ItemID.Wire, 2)
-.AddTile(TileID.Anvils)
-.Register();
-		}
-	}
+        {
+            /*
+                CreateRecipe()
+                .AddIngredient(ItemID.UltraAbsorbantSponge)
+                .AddIngredient(ItemID.InletPump)
+                .AddIngredient(ItemID.OutletPump)
+                .AddIngredient(ItemID.Wire, 2)
+                .AddTile(TileID.Anvils)
+                .Register();
+            */
+
+            CreateRecipe()
+            .AddIngredient<SpongeStationWater>()
+            .AddIngredient(ItemID.LavaAbsorbantSponge)
+            //.AddIngredient(ItemID.HoneyAbsorbantSponge)
+            .AddTile(TileID.TinkerersWorkbench)
+            .Register();
+            CreateRecipe()
+            .AddIngredient<SpongeStationLava>()
+            .AddIngredient(ItemID.SuperAbsorbantSponge)
+            //.AddIngredient(ItemID.HoneyAbsorbantSponge)
+            .AddTile(TileID.TinkerersWorkbench)
+            .Register();
+            CreateRecipe()
+            .AddIngredient<SpongeStationHoney>()
+            .AddIngredient(ItemID.SuperAbsorbantSponge)
+            .AddIngredient(ItemID.LavaAbsorbantSponge)
+            .AddTile(TileID.TinkerersWorkbench)
+            .Register();
+        }
+    }
 }

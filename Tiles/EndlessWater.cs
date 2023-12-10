@@ -47,7 +47,7 @@ namespace JoostMod.Tiles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 48, Mod.Find<ModItem>("EndlessWater").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, Mod.Find<ModItem>("EndlessWater").Type);
 		}
         public override bool RightClick(int i, int j)
         {
@@ -72,17 +72,22 @@ namespace JoostMod.Tiles
 			{
                 for (int m = y; m < y + 3; m++)
                 {
-                    if (Main.tile[l, m].LiquidAmount == 0 || Main.tile[l,m].LiquidType == 0)
-                    {
-                        SoundEngine.PlaySound(SoundID.SplashWeak, new Vector2(x * 16, y * 16));
-                        Main.tile[l, m].LiquidType = 0;
-                        Main.tile[l, m].LiquidAmount = 255;
-                        WorldGen.SquareTileFrame(l, m, true);
-                        if (Main.netMode == 1)
-                        {
-                            NetMessage.sendWater(l, m);
-                        }
-                    }
+					Tile tile = Main.tile[l, m];
+					if (tile.LiquidAmount == 0 || tile.LiquidType == 0)
+					{
+						SoundEngine.PlaySound(SoundID.SplashWeak, new Vector2(x * 16, y * 16));
+                        tile.LiquidType = 0;
+                        tile.LiquidAmount = 255;
+						WorldGen.SquareTileFrame(l, m, true);
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+						{
+							NetMessage.sendWater(l, m);
+						}
+						else
+						{
+							Liquid.AddWater(l, m);
+						}
+					}
                 }
 			}
 		}

@@ -13,6 +13,8 @@ using Microsoft.Xna.Framework.Graphics;
 using JoostMod.UI;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Accessories;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.GrappleHooks;
 
 namespace JoostMod
 {
@@ -64,10 +66,10 @@ namespace JoostMod
                 bossChecklist.Call("AddMiniBoss", 5.8f, ModContent.NPCType<NPCs.Hunts.ImpLord>(), this, "Imp Lord", (Func<bool>)(() => JoostWorld.downedImpLord), null, null, ModContent.ItemType<Items.Quest.ImpLord>(), "Quest from the Huntmaster, found in hell.");
                 bossChecklist.Call("AddMiniBoss", 6.5f, ModContent.NPCType<NPCs.Hunts.StormWyvernHead>(), this, "Storm Wyvern", (Func<bool>)(() => JoostWorld.downedStormWyvern), null, null, ModContent.ItemType<Items.Quest.StormWyvern>(), "Quest from the Huntmaster, found in the sky while it's raining.", "JoostMod/NPCs/Hunts/StormWyvernBossLog");
 
-                bossChecklist.Call("AddBoss", 5.7f, ModContent.NPCType<IdleCactusWorm>(), this, "Alpha Cactus Worm", (Func<bool>)(() => JoostWorld.downedCactusWorm), ModContent.ItemType<CactusBait>(), new List<int>() { ModContent.ItemType<Items.Armor.GrandCactusWormMask>(), ModContent.ItemType<Items.Placeable.DeoremMuaMusicBox>(), ModContent.ItemType<Items.Placeable.GrandCactusWormTrophy>() }, new List<int>() { ModContent.ItemType<GrandCactusWormBag>(), ModContent.ItemType<CactusWormHook>(), ModContent.ItemType<Materials.LusciousCactus>() }, "Quest from the Hunt Master, found in the underground desert. Or, use a [i:" + Find<ModItem>("CactusBait").Type + "] in the underground desert");
+                bossChecklist.Call("AddBoss", 5.7f, ModContent.NPCType<IdleCactusWorm>(), this, "Alpha Cactus Worm", (Func<bool>)(() => JoostWorld.downedCactusWorm), ModContent.ItemType<CactusBait>(), new List<int>() { ModContent.ItemType<Items.Armor.GrandCactusWormMask>(), ModContent.ItemType<Items.Placeable.DeoremMuaMusicBox>(), ModContent.ItemType<Items.Placeable.GrandCactusWormTrophy>() }, new List<int>() { ModContent.ItemType<GrandCactusWormBag>(), ModContent.ItemType<CactusWormHook>(), ModContent.ItemType<LusciousCactus>() }, "Quest from the Hunt Master, found in the underground desert. Or, use a [i:" + Find<ModItem>("CactusBait").Type + "] in the underground desert");
                 bossChecklist.Call("AddBoss", 14.6f, ModContent.NPCType<JumboCactuar>(), this, "Jumbo Cactuar", (Func<bool>)(() => JoostWorld.downedJumboCactuar), ModContent.ItemType<Cactusofdoom>(), new List<int>() { ModContent.ItemType<Items.Armor.JumboCactuarMask>(), ModContent.ItemType<Items.Placeable.DecisiveBattleMusicBox>(), ModContent.ItemType<Items.Placeable.JumboCactuarTrophy>() }, new List<int>() { ModContent.ItemType<JumboCactuarBag>(), ModContent.ItemType<CactuarShield>(), ModContent.ItemType<Cactustoken>() }, "Use a [i:" + Find<ModItem>("Cactusofdoom").Type + "] in the desert");
                 bossChecklist.Call("AddBoss", 15.1f, ModContent.NPCType<SAX>(), this, "SA-X", (Func<bool>)(() => JoostWorld.downedSAX), ModContent.ItemType<InfectedArmCannon>(), new List<int>() { ModContent.ItemType<Items.Armor.SAXMask>(), ModContent.ItemType<Items.Placeable.SAXMusicBox>(), ModContent.ItemType<Items.Placeable.SAXTrophy>() }, new List<int>() { ModContent.ItemType<XBag>(), ModContent.ItemType<XShield>(), ModContent.ItemType<IceCoreX>() }, "Use an [i:" + Find<ModItem>("InfectedArmCannon").Type + "] anywhere", "The SA-X disappears into the unknown", "JoostMod/NPCs/Bosses/SAXBossLog");
-                bossChecklist.Call("AddBoss", 15.8f, new List<int>() { ModContent.NPCType<Gilgamesh>(), ModContent.NPCType<Enkidu>() }, this, "Gilgamesh and Enkidu", (Func<bool>)(() => JoostWorld.downedGilgamesh), ModContent.ItemType<Excalipoor>(), new List<int>() { ModContent.ItemType<Items.Armor.GilgameshMask>(), ModContent.ItemType<Items.Placeable.COTBBMusicBox>(), ModContent.ItemType<Items.Placeable.GilgameshTrophy>() }, new List<int>() { ModContent.ItemType<GilgBag>(), ModContent.ItemType<JoostMod.Items.Weapons.Generic.Gilgameshset>(), ModContent.ItemType<GenjiToken>() }, "Use an [i:" + Find<ModItem>("Excalipoor").Type + "] anywhere", "<Gilgamesh> Hah! I won!", "JoostMod/NPCs/Bosses/GilgameshAndEnkiduBossLog");
+                bossChecklist.Call("AddBoss", 15.8f, new List<int>() { ModContent.NPCType<Gilgamesh>(), ModContent.NPCType<Enkidu>() }, this, "Gilgamesh and Enkidu", (Func<bool>)(() => JoostWorld.downedGilgamesh), ModContent.ItemType<Excalipoor>(), new List<int>() { ModContent.ItemType<Items.Armor.GilgameshMask>(), ModContent.ItemType<Items.Placeable.COTBBMusicBox>(), ModContent.ItemType<Items.Placeable.GilgameshTrophy>() }, new List<int>() { ModContent.ItemType<GilgBag>(), ModContent.ItemType<Items.Weapons.Hybrid.Gilgameshset>(), ModContent.ItemType<GenjiToken>() }, "Use an [i:" + Find<ModItem>("Excalipoor").Type + "] anywhere", "<Gilgamesh> Hah! I won!", "JoostMod/NPCs/Bosses/GilgameshAndEnkiduBossLog");
 
             }
             Mod fargos = ModLoader.GetMod("Fargowiltas");
@@ -216,7 +218,7 @@ namespace JoostMod
         private void EyeReward(Player player)
         {
             Mod mod = JoostMod.instance;
-            player.QuickSpawnItem(player.GetSource_GiftOrReward(), mod.Find<ModItem>("EyeballStaff>().Type);
+            player.QuickSpawnItem(player.GetSource_GiftOrReward(), mod.Find<ModItem>("EyeballStaff").Type);
             player.QuickSpawnItem(player.GetSource_GiftOrReward(), ItemID.Binoculars);
             player.QuickSpawnItem(player.GetSource_GiftOrReward(), ItemID.GoldCoin, 2);
             player.QuickSpawnItem(player.GetSource_GiftOrReward(), ItemID.SilverCoin, 50);
@@ -226,7 +228,7 @@ namespace JoostMod
         private void ICUReward(Player player)
         {
             Mod mod = JoostMod.instance;
-            player.QuickSpawnItem(player.GetSource_GiftOrReward(), mod.Find<ModItem>("ObservantStaff>().Type);
+            player.QuickSpawnItem(player.GetSource_GiftOrReward(), mod.Find<ModItem>("ObservantStaff").Type);
             player.QuickSpawnItem(player.GetSource_GiftOrReward(), ItemID.GoldCoin, 3);
             player.QuickSpawnItem(player.GetSource_GiftOrReward(), ItemID.Lens, 2);
             player.QuickSpawnItem(player.GetSource_GiftOrReward(), ItemID.BlackLens, 2);

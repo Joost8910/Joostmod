@@ -30,7 +30,7 @@ namespace JoostMod.Tiles
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(151, 107, 75));
 			ItemDrop = Mod.Find<ModItem>("DirtPlatform").Type;
-			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
 			AdjTiles = new int[]{ TileID.Platforms };
 		}
 

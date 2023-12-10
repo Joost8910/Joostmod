@@ -182,10 +182,12 @@ namespace JoostMod.Projectiles.Grappling
                     int j = top;
                     while (j < bottom)
                     {
+                        /* Tiles are no longer nullable as of 1.4
                         if (Main.tile[i, j] == null)
                         {
-                            //Main.tile[i, j] = new Tile();
+                            Main.tile[i, j] = new Tile();
                         }
+                        */
                         Vector2 vector8;
                         vector8.X = i * 16;
                         vector8.Y = j * 16;

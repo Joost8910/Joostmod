@@ -174,11 +174,12 @@ namespace JoostMod.Projectiles.Grappling
                     {
                         for (int j = top; j < bottom; j++)
                         {
+                            /* Tiles are no longer nullable as of 1.4
                             if (Main.tile[i, j] == null)
                             {
-                                //Vanilla grappling code still does this, why is it an error now?
-                                //Main.tile[i, j] = new Tile();
+                                Main.tile[i, j] = new Tile();
                             }
+                            */
                             Vector2 vector9;
                             vector9.X = i * 16;
                             vector9.Y = j * 16;

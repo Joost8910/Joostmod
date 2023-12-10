@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,7 +19,7 @@ namespace JoostMod.Tiles
             DustType = 46;
             MinPick = 100;
             MineResist = 3f;
-            HitSound = 21;
+            HitSound = SoundID.Tink;
         }
         public override bool CanExplode(int i, int j)
         {

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -27,7 +28,7 @@ namespace JoostMod.Tiles
 			};
 			TileObjectData.addTile(Type);
 			DustType = 7;
-			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Joostmod's Fourth Anniversary");
 			AddMapEntry(new Color(93, 137, 92), name);
@@ -35,7 +36,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>("FourthAnniversary").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>("FourthAnniversary").Type);
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

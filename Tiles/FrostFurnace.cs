@@ -1,9 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.Enums;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -26,7 +23,7 @@ namespace JoostMod.Tiles
             name.SetDefault("Frost Furnace");
             AddMapEntry(new Color(144, 195, 232), name);
             DustType = 80;
-            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
             AdjTiles = new int[] { TileID.Furnaces };
         }
         int animationFrameWidth = 54;
@@ -45,7 +42,7 @@ namespace JoostMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, Mod.Find<ModItem>("FrostFurnace").Type);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, Mod.Find<ModItem>("FrostFurnace").Type);
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)

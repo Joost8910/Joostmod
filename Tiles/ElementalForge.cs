@@ -1,9 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.Enums;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -26,7 +23,7 @@ namespace JoostMod.Tiles
 			name.SetDefault("Elemental Forge");
 			AddMapEntry(new Color(192, 189, 221), name);
 			DustType = 146;
-			disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
 			AdjTiles = new int[]{ TileID.MythrilAnvil, TileID.Anvils, TileID.AdamantiteForge, TileID.Hellforge, TileID.Furnaces };
 		}
 
@@ -37,7 +34,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 32, Mod.Find<ModItem>("ElementalForge").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, Mod.Find<ModItem>("ElementalForge").Type);
 		}
 	}
 }

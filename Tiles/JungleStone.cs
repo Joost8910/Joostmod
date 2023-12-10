@@ -25,7 +25,7 @@ namespace JoostMod.Tiles
             name.SetDefault("Stone of Overgrowth");
 			AddMapEntry(new Color(127, 255, 0), name);
 			DustType = 39;
-            disableSmartCursor/* tModPorter Note: Removed. Use TileID.Sets.DisableSmartCursor instead */ = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
         }
 
         public override bool RightClick(int i, int j)
@@ -46,7 +46,7 @@ namespace JoostMod.Tiles
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            drawColor = new Color((int)(Main.DiscoG * 0.5f), 255, 0);
+            drawData.colorTint = new Color((int)(Main.DiscoG * 0.5f), 255, 0);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -62,7 +62,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, Mod.Find<ModItem>("JungleStone").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, Mod.Find<ModItem>("JungleStone").Type);
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {
