@@ -1,4 +1,6 @@
 using JoostMod.Items;
+using JoostMod.Items.Accessories;
+using JoostMod.PlayerLayers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -49,15 +51,15 @@ namespace JoostMod
         public bool planeMount = false;
         public Vector2 sandSharkVel = Vector2.Zero;
         
-        public bool XShield = false;
+        public Item XShieldItem = null;
         private int XShieldTimer = 60;
-        public bool SpectreOrbs = false;
+        public Item SpectreOrbsItem = null;
         private int SpectreOrbTimer = 40;
-        public bool SkullSigil = false;
+        public Item SkullSigilItem = null;
         private int SkullSigilTimer = 180;
-        public bool bubbleShield = false;
+        public Item bubbleShieldItem = null;
         private int bubbleShieldTimer = 90;
-        public bool megaBubbleShield = false;
+        public Item megaBubbleShieldItem = null;
         private int megaBubbleShieldTimer = 30;
         public bool hoverBoots = false;
         public bool spaceJump = false;
@@ -71,37 +73,38 @@ namespace JoostMod
         public bool hovering = false;
         public bool HavocPendant = false;
         public bool HarmonyPendant = false;
-        public bool swordSapling = false;
+        public Item swordSaplingItem = null;
         private int swordSaplingTimer = 10;
-        public bool hatchetSapling = false;
+        public Item hatchetSaplingItem = null;
         private int hatchetSaplingTimer = 18;
-        public bool staffSapling = false;
+        public Item staffSaplingItem = null;
         private int staffSaplingTimer = 37;
-        public bool bowSapling = false;
+        public Item bowSaplingItem = null;
         private int bowSaplingTimer = 27;
-        public bool fishingSapling = false;
-        public bool shieldSapling = false;
+        public Item fishingSaplingItem = null;
+        public Item shieldSaplingItem = null;
         public int spelunky = 0;
         public bool spelunkGlow = false;
         private int spelunkerTimer = 0;
         public bool glowContacts = false;
-        private int glowEyeType = 0;
+        public int glowEyeType = 0;
         public bool glowEyeNoGlow = false;
+        public int glowEyeDye = 0;
 
-        public bool cactoidCommendation = false;
+        public Item cactoidCommendationItem = null;
         private int cactoidCommendationTimer = 7200;
-        public bool sporgan = false;
+        public Item sporganItem = null;
         public bool rocWings = false;
         private int rot = 0;
-        public bool cactusBoots = false;
+        public Item cactusBootsItem = null;
         private float cactusBootsTimer = 40;
-        public bool fleshShield = false;
+        public Item fleshShieldItem = null;
         private int fleshShieldTimer = 0;
-        public bool havelShield = false;
+        public Item havelShieldItem = null;
         public bool havelBlocking = false;
         public bool blazeAnklet = false;
         public bool airMedallion = false;
-        public bool waterBubble = false;
+        public Item waterBubbleItem = null;
         public bool hideBubble = false;
         public bool emptyHeart = false;
         
@@ -158,6 +161,8 @@ namespace JoostMod
         public int enemyIgnoreDefenseDamage = 0;
         private Vector2 oldVelocity = Vector2.Zero;
 
+        public bool drawOverArmor = false;
+
         public override void ResetEffects()
         {
             bonesHurt = false;
@@ -191,38 +196,23 @@ namespace JoostMod
             dirtMinion = false;
             stormWyvernMinion = false;
 
-            XShield = false;
-            SpectreOrbs = false;
-            SkullSigil = false;
-            bubbleShield = false;
-            megaBubbleShield = false;
             hoverBoots = false;
             hovering = false;
             spaceJump = false;
             HavocPendant = false;
             HarmonyPendant = false;
             sandStorm = false;
-            swordSapling = false;
-            hatchetSapling = false;
-            staffSapling = false;
-            bowSapling = false;
-            fishingSapling = false;
-            shieldSapling = false;
             spelunky = 0;
             spelunkGlow = false;
             glowContacts = false;
             glowEyeType = 0;
             glowEyeNoGlow = false;
+            glowEyeDye = 0;
 
-            cactoidCommendation = false;
-            sporgan = false;
             rocWings = false;
-            waterBubble = false;
             hideBubble = false;
             emptyHeart = false;
-            cactusBoots = false;
-            fleshShield = false;
-            havelShield = false;
+            cactusBootsItem = null;
             havelBlocking = false;
             blazeAnklet = false;
             airMedallion = false;
@@ -248,18 +238,35 @@ namespace JoostMod
             gThrown = false;
             gRanged = false;
 
+            waterBubbleItem = null;
+            XShieldItem = null;
+            cactoidCommendationItem = null;
+            SpectreOrbsItem = null;
+            SkullSigilItem = null;
+            swordSaplingItem = null;
+            hatchetSaplingItem = null;
+            staffSaplingItem = null;
+            bowSaplingItem = null;
+            fishingSaplingItem = null;
+            shieldSaplingItem = null;
+            bubbleShieldItem = null;
+            megaBubbleShieldItem = null;
+            fleshShieldItem = null;
+            havelShieldItem = null;
+            sporganItem = null;
+
             noHooks = Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SwingyHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("MobHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedSwingyHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedMobHook").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CactusHook").Type] <= 0 && Player.grappling[0] == -1;
             accRunSpeedMult = 1;
             runAccelerationMult = 1;
             dashType = 0;
             dashDamage = 0;
             enemyIgnoreDefenseDamage = 0;
+
+            drawOverArmor = havelArmorActive || pinkSlimeActive || slimeActive;
         }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)/* tModPorter Suggestion: Return an Item array to add to the players starting items. Use ModifyStartingInventory for modifying them if needed */
         {
-            Item item = new Item();
-            item.SetDefaults(Mod.Find<ModItem>("StormyCollar").Type);
-            items.Add(item);
+            return new[] { new Item(Mod.Find<ModItem>("StormyCollar").Type) };
         }
         public override void UpdateBadLifeRegen()
         {
@@ -286,7 +293,7 @@ namespace JoostMod
                 Player.lifeRegenTime = 0;
                 Player.lifeRegen -= 10;
             }
-            if (infectedRed && !XShield)
+            if (infectedRed && XShieldItem == null)
             {
                 if (Player.lifeRegen > 0)
                 {
@@ -295,7 +302,7 @@ namespace JoostMod
                 Player.lifeRegenTime = 0;
                 Player.lifeRegen -= 8;
             }
-            if (infectedGreen && !XShield)
+            if (infectedGreen && XShieldItem == null)
             {
                 if (Player.lifeRegen > 0)
                 {
@@ -304,7 +311,7 @@ namespace JoostMod
                 Player.lifeRegenTime = 0;
                 Player.lifeRegen -= 8;
             }
-            if (infectedBlue && !XShield)
+            if (infectedBlue && XShieldItem == null)
             {
                 if (Player.lifeRegen > 0)
                 {
@@ -313,7 +320,7 @@ namespace JoostMod
                 Player.lifeRegenTime = 0;
                 Player.lifeRegen -= 8;
             }
-            if (infectedYellow && !XShield)
+            if (infectedYellow && XShieldItem == null)
             {
                 if (Player.lifeRegen > 0)
                 {
@@ -401,6 +408,75 @@ namespace JoostMod
             {
                 Player.shield = (sbyte)EquipLoader.GetEquipSlot(Mod, "HavelsGreatshield", EquipType.Shield);
             }
+
+
+            if (glowContacts)
+            {
+                for (int e = 3; e < 8 + Player.extraAccessorySlots; e++)
+                {
+                    if (Player.armor[e].type == ModContent.ItemType<GlowingContacts>())
+                    {
+                        switch (e)
+                        {
+                            case 4:
+                                glowEyeType = 1;
+                                break;
+                            case 5:
+                                glowEyeType = 2;
+                                break;
+                            case 6:
+                                glowEyeType = 3;
+                                break;
+                            case 7:
+                                glowEyeType = 4;
+                                break;
+                            case 8:
+                            case 9:
+                                glowEyeType = 5;
+                                break;
+                            default:
+                                glowEyeType = 0;
+                                break;
+                        }
+                        glowEyeDye = Player.dye[e].dye;
+                        break;
+                    }
+                }
+                for (int v = 13; v < 18 + Player.extraAccessorySlots; v++)
+                {
+                    if (Player.armor[v].type == ModContent.ItemType<GlowingContacts>())
+                    {
+                        switch (v)
+                        {
+                            case 14:
+                                glowEyeType = 1;
+                                break;
+                            case 15:
+                                glowEyeType = 2;
+                                break;
+                            case 16:
+                                glowEyeType = 3;
+                                break;
+                            case 17:
+                                glowEyeType = 4;
+                                break;
+                            case 18:
+                            case 19:
+                                glowEyeType = 5;
+                                break;
+                            default:
+                                glowEyeType = 0;
+                                break;
+                        }
+                        if (Player.hideVisibleAccessory[v - 10])
+                        {
+                            glowEyeNoGlow = true;
+                        }
+                        glowEyeDye = Player.dye[v - 10].dye;
+                        break;
+                    }
+                }
+            }
         }
         public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
         {
@@ -448,6 +524,47 @@ namespace JoostMod
                 }
             }
         }
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
+        {
+            Player player = drawInfo.drawPlayer;
+            if (Player.shield == (sbyte)EquipLoader.GetEquipSlot(Mod, "HavelsGreatshield", EquipType.Shield) && !havelBlocking)
+            {
+                PlayerDrawLayers.Shield.Hide();
+            }
+        }
+        /*
+        public override void ModifyDrawLayerOrdering(IDictionary<PlayerDrawLayer, PlayerDrawLayer.Position> positions)
+        {
+            for (int i = 0; i < layers.Count; i++)
+            {
+                if (glowEyeType == 0)
+                {
+                    if (layers[i] == PlayerLayer.FaceAcc)
+                    {
+                        layers.Insert(i + 1, glowEye);
+                        glowEye.visible = true;
+                    }
+                }
+                else
+                {
+                    if (layers[i] == PlayerLayer.Head)
+                    {
+                        layers.Insert(i + 1, glowEye);
+                        glowEye.visible = true;
+                 
+                    }
+                }
+                if (Player.face == (sbyte)EquipLoader.GetEquipSlot(Mod, "GlowingContacts", EquipType.Face))
+                {
+                    if (layers[i] == PlayerLayer.FaceAcc)
+                    {
+                        layers[i].visible = false;
+                    }
+                }
+            }
+        }
+        */
+        /* Old ModifyDrawLayers
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             for (int i = 0; i < layers.Count; i++)
@@ -523,289 +640,7 @@ namespace JoostMod
                 }
             }
         }
-        public static readonly PlayerLayer itemGlowmask = new PlayerLayer("JoostMod", "itemGlowmask", PlayerLayer.HeldItem, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            Item item = drawPlayer.HeldItem;
-            if (item.GetGlobalItem<JoostGlobalItem>().glowmaskTex != null)
-            {
-                Texture2D tex = item.GetGlobalItem<JoostGlobalItem>().glowmaskTex;
-                Color color = item.GetGlobalItem<JoostGlobalItem>().glowmaskColor;
-                float rot = drawPlayer.itemRotation;
-                if (Item.staff[item.type])
-                {
-                    rot = drawPlayer.itemRotation + 0.785f * drawPlayer.direction;
-                }
-                int offsetX = 0;
-                int offsetY = 0;
-                Vector2 origin = new Vector2(0f, (float)TextureAssets.Item[item.type].Value.Height);
-                if (drawPlayer.gravDir == -1f)
-                {
-                    if (drawPlayer.direction == -1)
-                    {
-                        rot += 1.57f;
-                        origin = new Vector2((float)TextureAssets.Item[item.type].Value.Width, 0f);
-                        offsetX -= TextureAssets.Item[item.type].Value.Width;
-                    }
-                    else
-                    {
-                        rot -= 1.57f;
-                        origin = Vector2.Zero;
-                    }
-                }
-                else if (drawPlayer.direction == -1)
-                {
-                    origin = new Vector2((float)TextureAssets.Item[item.type].Value.Width, (float)TextureAssets.Item[item.type].Value.Height);
-                    offsetX -= TextureAssets.Item[item.type].Value.Width;
-                }
-                Rectangle frame = new Rectangle(0, 0, tex.Width, tex.Height);
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((int)(drawInfo.ItemLocation.X - Main.screenPosition.X + origin.X + offsetX), (int)(drawInfo.ItemLocation.Y - Main.screenPosition.Y + offsetY)), new Rectangle?(frame), color, rot, origin, drawPlayer.HeldItem.scale, effects, 0);
-                Main.playerDrawData.Add(data);
-            }
-        });
-        public static readonly PlayerLayer shieldDownLayer = new PlayerLayer("JoostMod", "shieldDownLayer", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.shield == (sbyte)EquipLoader.GetEquipSlot(mod, "HavelsGreatshield", EquipType.Shield))
-            {
-                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/HavelsGreatshield_ShieldDown");
-                Rectangle frame = new Rectangle(drawPlayer.bodyFrame.X-1, drawPlayer.bodyFrame.Y, drawPlayer.bodyFrame.Width+6, drawPlayer.bodyFrame.Height);
-                float rot = drawPlayer.bodyRotation;
-                Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.bodyVect;
-                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.cShield;
-                Main.playerDrawData.Add(data);
-            }
-        });
-        public static readonly PlayerLayer overHead = new PlayerLayer("JoostMod", "overHead", PlayerLayer.Head, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-            {
-                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
-                Rectangle frame = drawPlayer.bodyFrame;
-                float rot = drawPlayer.headRotation;
-                Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.headVect;
-                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
-
-                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Head");
-                    color *= 0.5f;
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Head");
-                    color *= 0.5f;
-                }
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.cHead;
-                Main.playerDrawData.Add(data);
-            }
-        });
-        public static readonly PlayerLayer overArms = new PlayerLayer("JoostMod", "overArms", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-            {
-                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Arms");
-                Rectangle frame = drawPlayer.bodyFrame;
-                float rot = drawPlayer.bodyRotation;
-                Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.bodyVect;
-                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
-                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Arms");
-                    color *= 0.5f;
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Arms");
-                    color *= 0.5f;
-                }
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.cBody;
-                Main.playerDrawData.Add(data);
-            }
-        });
-        public static readonly PlayerLayer overBody = new PlayerLayer("JoostMod", "overBody", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-            {
-                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Body");
-                Rectangle frame = drawPlayer.bodyFrame;
-                float rot = drawPlayer.bodyRotation;
-                Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.bodyVect;
-                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
-                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Female");
-                    if (drawPlayer.Male)
-                    {
-                        tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Body");
-                    }
-                    color *= 0.5f;
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Female");
-                    if (drawPlayer.Male)
-                    {
-                        tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Body");
-                    }
-                    color *= 0.5f;
-                }
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.cBody;
-                Main.playerDrawData.Add(data);
-            }
-        });
-        public static readonly PlayerLayer glowEye = new PlayerLayer("JoostMod", "glowEye", PlayerLayer.Face, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().glowContacts)
-            {
-                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Face");
-                Rectangle frame = drawPlayer.bodyFrame;
-                float rot = drawPlayer.headRotation;
-                Vector2 drawPos = drawPlayer.bodyPosition;
-                Vector2 origin = drawInfo.headVect;
-                Color color = drawPlayer.GetImmuneAlphaPure(Color.White, drawInfo.shadow);
-                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 2)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Alt");
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 3)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Helm");
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 4)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_HelmAlt");
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType == 5)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Genji");
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeNoGlow)
-                {
-                    color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
-                }
-
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.cFace;
-                Main.playerDrawData.Add(data);
-            }
-        });
-        public static readonly PlayerLayer overLegs = new PlayerLayer("JoostMod", "overLegs", PlayerLayer.Legs, delegate (PlayerDrawSet drawInfo)
-        {
-            Mod mod = JoostMod.instance;
-            SpriteBatch spriteBatch = Main.spriteBatch;
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive || drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive || drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-            {
-                Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Legs");
-                Rectangle frame = drawPlayer.legFrame;
-                float rot = drawPlayer.legRotation;
-                Vector2 drawPos = drawPlayer.legPosition;
-                Vector2 origin = drawInfo.legVect;
-                Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
-                if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Legs");
-                    color *= 0.5f;
-                }
-                if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
-                {
-                    tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Legs");
-                    color *= 0.5f;
-                }
-                SpriteEffects effects = SpriteEffects.None;
-                if (drawPlayer.direction == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                if (drawPlayer.gravDir == -1f)
-                {
-                    effects |= SpriteEffects.FlipVertically;
-                }
-                DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
-                data.shader = drawInfo.cLegs;
-                Main.playerDrawData.Add(data);
-            }
-        });
+        */
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (JoostMod.ArmorAbilityHotKey.JustPressed)
@@ -834,7 +669,7 @@ namespace JoostMod
                 {
                     if (Player.statMana >= Player.statManaMax2)
                     {
-                        Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("BitterEndFriendly").Type, (int)(2000 * Player.GetDamage(DamageClass.Magic)), 20f, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis("SetBonus_GenjiMagic"), Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("BitterEndFriendly").Type, (int)Player.GetDamage(DamageClass.Magic).ApplyTo(2000), 20f, Player.whoAmI);
                         Player.manaRegenDelay = 180 * (2+Player.manaRegenDelayBonus);
                         Player.statMana *= 0;
                     }
@@ -844,7 +679,7 @@ namespace JoostMod
                     if (!havelArmorActive)
                     {
                         havelArmorTimer = 25;
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.3f), Player.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.3f), Player.Center); //230
                         for (int d = 0; d < 40; d++)
                         {
                             int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width+20, Player.height+20, 1, Player.velocity.X * 0.8f, Player.velocity.Y * 0.8f, 0, default(Color), 1.5f);
@@ -860,7 +695,7 @@ namespace JoostMod
                     Player.AddBuff(Mod.Find<ModBuff>("fireArmorBuff").Type, 2);
                     if (!fireArmorIsActive)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable, Player.Center);
+                        SoundEngine.PlaySound(new ("Terraria/Sounds/Custom/dd2_betsy_fireball_shot_1"), Player.Center); //198
                         for (int i = 0; i < 30; i++)
                             Dust.NewDustDirect(Player.position, Player.width, Player.height, 6, Player.velocity.X, Player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
                         fireArmorIsActive = true;
@@ -884,7 +719,7 @@ namespace JoostMod
                             proj.Kill();
                             count += proj.minionSlots;
                             for (int d = 0; d < 10; d++)
-                                Dust.NewDust(proj.position, proj.width, proj.height, 31, 0, 0, 0, Color.White, Main.rand.NextFloat() + 1);
+                                Dust.NewDust(proj.position, proj.width, proj.height, DustID.Smoke, 0, 0, 0, Color.White, Main.rand.NextFloat() + 1);
                         }
                     }
                     int duration = (int)(count * 4 * 60);
@@ -898,14 +733,14 @@ namespace JoostMod
                             Player.immuneTime = 60;
                         }
                         Player.AddBuff(Mod.Find<ModBuff>("AirArmorBuff").Type, duration);
-                        SoundEngine.PlaySound(SoundID.Trackable, Player.Center);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_2"), Player.Center); //203
                         for (int i = 0; i < 30; i++)
                             Dust.NewDust(Player.position, Player.width, Player.height, 31, -4 * Player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
                     }
                 }
                 if (zoraArmor && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("ZoraSpin").Type] < 1)
                 {
-                    int damage = (int)(40 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Magic) - 1f) * Player.GetDamage(DamageClass.Magic));
+                    int damage = (int)Player.GetDamage(DamageClass.Magic).ApplyTo(40f);
                     int wet = Player.wet ? 1 : 0;
                     float speed = 6;
                     Vector2 vel = new Vector2(0, -Player.gravity);
@@ -938,18 +773,18 @@ namespace JoostMod
                             Player.immuneTime = 24;
                         }
                     }
-                    Projectile.NewProjectile(source, player.Center, vel, Mod.Find<ModProjectile>("ZoraSpin").Type, damage, 5f, Player.whoAmI, wet);
-                    SoundEngine.PlaySound(SoundID.Trackable, Player.Center);
+                    Projectile.NewProjectile(Player.GetSource_FromThis("SetBonus_Zora"), Player.Center, vel, Mod.Find<ModProjectile>("ZoraSpin").Type, damage, 5f, Player.whoAmI, wet);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_0"), Player.Center); //201
                 }
                 if (pinkSlimeArmor && pinkSlimeTimer < 0)
                 {
                     if (!pinkSlimeActive)
                     {
                         pinkSlimeTimer = 15;
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.1f), Player.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.1f), Player.Center); //230
                         for (int d = 0; d < 40; d++)
                         {
-                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, 243, Player.velocity.X, Player.velocity.Y, 0, default(Color), 1f);
+                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, DustID.PinkSlime, Player.velocity.X, Player.velocity.Y, 0, default(Color), 1f);
                             Vector2 vel = Player.MountedCenter - Main.dust[dust].position;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel + Player.velocity;
@@ -968,7 +803,7 @@ namespace JoostMod
                     if (!slimeActive)
                     {
                         slimeTimer = 15;
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.1f), Player.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.1f), Player.Center); //230
                         for (int d = 0; d < 40; d++)
                         {
                             int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, 4, Player.velocity.X, Player.velocity.Y, 100, Color.Blue, 1f);
@@ -991,21 +826,22 @@ namespace JoostMod
         {
             if (item.CountsAsClass(DamageClass.Melee) && gMelee && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
             {
-                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 5f, Player.whoAmI);
-                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_OnHit(target), Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)Player.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, Player.whoAmI);
+                //Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, Player.whoAmI);
             }
         }
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
             if (item.CountsAsClass(DamageClass.Melee) && gMelee && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
             {
-                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 5f, Player.whoAmI);
-                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_OnHit(target), Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)Player.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, Player.whoAmI);
+                //Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, Player.whoAmI);
             }
         }
         public override void OnHitNPCWithProj(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
+            var source = projectile.GetSource_OnHit(target);
             if (projectile.CountsAsClass(DamageClass.Melee) && player.heldProj == projectile.whoAmI)
             {
                 if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
@@ -1015,7 +851,7 @@ namespace JoostMod
                         float lifeStoled = target.lifeMax * 0.04f;
                         if ((int)lifeStoled > 0 && !player.moonLeech)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
+                            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                         }
                     }
                     target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
@@ -1027,15 +863,15 @@ namespace JoostMod
                         float damag = target.lifeMax * 0.25f;
                         if ((int)damag > 0)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
+                            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                         }
                     }
                     target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
                 }
                 if (gMelee && player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Melee) - 1) * player.GetDamage(DamageClass.Melee) * player.GetDamage(DamageClass.Generic)), 10f, player.whoAmI);
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)Player.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, Player.whoAmI);
+                    //Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, player.whoAmI);
                 }
             }
             if (projectile.CountsAsClass(DamageClass.Ranged))
@@ -1050,13 +886,13 @@ namespace JoostMod
                 if (airMedallion && projectile.type != Mod.Find<ModProjectile>("AirBlast").Type && Main.rand.NextBool(10))
                 {
                     SoundEngine.PlaySound(SoundID.Item18, target.Center);
-                    Projectile.NewProjectile(target.Center.X, target.position.Y + target.height, 0, -10f, Mod.Find<ModProjectile>("AirBlast").Type, (int)(25 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Summon) - 1) * player.GetDamage(DamageClass.Summon) * player.GetDamage(DamageClass.Generic)), 0, player.whoAmI);
+                    Projectile.NewProjectile(source, target.Center.X, target.position.Y + target.height, 0, -10f, Mod.Find<ModProjectile>("AirBlast").Type, (int)player.GetDamage(DamageClass.Summon).ApplyTo(25), 0, player.whoAmI);
                 }
             }
             if (sandStorm && projectile.CountsAsClass(DamageClass.Throwing))
             {
                 int erg = 80;
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                 {
                     erg = 80;
                 }
@@ -1069,15 +905,14 @@ namespace JoostMod
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-80, 81));
 
                 float num80 = xPos;
-                float velocity.X = (float)target.position.X - vector2.X;
-                float velocity.Y = (float)target.position.Y - vector2.Y;
+                Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
                 float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
                 dir = 10 / num80;
                 velocity.X *= dir * 150 * player.ThrownVelocity;
                 velocity.Y *= dir * 150 * player.ThrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Sand").Type, (int)(20 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Throwing) - 1) * player.GetDamage(DamageClass.Throwing) * player.GetDamage(DamageClass.Generic)), 1, projectile.owner);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Sand").Type, (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -1087,6 +922,7 @@ namespace JoostMod
         public override void OnHitPvpWithProj(Projectile projectile, Player target, int damage, bool crit)
         {
             Player player = Main.player[projectile.owner];
+            var source = projectile.GetSource_OnHit(target);
             if (projectile.CountsAsClass(DamageClass.Melee) && player.heldProj == projectile.whoAmI)
             {
                 if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
@@ -1096,7 +932,7 @@ namespace JoostMod
                         float lifeStoled = target.statLifeMax2 * 0.04f;
                         if ((int)lifeStoled > 0 && !player.moonLeech)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
+                            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                         }
                     }
                     target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
@@ -1108,15 +944,15 @@ namespace JoostMod
                         float damag = target.statLifeMax2 * 0.25f;
                         if ((int)damag > 0)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
+                            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                         }
                     }
                     target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
                 }
                 if (gMelee && player.ownedProjectileCounts[Mod.Find<ModProjectile>("Masamune").Type] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)(500 * player.GetDamage(DamageClass.Melee)), 10f, player.whoAmI);
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, (int)player.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, player.whoAmI);
+                    //Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("Masamune").Type, 0, 0, player.whoAmI);
                 }
             }
             if (projectile.CountsAsClass(DamageClass.Ranged))
@@ -1129,7 +965,7 @@ namespace JoostMod
             if (sandStorm && projectile.CountsAsClass(DamageClass.Throwing))
             {
                 int erg = 80;
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                 {
                     erg = 80;
                 }
@@ -1142,15 +978,14 @@ namespace JoostMod
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-80, 81));
 
                 float num80 = xPos;
-                float velocity.X = (float)target.position.X - vector2.X;
-                float velocity.Y = (float)target.position.Y - vector2.Y;
+                Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
                 float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
                 dir = 10 / num80;
                 velocity.X *= dir * 150 * player.ThrownVelocity;
                 velocity.Y *= dir * 150 * player.ThrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Sand").Type, (int)(20 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Throwing) - 1) * player.GetDamage(DamageClass.Throwing) * player.GetDamage(DamageClass.Generic)), 1, projectile.owner);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Sand").Type, (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, projectile.owner);
                     sandStormTimer = 5;
                 }
 
@@ -1158,7 +993,7 @@ namespace JoostMod
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (waterBubble && proj.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
                 knockback *= 1.15f;
@@ -1166,14 +1001,14 @@ namespace JoostMod
         }
         public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
         {
-            if (waterBubble && proj.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (waterBubble && item.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (waterBubbleItem != null && item.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
                 knockback *= 1.15f;
@@ -1181,60 +1016,59 @@ namespace JoostMod
         }
         public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
         {
-            if (waterBubble && item.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (waterBubbleItem != null && item.CountsAsClass(DamageClass.Magic) && target.wet)
             {
                 damage = (int)(damage * 1.15f);
             }
         }
         public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
         {
-            if (junk)
+            bool inWater = !attempt.inLava && !attempt.inHoney;
+            int power = attempt.fishingLevel;
+            int worldLayer = attempt.heightLevel;
+            if (inWater && !attempt.crate)
             {
-                return;
+                if (Main.rand.NextBool(Math.Max(5, 500 / power)) && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
+                {
+                    itemDrop = Mod.Find<ModItem>("GrenadeFish").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(20, 2000 / power)) && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
+                {
+                    itemDrop = Mod.Find<ModItem>("PufferfishStaff").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(25, 2500 / power)) && Player.ZoneCorrupt && NPC.downedBoss2)
+                {
+                    itemDrop = Mod.Find<ModItem>("ToxicBucket").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(25, 2500 / power)) && Player.ZoneCrimson && NPC.downedBoss2)
+                {
+                    itemDrop = Mod.Find<ModItem>("BloodyBucket").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(30 * (Main.hardMode ? 2 : 1), 3000 / power)) && worldLayer == 1 && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
+                {
+                    itemDrop = Mod.Find<ModItem>("BubbleShield").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(30, 6000 / power)) && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
+                {
+                    itemDrop = Mod.Find<ModItem>("Larpoon").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(30, 6000 / power)) && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.ZoneJungle || Player.ZoneSnow))
+                {
+                    itemDrop = Mod.Find<ModItem>("RoboCod").Type;
+                }
+                if (Main.rand.NextBool(Math.Max(60, 12000 / power)) && NPC.downedGolemBoss && Main.tile[(int)(Player.Center.X / 16), (int)(Player.Center.Y / 16)].WallType == WallID.LihzahrdBrickUnsafe)
+                {
+                    itemDrop = Mod.Find<ModItem>("Sunfish").Type;
+                }
             }
-            if (liquidType == 0 && caughtType != 2334 && caughtType != 2335 && caughtType != 2336 && caughtType != 3203 && caughtType != 3204 && caughtType != 3205 && caughtType != 3206 && caughtType != 3207 && caughtType != 3208)
+            if (inWater && Main.rand.NextBool(Math.Max(20, 1000 / power)) && Main.hardMode && cactoidCommendationItem != null && Player.ZoneDesert)
             {
-                if (Main.rand.Next(Math.Max(5, 500 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
-                {
-                    caughtType = Mod.Find<ModItem>("GrenadeFish").Type;
-                }
-                if (Main.rand.Next(Math.Max(20, 2000 / power)) == 0 && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
-                {
-                    caughtType = Mod.Find<ModItem>("PufferfishStaff>().Type;
-                }
-                if (Main.rand.Next(Math.Max(25, 2500 / power)) == 0 && Player.ZoneCorrupt && NPC.downedBoss2)
-                {
-                    caughtType = Mod.Find<ModItem>("ToxicBucket").Type;
-                }
-                if (Main.rand.Next(Math.Max(25, 2500 / power)) == 0 && Player.ZoneCrimson && NPC.downedBoss2)
-                {
-                    caughtType = Mod.Find<ModItem>("BloodyBucket").Type;
-                }
-                if (Main.rand.Next(Math.Max(30 * (Main.hardMode ? 2 : 1), 3000 / power)) == 0 && worldLayer == 1 && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
-                {
-                    caughtType = Mod.Find<ModItem>("BubbleShield").Type;
-                }
-                if (Main.rand.Next(Math.Max(30, 6000 / power)) == 0 && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
-                {
-                    caughtType = Mod.Find<ModItem>("Larpoon").Type;
-                }
-                if (Main.rand.Next(Math.Max(30, 6000 / power)) == 0 && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.ZoneJungle || Player.ZoneSnow))
-                {
-                    caughtType = Mod.Find<ModItem>("RoboCod").Type;
-                }
-                if (Main.rand.Next(Math.Max(60, 12000 / power)) == 0 && NPC.downedGolemBoss && Main.tile[(int)(Player.Center.X / 16), (int)(Player.Center.Y / 16)].WallType == WallID.LihzahrdBrickUnsafe)
-                {
-                    caughtType = Mod.Find<ModItem>("Sunfish").Type;
-                }
-            }
-            if (liquidType == 0 && Main.rand.Next(Math.Max(20, 1000 / power)) == 0 && Main.hardMode && cactoidCommendation && Player.ZoneDesert)
-            {
-                caughtType = Mod.Find<ModItem>("CactoidCompact").Type;
+                itemDrop = Mod.Find<ModItem>("CactoidCompact").Type;
             }
 
-            if (lunarRod && Main.rand.Next(4) == 0)
+            if (lunarRod && Main.rand.NextBool(4))
             {
-                caughtType = 3456 + Main.rand.Next(4);
+                itemDrop = 3456 + Main.rand.Next(4);
             }
             if (JoostWorld.downedGilgamesh)
             {
@@ -1242,83 +1076,83 @@ namespace JoostMod
                 {
                     if (Player.ZoneCorrupt || Player.ZoneCrimson)
                     {
-                        caughtType = Mod.Find<ModItem>("EvilStone").Type;
+                        itemDrop = Mod.Find<ModItem>("EvilStone").Type;
                     }
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneDungeon)
                 {
-                    caughtType = Mod.Find<ModItem>("SkullStone").Type;
+                    itemDrop = Mod.Find<ModItem>("SkullStone").Type;
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneJungle)
                 {
-                    caughtType = Mod.Find<ModItem>("JungleStone").Type;
+                    itemDrop = Mod.Find<ModItem>("JungleStone").Type;
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneUnderworldHeight)
                 {
-                    caughtType = Mod.Find<ModItem>("InfernoStone").Type;
+                    itemDrop = Mod.Find<ModItem>("InfernoStone").Type;
                 }
-                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && liquidType == 0)
+                else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && inWater)
                 {
                     if (Player.position.X / 16 < 350)
                     {
-                        caughtType = Mod.Find<ModItem>("SeaStoneWest").Type;
+                        itemDrop = Mod.Find<ModItem>("SeaStoneWest").Type;
                     }
                     if (Player.position.X / 16 > Main.maxTilesX - 350)
                     {
-                        caughtType = Mod.Find<ModItem>("SeaStoneEast").Type;
+                        itemDrop = Mod.Find<ModItem>("SeaStoneEast").Type;
                     }
                     if (worldLayer >= 3)
                     {
-                        caughtType = Mod.Find<ModItem>("SeaStoneDeep").Type;
+                        itemDrop = Mod.Find<ModItem>("SeaStoneDeep").Type;
                     }
                     if (worldLayer <= 0)
                     {
-                        caughtType = Mod.Find<ModItem>("SeaStoneHigh").Type;
+                        itemDrop = Mod.Find<ModItem>("SeaStoneHigh").Type;
                     }
                 }
             }
-            if (Main.rand.Next(Math.Max(100, 50000 / power)) == 0 && liquidType == 0)
+            if (Main.rand.NextBool(Math.Max(100, 50000 / power)) && inWater)
             {
                 if (Player.position.X / 16 < 350 && !westStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneWest").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneWest").Type;
                 }
                 if (Player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneEast").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneEast").Type;
                 }
                 if (worldLayer >= 3 && !deepStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneDeep").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneDeep").Type;
                 }
                 if (worldLayer <= 0 && !highStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneHigh").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneHigh").Type;
                 }
             }
-            if (Main.rand.Next(Math.Max(4, 400 / power)) == 0 && liquidType == 0 && isUncleCarius)
+            if (Main.rand.NextBool(Math.Max(4, 400 / power)) && inWater && isUncleCarius)
             {
                 if (Player.position.X / 16 < 350 && !westStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneWest").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneWest").Type;
                 }
                 if (Player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneEast").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneEast").Type;
                 }
                 if (worldLayer >= 3 && !deepStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneDeep").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneDeep").Type;
                 }
                 if (worldLayer <= 0 && !highStone)
                 {
-                    caughtType = Mod.Find<ModItem>("SeaStoneHigh").Type;
+                    itemDrop = Mod.Find<ModItem>("SeaStoneHigh").Type;
                 }
             }
         }
         public override void PreUpdate()
         {
-            if (waterBubble)
+            if (waterBubbleItem != null)
             {
                 Player.wet = true;
                 Player.wetCount = 10;
@@ -1339,13 +1173,14 @@ namespace JoostMod
             {
                 isSaitama = true;
             }
-            if (waterBubble)
+            if (waterBubbleItem != null)
             {
                 Player.wet = true;
                 Player.wetCount = 10;
                 if (!hideBubble && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("PersonalBubble").Type] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center, Vector2.Zero, Mod.Find<ModProjectile>("PersonalBubble").Type, 0, 0, Player.whoAmI);
+                    var source = Player.GetSource_Accessory(waterBubbleItem);
+                    Projectile.NewProjectile(source, Player.Center, Vector2.Zero, Mod.Find<ModProjectile>("PersonalBubble").Type, 0, 0, Player.whoAmI);
                 }
             }
             if (gRanged)
@@ -1407,12 +1242,14 @@ namespace JoostMod
                     {
                         havelArmorActive = true;
                         Player.AddBuff(Mod.Find<ModBuff>("HavelBuff").Type, 1800);
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.2f), Player.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_1").WithPitchOffset(-0.2f), Player.Center); //211
+
                     }
                     else
                     {
                         havelArmorActive = false;
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.2f), Player.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_0").WithPitchOffset(-0.2f), Player.Center); //207
+
                         for (int d = 0; d < 30; d++)
                         {
                             int dust = Dust.NewDust(Player.position, Player.width, Player.height, 1, 0, 0, 0, default(Color), 1.5f);
@@ -1507,7 +1344,7 @@ namespace JoostMod
                     {
                         pinkSlimeActive = true;
                         Player.AddBuff(Mod.Find<ModBuff>("PinkSlimeBuff").Type, 10);
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.2f), Player.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_OgreSpit.WithPitchOffset(0.2f), Player.Center); //155, given theres no variations we can actually just use the soundid path for this one. yaaay
                     }
                     else
                     {
@@ -1517,7 +1354,7 @@ namespace JoostMod
                         SoundEngine.PlaySound(SoundID.NPCDeath1.WithPitchOffset(-0.2f), Player.Center);
                         for (int d = 0; d < 30; d++)
                         {
-                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, 243, 0, 0, 0, default(Color), 1.5f);
+                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.PinkSlime, 0, 0, 0, default(Color), 1.5f);
                             Vector2 vel = Main.dust[dust].position - Player.MountedCenter;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel;
@@ -1561,7 +1398,7 @@ namespace JoostMod
                     {
                         slimeActive = true;
                         Player.AddBuff(Mod.Find<ModBuff>("SlimeBuff").Type, 10);
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.2f), Player.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_OgreSpit.WithPitchOffset(0.2f), Player.Center);
                     }
                     else
                     {
@@ -1636,31 +1473,30 @@ namespace JoostMod
             {
                 if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnkiduMinion").Type] <= 0)
                 {
-                    int damage = (int)(1500 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
-                    float knockback = 10f + Player.Getknockback(DamageClass.Summon).Base;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("EnkiduMinion").Type, damage, knockback, Player.whoAmI);
+                    int damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(1500);
+                    float knockback = Player.GetKnockback(DamageClass.Summon).ApplyTo(10f);
+                    Projectile.NewProjectile(Player.GetSource_FromThis("SetBonus_GenjiSummon"), Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("EnkiduMinion").Type, damage, knockback, Player.whoAmI);
                 }
             }
-            if (XShield)
+            if (XShieldItem != null)
             {
                 XShieldTimer--;
                 if (XShieldTimer < 0)
                 {
                     int type = Mod.Find<ModProjectile>("XParasite").Type;
-                    int damage = (int)(300 * Player.GetDamage(DamageClass.Generic) * Player.GetDamage(DamageClass.Generic));
+                    int damage = (int)Player.GetDamage(DamageClass.Generic).ApplyTo(300);
 
-                    float summon = Player.GetDamage(DamageClass.Summon) * Player.GetDamage(DamageClass.Summon);
-                    int melee = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1) * Player.GetDamage(DamageClass.Melee) * Player.GetDamage(DamageClass.Generic));
-                    int ranged = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1) * Player.GetDamage(DamageClass.Ranged) * Player.GetDamage(DamageClass.Generic));
-                    int magic = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Magic) - 1) * Player.GetDamage(DamageClass.Magic) * Player.GetDamage(DamageClass.Generic));
-                    int thrown = (int)(300 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Throwing) - 1) * Player.GetDamage(DamageClass.Throwing) * Player.GetDamage(DamageClass.Generic));
-
+                    int summon = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(300);
+                    int melee = (int)Player.GetDamage(DamageClass.Melee).ApplyTo(300);
+                    int ranged = (int)Player.GetDamage(DamageClass.Ranged).ApplyTo(300);
+                    int magic = (int)Player.GetDamage(DamageClass.Magic).ApplyTo(300);
+                    int thrown = (int)Player.GetDamage(DamageClass.Throwing).ApplyTo(300);
                     bool flag = Main.rand.NextBool(4);
 
                     if (!flag)
                     {
                         IList<int> dmgType = new List<int>();
-                        dmgType.Add((int)(summon * 300));
+                        dmgType.Add(summon);
                         dmgType.Add(melee);
                         dmgType.Add(ranged);
                         dmgType.Add(magic);
@@ -1705,25 +1541,26 @@ namespace JoostMod
                         {
                             case 1:
                                 type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
-                                damage = (int)(melee * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
                                 type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
-                                damage = (int)(thrown * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
                                 type = Mod.Find<ModProjectile>("XParasiteRed").Type;
-                                damage = (int)(ranged * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
                                 type = Mod.Find<ModProjectile>("XParasite").Type;
-                                damage = (int)(magic * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
                     }
                     Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
+                    var source = Player.GetSource_Accessory(XShieldItem);
                     
-                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.MountedCenter.X, Player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, Player.whoAmI);
                     flag = flag ? flag : Main.rand.NextBool(4);
                     if (flag)
                     {
@@ -1731,23 +1568,23 @@ namespace JoostMod
                         {
                             case 1:
                                 type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
-                                damage = (int)(melee * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
                                 type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
-                                damage = (int)(thrown * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
                                 type = Mod.Find<ModProjectile>("XParasiteRed").Type;
-                                damage = (int)(ranged * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
                                 type = Mod.Find<ModProjectile>("XParasite").Type;
-                                damage = (int)(magic * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
                     }
-                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.MountedCenter.X, Player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, Player.whoAmI);
                     flag = flag ? flag : Main.rand.NextBool(4);
                     if (flag)
                     {
@@ -1755,24 +1592,24 @@ namespace JoostMod
                         {
                             case 1:
                                 type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
-                                damage = (int)(melee * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
                                 type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
-                                damage = (int)(thrown * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
                                 type = Mod.Find<ModProjectile>("XParasiteRed").Type;
-                                damage = (int)(ranged * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
                                 type = Mod.Find<ModProjectile>("XParasite").Type;
-                                damage = (int)(magic * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
                     }
                     dir = dir.RotatedBy(90f * 0.0174f);
-                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.MountedCenter.X, Player.MountedCenter.Y, dir.X, dir.Y, type, damage, 3, Player.whoAmI);
                     flag = flag ? flag : Main.rand.NextBool(4);
                     if (flag)
                     {
@@ -1780,23 +1617,23 @@ namespace JoostMod
                         {
                             case 1:
                                 type = Mod.Find<ModProjectile>("XParasiteYellow").Type;
-                                damage = (int)(melee * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
                                 type = Mod.Find<ModProjectile>("XParasiteGreen").Type;
-                                damage = (int)(thrown * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
                                 type = Mod.Find<ModProjectile>("XParasiteRed").Type;
-                                damage = (int)(ranged * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
                                 type = Mod.Find<ModProjectile>("XParasite").Type;
-                                damage = (int)(magic * summon);
+                                damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
                     }
-                    Projectile.NewProjectile(Player.MountedCenter.X, Player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.MountedCenter.X, Player.MountedCenter.Y, -dir.X, -dir.Y, type, damage, 3, Player.whoAmI);
                     
                     XShieldTimer += 90;
                 }
@@ -1805,20 +1642,21 @@ namespace JoostMod
             {
                 XShieldTimer = 90;
             }
-            if (cactoidCommendation)
+            if (cactoidCommendationItem != null)
             {
                 Player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactoid").Type] = true;
                 Player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactite").Type] = true;
                 cactoidCommendationTimer -= 1 + Main.rand.Next(2);
                 if (cactoidCommendationTimer <= 0)
                 {
-                    if (Main.rand.Next(3) == 0)
+                    var source = Player.GetSource_Accessory(cactoidCommendationItem);
+                    if (Main.rand.NextBool(3))
                     {
-                        NPC.NewNPC((int)Player.Center.X, (int)Player.Center.Y, Mod.Find<ModNPC>("Cactoid").Type);
+                        NPC.NewNPC(source, (int)Player.Center.X, (int)Player.Center.Y, Mod.Find<ModNPC>("Cactoid").Type);
                     }
                     else
                     {
-                        NPC.NewNPC((int)Player.Center.X, (int)Player.Center.Y, Mod.Find<ModNPC>("Cactite").Type);
+                        NPC.NewNPC(source, (int)Player.Center.X, (int)Player.Center.Y, Mod.Find<ModNPC>("Cactite").Type);
                     }
                     cactoidCommendationTimer = 7200;
                 }
@@ -1834,14 +1672,16 @@ namespace JoostMod
             {
                 cactoidCommendationTimer = 7200;
             }
-            if (cactusBoots && Player.velocity.Y == 0)
+            if (cactusBootsItem != null && Player.velocity.Y == 0)
             {
                 cactusBootsTimer -= Math.Abs(Player.velocity.X);
                 if (cactusBootsTimer < 0)
                 {
-                    int damage = (int)(18 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    var source = Player.GetSource_Accessory(cactusBootsItem);
+                    //int damage = (int)(18 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    int damage = Player.GetWeaponDamage(cactusBootsItem);
                     float knockback = 0f;
-                    Projectile.NewProjectile(source, player.Center.X, Player.position.Y, 0, 7, Mod.Find<ModProjectile>("BootCactus").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.position.Y, 0, 7, Mod.Find<ModProjectile>("BootCactus").Type, damage, knockback, Player.whoAmI);
                     cactusBootsTimer = 40;
                 }
             }
@@ -1849,15 +1689,18 @@ namespace JoostMod
             {
                 cactusBootsTimer = 40;
             }
-            if (SpectreOrbs)
+            if (SpectreOrbsItem != null)
             {
                 SpectreOrbTimer--;
                 if (SpectreOrbTimer < 0)
                 {
-                    int damage = (int)(100 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
-                    float knockback = 6.4f + Player.Getknockback(DamageClass.Summon).Base;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 2f, Mod.Find<ModProjectile>("SpectreOrb").Type, damage, knockback, Player.whoAmI);
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 2f, Mod.Find<ModProjectile>("SpectreOrb").Type, damage, knockback, Player.whoAmI, 0f, 180f);
+                    var source = Player.GetSource_Accessory(SpectreOrbsItem);
+                    //int damage = (int)(100 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    //float knockback = 6.4f + Player.Getknockback(DamageClass.Summon).Base;
+                    int damage = Player.GetWeaponDamage(SpectreOrbsItem);
+                    float knockback = Player.GetWeaponKnockback(SpectreOrbsItem);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 2f, Mod.Find<ModProjectile>("SpectreOrb").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 2f, Mod.Find<ModProjectile>("SpectreOrb").Type, damage, knockback, Player.whoAmI, 0f, 180f);
                     SpectreOrbTimer = 40;
                 }
             }
@@ -1865,21 +1708,24 @@ namespace JoostMod
             {
                 SpectreOrbTimer = 40;
             }
-            if (SkullSigil && Player.statLife <= Player.statLifeMax2 / 2)
+            if (SkullSigilItem != null && Player.statLife <= Player.statLifeMax2 / 2)
             {
+                var source = Player.GetSource_Accessory(SkullSigilItem);
                 SkullSigilTimer--;
                 if (SkullSigilTimer % 20 == 0)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("ShadowAura").Type, 1, 1, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("ShadowAura").Type, 1, 1, Player.whoAmI);
                 }
                 if (SkullSigilTimer < 0)
                 {
-                    int damage = (int)(125 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
-                    float knockback = 5.5f + Player.Getknockback(DamageClass.Summon).Base;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 2f, 2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 45f);
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 2f, -2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 135f);
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -2f, 2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 225f);
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -2f, -2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 315f);
+                    //int damage = (int)(125 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
+                    //float knockback = 5.5f + Player.Getknockback(DamageClass.Summon).Base;
+                    int damage = Player.GetWeaponDamage(SkullSigilItem);
+                    float knockback = Player.GetWeaponKnockback(SkullSigilItem);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 2f, 2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 45f);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 2f, -2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 135f);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, -2f, 2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 225f);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, -2f, -2f, Mod.Find<ModProjectile>("Skull").Type, damage, knockback, Player.whoAmI, 315f);
                     SkullSigilTimer = 180;
                 }
             }
@@ -1910,7 +1756,7 @@ namespace JoostMod
                     {
                         for (int j = tileY - spelunky; j <= tileY + spelunky; j = num2 + 1)
                         {
-                            if (Main.rand.Next(4) == 0)
+                            if (Main.rand.NextBool(4))
                             {
                                 Vector2 vector = new Vector2((float)(tileX - i), (float)(tileY - j));
                                 if (vector.Length() < (float)spelunky && i > 0 && i < Main.maxTilesX - 1 && j > 0 && j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].HasTile)
@@ -1949,14 +1795,16 @@ namespace JoostMod
                     }
                 }
             }
-            if (shieldSapling)
+            if (shieldSaplingItem != null)
             {
                 if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("ShieldSapling").Type] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0, 0, Mod.Find<ModProjectile>("ShieldSapling").Type, 1, 2 + Player.Getknockback(DamageClass.Summon).Base, Player.whoAmI);
+                    var source = Player.GetSource_Accessory(shieldSaplingItem);
+                    float knockback = Player.GetKnockback(DamageClass.Summon).ApplyTo(2f);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0, 0, Mod.Find<ModProjectile>("ShieldSapling").Type, 1, knockback, Player.whoAmI);
                 }
             }
-            if (swordSapling)
+            if (swordSaplingItem != null)
             {
                 bool target = false;
                 Vector2 shoot = new Vector2(0, 0);
@@ -1977,17 +1825,20 @@ namespace JoostMod
                 {
                     if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SaplingSword").Type] < 1)
                     {
+                        var source = Player.GetSource_Accessory(swordSaplingItem);
+                        int damage = Player.GetWeaponDamage(swordSaplingItem);
+                        float knockback = Player.GetWeaponKnockback(swordSaplingItem);
                         SoundEngine.PlaySound(SoundID.Item1, Player.Center);
-                        Projectile.NewProjectile(source, player.Center.X + 16*Player.direction, Player.Center.Y, shoot.X * 3, shoot.Y * 3, Mod.Find<ModProjectile>("SaplingSword").Type, (int)(12 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 4f * (Player.kbGlove ? 2 : 1) * (Player.kbBuff ? 1.5f : 1), Player.whoAmI);
+                        Projectile.NewProjectile(source, Player.Center.X + 16*Player.direction, Player.Center.Y, shoot.X * 3, shoot.Y * 3, Mod.Find<ModProjectile>("SaplingSword").Type, damage, knockback, Player.whoAmI, 9);
                     }
-                    swordSaplingTimer = 9;
+                    swordSaplingTimer = (int)(9f / Player.GetAttackSpeed(DamageClass.Melee));
                 }
             }
             else
             {
                 swordSaplingTimer = 9;
             }
-            if (hatchetSapling)
+            if (hatchetSaplingItem != null)
             {
                 bool target = false;
                 Vector2 shoot = new Vector2(0, 0);
@@ -2008,8 +1859,11 @@ namespace JoostMod
                 {
                     if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CopperHatchet").Type] + Player.ownedProjectileCounts[Mod.Find<ModProjectile>("CopperHatchet2").Type] < 3)
                     {
+                        var source = Player.GetSource_Accessory(hatchetSaplingItem);
+                        int damage = Player.GetWeaponDamage(hatchetSaplingItem);
+                        float knockback = Player.GetWeaponKnockback(hatchetSaplingItem);
                         SoundEngine.PlaySound(SoundID.Item19, Player.Center);
-                        Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, shoot.X * 12 * Player.ThrownVelocity, shoot.Y * 12 * Player.ThrownVelocity, Mod.Find<ModProjectile>("CopperHatchet").Type, (int)(7 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Throwing) - 1f) * Player.GetDamage(DamageClass.Throwing)), 3f, Player.whoAmI);
+                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * 12 * Player.ThrownVelocity, shoot.Y * 12 * Player.ThrownVelocity, Mod.Find<ModProjectile>("CopperHatchet").Type, damage, knockback, Player.whoAmI);
                     }
                     hatchetSaplingTimer = 15;
                 }
@@ -2018,7 +1872,7 @@ namespace JoostMod
             {
                 hatchetSaplingTimer = 15;
             }
-            if (bowSapling)
+            if (bowSaplingItem != null)
             {
                 bool target = false;
                 Vector2 shoot = new Vector2(0, 0);
@@ -2037,8 +1891,13 @@ namespace JoostMod
                 bowSaplingTimer--;
                 if (bowSaplingTimer < 0 && target)
                 {
-                    int damage = (int)(7 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1f) * Player.GetDamage(DamageClass.Ranged));
-                    float knockback = 2;
+                    //int damage = (int)(7 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1f) * Player.GetDamage(DamageClass.Ranged));
+                    //float knockback = 2;
+                    var source = Player.GetSource_Accessory(bowSaplingItem);
+                    //int damage = Player.GetWeaponDamage(bowSaplingItem);
+                    //float knockback = Player.GetWeaponKnockback(bowSaplingItem);
+                    bool flag = Player.PickAmmo(bowSaplingItem, out int proj, out float speed, out int damage, out float knockback, out int arrowID);
+                    /*
                     int proj = ProjectileID.WoodenArrowFriendly;
                     float speed = 9.6f;
                     bool flag = false;
@@ -2064,10 +1923,11 @@ namespace JoostMod
                             break;
                         }
                     }
+                    */
                     if (flag)
                     {
                         SoundEngine.PlaySound(SoundID.Item5, Player.Center);
-                        Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, shoot.X * speed, shoot.Y * speed, proj, damage, knockback, Player.whoAmI);
+                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * speed, shoot.Y * speed, proj, damage, knockback, Player.whoAmI);
                     }
                     bowSaplingTimer = 27;
                 }
@@ -2076,7 +1936,7 @@ namespace JoostMod
             {
                 bowSaplingTimer = 27;
             }
-            if (staffSapling)
+            if (staffSaplingItem != null)
             {
                 bool target = false;
                 Vector2 shoot = new Vector2(0, 0);
@@ -2095,9 +1955,10 @@ namespace JoostMod
                 staffSaplingTimer--;
                 if (staffSaplingTimer < 0 && target)
                 {
-                    int damage = (int)(15 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Magic) - 1f) * Player.GetDamage(DamageClass.Magic));
-                    float knockback = 3.5f;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, 121, damage, knockback, Player.whoAmI);
+                    var source = Player.GetSource_Accessory(staffSaplingItem);
+                    int damage = Player.GetWeaponDamage(staffSaplingItem);
+                    float knockback = Player.GetWeaponKnockback(staffSaplingItem);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, ProjectileID.AmethystBolt, damage, knockback, Player.whoAmI);
                     staffSaplingTimer = 37;
                 }
             }
@@ -2105,20 +1966,22 @@ namespace JoostMod
             {
                 staffSaplingTimer = 37;
             }
-            if (fishingSapling && Player.HeldItem.fishingPole > 0 && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SaplingFishHook").Type] < 1 && !Player.CCed && !Player.noItems && !Player.pulley && !Player.dead)
+            if (fishingSaplingItem != null && Player.HeldItem.fishingPole > 0 && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("SaplingFishHook").Type] < 1 && !Player.CCed && !Player.noItems && !Player.pulley && !Player.dead)
             {
-                Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -Player.direction * 2, 0, Mod.Find<ModProjectile>("SaplingFishHook").Type, 10, 0, Player.whoAmI);
+                var source = Player.GetSource_Accessory(fishingSaplingItem);
+                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, -Player.direction * 2, 0, Mod.Find<ModProjectile>("SaplingFishHook").Type, 10, 0, Player.whoAmI);
                 SoundEngine.PlaySound(SoundID.Item1, Player.Center);
             }
-            if (bubbleShield)
+            if (bubbleShieldItem != null)
             {
                 bubbleShieldTimer--;
                 if (bubbleShieldTimer < 0)
                 {
-                    int damage = (int)(10 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
-                    float knockback = 8f + Player.Getknockback(DamageClass.Summon).Base;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 1f, 0f, Mod.Find<ModProjectile>("BubbleShield").Type, damage, knockback, Player.whoAmI);
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -1f, 0f, Mod.Find<ModProjectile>("BubbleShield").Type, damage,knockback, Player.whoAmI);
+                    var source = Player.GetSource_Accessory(bubbleShieldItem);
+                    int damage = Player.GetWeaponDamage(bubbleShieldItem);
+                    float knockback = Player.GetWeaponKnockback(bubbleShieldItem);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 1f, 0f, Mod.Find<ModProjectile>("BubbleShield").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, -1f, 0f, Mod.Find<ModProjectile>("BubbleShield").Type, damage,knockback, Player.whoAmI);
                     bubbleShieldTimer = 90;
                 }
             }
@@ -2126,15 +1989,16 @@ namespace JoostMod
             {
                 bubbleShieldTimer = 90;
             }
-            if (megaBubbleShield)
+            if (megaBubbleShieldItem != null)
             {
                 megaBubbleShieldTimer--;
                 if (megaBubbleShieldTimer < 0)
                 {
-                    int damage = (int)(90 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1f) * Player.GetDamage(DamageClass.Summon));
-                    float knockback = 18.5f + Player.Getknockback(DamageClass.Summon).Base;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 1f, 0f, Mod.Find<ModProjectile>("MegaBubbleShield").Type, damage, knockback, Player.whoAmI);
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, -1f, 0f, Mod.Find<ModProjectile>("MegaBubbleShield").Type, damage, knockback, Player.whoAmI);
+                    var source = Player.GetSource_Accessory(megaBubbleShieldItem);
+                    int damage = Player.GetWeaponDamage(megaBubbleShieldItem);
+                    float knockback = Player.GetWeaponKnockback(megaBubbleShieldItem);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 1f, 0f, Mod.Find<ModProjectile>("MegaBubbleShield").Type, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, -1f, 0f, Mod.Find<ModProjectile>("MegaBubbleShield").Type, damage, knockback, Player.whoAmI);
                     megaBubbleShieldTimer = 30;
                 }
             }
@@ -2301,7 +2165,7 @@ namespace JoostMod
                 {
                     hoverCanJump = true;
                 }
-                if (hoverBoots && hoverBootsTimer > 0 && !Player.pulley && !slimeClimbWall && !slimeClimbCeiling && Player.mount.Type != Mount.CuteFishron && Player.mount.Type != Mount.UFO)
+                if (hoverBoots && hoverBootsTimer > 0 && !Player.pulley && !slimeClimbWall && !slimeClimbCeiling && Player.mount.Type != MountID.CuteFishron && Player.mount.Type != MountID.UFO)
                 {
                     if (Player.mount.Cart && !Minecart.OnTrack(Player.position, Player.width, Player.height))
                     {
@@ -2424,12 +2288,14 @@ namespace JoostMod
             {
                 Player.buffImmune[BuffID.Suffocation] = true;
             }
-            if (fleshShield)
+            if (fleshShieldItem != null)
             {
                 fleshShieldTimer++;
                 if (fleshShieldTimer > 10 + (int)(((float)Player.statLife / (float)Player.statLifeMax2) * 350f))
                 {
-                    Projectile.NewProjectile(source, player.Center.X + Player.direction * 20, Player.Center.Y, Player.direction * 10, 0, Mod.Find<ModProjectile>("Leech").Type, (int)(20 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1) * Player.GetDamage(DamageClass.Melee) * Player.GetDamage(DamageClass.Generic)), 1, Player.whoAmI);
+                    var source = Player.GetSource_Accessory(fleshShieldItem);
+                    int damage = Player.GetWeaponDamage(fleshShieldItem) / 2;
+                    Projectile.NewProjectile(source, Player.Center.X + Player.direction * 20, Player.Center.Y, Player.direction * 10, 0, Mod.Find<ModProjectile>("Leech").Type, damage, 1, Player.whoAmI);
                     fleshShieldTimer = 0;
                 }
             }
@@ -2453,13 +2319,16 @@ namespace JoostMod
                 }
                 Player.statDefense += dirt / 666;
             }
-            if (havelShield && (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0 || (Player.controlUseTile && Player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(Player.HeldItem, Player))))
+            if (havelShieldItem != null && (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0 || (Player.controlUseTile && Player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(Player.HeldItem, Player))))
             {
                 Player.noItems = true;
                 havelBlocking = true;
                 if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0, 0, Mod.Find<ModProjectile>("HavelShield").Type, (int)(50 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee)), 8f * (Player.kbGlove ? 2 : 1) * (Player.kbBuff ? 1.5f : 1), Player.whoAmI);
+                    var source = Player.GetSource_Accessory(bubbleShieldItem);
+                    int damage = Player.GetWeaponDamage(bubbleShieldItem);
+                    float knockback = Player.GetWeaponKnockback(bubbleShieldItem);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0, 0, Mod.Find<ModProjectile>("HavelShield").Type, damage, knockback, Player.whoAmI);
                 }
                 if (Math.Abs(Player.velocity.X) < Player.maxRunSpeed * 1.2f)
                 {
@@ -2508,14 +2377,16 @@ namespace JoostMod
                         runAccelerationMult *= 2f;
                         accRunSpeedMult *= 2.5f;
                     }
-                    Dust.NewDustDirect(new Vector2(Player.position.X, num2 * 16 - 10 * Player.gravDir), Player.width, 10, 6).noGravity = true;
+                    Dust.NewDustDirect(new Vector2(Player.position.X, num2 * 16 - 10 * Player.gravDir), Player.width, 10, DustID.Torch).noGravity = true;
                 }
                 Player.GetCritChance(DamageClass.Ranged) += (int)Math.Round(Math.Abs(Player.velocity.X / 2));
                 if (fireArmorIsActive && Player.velocity.Y == 0 && Math.Abs(Player.velocity.X) > 5)
                 {
                     for (int i = 0; i <= Math.Round(Math.Abs(Player.velocity.X) / 16f); i++)
                     {
-                        Projectile.NewProjectile((num + i * Player.direction) * 16, num2 * 16, 0, 0, Mod.Find<ModProjectile>("Flame2").Type, (int)(25 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1) * Player.GetDamage(DamageClass.Ranged) * Player.GetDamage(DamageClass.Generic)), 0, Player.whoAmI);
+                        var source = Player.GetSource_FromThis("SetBonus_FireArmor");
+                        int damage = (int)Player.GetDamage(DamageClass.Ranged).ApplyTo(25);
+                        Projectile.NewProjectile(source, (num + i * Player.direction) * 16, num2 * 16, 0, 0, Mod.Find<ModProjectile>("Flame2").Type, damage, 0, Player.whoAmI);
                     }
                 }
             }
@@ -2554,6 +2425,7 @@ namespace JoostMod
                 Player.statLifeMax2 = 1;
             }
         }
+        /*
         public override void UpdateVanityAccessories()
         {
             if (!glowContacts)
@@ -2622,6 +2494,7 @@ namespace JoostMod
                 }
             }
         }
+        */
         public override void PostUpdateRunSpeeds()
         {
             Player.runAcceleration *= runAccelerationMult;
@@ -2805,7 +2678,7 @@ namespace JoostMod
         }
         public override void PreUpdateMovement()
         {
-            if (waterBubble)
+            if (waterBubbleItem != null)
             {
                 Player.wet = true;
                 Player.wetCount = 10;
@@ -2942,6 +2815,7 @@ namespace JoostMod
         }
         public override void UpdateDead()
         {
+            var source = Player.GetSource_Death();
             if (corruptSoul)
             {
                 float damag = Player.statLifeMax2 * 0.25f;
@@ -2957,7 +2831,7 @@ namespace JoostMod
                 }
                 if ((int)damag > 0)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, ploya);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, ploya);
                 }
                 corruptSoul = false;
             }
@@ -2976,32 +2850,32 @@ namespace JoostMod
                 }
                 if ((int)lifeStoled > 0 && !Player.moonLeech)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 0f, 0f, 305, 0, 0f, Player.whoAmI, (float)ploya, lifeStoled);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, 305, 0, 0f, Player.whoAmI, (float)ploya, lifeStoled);
                 }
                 lifeRend = false;
             }
             if (infectedBlue)
             {
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
                 infectedBlue = false;
             }
             if (infectedGreen)
             {
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
                 infectedGreen = false;
             }
             if (infectedRed)
             {
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
                 infectedRed = false;
             }
             if (infectedYellow)
             {
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
-                NPC.NewNPC((int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
                 infectedYellow = false;
             }
         }
@@ -3015,7 +2889,7 @@ namespace JoostMod
         }
         public override bool CanBeHitByProjectile(Projectile proj)
         {
-            if (shieldSapling)
+            if (shieldSaplingItem != null)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
@@ -3039,16 +2913,17 @@ namespace JoostMod
                 customDamage = true;
             }
             enemyIgnoreDefenseDamage = 0;
-            if (sporgan)
+            if (sporganItem != null)
             {
-                int sdamage = (int)(12 * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Summon) - 1) * Player.GetDamage(DamageClass.Summon) * Player.GetDamage(DamageClass.Generic));
-                float knockback = 0.1f + Player.Getknockback(DamageClass.Summon).Base;
+                var source = Player.GetSource_Accessory(sporganItem);
+                int sdamage = Player.GetWeaponDamage(sporganItem);
+                float knockback = Player.GetWeaponKnockback(sporganItem);
                 int num = 10;
                 double deltaAngle = (float)(Math.PI * 2) / num;
                 for (int i = 0; i < num; i++)
                 {
                     double offsetAngle = (float)(Math.PI / 2) + deltaAngle * i;
-                    Projectile.NewProjectile(source, player.Center.X, Player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), 228, sdamage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), ProjectileID.SporeCloud, sdamage, knockback, Player.whoAmI);
                 }
             }
             if (Player.HasBuff(Mod.Find<ModBuff>("gThrownDodge").Type))
@@ -3064,7 +2939,7 @@ namespace JoostMod
                     dust.position.Y = dust.position.Y + (float)Main.rand.Next(-20, 21);
                     dust.velocity *= 0.4f;
                     dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.NextBool(2))
                     {
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                         dust.noGravity = true;
@@ -3082,7 +2957,7 @@ namespace JoostMod
                 }
                 return false;
             }
-            if (XShield && XShieldTimer > 0)
+            if (XShieldItem != null && XShieldTimer > 0)
             {
                 XShieldTimer -= damage;
             }
@@ -3163,7 +3038,7 @@ namespace JoostMod
                     Dust.NewDust(Player.position, Player.width, Player.height, 4, 0, 0, 100, Color.Blue);
                 }
             }
-            return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+            return true;
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -3227,28 +3102,28 @@ namespace JoostMod
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0)
+            if (havelShieldItem != null && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0)
             {
                 float x = Player.MountedCenter.X - 9 + (Player.direction * 11);
                 float y = Player.position.Y + (Player.height / 2) - 23;
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (rect.Intersects(npc.getRect()))
                 {
-                    damage -= (int)(50 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee));
+                    damage -= (int)Player.GetWeaponDamage(havelShieldItem);
                     SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.4f), npc.Center);
                 }
             }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            if (Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0)
+            if (havelShieldItem != null && Player.ownedProjectileCounts[Mod.Find<ModProjectile>("HavelShield").Type] > 0)
             {
                 float x = Player.MountedCenter.X - 9 + (Player.direction * 11);
                 float y = Player.position.Y + (Player.height / 2) - 23;
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (proj.Colliding(proj.getRect(), rect))
                 {
-                    damage -= (int)(50 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Melee) - 1f) * Player.GetDamage(DamageClass.Melee));
+                    damage -= (int)Player.GetWeaponDamage(havelShieldItem);
                     proj.penetrate--;
                     SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.4f), proj.Center);
                 }
@@ -3308,7 +3183,7 @@ namespace JoostMod
                                     {
                                         npc.position.X = push;
                                         npc.velocity.X = Player.velocity.X;
-                                        if (Main.netMode != 0)
+                                        if (Main.netMode != NetmodeID.SinglePlayer)
                                         {
                                             ModPacket packet = Mod.GetPacket();
                                             packet.Write((byte)JoostModMessageType.NPCpos);

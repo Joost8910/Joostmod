@@ -42,7 +42,7 @@ namespace JoostMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>().bubbleShield = true;
+            player.GetModPlayer<JoostPlayer>().bubbleShieldItem = Item;
         }
 	}
 }

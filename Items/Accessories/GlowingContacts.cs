@@ -16,6 +16,7 @@ namespace JoostMod.Items.Accessories
                 "Place in slot 4 for a closed-helm texture\n" +
                 "Place in slot 5 for a raised closed-helm texture\n" +
                 "Place in slot 6 for genji helm texture");
+            ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[Item.type] = true;
 		}
 		public override void SetDefaults()
 		{
@@ -26,12 +27,19 @@ namespace JoostMod.Items.Accessories
 			Item.accessory = true;
             Item.vanity = true;
 		}
+        /*
         public override void EquipFrameEffects(Player player, EquipType type)
+        {
+            player.GetModPlayer<JoostPlayer>().glowContacts = true;
+        }
+        */
+        public override void UpdateVanity(Player player)
         {
             player.GetModPlayer<JoostPlayer>().glowContacts = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetModPlayer<JoostPlayer>().glowContacts = true;
             /*
             Vector2 pos = new Vector2(player.Center.X + player.direction * 3, player.position.Y + 8);
             if (player.gravDir < 0)

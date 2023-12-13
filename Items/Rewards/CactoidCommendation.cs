@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Rewards
@@ -24,7 +25,7 @@ namespace JoostMod.Items.Rewards
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>().cactoidCommendation = true;
+            player.GetModPlayer<JoostPlayer>().cactoidCommendationItem = Item;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

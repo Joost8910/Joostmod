@@ -22,14 +22,18 @@ namespace JoostMod.Items.Rewards
 			Item.value = 20000;
 			Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
-            Item.damage = 12;
+            Item.damage = 7;
             Item.DamageType = DamageClass.Ranged;
             Item.knockBack = 2;
+        }
+        public override bool? CanChooseAmmo(Item ammo, Player player)
+        {
+            return ammo.type == AmmoID.Arrow;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetCritChance(DamageClass.Ranged) += 5;
-            player.GetModPlayer<JoostPlayer>().bowSapling = true;
+            player.GetModPlayer<JoostPlayer>().bowSaplingItem = Item;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
@@ -51,13 +55,13 @@ namespace JoostMod.Items.Rewards
         public override void AddRecipes()
         {
             CreateRecipe()
-.AddRecipeGroup("JoostMod:Saplings")
-.AddIngredient(ItemID.CopperBow)
-.Register();
-CreateRecipe()
-.AddRecipeGroup("JoostMod:Saplings")
-.AddIngredient(ItemID.TinBow)
-.Register();
+            .AddRecipeGroup("JoostMod:Saplings")
+            .AddIngredient(ItemID.CopperBow)
+            .Register();
+            CreateRecipe()
+            .AddRecipeGroup("JoostMod:Saplings")
+            .AddIngredient(ItemID.TinBow)
+            .Register();
         }
     }
 }

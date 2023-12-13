@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -13,7 +12,8 @@ namespace JoostMod.Items.Rewards
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sapling - Shield");
-            Tooltip.SetDefault("Tries to block attackers behind you\n" + "Cannot block projectiles that deal more than 30 damage (60 in Expert Mode)");
+            Tooltip.SetDefault("Tries to block attackers behind you\n" + 
+                "Cannot block projectiles that have a base damage greater than 30");
         }
         public override void SetDefaults()
         {
@@ -26,7 +26,7 @@ namespace JoostMod.Items.Rewards
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>().shieldSapling = true;
+            player.GetModPlayer<JoostPlayer>().shieldSaplingItem = Item;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

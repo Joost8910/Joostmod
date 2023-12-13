@@ -24,31 +24,37 @@ namespace JoostMod.Projectiles.Accessory
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 9;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
             Player P = Main.player[Projectile.owner];
-            Projectile.position = P.Center - new Vector2(Projectile.width / 2, Projectile.height / 2);
-            Projectile.position += Projectile.velocity * Projectile.ai[0];
-            if (Projectile.ai[0] == 0f)
+
+            Projectile.position = P.MountedCenter - Projectile.Center;
+            Projectile.position += Projectile.velocity * Projectile.ai[1];
+            if (Projectile.ai[1] == 0f)
             {
-                Projectile.ai[0] = 3f;
+                Projectile.ai[1] = 3f;
                 Projectile.netUpdate = true;
             }
-            if (Projectile.timeLeft < 4)
+            if (Projectile.ai[0] < 4f)
             {
-                Projectile.ai[0] -= 2f;
+                Projectile.ai[1] -= 2f;
             }
             else
             {
-                Projectile.ai[0] += 1.5f;
+                Projectile.ai[1] += 1.5f;
             }
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 2.355f;
             if (Projectile.spriteDirection == -1)
             {
                 Projectile.rotation -= 1.57f;
+            }
+            Projectile.ai[0] -= P.GetAttackSpeed(DamageClass.Melee);
+            if (Projectile.ai[0] > 0)
+            {
+                Projectile.timeLeft = 2;
             }
         }
 

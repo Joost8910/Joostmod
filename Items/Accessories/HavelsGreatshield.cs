@@ -35,7 +35,7 @@ namespace JoostMod.Items.Accessories
             player.moveSpeed *= 0.95f;
             player.maxRunSpeed *= 0.95f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.95f;
-            player.GetModPlayer<JoostPlayer>().havelShield = true;
+            player.GetModPlayer<JoostPlayer>().havelShieldItem = Item;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

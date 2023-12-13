@@ -31,7 +31,7 @@ namespace JoostMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-		    player.GetModPlayer<JoostPlayer>().XShield = true;
+		    player.GetModPlayer<JoostPlayer>().XShieldItem = true;
             player.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
             player.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
             player.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;

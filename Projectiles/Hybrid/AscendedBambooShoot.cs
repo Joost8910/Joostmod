@@ -269,7 +269,7 @@ namespace JoostMod.Projectiles.Hybrid
                     else
                     {
                         Vector2 vel = Projectile.velocity * (shootSpeed + i * shootSpeed / 11);
-                        Projectile.NewProjectile(Projectile.GetSource_Death(), vector, vel, (int)Projectile.ai[1], Projectile.damage, Projectile.knockBack / 2f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Dart), vector, vel, (int)Projectile.ai[1], Projectile.damage, Projectile.knockBack / 2f, Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item63, Projectile.Center);
                     }
                 }

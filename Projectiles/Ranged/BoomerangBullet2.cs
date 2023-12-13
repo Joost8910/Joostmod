@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,8 +30,8 @@ namespace JoostMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            int item = Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<Items.Weapons.BoomerangBullet>(), 1, false, 0, false, false);
-            if (Main.netMode == 1 && item >= 0)
+            int item = Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<Items.Ammo.BoomerangBullet>(), 1, false, 0, false, false);
+            if (Main.netMode == NetmodeID.MultiplayerClient && item >= 0)
             {
                 NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
             }

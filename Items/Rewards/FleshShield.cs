@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Rewards
@@ -30,9 +31,9 @@ namespace JoostMod.Items.Rewards
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>().fleshShield = true;
+            player.GetModPlayer<JoostPlayer>().fleshShieldItem = Item;
             player.GetModPlayer<JoostPlayer>().dashType = 1;
-            player.GetModPlayer<JoostPlayer>().dashDamage = (int)(40 * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Melee) - 1) * player.GetDamage(DamageClass.Melee) * player.GetDamage(DamageClass.Generic));
+            player.GetModPlayer<JoostPlayer>().dashDamage = player.GetWeaponDamage(Item);
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

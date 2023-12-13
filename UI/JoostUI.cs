@@ -10,6 +10,7 @@ using Terraria.UI;
 using JoostMod.Items;
 using ReLogic.Content;
 using Terraria.GameContent;
+using JoostMod.NPCs.Town;
 
 namespace JoostMod.UI
 {
@@ -43,6 +44,10 @@ namespace JoostMod.UI
             if (huntUserInterface?.CurrentState != null)
             {
                 huntUserInterface.Update(gameTime);
+            }
+            if (Main.LocalPlayer.talkNPC == -1 || Main.npc[Main.LocalPlayer.talkNPC].type != ModContent.NPCType<HuntMaster>())
+            {
+                HideHuntUI();
             }
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)

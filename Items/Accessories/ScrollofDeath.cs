@@ -46,7 +46,7 @@ namespace JoostMod.Items.Accessories
 			player.maxMinions += 2;
 			player.GetKnockback(DamageClass.Summon).Base += 3f;
 			player.GetDamage(DamageClass.Summon) += 0.15f;
-			player.GetModPlayer<JoostPlayer>().SkullSigil = true;
+			player.GetModPlayer<JoostPlayer>().SkullSigilItem = Item;
 		}
 		public override void AddRecipes()
 		{

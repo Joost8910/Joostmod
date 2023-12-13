@@ -7,6 +7,7 @@ using Terraria.UI;
 using System;
 using Terraria.ID;
 using System.Linq;
+using JoostMod.UI;
 using JoostMod.NPCs.Town;
 using Terraria.ModLoader.UI.Elements;
 using FixedUIScrollbar = Terraria.ModLoader.UI.Elements.FixedUIScrollbar;
@@ -95,12 +96,13 @@ namespace JoostMod.UI
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
+            /*
             if (Main.LocalPlayer.talkNPC == -1 || Main.npc[Main.LocalPlayer.talkNPC].type != ModContent.NPCType<HuntMaster>())
             {
-                JoostMod.instance.HideHuntUI();
+                JoostUI.HideHuntUI();
                 NeedUpdate();
             }
+            */
         }
     }
 }

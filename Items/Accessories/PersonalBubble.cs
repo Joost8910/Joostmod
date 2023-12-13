@@ -23,7 +23,7 @@ namespace JoostMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>().waterBubble = true;
+            player.GetModPlayer<JoostPlayer>().waterBubbleItem = Item;
             player.GetModPlayer<JoostPlayer>().hideBubble = hideVisual;
         }
         public override void AddRecipes()

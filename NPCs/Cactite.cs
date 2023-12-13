@@ -142,7 +142,7 @@ namespace JoostMod.NPCs
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (target.GetModPlayer<JoostPlayer>().cactoidCommendation)
+            if (target.GetModPlayer<JoostPlayer>().cactoidCommendationItem)
             {
                 return false;
             }
@@ -150,7 +150,7 @@ namespace JoostMod.NPCs
         }
         public override bool? CanBeHitByItem(Player player, Item item)
         {
-            if (player.GetModPlayer<JoostPlayer>().cactoidCommendation)
+            if (player.GetModPlayer<JoostPlayer>().cactoidCommendationItem)
             {
                 return false;
             }
@@ -158,7 +158,7 @@ namespace JoostMod.NPCs
         }
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (Main.player[projectile.owner].GetModPlayer<JoostPlayer>().cactoidCommendation && projectile.type != Mod.Find<ModProjectile>("Manipulation").Type && projectile.friendly)
+            if (Main.player[projectile.owner].GetModPlayer<JoostPlayer>().cactoidCommendationItem && projectile.type != Mod.Find<ModProjectile>("Manipulation").Type && projectile.friendly)
             {
                 return false;
             }
@@ -171,7 +171,7 @@ namespace JoostMod.NPCs
                 NPC.TargetClosest(false);
             }
             Player player = Main.player[NPC.target];
-            bool playerCactoid = (player.GetModPlayer<JoostPlayer>().cactoidCommendation || player.HasBuff(Mod.Find<ModBuff>("CactoidFriend").Type));
+            bool playerCactoid = (player.GetModPlayer<JoostPlayer>().cactoidCommendationItem || player.HasBuff(Mod.Find<ModBuff>("CactoidFriend").Type));
             bool cactusPersonNear = false;
             int cactusPerson = -1;
             if (!playerCactoid)
@@ -179,7 +179,7 @@ namespace JoostMod.NPCs
                 float num = 600f;
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>().cactoidCommendation || Main.player[i].HasBuff(Mod.Find<ModBuff>("CactoidFriend").Type)))
+                    if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>().cactoidCommendationItem || Main.player[i].HasBuff(Mod.Find<ModBuff>("CactoidFriend").Type)))
                     {
                         float num4 = Math.Abs(Main.player[i].Center.X - NPC.Center.X + Math.Abs(Main.player[i].Center.Y - NPC.Center.Y));
                         if (num4 < num)

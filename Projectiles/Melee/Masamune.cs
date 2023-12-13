@@ -19,11 +19,25 @@ namespace JoostMod.Projectiles.Melee
             Projectile.width = 84;
             Projectile.height = 66;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 4;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
+        }
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (Projectile.penetrate <= 1)
+                return false;
+            return base.CanHitNPC(target);
+        }
+        public override bool CanHitPvp(Player target)
+        {
+            if (Projectile.penetrate <= 1)
+                return false;
+            return base.CanHitPvp(target);
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {

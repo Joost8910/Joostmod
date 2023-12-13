@@ -166,7 +166,7 @@ namespace JoostMod.Projectiles.Ranged
                                 player.ConsumeItem(item.type);
                             }
                             Vector2 perturbedSpeed = Projectile.ai[1] <= 1 ? vel : vel.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (Projectile.ai[1] - 1)));
-                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, perturbedSpeed, (int)Projectile.ai[0], damage, knockback, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Arrow), Projectile.Center, perturbedSpeed, (int)Projectile.ai[0], damage, knockback, Projectile.owner);
                         }
                         //Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, (int)projectile.ai[0], (projectile.damage + item.damage), projectile.knockback + item.knockback, projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);

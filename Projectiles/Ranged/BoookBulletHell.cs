@@ -121,16 +121,15 @@ namespace JoostMod.Projectiles.Ranged
                 if (Projectile.ai[0] <= 0)
                 {
                     Projectile.ai[0] = rate;
-                    float shootSpeed = player.inventory[player.selectedItem].shootSpeed;
-                    int type = 0;
-                    Item item = new Item();
+                    /*
+                    Item bullet = new Item();
                     bool canShoot = false;
                     bool flag = false;
                     for (int i = 54; i < 58; i++)
                     {
                         if (player.inventory[i].ammo == AmmoID.Bullet && player.inventory[i].stack > 0)
                         {
-                            item = player.inventory[i];
+                            bullet = player.inventory[i];
                             canShoot = true;
                             flag = true;
                             break;
@@ -142,39 +141,44 @@ namespace JoostMod.Projectiles.Ranged
                         {
                             if (player.inventory[j].ammo == AmmoID.Bullet && player.inventory[j].stack > 0)
                             {
-                                item = player.inventory[j];
+                                bullet = player.inventory[j];
                                 canShoot = true;
                                 break;
                             }
                         }
                     }
+                    */
+                    bool canShoot = player.PickAmmo(player.HeldItem, out int type, out float shootSpeed, out int damage, out float knockback, out int bulletID);
+
                     if (canShoot)
                     {
                         Vector2 offSet = new Vector2(46, -6 * Projectile.direction);
                         offSet = offSet.RotatedBy(Projectile.rotation + (Projectile.direction == -1 ? 3.14f : 0));
+                        /*
+                        shootSpeed += bullet.shootSpeed;
+                        type = bullet.shoot;
+                        if (Projectile.localAI[0] > 1 && bullet.consumable && ItemLoader.CanConsumeAmmo(player.HeldItem, bullet, player))
+                        {
+                            player.ConsumeItem(bullet.type);
+                        }
 
-                        shootSpeed += item.shootSpeed;
+                        //int damage = (int)((Projectile.damage + item.damage) * player.bulletDamage);
+                        int damage = (int)(player.GetDamage(DamageClass.Ranged).ApplyTo(Projectile.damage + bullet.damage));
+                        float knockback = Projectile.knockBack + bullet.knockBack;*/
                         Vector2 shootDir = Projectile.velocity * shootSpeed;
                         float spread = Math.Max(1, Projectile.localAI[0] - 40) * 0.4f + Math.Max(1, Projectile.localAI[0] - 80) * 1.2f;
                         shootDir = shootDir.RotatedByRandom(MathHelper.ToRadians(spread));
-                        type = item.shoot;
-                        if (Projectile.localAI[0] > 1 && item.consumable && ItemLoader.ConsumeAmmo(player.HeldItem, item, player))
-                        {
-                            player.ConsumeItem(item.type);
-                        }
 
-                        int damage = (int)((Projectile.damage + item.damage) * player.bulletDamage);
                         if (ProjectileID.Sets.CultistIsResistantTo[type])
                         {
                             damage = (int)(damage * 0.6f);
                         }
-                        float knockback = Projectile.knockBack + item.knockback;
-                        Projectile.NewProjectile(Projectile.Center + offSet, shootDir, type, damage, knockback, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), Projectile.Center + offSet, shootDir, type, damage, knockback, Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else
                     {
-                        SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), Projectile.Center);
                     }
                 }
             }

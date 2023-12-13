@@ -44,7 +44,7 @@ namespace JoostMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<JoostPlayer>().SpectreOrbs = true;
+            player.GetModPlayer<JoostPlayer>().SpectreOrbsItem = Item;
         }
         public override void AddRecipes()
         {
