@@ -31,7 +31,7 @@ namespace JoostMod.NPCs
             NPC.knockBackResist = 0.05f;
             NPC.aiStyle = -1;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("DesertGolemBanner").Type;
+            BannerItem = ModContent.ItemType<DesertGolemBanner>();
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

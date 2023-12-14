@@ -32,7 +32,7 @@ namespace JoostMod.NPCs
             AIType = NPCID.SnowFlinx;
             AnimationType = NPCID.Zombie;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("DerangedMutantKillerMonsterSnowGoonBanner").Type;
+            BannerItem = ModContent.ItemType<DerangedMutantKillerMonsterSnowGoonBanner>();
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

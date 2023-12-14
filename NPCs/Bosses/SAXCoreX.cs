@@ -56,7 +56,7 @@ namespace JoostMod.NPCs.Bosses
             NPC.coldDamage = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("XBag").Type;
+            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = ModContent.ItemType<XBag>();
             if (!Main.dedServ)
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSax");
         }
@@ -90,23 +90,23 @@ namespace JoostMod.NPCs.Bosses
                 }
                 else
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("IceCoreX").Type, 1 + Main.rand.Next(2));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<IceCoreX>(), 1 + Main.rand.Next(2));
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMusicBox").Type);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SAXMusicBox>());
                     }
                     if (Main.rand.Next(7) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXMask").Type);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SAXMask>());
                     }
                 }
                 if (Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SAXTrophy").Type);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SAXTrophy>());
                 }
                 if (Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FifthAnniversary>(), 1);
                 }
             */
         }
@@ -429,16 +429,16 @@ namespace JoostMod.NPCs.Bosses
                     switch (Main.rand.Next(4))
                     {
                         case 1:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<GreenXParasite>());
                             break;
                         case 2:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("RedXParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<RedXParasite>());
                             break;
                         case 3:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("IceXParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<IceXParasite>());
                             break;
                         default:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("XParasite").Type);
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<XParasite>());
                             break;
                     }
                         

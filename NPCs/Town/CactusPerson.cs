@@ -1,3 +1,9 @@
+using JoostMod.Items.Armor;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.Materials;
+using JoostMod.Items.Weapons.Melee;
+using JoostMod.Projectiles.Accessory;
+using JoostMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,6 +25,7 @@ namespace JoostMod.NPCs.Town
 			}
 		}
 
+        /*
 		public override string[] AltTextures
 		{
 			get
@@ -26,12 +33,12 @@ namespace JoostMod.NPCs.Town
 				return new string[] { "JoostMod/NPCs/Town/CactusPerson_Alt" };
 			}
 		}
-
 		public override bool IsLoadingEnabled(Mod mod)
 		{
 			name = "Cactus Person";
-			return Mod.Properties/* tModPorter Note: Removed. Instead, assign the properties directly (ContentAutoloadingEnabled, GoreAutoloadingEnabled, MusicAutoloadingEnabled, and BackgroundAutoloadingEnabled) */.Autoload;
+			return Mod.Properties.Autoload;
 		}
+        */
 
 		public override void SetStaticDefaults()
         {
@@ -76,7 +83,7 @@ namespace JoostMod.NPCs.Town
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type == Mod.Find<ModNPC>("Cactite").Type || target.type == Mod.Find<ModNPC>("Cactoid").Type || target.type == Mod.Find<ModNPC>("Cactuar").Type || target.type == Mod.Find<ModNPC>("HallowedCactuar").Type)
+            if (target.type == ModContent.NPCType<Cactite>() || target.type == ModContent.NPCType<Cactoid>() || target.type == ModContent.NPCType<Cactuar>() || target.type == ModContent.NPCType<HallowedCactuar>())
             {
                 return false;
             }
@@ -111,7 +118,7 @@ namespace JoostMod.NPCs.Town
                 {
                     if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.HallowSandstone || type == TileID.SandstoneBrick || type == TileID.SandStoneSlab || type == TileID.CactusBlock)
                     {
-                        Projectile.NewProjectile(NPC.direction * 8 + xc * 16, NPC.position.Y, 0, 7, ModContent.ProjectileType<BootCactus>(), NPC.damage, 1, Main.myPlayer, 0, 1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.direction * 8 + xc * 16, NPC.position.Y, 0, 7, ModContent.ProjectileType<BootCactus>(), NPC.damage, 1, Main.myPlayer, 0, 1);
                     }
                 }
                 if (NPC.oldVelocity.X < 0 && NPC.velocity.X > 0)
@@ -140,9 +147,10 @@ namespace JoostMod.NPCs.Town
         public override bool CheckConditions(int left, int right, int top, int bottom)
 		{
 			int score = 0;
-			for (int x = left - Main.zoneX / 2 / 16 - 1 - Lighting.offScreenTiles; x <= right + Main.zoneX / 2 / 16 + 1 + Lighting.offScreenTiles; x++)
+            WorldGen.Housing_GetTestedRoomBounds(out int startX, out int startY, out int endX, out int endY);
+			for (int x = startX; x <= endX; x++)
 			{
-				for (int y = top - Main.zoneY / 2 / 16 - 1 - Lighting.offScreenTiles; y <= bottom + Main.zoneY / 2 / 16 + 1 + Lighting.offScreenTiles; y++)
+				for (int y = startY; y <= endY; y++)
 				{
 					int type = Main.tile[x, y].TileType;
 					if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.HallowSandstone || type == TileID.SandstoneBrick || type == TileID.SandStoneSlab)
@@ -160,35 +168,22 @@ namespace JoostMod.NPCs.Town
 
 		public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
         {
-            switch (WorldGen.genRand.Next(14))
-			{
-				case 1:
-					return "Areq";
-				case 2:
-					return "Arroja";
-				case 3:
-					return "Bartschalla";
-                case 4:
-                    return "Chiapa";
-                case 5:
-                    return "Erio";
-                case 6:
-                    return "Frailea";
-                case 7:
-                    return "Islaya";
-                case 8:
-                    return "Lobeira";
-                case 9:
-                    return "Lobivia";
-                case 10:
-                    return "Toumeya";
-                case 11:
-                    return "Kakitar";
-                case 12:
-                    return "Jamayo";
-                default:
-					return "Joost";
-			}
+            return new List<string>()
+            {
+                "Areq",
+                "Arroja",
+                "Bartschalla",
+                "Chiapa",
+                "Erio",
+                "Frailea",
+                "Islaya",
+                "Lobeira",
+                "Lobivia",
+                "Toumeya",
+                "Kakitar",
+                "Jamayo",
+                "Joost"
+            };
 		}
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
@@ -311,38 +306,38 @@ namespace JoostMod.NPCs.Town
 			nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.PinkPricklyPear);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("CactusJuice").Type);
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CactusJuice>());
 			nextSlot++;
-			shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("SucculentCactus").Type);
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<SucculentCactus>());
 			nextSlot++;
-			shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("CactusBait").Type);
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<CactusBait>());
 			nextSlot++;
-			shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("ClearStar").Type);
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<ClearStar>());
 			nextSlot++;
-			shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("RainStar").Type);
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<RainStar>());
 			nextSlot++;
-			shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("SandstormStar").Type);
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<SandstormStar>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("SlimeStar").Type);
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlimeStar>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("SucculentThrow").Type); 
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SucculentThrow>()); 
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("EnhancedCactusHelmet").Type);
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnhancedCactusHelmet>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("EnhancedCactusBreastplate").Type);
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnhancedCactusBreastplate>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("EnhancedCactusLeggings").Type);
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnhancedCactusLeggings>());
             nextSlot++;
             if (JoostWorld.downedJumboCactuar)
             {
-                shop.item[nextSlot].SetDefaults(Mod.Find<ModItem>("JoostJuice").Type);
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<JoostJuice>());
                 nextSlot++;
             }
         }
 
 		public override void OnKill()
 		{
-			Item.NewItem(NPC.getRect(), ItemID.Cactus, 15 + Main.rand.Next(21));
+			Item.NewItem(NPC.GetSource_Death(), NPC.getRect(), ItemID.Cactus, 15 + Main.rand.Next(21));
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

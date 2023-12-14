@@ -48,7 +48,7 @@ namespace JoostMod.NPCs
             NPC.frameCounter = 0;
             AIType = NPCID.Wraith;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("FireElementalBanner").Type;
+            BannerItem = ModContent.ItemType<FireElementalBanner>();
             NPC.lavaImmune = true;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -75,10 +75,10 @@ namespace JoostMod.NPCs
         public override void OnKill()
         {
             Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 2701, Main.rand.Next(10, 20));
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FireEssence").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FireEssence>(), (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
             if (Main.rand.Next(50) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SecondAnniversary>(), 1);
             }
         }
         */
@@ -148,7 +148,7 @@ namespace JoostMod.NPCs
                 {
                     if (NPC.localAI[1] == 1)
                     {
-                        SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.4f), NPC.Center);
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.4f), NPC.Center); //230
                     }
                     NPC.velocity = Vector2.Zero;
                     NPC.localAI[1]++;
@@ -157,7 +157,8 @@ namespace JoostMod.NPCs
                         NPC.width = 56;
                         if (NPC.localAI[1] == 40)
                         {
-                            SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.1f), NPC.Center);
+                            SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_phantom_phoenix_shot_0").WithPitchOffset(0.1f), NPC.Center); //217
+
                         }
                         NPC.velocity.X = 15 * NPC.direction;
                         Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Torch, -NPC.velocity.X, -NPC.velocity.Y, 0, default(Color), 4f).noGravity = true;
@@ -200,7 +201,7 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC((int)spherePos.X, (int)spherePos.Y, NPCID.BurningSphere);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)spherePos.X, (int)spherePos.Y, NPCID.BurningSphere);
                     }
                     SoundEngine.PlaySound(SoundID.Item45, NPC.Center);
                     NPC.ai[3] = 0;

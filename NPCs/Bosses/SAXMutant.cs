@@ -784,7 +784,7 @@ namespace JoostMod.NPCs.Bosses
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y + 40, Mod.Find<ModNPC>("SAXCoreX").Type);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y + 40, ModContent.NPCType<SAXCoreX>());
             }
             //Main.NewText("The SA-X shimmers and reverts to its true form!", 175, 75, 225);
 

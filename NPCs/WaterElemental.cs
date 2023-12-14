@@ -36,7 +36,7 @@ namespace JoostMod.NPCs
             NPC.noGravity = true;
             NPC.frameCounter = 0;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("WaterElementalBanner").Type;
+            BannerItem = ModContent.ItemType<WaterElementalBanner>();
             NPC.buffImmune[BuffID.OnFire] = true;
             NPC.alpha = 50;
         }

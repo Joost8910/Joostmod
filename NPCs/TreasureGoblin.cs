@@ -51,7 +51,7 @@ namespace JoostMod.NPCs
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("TreasureGoblinBanner").Type;
+            BannerItem = ModContent.ItemType<TreasureGoblinBanner>();
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
@@ -82,7 +82,7 @@ namespace JoostMod.NPCs
             Player player = Main.player[NPC.target];
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FourthAnniversary").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FourthAnniversary>(), 1);
             }
             bool drop = false;
             while (!drop)
@@ -116,35 +116,35 @@ namespace JoostMod.NPCs
                 {
                     if (Main.rand.NextBool(100))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EvilStone>(), 1);
                     }
                     else if (Main.rand.NextBool(99))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SkullStone").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SkullStone>(), 1);
                     }
                     else if (Main.rand.NextBool(98))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("JungleStone").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<JungleStone>(), 1);
                     }
                     else if (Main.rand.NextBool(97))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("InfernoStone").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<InfernoStone>(), 1);
                     }
                     else if (Main.rand.NextBool(96))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneDeep").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SeaStoneDeep>(), 1);
                     }
                     else if (Main.rand.NextBool(95))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneEast").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SeaStoneEast>(), 1);
                     }
                     else if (Main.rand.NextBool(94))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneHigh").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SeaStoneHigh>(), 1);
                     }
                     else if (Main.rand.NextBool(93))
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SeaStoneWest").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SeaStoneWest>(), 1);
                     }
                     if (Main.rand.Next(5) < 2)
                     {
@@ -153,32 +153,32 @@ namespace JoostMod.NPCs
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("StoneofJordan").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StoneofJordan>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FrozenOrb").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FrozenOrb>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("HungeringArrow").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HungeringArrow>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TwinChakrams").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TwinChakrams>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Whirlwind").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Whirlwind>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(5) < 2)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("PlagueOfToads").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PlagueOfToads>(), 1);
                         drop = true;
                     }
 
@@ -192,32 +192,32 @@ namespace JoostMod.NPCs
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("StoneofJordan").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StoneofJordan>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FrozenOrb").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FrozenOrb>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("HungeringArrow").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HungeringArrow>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TwinChakrams").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TwinChakrams>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Whirlwind").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Whirlwind>(), 1);
                         drop = true;
                     }
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("PlagueOfToads").Type, 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PlagueOfToads>(), 1);
                         drop = true;
                     }
                 }

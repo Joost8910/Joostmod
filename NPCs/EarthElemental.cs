@@ -46,7 +46,7 @@ namespace JoostMod.NPCs
             NPC.aiStyle = 26;
             AIType = NPCID.Unicorn;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("EarthElementalBanner").Type;
+            BannerItem = ModContent.ItemType<EarthElementalBanner>();
 
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -71,10 +71,10 @@ namespace JoostMod.NPCs
         /*
         public override void OnKill()
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EarthEssence").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EarthEssence>(), (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
             if (Main.rand.Next(50) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SecondAnniversary>(), 1);
             }
         }
         */

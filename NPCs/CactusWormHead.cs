@@ -31,7 +31,7 @@ namespace JoostMod.NPCs
             NPC.npcSlots = 1f;
             NPC.netAlways = true;
             Banner = NPC.type;
-			BannerItem = Mod.Find<ModItem>("CactusWormBanner").Type;
+			BannerItem = ModContent.ItemType<CactusWormBanner>();
         }
         public override void Init()
         {

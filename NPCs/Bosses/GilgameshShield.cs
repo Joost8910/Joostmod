@@ -58,7 +58,7 @@ namespace JoostMod.NPCs.Bosses
         public override void AI()
         {
             NPC host = Main.npc[(int)NPC.ai[0]];
-            if (host.type != Mod.Find<ModNPC>("Gilgamesh2").Type || !host.active)
+            if (host.type != ModContent.NPCType<Gilgamesh2>() || !host.active)
             {
                 NPC.active = false;
             }
@@ -71,7 +71,7 @@ namespace JoostMod.NPCs.Bosses
         public override bool CheckDead()
         {
             NPC host = Main.npc[(int)NPC.ai[0]];
-            if (host.type != Mod.Find<ModNPC>("Gilgamesh2").Type || !host.active)
+            if (host.type != ModContent.NPCType<Gilgamesh2>() || !host.active)
             {
                 NPC.active = false;
                 return true;

@@ -66,6 +66,7 @@ namespace JoostMod.NPCs.Hunts
         Vector2 posOff = new Vector2(0, -100);
         public override void AI()
 		{
+            var source = NPC.GetSource_FromAI();
             Player P = Main.player[NPC.target];
             NPC.netUpdate = true;
             NPC.rotation += 0.0174f * 7.2f * NPC.direction;
@@ -97,11 +98,11 @@ namespace JoostMod.NPCs.Hunts
                 {
                     if (NPC.ai[1] % 50 == 0)
                     {
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("Spore").Type, 0, NPC.whoAmI, 2f, 4);
+                        NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Spore>(), 0, NPC.whoAmI, 2f, 4);
                     }
                     if (NPC.ai[1] % 50 == 25)
                     {
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("Spore").Type, 0, NPC.whoAmI, -2f, 4);
+                        NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Spore>(), 0, NPC.whoAmI, -2f, 4);
                     }
                 }
                 NPC.defense = 10;

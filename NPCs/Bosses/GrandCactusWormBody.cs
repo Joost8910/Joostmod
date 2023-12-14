@@ -101,7 +101,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     if (Main.npc[(int)NPC.ai[3]].ai[1] % 45 == 0)
                     {
-                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("CactusThorn").Type);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CactusThorn>());
                     }
                 }
                 if (Main.npc[(int)NPC.ai[3]].ai[0] >= 2)

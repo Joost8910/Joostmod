@@ -194,7 +194,7 @@ namespace JoostMod.NPCs.Bosses
         {
             if (!JoostWorld.downedCactusWorm)
             {
-                NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("GrandCactusWorm").Type, 1, false);
+                NPC.DropItemInstanced(NPC.position, NPC.Size, ModContent.ItemType<GrandCactusWorm>(), 1, false);
             }
             /*
             if (Main.expertMode)
@@ -203,23 +203,23 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("LusciousCactus").Type, 8+Main.rand.Next(8));
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<LusciousCactus>(), 8+Main.rand.Next(8));
                 if (Main.rand.Next(4) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("DeoremMuaMusicBox").Type);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<DeoremMuaMusicBox>());
                 }
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GrandCactusWormMask").Type);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GrandCactusWormMask>());
                 }
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GrandCactusWormTrophy").Type);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GrandCactusWormTrophy>());
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FifthAnniversary>(), 1);
             }
             */
             JoostWorld.downedCactusWorm = true;
@@ -270,11 +270,11 @@ namespace JoostMod.NPCs.Bosses
                     int cactusWormLength = 18;
                     for (int i = 0; i < cactusWormLength; ++i)
                     {
-                        latestNPC = NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormBody").Type, NPC.whoAmI, 0, latestNPC);
+                        latestNPC = NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<GrandCactusWormBody>(), NPC.whoAmI, 0, latestNPC);
                         Main.npc[(int)latestNPC].realLife = NPC.whoAmI;
                         Main.npc[(int)latestNPC].ai[3] = NPC.whoAmI;
                     }
-                    latestNPC = NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("GrandCactusWormTail").Type, NPC.whoAmI, 0, latestNPC);
+                    latestNPC = NPC.NewNPC(sauce, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<GrandCactusWormTail>(), NPC.whoAmI, 0, latestNPC);
                     Main.npc[(int)latestNPC].realLife = NPC.whoAmI;
                     Main.npc[(int)latestNPC].ai[3] = NPC.whoAmI;
                     NPC.ai[0] = 1;

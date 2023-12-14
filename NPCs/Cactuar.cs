@@ -7,6 +7,8 @@ using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.NPCs.Town;
+using JoostMod.NPCs.Bosses;
 
 namespace JoostMod.NPCs
 {
@@ -36,8 +38,8 @@ namespace JoostMod.NPCs
             NPC.knockBackResist = 0.75f;
             NPC.aiStyle = -1;
             NPC.noGravity = false;
-            Banner = Mod.Find<ModNPC>("Cactuar").Type;
-            BannerItem = Mod.Find<ModItem>("CactuarBanner").Type;
+            Banner = ModContent.NPCType<Cactuar>();
+            BannerItem = ModContent.ItemType<CactuarBanner>();
         }
         public override void FindFrame(int frameHeight)
         {
@@ -80,7 +82,7 @@ namespace JoostMod.NPCs
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type == Mod.Find<ModNPC>("Cactus Person").Type && !NPC.AnyNPCs(Mod.Find<ModNPC>("JumboCactuar").Type))
+            if (target.type == ModContent.NPCType<CactusPerson>() && !NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))
             {
                 return false;
             }
@@ -126,12 +128,12 @@ namespace JoostMod.NPCs
             }
             bool cactusPersonNear = false;
             int cactusPerson = -1;
-            if (!NPC.AnyNPCs(Mod.Find<ModNPC>("JumboCactuar").Type))
+            if (!NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))
             {
                 for (int k = 0; k < 200; k++)
                 {
                     NPC cactu = Main.npc[k];
-                    if (cactu.active && cactu.type == Mod.Find<ModNPC>("Cactus Person").Type && NPC.Distance(cactu.Center) < 800)
+                    if (cactu.active && cactu.type == ModContent.NPCType<CactusPerson>() && NPC.Distance(cactu.Center) < 800)
                     {
                         cactusPersonNear = true;
                         cactusPerson = cactu.whoAmI;
@@ -222,7 +224,7 @@ namespace JoostMod.NPCs
                 {
                     NPC.damage *= 2;
                 }
-                if (NPC.life > NPC.lifeMax * 0.5f || NPC.AnyNPCs(Mod.Find<ModNPC>("JumboCactuar").Type))
+                if (NPC.life > NPC.lifeMax * 0.5f || NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))
                 {
                     NPC.direction = (P.Center.X < NPC.Center.X ? -1 : 1);
                     if (NPC.velocity.Y == 0 && NPC.velocity.X == 0)

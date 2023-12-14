@@ -52,7 +52,7 @@ namespace JoostMod.NPCs
             NPC.aiStyle = 0;
             NPC.frameCounter = 0;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("DeathKnightBanner").Type;
+            BannerItem = ModContent.ItemType<DeathKnightBanner>();
 
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)

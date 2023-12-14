@@ -46,7 +46,7 @@ namespace JoostMod.NPCs.Bosses
             NPC.aiStyle = 0;
             NPC.noTileCollide = true;
             NPC.boss = true;
-            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = Mod.Find<ModItem>("GilgBag").Type;
+            //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = ModContent.ItemType<GilgBag>();
             if (!Main.dedServ)
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ClashOnTheBigBridge");
             NPC.noGravity = true;
@@ -69,7 +69,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 Item.NewItem(NPC.GetSource_FromAI(), NPC.getRect(), ItemID.Heart);
             }*/
-            return !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type);
+            return !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) && !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>());
         }
         public override void OnKill()
         {
@@ -83,23 +83,23 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GenjiToken").Type, 1 + Main.rand.Next(2));
+                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GenjiToken>(), 1 + Main.rand.Next(2));
                 if (Main.rand.Next(4) == 0)
                 {
-                    Item.NewItem(NPC.GetSource_FromAI(),(int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("COTBBMusicBox").Type);
+                    Item.NewItem(NPC.GetSource_FromAI(),(int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<COTBBMusicBox>());
                 }
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshMask").Type);
+                    Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GilgameshMask>());
                 }
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshTrophy").Type);
+                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GilgameshTrophy>());
             }
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FifthAnniversary>(), 1);
             }
             */
         }
@@ -143,7 +143,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 NPC.ai[2]++;
             }
-            if (NPC.ai[1] < 1200 || (!NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type)))
+            if (NPC.ai[1] < 1200 || (!NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) && !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>())))
             {
                 if ((NPC.ai[2] % 4) == 0)
                 {
@@ -157,11 +157,11 @@ namespace JoostMod.NPCs.Bosses
                     NPC.velocity = NPC.DirectionTo(P.Center) * (NPC.Distance(P.Center) / 30);
                 }
             }
-            if (((!NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type)) || NPC.ai[1] >= 900)) // Massive Wind Attack
+            if (((!NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) && !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>())) || NPC.ai[1] >= 900)) // Massive Wind Attack
             {
                 //TODO reverse projectile direction for future rework
                 float Speed = NPC.Center.X > P.Center.X ? -10 : 10;
-                if (NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) || NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type))
+                if (NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) || NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>()))
                 {
                     NPC.velocity = NPC.DirectionTo(P.Center + new Vector2(0, -300)) * (NPC.Distance(P.Center + new Vector2(0, -300)) / 50);
                     NPC.ai[2] = 0;
@@ -212,7 +212,7 @@ namespace JoostMod.NPCs.Bosses
             }
             NPC.rotation = NPC.velocity.X * 0.0174f * 2.5f;
             NPC.ai[3]++;
-            if ((NPC.ai[1] < 875 || (!NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type))))
+            if ((NPC.ai[1] < 875 || (!NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) && !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>()))))
             {
                 if (NPC.ai[3] >= 90) // Triple Wind Attack
                 {
@@ -250,7 +250,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CheckDead()
         {
-            if (Main.netMode != NetmodeID.Server && (NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) || NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type)))
+            if (Main.netMode != NetmodeID.Server && (NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) || NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>())))
             {
                 Main.NewText("<Enkidu> I'm out of here.", 25, 225, 25);
                 Main.NewText("<Gilgamesh> Hey! Sidekicks are NOT to abandon the hero!", 225, 25, 25);
@@ -264,7 +264,7 @@ namespace JoostMod.NPCs.Bosses
 
         public override void FindFrame(int frameHeight)
         {
-            if ((NPC.ai[1] < 875 || (!NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type))))
+            if ((NPC.ai[1] < 875 || (!NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) && !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>()))))
             {
                 if (NPC.ai[3] > 75)
                 {

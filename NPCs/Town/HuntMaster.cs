@@ -1,3 +1,6 @@
+using JoostMod.Items.Quest;
+using JoostMod.Items.Rewards;
+using JoostMod.UI;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -19,11 +22,11 @@ namespace JoostMod.NPCs.Town
 		}
 
 
-		public override bool IsLoadingEnabled(Mod mod)
+		/*public override bool IsLoadingEnabled(Mod mod)
 		{
 			name = "Hunt Master";
-			return Mod.Properties/* tModPorter Note: Removed. Instead, assign the properties directly (ContentAutoloadingEnabled, GoreAutoloadingEnabled, MusicAutoloadingEnabled, and BackgroundAutoloadingEnabled) */.Autoload;
-		}
+			return Mod.Properties tModPorter Note: Removed. Instead, assign the properties directly (ContentAutoloadingEnabled, GoreAutoloadingEnabled, MusicAutoloadingEnabled, and BackgroundAutoloadingEnabled).Autoload;
+		}*/
 
 		public override void SetStaticDefaults()
 		{
@@ -108,26 +111,18 @@ namespace JoostMod.NPCs.Town
 
         public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
 		{
-			switch (WorldGen.genRand.Next(8))
-			{
-				case 1:
-					return "Dantro";
-				case 2:
-					return "Tomaj";
-				case 3:
-					return "Montblanc";
-				case 4:
-					return "Saph";
-				case 5:
-					return "Josh";
-				case 6:
-					return "Dave";
-                case 7:
-                    return "Bodega";
-				default:
-					return "Greg";
-			}
-		}
+            return new List<string>()
+            {
+                "Dantro",
+                "Tomaj",
+                "Montblanc",
+                "Saph",
+                "Josh",
+                "Dave",
+                "Bodega",
+                "Greg",
+            };
+        }
 
 
 		public override string GetChat()
@@ -207,7 +202,7 @@ namespace JoostMod.NPCs.Town
 			{
 				Main.npcChatCornerItem = 0;
 				SoundEngine.PlaySound(SoundID.MenuTick);
-				int pinkzor = player.FindItem(Mod.Find<ModItem>("Pinkzor").Type);
+				int pinkzor = player.FindItem(ModContent.ItemType<Pinkzor>());
 				if (pinkzor != -1)
 				{
 					player.inventory[pinkzor].stack--;
@@ -217,12 +212,12 @@ namespace JoostMod.NPCs.Town
 					}
 					Main.npcChatText = "'Ello there! My name's " + Main.npc[NPC.FindFirstNPC(NPC.type)].GivenName + ", I'm the Hunt Master. I seek out unique monsters and take 'em down before they can take us down. Thanks for helpin' me outta that slime; it got the jump on me. How about ya do some work for me? I'll let ya know if there's a creep needin' huntin' and I'll pay if ya bring back proof of it's death. Here's somethin' for helpin' out with that big pink slime";
 					SoundEngine.PlaySound(SoundID.Chat);
-					player.QuickSpawnItem(Mod.Find<ModItem>("GooGlove").Type);
+					player.QuickSpawnItem(NPC.GetSource_GiftOrReward(), ModContent.ItemType<GooGlove>());
 				}
 				else
 				{
                     Main.npcChatText = "";
-                    JoostMod.instance.ShowHuntUI();
+                    ModContent.GetInstance<JoostUI>().ShowHuntUI();
                     /*
                    foreach(HuntInfo hunt in JoostMod.instance.hunts)
                    {

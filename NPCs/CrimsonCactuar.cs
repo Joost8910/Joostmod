@@ -36,8 +36,8 @@ namespace JoostMod.NPCs
             NPC.knockBackResist = 0.75f;
             NPC.aiStyle = -1;
             NPC.noGravity = false;
-            Banner = Mod.Find<ModNPC>("Cactuar").Type;
-            BannerItem = Mod.Find<ModItem>("CactuarBanner").Type;
+            Banner = ModContent.NPCType<Cactuar>();
+            BannerItem = ModContent.ItemType<CactuarBanner>();
         }
         public override void FindFrame(int frameHeight)
         {

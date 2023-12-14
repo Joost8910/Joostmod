@@ -76,7 +76,7 @@ namespace JoostMod.NPCs.Bosses
             }
             */
 
-            if (!NPC.AnyNPCs(Mod.Find<ModNPC>("Enkidu").Type))
+            if (!NPC.AnyNPCs(ModContent.NPCType<Enkidu>()))
             {
                 if (!JoostWorld.downedGilgamesh && Main.netMode != NetmodeID.Server)
                     Main.NewText("With Gilgamesh and Enkidu's defeat, you can now fish the legendary stones from their respective biomes", 125, 25, 225);
@@ -88,23 +88,23 @@ namespace JoostMod.NPCs.Bosses
                 }
                 else
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GenjiToken").Type, 1 + Main.rand.Next(2));
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GenjiToken>(), 1 + Main.rand.Next(2));
                     if (Main.rand.Next(4) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("COTBBMusicBox").Type);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<COTBBMusicBox>());
                     }
                     if (Main.rand.Next(7) == 0)
                     {
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshMask").Type);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GilgameshMask>());
                     }
                 }
                 if (Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("GilgameshTrophy").Type);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GilgameshTrophy>());
                 }
                 if (Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("FifthAnniversary").Type, 1);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<FifthAnniversary>(), 1);
                 }*/
             }
         }
@@ -308,7 +308,7 @@ namespace JoostMod.NPCs.Bosses
             }
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                if (Main.npc[i].type == Mod.Find<ModNPC>("Enkidu").Type && Main.npc[i].ai[1] >= 900)
+                if (Main.npc[i].type == ModContent.NPCType<Enkidu>() && Main.npc[i].ai[1] >= 900)
                 {
                     moveSpeed *= 0.7f;
                     break;
@@ -546,7 +546,7 @@ namespace JoostMod.NPCs.Bosses
                     bool shield = false;
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
-                        if (Main.npc[i].active && Main.npc[i].type == Mod.Find<ModNPC>("GilgameshShield").Type && (int)Main.npc[i].ai[0] == NPC.whoAmI)
+                        if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<GilgameshShield>() && (int)Main.npc[i].ai[0] == NPC.whoAmI)
                         {
                             shield = true;
                             break;
@@ -554,7 +554,7 @@ namespace JoostMod.NPCs.Bosses
                     }
                     if (!shield)
                     {
-                        NPC.NewNPC(sauce, (int)shieldPos.X, (int)shieldPos.Y, Mod.Find<ModNPC>("GilgameshShield").Type, 0, NPC.whoAmI);
+                        NPC.NewNPC(sauce, (int)shieldPos.X, (int)shieldPos.Y, ModContent.NPCType<GilgameshShield>(), 0, NPC.whoAmI);
                     }
                 }
                 #region Standard Attacks
@@ -2088,7 +2088,7 @@ namespace JoostMod.NPCs.Bosses
             }
             else
             {
-                if (Main.netMode != NetmodeID.Server && NPC.AnyNPCs(Mod.Find<ModNPC>("Enkidu").Type))
+                if (Main.netMode != NetmodeID.Server && NPC.AnyNPCs(ModContent.NPCType<Enkidu>()))
                 {
                     //Main.NewText("<Gilgamesh> Ack! Uh, up to you now Enkidu!", 225, 25, 25);
                     Main.NewText("<Enkidu> Now you've gone and made me angry.", 25, 225, 25);

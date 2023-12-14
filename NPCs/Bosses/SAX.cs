@@ -885,7 +885,7 @@ namespace JoostMod.NPCs.Bosses
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y+38, Mod.Find<ModNPC>("SAXMutant").Type, 0, NPC.direction);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y+38, ModContent.NPCType<SAXMutant>(), 0, NPC.direction);
             }
             return true;
         }

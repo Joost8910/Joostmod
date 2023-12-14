@@ -33,7 +33,7 @@ namespace JoostMod.UI
                 int item = Main.LocalPlayer.FindItem(hunt.item);
                 if (item != -1)
                 {
-                    scrollTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll_HasItem");
+                    scrollTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll_HasItem");
                     if (IsMouseHovering)
                     {
                         bgColor = Color.White;
@@ -47,7 +47,7 @@ namespace JoostMod.UI
                 }
                 else if (hunt.completed())
                 {
-                    scrollTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll_Completed");
+                    scrollTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll_Completed");
                     bgColor = Color.White * 0.85f;
                     iconColor = Color.Gray * 0.7f;
                 }
@@ -108,7 +108,7 @@ namespace JoostMod.UI
                         player.inventory[item] = new Item();
                     }
                     Main.npcChatText = hunt.completeText;
-                    JoostMod.instance.HideHuntUI();
+                    ModContent.GetInstance<JoostUI>().HideHuntUI();
                     SoundEngine.PlaySound(SoundID.Chat);
                     hunt.reward(player);
                     return;
@@ -116,7 +116,7 @@ namespace JoostMod.UI
                 else if (!hunt.completed())
                 {
                     Main.npcChatText = hunt.questText;
-                    JoostMod.instance.HideHuntUI();
+                    ModContent.GetInstance<JoostUI>().HideHuntUI();
                     SoundEngine.PlaySound(SoundID.Item1.WithPitchOffset(-0.5f), player.position);
                     if (!JoostWorld.activeQuest.Contains(hunt.NPC))
                     {

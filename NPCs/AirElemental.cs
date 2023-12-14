@@ -45,7 +45,7 @@ namespace JoostMod.NPCs
             NPC.noGravity = true;
             NPC.frameCounter = 0;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("AirElementalBanner").Type;
+            BannerItem = ModContent.ItemType<AirElementalBanner>();
             /*
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Venom] = true;
@@ -76,11 +76,11 @@ namespace JoostMod.NPCs
         /*
         public override void OnKill()
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("TinyTwister").Type, (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
+            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TinyTwister>(), (Main.expertMode ? Main.rand.Next(12, 30) : Main.rand.Next(8, 20)));
 
             if (Main.rand.Next(50) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SecondAnniversary").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SecondAnniversary>(), 1);
             }
         }
         */

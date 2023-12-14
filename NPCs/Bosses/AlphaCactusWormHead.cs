@@ -87,7 +87,7 @@ namespace JoostMod.NPCs.Bosses
             Player player = Main.player[NPC.target];
             if (Main.netMode == NetmodeID.Server)
             {
-                NPC.NewNPC(NPC.GetSource_Death(), (int)player.Center.X - 300, (int)player.Center.Y - 300, Mod.Find<ModNPC>("GrandCactusWormHead").Type);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)player.Center.X - 300, (int)player.Center.Y - 300, ModContent.NPCType<GrandCactusWormHead>());
             }
             return base.CheckDead();
         }
@@ -110,7 +110,7 @@ namespace JoostMod.NPCs.Bosses
                 NPC.netUpdate = true;
             }
             chargeTimer--;
-            if (NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type))
+            if (NPC.AnyNPCs(ModContent.NPCType<GrandCactusWormHead>()))
             {
                 NPC.life = 0;
                 NPC.HitEffect(0, 10.0);

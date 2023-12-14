@@ -36,8 +36,8 @@ namespace JoostMod.NPCs
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime6").Type);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, ModContent.NPCType<GraySlime6>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, ModContent.NPCType<GraySlime6>());
             }
             return true;
         }

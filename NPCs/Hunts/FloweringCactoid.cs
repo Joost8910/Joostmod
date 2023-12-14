@@ -53,10 +53,10 @@ namespace JoostMod.NPCs.Hunts
         {
             JoostWorld.downedFloweringCactoid = true;
             CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.FloweringCactoid>(), Main.rand, 1, 1, 1, false);
-            /*NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("FloweringCactoid").Type, 1, false);
+            /*NPC.DropItemInstanced(NPC.position, NPC.Size, ModContent.ItemType<FloweringCactoid>(), 1, false);
             if (Main.expertMode && Main.rand.Next(100) == 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EvilStone>(), 1);
             }*/
         }
         int idle = 0;
@@ -163,11 +163,11 @@ namespace JoostMod.NPCs.Hunts
                         {
                             if (i == 2 || i == 3)
                             {
-                                NPC.NewNPC(source, (int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, Mod.Find<ModNPC>("Cactoid").Type);
+                                NPC.NewNPC(source, (int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, ModContent.NPCType<Cactoid>());
                             }
                             else
                             {
-                                NPC.NewNPC(source, (int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, Mod.Find<ModNPC>("Cactite").Type);
+                                NPC.NewNPC(source, (int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, ModContent.NPCType<Cactite>());
                             }
                         }
                     }
@@ -209,7 +209,7 @@ namespace JoostMod.NPCs.Hunts
                     for (int n = 0; n < 200; n++)
                     {
                         NPC N = Main.npc[n];
-                        if (N.Distance(NPC.Center) < 1600 && (N.type == Mod.Find<ModNPC>("Cactite").Type || N.type == Mod.Find<ModNPC>("Cactoid").Type))
+                        if (N.Distance(NPC.Center) < 1600 && (N.type == ModContent.NPCType<Cactite>() || N.type == ModContent.NPCType<Cactoid>()))
                         {
                             N.ai[2]++;
                         }

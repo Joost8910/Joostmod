@@ -37,7 +37,7 @@ namespace JoostMod.NPCs
             NPC.noGravity = true;
             NPC.frameCounter = 0;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("SpectreBanner").Type;
+            BannerItem = ModContent.ItemType<SpectreBanner>();
             NPC.behindTiles = false;
             NPC.alpha = 150;
         }

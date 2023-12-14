@@ -28,11 +28,11 @@ namespace JoostMod.NPCs.Bosses
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.Player.ZoneBeach && spawnInfo.Player.ZoneDesert && spawnInfo.SpawnTileY > Main.worldSurface && !JoostWorld.downedCactusWorm && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("AlphaCactusWormHead").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type) ? 0.15f : 0f;
+            return !spawnInfo.Player.ZoneBeach && spawnInfo.Player.ZoneDesert && spawnInfo.SpawnTileY > Main.worldSurface && !JoostWorld.downedCactusWorm && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(ModContent.NPCType<AlphaCactusWormHead>()) && !NPC.AnyNPCs(ModContent.NPCType<GrandCactusWormHead>()) ? 0.15f : 0f;
         }
         public override void AI()
         {
-            if (NPC.AnyNPCs(Mod.Find<ModNPC>("AlphaCactusWormHead").Type) || NPC.AnyNPCs(Mod.Find<ModNPC>("GrandCactusWormHead").Type))
+            if (NPC.AnyNPCs(ModContent.NPCType<AlphaCactusWormHead>()) || NPC.AnyNPCs(ModContent.NPCType<GrandCactusWormHead>()))
             {
                 NPC.active = false;
             }
@@ -41,7 +41,7 @@ namespace JoostMod.NPCs.Bosses
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("AlphaCactusWormHead").Type);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<AlphaCactusWormHead>());
             }
             return true;
         }

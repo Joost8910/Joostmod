@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using JoostMod.Items.Placeable;
 using JoostMod.Projectiles;
 using JoostMod.Buffs;
+using JoostMod.NPCs.Town;
 
 namespace JoostMod.NPCs
 {
@@ -69,8 +70,8 @@ namespace JoostMod.NPCs
             NPC.knockBackResist = 0.3f;
             NPC.aiStyle = -1;
             NPC.frameCounter = 0;
-            Banner = Mod.Find<ModNPC>("Cactoid").Type;
-            BannerItem = Mod.Find<ModItem>("CactoidBanner").Type;
+            Banner = ModContent.NPCType<Cactoid>();
+            BannerItem = ModContent.ItemType<CactoidBanner>();
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
@@ -79,7 +80,7 @@ namespace JoostMod.NPCs
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type == Mod.Find<ModNPC>("Cactus Person").Type)
+            if (target.type == ModContent.NPCType<CactusPerson>())
             {
                 return false;
             }
@@ -129,7 +130,7 @@ namespace JoostMod.NPCs
             for (int n = 0; n < 200; n++)
             {
                 NPC N = Main.npc[n];
-                if (N.active && N.Distance(NPC.Center) < 400 && Collision.CanHitLine(NPC.Center, 1, 1, N.Center, 1, 1) && (N.type == Mod.Find<ModNPC>("Cactite").Type || N.type == Mod.Find<ModNPC>("Cactoid").Type))
+                if (N.active && N.Distance(NPC.Center) < 400 && Collision.CanHitLine(NPC.Center, 1, 1, N.Center, 1, 1) && (N.type == ModContent.NPCType<Cactite>() || N.type == ModContent.NPCType<Cactoid>()))
                 {
                     N.target = NPC.target;
                     N.ai[2]++;
@@ -194,7 +195,7 @@ namespace JoostMod.NPCs
                 for (int k = 0; k < 200; k++)
                 {
                     NPC cactu = Main.npc[k];
-                    if (cactu.active && cactu.type == Mod.Find<ModNPC>("Cactus Person").Type && NPC.Distance(cactu.Center) < 800)
+                    if (cactu.active && cactu.type == ModContent.NPCType<CactusPerson>() && NPC.Distance(cactu.Center) < 800)
                     {
                         cactusPersonNear = true;
                         cactusPerson = cactu.whoAmI;
@@ -270,7 +271,7 @@ namespace JoostMod.NPCs
                 int num = 1;
                 for (int k = 0; k < NPC.whoAmI; k++)
                 {
-                    if (Main.npc[k].active && Main.npc[k].target == NPC.target && (Main.npc[k].type == NPC.type || Main.npc[k].type == Mod.Find<ModNPC>("Cactoid").Type))
+                    if (Main.npc[k].active && Main.npc[k].target == NPC.target && (Main.npc[k].type == NPC.type || Main.npc[k].type == ModContent.NPCType<Cactoid>()))
                     {
                         num++;
                         if (num > 40)
@@ -296,7 +297,7 @@ namespace JoostMod.NPCs
                     for (int k = 0; k < 200; k++)
                     {
                         NPC otherCactoid = Main.npc[k];
-                        if (k != NPC.whoAmI && otherCactoid.friendly && otherCactoid.active && otherCactoid.target == NPC.target && (otherCactoid.type == NPC.type || otherCactoid.type == Mod.Find<ModNPC>("Cactoid").Type) && Math.Abs(NPC.position.X - otherCactoid.position.X) + Math.Abs(NPC.position.Y - otherCactoid.position.Y) < NPC.width)
+                        if (k != NPC.whoAmI && otherCactoid.friendly && otherCactoid.active && otherCactoid.target == NPC.target && (otherCactoid.type == NPC.type || otherCactoid.type == ModContent.NPCType<Cactoid>()) && Math.Abs(NPC.position.X - otherCactoid.position.X) + Math.Abs(NPC.position.Y - otherCactoid.position.Y) < NPC.width)
                         {
                             if (NPC.position.X < otherCactoid.position.X)
                             {

@@ -96,13 +96,11 @@ namespace JoostMod.UI
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            /*
             if (Main.LocalPlayer.talkNPC == -1 || Main.npc[Main.LocalPlayer.talkNPC].type != ModContent.NPCType<HuntMaster>())
             {
-                JoostUI.HideHuntUI();
+                ModContent.GetInstance<JoostUI>().HideHuntUI();
                 NeedUpdate();
             }
-            */
         }
     }
 }

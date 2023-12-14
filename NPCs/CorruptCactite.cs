@@ -28,8 +28,8 @@ namespace JoostMod.NPCs
             AIType = NPCID.ArmoredSkeleton;
             NPC.damage = 15;
             NPC.frameCounter = 0;
-            Banner = Mod.Find<ModNPC>("Cactoid").Type;
-            BannerItem = Mod.Find<ModItem>("CactoidBanner").Type;
+            Banner = ModContent.NPCType<Cactoid>();
+            BannerItem = ModContent.ItemType<CactoidBanner>();
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

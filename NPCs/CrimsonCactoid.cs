@@ -34,8 +34,8 @@ namespace JoostMod.NPCs
             NPC.aiStyle = 26;
             AIType = NPCID.Unicorn;
             NPC.frameCounter = 0;
-            Banner = Mod.Find<ModNPC>("Cactoid").Type;
-            BannerItem = Mod.Find<ModItem>("CactoidBanner").Type;
+            Banner = ModContent.NPCType<Cactoid>();
+            BannerItem = ModContent.ItemType<CactoidBanner>();
         }
         public override void AI()
         {

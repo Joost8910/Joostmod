@@ -27,7 +27,7 @@ namespace JoostMod.NPCs
             AIType = NPCID.BlueSlime;
             AnimationType = NPCID.BlueSlime;
             Banner = NPC.type;
-            BannerItem = Mod.Find<ModItem>("GraySlimeBanner").Type;
+            BannerItem = ModContent.ItemType<GraySlimeBanner>();
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
@@ -43,8 +43,8 @@ namespace JoostMod.NPCs
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime2").Type);
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, Mod.Find<ModNPC>("GraySlime2").Type);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 13, (int)NPC.Center.Y - 2, ModContent.NPCType<GraySlime2>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 13, (int)NPC.Center.Y - 2, ModContent.NPCType<GraySlime2>());
             }
             return true;
         }

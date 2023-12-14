@@ -172,7 +172,7 @@ namespace JoostMod.NPCs.Bosses
             }
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                if (Main.npc[i].type == Mod.Find<ModNPC>("Enkidu").Type && Main.npc[i].ai[1] >= 900)
+                if (Main.npc[i].type == ModContent.NPCType<Enkidu>() && Main.npc[i].ai[1] >= 900)
                 {
                     moveSpeed *= 0.7f;
                     break;
@@ -730,14 +730,14 @@ namespace JoostMod.NPCs.Bosses
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y - 10, Mod.Find<ModNPC>("Gilgamesh2").Type, 0, 510, 0, 0, 1);
+                        NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y - 10, ModContent.NPCType<Gilgamesh2>(), 0, 510, 0, 0, 1);
                     }
                 }
                 else
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y - 10, Mod.Find<ModNPC>("Gilgamesh2").Type);
+                        NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y - 10, ModContent.NPCType<Gilgamesh2>());
                     }
                 }
                 for (int i = 0; i < 80; i++)

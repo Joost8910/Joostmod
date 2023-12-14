@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -73,6 +74,7 @@ namespace JoostMod.NPCs.Hunts
         int dirx = 1;
 		public override void AI()
 		{
+            var source = NPC.GetSource_FromAI();
 			Player P = Main.player[NPC.target];
             if (Vector2.Distance(NPC.Center, P.Center) > 2500 || NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
 			{
@@ -134,19 +136,19 @@ namespace JoostMod.NPCs.Hunts
                 NPC.ai[1]++;
                 if (NPC.ai[1] == 20 && Main.rand.Next(5) < 3)
                 {
-                    NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, NPCID.BurningSphere);
+                    NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.BurningSphere);
                     SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
                     NPC.ai[2] = 1;
                 }
                 if (NPC.ai[1] == 40 && (Main.rand.Next(5) < 4 || Vector2.Distance(NPC.Center, P.Center) > 600 || NPC.Center.Y >= P.position.Y))
                 {
-                    Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / 12), 0)) * 12, ModContent.ProjectileType<ImpFireBolt>(), 20, 5, Main.myPlayer);
+                    Projectile.NewProjectile(source, NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / 12), 0)) * 12, ModContent.ProjectileType<ImpFireBolt>(), 20, 5, Main.myPlayer);
                     SoundEngine.PlaySound(SoundID.Item45, NPC.Center);
                     NPC.ai[2] = 1;
                 }
                 if (NPC.ai[1] >= 60)
                 {
-                    NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("FireBall").Type);
+                    NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<FireBall>());
                     SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
                     NPC.ai[2] = 1;
                 }
@@ -162,12 +164,12 @@ namespace JoostMod.NPCs.Hunts
                 int i = 0;
                 NPC f = Main.npc[i];
                 bool fireball = false;
-                if (NPC.AnyNPCs(Mod.Find<ModNPC>("FireBall").Type))
+                if (NPC.AnyNPCs(ModContent.NPCType<FireBall>()))
                 {
                     for (i = 0; i < 200; i++)
                     {
                         f = Main.npc[i];
-                        if (f.type == Mod.Find<ModNPC>("FireBall").Type)
+                        if (f.type == ModContent.NPCType<FireBall>())
                         {
                             if (f.friendly)
                             {
@@ -182,15 +184,15 @@ namespace JoostMod.NPCs.Hunts
                 if (NPC.ai[3] < 1 && (Vector2.Distance(P.Center, NPC.Center) < 70 || (fireball && Vector2.Distance(f.Center + f.velocity*9, NPC.Center) < 80)))
                 {
                     NPC.ai[3]++;
-                    Projectile.NewProjectile(NPC.Center, NPC.velocity, ModContent.ProjectileType<ImpTail>(), 15, 8, 0, NPC.whoAmI);
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    Projectile.NewProjectile(source, NPC.Center, NPC.velocity, ModContent.ProjectileType<ImpTail>(), 15, 8, 0, NPC.whoAmI);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1"), NPC.Center); //230
                 }
                 if (NPC.ai[3] > 0)
                 {
                     NPC.ai[3]++;
                     if (NPC.ai[3] > 16)
                     {
-                        if (!NPC.AnyNPCs(Mod.Find<ModNPC>("FireBall").Type))
+                        if (!NPC.AnyNPCs(ModContent.NPCType<FireBall>()))
                         {
                             Vector2 targetPos = new Vector2((P.Center.X - 250) + Main.rand.Next(500), (P.position.Y - 150) + Main.rand.Next(300));
                             NPC.Teleport(targetPos, 1);

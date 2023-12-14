@@ -34,7 +34,7 @@ namespace JoostMod.NPCs
 		{
 			if (NPC.life <= 0)
             {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("SucculentCactus").Type, 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SucculentCactus>(), 1);
             }
         }
         */

@@ -14,6 +14,7 @@ using JoostMod.NPCs.Town;
 
 namespace JoostMod.UI
 {
+    [Autoload(Side = ModSide.Client)]
     public class JoostUI : ModSystem
     {
         internal UserInterface huntUserInterface;
@@ -30,11 +31,11 @@ namespace JoostMod.UI
                 huntUserInterface.SetState(null);
             }
         }
-        internal void ShowHuntUI()
+        public void ShowHuntUI()
         {
             huntUserInterface?.SetState(huntUI);
         }
-        internal void HideHuntUI()
+        public void HideHuntUI()
         {
             huntUserInterface?.SetState(null);
         }
