@@ -1,5 +1,6 @@
 using JoostMod.Items.Accessories;
 using JoostMod.Items.Placeable;
+using JoostMod.Projectiles.Hostile;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -202,7 +203,7 @@ namespace JoostMod.NPCs
                 if (NPC.ai[3] >= 210)
                 {
                     float speed = 16f;
-                    int type = Mod.Find<ModProjectile>("CactusNeedle2").Type;
+                    int type = ModContent.ProjectileType<CactusNeedle2>();
                     if (NPC.ai[3] % 5 == 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item7, NPC.Center);

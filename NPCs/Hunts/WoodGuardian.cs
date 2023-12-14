@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -55,25 +57,26 @@ namespace JoostMod.NPCs.Hunts
         public override void OnKill()
 		{
 			JoostWorld.downedWoodGuardian = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("WoodGuardian").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
-        }
-		public override void HitEffect(int hitDirection, double damage)
+        CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.WoodGuardian>(), Main.rand, 1, 1, 1, false);
+    }
+    public override void ModifyNPCLoot(NPCLoot npcLoot)
+    {
+        npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+    }
+    public override void HitEffect(int hitDirection, double damage)
 		{
             if (NPC.ai[0] == 0)
             {
                 NPC.ai[0]++;
             }
-			if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/WoodGuardian1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/WoodGuardian2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/WoodGuardian2"), 1f);
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("WoodGuardian1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("WoodGuardian2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("WoodGuardian2").Type);
             }
-		}
+        }
 		public override void AI()
 		{
 			Player P = Main.player[NPC.target];
@@ -155,8 +158,8 @@ namespace JoostMod.NPCs.Hunts
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("LeafHostile").Type, 7, 0, Main.myPlayer, NPC.whoAmI, 0f);
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("LeafHostile").Type, 7, 0, Main.myPlayer, NPC.whoAmI, 180f);
+                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<LeafHostile>(), 7, 0, Main.myPlayer, NPC.whoAmI, 0f);
+                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<LeafHostile>(), 7, 0, Main.myPlayer, NPC.whoAmI, 180f);
                             }
                             if (Main.rand.Next(4) == 0 || Vector2.Distance(NPC.Center, P.Center) < 70)
                             {
@@ -217,7 +220,7 @@ namespace JoostMod.NPCs.Hunts
                                 {
                                     for (int i = 0; i < 14; i++)
                                     {
-                                        Projectile.NewProjectile((NPC.Center.X - 455) + (i * 70), NPC.position.Y, 0, 16, Mod.Find<ModProjectile>("Root").Type, 20, 3, Main.myPlayer);
+                                        Projectile.NewProjectile((NPC.Center.X - 455) + (i * 70), NPC.position.Y, 0, 16, ModContent.ProjectileType<Root>(), 20, 3, Main.myPlayer);
                                     }
                                 }
                                 NPC.ai[1] = 4;

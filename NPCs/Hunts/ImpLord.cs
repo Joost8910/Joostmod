@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -43,29 +45,30 @@ namespace JoostMod.NPCs.Hunts
             Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
             return spawnInfo.SpawnTileY >= Main.maxTilesY - 250 && !JoostWorld.downedImpLord && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+        }
         public override void OnKill()
-		{
-			JoostWorld.downedImpLord = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("ImpLord").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
-		}
+        {
+            JoostWorld.downedImpLord = true;
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.ImpLord>(), Main.rand, 1, 1, 1, false);
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (NPC.ai[0] == 0)
             {
                 NPC.ai[0]++;
             }
-			if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ImpLord1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ImpLord2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ImpLord2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ImpLord3"), 1f);
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpLord1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpLord2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpLord2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpLord3").Type);
             }
-		}
+        }
         int dir = 1;
         int dirx = 1;
 		public override void AI()
@@ -137,7 +140,7 @@ namespace JoostMod.NPCs.Hunts
                 }
                 if (NPC.ai[1] == 40 && (Main.rand.Next(5) < 4 || Vector2.Distance(NPC.Center, P.Center) > 600 || NPC.Center.Y >= P.position.Y))
                 {
-                    Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / 12), 0)) * 12, Mod.Find<ModProjectile>("ImpFireBolt").Type, 20, 5, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / 12), 0)) * 12, ModContent.ProjectileType<ImpFireBolt>(), 20, 5, Main.myPlayer);
                     SoundEngine.PlaySound(SoundID.Item45, NPC.Center);
                     NPC.ai[2] = 1;
                 }
@@ -179,7 +182,7 @@ namespace JoostMod.NPCs.Hunts
                 if (NPC.ai[3] < 1 && (Vector2.Distance(P.Center, NPC.Center) < 70 || (fireball && Vector2.Distance(f.Center + f.velocity*9, NPC.Center) < 80)))
                 {
                     NPC.ai[3]++;
-                    Projectile.NewProjectile(NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("ImpTail").Type, 15, 8, 0, NPC.whoAmI);
+                    Projectile.NewProjectile(NPC.Center, NPC.velocity, ModContent.ProjectileType<ImpTail>(), 15, 8, 0, NPC.whoAmI);
                     SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
                 }
                 if (NPC.ai[3] > 0)

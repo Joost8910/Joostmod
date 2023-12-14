@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             Item.UseSound = SoundID.Item7;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = 10;
+            Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 11f;
         }
         /*

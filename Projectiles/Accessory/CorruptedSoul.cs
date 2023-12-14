@@ -2,8 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Buffs;
 
-namespace JoostMod.Projectiles.Melee
+namespace JoostMod.Projectiles.Accessory
 {
     public class CorruptedSoul : ModProjectile
     {
@@ -77,11 +78,11 @@ namespace JoostMod.Projectiles.Melee
             }
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkViolet, damage, true, false);
             float damag = target.lifeMax * 0.25f;
-            if ((int)damag > 0 && target.type != NPCID.TargetDummy && target.life <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
+            if ((int)damag > 0 && target.type != NPCID.TargetDummy && target.life <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
             }
-            target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
+            target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
@@ -94,11 +95,11 @@ namespace JoostMod.Projectiles.Melee
             }
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkViolet, damage, true, false);
             float damag = target.statLifeMax2 * 0.25f;
-            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
+            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
             }
-            target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
+            target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -111,11 +112,11 @@ namespace JoostMod.Projectiles.Melee
             }
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkViolet, damage, true, false);
             float damag = target.statLifeMax2 * 0.25f;
-            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
+            if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
             }
-            target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
+            target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
         }
     }
 }

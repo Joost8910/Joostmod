@@ -2,6 +2,7 @@ using JoostMod.Items.Armor;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
+using JoostMod.Projectiles.Hostile;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -370,7 +371,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(sauce, NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + dir * 40, dir * projSpeed, ModContent.ProjectileType<CactusWormBall>(), 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -417,7 +418,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(sauce, NPC.Center + dir * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + dir * 40, dir * projSpeed, ModContent.ProjectileType<CactusWormBall>(), 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -587,7 +588,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, ModContent.ProjectileType<CactusWormBall>(), 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -617,7 +618,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, ModContent.ProjectileType<CactusWormBall>(), 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }
@@ -661,7 +662,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, Mod.Find<ModProjectile>("CactusWormBall").Type, 15, 5, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center + NPC.DirectionTo(targetPos) * 40, dir * projSpeed, ModContent.ProjectileType<CactusWormBall>(), 15, 5, Main.myPlayer);
                         }
                         SoundEngine.PlaySound(SoundID.NPCDeath13.WithVolumeScale(0.7f).WithPitchOffset(0.3f), NPC.Center);
                     }

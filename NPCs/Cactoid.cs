@@ -1,4 +1,5 @@
 using System;
+using JoostMod.Buffs;
 using JoostMod.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -144,7 +145,7 @@ namespace JoostMod.NPCs
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (target.GetModPlayer<JoostPlayer>().cactoidCommendationItem)
+            if (target.GetModPlayer<JoostPlayer>().cactoidCommendationItem != null)
             {
                 return false;
             }
@@ -157,7 +158,7 @@ namespace JoostMod.NPCs
                 NPC.TargetClosest(false);
             }
             Player player = Main.player[NPC.target];
-            bool playerCactoid = (player.GetModPlayer<JoostPlayer>().cactoidCommendationItem || player.HasBuff(Mod.Find<ModBuff>("CactoidFriend").Type));
+            bool playerCactoid = (player.GetModPlayer<JoostPlayer>().cactoidCommendationItem != null || player.HasBuff(ModContent.BuffType<CactoidFriend>()));
             bool cactusPersonNear = false;
             int cactusPerson = -1;
             if (!playerCactoid)
@@ -165,7 +166,7 @@ namespace JoostMod.NPCs
                 float num = 600f;
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>().cactoidCommendationItem || Main.player[i].HasBuff(Mod.Find<ModBuff>("CactoidFriend").Type)))
+                    if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost && (Main.player[i].GetModPlayer<JoostPlayer>().cactoidCommendationItem != null || Main.player[i].HasBuff(ModContent.BuffType<CactoidFriend>())))
                     {
                         float num4 = Math.Abs(Main.player[i].Center.X - NPC.Center.X + Math.Abs(Main.player[i].Center.Y - NPC.Center.Y));
                         if (num4 < num)
@@ -246,7 +247,7 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("Cactite").Type, NPC.damage, 2, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Accessory.Cactoid>(), NPC.damage, 2, Main.myPlayer, NPC.whoAmI);
                     }
                     NPC.localAI[1] = 40;
                 }

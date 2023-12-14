@@ -2,6 +2,7 @@ using JoostMod.Items.Ammo;
 using JoostMod.Items.Placeable;
 using JoostMod.Items.Weapons.Hybrid;
 using JoostMod.Items.Weapons.Magic;
+using JoostMod.Projectiles.Hostile;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -197,7 +198,7 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(sauce, NPC.Center, NPC.DirectionTo(P.Center) * 12, Mod.Find<ModProjectile>("HostileSoulArrow").Type, 30, 0, Main.myPlayer, NPC.target);
+                        Projectile.NewProjectile(sauce, NPC.Center, NPC.DirectionTo(P.Center) * 12, ModContent.ProjectileType<HostileSoulArrow>(), 30, 0, Main.myPlayer, NPC.target);
                     }
                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
@@ -229,11 +230,11 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 0);
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 45);
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 90);
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 135);
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileHomingSoulmass").Type, 25, 0, Main.myPlayer, NPC.whoAmI, 180);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileHomingSoulmass>(), 25, 0, Main.myPlayer, NPC.whoAmI, 0);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileHomingSoulmass>(), 25, 0, Main.myPlayer, NPC.whoAmI, 45);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileHomingSoulmass>(), 25, 0, Main.myPlayer, NPC.whoAmI, 90);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileHomingSoulmass>(), 25, 0, Main.myPlayer, NPC.whoAmI, 135);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileHomingSoulmass>(), 25, 0, Main.myPlayer, NPC.whoAmI, 180);
                     }
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                 }
@@ -284,7 +285,7 @@ namespace JoostMod.NPCs
                     dir *= speed;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(sauce, pos, dir, Mod.Find<ModProjectile>("HostileSoulSpear").Type, 45, 0, Main.myPlayer, NPC.target);
+                        Projectile.NewProjectile(sauce, pos, dir, ModContent.ProjectileType<HostileSoulSpear>(), 45, 0, Main.myPlayer, NPC.target);
                     }
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                 }
@@ -301,7 +302,7 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileSoulGreatsword").Type, 60, 0, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileSoulGreatsword>(), 60, 0, Main.myPlayer, NPC.whoAmI);
                     }
                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }
@@ -331,7 +332,7 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("HostileFocusSouls").Type, 50, 0, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(sauce, NPC.Center, Vector2.Zero, ModContent.ProjectileType<HostileFocusSouls>(), 50, 0, Main.myPlayer, NPC.whoAmI);
                     }
                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 }

@@ -80,9 +80,9 @@ namespace JoostMod.NPCs.Bosses
                     NPC.life = 0;
                     NPC.HitEffect(0, 10.0);
                     NPC.active = false;
-                    if (Main.netMode == 2)
+                    if (Main.netMode == NetmodeID.Server)
                     {
-                        NetMessage.SendData(28, -1, -1, null, NPC.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
                     }
                 }
             }

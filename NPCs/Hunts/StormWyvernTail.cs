@@ -94,7 +94,7 @@ namespace JoostMod.NPCs.Hunts
                     vel = vel.RotatedByRandom(MathHelper.ToRadians(90));
                     float scale = 1f - (Main.rand.NextFloat() * .6f);
                     vel = vel * scale;
-                    Projectile.NewProjectile(NPC.Center, vel, Mod.Find<ModProjectile>("Gust").Type, 25, 10);
+                    Projectile.NewProjectile(NPC.Center, vel, ModContent.ProjectileType<Gust>(), 25, 10);
 
                     for (int d = 0; d < 5; d++)
                     {

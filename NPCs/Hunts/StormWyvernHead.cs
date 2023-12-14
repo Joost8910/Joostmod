@@ -7,6 +7,9 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -40,11 +43,11 @@ namespace JoostMod.NPCs.Hunts
         public override void OnKill()
         {
             JoostWorld.downedStormWyvern = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("StormWyvern").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.StormWyvern>(), Main.rand, 1, 1, 1, false);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
         }
         public override void Init()
         {
@@ -83,13 +86,13 @@ namespace JoostMod.NPCs.Hunts
                     {
                         segType = ModContent.NPCType<StormWyvernTail>();
                     }
-                    int num10 = NPC.NewNPC((int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), segType, NPC.whoAmI);
+                    int num10 = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), segType, NPC.whoAmI);
                     Main.npc[num10].ai[3] = (float)NPC.whoAmI;
                     Main.npc[num10].realLife = NPC.whoAmI;
                     Main.npc[num10].ai[1] = (float)lastSeg;
                     Main.npc[lastSeg].ai[0] = (float)num10;
                     NPC.netUpdate = true;
-                    NetMessage.SendData(23, -1, -1, null, num10, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num10, 0f, 0f, 0f, 0, 0, 0);
                     lastSeg = num10;
                 }
             }
@@ -121,26 +124,27 @@ namespace JoostMod.NPCs.Hunts
         //Only localAI[2] and localAI[3] available for use
         public override bool PreAI()
         {
+            var source = NPC.GetSource_FromAI();
             Main.raining = true;
             Main.maxRaining = 0.9f;
             if (Main.numClouds < Main.maxClouds)
             {
                 Main.numClouds++;
             }
-            if (Math.Abs(Main.windSpeed) < Math.Abs(Main.windSpeedSet))
+            if (Math.Abs(Main.windSpeedCurrent) < Math.Abs(Main.windSpeedTarget))
             {
-                Main.windSpeed += Math.Sign(Main.windSpeedSet) * 0.015f;
+                Main.windSpeedCurrent += Math.Sign(Main.windSpeedTarget) * 0.015f;
             }
             Main.rainTime = 60;
             Player target = Main.player[NPC.target];
-            if (Main.expertMode && Math.Abs(Main.windSpeed) > 0.8f)
+            if (Main.expertMode && Math.Abs(Main.windSpeedCurrent) > 0.8f)
             {
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player p = Main.player[i];
                     if (p.active && p.position.Y / 16 < Main.worldSurface && !p.behindBackWall)
                     {
-                        p.AddBuff(194, 2, false);
+                        p.AddBuff(BuffID.WindPushed, 2, false);
                     }
                 }
             }
@@ -173,11 +177,11 @@ namespace JoostMod.NPCs.Hunts
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 55);
                 if (NPC.localAI[3] == 12 || NPC.localAI[3] == 24)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_lightning_aura_zap_1"), NPC.Center); //21
                 }
                 if (NPC.localAI[3] == 168)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_sky_dragons_fury_circle_1"), NPC.Center); //224
                 }
                 NPC.localAI[3]++;
                 if (NPC.localAI[3] < 240)
@@ -197,7 +201,7 @@ namespace JoostMod.NPCs.Hunts
                 if (NPC.localAI[3] == 288)
                 {
                     NPC.velocity *= -1;
-                    SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.5f), NPC.Center);
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_shot_0").WithPitchOffset(-0.5f), NPC.Center); //226
                 }
                 if (NPC.localAI[3] >= 288 && NPC.localAI[3] < 318)
                 {
@@ -212,7 +216,7 @@ namespace JoostMod.NPCs.Hunts
                     
                     Vector2 vel = NPC.velocity;
                     vel.Normalize();
-                    Projectile.NewProjectile(NPC.Center, vel, Mod.Find<ModProjectile>("StormWyvernZap").Type, 65, 0, 0, NPC.whoAmI);
+                    Projectile.NewProjectile(source,NPC.Center, vel, ModContent.ProjectileType<StormWyvernZap>(), 65, 0, 0, NPC.whoAmI);
                 }
                 if (NPC.localAI[3] >= 338)
                 {
@@ -243,7 +247,7 @@ namespace JoostMod.NPCs.Hunts
                 }
                 if (NPC.localAI[2] % 400 == 340)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_betsy_fireball_shot_0"), NPC.Center); //28
                     float dashSpeed = speed * 2;
                     Vector2 targetPos = target.Center;
                     if (Main.expertMode)
@@ -317,7 +321,7 @@ namespace JoostMod.NPCs.Hunts
             {
                 float scale = NPC.localAI[3] < 288 ? NPC.localAI[3] / 288 : 1f;
                 float rot = MathHelper.ToRadians(NPC.localAI[3] * 11);
-                texture = TextureAssets.Projectile[Mod.Find<ModProjectile>("StormWyvernZap").Type].Value;
+                texture = TextureAssets.Projectile[ModContent.ProjectileType<StormWyvernZap>()].Value;
                 rect = new Rectangle((texture.Width / 3) * ((int)NPC.localAI[3] / 2) % 3, 0, (texture.Width / 3), (texture.Height / 3));
                 vect = new Vector2(((texture.Width / 3) / 2f), ((texture.Height / 3) / 2f));
                 Vector2 offSet = (NPC.rotation - 1.57f).ToRotationVector2() * 60;

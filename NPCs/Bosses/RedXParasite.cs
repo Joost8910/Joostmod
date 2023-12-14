@@ -1,3 +1,4 @@
+using JoostMod.Buffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -17,10 +18,10 @@ namespace JoostMod.NPCs.Bosses
             {
                 SpecificallyImmuneTo = new int[]
                 {
-                    Mod.Find<ModBuff>("InfectedRed").Type,
-                    Mod.Find<ModBuff>("InfectedGreen").Type,
-                    Mod.Find<ModBuff>("InfectedBlue").Type,
-                    Mod.Find<ModBuff>("InfectedYellow").Type
+                    ModContent.BuffType<InfectedRed>(),
+                    ModContent.BuffType<InfectedGreen>(),
+                    ModContent.BuffType<InfectedBlue>(),
+                    ModContent.BuffType<InfectedYellow>()
                 }
             };
             NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
@@ -64,7 +65,7 @@ namespace JoostMod.NPCs.Bosses
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             NPC.DeathSound = SoundID.NPCDeath19;
-            target.AddBuff(Mod.Find<ModBuff>("InfectedRed").Type, 900);
+            target.AddBuff(ModContent.BuffType<InfectedRed>(), 900);
             NPC.life = 0;
             NPC.checkDead();
             if (Main.netMode != 0)
@@ -75,7 +76,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(Mod.Find<ModBuff>("InfectedRed").Type, 900);
+            target.AddBuff(ModContent.BuffType<InfectedRed>(), 900);
             NPC.life = 0;
             NPC.checkDead();
         }

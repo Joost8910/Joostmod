@@ -3,6 +3,7 @@ using JoostMod.Items.Armor;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
+using JoostMod.Projectiles.Hostile;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -151,6 +152,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void AI()
 		{
+            var sauce = NPC.GetSource_FromAI();
 			NPC.netUpdate = true;
 			Player P = Main.player[NPC.target];
 			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -332,7 +334,7 @@ namespace JoostMod.NPCs.Bosses
 			NPC.ai[0]++;
 			if (Main.expertMode && NPC.ai[0] >= 700)
 			{
-				if (Main.rand.Next(4) == 0 && NPC.localAI[2] <= 0)
+				if (Main.rand.NextBool(4)&& NPC.localAI[2] <= 0)
 				{
                     NPC.localAI[2]++;
 				}
@@ -347,11 +349,11 @@ namespace JoostMod.NPCs.Bosses
                             int yOff = Main.rand.Next(100);
                             if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CorruptCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CorruptCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                             if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CorruptCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CorruptCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                         }
 						else if (crimson)
@@ -359,11 +361,11 @@ namespace JoostMod.NPCs.Bosses
                             int yOff = Main.rand.Next(100);
                             if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CrimsonCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CrimsonCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                             if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CrimsonCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("CrimsonCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                         }
 						else if (hallow)
@@ -371,11 +373,11 @@ namespace JoostMod.NPCs.Bosses
                             int yOff = Main.rand.Next(100);
                             if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("HallowedCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("HallowedCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                             if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("HallowedCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("HallowedCactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                         }
 						else
@@ -383,11 +385,11 @@ namespace JoostMod.NPCs.Bosses
                             int yOff = Main.rand.Next(100);
                             if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("Cactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("Cactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                             if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC((int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("Cactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, Mod.Find<ModNPC>("Cactuar").Type, 0, 0f, 0f, 0, 0, P.whoAmI);
                             }
                         }
 					}
@@ -403,15 +405,15 @@ namespace JoostMod.NPCs.Bosses
                     {
                         if (NPC.direction == -1)
                         {
-                            NPC.NewNPC((int)NPC.position.X - 40, (int)NPC.position.Y - 70, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, 100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y - 100, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, Main.rand.Next(-30, 30), 250f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC((int)NPC.position.X + 40, (int)NPC.position.Y - 110, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X - 40, (int)NPC.position.Y - 70, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, 100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X, (int)NPC.position.Y - 100, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, Main.rand.Next(-30, 30), 250f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 40, (int)NPC.position.Y - 110, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
                         }
                         else
                         {
-                            NPC.NewNPC((int)NPC.position.X + 160, (int)NPC.position.Y - 110, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, 100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC((int)NPC.position.X + 200, (int)NPC.position.Y - 100, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, Main.rand.Next(-30, 30), 250f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC((int)NPC.position.X + 240, (int)NPC.position.Y - 70, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 160, (int)NPC.position.Y - 110, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, 100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 200, (int)NPC.position.Y - 100, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, Main.rand.Next(-30, 30), 250f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 240, (int)NPC.position.Y - 70, Mod.Find<ModNPC>("GiantNeedle").Type, 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
                         }
                     }
                     NPC.ai[0] = 0;
@@ -429,12 +431,12 @@ namespace JoostMod.NPCs.Bosses
 					float Speed = 8f;
 					Vector2 vector8 = new Vector2(NPC.Center.X + (Main.rand.Next(-15, 15) * 15), NPC.Center.Y + (Main.rand.Next(-20, 15) * 15));
 					int damage = 10;
-					int type = Mod.Find<ModProjectile>("CactusNeedle").Type;
+					int type = ModContent.ProjectileType<CactusNeedle>();
 					SoundEngine.PlaySound(SoundID.Item1, NPC.position);
 					float rotation = (float)Math.Atan2(vector8.Y - P.Center.Y, vector8.X - P.Center.X);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(sauce, vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                     }
 				}
 			}
@@ -461,12 +463,12 @@ namespace JoostMod.NPCs.Bosses
 			{
 				float Speed = 8f;
 				int damage = 10;
-				int type = Mod.Find<ModProjectile>("CactusNeedle").Type;
+				int type = ModContent.ProjectileType<CactusNeedle>();
 				SoundEngine.PlaySound(SoundID.Item1, NPC.position);
 				float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-20, 20) * 20), NPC.Center.Y + (Main.rand.Next(-20, 15) * 30), (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(sauce, NPC.Center.X + (Main.rand.Next(-20, 20) * 20), NPC.Center.Y + (Main.rand.Next(-20, 15) * 30), (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                 }
                 NPC.ai[1]--;
             }

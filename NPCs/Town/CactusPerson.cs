@@ -111,7 +111,7 @@ namespace JoostMod.NPCs.Town
                 {
                     if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.HallowSandstone || type == TileID.SandstoneBrick || type == TileID.SandStoneSlab || type == TileID.CactusBlock)
                     {
-                        Projectile.NewProjectile(NPC.direction * 8 + xc * 16, NPC.position.Y, 0, 7, Mod.Find<ModProjectile>("BootCactus").Type, NPC.damage, 1, Main.myPlayer, 0, 1);
+                        Projectile.NewProjectile(NPC.direction * 8 + xc * 16, NPC.position.Y, 0, 7, ModContent.ProjectileType<BootCactus>(), NPC.damage, 1, Main.myPlayer, 0, 1);
                     }
                 }
                 if (NPC.oldVelocity.X < 0 && NPC.velocity.X > 0)
@@ -359,7 +359,7 @@ namespace JoostMod.NPCs.Town
 
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
-			projType = Mod.Find<ModProjectile>("StickyCactus").Type;
+			projType = ModContent.ProjectileType<StickyCactus>();
 			attackDelay = 20;
 		}
 

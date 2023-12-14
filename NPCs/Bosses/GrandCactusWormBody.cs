@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -47,7 +48,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 damage = (int)(damage * 0.6f);
             }
-            if (projectile.type == Mod.Find<ModProjectile>("DoomSkull3").Type)
+            if (projectile.type == ModContent.ProjectileType<DoomSkull3>())
             {
                 damage /= 2; 
             }

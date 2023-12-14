@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Buffs;
 
 namespace JoostMod.NPCs.Bosses
 {
@@ -29,10 +30,10 @@ namespace JoostMod.NPCs.Bosses
                     BuffID.Frostburn2,
                     BuffID.OnFire,
                     BuffID.OnFire3,
-                    Mod.Find<ModBuff>("InfectedRed").Type,
-                    Mod.Find<ModBuff>("InfectedGreen").Type,
-                    Mod.Find<ModBuff>("InfectedBlue").Type,
-                    Mod.Find<ModBuff>("InfectedYellow").Type
+                    ModContent.BuffType<InfectedRed>(),
+                    ModContent.BuffType<InfectedGreen>(),
+                    ModContent.BuffType<InfectedBlue>(),
+                    ModContent.BuffType<InfectedYellow>()
                 }
             };
             NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
@@ -460,8 +461,8 @@ namespace JoostMod.NPCs.Bosses
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, 8f, 0, Mod.Find<ModProjectile>("SaxWave").Type, 100, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, -8f, 0, Mod.Find<ModProjectile>("SaxWave").Type, 100, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, 8f, 0, ModContent.ProjectileType<SaxWave>(), 100, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, -8f, 0, ModContent.ProjectileType<SaxWave>(), 100, 0f, Main.myPlayer);
                             }
                             SoundEngine.PlaySound(SoundID.Item14, NPC.position);
                             for (int i = 0; i < 60; i++)
@@ -559,7 +560,7 @@ namespace JoostMod.NPCs.Bosses
                         NPC.velocity.X = NPC.direction * vel;
                         Vector2 position = NPC.Center + new Vector2(24 * NPC.direction, -6);
                         Vector2 velocity = new Vector2(10 * NPC.direction, 3);
-                        int type = Mod.Find<ModProjectile>("SAXMissile").Type;
+                        int type = ModContent.ProjectileType<SAXMissile>();
                         int damage = 40;
                         int numberProjectiles = 5;
                         float spread = 90;
@@ -618,7 +619,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         Vector2 position = NPC.Center;
                         Vector2 velocity = Vector2.Zero;
-                        int type = Mod.Find<ModProjectile>("SAXMissile").Type;
+                        int type = ModContent.ProjectileType<SAXMissile>();
                         int damage = 40;
                         int numberProjectiles = 4;
                         float spread = 75;
@@ -683,7 +684,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         Vector2 position = NPC.Center + new Vector2(30 * NPC.direction, -9);
                         Vector2 velocity = new Vector2(15 * NPC.direction, -4.5f);
-                        int type = Mod.Find<ModProjectile>("SAXSpit").Type;
+                        int type = ModContent.ProjectileType<SAXSpit>();
                         int damage = 30;
                         int numberProjectiles = 8;
                         for (int i = 0; i < numberProjectiles; i++)

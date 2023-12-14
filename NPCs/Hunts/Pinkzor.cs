@@ -7,6 +7,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
+using JoostMod.NPCs.Town;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -42,17 +45,17 @@ namespace JoostMod.NPCs.Hunts
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return !spawnInfo.Sky && !spawnInfo.PlayerInTown && Math.Abs(spawnInfo.SpawnTileX - Main.spawnTileX) > 500 && spawnInfo.SpawnTileY < Main.maxTilesY - 450 && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Hunt Master").Type) ? 0.006f : 0f;
-		}
-		public override void OnKill()
-		{
-			JoostWorld.downedPinkzor = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("Pinkzor").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
         }
-		int chance = 1;
+        public override void OnKill()
+        {
+            JoostWorld.downedPinkzor = true;
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.Pinkzor>(), Main.rand, 1, 1, 1, false);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+        }
+        int chance = 1;
         bool regen = false;
 		public override void AI()
 		{
@@ -92,14 +95,15 @@ namespace JoostMod.NPCs.Hunts
 				}
 			}
 		}
-public override bool CheckDead()
+		public override bool CheckDead()
         {
+			var source = NPC.GetSource_Death();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, Mod.Find<ModNPC>("Hunt Master").Type);
-                NPC.NewNPC((int)NPC.Center.X + 28, (int)NPC.Center.Y - 2, NPCID.Pinky);
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 2, NPCID.Pinky);
-                NPC.NewNPC((int)NPC.Center.X - 28, (int)NPC.Center.Y - 2, NPCID.Pinky);
+                NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HuntMaster>());
+                NPC.NewNPC(source, (int)NPC.Center.X + 28, (int)NPC.Center.Y - 2, NPCID.Pinky);
+                NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y - 2, NPCID.Pinky);
+                NPC.NewNPC(source, (int)NPC.Center.X - 28, (int)NPC.Center.Y - 2, NPCID.Pinky);
             }
             return true;
         }

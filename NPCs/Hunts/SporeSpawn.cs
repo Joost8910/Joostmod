@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -45,20 +47,21 @@ namespace JoostMod.NPCs.Hunts
         public override void OnKill()
 		{
             JoostWorld.downedSporeSpawn = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("SporeSpawn").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.SporeSpawn>(), Main.rand, 1, 1, 1, false);
         }
-		public override void HitEffect(int hitDirection, double damage)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+        }
+        public override void HitEffect(int hitDirection, double damage)
         {
             NPC.ai[0]++;
-            if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SporeSpawn"), 1f);
-				Gore.NewGore(NPC.position, -NPC.velocity, Mod.GetGoreSlot("Gores/SporeSpawn"), 1f);
-			}
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("SporeSpawn").Type);
+                Gore.NewGore(sauce, NPC.position, -NPC.velocity, Mod.Find<ModGore>("SporeSpawn").Type);
+            }
         }
         Vector2 posOff = new Vector2(0, -100);
         public override void AI()

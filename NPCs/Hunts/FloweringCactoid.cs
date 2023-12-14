@@ -7,6 +7,9 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Items.Quest;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -42,14 +45,19 @@ namespace JoostMod.NPCs.Hunts
         {
             return !spawnInfo.Player.ZoneBeach && spawnInfo.Player.ZoneDesert && spawnInfo.SpawnTileY <= Main.worldSurface && !JoostWorld.downedFloweringCactoid && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+        }
         public override void OnKill()
         {
             JoostWorld.downedFloweringCactoid = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("FloweringCactoid").Type, 1, false);
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.FloweringCactoid>(), Main.rand, 1, 1, 1, false);
+            /*NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("FloweringCactoid").Type, 1, false);
             if (Main.expertMode && Main.rand.Next(100) == 0)
             {
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
+            }*/
         }
         int idle = 0;
         public override void FindFrame(int frameHeight)
@@ -114,18 +122,20 @@ namespace JoostMod.NPCs.Hunts
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			NPC.ai[0]++;
-            if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactite1"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactite2"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cactite2"), 1f);
-			}
-		} 
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactite1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactite2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Cactite2").Type);
+            }
+        } 
 		int dir = 1;
 		public override void AI()
 		{
 			Player P = Main.player[NPC.target];
-			NPC.netUpdate = true;
+            var source = NPC.GetSource_FromAI();
+            NPC.netUpdate = true;
             if (Vector2.Distance(NPC.Center, P.Center) > 2500 || NPC.target < 0 || NPC.target == 255 || P.dead || !P.active)
             {
                 NPC.TargetClosest(true);
@@ -153,11 +163,11 @@ namespace JoostMod.NPCs.Hunts
                         {
                             if (i == 2 || i == 3)
                             {
-                                NPC.NewNPC((int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, Mod.Find<ModNPC>("Cactoid").Type);
+                                NPC.NewNPC(source, (int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, Mod.Find<ModNPC>("Cactoid").Type);
                             }
                             else
                             {
-                                NPC.NewNPC((int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, Mod.Find<ModNPC>("Cactite").Type);
+                                NPC.NewNPC(source, (int)NPC.position.X - 125 + (i * 50), (int)NPC.position.Y - j, Mod.Find<ModNPC>("Cactite").Type);
                             }
                         }
                     }
@@ -278,21 +288,21 @@ namespace JoostMod.NPCs.Hunts
                     if (NPC.ai[3] >= 15)
                     {
                         float Speed = 15f;
-                        int type = Mod.Find<ModProjectile>("CactusNeedle2").Type;
+                        int type = ModContent.ProjectileType<CactusNeedle2>();
                         SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                         float rotation = (float)Math.Atan2(NPC.Center.Y - (P.Center.Y), NPC.Center.X - (P.Center.X));
                         float randRot = Main.rand.Next(360);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(randRot) * Speed) * -1), (float)((Math.Sin(randRot) * Speed) * -1), type, 1, 0, Main.myPlayer);
+                            Projectile.NewProjectile(source, NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(randRot) * Speed) * -1), (float)((Math.Sin(randRot) * Speed) * -1), type, 1, 0, Main.myPlayer);
                             if (Main.expertMode)
                             {
-                                Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, 1, 0, Main.myPlayer);
+                                Projectile.NewProjectile(source, NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, 1, 0, Main.myPlayer);
                             }
                             else
                             {
                                 randRot = Main.rand.Next(360);
-                                Projectile.NewProjectile(NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(randRot) * Speed) * -1), (float)((Math.Sin(randRot) * Speed) * -1), type, 1, 0, Main.myPlayer);
+                                Projectile.NewProjectile(source, NPC.Center.X + (Main.rand.Next(-12, 12)), NPC.Center.Y + (Main.rand.Next(-25, 25)), (float)((Math.Cos(randRot) * Speed) * -1), (float)((Math.Sin(randRot) * Speed) * -1), type, 1, 0, Main.myPlayer);
                             }
                         }
                         NPC.ai[2]--;

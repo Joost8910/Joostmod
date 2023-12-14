@@ -120,7 +120,7 @@ namespace JoostMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0, 0, Mod.Find<ModProjectile>("Deathbringer").Type, 50, 15f, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<Projectiles.Hostile.Deathbringer>(), 50, 15f, Main.myPlayer, NPC.whoAmI);
                     }
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                 }

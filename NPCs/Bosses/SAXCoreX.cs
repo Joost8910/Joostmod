@@ -13,6 +13,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Buffs;
 
 namespace JoostMod.NPCs.Bosses
 {
@@ -30,10 +31,10 @@ namespace JoostMod.NPCs.Bosses
                     BuffID.Confused,
                     BuffID.Frostburn,
                     BuffID.Frostburn2,
-                    Mod.Find<ModBuff>("InfectedRed").Type,
-                    Mod.Find<ModBuff>("InfectedGreen").Type,
-                    Mod.Find<ModBuff>("InfectedBlue").Type,
-                    Mod.Find<ModBuff>("InfectedYellow").Type
+                    ModContent.BuffType<InfectedRed>(),
+                    ModContent.BuffType<InfectedGreen>(),
+                    ModContent.BuffType<InfectedBlue>(),
+                    ModContent.BuffType<InfectedYellow>()
                 }
             };
             NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
@@ -329,7 +330,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     float speed = 12f;
                     int damage = 75;
-                    int type = Mod.Find<ModProjectile>("SAXBeam").Type;
+                    int type = ModContent.ProjectileType<SAXBeam>();
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
                     float rotation = NPC.rotation;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -396,7 +397,7 @@ namespace JoostMod.NPCs.Bosses
                         speed += (NPC.velocity.Length() - speed) / 2;
                     }
                     int damage = 100;
-                    int type = Mod.Find<ModProjectile>("SAXBeamCharged").Type;
+                    int type = ModContent.ProjectileType<SAXBeamCharged>();
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeamCharged"), NPC.Center);
                     float rotation = NPC.rotation;
                     if (Main.netMode != NetmodeID.MultiplayerClient)

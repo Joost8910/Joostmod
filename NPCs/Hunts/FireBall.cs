@@ -33,8 +33,8 @@ namespace JoostMod.NPCs.Hunts
             NPC.buffImmune[BuffID.Frostburn] = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.buffImmune[BuffID.Daybreak] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("BoneHurt").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("CorruptSoul").Type] = true;
+            NPC.buffImmune[ModContent.BuffType<BoneHurt>()] = true;
+            NPC.buffImmune[ModContent.BuffType<CorruptSoul>()] = true;
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
@@ -129,25 +129,25 @@ namespace JoostMod.NPCs.Hunts
             if (target.type != NPCID.BurningSphere)
             {
                 NPC.life = 0;
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage, 20, NPC.target);
+                Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage, 20, NPC.target);
             }
             NPC.ai[2] = 0;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             NPC.life = 0;
-            Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 30, 20);
+            Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 30, 20);
             NPC.ai[2] = 0;
         }
         public override bool CheckDead()
         {
             if (NPC.friendly)
             {
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage*5, 20, NPC.target);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage*5, 20, NPC.target);
             }
             else
             {
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 25, 20);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 25, 20);
             }
             return true;
         }

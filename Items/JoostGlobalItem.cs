@@ -9,6 +9,11 @@ using Terraria.Enums;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Microsoft.Xna.Framework.Graphics;
+using JoostMod.Items.Weapons.Hybrid;
+using JoostMod.Items.Weapons.Summon;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Weapons.Thrown;
+using JoostMod.Items.Tools.Rods;
 
 namespace JoostMod.Items
 {
@@ -169,6 +174,30 @@ namespace JoostMod.Items
             lifeRegen = reader.ReadInt32();
             fishingPower = reader.ReadInt32();
         }
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            if (item.type == ItemID.SkeletronBossBag)
+            {
+                itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<SkellyStaff>()));
+            }
+            if (item.type == ItemID.WallOfFleshBossBag)
+            {
+                itemLoot.Add(ItemDropRule.Common(ItemID.LifeCrystal, 1, 1, 3));
+            }
+            if (item.type == ItemID.PlanteraBossBag)
+            {
+                itemLoot.Add(ItemDropRule.Common(ItemID.LifeFruit, 1, 1, 4));
+                itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<RoseWeave>(), 3));
+            }
+            if (item.type == ItemID.FishronBossBag)
+            {
+                itemLoot.Add(ItemDropRule.Common(ItemID.LifeFruit, 2, 1, 4));
+                itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<BubbleKnife>(), 3, 750, 999));
+                itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DukeFishRod>(), 3));
+                itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Accessories.MegaBubbleShield>(), 3));
+            }
+        }
+        /*
         public override void OpenVanillaBag(string context, Player player, int arg)
         {
             if (context.Equals("bossBag"))
@@ -206,6 +235,7 @@ namespace JoostMod.Items
                 }
             }
         }
+        */
         public static float LegendaryDamage()
         {
             float damageMult = 1f +                             //1
@@ -265,7 +295,7 @@ namespace JoostMod.Items
             if (player.GetModPlayer<JoostPlayer>().emptyHeart && player.chaosState && item.type == ItemID.RodofDiscord)
             {
                 PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                 {
                     damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
                 }
@@ -288,9 +318,9 @@ namespace JoostMod.Items
                     SoundEngine.PlaySound(SoundID.Dig, new Vector2(i * 16, j * 16));
                     Main.tile[i, j].TileType = (ushort)Mod.Find<ModTile>("AncientMossyStone").Type;
                     WorldGen.SquareTileFrame(i, j, true);
-                    if (Main.netMode == 1)
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
-                        NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
                     }
                 }
             }
@@ -333,6 +363,7 @@ namespace JoostMod.Items
     {
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetSource_OnHit(target);
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
                 if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
@@ -340,7 +371,7 @@ namespace JoostMod.Items
                     float lifeStoled = target.lifeMax * 0.04f;
                     if ((int)lifeStoled > 0 && !player.moonLeech)
                     {
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
+                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                     }
                 }
                 target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
@@ -352,7 +383,7 @@ namespace JoostMod.Items
                     float damag = target.lifeMax * 0.25f;
                     if ((int)damag > 0)
                     {
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
+                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                     }
                 }
                 target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
@@ -360,6 +391,7 @@ namespace JoostMod.Items
         }
         public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetSource_OnHit(target);
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
                 if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
@@ -367,7 +399,7 @@ namespace JoostMod.Items
                     float lifeStoled = target.statLifeMax2 * 0.04f;
                     if ((int)lifeStoled > 0 && !player.moonLeech)
                     {
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 305, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
+                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                     }
                 }
                 target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
@@ -379,7 +411,7 @@ namespace JoostMod.Items
                     float damag = target.statLifeMax2 * 0.25f;
                     if ((int)damag > 0)
                     {
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
+                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
                     }
                 }
                 target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);

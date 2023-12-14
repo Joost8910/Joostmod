@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -44,11 +46,11 @@ namespace JoostMod.NPCs.Hunts
         public override void OnKill()
         {
             JoostWorld.downedSkeletonDemoman = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("SkeletonDemoman").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.SkeletonDemoman>(), Main.rand, 1, 1, 1, false);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -62,6 +64,7 @@ namespace JoostMod.NPCs.Hunts
             }
             else
             {
+                var sauce = NPC.GetSource_Death();
                 for (int i = 0; i < 20; i++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 26, 2.5f * hitDirection, -2.5f, 0, default(Color), 1f);
@@ -70,14 +73,17 @@ namespace JoostMod.NPCs.Hunts
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, Main.rand.Next(-2, 2), -2, Mod.Find<ModProjectile>("Grenade").Type, 20, 10, Main.myPlayer);
+                        Projectile.NewProjectile(sauce, NPC.Center.X, NPC.Center.Y, Main.rand.Next(-2, 2), -2, ModContent.ProjectileType<Grenade>(), 20, 10, Main.myPlayer);
                     }
                 }
-                Gore.NewGore(new Vector2(NPC.Center.X, NPC.position.Y), NPC.velocity, Mod.GetGoreSlot("SkeletonDemoman"), NPC.scale);
-                Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + 20f), NPC.velocity, 43, NPC.scale);
-                Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + 20f), NPC.velocity, 43, NPC.scale);
-                Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + 34f), NPC.velocity, 44, NPC.scale);
-                Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + 34f), NPC.velocity, 44, NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(sauce, new Vector2(NPC.Center.X, NPC.position.Y), NPC.velocity, Mod.Find<ModGore>("SkeletonDemoman").Type);
+                    Gore.NewGore(sauce, new Vector2(NPC.position.X, NPC.position.Y + 20f), NPC.velocity, 43, NPC.scale);
+                    Gore.NewGore(sauce, new Vector2(NPC.position.X, NPC.position.Y + 20f), NPC.velocity, 43, NPC.scale);
+                    Gore.NewGore(sauce, new Vector2(NPC.position.X, NPC.position.Y + 34f), NPC.velocity, 44, NPC.scale);
+                    Gore.NewGore(sauce, new Vector2(NPC.position.X, NPC.position.Y + 34f), NPC.velocity, 44, NPC.scale);
+                }
             }
         }
         public override void FindFrame(int frameHeight)
@@ -145,6 +151,7 @@ namespace JoostMod.NPCs.Hunts
         public override void AI()
         {
             NPC.damage = 0;
+            var sauce = NPC.GetSource_FromAI();
             Player P = Main.player[NPC.target];
             NPC.netUpdate = true;
             if (Vector2.Distance(NPC.Center, P.Center) > 2500 || NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -166,7 +173,7 @@ namespace JoostMod.NPCs.Hunts
                     SoundEngine.PlaySound(SoundID.Grab, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(8 * NPC.direction + ((int)NPC.Center.X / 16) * 16, NPC.Center.Y, 0, 5, Mod.Find<ModProjectile>("Landmine").Type, 40, 25, Main.myPlayer);
+                        Projectile.NewProjectile(sauce, 8 * NPC.direction + ((int)NPC.Center.X / 16) * 16, NPC.Center.Y, 0, 5, ModContent.ProjectileType<Landmine>(), 40, 25, Main.myPlayer);
                     }
                     NPC.ai[2] = 0;
                     NPC.velocity.X = NPC.direction;
@@ -182,7 +189,7 @@ namespace JoostMod.NPCs.Hunts
                     {
                         if (NPC.velocity.X == 0)
                         {
-                            if (Main.rand.Next(4) == 0)
+                            if (Main.rand.NextBool(4))
                             {
                                 NPC.direction *= -1;
                             }
@@ -219,7 +226,7 @@ namespace JoostMod.NPCs.Hunts
                 {
                     if (NPC.velocity.Y == 0)
                     {
-                        if (Main.rand.Next(150) == 0)
+                        if (Main.rand.NextBool(150))
                         {
                             NPC.ai[2] = 1;
                             NPC.ai[1] = 20;
@@ -283,10 +290,10 @@ namespace JoostMod.NPCs.Hunts
                         {
                             float Speed = 5.5f;
                             int damage = 20;
-                            int type = Mod.Find<ModProjectile>("Grenade").Type;
+                            int type = ModContent.ProjectileType<Grenade>();
                             SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                             float rotation = (float)Math.Atan2(NPC.Center.Y - (P.Center.Y), NPC.Center.X - (P.Center.X));
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10, Main.myPlayer);
                         }
                     }
                 }
@@ -307,10 +314,10 @@ namespace JoostMod.NPCs.Hunts
                         {
                             float Speed = 5.5f;
                             int damage = 20;
-                            int type = Mod.Find<ModProjectile>("Grenade").Type;
+                            int type = ModContent.ProjectileType<Grenade>();
                             SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                             float rotation = (float)Math.Atan2(NPC.Center.Y - (P.Center.Y), NPC.Center.X - (P.Center.X));
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10, Main.myPlayer);
+                            Projectile.NewProjectile(sauce, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 10, Main.myPlayer);
                         }
                     }
                     if (NPC.velocity.X != 0)
@@ -328,9 +335,9 @@ namespace JoostMod.NPCs.Hunts
                     if (NPC.ai[3] == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int damage = 200;
-                        int type = Mod.Find<ModProjectile>("DoomCannonHostile").Type;
+                        int type = ModContent.ProjectileType<DoomCannonHostile>();
                         float rotation = (float)Math.Atan2(NPC.Center.Y - (P.Center.Y), NPC.Center.X - (P.Center.X));
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation)) * -1), (float)((Math.Sin(rotation)) * -1), type, damage, 30, Main.myPlayer, NPC.whoAmI);
+                        Projectile.NewProjectile(sauce, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation)) * -1), (float)((Math.Sin(rotation)) * -1), type, damage, 30, Main.myPlayer, NPC.whoAmI);
                     }
                     NPC.ai[3]++;
                     if (NPC.ai[3] > 700)

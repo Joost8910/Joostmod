@@ -181,7 +181,7 @@ namespace JoostMod.NPCs
                 {
                     float Speed = 8f;
                     int damage = 25;
-                    int type = Mod.Find<ModProjectile>("Gust").Type;
+                    int type = ModContent.ProjectileType<Gust>();
                     SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                     Vector2 dir = NPC.DirectionTo(P.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)

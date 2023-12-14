@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Buffs;
 
 namespace JoostMod.Projectiles.Accessory
 {
@@ -35,7 +36,7 @@ namespace JoostMod.Projectiles.Accessory
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(Mod.Find<ModBuff>("InfectedYellow").Type, 900);
+            target.AddBuff(ModContent.BuffType<InfectedYellow>(), 900);
             Projectile.Kill();
         }
         public override void Kill(int timeLeft)
@@ -43,7 +44,7 @@ namespace JoostMod.Projectiles.Accessory
             if (Projectile.localAI[1] > 0)
             {
                 NPC target = Main.npc[(int)Projectile.localAI[1] - 1];
-                target.AddBuff(Mod.Find<ModBuff>("InfectedYellow").Type, 18000);
+                target.AddBuff(ModContent.BuffType<InfectedYellow>(), 18000);
                 SoundEngine.PlaySound(SoundID.NPCDeath19, Projectile.Center);
             }
         }

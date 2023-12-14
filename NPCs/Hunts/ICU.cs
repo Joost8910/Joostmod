@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -41,14 +43,14 @@ namespace JoostMod.NPCs.Hunts
         {
             return NPC.ai[0] > 0 && base.CanHitPlayer(target, ref cooldownSlot);
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+        }
         public override void OnKill()
-		{
+        {
             JoostWorld.downedICU = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("ICU").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.ICU>(), Main.rand, 1, 1, 1, false);
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
@@ -67,14 +69,14 @@ namespace JoostMod.NPCs.Hunts
         public override void HitEffect(int hitDirection, double damage)
         {
             NPC.ai[0]++;
-            if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ICU2"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ICU1"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ICU2"), 1f);
-			}
-
-		}
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ICU1").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ICU2").Type);
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("ICU2").Type);
+            }
+        }
         public override void AI()
 		{
             Player P = Main.player[NPC.target];

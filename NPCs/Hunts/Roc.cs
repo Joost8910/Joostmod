@@ -6,6 +6,8 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -46,27 +48,26 @@ namespace JoostMod.NPCs.Hunts
         public override void OnKill()
 		{
             JoostWorld.downedRoc = true;
-            NPC.DropItemInstanced(NPC.position, NPC.Size, Mod.Find<ModItem>("Roc").Type, 1, false);
-            if (Main.expertMode && Main.rand.Next(100) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("EvilStone").Type, 1);
-            }
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.Roc>(), Main.rand, 1, 1, 1, false);
         }
-		public override void HitEffect(int hitDirection, double damage)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
+        }
+        public override void HitEffect(int hitDirection, double damage)
         {
             NPC.ai[0]++;
-            if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc"), 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Roc3"), 1f);
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Roc").Type);
+                for (int i = 0; i < 5; i++)
+                {
+                    if (i < 2)
+                        Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Roc2").Type);
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("Roc3").Type);
+                }
             }
-
         }
         public override void FindFrame(int frameHeight)
         {
@@ -260,7 +261,7 @@ namespace JoostMod.NPCs.Hunts
                         SoundEngine.PlaySound(SoundID.Item39, NPC.position);
                         float Speed = 10f;
                         int damage = 15;
-                        int type = Mod.Find<ModProjectile>("RocFeather").Type;
+                        int type = ModContent.ProjectileType<RocFeather>();
                         float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                         int numberProjectiles = 2 + Main.rand.Next(3);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -268,7 +269,7 @@ namespace JoostMod.NPCs.Hunts
                             for (int i = 0; i < numberProjectiles; i++)
                             {
                                 Vector2 perturbedSpeed = new Vector2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1)).RotatedByRandom(MathHelper.ToRadians(30));                                                                                        // perturbedSpeed = perturbedSpeed * scale; 
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 1, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 1, Main.myPlayer);
                             }
                         }
                         NPC.ai[1] = 0;

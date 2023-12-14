@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Armor;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Bosses
 {
@@ -199,7 +200,7 @@ namespace JoostMod.NPCs.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         //TODO Center on player for future enkidu rework
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (Main.rand.Next(-15, 15) * 120), NPC.Center.Y - (120 * 8), Speed, Math.Abs(Speed), Mod.Find<ModProjectile>("EnkiduWind").Type, 50, 15f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (Main.rand.Next(-15, 15) * 120), NPC.Center.Y - (120 * 8), Speed, Math.Abs(Speed), ModContent.ProjectileType<EnkiduWind>(), 50, 15f, Main.myPlayer);
                     }
                 }
             }
@@ -217,7 +218,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     float Speed = 10f + NPC.velocity.Length();
                     int damage = 50;
-                    int type = Mod.Find<ModProjectile>("EnkiduWind").Type;
+                    int type = ModContent.ProjectileType<EnkiduWind>();
                     SoundEngine.PlaySound(SoundID.Item32, NPC.position);
                     float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                     float spread = 45f * 0.0174f;

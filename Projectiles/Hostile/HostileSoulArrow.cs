@@ -7,7 +7,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace JoostMod.Projectiles.Ranged
+namespace JoostMod.Projectiles.Hostile
 {
     public class HostileSoulArrow : ModProjectile
     {

@@ -4,6 +4,8 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System.IO;
+using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Hunts;
 
 namespace JoostMod.NPCs
 {
@@ -18,9 +20,9 @@ namespace JoostMod.NPCs
         {
             minLength = 5;
             maxLength = 9;
-            tailType = Mod.Find<ModNPC>("CactusWormTail").Type;
-            bodyType = Mod.Find<ModNPC>("CactusWormBody").Type;
-            headType = Mod.Find<ModNPC>("CactusWormHead").Type;
+            tailType = ModContent.NPCType<CactusWormTail>();
+            bodyType = ModContent.NPCType<CactusWormBody>();
+            headType = ModContent.NPCType<CactusWormHead>();
             speed = 7f;
             turnSpeed = 0.05f;
             spaceValue = 12;
@@ -37,9 +39,9 @@ namespace JoostMod.NPCs
         {
             minLength = 25;
             maxLength = 25;
-            tailType = Mod.Find<ModNPC>("AlphaCactusWormTail").Type;
-            bodyType = Mod.Find<ModNPC>("AlphaCactusWormBody").Type;
-            headType = Mod.Find<ModNPC>("AlphaCactusWormHead").Type;
+            tailType = ModContent.NPCType<AlphaCactusWormTail>();
+            bodyType = ModContent.NPCType<AlphaCactusWormBody>();
+            headType = ModContent.NPCType<AlphaCactusWormHead>();
             speed = 7.5f;
             turnSpeed = 0.065f;
             spaceValue = 32;
@@ -57,9 +59,9 @@ namespace JoostMod.NPCs
         {
             minLength = 14;
             maxLength = 14;
-            tailType = Mod.Find<ModNPC>("StormWyvernTail").Type;
-            bodyType = Mod.Find<ModNPC>("StormWyvernBody").Type;
-            headType = Mod.Find<ModNPC>("StormWyvernHead").Type;
+            tailType = ModContent.NPCType<StormWyvernTail>();
+            bodyType = ModContent.NPCType<StormWyvernBody>();
+            headType = ModContent.NPCType<StormWyvernHead>();
             speed = 12.5f;
             turnSpeed = 0.100f;
             flies = true;
@@ -160,7 +162,7 @@ namespace JoostMod.NPCs
                 }
                 if (!NPC.active && Main.netMode == 2)
                 {
-                    NetMessage.SendData(28, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
 			int num180 = (int)(NPC.position.X / 16f) - 1;
@@ -198,7 +200,7 @@ namespace JoostMod.NPCs
 							if (NPC.position.X + (float)NPC.width > vector17.X && NPC.position.X < vector17.X + 16f && NPC.position.Y + (float)NPC.height > vector17.Y && NPC.position.Y < vector17.Y + 16f)
 							{
 								flag18 = true;
-								if (Main.rand.Next(100) == 0 && NPC.behindTiles && Main.tile[num184, num185].HasUnactuatedTile)
+								if (Main.rand.NextBool(100) && NPC.behindTiles && Main.tile[num184, num185].HasUnactuatedTile)
 								{
 									WorldGen.KillTile(num184, num185, true, true, false);
 								}
@@ -377,15 +379,15 @@ namespace JoostMod.NPCs
 									int num201 = (int)Main.npc[num200].ai[0];
 									Main.npc[num200].active = false;
 									NPC.life = 0;
-									if (Main.netMode == 2)
+									if (Main.netMode == NetmodeID.Server)
 									{
-										NetMessage.SendData(23, -1, -1, null, num200, 0f, 0f, 0f, 0, 0, 0);
+										NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num200, 0f, 0f, 0f, 0, 0, 0);
 									}
 									num200 = num201;
 								}
-								if (Main.netMode == 2)
+								if (Main.netMode == NetmodeID.Server)
 								{
-									NetMessage.SendData(23, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 								}
 							}
 							num191 = 0f;

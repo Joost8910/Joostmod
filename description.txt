@@ -116,3 +116,10 @@ Whirlwind Sphere
 --- NPCS ---
 Hunt Master
 - Can now be warped by the King Statue
+Mothron
+- Broken Hero FLail, Broken Hero Hammer, and Broken Hero Spear now have equal drop chances to Broken Hero Sword 
+Plantera
+- Rose Weave drop chance reduced to 25% / 33%(Expert)
+- Expert Life Fruit amount reduced from 2-5, to 1-5 
+Duke Fishron
+- Bubble Knife, Duke Fishrod, and Mega Bubble Shield drop chance reduced to 25% / 33%(Expert)

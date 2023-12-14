@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using JoostMod.Items.Placeable;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Materials;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs
 {
@@ -180,7 +181,7 @@ namespace JoostMod.NPCs
                     float Speed = 9f;
                     Vector2 vector8 = new Vector2(NPC.Center.X, NPC.position.Y + 26);
                     int damage = 30;
-                    int type = Mod.Find<ModProjectile>("SandBall").Type;
+                    int type = ModContent.ProjectileType<SandBall>();
                     SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                     float rotation = (float)Math.Atan2(vector8.Y - (P.position.Y + (P.height * 0.5f)), vector8.X - (P.position.X + (P.width * 0.5f)));
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -226,7 +227,7 @@ namespace JoostMod.NPCs
                     Vector2 pos = new Vector2(NPC.Center.X, NPC.position.Y + 26);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 4f * NPC.direction, 0, Mod.Find<ModProjectile>("ShockWave").Type, 75, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 4f * NPC.direction, 0, ModContent.ProjectileType<ShockWave>(), 75, 0f, Main.myPlayer);
                     }
                     for (int i = 0; i < 100; i++)
                     {

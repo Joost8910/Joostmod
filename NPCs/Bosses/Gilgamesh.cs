@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Bosses
 {
@@ -183,7 +184,7 @@ namespace JoostMod.NPCs.Bosses
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 Projectile projectile = Main.projectile[i];
-                if (projectile.type == Mod.Find<ModProjectile>("GilgNaginata1").Type && projectile.active)
+                if (projectile.type == ModContent.ProjectileType<GilgNaginata1>() && projectile.active)
                 {
                     NPC.direction = NPC.Center.X < P.Center.X ? 1 : -1;
                     naginataReady = false;
@@ -196,7 +197,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     float Speed = 18f;
                     int damage = 50;
-                    int type = Mod.Find<ModProjectile>("GilgNaginata1").Type;
+                    int type = ModContent.ProjectileType<GilgNaginata1>();
                     float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -226,7 +227,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         pos = PredictiveAim(Speed, arm);
                     }
-                    int type = Mod.Find<ModProjectile>("GilgTomahawk").Type;
+                    int type = ModContent.ProjectileType<GilgTomahawk>();
                     float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     SoundEngine.PlaySound(SoundID.Item1, NPC.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -244,7 +245,7 @@ namespace JoostMod.NPCs.Bosses
                     {
                         pos = PredictiveAim(Speed, arm);
                     }
-                    int type = Mod.Find<ModProjectile>("GilgTomahawk").Type;
+                    int type = ModContent.ProjectileType<GilgTomahawk>();
                     float rotation = (float)Math.Atan2(arm.Y - pos.Y, arm.X - pos.X);
                     SoundEngine.PlaySound(SoundID.Item19, NPC.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -260,7 +261,7 @@ namespace JoostMod.NPCs.Bosses
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 Projectile projectile = Main.projectile[i];
-                if (projectile.type == Mod.Find<ModProjectile>("GilgNaginata1").Type && projectile.active)
+                if (projectile.type == ModContent.ProjectileType<GilgNaginata1>() && projectile.active)
                 {
                     naginataReady = false;
                     break;
@@ -303,7 +304,7 @@ namespace JoostMod.NPCs.Bosses
                     NPC.velocity.X = NPC.Center.X < P.Center.X ? vel : -vel;
                     float Speed = 18f;
                     int damage = 60;
-                    int type = Mod.Find<ModProjectile>("GilgNaginata1").Type;
+                    int type = ModContent.ProjectileType<GilgNaginata1>();
                     SoundEngine.PlaySound(SoundID.Item7, NPC.position);
                     float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -495,7 +496,7 @@ namespace JoostMod.NPCs.Bosses
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile projectile = Main.projectile[i];
-                    if (projectile.type == Mod.Find<ModProjectile>("GilgNaginata1").Type && projectile.active)
+                    if (projectile.type == ModContent.ProjectileType<GilgNaginata1>() && projectile.active)
                     {
                         Vector2 dir = projectile.velocity;
                         dir.Normalize();
@@ -644,7 +645,7 @@ namespace JoostMod.NPCs.Bosses
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile projectile = Main.projectile[i];
-                    if (projectile.type == Mod.Find<ModProjectile>("GilgNaginata1").Type && projectile.active)
+                    if (projectile.type == ModContent.ProjectileType<GilgNaginata1>() && projectile.active)
                     {
                         Vector2 dir = projectile.velocity;
                         dir.Normalize();

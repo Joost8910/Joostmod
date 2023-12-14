@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Buffs;
 
 namespace JoostMod.NPCs.Bosses
 {
@@ -27,10 +28,10 @@ namespace JoostMod.NPCs.Bosses
                     BuffID.Frostburn2,
                     BuffID.OnFire,
                     BuffID.OnFire3,
-                    Mod.Find<ModBuff>("InfectedRed").Type,
-                    Mod.Find<ModBuff>("InfectedGreen").Type,
-                    Mod.Find<ModBuff>("InfectedBlue").Type,
-                    Mod.Find<ModBuff>("InfectedYellow").Type
+                    ModContent.BuffType<InfectedRed>(),
+                    ModContent.BuffType<InfectedGreen>(),
+                    ModContent.BuffType<InfectedBlue>(),
+                    ModContent.BuffType<InfectedYellow>()
                 }
             };
             NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
@@ -274,7 +275,7 @@ namespace JoostMod.NPCs.Bosses
                         {
                             NPC.ai[0]++;
                             int damage = 50;
-                            int type = Mod.Find<ModProjectile>("SAXBeam").Type;
+                            int type = ModContent.ProjectileType<SAXBeam>();
                             float rotation = NPC.ai[3];
                             Vector2 aim = new Vector2((float)((Math.Cos(rotation)) * -1), (float)((Math.Sin(rotation)) * -1));
                             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
@@ -312,7 +313,7 @@ namespace JoostMod.NPCs.Bosses
                         {
                             NPC.ai[0]++;
                             int damage = 75;
-                            int type = Mod.Find<ModProjectile>("SAXSuperMissile").Type;
+                            int type = ModContent.ProjectileType<SAXSuperMissile>();
                             float rotation = NPC.ai[3];
                             Vector2 aim = new Vector2((float)((Math.Cos(rotation)) * -1), (float)((Math.Sin(rotation)) * -1));
                             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot"), NPC.Center);
@@ -365,7 +366,7 @@ namespace JoostMod.NPCs.Bosses
                         {
                             NPC.ai[0]++;
                             int damage = 100;
-                            int type = Mod.Find<ModProjectile>("SAXBeamCharged").Type;
+                            int type = ModContent.ProjectileType<SAXBeamCharged>();
                             float rotation = NPC.ai[3];
                             Vector2 aim = new Vector2((float)((Math.Cos(rotation)) * -1), (float)((Math.Sin(rotation)) * -1));
                             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeamCharged"), NPC.Center);
@@ -408,7 +409,7 @@ namespace JoostMod.NPCs.Bosses
                     if (NPC.localAI[1] == 30)
                     {
                         int damage = 150;
-                        int type = Mod.Find<ModProjectile>("SAXPowerBomb").Type;
+                        int type = ModContent.ProjectileType<SAXPowerBomb>();
                         SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/LayBomb"), NPC.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {

@@ -35,8 +35,8 @@ namespace JoostMod.NPCs.Hunts
             NPC.buffImmune[BuffID.Frostburn] = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.buffImmune[BuffID.Daybreak] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("BoneHurt").Type] = true;
-            NPC.buffImmune[Mod.Find<ModBuff>("CorruptSoul").Type] = true;
+            NPC.buffImmune[ModContent.BuffType<BoneHurt>()] = true;
+            NPC.buffImmune[ModContent.BuffType<CorruptSoul>()] = true;
         }
         public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
@@ -74,7 +74,7 @@ namespace JoostMod.NPCs.Hunts
                 NPC.velocity.Y = NPC.ai[1];
                 NPC.damage = (int)NPC.ai[2];
                 NPC.ai[3]= 1;
-                if (Main.netMode != 0)
+                if (Main.netMode != NetmodeID.SinglePlayer)
                 {
                     ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)JoostModMessageType.NPCpos);
@@ -167,7 +167,7 @@ namespace JoostMod.NPCs.Hunts
         }
         public override bool CheckDead()
         {
-            Projectile.NewProjectile(NPC.Center, Vector2.Zero, Mod.Find<ModProjectile>("FireballExplosion").Type, NPC.damage, 20, (int)NPC.target);
+            Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FireballExplosion>(), NPC.damage, 20, (int)NPC.target);
             return true;
         }
     }

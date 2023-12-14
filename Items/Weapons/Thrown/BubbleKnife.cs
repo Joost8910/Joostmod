@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
-    public class BubbleBottle : ModItem
+    public class BubbleKnife : ModItem
     {
 
         public override void SetStaticDefaults()
@@ -28,7 +28,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.knockBack = 2;
             Item.value = 5000;
-            Item.rare = Item.RarityID.Cyan;
+            Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = Mod.Find<ModProjectile>("BubbleBottle").Type;
