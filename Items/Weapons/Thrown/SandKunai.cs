@@ -37,25 +37,24 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.maxStack = 999;
             Item.shoot = Mod.Find<ModProjectile>("SandKunai").Type;
         }
-        public override bool UseItemFrame(Player player)
+        public override void UseItemFrame(Player player)
         {
             if (player.reuseDelay <= 0)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 4;
-                return true;
+                return;
             }
             if (player.itemAnimation < player.itemAnimationMax * 0.333)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 3;
-                return true;
+                return;
             }
             if (player.itemAnimation < player.itemAnimationMax * 0.666)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 2;
-                return true;
+                return;
             }
             player.bodyFrame.Y = player.bodyFrame.Height;
-            return true;
         }
         public override bool ConsumeItem(Player player)
         {

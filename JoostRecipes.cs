@@ -121,7 +121,7 @@ namespace JoostMod
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
             Recipe.Create(ItemID.AncientBattleArmorMaterial)
-                .AddIngredient<DesertCore>(), 2)
+                .AddIngredient<DesertCore>(2)
                 .AddIngredient(ItemID.DarkShard)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
@@ -135,12 +135,12 @@ namespace JoostMod
                 .AddTile(TileID.WorkBenches)
                 .Register();
             Recipe.Create(ItemID.HotlineFishingHook)
-                .AddIngredient<FireEssence>(), 25)
+                .AddIngredient<FireEssence>(25)
                 .AddIngredient(ItemID.MechanicsRod)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
             Recipe.Create(ItemID.BottomlessBucket)
-                .AddIngredient<WaterEssence>(), 25)
+                .AddIngredient<WaterEssence>(25)
                 .AddIngredient(ItemID.WaterBucket)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();

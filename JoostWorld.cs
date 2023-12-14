@@ -52,46 +52,41 @@ namespace JoostMod
         }
         public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
         {
-            var downed = new List<string>();
-            if (downedJumboCactuar) downed.Add("JumboCactuar");
-            if (downedSAX) downed.Add("SAX");
-            if (downedGilgamesh) downed.Add("Gilgamesh");
-            if (downedPinkzor) downed.Add("Pinkzor");
-            if (downedRogueTomato) downed.Add("RogueTomato");
-            if (downedWoodGuardian) downed.Add("WoodGuardian");
-            if (downedFloweringCactoid) downed.Add("FloweringCactoid");
-            if (downedICU) downed.Add("ICU");
-            if (downedSporeSpawn) downed.Add("SporeSpawn");
-            if (downedRoc) downed.Add("Roc");
-            if (downedSkeletonDemoman) downed.Add("SkeletonDemoMan");
-            if (downedCactusWorm) downed.Add("CactusWorm");
-            if (downedImpLord) downed.Add("ImpLord"); ;
-            if (downedStormWyvern) downed.Add("StormWyvern");
-
-            return new TagCompound {
-                {"downed", downed}
-            };
+            if (downedJumboCactuar) tag["JumboCactuar"] = true;
+            if (downedSAX) tag["SAX"] = true;
+            if (downedGilgamesh) tag["Gilgamesh"] = true;
+            if (downedPinkzor) tag["Pinkzor"] = true;
+            if (downedRogueTomato) tag["RogueTomato"] = true;
+            if (downedWoodGuardian) tag["WoodGuardian"] = true;
+            if (downedFloweringCactoid) tag["FloweringCactoid"] = true;
+            if (downedICU) tag["ICU"] = true;
+            if (downedSporeSpawn) tag["SporeSpawn"] = true;
+            if (downedRoc) tag["Roc"] = true;
+            if (downedSkeletonDemoman) tag["SkeletonDemoMan"] = true;
+            if (downedCactusWorm) tag["CactusWorm"] = true;
+            if (downedImpLord) tag["ImpLord"] = true; ;
+            if (downedStormWyvern) tag["StormWyvern"] = true;
         }
 
         public override void LoadWorldData(TagCompound tag)
         {
-            var downed = tag.GetList<string>("downed");
-            downedJumboCactuar = downed.Contains("JumboCactuar");
-            downedSAX = downed.Contains("SAX");
-            downedGilgamesh = downed.Contains("Gilgamesh");
-            downedPinkzor = downed.Contains("Pinkzor");
-            downedRogueTomato = downed.Contains("RogueTomato");
-            downedWoodGuardian = downed.Contains("WoodGuardian");
-            downedFloweringCactoid = downed.Contains("FloweringCactoid");
-            downedICU = downed.Contains("ICU");
-            downedSporeSpawn = downed.Contains("SporeSpawn");
-            downedRoc = downed.Contains("Roc");
-            downedSkeletonDemoman = downed.Contains("SkeletonDemoMan");
-            downedCactusWorm = downed.Contains("CactusWorm");
-            downedImpLord = downed.Contains("ImpLord");
-            downedStormWyvern = downed.Contains("StormWyvern");
+            //var downed = tag.GetList<string>("downed");
+            downedJumboCactuar = tag.ContainsKey("JumboCactuar");
+            downedSAX = tag.ContainsKey("SAX");
+            downedGilgamesh = tag.ContainsKey("Gilgamesh");
+            downedPinkzor = tag.ContainsKey("Pinkzor");
+            downedRogueTomato = tag.ContainsKey("RogueTomato");
+            downedWoodGuardian = tag.ContainsKey("WoodGuardian");
+            downedFloweringCactoid = tag.ContainsKey("FloweringCactoid");
+            downedICU = tag.ContainsKey("ICU");
+            downedSporeSpawn = tag.ContainsKey("SporeSpawn");
+            downedRoc = tag.ContainsKey("Roc");
+            downedSkeletonDemoman = tag.ContainsKey("SkeletonDemoMan");
+            downedCactusWorm = tag.ContainsKey("CactusWorm");
+            downedImpLord = tag.ContainsKey("ImpLord");
+            downedStormWyvern = tag.ContainsKey("StormWyvern");
         }
-
+        /*
         public override void LoadLegacy(BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
@@ -120,6 +115,7 @@ namespace JoostMod
                 ErrorLogger.Log("JoostMod: Unknown loadVersion: " + loadVersion);
             }
         }
+        */
 
         public override void NetSend(BinaryWriter writer)
         {
@@ -278,10 +274,11 @@ namespace JoostMod
             {
                 for (int j = y; j < y + 6; j++)
                 {
-                    Main.tile[i, j].HasTile = false;
-                    Main.tile[i, j].LiquidAmount = 0;
-                    Main.tile[i, j].Slope = 0;
-                    Main.tile[i, j].IsHalfBlock = false;
+                    Tile t = Main.tile[i, j];
+                    t.HasTile = false;
+                    t.LiquidAmount = 0;
+                    t.Slope = 0;
+                    t.IsHalfBlock = false;
                     WorldGen.KillWall(i, j);
                     WorldGen.PlaceWall(i, j, wall);
                     WorldGen.paintWall(i, j, color);
@@ -311,10 +308,11 @@ namespace JoostMod
 
                 for (int j = y - 2; j <= y + 2; j++)
                 {
-                    Main.tile[i, j].HasTile = false;
-                    Main.tile[i, j].LiquidAmount = 0;
-                    Main.tile[i, j].Slope = 0;
-                    Main.tile[i, j].IsHalfBlock = false;
+                    Tile ti = Main.tile[i, j];
+                    ti.HasTile = false;
+                    ti.LiquidAmount = 0;
+                    ti.Slope = 0;
+                    ti.IsHalfBlock = false;
                     WorldGen.KillWall(i, j);
                     WorldGen.PlaceWall(i, j, 54);
                     WorldGen.paintWall(i, j, 18);
@@ -332,35 +330,41 @@ namespace JoostMod
             WorldGen.KillWall(x - 3, y - 2);
             WorldGen.PlaceTile(x - 3, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 3, y - 2, 18);
-            Main.tile[x - 3, y - 2].Slope = 3;
+            Tile t = Main.tile[x - 3, y - 2];
+            t.Slope = SlopeType.SlopeUpLeft;
 
             WorldGen.KillTile(x + 4, y - 2);
             WorldGen.KillWall(x + 4, y - 2);
             WorldGen.PlaceTile(x + 4, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 4, y - 2, 18);
-            Main.tile[x + 4, y - 2].Slope = 4;
+            t = Main.tile[x + 4, y - 2];
+            t.Slope = SlopeType.SlopeUpRight;
 
             WorldGen.KillTile(x - 4, y - 2);
             WorldGen.PlaceTile(x - 4, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 4, y - 2, 18);
-            Main.tile[x - 4, y - 2].Slope = 2;
+            t = Main.tile[x - 4, y - 2];
+            t.Slope = SlopeType.SlopeDownRight;
 
             WorldGen.KillTile(x - 4, y - 1);
             WorldGen.PlaceTile(x - 4, y - 1, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x - 4, y - 1, 18);
 
-            Main.tile[x - 3, y - 3].Slope = 2;
+            t= Main.tile[x - 3, y - 3];
+            t.Slope = SlopeType.SlopeDownRight;
 
             WorldGen.KillTile(x + 5, y - 2);
             WorldGen.PlaceTile(x + 5, y - 2, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 5, y - 2, 18);
-            Main.tile[x + 5, y - 2].Slope = 1;
+            t = Main.tile[x + 5, y - 2];
+            t.Slope = SlopeType.SlopeDownLeft;
 
             WorldGen.KillTile(x + 5, y - 1);
             WorldGen.PlaceTile(x + 5, y - 1, Mod.Find<ModTile>("AncientMossyStone").Type);
             //WorldGen.paintTile(x + 5, y - 1, 18);
 
-            Main.tile[x + 4, y - 3].Slope = 1;
+            t = Main.tile[x + 4, y - 3];
+            t.Slope = SlopeType.SlopeDownLeft;
 
             WorldGen.PlaceObject(x, y + 2, Mod.Find<ModTile>("ShrineOfLegends").Type);
         }

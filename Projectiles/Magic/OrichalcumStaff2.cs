@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Twilight Staff>();
+            DisplayName.SetDefault("Twilight Staff");
 
         }
         public override void SetDefaults()

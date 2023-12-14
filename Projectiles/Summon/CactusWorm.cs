@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Summon
             Projectile.height = 56;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Summon
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.penetrate = 15;
             Projectile.timeLeft = 200;
             Projectile.tileCollide = false;
@@ -59,7 +59,7 @@ namespace JoostMod.Projectiles.Summon
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
+            behindNPCsAndTiles.Add(index);
         }
     }
 }
