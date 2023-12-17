@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using JoostMod.Projectiles;
 
 namespace JoostMod.Items.Tools
 {
@@ -29,7 +31,7 @@ namespace JoostMod.Items.Tools
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.value = 0;
             Item.rare = ItemRarityID.Red;
-            Item.shoot = Mod.Find<ModProjectile>("CheatManipulation").Type;
+            Item.shoot = ModContent.ProjectileType<CheatManipulation>();
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

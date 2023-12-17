@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] >= 13f)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * .15f, Main.rand.Next(-10, -5) * .05f, Mod.Find<ModProjectile>("BubbleThrown").Type, (int)(Projectile.damage * 0.75f), 7, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * .15f, Main.rand.Next(-10, -5) * .05f, ModContent.ProjectileType<BubbleThrown>(), (int)(Projectile.damage * 0.75f), 7, Projectile.owner);
                 Projectile.ai[1] -= 10f;
             }
         }

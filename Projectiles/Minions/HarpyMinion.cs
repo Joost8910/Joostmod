@@ -34,7 +34,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = true;
 			inertia = 100f;
-			shoot = Mod.Find<ModProjectile>("Feather").Type;
+			shoot = ModContent.ProjectileType<Feather>();
 			shootSpeed = 9f;
             chaseDist = 250f;
             chaseAccel = 18f;

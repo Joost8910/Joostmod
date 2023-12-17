@@ -23,7 +23,7 @@ namespace JoostMod.Items.Ammo
 			Item.knockBack = 0f;
 			Item.value = 300000;
 			Item.rare = ItemRarityID.Orange;
-			Item.shoot = Mod.Find<ModProjectile>("HungeringArrow").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.HungeringArrow>();
 			Item.shootSpeed = 7f;
 			Item.ammo = AmmoID.Arrow;
 		}

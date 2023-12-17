@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles.Hostile
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, Mod.Find<ModProjectile>("UltimateIllusion2").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, ModContent.ProjectileType<UltimateIllusion2>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
         }
 
     }

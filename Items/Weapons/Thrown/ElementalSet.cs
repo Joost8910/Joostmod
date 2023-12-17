@@ -1,9 +1,9 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -31,31 +31,31 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Boomerain").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Boomerain>();
             Item.shootSpeed = 7.5f;
 
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthenHammer").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave1").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave2").Type] <= 0 || player.ownedProjectileCounts[Mod.Find<ModProjectile>("GaleBoomerang").Type] <= 0 || player.ownedProjectileCounts[Mod.Find<ModProjectile>("Boomerain").Type] <= 0 || player.ownedProjectileCounts[Mod.Find<ModProjectile>("InfernalChakram").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DousedChakram").Type] <= 0;
+            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave1>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave2>()] <= 0 || player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>()] <= 0 || player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.Boomerain>()] <= 0 || player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DousedChakram>()] <= 0;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthenHammer").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave1").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave2").Type] <= 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave1>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave2>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, Mod.Find<ModProjectile>("EarthenHammer").Type, (int)(damage * 1.44f), knockback * 2.16f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>(), (int)(damage * 1.44f), knockback * 2.16f, player.whoAmI);
             }
-            else if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("GaleBoomerang").Type] <= 0)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("GaleBoomerang").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>(), damage, knockback, player.whoAmI);
             }
-            else if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Boomerain").Type] <= 0)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.Boomerain>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, Mod.Find<ModProjectile>("Boomerain").Type, (int)(damage * 0.65f), knockback * 1.16f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, ModContent.ProjectileType<Projectiles.Thrown.Boomerain>(), (int)(damage * 0.65f), knockback * 1.16f, player.whoAmI);
             }
-            else if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("InfernalChakram").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DousedChakram").Type] <= 0)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DousedChakram>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.4f, velocity.Y * 1.4f, Mod.Find<ModProjectile>("InfernalChakram").Type, (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.4f, velocity.Y * 1.4f, ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>(), (int)(damage * 0.75f), knockback, player.whoAmI);
             }
             return false;
         }

@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Buffs
 {
@@ -16,7 +17,7 @@ namespace JoostMod.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			//player.rangedDamage += 1f;
-            Dust.NewDust(player.position, player.width, player.width, 258);
+            Dust.NewDust(player.position, player.width, player.width, DustID.LavaMoss);
             if (!player.GetModPlayer<JoostPlayer>().gRangedIsActive)
             {
                 player.DelBuff(buffIndex);

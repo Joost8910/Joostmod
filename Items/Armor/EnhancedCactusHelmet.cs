@@ -22,7 +22,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("EnhancedCactusBreastplate").Type && legs.type == Mod.Find<ModItem>("EnhancedCactusLeggings").Type;
+            return body.type == ModContent.ItemType<EnhancedCactusBreastplate>() && legs.type == ModContent.ItemType<EnhancedCactusLeggings>();
         }
         public override void UpdateEquip(Player player)
         {

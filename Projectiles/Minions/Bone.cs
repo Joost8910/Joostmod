@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Minions
             {
                 if (Main.rand.NextBool(5))
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("BoneX").Type, Projectile.damage * 2, Projectile.knockBack * 2, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<BoneX>(), Projectile.damage * 2, Projectile.knockBack * 2, Projectile.owner);
                     Projectile.timeLeft = 1;
                 }
                 spawn = true;

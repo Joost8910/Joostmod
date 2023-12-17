@@ -168,18 +168,18 @@ namespace JoostMod.Projectiles.Melee
                 {
 
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_cyclone_slash_1"), Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction, 0, Mod.Find<ModProjectile>("AwokenDreamSpinSlash").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction, 0, ModContent.ProjectileType<AwokenDreamSpinSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
                 else if (Math.Abs(player.velocity.X) >= 6 && player.velocity.X * Projectile.velocity.X > 0 && Math.Abs(Projectile.velocity.Y) < 7)
                 {
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_dream_nail_slash"), Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction * 60, 0, Mod.Find<ModProjectile>("AwokenDreamDashSlash").Type, Projectile.damage * 9, Projectile.knockBack * 7, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction * 60, 0, ModContent.ProjectileType<AwokenDreamDashSlash>(), Projectile.damage * 9, Projectile.knockBack * 7, Projectile.owner);
                     player.velocity.X += 7 * player.direction;
                 }
                 else
                 {
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_dream_nail_slash"), Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X * 2, Projectile.velocity.Y * 2, Mod.Find<ModProjectile>("AwokenDreamGreatSlash").Type, Projectile.damage * 9, Projectile.knockBack * 7, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X * 2, Projectile.velocity.Y * 2, ModContent.ProjectileType<AwokenDreamGreatSlash>(), Projectile.damage * 9, Projectile.knockBack * 7, Projectile.owner);
                 }
             }
             else
@@ -187,12 +187,12 @@ namespace JoostMod.Projectiles.Melee
                 Player player = Main.player[Projectile.owner];
                 Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_sonic_boom_blade_slash_0"), Projectile.Center); // 220
-                Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("AwokenDreamNail2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<AwokenDreamNail2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 player.itemTime = player.itemAnimationMax;
                 player.itemAnimation = player.itemAnimationMax;
                 if (player.statLife >= player.statLifeMax2)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("AwokenDreamBeam").Type, Projectile.damage / 2, 0, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<AwokenDreamBeam>(), Projectile.damage / 2, 0, Projectile.owner);
                 }
             }
         }

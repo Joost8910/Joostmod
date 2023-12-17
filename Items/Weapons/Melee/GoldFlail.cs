@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.autoReuse = false;
             Item.channel = true;
             Item.useTurn = true;
-            Item.shoot = Mod.Find<ModProjectile>("GoldFlail").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.GoldFlail>();
             Item.shootSpeed = 11f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

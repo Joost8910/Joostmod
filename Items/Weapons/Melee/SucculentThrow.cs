@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
-            Item.shoot = Mod.Find<ModProjectile>("SucculentThrow").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.SucculentThrow>();
             Item.shootSpeed = 11f;
         }
     }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Ranged;
 
 namespace JoostMod.Items.Weapons.Ranged
 {
@@ -27,7 +28,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item61;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("StickyCactus").Type;
+            Item.shoot = ModContent.ProjectileType<StickyCactus>();
             Item.shootSpeed = 14f;
         }
         public override Vector2? HoldoutOffset()

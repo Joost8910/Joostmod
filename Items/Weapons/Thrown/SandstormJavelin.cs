@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("SandstormJavelin").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.SandstormJavelin>();
             Item.shootSpeed = 12f;
         }
         public override void AddRecipes()

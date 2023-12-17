@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using JoostMod.Projectiles.Fishhooks;
 
 namespace JoostMod.Items.Tools.Rods
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Items.Tools.Rods
             Item.UseSound = SoundID.Item36;
             Item.autoReuse = false;
             //item.shoot = 364;
-            Item.shoot = Mod.Find<ModProjectile>("GoldenFishHook").Type;
+            Item.shoot = ModContent.ProjectileType<GoldenFishHook>();
             Item.shootSpeed = 17f;
             Item.fishingPole = 50;
         }

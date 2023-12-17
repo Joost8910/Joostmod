@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("WaterBalloon").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.WaterBalloon>();
             Item.shootSpeed = 10f;
 
         }
@@ -39,19 +39,19 @@ namespace JoostMod.Items.Weapons.Thrown
             int wep = Main.rand.Next(4);
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.8f, velocity.Y * 0.8f, Mod.Find<ModProjectile>("Fireball").Type, (int)(damage * 0.8f), knockback * 0.2f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.8f, velocity.Y * 0.8f, ModContent.ProjectileType<Projectiles.Thrown.Fireball>(), (int)(damage * 0.8f), knockback * 0.2f, player.whoAmI);
             }
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Tornade").Type, (int)(damage * 0.9f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Tornade>(), (int)(damage * 0.9f), knockback, player.whoAmI);
             }
             if (wep == 2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, Mod.Find<ModProjectile>("WaterBalloon").Type, (int)(damage * 1f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.WaterBalloon>(), (int)(damage * 1f), knockback, player.whoAmI);
             }
             if (wep == 3)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Rock").Type, (int)(damage * 3.5f), knockback * 2, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Rock>(), (int)(damage * 3.5f), knockback * 2, player.whoAmI);
             }
             return false;
         }

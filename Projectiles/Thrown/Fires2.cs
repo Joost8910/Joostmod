@@ -49,7 +49,7 @@ namespace JoostMod.Projectiles.Thrown
             double dist = -Projectile.ai[1] / 60;
             Projectile p = Main.projectile[(int)Projectile.ai[0]];
             Player P = Main.player[Projectile.owner];
-            if (!p.active || p.timeLeft <= 0 || p.type != Mod.Find<ModProjectile>("InfernalChakram").Type && p.type != Mod.Find<ModProjectile>("DousedChakram").Type)
+            if (!p.active || p.timeLeft <= 0 || p.type != ModContent.ProjectileType<InfernalChakram>() && p.type != ModContent.ProjectileType<DousedChakram>())
             {
                 Projectile.position.X = P.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
                 Projectile.position.Y = P.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;

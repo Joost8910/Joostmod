@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles.Melee
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 13, 0, 1, Mod.Find<ModProjectile>("GrogWaveFlipped2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 13, 0, 1, ModContent.ProjectileType<GrogWaveFlipped2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
             return true;
         }
 

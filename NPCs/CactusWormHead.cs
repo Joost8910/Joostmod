@@ -1,4 +1,5 @@
 using JoostMod.Items.Materials;
+using JoostMod.Items.Placeable;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;

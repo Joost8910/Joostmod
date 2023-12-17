@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -28,9 +29,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 25000;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("HarpyMinion").Type;
+            Item.shoot = ModContent.ProjectileType<HarpyMinion>();
             Item.shootSpeed = 7f;
-            Item.buffType = Mod.Find<ModBuff>("HarpyMinion").Type;
+            Item.buffType = ModContent.BuffType<Buffs.HarpyMinionBuff>();
             Item.buffTime = 3600;
         }
         public override bool AltFunctionUse(Player player)

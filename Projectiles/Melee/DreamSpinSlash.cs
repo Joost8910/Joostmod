@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.frame = (Projectile.frame + 1) % 14;
             if (Projectile.ai[0] == 33 * 2)
             {
-                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/hero_nail_art_cyclone_slash_2"));
+                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_cyclone_slash_2"), Projectile.Center);
             }
             player.velocity.Y *= 0.9f;
             player.fallStart = (int)(player.position.Y / 16f);

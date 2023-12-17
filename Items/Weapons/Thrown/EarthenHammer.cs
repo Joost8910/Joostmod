@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -27,12 +28,12 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("EarthenHammer").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>();
             Item.shootSpeed = 8f;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave1").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EarthWave2").Type] >= 1)
+            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave1>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave2>()] >= 1)
             {
                 return false;
             }

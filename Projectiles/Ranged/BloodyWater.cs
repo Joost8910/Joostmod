@@ -50,7 +50,7 @@ namespace JoostMod.Projectiles.Ranged
         {
             if (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 80)
             {
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("BloodyWaterDisperse").Type, Projectile.damage, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<BloodyWaterDisperse>(), Projectile.damage, 0, Projectile.owner);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace JoostMod.Projectiles.Ranged
                 {
                     Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X / 2, Projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
                     perturbedSpeed *= 1f - Main.rand.NextFloat() * .3f;
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("BloodyWater2").Type, Projectile.damage, 0, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BloodyWater2>(), Projectile.damage, 0, Projectile.owner);
                 }
             }
         }

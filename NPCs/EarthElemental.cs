@@ -87,18 +87,12 @@ namespace JoostMod.NPCs
         }
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/EarthElemental"), 1f);
+                var sauce = NPC.GetSource_Death();
+                for (int i = 0; i < 8; i++)
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("EarthElemental").Type);
             }
-
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

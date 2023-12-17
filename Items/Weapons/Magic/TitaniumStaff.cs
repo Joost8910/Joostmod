@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item12;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("PurpleLaser").Type;
+            Item.shoot = ModContent.ProjectileType<PurpleLaser>();
             Item.shootSpeed = 15f;
         }
         public override void AddRecipes()

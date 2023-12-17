@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.shootSpeed = 13.5f;
             Item.consumable = true;
             Item.maxStack = 999;
-            Item.shoot = Mod.Find<ModProjectile>("SandKunai").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.SandKunai>();
         }
         public override void UseItemFrame(Player player)
         {

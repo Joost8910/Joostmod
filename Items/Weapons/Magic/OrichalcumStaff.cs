@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.value = 60000;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item8;
-            Item.shoot = Mod.Find<ModProjectile>("OrichalcumStaff").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Magic.OrichalcumStaff>();
             Item.shootSpeed = 0;
             Item.useTurn = true;
         }

@@ -29,7 +29,7 @@ namespace JoostMod.Items.Consumables
 			Item.rare = ItemRarityID.Cyan;
 			Item.UseSound = SoundID.Item3;
 			Item.buffTime = 54000;
-			Item.buffType = Mod.Find<ModBuff>("JoostJuice").Type;
+			Item.buffType = ModContent.BuffType<Buffs.JoostJuice>();
 		}
 		/*public override bool ConsumeItem(Player player)
 		{

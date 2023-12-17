@@ -31,7 +31,7 @@ namespace JoostMod.Items.Tools
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.value = 0;
             Item.rare = ItemRarityID.Pink;
-            Item.shoot = Mod.Find<ModProjectile>("DivineMirror").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.DivineMirror>();
             Item.shootSpeed = 1;
         }
         public override bool CanUseItem(Player player)

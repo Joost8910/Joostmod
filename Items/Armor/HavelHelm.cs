@@ -31,7 +31,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("HavelArmor").Type && legs.type == Mod.Find<ModItem>("HavelLeggings").Type;
+            return body.type == ModContent.ItemType<HavelArmor>() && legs.type == ModContent.ItemType<HavelLeggings>();
         }
         public override void UpdateArmorSet(Player player)
         {

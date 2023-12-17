@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item84;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Chakram").Type;
+            Item.shoot = ModContent.ProjectileType<Chakram>();
             Item.shootSpeed = 2.5f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -48,7 +48,7 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Chakram2").Type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Chakram2>(), damage, knockback, player.whoAmI);
             return true;
         }
 

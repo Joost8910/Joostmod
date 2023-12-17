@@ -23,7 +23,7 @@ namespace JoostMod.Items.Ammo
 			Item.knockBack = 5f;
 			Item.value = 20000;
 			Item.rare = ItemRarityID.Orange;
-			Item.shoot = Mod.Find<ModProjectile>("Richoshot").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.Richoshot>();
 			Item.ammo = AmmoID.Bullet;
 		}
 		public override void AddRecipes()

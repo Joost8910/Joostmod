@@ -1,10 +1,10 @@
-using System;
+using JoostMod.Projectiles.Minions;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace JoostMod.Buffs
 {
-	public class StormWyvernMinion : ModBuff
+	public class StormWyvernMinionBuff : ModBuff
 	{
 		public override void SetStaticDefaults()
 		{
@@ -16,8 +16,8 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
-			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("StormWyvernMinion").Type] > 0)
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<StormWyvernMinion>()] > 0)
 			{
 				modPlayer.stormWyvernMinion = true;
 			}

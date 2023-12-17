@@ -1,10 +1,11 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Mounts;
 
 namespace JoostMod.Items.Mounts
 {
-	public class EarthMount : ModItem
+	public class StoneSlabs : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -22,7 +23,7 @@ namespace JoostMod.Items.Mounts
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.DD2_MonkStaffGroundMiss;
 			Item.noMelee = true;
-			Item.mountType = Mod.Find<ModMount>("EarthMount").Type;
+			Item.mountType = ModContent.MountType<EarthMount>();
         }
         public override void AddRecipes()
         {

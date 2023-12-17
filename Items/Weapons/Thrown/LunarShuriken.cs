@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("LunarShuriken").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.LunarShuriken>();
             Item.shootSpeed = 23f;
         }
         public override void AddRecipes()

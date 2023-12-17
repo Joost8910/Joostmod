@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("AdamantiteChainedchainsaw").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.AdamantiteChainedchainsaw>();
             Item.shootSpeed = 6f;
             Item.crit = 4;
         }
@@ -120,11 +120,11 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 3)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, Mod.Find<ModProjectile>("GreenLaser").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, ModContent.ProjectileType<Projectiles.Magic.GreenLaser>(), damage, knockback, player.whoAmI);
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, Mod.Find<ModProjectile>("AdamantiteChainedchainsaw").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, ModContent.ProjectileType<Projectiles.Thrown.AdamantiteChainedchainsaw>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

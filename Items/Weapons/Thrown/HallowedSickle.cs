@@ -28,7 +28,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("HallowedSickle").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.HallowedSickle>();
             Item.shootSpeed = 0.3f;
         }
         public override void AddRecipes()

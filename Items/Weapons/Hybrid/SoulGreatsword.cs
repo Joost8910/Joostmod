@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("SoulGreatsword").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Hybrid.SoulGreatsword>();
             Item.shootSpeed = 10f;
         }
         public override bool CanUseItem(Player player)

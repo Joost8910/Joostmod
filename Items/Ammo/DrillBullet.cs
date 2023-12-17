@@ -24,7 +24,7 @@ namespace JoostMod.Items.Ammo
 			Item.knockBack = 0;
 			Item.value = 10;
 			Item.rare = ItemRarityID.Green;
-			Item.shoot = Mod.Find<ModProjectile>("DrillBullet").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.DrillBullet>();
 			Item.shootSpeed = 3f;
 			Item.ammo = AmmoID.Bullet;
 		}

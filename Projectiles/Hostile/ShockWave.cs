@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Hostile
             int x = 8 + (int)(Projectile.position.X / 16) * 16;
             if (x != Projectile.localAI[1])
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, 15f, Mod.Find<ModProjectile>("ShockWave1").Type, Projectile.damage, 7, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, 15f, ModContent.ProjectileType<ShockWave1>(), Projectile.damage, 7, Projectile.owner);
                 Projectile.localAI[1] = x;
             }
         }

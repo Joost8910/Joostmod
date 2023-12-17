@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("GrenadeFish").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.GrenadeFish>();
             Item.shootSpeed = 7f;
         }
         /*

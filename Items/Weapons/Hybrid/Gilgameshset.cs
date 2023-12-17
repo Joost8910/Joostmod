@@ -6,6 +6,9 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.Collections.Generic;
 using Terraria.Utilities;
+using JoostMod.Projectiles.Melee;
+using JoostMod.Projectiles.Thrown;
+using JoostMod.Projectiles.Hybrid;
 
 namespace JoostMod.Items.Weapons.Hybrid
 {
@@ -36,7 +39,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Naginata").Type;
+            Item.shoot = ModContent.ProjectileType<Naginata>();
             Item.shootSpeed = 8f;
 
         }
@@ -63,7 +66,7 @@ namespace JoostMod.Items.Weapons.Hybrid
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Naginata").Type] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Naginata>()] > 0)
             {
                 return false;
             }
@@ -72,23 +75,23 @@ namespace JoostMod.Items.Weapons.Hybrid
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int Gilgwep = Main.rand.Next(7);
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Naginata").Type] > 0 && Gilgwep == 6)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Naginata>()] > 0 && Gilgwep == 6)
             {
                 Gilgwep = Main.rand.Next(6);
             }
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Axe").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("Axe2").Type] > 0 && Gilgwep == 5)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Axe>()] + player.ownedProjectileCounts[ModContent.ProjectileType<Axe2>()] > 0 && Gilgwep == 5)
             {
                 Gilgwep = Main.rand.Next(5);
             }
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Flail").Type] > 0 && Gilgwep == 4)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Flail>()] > 0 && Gilgwep == 4)
             {
                 Gilgwep = Main.rand.Next(4);
             }
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("BusterSword").Type] > 0 && Gilgwep == 3)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<BusterSword>()] > 0 && Gilgwep == 3)
             {
                 Gilgwep = Main.rand.Next(3);
             }
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("Gunblade").Type] > 0 && Gilgwep == 2)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Gunblade>()] > 0 && Gilgwep == 2)
             {
                 Gilgwep = Main.rand.Next(2);
             }
@@ -98,19 +101,19 @@ namespace JoostMod.Items.Weapons.Hybrid
             }
             if (Gilgwep == 5)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2f, velocity.Y * 2f, Mod.Find<ModProjectile>("Axe").Type, damage * 2, knockback * 1.2f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2f, velocity.Y * 2f, ModContent.ProjectileType<Axe>(), damage * 2, knockback * 1.2f, player.whoAmI);
             }
             if (Gilgwep == 4)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, Mod.Find<ModProjectile>("Flail").Type, (int)(damage * 2.5f), knockback * 2, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, ModContent.ProjectileType<Flail>(), (int)(damage * 2.5f), knockback * 2, player.whoAmI);
             }
             if (Gilgwep == 3)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("BusterSword").Type, (int)(damage * 2.5f), knockback * 3, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BusterSword>(), (int)(damage * 2.5f), knockback * 3, player.whoAmI);
             }
             if (Gilgwep == 2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Gunblade").Type, (int)(damage * player.GetDamage(DamageClass.Ranged) * player.GetDamage(DamageClass.Ranged) * 2f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Gunblade>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(damage), knockback, player.whoAmI);
             }
             if (Gilgwep == 1)
             {
@@ -123,14 +126,14 @@ namespace JoostMod.Items.Weapons.Hybrid
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, Mod.Find<ModProjectile>("Kunai").Type, (int)(damage * 0.8f), knockback / 2, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, ModContent.ProjectileType<Kunai>(), (int)(damage * 0.8f), knockback / 2, player.whoAmI);
                 }
             }
             if (Gilgwep == 0)
             {
                 float Speed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.5f, velocity.Y * 1.5f, Mod.Find<ModProjectile>("Tomahawk").Type, damage, knockback, player.whoAmI);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, Mod.Find<ModProjectile>("Tomahawk").Type, damage, knockback, player.whoAmI, 1, Speed * 1.2f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.5f, velocity.Y * 1.5f, ModContent.ProjectileType<Tomahawk>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Tomahawk>(), damage, knockback, player.whoAmI, 1, Speed * 1.2f);
 
             }
             return false;

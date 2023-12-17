@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -29,7 +30,7 @@ namespace JoostMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Swirlwind").Type;
+            Item.shoot = ModContent.ProjectileType<Swirlwind>();
             Item.shootSpeed = 1f;
         }
         public override void AddRecipes()

@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Fireball").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Fireball>();
             Item.shootSpeed = 7.5f;
         }
         public override void AddRecipes()

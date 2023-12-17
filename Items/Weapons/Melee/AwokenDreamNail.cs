@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -31,18 +32,18 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("AwokenDreamNail").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.AwokenDreamNail>();
             Item.shootSpeed = 19f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamGreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamDashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AwokenDreamSpinSlash").Type] < 1;
+            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<AwokenDreamNail2>()] + player.ownedProjectileCounts[ModContent.ProjectileType<AwokenDreamGreatSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<AwokenDreamDashSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<AwokenDreamSpinSlash>()] < 1;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.statLife >= player.statLifeMax2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("AwokenDreamBeam").Type, damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AwokenDreamBeam>(), damage / 2, 0, player.whoAmI);
             }
             return true;
         }

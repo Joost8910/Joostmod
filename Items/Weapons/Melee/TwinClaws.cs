@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Claw").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.Claw>();
             Item.shootSpeed = 4f;
             Item.channel = true;
         }

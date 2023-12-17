@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("MechanicalSphere").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.MechanicalSphere>();
             Item.shootSpeed = 7f;
             Item.crit = 4;
         }
@@ -113,7 +113,7 @@ namespace JoostMod.Items.Weapons.Generic
                 }
                 if (wep == 3)
                 {
-                    Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("MechanicalSphere").Type, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.MechanicalSphere>(), damage, knockback, player.whoAmI);
                 }
             }
             if (wep == 0)

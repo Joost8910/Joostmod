@@ -14,6 +14,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Buffs;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Bosses
 {

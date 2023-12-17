@@ -71,10 +71,10 @@ namespace JoostMod.Projectiles.Hostile
                 Vector2 dir4 = targetPos - pos4;
                 dir4.Normalize();
 
-                Projectile.NewProjectile(source, pos1, dir1, Mod.Find<ModProjectile>("HostileFocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
-                Projectile.NewProjectile(source, pos2, dir2, Mod.Find<ModProjectile>("HostileFocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
-                Projectile.NewProjectile(source, pos3, dir3, Mod.Find<ModProjectile>("HostileFocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
-                Projectile.NewProjectile(source, pos4, dir4, Mod.Find<ModProjectile>("HostileFocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
+                Projectile.NewProjectile(source, pos1, dir1, ModContent.ProjectileType<HostileFocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
+                Projectile.NewProjectile(source, pos2, dir2, ModContent.ProjectileType<HostileFocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
+                Projectile.NewProjectile(source, pos3, dir3, ModContent.ProjectileType<HostileFocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
+                Projectile.NewProjectile(source, pos4, dir4, ModContent.ProjectileType<HostileFocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, host.whoAmI);
             }
             if (Projectile.localAI[0] == 100)
             {

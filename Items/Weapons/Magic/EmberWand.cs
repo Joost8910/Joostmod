@@ -1,8 +1,8 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Flame").Type;
+            Item.shoot = ModContent.ProjectileType<Flame>();
             Item.shootSpeed = 7f;
         }
         public override void HoldItem(Player player)

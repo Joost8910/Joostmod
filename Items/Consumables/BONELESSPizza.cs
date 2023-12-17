@@ -30,7 +30,7 @@ namespace JoostMod.Items.Consumables
 		}
 		public override bool ConsumeItem(Player player)
 		{
-			player.AddBuff(Mod.Find<ModBuff>("BONELESSPizza").Type, 108000);
+			player.AddBuff(ModContent.BuffType<Buffs.BONELESSPizza>(), 108000);
 			return true;
 		}
 		public override void AddRecipes()

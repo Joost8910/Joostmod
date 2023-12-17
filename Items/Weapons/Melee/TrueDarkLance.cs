@@ -28,7 +28,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("TrueDarkLance").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TrueDarkLance>();
             Item.shootSpeed = 5f;
         }
         public override bool CanUseItem(Player player)

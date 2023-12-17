@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using JoostMod.Items.Weapons.Thrown;
 
 namespace JoostMod.Items.Rewards
 {
@@ -51,11 +52,11 @@ namespace JoostMod.Items.Rewards
         {
             CreateRecipe()
                 .AddRecipeGroup("JoostMod:Saplings")
-                .AddIngredient<JoostMod.Items.Weapons.Thrown.CopperHatchet>(3)
+                .AddIngredient<CopperHatchet>(3)
                 .Register();
             CreateRecipe()
                 .AddRecipeGroup("JoostMod:Saplings")
-                .AddIngredient<JoostMod.Items.Weapons.Thrown.TinHatchet>(3)
+                .AddIngredient<TinHatchet>(3)
                 .Register();
         }
     }

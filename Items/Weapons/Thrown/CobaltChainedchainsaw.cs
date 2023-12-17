@@ -28,13 +28,13 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("CobaltChainedchainsaw").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.CobaltChainedchainsaw>();
             Item.shootSpeed = 14f;
             Item.maxStack = 4;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("CobaltChainedchainsaw2").Type] >= Item.stack)
+            if (player.ownedProjectileCounts[Item.shoot] >= Item.stack)
             {
                 return false;
             }

@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item28;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("SnowFlake").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.SnowFlake>();
             Item.shootSpeed = 9f;
         }
     }

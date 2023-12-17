@@ -22,7 +22,7 @@ namespace JoostMod.Items.Ammo
 			Item.knockBack = 3f;
 			Item.value = 10;
 			Item.rare = ItemRarityID.Green;
-			Item.shoot = Mod.Find<ModProjectile>("BoomerangBullet").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.BoomerangBullet>();
 			Item.shootSpeed = 3f;
 			Item.ammo = AmmoID.Bullet;
 		}

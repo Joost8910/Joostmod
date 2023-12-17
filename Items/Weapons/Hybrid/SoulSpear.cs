@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             Item.rare = ItemRarityID.Yellow;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item8;
-            Item.shoot = Mod.Find<ModProjectile>("SoulSpear").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Hybrid.SoulSpear>();
             Item.shootSpeed = 15f;
         }
         /*
@@ -74,7 +74,7 @@ namespace JoostMod.Items.Weapons.Hybrid
         {
             if (player.itemAnimation > Item.useTime)
             {
-                SoundEngine.PlaySound(SoundID.Trackable, player.Center);
+                SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_2"), player.Center); // 203
                 return false;
             }
             SoundEngine.PlaySound(SoundID.Item28, player.Center);

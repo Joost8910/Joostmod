@@ -26,7 +26,7 @@ namespace JoostMod.Projectiles.Ranged
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), Mod.Find<ModProjectile>("Kerbal2").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), ModContent.ProjectileType<Kerbal2>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
         }
     }
 }

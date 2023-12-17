@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -28,9 +29,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 100;
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("EmberMinion").Type;
+            Item.shoot = ModContent.ProjectileType<EmberMinion>();
             Item.shootSpeed = 7f;
-            Item.buffType = Mod.Find<ModBuff>("EmberMinion").Type;
+            Item.buffType = ModContent.BuffType<Buffs.EmberMinionBuff>();
             Item.buffTime = 3600;
         }
         public override bool AltFunctionUse(Player player)

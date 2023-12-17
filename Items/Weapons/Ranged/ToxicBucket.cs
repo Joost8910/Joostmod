@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
+using JoostMod.Projectiles.Ranged;
 
 namespace JoostMod.Items.Weapons.Ranged
 {
@@ -30,7 +29,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item21;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("ToxicWater").Type;
+            Item.shoot = ModContent.ProjectileType<ToxicWater>();
             Item.shootSpeed = 12f;
         }
         /*

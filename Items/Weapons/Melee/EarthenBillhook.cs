@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Weapons.Melee
 {
@@ -35,7 +36,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("EarthenBillhook").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.EarthenBillhook>();
             Item.shootSpeed = 7f;
         }
         public override bool AltFunctionUse(Player player)
@@ -62,7 +63,7 @@ namespace JoostMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(source, position, velocity, Mod.Find<ModProjectile>("EarthenBillhook2").Type, (int)(damage * 1.15f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<EarthenBillhook2>(), (int)(damage * 1.15f), knockback, player.whoAmI);
                 return false;
             }
             SoundEngine.PlaySound(SoundID.Item19, player.Center);

@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -29,7 +30,7 @@ namespace JoostMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item78;
-            Item.shoot = Mod.Find<ModProjectile>("Leaf").Type;
+            Item.shoot = ModContent.ProjectileType<Leaf>();
             Item.shootSpeed = 7f;
         }
         public override bool AltFunctionUse(Player player)

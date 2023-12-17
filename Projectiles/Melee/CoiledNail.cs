@@ -167,18 +167,18 @@ namespace JoostMod.Projectiles.Melee
                 if (player.controlUp || player.controlDown)
                 {
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_cyclone_slash_1"), Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction, 0, Mod.Find<ModProjectile>("SpinSlash").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction, 0, ModContent.ProjectileType<SpinSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
                 else if (Math.Abs(player.velocity.X) >= 6 && player.velocity.X * Projectile.velocity.X > 0 && Math.Abs(Projectile.velocity.Y) < 4)
                 {
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_great_slash"), Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction * 40, 0, Mod.Find<ModProjectile>("DashSlash").Type, Projectile.damage * 9, Projectile.knockBack * 5, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, player.direction * 40, 0, ModContent.ProjectileType<DashSlash>(), Projectile.damage * 9, Projectile.knockBack * 5, Projectile.owner);
                     player.velocity.X += 7 * player.direction;
                 }
                 else
                 {
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_great_slash"), Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X * 2, Projectile.velocity.Y * 2, Mod.Find<ModProjectile>("GreatSlash").Type, Projectile.damage * 9, Projectile.knockBack * 5, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X * 2, Projectile.velocity.Y * 2, ModContent.ProjectileType<GreatSlash>(), Projectile.damage * 9, Projectile.knockBack * 5, Projectile.owner);
                 }
             }
             else
@@ -186,7 +186,7 @@ namespace JoostMod.Projectiles.Melee
                 Player player = Main.player[Projectile.owner];
                 Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);
                 SoundEngine.PlaySound(SoundID.Item19, Projectile.position);
-                Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("CoiledNail2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<CoiledNail2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 player.itemTime = player.itemAnimationMax;
                 player.itemAnimation = player.itemAnimationMax;
             }

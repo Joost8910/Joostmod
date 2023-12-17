@@ -30,7 +30,7 @@ namespace JoostMod.Items.Rewards
 			Item.noUseGraphic = true;
 			Item.channel = true;
 			Item.noMelee = true;
-			Item.shoot = Mod.Find<ModProjectile>("Bonesaw").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Melee.Bonesaw>();
 			Item.shootSpeed = 40f;
 		}
 		public override void ModifyTooltips(List<TooltipLine> list)

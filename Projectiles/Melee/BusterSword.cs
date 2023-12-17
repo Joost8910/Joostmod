@@ -109,7 +109,7 @@ namespace JoostMod.Projectiles.Melee
                         }
                         vel = vector13;
                     }
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, vel * 14f, Mod.Find<ModProjectile>("BusterBeam").Type, Projectile.damage, Projectile.knockBack / 3, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, vel * 14f, ModContent.ProjectileType<BusterBeam>(), Projectile.damage, Projectile.knockBack / 3, Projectile.owner);
                 }
             }
             Projectile.velocity.Normalize();

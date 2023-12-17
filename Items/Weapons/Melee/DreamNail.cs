@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Weapons.Melee
 {
@@ -31,18 +32,18 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("DreamNail").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.DreamNail>();
             Item.shootSpeed = 17f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamGreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamDashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DreamSpinSlash").Type] < 1;
+            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<DreamNail2>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DreamGreatSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DreamDashSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DreamSpinSlash>()] < 1;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.statLife >= player.statLifeMax2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("DreamBeam").Type, damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DreamBeam>(), damage / 2, 0, player.whoAmI);
             }
             return true;
         }

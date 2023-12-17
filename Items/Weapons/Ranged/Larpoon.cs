@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Larpoon").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.Larpoon>();
             Item.shootSpeed = 18f;
         }
         /*

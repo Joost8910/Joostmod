@@ -27,15 +27,15 @@ namespace JoostMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("EndlessBoomerangBullet2").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<EndlessBoomerangBullet2>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
             }
             else
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 39, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 0, default, 0.75f);
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.JungleGrass, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 0, default, 0.75f);
                 }
             }
         }

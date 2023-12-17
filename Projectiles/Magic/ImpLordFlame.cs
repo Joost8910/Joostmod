@@ -112,12 +112,12 @@ namespace JoostMod.Projectiles.Magic
             {
                 if (Projectile.ai[0] < 40)
                 {
-                    Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 5, dir.Y * 5, Mod.Find<ModProjectile>("BurningSphere").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 5, dir.Y * 5, ModContent.ProjectileType<BurningSphere>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
                 }
                 else if (Projectile.ai[0] < 60)
                 {
-                    Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 12, dir.Y * 12, Mod.Find<ModProjectile>("FireBolt").Type, (int)(Projectile.damage * 2.5f), Projectile.knockBack * 3, Projectile.owner);
+                    Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 12, dir.Y * 12, ModContent.ProjectileType<FireBolt>(), (int)(Projectile.damage * 2.5f), Projectile.knockBack * 3, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item45, Projectile.Center);
                 }
                 else if (Projectile.ai[0] == 100)
@@ -130,7 +130,7 @@ namespace JoostMod.Projectiles.Magic
                         projectile.netUpdate = true;
                     }
                     */
-                    Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("FireBlast").Type, Projectile.damage * 3, Projectile.knockBack * 5, Projectile.owner);
+                    Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, ModContent.ProjectileType<FireBlast>(), Projectile.damage * 3, Projectile.knockBack * 5, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item73, Projectile.Center);
                 }
             }

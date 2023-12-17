@@ -35,7 +35,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.usesLocalNPCImmunity = true;
 			Projectile.localNPCHitCooldown = 10;
 			inertia = 17f;
-			shoot = Mod.Find<ModProjectile>("Bone").Type;
+			shoot = ModContent.ProjectileType<Bone>();
 			shootSpeed = 14f;
 			shootCool = 80f;
             grounded = true;

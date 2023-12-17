@@ -48,12 +48,12 @@ namespace JoostMod.Projectiles
             }
             if (Projectile.ai[0] == 0)
             {
-                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/BlackHoleStart"), 0.7f);
+                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/BlackHoleStart").WithVolumeScale(0.7f), Projectile.Center);
             }
             Projectile.ai[0]++;
             if (Projectile.ai[0] >= 88 && (Projectile.ai[0] - 8) % (20 * 2) == 0)
             {
-                SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Projectile.Center.X, (int)Projectile.Center.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/BlackHoleLoop"), 0.7f);
+                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/BlackHoleLoop").WithVolumeScale(0.7f), Projectile.Center);
             }
             if (Projectile.ai[1] < 12)
             {

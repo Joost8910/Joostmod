@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("PalladiumChainedchainsaw").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.PalladiumChainedchainsaw>();
             Item.shootSpeed = 1f;
             Item.crit = 4;
         }
@@ -120,11 +120,11 @@ namespace JoostMod.Items.Weapons.Generic
             if (wep == 3)
             {
                 float distance = player.Distance(Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY));
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * (distance / 30), velocity.Y * (distance / 30), Mod.Find<ModProjectile>("CrystalChunk").Type, damage, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * (distance / 30), velocity.Y * (distance / 30), ModContent.ProjectileType<Projectiles.Magic.CrystalChunk>(), damage, 0, player.whoAmI);
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 12, velocity.Y * 12, Mod.Find<ModProjectile>("PalladiumChainedchainsaw").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 12, velocity.Y * 12, ModContent.ProjectileType<Projectiles.Thrown.PalladiumChainedchainsaw>(), damage, knockback, player.whoAmI);
             }
 
             return false;

@@ -52,7 +52,7 @@ namespace JoostMod.Projectiles.Melee
                         Dust dust = Main.dust[WorldGen.KillTile_MakeTileDust(pos.X, pos.Y, tileSafely)];
                         dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat() * grav;
                     }
-                    Projectile.NewProjectile(Projectile.Center.X, pos.Y * 16 - 8 * grav, Projectile.velocity.X * 15, -6 * grav, Mod.Find<ModProjectile>("DragonToothWave2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, pos.Y * 16 - 8 * grav, Projectile.velocity.X * 15, -6 * grav, ModContent.ProjectileType<DragonToothWave2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

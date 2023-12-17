@@ -82,7 +82,7 @@ namespace JoostMod.Projectiles.Thrown
         public override void Kill(int timeLeft)
         {
 
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, -Projectile.velocity.X / 2, -Projectile.velocity.Y / 2, Mod.Find<ModProjectile>("Axe2").Type, (int)(Projectile.damage * 0.5f), Projectile.knockBack / 3, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, -Projectile.velocity.X / 2, -Projectile.velocity.Y / 2, ModContent.ProjectileType<Axe2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack / 3, Projectile.owner);
 
         }
 

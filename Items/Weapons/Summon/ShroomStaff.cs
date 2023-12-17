@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -29,7 +30,7 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 75000;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("ShroomSentry").Type;
+            Item.shoot = ModContent.ProjectileType<ShroomSentry>();
             Item.sentry = true;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

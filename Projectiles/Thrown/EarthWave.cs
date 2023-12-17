@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Thrown
             int x = 8 + (int)(Projectile.position.X / 16) * 16;
             if (x != z)
             {
-                Projectile.NewProjectile(Projectile.GetSource_Death(), x, Projectile.position.Y, 0, 15f, Mod.Find<ModProjectile>("EarthWave1").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), x, Projectile.position.Y, 0, 15f, ModContent.ProjectileType<EarthWave1>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 z = x;
             }
         }

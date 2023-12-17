@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("HallowedSickle").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.HallowedSickle>();
             Item.shootSpeed = 1f;
             Item.crit = 4;
         }
@@ -119,7 +119,7 @@ namespace JoostMod.Items.Weapons.Generic
                     double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
                     velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
                     velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
-                    Projectile.NewProjectile(source, position.X, position.Y, velocity.X * i, velocity.Y * i, Mod.Find<ModProjectile>("Sparkle").Type, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, velocity.X * i, velocity.Y * i, ModContent.ProjectileType<Projectiles.Magic.Sparkle>(), damage, knockback, player.whoAmI);
                 }
             }
             if (wep == 2)
@@ -132,7 +132,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X / 3, velocity.Y / 3, Mod.Find<ModProjectile>("HallowedSickle").Type, damage / 2, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X / 3, velocity.Y / 3, ModContent.ProjectileType<Projectiles.Thrown.HallowedSickle>(), damage / 2, knockback, player.whoAmI);
             }
             return false;
         }

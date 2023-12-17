@@ -14,6 +14,8 @@ using JoostMod.Items.Weapons.Summon;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Weapons.Thrown;
 using JoostMod.Items.Tools.Rods;
+using JoostMod.Projectiles.Accessory;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items
 {
@@ -342,7 +344,7 @@ namespace JoostMod.Items
     {
         public override void GrabRange(Item item, Player player, ref int grabRange)
         {
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("IceBeamCannon").Type] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<IceBeamCannon>()] > 0)
             {
                 grabRange = 600;
             }
@@ -366,7 +368,7 @@ namespace JoostMod.Items
             var source = player.GetSource_OnHit(target);
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
-                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
+                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(ModContent.BuffType<Buffs.LifeDrink>()))
                 {
                     float lifeStoled = target.lifeMax * 0.04f;
                     if ((int)lifeStoled > 0 && !player.moonLeech)
@@ -374,19 +376,19 @@ namespace JoostMod.Items
                         Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                     }
                 }
-                target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
+                target.AddBuff(ModContent.BuffType<Buffs.LifeDrink>(), 1200, false);
             }
             if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
             {
-                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
+                if (target.life <= 0 && target.type != NPCID.TargetDummy && !target.HasBuff(ModContent.BuffType<Buffs.CorruptSoul>()))
                 {
                     float damag = target.lifeMax * 0.25f;
                     if ((int)damag > 0)
                     {
-                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
+                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, player.whoAmI);
                     }
                 }
-                target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
+                target.AddBuff(ModContent.BuffType<Buffs.CorruptSoul>(), 1200, false);
             }
         }
         public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
@@ -394,7 +396,7 @@ namespace JoostMod.Items
             var source = player.GetSource_OnHit(target);
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
             {
-                if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("LifeDrink").Type))
+                if (target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<Buffs.LifeDrink>()))
                 {
                     float lifeStoled = target.statLifeMax2 * 0.04f;
                     if ((int)lifeStoled > 0 && !player.moonLeech)
@@ -402,19 +404,19 @@ namespace JoostMod.Items
                         Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
                     }
                 }
-                target.AddBuff(Mod.Find<ModBuff>("LifeDrink").Type, 1200, false);
+                target.AddBuff(ModContent.BuffType<Buffs.LifeDrink>(), 1200, false);
             }
             if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
             {
-                if (target.statLife <= 0 && !target.HasBuff(Mod.Find<ModBuff>("CorruptSoul").Type))
+                if (target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<Buffs.CorruptSoul>()))
                 {
                     float damag = target.statLifeMax2 * 0.25f;
                     if ((int)damag > 0)
                     {
-                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, player.whoAmI);
+                        Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, player.whoAmI);
                     }
                 }
-                target.AddBuff(Mod.Find<ModBuff>("CorruptSoul").Type, 1200, false);
+                target.AddBuff(ModContent.BuffType<Buffs.CorruptSoul>(), 1200, false);
             }
         }
     }

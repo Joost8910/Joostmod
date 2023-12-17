@@ -1,7 +1,7 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -28,13 +28,13 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("IronHatchet").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.IronHatchet>();
             Item.shootSpeed = 12f;
             Item.maxStack = 3;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("IronHatchet2").Type] >= Item.stack)
+            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<IronHatchet2>()] >= Item.stack)
             {
                 return false;
             }

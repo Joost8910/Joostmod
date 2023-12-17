@@ -28,7 +28,7 @@ namespace JoostMod.Projectiles.Ranged
         {
             if (Main.rand.NextBool(10))
             {
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("BoomerangBullet2").Type, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<BoomerangBullet2>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
             }
             else
             {

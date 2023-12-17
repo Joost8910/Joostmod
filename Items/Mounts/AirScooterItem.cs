@@ -1,15 +1,16 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Mounts;
 
-namespace JoostMod.Items.Accessories
+namespace JoostMod.Items.Mounts
 {
-	public class FierySoles : ModItem
+	public class AirScooterItem : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fiery Soles");
-			Tooltip.SetDefault("Summons fire from your feet");
+			DisplayName.SetDefault("Whirlwind Sphere");
+			Tooltip.SetDefault("Summons a rideable ball of air");
 		}
 		public override void SetDefaults()
 		{
@@ -20,14 +21,14 @@ namespace JoostMod.Items.Accessories
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.value = 225000;
 			Item.rare = ItemRarityID.LightRed;
-			Item.UseSound = SoundID.Item20;
+			Item.UseSound = SoundID.DD2_BookStaffCast;
 			Item.noMelee = true;
-			Item.mountType = Mod.Find<ModMount>("FierySoles").Type;
+			Item.mountType = ModContent.MountType<AirScooter>();
         }
         public override void AddRecipes()
         {
             CreateRecipe()
-				.AddIngredient<Materials.FireEssence>(50)
+				.AddIngredient<Materials.TinyTwister>(50)
 				.AddRecipeGroup("JoostMod:AnyCobalt", 5)
 				.AddRecipeGroup("JoostMod:AnyMythril", 5)
 				.AddRecipeGroup("JoostMod:AnyAdamantite", 5)

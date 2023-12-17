@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Tools.Hammers
 {
@@ -38,8 +39,8 @@ namespace JoostMod.Items.Tools.Hammers
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, player.Center);
                     //SoundEngine.PlaySound(42, player.position, 207 + Main.rand.Next(3));
                     //I get a feeling my trackable sounds id list goes wrong somewhere. My gut says it uses the monk staff sounds
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 64 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, 10f, 0f, Mod.Find<ModProjectile>("TerraWave").Type, Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 64 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, -10f, 0f, Mod.Find<ModProjectile>("TerraWave").Type, Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 64 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, 10f, 0f, ModContent.ProjectileType<TerraWave>(), Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 64 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, -10f, 0f, ModContent.ProjectileType<TerraWave>(), Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
                 }
                 else
                 {

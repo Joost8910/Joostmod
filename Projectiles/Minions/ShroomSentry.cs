@@ -89,7 +89,7 @@ namespace JoostMod.Projectiles.Minions
 			}
 			if (Projectile.ai[0] % 20 == 0 && Projectile.ai[0] > 30)
 			{
-				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-20, 20)* 0.1f, Main.rand.Next(-20, 20) * 0.1f, Mod.Find<ModProjectile>("Spore").Type, Projectile.damage, Projectile.knockBack/5, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-20, 20)* 0.1f, Main.rand.Next(-20, 20) * 0.1f, ModContent.ProjectileType<Spore>(), Projectile.damage, Projectile.knockBack/5, Projectile.owner);
 			}
 		}
 	}

@@ -24,7 +24,7 @@ namespace JoostMod.Items.Ammo
             Item.knockBack = 2.5f;
             Item.value = 150;
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = Mod.Find<ModProjectile>("SoulArrow").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Hybrid.SoulArrow>();
             Item.shootSpeed = 9f;
             Item.ammo = AmmoID.Arrow;
         }

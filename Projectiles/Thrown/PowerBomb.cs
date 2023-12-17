@@ -80,7 +80,7 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("PowerBombExplosion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<PowerBombExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/FusionPowerBombExplosion"), Projectile.Center);
         }
 

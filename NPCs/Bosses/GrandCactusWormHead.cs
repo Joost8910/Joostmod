@@ -2,6 +2,7 @@ using JoostMod.Items.Armor;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
+using JoostMod.Items.Quest;
 using JoostMod.Projectiles.Hostile;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -1,15 +1,16 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Mounts;
 
 namespace JoostMod.Items.Mounts
 {
-	public class AirScooter : ModItem
+	public class WaterBoardItem : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Whirlwind Sphere");
-			Tooltip.SetDefault("Summons a rideable ball of air");
+			DisplayName.SetDefault("Water Board");
+			Tooltip.SetDefault("Summons a rideable board that floats");
 		}
 		public override void SetDefaults()
 		{
@@ -20,14 +21,14 @@ namespace JoostMod.Items.Mounts
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.value = 225000;
 			Item.rare = ItemRarityID.LightRed;
-			Item.UseSound = SoundID.DD2_BookStaffCast;
+			Item.UseSound = SoundID.Item79;
 			Item.noMelee = true;
-			Item.mountType = Mod.Find<ModMount>("AirScooter").Type;
+			Item.mountType = ModContent.MountType<WaterBoard>();
         }
         public override void AddRecipes()
         {
             CreateRecipe()
-				.AddIngredient<Materials.TinyTwister>(50)
+				.AddIngredient<Materials.WaterEssence>(50)
 				.AddRecipeGroup("JoostMod:AnyCobalt", 5)
 				.AddRecipeGroup("JoostMod:AnyMythril", 5)
 				.AddRecipeGroup("JoostMod:AnyAdamantite", 5)

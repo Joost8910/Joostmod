@@ -79,10 +79,10 @@ namespace JoostMod.Projectiles
                 {
                     for (int i = 0; i < 10; i++)
                     {
-                        int dust = Dust.NewDust(player.position, player.width, player.height, 90);
+                        int dust = Dust.NewDust(player.position, player.width, player.height, DustID.GemRuby);
                         Main.dust[dust].noGravity = true;
                     }
-                    SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_2"), Projectile.Center); // 212
                     Projectile.soundDelay = -1;
                 }
             }
@@ -90,7 +90,7 @@ namespace JoostMod.Projectiles
             {
                 if (Projectile.ai[1] <= 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_3"), Projectile.Center); // 216
                 }
                 Projectile.ai[1] += 0.15f;
                 if (player.velocity.X * Projectile.velocity.X <= 0)
@@ -142,11 +142,11 @@ namespace JoostMod.Projectiles
                     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                     Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
                     Rectangle? rect = new Rectangle?(new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
-                    Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
+                    Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0);
                 }
             }
             Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16.0));
-			Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), Projectile.scale, effects, 0f);
+			Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), Projectile.scale, effects, 0);
 			return false;
 		}
         public override bool? CanHitNPC(NPC target)

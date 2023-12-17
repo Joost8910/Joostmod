@@ -27,7 +27,7 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 150, 0, 0, Mod.Find<ModProjectile>("UltimateIllusion5").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 150, 0, 0, ModContent.ProjectileType<UltimateIllusion5>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
     }

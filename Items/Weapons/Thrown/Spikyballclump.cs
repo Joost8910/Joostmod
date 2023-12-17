@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.White;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Spikyballclump").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Spikyballclump>();
             Item.shootSpeed = 11f;
         }
 

@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("FocusSouls").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Magic.FocusSouls>();
             Item.shootSpeed = 5f;
         }
         public override bool CanUseItem(Player player)

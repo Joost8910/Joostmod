@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Rewards
 {
@@ -29,9 +30,9 @@ namespace JoostMod.Items.Rewards
             Item.value = 40000;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item44;
-			Item.shoot = Mod.Find<ModProjectile>("ICUMinion").Type;
+			Item.shoot = ModContent.ProjectileType<ICUMinion>();
 			Item.shootSpeed = 7f;
-			Item.buffType = Mod.Find<ModBuff>("ICUMinion").Type;
+			Item.buffType = ModContent.BuffType<Buffs.ICUMinion>();
 			Item.buffTime = 3600;
 		}
         public override void ModifyTooltips(List<TooltipLine> list)

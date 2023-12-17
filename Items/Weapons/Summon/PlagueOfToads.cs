@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -35,7 +36,7 @@ namespace JoostMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Toad").Type;
+            Item.shoot = ModContent.ProjectileType<Toad>();
             Item.shootSpeed = 8f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

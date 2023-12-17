@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Buffs
@@ -13,7 +14,8 @@ namespace JoostMod.Buffs
 			Main.buffNoSave[Type] = true;
             Main.persistentBuff[Type] = true;
             Main.debuff[Type] = true;
-            canBeCleared/* tModPorter Note: Removed. Use BuffID.Sets.NurseCannotRemoveDebuff instead, and invert the logic */ = false;
+			BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+            //canBeCleared/* tModPorter Note: Removed. Use BuffID.Sets.NurseCannotRemoveDebuff instead, and invert the logic */ = false;
 		}
 		/*public override void Update(Player player, ref int buffIndex)
 		{

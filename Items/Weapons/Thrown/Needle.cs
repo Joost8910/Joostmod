@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.White;
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Needle").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Needle>();
             Item.shootSpeed = 8f;
         }
 

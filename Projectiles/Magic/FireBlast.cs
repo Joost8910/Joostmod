@@ -103,7 +103,8 @@ namespace JoostMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             //Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("FireballExplosion"), projectile.damage * 3, projectile.knockback, projectile.owner);
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, Projectile.damage / 6, Projectile.knockBack / 4, Projectile.owner);
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, Projectile.damage / 6, Projectile.knockBack / 4, Projectile.owner);
         }
     }
 }

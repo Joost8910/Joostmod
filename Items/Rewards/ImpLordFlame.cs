@@ -35,7 +35,7 @@ namespace JoostMod.Items.Rewards
 			Item.UseSound = SoundID.Item20;
 			Item.autoReuse = true;
 			Item.channel = true;
-			Item.shoot = Mod.Find<ModProjectile>("ImpLordFlame").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Magic.ImpLordFlame>();
 			Item.shootSpeed = 12f;
             Item.useTurn = true;
 		}

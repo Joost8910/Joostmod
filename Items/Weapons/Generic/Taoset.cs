@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("DarkBolt").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Summon.DarkBolt>();
             Item.shootSpeed = 12f;
             Item.crit = 4;
         }
@@ -108,16 +108,16 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Darklightarrow").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Ranged.Darklightarrow>(), damage, knockback, player.whoAmI);
             }
             if (wep == 3)
             {
                 Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("LightBolt").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Summon.LightBolt>(), damage, knockback, player.whoAmI);
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("Balancerang").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Balancerang>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

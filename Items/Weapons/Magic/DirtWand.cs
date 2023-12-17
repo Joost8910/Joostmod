@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Linq;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Green;
             Item.value = Item.sellPrice(0, 0, 0, 10);
             Item.UseSound = SoundID.Item8;
-            Item.shoot = Mod.Find<ModProjectile>("DirtBolt").Type;
+            Item.shoot = ModContent.ProjectileType<DirtBolt>();
             Item.shootSpeed = 5.5f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

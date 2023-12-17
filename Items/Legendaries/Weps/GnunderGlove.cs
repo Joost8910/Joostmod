@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -9,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Utilities;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -40,7 +40,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.shoot = Mod.Find<ModProjectile>("Gnunderken").Type;
+            Item.shoot = ModContent.ProjectileType<Gnunderken>();
             Item.shootSpeed = 10f;
             Item.value = 300000;
         }
@@ -134,7 +134,7 @@ namespace JoostMod.Items.Legendaries.Weps
                         player.reuseDelay = 60;
                         modPlayer.LegendCool = 240;
                         SoundEngine.PlaySound(SoundID.Item19, position);
-                        Projectile.NewProjectile(source, position.X, position.Y, velocity.X / 3.5f, velocity.Y / 3.5f, Mod.Find<ModProjectile>("GiantGnunderken").Type, damage * 3, knockback * 3, player.whoAmI, 0.0f, 0.0f);
+                        Projectile.NewProjectile(source, position.X, position.Y, velocity.X / 3.5f, velocity.Y / 3.5f, ModContent.ProjectileType<GiantGnunderken>(), damage * 3, knockback * 3, player.whoAmI, 0.0f, 0.0f);
                     }
                     else
                     {

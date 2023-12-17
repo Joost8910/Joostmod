@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.ignoreWater = false;
 			inertia = 20f;
             shootCool = 110f;
-            shoot = Mod.Find<ModProjectile>("FrostFlameSummon").Type;
+            shoot = ModContent.ProjectileType<FrostFlameSummon>();
 			shootSpeed = 9f;
 			chaseDist = 70f;
 		}

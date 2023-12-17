@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Rewards
 {
@@ -33,7 +32,7 @@ namespace JoostMod.Items.Rewards
 			Item.rare = ItemRarityID.Orange;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
-			Item.shoot = Mod.Find<ModProjectile>("PinkGoo").Type; 
+			Item.shoot = ModContent.ProjectileType<PinkGoo>(); 
 			Item.shootSpeed = 9.5f;
 		}
 		public override void ModifyTooltips(List<TooltipLine> list)

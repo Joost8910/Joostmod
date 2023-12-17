@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
-namespace JoostMod.Items.Weapons.Magic
+namespace JoostMod.Items.Weapons.Summon
 {
     public class PumpkinStaff : ModItem
     {
@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item78;
             Item.noMelee = true;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Pumpkin").Type;
+            Item.shoot = ModContent.ProjectileType<Pumpkin>();
             Item.shootSpeed = 11f;
         }
         public override bool AltFunctionUse(Player player)

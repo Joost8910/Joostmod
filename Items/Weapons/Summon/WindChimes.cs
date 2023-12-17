@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.UseSound = SoundID.Item35;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Wind").Type;
+            Item.shoot = ModContent.ProjectileType<Wind>();
             Item.shootSpeed = 12.8f;
         }
         public override Vector2? HoldoutOffset()

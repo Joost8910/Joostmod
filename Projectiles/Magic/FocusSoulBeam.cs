@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.Enums;
+using Terraria.ID;
 
 namespace JoostMod.Projectiles.Magic
 {
@@ -12,7 +13,7 @@ namespace JoostMod.Projectiles.Magic
     {
         private const int MAX_CHARGE = 30;
         private const float MOVE_DISTANCE = 20f;
-        private int sound = 0;
+        //private int sound = 0;
         public float Distance
         {
             get { return Projectile.ai[0]; }
@@ -146,7 +147,7 @@ namespace JoostMod.Projectiles.Magic
             for (int k = 0; k < chargeFact + 1; k++)
             {
                 Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - chargeFact * 2);
-                Dust dust = Main.dust[Dust.NewDust(pos, 10, 10, 92, Projectile.velocity.X / 2f,
+                Dust dust = Main.dust[Dust.NewDust(pos, 10, 10, DustID.Frost, Projectile.velocity.X / 2f,
                     Projectile.velocity.Y / 2f, 0, default, 1f)];
                 dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
                 dust.noGravity = true;
@@ -173,10 +174,10 @@ namespace JoostMod.Projectiles.Magic
             Vector2 dustPos = Projectile.Center + Projectile.velocity * Distance;
             for (int i = 0; i < 2; ++i)
             {
-                float num1 = Projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
+                float num1 = Projectile.velocity.ToRotation() + (Main.rand.NextBool(2)? -1.0f : 1.0f) * 1.57f;
                 float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
                 Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
-                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 92, dustVel.X, dustVel.Y, 0, new Color(), 1f)];
+                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Frost, dustVel.X, dustVel.Y, 0, new Color(), 1f)];
                 dust.noGravity = true;
                 dust.scale = 1.2f;
                 /*dust = Main.dust[Dust.NewDust(projectile.Center + unit * 5f, 0, 0, 92, unit.X, unit.Y, 0, new Color(), 1f)];

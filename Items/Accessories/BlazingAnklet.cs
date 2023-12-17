@@ -1,10 +1,11 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Mounts;
 
 namespace JoostMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Shoes)]
+    [AutoloadEquip(EquipType.Shoes)]
 	public class BlazingAnklet : ModItem
 	{
 		public override void SetStaticDefaults()
@@ -29,7 +30,7 @@ namespace JoostMod.Items.Accessories
             player.fireWalk = true;
             player.moveSpeed *= 1.25f;
             player.maxRunSpeed *= 1.25f;
-            if (!player.mount.Active || player.mount._type == Mod.Find<ModMount>("FierySoles").Type)
+            if (!player.mount.Active || player.mount._type == ModContent.MountType<FierySoles>())
                 player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 1.25f;
             player.GetModPlayer<JoostPlayer>().blazeAnklet = true;
         }

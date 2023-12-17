@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -27,7 +28,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.shoot = Mod.Find<ModProjectile>("HellstoneShuriken").Type;
+            Item.shoot = ModContent.ProjectileType<HellstoneShuriken>();
             Item.shootSpeed = 14f;
         }
         public override void AddRecipes()

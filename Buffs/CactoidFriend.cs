@@ -1,3 +1,4 @@
+using JoostMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -14,8 +15,8 @@ namespace JoostMod.Buffs
 		}
         public override void Update(Player player, ref int buffIndex)
         {
-            player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactoid").Type] = true;
-            player.npcTypeNoAggro[Mod.Find<ModNPC>("Cactite").Type] = true;
+            player.npcTypeNoAggro[ModContent.NPCType<Cactoid>()] = true;
+            player.npcTypeNoAggro[ModContent.NPCType<Cactite>()] = true;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("SearingBow").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.SearingBow>();
             Item.shootSpeed = 13f;
             Item.useAmmo = AmmoID.Arrow;
         }
@@ -55,7 +55,7 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = Mod.Find<ModProjectile>("SearingBow").Type;
+            type = ModContent.ProjectileType<Projectiles.Ranged.SearingBow>();
             return true;
         }
         public override void AddRecipes()

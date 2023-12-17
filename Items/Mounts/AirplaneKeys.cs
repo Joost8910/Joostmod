@@ -1,29 +1,29 @@
-using System; 
-using Terraria;
+//TODO: Make the item into Airplane Keys
+using JoostMod.Mounts;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Items.Mounts
 {
-	public class Scooter : ModItem
+	public class AirplaneKeys : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scooter");
-			Tooltip.SetDefault("'Scoot around on this!'");
+			DisplayName.SetDefault("Airplane");
+			Tooltip.SetDefault("'It can fly!'");
 		}
 		public override void SetDefaults()
 		{
-			Item.width = 40;
-			Item.height = 30;
+			Item.width = 64;
+			Item.height = 38;
 			Item.useTime = 20;
 			Item.useAnimation = 20;
 			Item.useStyle = ItemUseStyleID.Swing;
-			Item.value = 50000;
-			Item.rare = ItemRarityID.Green;
+			Item.value = 300000;
+			Item.rare = ItemRarityID.Orange;
 			Item.UseSound = SoundID.Item79;
 			Item.noMelee = true;
-			Item.mountType = Mod.Find<ModMount>("Scooter").Type;
+			Item.mountType = ModContent.MountType<Plane>();
 		}
 
 	}

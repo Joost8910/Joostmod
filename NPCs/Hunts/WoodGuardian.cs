@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -80,6 +81,7 @@ namespace JoostMod.NPCs.Hunts
 		public override void AI()
 		{
 			Player P = Main.player[NPC.target];
+            var source = NPC.GetSource_FromAI();
             if (Vector2.Distance(NPC.Center, P.Center) > 2500 || NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
 			{
 				NPC.TargetClosest(true);
@@ -158,10 +160,10 @@ namespace JoostMod.NPCs.Hunts
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<LeafHostile>(), 7, 0, Main.myPlayer, NPC.whoAmI, 0f);
-                                Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<LeafHostile>(), 7, 0, Main.myPlayer, NPC.whoAmI, 180f);
+                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<LeafHostile>(), 7, 0, Main.myPlayer, NPC.whoAmI, 0f);
+                                Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<LeafHostile>(), 7, 0, Main.myPlayer, NPC.whoAmI, 180f);
                             }
-                            if (Main.rand.Next(4) == 0 || Vector2.Distance(NPC.Center, P.Center) < 70)
+                            if (Main.rand.NextBool(4)|| Vector2.Distance(NPC.Center, P.Center) < 70)
                             {
                                 NPC.ai[1] = 0;
                                 NPC.ai[2] = 0;
@@ -220,7 +222,7 @@ namespace JoostMod.NPCs.Hunts
                                 {
                                     for (int i = 0; i < 14; i++)
                                     {
-                                        Projectile.NewProjectile((NPC.Center.X - 455) + (i * 70), NPC.position.Y, 0, 16, ModContent.ProjectileType<Root>(), 20, 3, Main.myPlayer);
+                                        Projectile.NewProjectile(source, (NPC.Center.X - 455) + (i * 70), NPC.position.Y, 0, 16, ModContent.ProjectileType<Root>(), 20, 3, Main.myPlayer);
                                     }
                                 }
                                 NPC.ai[1] = 4;

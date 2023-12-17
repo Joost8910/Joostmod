@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -29,9 +30,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 25000;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("SkellyMinion").Type;
+            Item.shoot = ModContent.ProjectileType<SkellyMinion>();
             Item.shootSpeed = 7f;
-            Item.buffType = Mod.Find<ModBuff>("SkellyMinion").Type;
+            Item.buffType = ModContent.BuffType<Buffs.SkellyMinionBuff>();
             Item.buffTime = 3600;
         }
         public override bool AltFunctionUse(Player player)

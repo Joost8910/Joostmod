@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -32,7 +33,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.LightPurple;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Sparkle").Type;
+            Item.shoot = ModContent.ProjectileType<Sparkle>();
             Item.shootSpeed = 2f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

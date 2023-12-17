@@ -54,7 +54,7 @@ namespace JoostMod.Projectiles.Ranged
             {
                 Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X / 2, Projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(100));
                 perturbedSpeed *= 1f - Main.rand.NextFloat() * .5f;
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("ToxicWater2").Type, Projectile.damage, 0, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ToxicWater2>(), Projectile.damage, 0, Projectile.owner);
             }
         }
     }

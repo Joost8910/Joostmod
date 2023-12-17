@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Boomerain").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Boomerain>();
             Item.shootSpeed = 14f;
         }
         public override bool CanUseItem(Player player)

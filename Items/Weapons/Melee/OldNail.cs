@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("OldNail").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.OldNail>();
             Item.shootSpeed = 6f;
         }
         public override bool CanUseItem(Player player)

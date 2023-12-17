@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.knockBack = 8;
             Item.UseSound = SoundID.Item21;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("WaterWhip").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Magic.WaterWhip>();
             Item.shootSpeed = 5f;
         }
         public override bool AltFunctionUse(Player player)
@@ -58,7 +58,7 @@ namespace JoostMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                type = Mod.Find<ModProjectile>("WaterWhip2").Type;
+                type = ModContent.ProjectileType<Projectiles.Magic.WaterWhip2>();
             }
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, -1);
             return false;

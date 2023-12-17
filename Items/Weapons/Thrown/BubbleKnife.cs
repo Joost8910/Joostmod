@@ -1,7 +1,7 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("BubbleBottle").Type;
+            Item.shoot = ModContent.ProjectileType<BubbleBottle>();
             Item.shootSpeed = 9f;
         }
 

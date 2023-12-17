@@ -55,10 +55,11 @@ namespace JoostMod.Projectiles.Magic
             double deltaAngle = spread / shootNum;
             double offsetAngle;
             int i;
+            var source = Projectile.GetSource_Death();
             for (i = 0; i < shootNum; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("BitterEndFriendly2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<BitterEndFriendly2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
         }

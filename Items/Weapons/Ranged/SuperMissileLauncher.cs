@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Ranged;
 
 namespace JoostMod.Items.Weapons.Ranged
 {
@@ -28,7 +29,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot");
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("SuperMissile").Type;
+            Item.shoot = ModContent.ProjectileType<SuperMissile>();
             Item.shootSpeed = 12f;
         }
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)

@@ -36,7 +36,7 @@ namespace JoostMod.Items.Consumables
         }
         public override bool OnPickup(Player player)
         {
-            player.AddBuff(Mod.Find<ModBuff>("EnergyBuff").Type, 600);
+            player.AddBuff(ModContent.BuffType<Buffs.EnergyBuff>(), 600);
             player.statLife += 10;
             player.statMana += 10;
             player.HealEffect(10, true);
@@ -47,7 +47,7 @@ namespace JoostMod.Items.Consumables
         }
         public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
-            player.AddBuff(Mod.Find<ModBuff>("EnergyBuff").Type, 300);
+            player.AddBuff(ModContent.BuffType<Buffs.EnergyBuff>(), 300);
             player.statLife += 5;
             player.statMana += 5;
             player.HealEffect(5, true);

@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using JoostMod.Projectiles.Fishhooks;
 
 namespace JoostMod.Items.Tools.Rods
 {
@@ -29,7 +29,7 @@ namespace JoostMod.Items.Tools.Rods
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item36;
             Item.autoReuse = false;
-            Item.shoot = Mod.Find<ModProjectile>("DukeFishHook").Type;
+            Item.shoot = ModContent.ProjectileType<DukeFishHook>();
             Item.shootSpeed = 19f;
             Item.fishingPole = 75;
         }

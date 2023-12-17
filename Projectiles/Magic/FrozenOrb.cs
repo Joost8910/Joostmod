@@ -37,27 +37,30 @@ namespace JoostMod.Projectiles.Magic
         }
         public override void Kill(int timeLeft)
         {
-            int shootNum = 16;
-            float shootSpread = 360f;
-            float spread = shootSpread * 0.0174f;
-            float baseSpeed = 3f;
-            double startAngle = 0 - spread / shootNum;
-            double deltaAngle = spread / shootNum;
-            double offsetAngle;
-            int i;
-            int damage = (int)(Projectile.damage * 0.5f);
-            float knockback = Projectile.knockBack * 0.5f;
-            for (i = 0; i < shootNum; i++)
+            if (Main.myPlayer == Projectile.owner)
             {
-                offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("Icicle").Type, damage, knockback, Projectile.owner);
+                int shootNum = 16;
+                float shootSpread = 360f;
+                float spread = shootSpread * 0.0174f;
+                float baseSpeed = 3f;
+                double startAngle = 0 - spread / shootNum;
+                double deltaAngle = spread / shootNum;
+                double offsetAngle;
+                int i;
+                int damage = (int)(Projectile.damage * 0.5f);
+                float knockback = Projectile.knockBack * 0.5f;
+                for (i = 0; i < shootNum; i++)
+                {
+                    offsetAngle = startAngle + deltaAngle * i;
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<Icicle>(), damage, knockback, Projectile.owner);
+                }
             }
         }
 
         public override void AI()
         {
             Projectile.rotation = Projectile.ai[1] * 6;
-            if ((int)Projectile.ai[1] % 10 == 0)
+            if (Main.myPlayer == Projectile.owner && (int)Projectile.ai[1] % 10 == 0)
             {
                 int shootNum = 3;
                 float shootSpread = 360f;
@@ -72,7 +75,7 @@ namespace JoostMod.Projectiles.Magic
                 for (i = 0; i < shootNum; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("Icicle").Type, damage, knockback, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<Icicle>(), damage, knockback, Projectile.owner);
                 }
             }
             Projectile.ai[1]++;

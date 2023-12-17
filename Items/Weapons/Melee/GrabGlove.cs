@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("GrabGlove").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.GrabGlove>();
             Item.shootSpeed = 1f;
             Item.channel = true;
         }

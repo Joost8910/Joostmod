@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = false;
-            Item.shoot = Mod.Find<ModProjectile>("SapSpell").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Magic.SapSpell>();
             Item.shootSpeed = 12f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

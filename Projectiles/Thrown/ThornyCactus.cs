@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Thrown
             for (i = 0; i < 8; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("CactusThorn").Type, (int)(Projectile.damage * 0.6f), Projectile.knockBack / 3, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<CactusThorn>(), (int)(Projectile.damage * 0.6f), Projectile.knockBack / 3, Projectile.owner);
             }
         }
     }

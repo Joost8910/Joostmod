@@ -23,7 +23,7 @@ namespace JoostMod.Items.Mounts
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item79;
 			Item.noMelee = true;
-			Item.mountType = Mod.Find<ModMount>("SandShark").Type;
+			Item.mountType = ModContent.MountType<Mounts.SandShark>();
         }
         public override void AddRecipes()
         {

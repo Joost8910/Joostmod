@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.channel = true;
             Item.useTurn = false;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("ActualMace").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.ActualMace>();
             Item.shootSpeed = 1f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

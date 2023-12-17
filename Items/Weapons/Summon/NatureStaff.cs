@@ -1,11 +1,11 @@
-using JoostMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
-namespace JoostMod.Items.Weapons.Magic
+namespace JoostMod.Items.Weapons.Summon
 {
     public class NatureStaff : ModItem
     {
@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item78;
-            Item.shoot = Mod.Find<ModProjectile>("Leaf2").Type;
+            Item.shoot = ModContent.ProjectileType<Leaf2>();
             Item.shootSpeed = 9f;
         }
         public override bool AltFunctionUse(Player player)

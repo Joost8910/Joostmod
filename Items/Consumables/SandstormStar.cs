@@ -27,7 +27,7 @@ namespace JoostMod.Items.Consumables
             Item.value = 7500;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item9;
-            Item.shoot = Mod.Find<ModProjectile>("SandstormStar").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.SandstormStar>();
             Item.shootSpeed = 15;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

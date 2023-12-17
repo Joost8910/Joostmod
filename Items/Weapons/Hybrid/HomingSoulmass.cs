@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             Item.rare = ItemRarityID.Yellow;
             Item.autoReuse = false;
             Item.UseSound = SoundID.Item28;
-            Item.shoot = Mod.Find<ModProjectile>("HomingSoulmass").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Hybrid.HomingSoulmass>();
             Item.shootSpeed = 0f;
         }
         /*

@@ -102,6 +102,7 @@ namespace JoostMod.Projectiles.Ranged
             }
             else
             {
+                /*
                 Item item = new Item();
                 bool canShoot = false;
                 bool flag = false;
@@ -127,13 +128,16 @@ namespace JoostMod.Projectiles.Ranged
                         }
                     }
                 }
+                */
+                bool canShoot = player.PickAmmo(player.HeldItem, out int type, out shootSpeed, out int damage, out float knockback, out int arrowID);
+
                 if (canShoot)
                 {
-                    Projectile.ai[0] = item.shoot;
+                    Projectile.ai[0] = type;
                 }
                 if (Projectile.ai[0] == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.ai[0] = Mod.Find<ModProjectile>("BlazingArrow").Type;
+                    Projectile.ai[0] = ModContent.ProjectileType<BlazingArrow>();
                 }
                 if (Projectile.ai[1] < 5 && (player.controlUseTile || Projectile.ai[1] < 1 || Projectile.localAI[0] > speed * 0.25f && Projectile.localAI[0] < speed * 0.9f) && canShoot)
                 {
@@ -148,25 +152,27 @@ namespace JoostMod.Projectiles.Ranged
                 {
                     if (canShoot)
                     {
-                        shootSpeed += item.shootSpeed;
                         float rotation = MathHelper.ToRadians(22.5f);
-                        int damage = Projectile.damage + item.damage;
-                        float knockback = Projectile.knockBack + item.knockBack;
-                        if (Projectile.ai[0] == Mod.Find<ModProjectile>("BlazingArrow").Type)
+                        if (Projectile.ai[0] == ModContent.ProjectileType<BlazingArrow>())
                         {
                             shootSpeed += 4;
                             damage = (int)(damage * 1.5f);
                             knockback += 3;
                         }
                         Vector2 vel = Projectile.velocity * shootSpeed;
-                        for (int i = 0; i < Projectile.ai[1]; i++)
+                        if (Main.myPlayer == Projectile.owner)
                         {
-                            if (item.consumable)
+                            for (int i = 0; i < Projectile.ai[1]; i++)
                             {
-                                player.ConsumeItem(item.type);
+                                /*
+                                if (item.consumable)
+                                {
+                                    player.ConsumeItem(item.type);
+                                }
+                                */
+                                Vector2 perturbedSpeed = Projectile.ai[1] <= 1 ? vel : vel.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (Projectile.ai[1] - 1)));
+                                Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Arrow), Projectile.Center, perturbedSpeed, (int)Projectile.ai[0], damage, knockback, Projectile.owner);
                             }
-                            Vector2 perturbedSpeed = Projectile.ai[1] <= 1 ? vel : vel.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (Projectile.ai[1] - 1)));
-                            Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Arrow), Projectile.Center, perturbedSpeed, (int)Projectile.ai[0], damage, knockback, Projectile.owner);
                         }
                         //Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, (int)projectile.ai[0], (projectile.damage + item.damage), projectile.knockback + item.knockback, projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);

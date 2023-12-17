@@ -25,7 +25,7 @@ namespace JoostMod.Items.Armor
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
 		{
-			return body.type == Mod.Find<ModItem>("LunarCactusChestpiece").Type && legs.type == Mod.Find<ModItem>("LunarCactusLeggings").Type;
+			return body.type == ModContent.ItemType<LunarCactusChestpiece>() && legs.type == ModContent.ItemType<LunarCactusLeggings>();
 		}
 
 		public override void UpdateEquip(Player player)

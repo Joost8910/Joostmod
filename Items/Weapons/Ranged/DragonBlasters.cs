@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,7 +34,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("DragonBlaster").Type;
+            Item.shoot = ModContent.ProjectileType<DragonBlaster>();
             Item.shootSpeed = 13f;
             Item.useAmmo = AmmoID.Bullet;
         }
@@ -55,7 +56,7 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = Mod.Find<ModProjectile>("DragonBlaster").Type;
+            type = ModContent.ProjectileType<DragonBlaster>();
             if (player.altFunctionUse == 2)
             {
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 1);

@@ -49,10 +49,10 @@ namespace JoostMod.NPCs.Hunts
             if (Main.npc[(int)NPC.ai[1]].localAI[3] >= 24)
             {
                 NPC.spriteDirection = Main.npc[(int)NPC.ai[1]].spriteDirection;
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 55, 0, 0, 0, default(Color), 0.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Pixie, 0, 0, 0, default(Color), 0.5f);
                 if (NPC.localAI[3] == 12 || NPC.localAI[3] == 24)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_lightning_aura_zap_1"), NPC.Center); // 21
                 }
                 if (NPC.localAI[3] <= 24)
                 {

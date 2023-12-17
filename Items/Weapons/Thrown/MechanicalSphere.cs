@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("MechanicalSphere").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.MechanicalSphere>();
             Item.shootSpeed = 6f;
         }
         public override void AddRecipes()

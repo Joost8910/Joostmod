@@ -42,7 +42,7 @@ namespace JoostMod.Projectiles.Thrown
             var source = Projectile.GetSource_Death();
             for (int i = 0; i < 5; i++)
             {
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .15f, Main.rand.Next(-10, -5) * .05f, Mod.Find<ModProjectile>("StardustGrenadeFragment").Type, (int)(Projectile.damage * 1f), 7, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .15f, Main.rand.Next(-10, -5) * .05f, ModContent.ProjectileType<StardustGrenadeFragment>(), (int)(Projectile.damage * 1f), 7, Projectile.owner);
             }
         }
 

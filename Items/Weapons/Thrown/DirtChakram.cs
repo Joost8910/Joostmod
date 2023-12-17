@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.value = Item.sellPrice(0, 0, 0, 10);
             Item.UseSound = SoundID.Item1;
             Item.shootSpeed = 10f;
-            Item.shoot = Mod.Find<ModProjectile>("DirtChakram").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.DirtChakram>();
         }
 
         public override bool CanUseItem(Player player)

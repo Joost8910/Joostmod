@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Mounts
 {
@@ -9,7 +10,7 @@ namespace JoostMod.Mounts
 		public override void SetStaticDefaults()
 		{
 			MountData.spawnDust = 31;
-			MountData.buff = Mod.Find<ModBuff>("AirScooterMount").Type;
+			MountData.buff = ModContent.BuffType<Buffs.AirScooterMount>();
 			MountData.heightBoost = 28;
 			MountData.fallDamage = 0f;
 			MountData.runSpeed = 8f;
@@ -51,10 +52,10 @@ namespace JoostMod.Mounts
 			MountData.swimFrameCount = MountData.inAirFrameCount;
 			MountData.swimFrameDelay = MountData.inAirFrameDelay;
 			MountData.swimFrameStart = MountData.inAirFrameStart;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width + 20;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width() + 20;
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
 
@@ -62,7 +63,7 @@ namespace JoostMod.Mounts
         {
             if (player.mount._flyTime > 0 || Main.rand.NextBool(5))
             {
-                Dust.NewDust(player.position + new Vector2(0, 40), player.width, 40, 31, 0, 0, 0, Color.White, Main.rand.NextFloat() * 0.5f + 0.25f);
+                Dust.NewDust(player.position + new Vector2(0, 40), player.width, 40, DustID.Smoke, 0, 0, 0, Color.White, Main.rand.NextFloat() * 0.5f + 0.25f);
             }
         }
     }

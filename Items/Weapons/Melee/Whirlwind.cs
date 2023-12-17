@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.UseSound = SoundID.Item1;
-            Item.shoot = Mod.Find<ModProjectile>("Whirlwind").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.Whirlwind>();
             Item.shootSpeed = 8f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

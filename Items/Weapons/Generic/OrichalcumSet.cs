@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("OrichalcumChainedchainsaw").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.OrichalcumChainedchainsaw>();
             Item.shootSpeed = 3f;
             Item.useTurn = true;
             Item.crit = 4;
@@ -101,7 +101,7 @@ namespace JoostMod.Items.Weapons.Generic
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[215] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("OrichalcumStaff2").Type] > 0)
+            if (player.ownedProjectileCounts[215] + player.ownedProjectileCounts[ModContent.ProjectileType<OrichalcumStaff2>()] > 0)
             {
                 return false;
             }
@@ -112,7 +112,7 @@ namespace JoostMod.Items.Weapons.Generic
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, Mod.Find<ModProjectile>("OrichalcumStaff2").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, ModContent.ProjectileType<Projectiles.Magic.OrichalcumStaff2>(), damage, knockback, player.whoAmI);
             }
             if (wep == 2)
             {
@@ -124,7 +124,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, Mod.Find<ModProjectile>("OrichalcumChainedchainsaw").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, ModContent.ProjectileType<Projectiles.Thrown.OrichalcumChainedchainsaw>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

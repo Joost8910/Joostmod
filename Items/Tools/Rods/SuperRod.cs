@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Fishhooks;
 
 namespace JoostMod.Items.Tools.Rods
 {
@@ -21,7 +22,7 @@ namespace JoostMod.Items.Tools.Rods
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = false;
-            Item.shoot = Mod.Find<ModProjectile>("SuperFishHook2").Type;
+            Item.shoot = ModContent.ProjectileType<SuperFishHook2>();
             Item.shootSpeed = 18f;
             Item.fishingPole = 60;
         }

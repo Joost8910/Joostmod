@@ -1,7 +1,4 @@
-using System;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,6 +35,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC npc, int damage, float knockback, bool crit)
         {
+            var source = Projectile.GetSource_OnHit(npc);
             if (npc.life <= 0)
             {
                 for (int i = 0; i < npc.width / 12; i++)
@@ -48,7 +46,7 @@ namespace JoostMod.Projectiles.Melee
                         //Vector2 dir = pos - npc.Center;
                         //dir.Normalize();
                         Vector2 vel = new Vector2(Main.rand.Next(9) - 4, Main.rand.Next(9) - 4);
-                        Projectile.NewProjectile(pos, vel, ProjectileID.Bone, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(source, pos, vel, ProjectileID.Bone, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

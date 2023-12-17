@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.usesLocalNPCImmunity = true;
 			Projectile.localNPCHitCooldown = 10;
 			inertia = 8f;
-			shoot = Mod.Find<ModProjectile>("GnomeSpear").Type;
+			shoot = ModContent.ProjectileType<GnomeSpear>();
             chaseDist = 30;
 			shootSpeed = 7.5f;
 			spacingMult = 0.75f;

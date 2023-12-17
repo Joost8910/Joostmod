@@ -35,7 +35,7 @@ namespace JoostMod.Projectiles.Thrown
         public override void Kill(int timeLeft)
         {
 
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, Mod.Find<ModProjectile>("SilverHatchet2").Type, (int)(Projectile.damage * 1f), 3, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SilverHatchet2>(), (int)(Projectile.damage * 1f), 3, Projectile.owner);
 
         }
         public override bool PreDraw(ref Color lightColor)

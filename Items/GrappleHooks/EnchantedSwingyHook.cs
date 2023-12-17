@@ -12,7 +12,7 @@ namespace JoostMod.Items.GrappleHooks
             Item.CloneDefaults(ItemID.AmethystHook);
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 12.5f; // how quickly the hook is shot.
-            Item.shoot = Mod.Find<ModProjectile>("EnchantedSwingyHook").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Grappling.EnchantedSwingyHook>();
         }
         
 		public override void SetStaticDefaults()

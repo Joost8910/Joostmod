@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.value = 40000;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item43;
-            Item.shoot = Mod.Find<ModProjectile>("CrystalChunk").Type;
+            Item.shoot = ModContent.ProjectileType<CrystalChunk>();
             Item.shootSpeed = 1f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

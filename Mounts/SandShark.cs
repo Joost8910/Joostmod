@@ -12,7 +12,7 @@ namespace JoostMod.Mounts
 		public override void SetStaticDefaults()
 		{
 			MountData.spawnDust = 32;
-			MountData.buff = Mod.Find<ModBuff>("SandSharkMount").Type;
+			MountData.buff = ModContent.BuffType<Buffs.SandSharkMount>();
 			MountData.heightBoost = 4;
 			MountData.fallDamage = 0f;
 			MountData.runSpeed = 1.5f;
@@ -54,10 +54,10 @@ namespace JoostMod.Mounts
 			MountData.swimFrameCount = 4;
 			MountData.swimFrameDelay = 20;
 			MountData.swimFrameStart = 0;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
 				MountData.textureWidth = MountData.backTexture.Width;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
 

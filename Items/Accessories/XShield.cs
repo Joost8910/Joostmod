@@ -31,11 +31,11 @@ namespace JoostMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-		    player.GetModPlayer<JoostPlayer>().XShieldItem = true;
-            player.buffImmune[Mod.Find<ModBuff>("InfectedRed").Type] = true;
-            player.buffImmune[Mod.Find<ModBuff>("InfectedGreen").Type] = true;
-            player.buffImmune[Mod.Find<ModBuff>("InfectedBlue").Type] = true;
-            player.buffImmune[Mod.Find<ModBuff>("InfectedYellow").Type] = true;
+		    player.GetModPlayer<JoostPlayer>().XShieldItem = Item;
+            player.buffImmune[ModContent.BuffType<Buffs.InfectedRed>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.InfectedGreen>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.InfectedBlue>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.InfectedYellow>()] = true;
             player.noKnockback = true;
         }
 	}

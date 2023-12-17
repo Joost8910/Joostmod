@@ -35,7 +35,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("GenjiArmorMagic").Type && legs.type == Mod.Find<ModItem>("GenjiLeggings").Type;
+            return body.type == ModContent.ItemType<GenjiArmorMagic>() && legs.type == ModContent.ItemType<GenjiLeggings>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -48,7 +48,7 @@ namespace JoostMod.Items.Armor
         {
             player.armorEffectDrawShadowSubtle = true;
             player.armorEffectDrawShadowLokis = true;
-            if (player.statMana >= player.statManaMax2 && !player.HasBuff(BuffID.ManaSickness) && player.ownedProjectileCounts[Mod.Find<ModProjectile>("BitterEndFriendly").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("BitterEndFriendly2").Type] <= 0)
+            if (player.statMana >= player.statManaMax2 && !player.HasBuff(BuffID.ManaSickness) && player.ownedProjectileCounts[ModContent.ProjectileType<BitterEndFriendly>()] + player.ownedProjectileCounts[ModContent.ProjectileType<BitterEndFriendly2>()] <= 0)
             {
                 player.armorEffectDrawOutlines = true;
             }

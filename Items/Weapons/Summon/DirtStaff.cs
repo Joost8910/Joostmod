@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Linq;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -35,9 +33,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.useTurn = true;
             Item.value = Item.sellPrice(0, 0, 0, 10);
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("DirtMinion").Type;
+            Item.shoot = ModContent.ProjectileType<DirtMinion>();
             Item.shootSpeed = 7f;
-            Item.buffType = Mod.Find<ModBuff>("DirtMinion").Type;
+            Item.buffType = ModContent.BuffType<Buffs.DirtMinionBuff>();
             Item.buffTime = 3600;
         }
         public override bool AltFunctionUse(Player player)

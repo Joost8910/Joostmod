@@ -43,7 +43,7 @@ namespace JoostMod.Projectiles.Ranged
             Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, 2, 0, default, 2f).noGravity = true;
             if (Main.rand.NextBool(15))
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, 1), Mod.Find<ModProjectile>("BlazingDroplet").Type, Projectile.damage / 3, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, 1), ModContent.ProjectileType<BlazingDroplet>(), Projectile.damage / 3, 0, Projectile.owner);
             }
         }
     }

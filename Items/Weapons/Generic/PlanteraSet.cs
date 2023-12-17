@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("ThornShower").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.ThornShower>();
             Item.shootSpeed = 6f;
             Item.crit = 4;
         }
@@ -114,7 +114,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, Mod.Find<ModProjectile>("ThornShower").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 3, velocity.Y * 3, ModContent.ProjectileType<Projectiles.Thrown.ThornShower>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

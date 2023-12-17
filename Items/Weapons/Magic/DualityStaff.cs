@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -34,12 +32,12 @@ namespace JoostMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.channel = true;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("LightLaser").Type;
+            Item.shoot = ModContent.ProjectileType<LightLaser>();
             Item.shootSpeed = 12f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position.X, position.Y, -velocity.X, -velocity.Y, Mod.Find<ModProjectile>("DarkLaser").Type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, -velocity.X, -velocity.Y, ModContent.ProjectileType<DarkLaser>(), damage, knockback, player.whoAmI);
             return true;
         }
         public override Vector2? HoldoutOffset()

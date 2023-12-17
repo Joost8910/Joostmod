@@ -92,7 +92,7 @@ namespace JoostMod.Projectiles.Melee
                 if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor6 = 1f;
-                    if (player.inventory[player.selectedItem].shoot == Mod.Find<ModProjectile>("Stonefist").Type)
+                    if (player.inventory[player.selectedItem].shoot == ModContent.ProjectileType<Stonefist>())
                     {
                         scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale * (Projectile.ai[0] * 0.5f + 1.75f);
                     }
@@ -142,12 +142,12 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.localAI[0] = 1;
                 NPC target = Main.npc[(int)Projectile.localAI[1]];
-                if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("MobHook").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedMobHook").Type] > 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] > 0)
                 {
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         Projectile p = Main.projectile[i];
-                        if (p.active && p.owner == Projectile.owner && (p.type == Mod.Find<ModProjectile>("MobHook").Type || p.type == Mod.Find<ModProjectile>("EnchantedMobHook").Type))
+                        if (p.active && p.owner == Projectile.owner && (p.type == ModContent.ProjectileType<MobHook>() || p.type == ModContent.ProjectileType<EnchantedMobHook>()))
                         {
                             p.Kill();
                             break;
@@ -235,7 +235,7 @@ namespace JoostMod.Projectiles.Melee
                                     ModPacket netMessage = packet;
                                     netMessage.Send(-1, player.whoAmI);
                                 }
-                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, target.velocity, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
                                 if (player.immuneTime < 10)
                                 {
                                     player.immune = true;
@@ -331,7 +331,7 @@ namespace JoostMod.Projectiles.Melee
                                 ModPacket netMessage2 = packet2;
                                 netMessage2.Send(-1, Projectile.owner);
                             }
-                            Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, player.velocity + aim * Projectile.knockBack, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage * 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, player.velocity + aim * Projectile.knockBack, ModContent.ProjectileType<GrabThrow>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
                             if (player.immuneTime < 10)
                             {
                                 player.immune = true;
@@ -466,7 +466,7 @@ namespace JoostMod.Projectiles.Melee
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.ai[1] == 1 && target.statLife > 0 && target.ownedProjectileCounts[Projectile.type] + target.ownedProjectileCounts[Mod.Find<ModProjectile>("GrabGlove").Type] <= 0)
+            if (Projectile.ai[1] == 1 && target.statLife > 0 && target.ownedProjectileCounts[Projectile.type] + target.ownedProjectileCounts[ModContent.ProjectileType<GrabGlove>()] <= 0)
             {
                 Projectile.localAI[1] = target.whoAmI;
                 Projectile.ai[0] = -1;

@@ -27,7 +27,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("ZoraArmor").Type && legs.type == Mod.Find<ModItem>("ZoraGreaves").Type;
+            return body.type == ModContent.ItemType<ZoraArmor>() && legs.type == ModContent.ItemType<ZoraGreaves>();
         }
         public override void UpdateArmorSet(Player player)
         {

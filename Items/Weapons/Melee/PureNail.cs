@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Weapons.Melee
 {
@@ -31,18 +32,18 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item18;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("PureNail").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.PureNail>();
             Item.shootSpeed = 15f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("PureNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("GreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("SpinSlash").Type] < 1;
+            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<PureNail2>()] + player.ownedProjectileCounts[ModContent.ProjectileType<GreatSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DashSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<SpinSlash>()] < 1;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.statLife >= player.statLifeMax2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("PureBeam").Type, damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<PureBeam>(), damage / 2, 0, player.whoAmI);
             }
             return true;
         }

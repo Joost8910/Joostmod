@@ -114,7 +114,7 @@ namespace JoostMod.Projectiles.Accessory
             Projectile.rotation = 0;
             Projectile.position = Projectile.Center.RotatedBy(player.fullRotation, player.MountedCenter) + new Vector2(-Projectile.width / 2, -Projectile.height / 2);
             Projectile.velocity = Projectile.velocity.RotatedBy(player.fullRotation);
-            if (player.GetModPlayer<JoostPlayer>().shieldSaplingItem && !player.dead)
+            if (player.GetModPlayer<JoostPlayer>().shieldSaplingItem != null && !player.dead)
             {
                 Projectile.timeLeft = 4;
             }

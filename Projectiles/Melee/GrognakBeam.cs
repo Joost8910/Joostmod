@@ -88,10 +88,10 @@ namespace JoostMod.Projectiles.Melee
                 if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
                     int hitDir = Projectile.position.Y < Projectile.oldPos[1].Y ? -1 : 1;
-                    int type = Mod.Find<ModProjectile>("GrogWave1").Type;
+                    int type = ModContent.ProjectileType<GrogWave1>();
                     if (hitDir == -1)
                     {
-                        type = Mod.Find<ModProjectile>("GrogWaveFlipped1").Type;
+                        type = ModContent.ProjectileType<GrogWaveFlipped1>();
                     }
                     if (Projectile.timeLeft <= 180 - 40 * player.GetAttackSpeed(DamageClass.Melee))
                     {

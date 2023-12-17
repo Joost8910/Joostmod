@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Minions
     {
         private const float MOVE_DISTANCE = 50f;       //The distance charge particle from the player center
         private const float MAX_DISTANCE = 3200f;       //The maximum length of projectile
-        private int sound = 0;
+        //private int sound = 0;
         public float Distance
         {
             get { return Projectile.ai[1]; }

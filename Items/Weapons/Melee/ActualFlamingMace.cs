@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.channel = true;
             Item.useTurn = false;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("ActualFlamingMace").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.ActualFlamingMace>();
             Item.shootSpeed = 1f;
         }
         public override void AddRecipes()

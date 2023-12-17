@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Melee
             if (channeling)
             {
                 Projectile.ai[0]++;
-                player.AddBuff(Mod.Find<ModBuff>("Whirlwind").Type, 2);
+                player.AddBuff(ModContent.BuffType<Buffs.Whirlwind>(), 2);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 vector13 = Main.MouseWorld - vector;

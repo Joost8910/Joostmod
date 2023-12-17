@@ -44,7 +44,8 @@ namespace JoostMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("FrostFlame2").Type, Projectile.damage, 0, Projectile.owner);
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<FrostFlame2>(), Projectile.damage, 0, Projectile.owner);
         }
 
     }

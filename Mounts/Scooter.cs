@@ -1,5 +1,4 @@
-using System;
-using Microsoft.Xna.Framework;
+using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,7 +9,7 @@ namespace JoostMod.Mounts
 		public override void SetStaticDefaults()
 		{
 			MountData.spawnDust = 56;
-			MountData.buff = Mod.Find<ModBuff>("ScooterMount").Type;
+			MountData.buff = ModContent.BuffType<Buffs.ScooterMount>();
 			MountData.heightBoost = 20;
 			MountData.fallDamage = 1f;
 			MountData.runSpeed = 7f;
@@ -52,10 +51,10 @@ namespace JoostMod.Mounts
 			MountData.swimFrameCount = MountData.inAirFrameCount;
 			MountData.swimFrameDelay = MountData.inAirFrameDelay;
 			MountData.swimFrameStart = MountData.inAirFrameStart;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width + 20;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width() + 20;
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
 

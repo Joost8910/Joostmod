@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Utilities;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -39,9 +40,9 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.value = 300000;
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("PowerSpirit").Type;
+            Item.shoot = ModContent.ProjectileType<PowerSpirit>();
             Item.shootSpeed = 7f;
-            Item.buffType = Mod.Find<ModBuff>("PowerSpirit").Type;
+            Item.buffType = ModContent.BuffType<Buffs.PowerSpirit>();
             Item.buffTime = 3600;
             Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/LarkusTome_Glow");
         }

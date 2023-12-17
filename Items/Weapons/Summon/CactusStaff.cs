@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Minions;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -28,9 +29,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 10000000;
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("Cactuar").Type;
+            Item.shoot = ModContent.ProjectileType<Cactuar>();
             Item.shootSpeed = 10f;
-            Item.buffType = Mod.Find<ModBuff>("Cactuar").Type;  //The buff added to player after used the item
+            Item.buffType = ModContent.BuffType<Buffs.CactuarBuff>();  //The buff added to player after used the item
             Item.buffTime = 3600;               //The duration of the buff, here is 60 seconds
         }
 

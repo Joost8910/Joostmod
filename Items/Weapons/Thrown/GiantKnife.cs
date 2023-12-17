@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("GiantKnife").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.GiantKnife>();
             Item.shootSpeed = 8f;
         }
     }

@@ -58,8 +58,8 @@ namespace JoostMod.Projectiles.Thrown
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.position);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .25f, Main.rand.Next(-10, -5) * .25f, Mod.Find<ModProjectile>("GiantKnife3").Type, (int)(Projectile.damage * 1f), 0, Projectile.owner);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .25f, Main.rand.Next(-10, -5) * .25f, Mod.Find<ModProjectile>("GiantKnife2").Type, (int)(Projectile.damage * 1f), 0, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .25f, Main.rand.Next(-10, -5) * .25f, ModContent.ProjectileType<GiantKnife3>(), (int)(Projectile.damage * 1f), 0, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * .25f, Main.rand.Next(-10, -5) * .25f, ModContent.ProjectileType<GiantKnife2>(), (int)(Projectile.damage * 1f), 0, Projectile.owner);
         }
     }
 }

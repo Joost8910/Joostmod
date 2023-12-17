@@ -28,7 +28,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("TrueGungnir").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TrueGungnir>();
             Item.shootSpeed = 7f;
         }
         public override bool CanUseItem(Player player)

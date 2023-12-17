@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.knockBack = 3;
             Item.UseSound = SoundID.Item21;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("WaterBall").Type;
+            Item.shoot = ModContent.ProjectileType<WaterBall>();
             Item.shootSpeed = 15f;
         }
         public override void AddRecipes()

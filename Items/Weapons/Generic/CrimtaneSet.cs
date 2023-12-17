@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("CrimtaneHatchet").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.CrimtaneHatchet>();
             Item.shootSpeed = 6f;
             Item.crit = 4;
         }
@@ -108,7 +108,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, Mod.Find<ModProjectile>("CrimtaneHatchet").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, ModContent.ProjectileType<Projectiles.Thrown.CrimtaneHatchet>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

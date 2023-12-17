@@ -68,7 +68,7 @@ namespace JoostMod.Projectiles.Hostile
                 float Speed = Main.rand.Next(1, 8) * 0.1f;
                 float randRot = Main.rand.Next(360);
                 Vector2 vel = new Vector2((float)(Math.Cos(randRot) * Speed * -1), (float)(Math.Sin(randRot) * Speed * -1));
-                int type = Mod.Find<ModProjectile>("GilgBusterLimitSlash").Type;
+                int type = ModContent.ProjectileType<GilgBusterLimitSlash>();
                 Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, vel, type, 10, 0, Main.myPlayer, i);
             }
             for (int i = 0; i < 30; i++)

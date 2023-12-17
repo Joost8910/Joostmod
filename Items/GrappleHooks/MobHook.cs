@@ -11,7 +11,7 @@ namespace JoostMod.Items.GrappleHooks
             Item.CloneDefaults(ItemID.AmethystHook);
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 11f;
-            Item.shoot = Mod.Find<ModProjectile>("MobHook").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Grappling.MobHook>();
         }
 		public override void SetStaticDefaults()
 		{

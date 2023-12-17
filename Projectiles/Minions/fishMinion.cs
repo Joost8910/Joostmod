@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.ignoreWater = true;
 			inertia = 20f;
             shootCool = 120f;
-            shoot = Mod.Find<ModProjectile>("Bubble").Type;
+            shoot = ModContent.ProjectileType<Bubble>();
 			shootSpeed = 1f;
 		}
 

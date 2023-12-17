@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Rewards
 {
@@ -30,9 +31,9 @@ namespace JoostMod.Items.Rewards
             Item.value = 90000;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item44;
-			Item.shoot = Mod.Find<ModProjectile>("StormWyvernMinion").Type;
+			Item.shoot = ModContent.ProjectileType<StormWyvernMinion>();
 			Item.shootSpeed = 12.5f;
-			Item.buffType = Mod.Find<ModBuff>("StormWyvernMinion").Type;
+			Item.buffType = ModContent.BuffType<Buffs.StormWyvernMinionBuff>();
 			Item.buffTime = 3600;
             Item.autoReuse = false;
 		}
@@ -57,7 +58,7 @@ namespace JoostMod.Items.Rewards
             
             if (player.altFunctionUse != 2)
             {
-                Projectile projectile = Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                Projectile projectile = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 bool foundWyvern = false;
                 int tail = -1;
                 float slots = 0f;
@@ -94,7 +95,7 @@ namespace JoostMod.Items.Rewards
                     int latestProj = projectile.identity;
                     for (int i = 1; i < 4; i++)
                     {
-                        latestProj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockback, projectile.owner, i, latestProj);
+                        latestProj = Projectile.NewProjectile(source, projectile.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, i, latestProj);
                         Main.projectile[latestProj].minionSlots = 0;
                     }
                     projectile.ai[0] = 0;

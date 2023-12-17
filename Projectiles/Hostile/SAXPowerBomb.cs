@@ -78,7 +78,7 @@ namespace JoostMod.Projectiles.Hostile
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("SAXPowerBombExplosion").Type, Projectile.damage, Projectile.knockBack);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<SAXPowerBombExplosion>(), Projectile.damage, Projectile.knockBack);
             }
             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/FusionPowerBombExplosion"), Projectile.Center);
         }

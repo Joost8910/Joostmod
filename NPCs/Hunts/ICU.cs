@@ -153,17 +153,18 @@ namespace JoostMod.NPCs.Hunts
                         SoundEngine.PlaySound(SoundID.Item11, NPC.position);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation) * Speed) * -1), (float)((Math.Sin(NPC.rotation) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 1.57f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 1.57f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 3.14f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 3.14f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 4.71f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 4.71f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
+                            var source = NPC.GetSource_FromAI();
+                            Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation) * Speed) * -1), (float)((Math.Sin(NPC.rotation) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
+                            Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 1.57f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 1.57f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
+                            Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 3.14f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 3.14f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
+                            Projectile.NewProjectile(source, NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(NPC.rotation + 4.71f) * Speed) * -1), (float)((Math.Sin(NPC.rotation + 4.71f) * Speed) * -1), type, damage, 0.8f, Main.myPlayer);
                         }
                         NPC.ai[1] = 0;
                         NPC.ai[2] = Main.rand.Next(-1, 1) * (ai + 50 + Main.rand.Next(ai * 2));
                         NPC.ai[3] = Main.rand.Next(-1, 1) * (ai + 50 + Main.rand.Next(ai * 2));
                         if (NPC.ai[2] == 0 && NPC.ai[3] == 0)
                         {
-                            if (Main.rand.Next(2) == 0)
+                            if (Main.rand.NextBool(2))
                             {
                                 NPC.ai[2] = ai + 150;
                             }
@@ -171,7 +172,7 @@ namespace JoostMod.NPCs.Hunts
                             {
                                 NPC.ai[3] = ai + 150;
                             }
-                            if (Main.rand.Next(2) == 0)
+                            if (Main.rand.NextBool(2))
                             {
                                 NPC.ai[2] *= -1;
                                 NPC.ai[3] *= -1;

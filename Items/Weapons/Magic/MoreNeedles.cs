@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -33,7 +34,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Needle2").Type;
+            Item.shoot = ModContent.ProjectileType<Needle2>();
             Item.shootSpeed = 16f;
         }
         /*

@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("Jumbow").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.Jumbow>();
             Item.shootSpeed = 16f;
         }
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)

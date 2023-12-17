@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.ai[1]++;
             if (Projectile.ai[1] >= 10)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 15f, Mod.Find<ModProjectile>("UltimateIllusion1").Type, Projectile.damage, 20, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 15f, ModContent.ProjectileType<UltimateIllusion1>(), Projectile.damage, 20, Projectile.owner);
                 Projectile.ai[1] -= 10;
             }
             if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))

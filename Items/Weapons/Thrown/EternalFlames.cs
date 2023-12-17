@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -30,7 +29,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.UseSound = SoundID.Item1;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("EternalFlame").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.EternalFlame>();
             Item.shootSpeed = 24f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

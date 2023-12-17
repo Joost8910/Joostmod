@@ -99,7 +99,7 @@ namespace JoostMod.Projectiles.Melee
 
                     if (player.controlUseTile)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), vector, Projectile.velocity, Mod.Find<ModProjectile>("Stonefist2").Type, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, 0, 1);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), vector, Projectile.velocity, ModContent.ProjectileType<Stonefist2>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, 0, 1);
                         Projectile.Kill();
                     }
                 }
@@ -200,7 +200,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (target.knockBackResist > 0 && Projectile.ai[0] >= 1)
             {
-                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, target.whoAmI);
             }
             for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {
@@ -227,7 +227,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.ai[0] >= 1)
             {
-                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
             }
             for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {

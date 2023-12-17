@@ -164,7 +164,7 @@ namespace JoostMod.Projectiles.Hybrid
                 {
                     //SoundEngine.PlaySound(42, player.position, 207 + Main.rand.Next(3));
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), vector.X + Projectile.width * player.direction, vector.Y - 40 * player.gravDir, 3f * player.direction, 0f, Mod.Find<ModProjectile>("AscendedWave").Type, Projectile.damage, Projectile.knockBack * 2, player.whoAmI, player.gravDir);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), vector.X + Projectile.width * player.direction, vector.Y - 40 * player.gravDir, 3f * player.direction, 0f, ModContent.ProjectileType<AscendedWave>(), Projectile.damage, Projectile.knockBack * 2, player.whoAmI, player.gravDir);
                     Projectile.Kill();
                     player.itemTime = (int)(6 / speed);
                     player.itemAnimation = (int)(6 / speed);
@@ -255,7 +255,7 @@ namespace JoostMod.Projectiles.Hybrid
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (Projectile.ai[0] > 0)
+            if (Projectile.ai[0] > 0 && Main.myPlayer == Projectile.owner)
             {
                 Projectile.velocity.Normalize();
                 float shootSpeed = player.inventory[player.selectedItem].shootSpeed;
@@ -263,7 +263,7 @@ namespace JoostMod.Projectiles.Hybrid
                 {
                     if (i == 7)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_Death(), vector, Projectile.velocity * shootSpeed, Mod.Find<ModProjectile>("AscendedBlast").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_Death(), vector, Projectile.velocity * shootSpeed, ModContent.ProjectileType<AscendedBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_phantom_phoenix_shot_0"), Projectile.Center); // 217
                     }
                     else

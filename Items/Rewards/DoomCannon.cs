@@ -30,7 +30,7 @@ namespace JoostMod.Items.Rewards
 			Item.noUseGraphic = true;
 			Item.channel = true;
 			Item.noMelee = true;
-			Item.shoot = Mod.Find<ModProjectile>("DoomCannon").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.DoomCannon>();
 			Item.shootSpeed = 1f;
 		}
         public override bool CanUseItem(Player player)

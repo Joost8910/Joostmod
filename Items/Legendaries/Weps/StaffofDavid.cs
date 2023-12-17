@@ -8,6 +8,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Utilities;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -37,7 +38,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.staff[Item.type] = true;
             Item.shootSpeed = 14f;
-            Item.shoot = Mod.Find<ModProjectile>("DavidLaser").Type;
+            Item.shoot = ModContent.ProjectileType<DavidLaser>();
             Item.value = 300000;
             Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/StaffofDavidCrystal");
         }
@@ -112,7 +113,7 @@ namespace JoostMod.Items.Legendaries.Weps
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("DavidBolt").Type, damage * 7, 3, player.whoAmI, i);
+                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<DavidBolt>(), damage * 7, 3, player.whoAmI, i);
                 }
                 return false;
             }

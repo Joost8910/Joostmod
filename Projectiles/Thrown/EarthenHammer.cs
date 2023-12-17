@@ -40,8 +40,8 @@ namespace JoostMod.Projectiles.Thrown
                 dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-12, -6) * 0.4f;
             }
             SoundEngine.PlaySound(SoundID.Item70, Projectile.position);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.position.Y - 16, 4f, 0f, Mod.Find<ModProjectile>("EarthWave").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.position.Y - 16, -4f, 0f, Mod.Find<ModProjectile>("EarthWave").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.position.Y - 16, 4f, 0f, ModContent.ProjectileType<EarthWave>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.position.Y - 16, -4f, 0f, ModContent.ProjectileType<EarthWave>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
     }
 }

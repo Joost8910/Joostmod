@@ -1,4 +1,3 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,13 +27,13 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("AdamantiteChainedchainsaw").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.AdamantiteChainedchainsaw>();
             Item.shootSpeed = 16f;
             Item.maxStack = 4;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("AdamantiteChainedchainsaw2").Type] >= Item.stack)
+            if (player.ownedProjectileCounts[Item.shoot] >= Item.stack)
             {
                 return false;
             }

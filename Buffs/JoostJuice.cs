@@ -25,14 +25,7 @@ namespace JoostMod.Buffs
 			player.statLifeMax2 += player.statLifeMax / 5 / 20 * 20;
 			player.endurance += 0.1f;
 			player.GetCritChance(DamageClass.Generic) += 10;
-			player.GetCritChance(DamageClass.Ranged) += 10;
-			player.GetCritChance(DamageClass.Magic) += 10;
-			player.GetCritChance(DamageClass.Throwing) += 10;
-			player.GetDamage(DamageClass.Throwing) += 0.1f;
-			player.GetDamage(DamageClass.Melee) += 0.1f;
-			player.GetDamage(DamageClass.Ranged) += 0.1f;
-			player.GetDamage(DamageClass.Magic) += 0.1f;
-			player.GetDamage(DamageClass.Summon) += 0.1f;
+			player.GetDamage(DamageClass.Generic) += 0.1f;
 			player.resistCold = true;
 			player.maxMinions++;
 			player.buffImmune[BuffID.WellFed] = true;

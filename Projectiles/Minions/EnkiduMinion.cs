@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Minions
 			inertia = 20f;
 			chaseAccel = 40f;
 			chaseDist = 40f;
-			shoot = Mod.Find<ModProjectile>("EnkiduWindFriendly").Type;
+			shoot = ModContent.ProjectileType<EnkiduWindFriendly>();
 			shootSpeed = 20f;
 			shootCool = 90f;
 			shootNum = 3;
@@ -53,7 +53,7 @@ namespace JoostMod.Projectiles.Minions
 			{
 				Projectile.timeLeft = 2;
             }
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnkiduMinion").Type] > 1 || !modPlayer.EnkiduMinion)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<EnkiduMinion>()] > 1 || !modPlayer.EnkiduMinion)
             {
                 Projectile.Kill();
             }

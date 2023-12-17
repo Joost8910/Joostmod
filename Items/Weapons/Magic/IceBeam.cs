@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -29,7 +30,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.UseSound = SoundID.Item7;
-            Item.shoot = Mod.Find<ModProjectile>("IceBeamCannon").Type;
+            Item.shoot = ModContent.ProjectileType<IceBeamCannon>();
             Item.shootSpeed = 16f;
             Item.autoReuse = true;
         }

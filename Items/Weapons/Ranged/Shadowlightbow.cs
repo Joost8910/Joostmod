@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Ranged;
 
 namespace JoostMod.Items.Weapons.Ranged
 {
@@ -26,7 +27,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Darklightarrow").Type;
+            Item.shoot = ModContent.ProjectileType<Darklightarrow>();
             Item.shootSpeed = 16f;
         }
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)

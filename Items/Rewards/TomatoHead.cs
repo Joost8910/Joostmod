@@ -32,7 +32,7 @@ namespace JoostMod.Items.Rewards
 			Item.noUseGraphic = true;
 			Item.channel = true;
 			Item.noMelee = true;
-			Item.shoot = Mod.Find<ModProjectile>("TomatoHead").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TomatoHead>();
 			Item.shootSpeed = 10f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

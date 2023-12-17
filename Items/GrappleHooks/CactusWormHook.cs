@@ -1,6 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
- 
+using JoostMod.Projectiles.Grappling;
+
 namespace JoostMod.Items.GrappleHooks
 {
     public class CactusWormHook : ModItem
@@ -10,7 +11,7 @@ namespace JoostMod.Items.GrappleHooks
             //clone and modify the ones we want to copy
             Item.CloneDefaults(ItemID.AmethystHook);
             Item.shootSpeed = 10f; // how quickly the hook is shot.
-            Item.shoot = Mod.Find<ModProjectile>("CactusHook").Type;
+            Item.shoot = ModContent.ProjectileType<CactusHook>();
             Item.rare = ItemRarityID.Expert;
             Item.expert = true;
         }

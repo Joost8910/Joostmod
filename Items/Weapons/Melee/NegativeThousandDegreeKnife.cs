@@ -28,7 +28,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.shoot = Mod.Find<ModProjectile>("NegativeThousandDegreeKnife").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.NegativeThousandDegreeKnife>();
             Item.shootSpeed = 0f;
         }
         public override void AddRecipes()

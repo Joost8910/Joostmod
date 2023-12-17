@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -33,7 +32,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item120;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("FrozenOrb").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Magic.FrozenOrb>();
             Item.shootSpeed = 6f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

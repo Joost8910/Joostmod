@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             Vector2 center = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
             float speed = player.GetAttackSpeed(DamageClass.Melee) / 2;
-            if (player.inventory[player.selectedItem].shoot == Mod.Find<ModProjectile>("EarthenBillhook").Type)
+            if (player.inventory[player.selectedItem].shoot == ModContent.ProjectileType<EarthenBillhook>())
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
                 speed = 36f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee) / 2;
@@ -148,14 +148,14 @@ namespace JoostMod.Projectiles.Melee
                         }
                         if (foundTile)
                         {
-                            SoundEngine.PlaySound(SoundID.Trackable, pos);
+                            SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_0"), pos); // 210
                             for (int d = 0; d < 15; d++)
                             {
                                 Dust.NewDust(new Vector2(pos.X - 20, pos.Y), 40, 10, 1, 0, -4 * player.gravDir, 0, default, 1);
                             }
                             if (Main.netMode != NetmodeID.MultiplayerClient || Main.myPlayer == Projectile.owner)
                             {
-                                Projectile.NewProjectile(pos, new Vector2(0, velY * player.gravDir), Mod.Find<ModProjectile>("Boulder").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos, new Vector2(0, velY * player.gravDir), ModContent.ProjectileType<Boulder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             }
                         }
                         else

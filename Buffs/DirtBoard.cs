@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(Mod.Find<ModMount>("DirtBoard").Type, player);
+			player.mount.SetMount(ModContent.MountType<Mounts.DirtBoard>(), player);
 			player.buffTime[buffIndex] = 10;
         }
 	}

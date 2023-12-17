@@ -39,11 +39,11 @@ namespace JoostMod.Projectiles.Magic
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(Mod.Find<ModBuff>("Sap").Type, 1800);
+            target.AddBuff(ModContent.BuffType<Buffs.Sap>(), 1800);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(Mod.Find<ModBuff>("Sap").Type, 1800);
+            target.AddBuff(ModContent.BuffType<Buffs.Sap>(), 1800);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -67,7 +67,7 @@ namespace JoostMod.Projectiles.Magic
                     {
                         NPC target = Main.npc[i];
                         Rectangle tRect = new Rectangle((int)targetPos.X - Projectile.width / 2, (int)targetPos.Y - Projectile.height / 2, Projectile.width, Projectile.height);
-                        if (target.active && target.Hitbox.Intersects(tRect) && !target.friendly && !target.dontTakeDamage && !target.buffImmune[Mod.Find<ModBuff>("Sap").Type])
+                        if (target.active && target.Hitbox.Intersects(tRect) && !target.friendly && !target.dontTakeDamage && !target.buffImmune[ModContent.BuffType<Buffs.Sap>()])
                         {
                             float distanceTo = target.Distance(targetPos);
                             if (distanceTo < distance || tNPC < 0)

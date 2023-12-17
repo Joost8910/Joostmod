@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("DragonTooth").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.DragonTooth>();
             Item.shootSpeed = 10f;
         }
         public override void HoldItem(Player player)

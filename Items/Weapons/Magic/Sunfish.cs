@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Weapons.Magic
 {
@@ -31,7 +32,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.DD2_DarkMageCastHeal;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("SunLaser").Type;
+            Item.shoot = ModContent.ProjectileType<SunLaser>();
             Item.shootSpeed = 14f;
         }
         /*

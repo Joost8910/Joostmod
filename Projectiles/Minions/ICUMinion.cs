@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = false;
 			inertia = 50f;
-			shoot = Mod.Find<ModProjectile>("ICUBeam").Type;
+			shoot = ModContent.ProjectileType<ICUBeam>();
             shootNum = 4;
             shootSpread = 360;
 			shootSpeed = 10f;

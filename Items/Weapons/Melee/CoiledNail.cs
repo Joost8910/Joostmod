@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Weapons.Melee
 {
@@ -30,12 +31,12 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item18;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("CoiledNail").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.CoiledNail>();
             Item.shootSpeed = 12f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("CoiledNail2").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("GreatSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DashSlash").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("SpinSlash").Type] < 1;
+            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<CoiledNail2>()] + player.ownedProjectileCounts[ModContent.ProjectileType<GreatSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DashSlash>()] + player.ownedProjectileCounts[ModContent.ProjectileType<SpinSlash>()] < 1;
         }
         public override void AddRecipes()
         {

@@ -173,14 +173,14 @@ namespace JoostMod.Projectiles.Melee
                 Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);
                 //Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);	
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_great_slash"), Projectile.Center);
-                Projectile.NewProjectile(source, pos.X, pos.Y, Projectile.velocity.X * 2, Projectile.velocity.Y * 2, Mod.Find<ModProjectile>("GreatSlash").Type, Projectile.damage * 9, Projectile.knockBack * 5, Projectile.owner);
+                Projectile.NewProjectile(source, pos.X, pos.Y, Projectile.velocity.X * 2, Projectile.velocity.Y * 2, ModContent.ProjectileType<GreatSlash>(), Projectile.damage * 9, Projectile.knockBack * 5, Projectile.owner);
             }
             else
             {
                 Player player = Main.player[Projectile.owner];
                 Vector2 pos = player.RotatedRelativePoint(player.MountedCenter, true);
                 SoundEngine.PlaySound(SoundID.Item19, Projectile.position);
-                Projectile.NewProjectile(source, pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("SharpenedNail2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, pos.X, pos.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<SharpenedNail2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 player.itemTime = player.itemAnimationMax;
                 player.itemAnimation = player.itemAnimationMax;
             }

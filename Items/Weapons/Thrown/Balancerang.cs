@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Balancerang").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Balancerang>();
             Item.shootSpeed = 16f;
         }
         public override void AddRecipes()

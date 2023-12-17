@@ -34,7 +34,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("SilverHatchet").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.SilverHatchet>();
             Item.shootSpeed = 12f;
             Item.crit = 4;
         }
@@ -97,7 +97,7 @@ namespace JoostMod.Items.Weapons.Generic
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, Mod.Find<ModProjectile>("SilverFlail").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, ModContent.ProjectileType<Projectiles.Melee.SilverFlail>(), damage, knockback, player.whoAmI);
             }
             if (wep == 2)
             {
@@ -109,7 +109,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("SilverHatchet").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.SilverHatchet>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

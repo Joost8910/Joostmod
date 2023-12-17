@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Needle5").Type;
+            Item.shoot = ModContent.ProjectileType<Needle5>();
             Item.shootSpeed = 16f;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

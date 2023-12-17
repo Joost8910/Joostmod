@@ -35,7 +35,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("GenjiArmorMelee").Type && legs.type == Mod.Find<ModItem>("GenjiLeggings").Type;
+            return body.type == ModContent.ItemType<GenjiArmorMelee>() && legs.type == ModContent.ItemType<GenjiLeggings>();
         }
 
         public override void UpdateArmorSet(Player player)

@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Bosses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -42,13 +43,13 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.position = center - Projectile.Size / 2;
             Projectile.localAI[0]++;
             Projectile.rotation = Projectile.velocity.ToRotation();
-            if (!host.active || host.type != Mod.Find<ModNPC>("Gilgamesh2").Type)
+            if (!host.active || host.type != ModContent.NPCType<Gilgamesh2>())
             {
                 Projectile.Kill();
             }
             if (Projectile.localAI[0] == 55)
             {
-                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_1"), Projectile.Center); // 202
             }
             float lightStrength = (255f - Projectile.alpha) / 200f;
             Lighting.AddLight(Projectile.Center / 16, 1f * lightStrength, 0.56f * lightStrength, 0.76f * lightStrength);
@@ -68,7 +69,8 @@ namespace JoostMod.Projectiles.Hostile
                 Vector2 offset = new Vector2(Main.rand.Next(-24, 24), Main.rand.Next(-120, 120));
                 offset = offset.RotatedBy(Projectile.rotation);
                 Vector2 vel = Projectile.velocity * speed;
-                Projectile.NewProjectile(Projectile.Center + offset, vel, Mod.Find<ModProjectile>("GilgSword").Type, Projectile.damage, Projectile.knockBack);
+                if (Main.myPlayer == Projectile.owner)
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + offset, vel, ModContent.ProjectileType<GilgSword>(), Projectile.damage, Projectile.knockBack);
             }
         }
         private Vector2 PredictiveAim(float speed, Vector2 origin, bool ignoreY)
@@ -93,7 +95,7 @@ namespace JoostMod.Projectiles.Hostile
             color.A = (byte)(255 * (1f - Projectile.alpha / 255f));
             Rectangle rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / (2 * Main.projFrames[Projectile.type])), Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / (2 * Main.projFrames[Projectile.type])), Projectile.scale, effects, 0);
             return false;
         }
         public override bool CanHitPlayer(Player target)

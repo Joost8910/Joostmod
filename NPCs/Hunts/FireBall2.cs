@@ -1,4 +1,5 @@
 using System;
+using JoostMod.Buffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles;
 
 namespace JoostMod.Items.Tools
 {
@@ -26,7 +27,7 @@ namespace JoostMod.Items.Tools
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.value = 10000;
             Item.rare = ItemRarityID.Green;
-            Item.shoot = Mod.Find<ModProjectile>("Manipulation").Type;
+            Item.shoot = ModContent.ProjectileType<Manipulation>();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -37,17 +38,17 @@ namespace JoostMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe()
-.AddIngredient(ItemID.Book)
-.AddIngredient(ItemID.FallenStar)
-.AddIngredient(ItemID.GoldBar)
-.AddTile(TileID.WorkBenches)
-.Register();
-CreateRecipe()
-.AddIngredient(ItemID.Book)
-.AddIngredient(ItemID.FallenStar)
-.AddIngredient(ItemID.PlatinumBar)
-.AddTile(TileID.WorkBenches)
-.Register();
+            .AddIngredient(ItemID.Book)
+            .AddIngredient(ItemID.FallenStar)
+            .AddIngredient(ItemID.GoldBar)
+            .AddTile(TileID.WorkBenches)
+            .Register();
+            CreateRecipe()
+            .AddIngredient(ItemID.Book)
+            .AddIngredient(ItemID.FallenStar)
+            .AddIngredient(ItemID.PlatinumBar)
+            .AddTile(TileID.WorkBenches)
+            .Register();
         }
 
     }

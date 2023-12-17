@@ -207,7 +207,7 @@ namespace JoostMod.Projectiles.Melee
                 {
                     if (target.velocity.Y < 0 && Projectile.localAI[0] > maxCharge * 0.9f)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                        Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
                     }
                     target.velocity.Y = (knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
                 }
@@ -227,7 +227,7 @@ namespace JoostMod.Projectiles.Melee
                 {
                     if (target.velocity.Y < 0 && Projectile.localAI[0] > maxCharge * 0.9f)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
+                        Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
                     }
                     target.velocity.Y = (Projectile.knockBack + Math.Abs(player.velocity.Y)) * player.gravDir;
                 }

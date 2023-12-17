@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Mounts
@@ -10,7 +11,7 @@ namespace JoostMod.Mounts
 		public override void SetStaticDefaults()
 		{
 			MountData.spawnDust = 6;
-			MountData.buff = Mod.Find<ModBuff>("FierySoles").Type;
+			MountData.buff = ModContent.BuffType<Buffs.FierySoles>();
 			MountData.heightBoost = 20;
 			MountData.fallDamage = 0f;
 			MountData.runSpeed = 8.5f;
@@ -52,10 +53,10 @@ namespace JoostMod.Mounts
 			MountData.swimFrameCount = MountData.inAirFrameCount;
 			MountData.swimFrameDelay = MountData.inAirFrameDelay;
 			MountData.swimFrameStart = MountData.inAirFrameStart;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width + 20;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width() + 20;
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
         public override void UpdateEffects(Player player)

@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Magic
             var source = Projectile.GetSource_OnHit(target);
             for (int i = 0; i < 16; i++)
             {
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * .25f, Projectile.velocity.Y * .25f, Mod.Find<ModProjectile>("Needle6").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * .25f, Projectile.velocity.Y * .25f, ModContent.ProjectileType<Needle6>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
 

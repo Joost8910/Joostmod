@@ -1,5 +1,4 @@
-using System;
-using Microsoft.Xna.Framework;
+using JoostMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +29,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item12;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("GreenLaser").Type;
+            Item.shoot = ModContent.ProjectileType<GreenLaser>();
             Item.shootSpeed = 15f;
         }
 

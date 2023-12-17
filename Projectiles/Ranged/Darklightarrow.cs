@@ -52,7 +52,8 @@ namespace JoostMod.Projectiles.Ranged
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, oldVelocity.X, oldVelocity.Y, Mod.Find<ModProjectile>("Lightarrow").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, oldVelocity.X, oldVelocity.Y, ModContent.ProjectileType<Lightarrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             Projectile.timeLeft -= 600;
             if (Projectile.velocity.X != oldVelocity.X)
             {
@@ -68,7 +69,8 @@ namespace JoostMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("Darkarrow").Type, Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<Darkarrow>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace JoostMod.Buffs
 {
@@ -12,22 +13,22 @@ namespace JoostMod.Buffs
             Description.SetDefault("Losing Life; will spread X Parasites upon death");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff/* tModPorter Note: Removed. Use BuffID.Sets.LongerExpertDebuff instead */ = true;
+            BuffID.Sets.LongerExpertDebuff[Type] = true;
         }
         public override void Update(Player player, ref int buffIndex)
         {
             player.GetModPlayer<JoostPlayer>().infectedRed = true;
-            if (Main.rand.Next(30) == 0)
+            if (Main.rand.NextBool(30))
             {
-                Dust.NewDust(player.position, player.width, player.height, 4, 0, 0, 0, Color.Red, (1 + Main.rand.Next(5)) * 0.1f);
+                Dust.NewDust(player.position, player.width, player.height, DustID.TintableDust, 0, 0, 0, Color.Red, (1 + Main.rand.Next(5)) * 0.1f);
             }
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.GetGlobalNPC<NPCs.JoostGlobalNPC>().infectedRed = true;
-            if (Main.rand.Next(30) == 0)
+            if (Main.rand.NextBool(30))
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, 0, 0, 0, Color.Red, (1 + Main.rand.Next(5)) * 0.1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.TintableDust, 0, 0, 0, Color.Red, (1 + Main.rand.Next(5)) * 0.1f);
             }
         }
     }

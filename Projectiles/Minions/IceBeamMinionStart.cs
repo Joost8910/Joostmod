@@ -35,9 +35,9 @@ namespace JoostMod.Projectiles.Minions
         {
             Vector2 pos = Projectile.Center;
             Vector2 dir = Projectile.velocity;
-            Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, dir.X, dir.Y, Mod.Find<ModProjectile>("IceBeamMinion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, dir.X, dir.Y, Mod.Find<ModProjectile>("IceBeamMinion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, dir.X, dir.Y, Mod.Find<ModProjectile>("IceBeamMinion").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<IceBeamMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<IceBeamMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<IceBeamMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
         }
     }
 }

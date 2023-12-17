@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Fishhooks;
 
 namespace JoostMod.Items.Tools.Rods
 {
@@ -25,7 +26,7 @@ namespace JoostMod.Items.Tools.Rods
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = false;
-            Item.shoot = Mod.Find<ModProjectile>("LunarFishHook2").Type;
+            Item.shoot = ModContent.ProjectileType<LunarFishHook2>();
             Item.shootSpeed = 17f;
             Item.fishingPole = 100;
         }

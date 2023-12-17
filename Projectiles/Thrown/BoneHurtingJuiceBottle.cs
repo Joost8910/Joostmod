@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Thrown
                 Vector2 perturbedSpeed = new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(360));
                 float scale = 1f - Main.rand.NextFloat() * .3f;
                 perturbedSpeed = perturbedSpeed * scale;
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("BoneHurtingJuice").Type, Projectile.damage / 2, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BoneHurtingJuice>(), Projectile.damage / 2, 0, Projectile.owner);
             }
         }
     }

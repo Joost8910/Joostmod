@@ -12,6 +12,7 @@ namespace JoostMod.Items.Armor
             DisplayName.SetDefault("Crown of Wind");
             Tooltip.SetDefault("20% increased summon damage\n" +
                 "Increases your max number of minions");
+            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
         public override void SetDefaults()
         {
@@ -28,11 +29,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("AirArmor").Type && legs.type == Mod.Find<ModItem>("AirLegs").Type;
-        }
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)/* tModPorter Note: Removed. In SetStaticDefaults, use ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true if you had drawHair set to true, and ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true if you had drawAltHair set to true */
-        {
-            drawAltHair = true;
+            return body.type == ModContent.ItemType<AirArmor>() && legs.type == ModContent.ItemType<AirLegs>();
         }
 
         public override void UpdateArmorSet(Player player)

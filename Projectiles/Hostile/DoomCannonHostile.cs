@@ -129,7 +129,7 @@ namespace JoostMod.Projectiles.Hostile
                 {
                     Vector2 pos = owner.Center + Projectile.velocity * 140;
                     float speed = 7;
-                    int type = Mod.Find<ModProjectile>("DoomSkullHostile").Type;
+                    int type = ModContent.ProjectileType<DoomSkullHostile>();
                     if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
                     {
                         Projectile.velocity = -Vector2.UnitY;

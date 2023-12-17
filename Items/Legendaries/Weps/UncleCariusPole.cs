@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Fishhooks;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -35,7 +36,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.knockBack = 6;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = false;
-            Item.shoot = Mod.Find<ModProjectile>("UncleCariusHook").Type;
+            Item.shoot = ModContent.ProjectileType<UncleCariusHook>();
             Item.shootSpeed = 17f;
             //item.fishingPole = 100; 
             Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/UncleCariusPole_String");
@@ -191,7 +192,7 @@ namespace JoostMod.Items.Legendaries.Weps
                     Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(12));
                     float scale = 1f - Main.rand.NextFloat() * .3f;
                     perturbedSpeed = perturbedSpeed * scale * 0.04f * num;
-                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("UncleCariusFish").Type, (int)(damage * 1.5f), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<UncleCariusFish>(), (int)(damage * 1.5f), knockback, player.whoAmI);
                 }
             }
             else

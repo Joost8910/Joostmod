@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
-namespace JoostMod.Items.Weapons.Ranged
+namespace JoostMod.Items.Weapons.Melee
 {
     [AutoloadEquip(EquipType.HandsOff)]
     public class MutantCannon : ModItem
@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item13;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("MutantCannon").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.MutantCannon>();
             Item.shootSpeed = 10f;
         }
 

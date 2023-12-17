@@ -61,8 +61,8 @@ namespace JoostMod.Projectiles.Magic
             var source = Projectile.GetSource_FromAI();
             if (Projectile.ai[1] % 3 == 0)
             {
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, -(float)Math.Cos(Projectile.rotation + 0.785f) * 8, -(float)Math.Sin(Projectile.rotation + 0.785f) * 8, Mod.Find<ModProjectile>("BoltofLight").Type, Projectile.damage, Projectile.knockBack / 2, player.whoAmI);
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)Math.Cos(Projectile.rotation + 0.785f) * 8, (float)Math.Sin(Projectile.rotation + 0.785f) * 8, Mod.Find<ModProjectile>("BoltofNight").Type, Projectile.damage, Projectile.knockBack / 2, player.whoAmI);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, -(float)Math.Cos(Projectile.rotation + 0.785f) * 8, -(float)Math.Sin(Projectile.rotation + 0.785f) * 8, ModContent.ProjectileType<BoltofLight>(), Projectile.damage, Projectile.knockBack / 2, player.whoAmI);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)Math.Cos(Projectile.rotation + 0.785f) * 8, (float)Math.Sin(Projectile.rotation + 0.785f) * 8, ModContent.ProjectileType<BoltofNight>(), Projectile.damage, Projectile.knockBack / 2, player.whoAmI);
             }
 
             return false;

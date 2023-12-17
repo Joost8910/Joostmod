@@ -16,8 +16,8 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			JoostPlayer modPlayer = (JoostPlayer)player.GetModPlayer(Mod, "JoostPlayer");
-			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("ICUMinion").Type] > 0)
+			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<ICUMinion>()] > 0)
 			{
 				modPlayer.icuMinion = true;
 			}

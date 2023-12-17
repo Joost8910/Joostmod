@@ -80,7 +80,7 @@ namespace JoostMod.Projectiles.Accessory
             float damag = target.lifeMax * 0.25f;
             if ((int)damag > 0 && target.type != NPCID.TargetDummy && target.life <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
             {
-                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
         }
@@ -97,7 +97,7 @@ namespace JoostMod.Projectiles.Accessory
             float damag = target.statLifeMax2 * 0.25f;
             if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
             {
-                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
         }
@@ -114,7 +114,7 @@ namespace JoostMod.Projectiles.Accessory
             float damag = target.statLifeMax2 * 0.25f;
             if ((int)damag > 0 && target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
             {
-                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, Mod.Find<ModProjectile>("CorruptedSoul").Type, (int)damag, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
         }

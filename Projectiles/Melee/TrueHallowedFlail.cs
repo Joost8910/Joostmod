@@ -166,7 +166,7 @@ namespace JoostMod.Projectiles.Melee
                     Projectile.velocity.Y = Projectile.velocity.Y + num218;
                     if (Projectile.localAI[1] <= 0)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, Mod.Find<ModProjectile>("TrueHallowedFlailBeam").Type, (int)(Projectile.damage * 1.0f), 0, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<TrueHallowedFlailBeam>(), (int)(Projectile.damage * 1.0f), 0, Projectile.owner);
                         Projectile.localAI[1] = 30;
                     }
                     else

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Mounts
 {
@@ -10,7 +11,7 @@ namespace JoostMod.Mounts
 		public override void SetStaticDefaults()
 		{
 			MountData.spawnDust = 0;
-			MountData.buff = Mod.Find<ModBuff>("DirtBoard").Type;
+			MountData.buff = ModContent.BuffType<Buffs.DirtBoard>();
 			MountData.heightBoost = 6;
 			MountData.fallDamage = 1f;
 			MountData.runSpeed = 0.5f;
@@ -34,12 +35,12 @@ namespace JoostMod.Mounts
             MountData.yOffset = 6;
             MountData.playerHeadOffset = 22;
 			MountData.idleFrameLoop = false;
-			if (Main.netMode != 2)
-			{
-				MountData.textureWidth = MountData.backTexture.Width + 20;
-				MountData.textureHeight = MountData.backTexture.Height;
-			}
-		}
+            if (Main.netMode != NetmodeID.Server)
+            {
+                MountData.textureWidth = MountData.backTexture.Width() + 20;
+                MountData.textureHeight = MountData.backTexture.Height();
+            }
+        }
         public override void JumpSpeed(Player mountedPlayer, ref float jumpSpeed, float xVelocity)
         {
             jumpSpeed = Math.Abs(xVelocity * 0.5f) + 3f;
@@ -80,7 +81,7 @@ namespace JoostMod.Mounts
                 int x = (int)(player.position.X / 16f);
                 int x2 = (int)((player.position.X + player.width) / 16f);
                 int y = (int)((player.position.Y + player.height) / 16f);
-                if ((!Main.tile[x, y].IsHalfBlock && Main.tile[x, y].HasTile && Main.tileSolid[Main.tile[x, y].TileType] && (Main.tile[x2, y].IsHalfBlock || Main.tile[x2, y].Slope == 1 || !Main.tile[x2, y].HasTile || !Main.tileSolid[Main.tile[x2, y].TileType])) || (Main.tile[x, y].IsHalfBlock && (!Main.tile[x2, y].HasTile || !Main.tileSolid[Main.tile[x2, y].TileType])))
+                if ((!Main.tile[x, y].IsHalfBlock && Main.tile[x, y].HasTile && Main.tileSolid[Main.tile[x, y].TileType] && (Main.tile[x2, y].IsHalfBlock || Main.tile[x2, y].Slope == SlopeType.SlopeDownLeft || !Main.tile[x2, y].HasTile || !Main.tileSolid[Main.tile[x2, y].TileType])) || (Main.tile[x, y].IsHalfBlock && (!Main.tile[x2, y].HasTile || !Main.tileSolid[Main.tile[x2, y].TileType])))
                 {
                     rotation = (float)Math.PI / 8;
                     if (player.velocity.X >= 0)
@@ -99,7 +100,7 @@ namespace JoostMod.Mounts
                     player.slippy = true;
                 }
 
-                if (((Main.tile[x, y].IsHalfBlock || Main.tile[x, y].Slope == 2 || !Main.tile[x, y].HasTile || !Main.tileSolid[Main.tile[x, y].TileType]) && !Main.tile[x2, y].IsHalfBlock && Main.tile[x2, y].HasTile && Main.tileSolid[Main.tile[x2, y].TileType]) || (Main.tile[x2, y].IsHalfBlock && (!Main.tile[x, y].HasTile || !Main.tileSolid[Main.tile[x, y].TileType])))
+                if (((Main.tile[x, y].IsHalfBlock || Main.tile[x, y].Slope == SlopeType.SlopeDownRight || !Main.tile[x, y].HasTile || !Main.tileSolid[Main.tile[x, y].TileType]) && !Main.tile[x2, y].IsHalfBlock && Main.tile[x2, y].HasTile && Main.tileSolid[Main.tile[x2, y].TileType]) || (Main.tile[x2, y].IsHalfBlock && (!Main.tile[x, y].HasTile || !Main.tileSolid[Main.tile[x, y].TileType])))
                 {
                     rotation = -(float)Math.PI / 8;
                     if (player.velocity.X <= 0)
@@ -119,7 +120,7 @@ namespace JoostMod.Mounts
                 }
             
                 //Full slope
-                if (Main.tile[x, y].Slope == 1 || Main.tile[x2, y + 1].Slope == 1)
+                if (Main.tile[x, y].Slope == SlopeType.SlopeDownLeft || Main.tile[x2, y + 1].Slope == SlopeType.SlopeDownLeft)
                 {
                     rotation = (float)Math.PI / 4;
                     if (player.velocity.X >= 0)
@@ -137,7 +138,7 @@ namespace JoostMod.Mounts
                     player.velocity.X += player.gravity * rampMult;
                     player.slippy2 = true;
                 }
-                if (Main.tile[x, y + 1].Slope == 2 || Main.tile[x2, y].Slope == 2)
+                if (Main.tile[x, y + 1].Slope == SlopeType.SlopeDownRight || Main.tile[x2, y].Slope == SlopeType.SlopeDownRight)
                 {
                     rotation = -(float)Math.PI / 4;
                     if (player.velocity.X <= 0)

@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("BFE5000").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.BFE5000>();
             Item.shootSpeed = 12f;
         }
 

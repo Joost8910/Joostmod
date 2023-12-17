@@ -97,11 +97,13 @@ namespace JoostMod.Projectiles.Magic
                 dir3.Normalize();
                 Vector2 dir4 = mousePos - pos4;
                 dir4.Normalize();
-
-                Projectile.NewProjectile(source, pos1, dir1, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, pos2, dir2, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, pos3, dir3, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, pos4, dir4, Mod.Find<ModProjectile>("FocusSoulBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Projectile.NewProjectile(source, pos1, dir1, ModContent.ProjectileType<FocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, pos2, dir2, ModContent.ProjectileType<FocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, pos3, dir3, ModContent.ProjectileType<FocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, pos4, dir4, ModContent.ProjectileType<FocusSoulBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
                 Projectile.netUpdate = true;
             }
             if (Projectile.ai[0] == 85)

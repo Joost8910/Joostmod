@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Melee
             int x = 8 + (int)(Projectile.position.X / 16) * 16;
             if (x != z)
             {
-                Projectile.NewProjectile(x, Projectile.position.Y, 0, 15f * Projectile.ai[0], Mod.Find<ModProjectile>("BloodWave1").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), x, Projectile.position.Y, 0, 15f * Projectile.ai[0], ModContent.ProjectileType<BloodWave1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
                 z = x;
             }
         }

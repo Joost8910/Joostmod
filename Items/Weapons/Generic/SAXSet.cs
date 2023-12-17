@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using JoostMod.Items.Weapons.Magic;
 using JoostMod.Items.Weapons.Ranged;
 using JoostMod.Items.Weapons.Thrown;
+using JoostMod.Items.Weapons.Melee;
 
 namespace JoostMod.Items.Weapons.Generic
 {
@@ -35,7 +36,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("IceBeam").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Magic.IceBeam>();
             Item.shootSpeed = 16f;
             Item.crit = 4;
         }
@@ -96,13 +97,13 @@ namespace JoostMod.Items.Weapons.Generic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("PowerBomb").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("PowerBombExplosion").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("PowerBombExplosion2").Type] >= 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBomb>()] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBombExplosion>()] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBombExplosion2>()] >= 1)
             {
                 wep = Main.rand.Next(3);
             }
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("SuperMissile").Type, (int)(damage * 1.6f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Ranged.SuperMissile>(), (int)(damage * 1.6f), knockback, player.whoAmI);
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot"), position);
             }
             if (wep == 2)
@@ -112,7 +113,7 @@ namespace JoostMod.Items.Weapons.Generic
                     Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(60));
                     float scale = 1f - Main.rand.NextFloat() * .3f;
                     perturbedSpeed = perturbedSpeed * scale;
-                    Projectile.NewProjectile(source, position, perturbedSpeed, Mod.Find<ModProjectile>("Missile").Type, (int)(damage * 0.53f), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<Projectiles.Melee.Missile>(), (int)(damage * 0.53f), knockback, player.whoAmI);
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot"), position);
                 }
             }
@@ -122,12 +123,12 @@ namespace JoostMod.Items.Weapons.Generic
                 velocity.Normalize();
                 velocity.X = velocity.X * (distance / 60);
                 velocity.Y = velocity.Y * (distance / 60);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("PowerBomb").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.PowerBomb>(), damage, knockback, player.whoAmI);
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/LayBomb"), position);
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("IceBeam").Type, (int)(damage * 0.9f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Magic.IceBeam>(), (int)(damage * 0.9f), knockback, player.whoAmI);
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), position);
             }
 

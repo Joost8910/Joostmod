@@ -15,7 +15,7 @@ namespace JoostMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(Mod.Find<ModMount>("WaterBoard").Type, player);
+			player.mount.SetMount(ModContent.MountType<Mounts.WaterBoard>(), player);
 			player.buffTime[buffIndex] = 10;
             player.waterWalk2 = true;
             player.ignoreWater = true;

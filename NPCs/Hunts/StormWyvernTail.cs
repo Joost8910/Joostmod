@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Hostile;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -61,10 +62,10 @@ namespace JoostMod.NPCs.Hunts
             if (Main.npc[(int)NPC.ai[1]].localAI[3] >= 24)
             {
                 NPC.spriteDirection = Main.npc[(int)NPC.ai[1]].spriteDirection;
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 55, 0, 0, 0, default(Color), 0.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Pixie, 0, 0, 0, default(Color), 0.5f);
                 if (NPC.localAI[3] == 12 || NPC.localAI[3] == 24)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, NPC.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_lightning_aura_zap_1"), NPC.Center); // 21
                 }
                 if (NPC.localAI[3] <= 24)
                 {
@@ -85,16 +86,17 @@ namespace JoostMod.NPCs.Hunts
             if (NPC.localAI[2] == 180)
             {
                 SoundEngine.PlaySound(SoundID.Item7.WithVolumeScale(2.5f).WithPitchOffset(-0.8f), NPC.Center);
-                SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.4f), NPC.Center);
-                Main.windSpeedSet = (dir.X < 0 ? -1 : 1) * (Main.expertMode ? 2 : 1);
+                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_ghastly_glaive_pierce_2").WithPitchOffset(-0.4f), NPC.Center); // 206
+                Main.windSpeedTarget = (dir.X < 0 ? -1 : 1) * (Main.expertMode ? 2 : 1);
                 int num = Main.expertMode ? 7 + Main.rand.Next(6) : 4 + Main.rand.Next(4);
+                var source = NPC.GetSource_FromAI();
                 for (int i = 0; i < num; i++)
                 {
                     Vector2 vel = dir * 12.5f;
                     vel = vel.RotatedByRandom(MathHelper.ToRadians(90));
                     float scale = 1f - (Main.rand.NextFloat() * .6f);
                     vel = vel * scale;
-                    Projectile.NewProjectile(NPC.Center, vel, ModContent.ProjectileType<Gust>(), 25, 10);
+                    Projectile.NewProjectile(source, NPC.Center, vel, ModContent.ProjectileType<Gust>(), 25, 10);
 
                     for (int d = 0; d < 5; d++)
                     {

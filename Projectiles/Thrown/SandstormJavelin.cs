@@ -235,7 +235,7 @@ namespace JoostMod.Projectiles.Thrown
                                     {
                                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
                                     }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, Mod.Find<ModProjectile>("SandBlock").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<SandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
                                 }   
                                 if (Main.tile[x, y].TileType == TileID.Ebonsand)
                                 {
@@ -244,7 +244,7 @@ namespace JoostMod.Projectiles.Thrown
                                     {
                                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
                                     }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, Mod.Find<ModProjectile>("EbonSandBlock").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<EbonSandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
                                 }
                                 if (Main.tile[x, y].TileType == TileID.Pearlsand)
                                 {
@@ -253,7 +253,7 @@ namespace JoostMod.Projectiles.Thrown
                                     {
                                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
                                     }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, Mod.Find<ModProjectile>("PearlSandBlock").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<PearlSandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
                                 }
                                 if (Main.tile[x, y].TileType == TileID.Crimsand)
                                 {
@@ -262,7 +262,7 @@ namespace JoostMod.Projectiles.Thrown
                                     {
                                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
                                     }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, Mod.Find<ModProjectile>("CrimSandBlock").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<CrimSandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
                                 }
                             }
                         }

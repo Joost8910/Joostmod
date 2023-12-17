@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Mounts
@@ -10,7 +11,7 @@ namespace JoostMod.Mounts
 		public override void SetStaticDefaults()
 		{
 			MountData.spawnDust = 1;
-			MountData.buff = Mod.Find<ModBuff>("EarthMount").Type;
+			MountData.buff = ModContent.BuffType<Buffs.EarthMount>();
 			MountData.heightBoost = 14;
 			MountData.fallDamage = 0f;
 			MountData.runSpeed = 14.75f;
@@ -55,12 +56,12 @@ namespace JoostMod.Mounts
 			MountData.swimFrameCount = MountData.inAirFrameCount;
 			MountData.swimFrameDelay = MountData.inAirFrameDelay;
 			MountData.swimFrameStart = MountData.inAirFrameStart;
-			if (Main.netMode != 2)
-			{
-				MountData.textureWidth = MountData.backTexture.Width + 20;
-				MountData.textureHeight = MountData.backTexture.Height;
-			}
-		}
+            if (Main.netMode != NetmodeID.Server)
+            {
+                MountData.textureWidth = MountData.backTexture.Width() + 20;
+                MountData.textureHeight = MountData.backTexture.Height();
+            }
+        }
 
         public override void UpdateEffects(Player player)
         {

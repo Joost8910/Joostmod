@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("HellstoneShuriken").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.HellstoneShuriken>();
             Item.shootSpeed = 12f;
             Item.crit = 4;
         }
@@ -113,7 +113,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("HellstoneShuriken").Type, 1, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.HellstoneShuriken>(), 1, knockback, player.whoAmI);
             }
             return false;
         }

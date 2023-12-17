@@ -15,7 +15,7 @@ namespace JoostMod.Items.Ammo
 
 		public override void SetDefaults()
 		{
-			Item.shoot = Mod.Find<ModProjectile>("DesertSolution").Type - ProjectileID.PureSpray;
+			Item.shoot = ModContent.ProjectileType<Projectiles.DesertSolution>() - ProjectileID.PureSpray;
 			Item.ammo = AmmoID.Solution;
 			Item.width = 10;
 			Item.height = 12;

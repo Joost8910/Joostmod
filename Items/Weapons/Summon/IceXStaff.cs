@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -28,9 +29,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 10000000;
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("IceXMinion").Type;
+            Item.shoot = ModContent.ProjectileType<IceXMinion>();
             Item.shootSpeed = 10f;
-            Item.buffType = Mod.Find<ModBuff>("IceXMinion").Type;
+            Item.buffType = ModContent.BuffType<Buffs.IceXMinionBuff>();
             Item.buffTime = 3600;
         }
 

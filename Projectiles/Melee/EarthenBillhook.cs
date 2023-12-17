@@ -80,11 +80,11 @@ namespace JoostMod.Projectiles.Melee
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile p = Main.projectile[i];
-                    if (p.active && p.type == Mod.Find<ModProjectile>("Boulder").Type && Projectile.Distance(p.Center) < 40)
+                    if (p.active && p.type == ModContent.ProjectileType<Boulder>() && Projectile.Distance(p.Center) < 40)
                     {
                         p.velocity = Projectile.velocity * 2f;
                         p.damage = (int)(Projectile.damage * 3f);
-                        p.knockback = Projectile.knockBack * 3f;
+                        p.knockBack = Projectile.knockBack * 3f;
                         p.owner = Projectile.owner;
                         p.netUpdate = true;
                         if (p.timeLeft <= 500)

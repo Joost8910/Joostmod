@@ -32,7 +32,7 @@ namespace JoostMod.Items.Rewards
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
 			Item.channel = true;
-			Item.shoot = Mod.Find<ModProjectile>("TheHive").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TheHive>();
 			Item.shootSpeed = 10f;
 		}
 

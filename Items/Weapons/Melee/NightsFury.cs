@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.autoReuse = false;
             Item.useTurn = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("NightsFury").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.NightsFury>();
             Item.shootSpeed = 15f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

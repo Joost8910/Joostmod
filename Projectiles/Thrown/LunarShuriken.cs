@@ -47,17 +47,21 @@ namespace JoostMod.Projectiles.Thrown
 
         public override void Kill(int timeLeft)
         {
-            float numberProjectiles = 4;
-            float rotation = MathHelper.ToRadians(60);
-            for (int i = 0; i < numberProjectiles; i++)
+            if (Main.myPlayer == Projectile.owner)
             {
-                Vector2 vel = new Vector2(0, -2.5f);
-                if (Projectile.velocity.ToRotation() < 0)
+                float numberProjectiles = 4;
+                float rotation = MathHelper.ToRadians(60);
+                var source = Projectile.GetSource_Death();
+                for (int i = 0; i < numberProjectiles; i++)
                 {
-                    vel = new Vector2(0, 2.5f);
+                    Vector2 vel = new Vector2(0, -2.5f);
+                    if (Projectile.velocity.ToRotation() < 0)
+                    {
+                        vel = new Vector2(0, 2.5f);
+                    }
+                    Vector2 perturbedSpeed = vel.RotatedByRandom(rotation);
+                    Projectile.NewProjectileDirect(source, Projectile.Center, perturbedSpeed, ProjectileID.MoonlordArrowTrail, Projectile.damage, Projectile.knockBack, Projectile.owner).DamageType = DamageClass.Throwing;
                 }
-                Vector2 perturbedSpeed = vel.RotatedByRandom(rotation);
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.MoonlordArrowTrail, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
         public override bool PreDraw(ref Color lightColor)
@@ -74,7 +78,7 @@ namespace JoostMod.Projectiles.Thrown
                 Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
                 Rectangle? rect = new Rectangle?(new Rectangle(0, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type] * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
-                Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0f);
+                Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0);
             }
             return false;
         }

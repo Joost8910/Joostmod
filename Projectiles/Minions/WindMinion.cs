@@ -34,7 +34,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.ignoreWater = true;
 			inertia = 20f;
 			shootCool = 40f;
-			shoot = Mod.Find<ModProjectile>("WindBall").Type;
+			shoot = ModContent.ProjectileType<WindBall>();
 			shootSpeed = 12f;
             spacingMult = 0.8f;
 		}

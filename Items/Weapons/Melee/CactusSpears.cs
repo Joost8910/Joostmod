@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Weapons.Melee
 {
@@ -29,12 +30,12 @@ namespace JoostMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("CactusSpear").Type;
+            Item.shoot = ModContent.ProjectileType<CactusSpear>();
             Item.shootSpeed = 7f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Mod.Find<ModProjectile>("CactusSpear").Type] < 1;
+            return player.ownedProjectileCounts[ModContent.ProjectileType<CactusSpear>()] < 1;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -53,7 +53,7 @@ namespace JoostMod.Projectiles.Hostile
             {
                 Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X / 2, Projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
                 perturbedSpeed *= 1f - Main.rand.NextFloat() * .3f;
-                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("SAXSpit2").Type, Projectile.damage / 2, 0, Projectile.owner);
+                Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<SAXSpit2>(), Projectile.damage / 2, 0, Projectile.owner);
             }
         }
     }

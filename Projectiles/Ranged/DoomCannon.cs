@@ -208,7 +208,7 @@ namespace JoostMod.Projectiles.Ranged
                 Vector2 pos = Projectile.Center + Projectile.velocity * 26;
                 float speed = 10;
                 float mult = 1;
-                int type = Mod.Find<ModProjectile>("DoomSkull").Type;
+                int type = ModContent.ProjectileType<DoomSkull>();
                 if (Projectile.ai[0] < 120)
                 {
                     speed = 10;
@@ -236,37 +236,37 @@ namespace JoostMod.Projectiles.Ranged
                 }
                 else if (Projectile.ai[0] < 420)
                 {
-                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
+                    type = ModContent.ProjectileType<DoomSkull2>();
                     speed = 15;
                     mult = 6;
                 }
                 else if (Projectile.ai[0] < 480)
                 {
-                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
+                    type = ModContent.ProjectileType<DoomSkull2>();
                     speed = 16;
                     mult = 7;
                 }
                 else if (Projectile.ai[0] < 540)
                 {
-                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
+                    type = ModContent.ProjectileType<DoomSkull2>();
                     speed = 17;
                     mult = 8;
                 }
                 else if (Projectile.ai[0] < 600)
                 {
-                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
+                    type = ModContent.ProjectileType<DoomSkull2>();
                     speed = 18;
                     mult = 9;
                 }
                 else if (Projectile.ai[0] < 660)
                 {
-                    type = Mod.Find<ModProjectile>("DoomSkull2").Type;
+                    type = ModContent.ProjectileType<DoomSkull2>();
                     speed = 19;
                     mult = 10;
                 }
                 else
                 {
-                    type = Mod.Find<ModProjectile>("DoomSkull3").Type;
+                    type = ModContent.ProjectileType<DoomSkull3>();
                     speed = 7;
                     mult = 11;
                     SoundEngine.PlaySound(SoundID.Item74, Projectile.position);

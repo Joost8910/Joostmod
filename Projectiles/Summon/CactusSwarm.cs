@@ -37,10 +37,10 @@ namespace JoostMod.Projectiles.Summon
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4);
             Point pos = posi.ToTileCoordinates();
             Tile tileSafely = Framing.GetTileSafely(pos.X, pos.Y);
-            if (tileSafely.HasTile)
+            if (tileSafely.HasTile && Main.myPlayer == Projectile.owner)
             {
                 SoundEngine.PlaySound(SoundID.WormDig, Projectile.position);
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 16, Projectile.velocity.X * 100, 0, Mod.Find<ModProjectile>("CactusWorm").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 16, Projectile.velocity.X * 100, 0, ModContent.ProjectileType<CactusWorm>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
             }
         }
     }

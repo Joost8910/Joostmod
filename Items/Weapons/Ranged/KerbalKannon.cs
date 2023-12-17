@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Ranged;
 
 namespace JoostMod.Items.Weapons.Ranged
 {
@@ -26,7 +27,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Kerbal").Type;
+            Item.shoot = ModContent.ProjectileType<Kerbal>();
             Item.shootSpeed = 15f;
         }
 

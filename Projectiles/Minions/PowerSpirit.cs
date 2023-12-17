@@ -39,7 +39,7 @@ namespace JoostMod.Projectiles.Minions
 			chaseAccel = 35f;
 			chaseDist = 30f;
 			spacingMult = 0.75f;
-			shoot = Mod.Find<ModProjectile>("PowerSpiritBlast").Type;
+			shoot = ModContent.ProjectileType<PowerSpiritBlast>();
             shootSpeed = 0;
 			shootCool = 60f;
             rapidRate = 2;

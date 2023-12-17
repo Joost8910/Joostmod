@@ -95,7 +95,7 @@ namespace JoostMod.Projectiles.Melee
                 else
                 {
                     Projectile.Kill();
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModProjectile>("GrognakHammer2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.ProjectileType<GrognakHammer2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
             var source = Projectile.GetSource_FromAI();
@@ -161,11 +161,11 @@ namespace JoostMod.Projectiles.Melee
                         {
                             Projectile.localNPCHitCooldown = active;
                             Projectile.localAI[1] = 1;
-                            Projectile.NewProjectile(source, player.Center, Projectile.velocity, Mod.Find<ModProjectile>("GrognakBeam").Type, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, speed * 1.8f);
+                            Projectile.NewProjectile(source, player.Center, Projectile.velocity, ModContent.ProjectileType<GrognakBeam>(), (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, speed * 1.8f);
                         }
                         else
                         {
-                            Projectile.NewProjectile(source, player.Center, Projectile.velocity, Mod.Find<ModProjectile>("GrognakBeam").Type, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, speed);
+                            Projectile.NewProjectile(source, player.Center, Projectile.velocity, ModContent.ProjectileType<GrognakBeam>(), (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, speed);
                         }
                     }
                     if (Projectile.localAI[1] == 1)
@@ -296,11 +296,11 @@ namespace JoostMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item70, Projectile.position);
                 if (player.gravDir == -1)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, Mod.Find<ModProjectile>("GrogWaveFlipped").Type, (int)(Projectile.damage * 3.5f), Projectile.knockBack * 2.5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, ModContent.ProjectileType<GrogWaveFlipped>(), (int)(Projectile.damage * 3.5f), Projectile.knockBack * 2.5f, Projectile.owner);
                 }
                 else
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, Mod.Find<ModProjectile>("GrogWave").Type, (int)(Projectile.damage * 3.5f), Projectile.knockBack * 2.5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, ModContent.ProjectileType<GrogWave>(), (int)(Projectile.damage * 3.5f), Projectile.knockBack * 2.5f, Projectile.owner);
                 }
                 player.fullRotation = 0f;
             }

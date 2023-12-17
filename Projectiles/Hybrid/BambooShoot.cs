@@ -240,7 +240,7 @@ namespace JoostMod.Projectiles.Hybrid
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (Projectile.ai[0] > 0)
+            if (Projectile.ai[0] > 0 && Main.myPlayer == Projectile.owner)
             {
                 Projectile.velocity.Normalize();
                 float shootSpeed = player.inventory[player.selectedItem].shootSpeed;

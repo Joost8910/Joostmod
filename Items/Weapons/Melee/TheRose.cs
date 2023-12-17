@@ -1,4 +1,3 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +29,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.autoReuse = false;
             Item.channel = true;
             Item.useTurn = true;
-            Item.shoot = Mod.Find<ModProjectile>("TheRose").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TheRose>();
             Item.shootSpeed = 14f;
         }
         public override void AddRecipes()

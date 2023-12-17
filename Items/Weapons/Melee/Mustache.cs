@@ -28,7 +28,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Splitend").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.Splitend>();
             Item.shootSpeed = 32f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

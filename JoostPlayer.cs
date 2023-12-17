@@ -71,7 +71,7 @@ namespace JoostMod
         public bool hoverBoots = false;
         public bool spaceJump = false;
         public int hoverBootsTimer = 900;
-        private int hoverBootsStart = 0;
+        //private int hoverBootsStart = 0;
         private float hoverWing = 0;
         private int hoverRocket = 0;
         private int hoverMount = 0;
@@ -138,7 +138,7 @@ namespace JoostMod
         private int sandStormTimer = 6;
         public bool sandStorm = false;
         public bool GMagic = false;
-        private int GMagicTimer = 63;
+        //private int GMagicTimer = 63;
         public bool gMelee = false;
         public bool gRanged = false;
         public bool gRangedIsActive = false;
@@ -225,7 +225,7 @@ namespace JoostMod
             airMedallion = false;
 
             planeMount = false;
-            if (Player.mount.Type != Mod.Find<ModMount>("SandShark").Type)
+            if (Player.mount.Type != ModContent.MountType<Mounts.SandShark>())
             {
                 sandSharkVel = Vector2.Zero;
             }
@@ -1217,7 +1217,7 @@ namespace JoostMod
                     Player.GetDamage(DamageClass.Ranged) *= 1.4f;
                     Player.moveSpeed *= 1.4f;
                     Player.maxRunSpeed *= 1.4f;
-                    if (Player.mount._type == Mod.Find<ModMount>("FierySoles").Type)
+                    if (Player.mount._type == ModContent.MountType<Mounts.FierySoles>())
                         accRunSpeedMult *= 1.4f;
                     else
                         Player.accRunSpeed *= 1.4f;
@@ -1269,7 +1269,7 @@ namespace JoostMod
                 if (havelArmorActive)
                 {
                     Player.accRunSpeed = 0;
-                    if (Player.mount._type == Mod.Find<ModMount>("EarthMount").Type)
+                    if (Player.mount._type == ModContent.MountType<Mounts.EarthMount>())
                     {
                         Player.accRunSpeed = 4;
                         Player.maxRunSpeed = 4;
@@ -2279,7 +2279,7 @@ namespace JoostMod
                 if (hoverBoots && tile)
                 {
                     hoverBootsTimer = 450;
-                    hoverBootsStart = 0;
+                    //hoverBootsStart = 0;
                 }
             }
             if (planeMount && Player.velocity.Y != 0 && Player.itemAnimation == 0)
@@ -2379,7 +2379,7 @@ namespace JoostMod
                     Player.maxRunSpeed *= 4f;
                     Player.runAcceleration *= 2f;
                     Player.runSlowdown *= 2f;
-                    if (Player.mount._type == Mod.Find<ModMount>("FierySoles").Type)
+                    if (Player.mount._type == ModContent.MountType<Mounts.FierySoles>())
                     {
                         runAccelerationMult *= 2f;
                         accRunSpeedMult *= 2.5f;
@@ -2400,7 +2400,7 @@ namespace JoostMod
             if (airArmorIsActive)
             {
                 Player.maxRunSpeed *= 1.5f;
-                if (Player.mount._type != Mod.Find<ModMount>("FierySoles").Type)
+                if (Player.mount._type != ModContent.MountType<Mounts.FierySoles>())
                     accRunSpeedMult *= 1.5f;
                 Player.runAcceleration *= 2f;
                 Player.runSlowdown *= 3f;

@@ -36,13 +36,13 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("GenjiArmorSummon").Type && legs.type == Mod.Find<ModItem>("GenjiLeggings").Type;
+            return body.type == ModContent.ItemType<GenjiArmorSummon>() && legs.type == ModContent.ItemType<GenjiLeggings>();
         }
 
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Enkidu will fight for you";
-            player.AddBuff(Mod.Find<ModBuff>("EnkiduMinion").Type, 2);
+            player.AddBuff(ModContent.BuffType<Buffs.EnkiduMinion>(), 2);
             player.GetModPlayer<JoostPlayer>().EnkiduMinion = true;
         }
         public override void UpdateEquip(Player player)

@@ -35,7 +35,7 @@ namespace JoostMod.Items.Armor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == Mod.Find<ModItem>("GenjiArmorThrown").Type && legs.type == Mod.Find<ModItem>("GenjiLeggings").Type;
+            return body.type == ModContent.ItemType<GenjiArmorThrown>() && legs.type == ModContent.ItemType<GenjiLeggings>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -55,11 +55,11 @@ namespace JoostMod.Items.Armor
             player.armorEffectDrawShadowSubtle = true;
             player.armorEffectDrawShadowLokis = true;
             player.armorEffectDrawOutlines = true;
-            if (player.HasBuff(Mod.Find<ModBuff>("gThrownCooldown").Type))
+            if (player.HasBuff(ModContent.BuffType<Buffs.gThrownCooldown>()))
             {
                 player.armorEffectDrawOutlines = false;
             }
-            if (player.HasBuff(Mod.Find<ModBuff>("gThrownDodge").Type) || player.HasBuff(Mod.Find<ModBuff>("gThrownBuff").Type))
+            if (player.HasBuff(ModContent.BuffType<Buffs.gThrownDodge>()) || player.HasBuff(ModContent.BuffType<Buffs.gThrownBuff>()))
             {
                 player.armorEffectDrawOutlines = true;
                 player.armorEffectDrawShadow = true;

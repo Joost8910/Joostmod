@@ -33,7 +33,7 @@ namespace JoostMod.Items.Rewards
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
 			Item.channel = true;
-			Item.shoot = Mod.Find<ModProjectile>("TailWhip").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Summon.TailWhip>();
 			Item.shootSpeed = 20f;
             Item.useTurn = true;
 		}

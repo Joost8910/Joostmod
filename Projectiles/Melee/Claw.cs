@@ -75,7 +75,7 @@ namespace JoostMod.Projectiles.Melee
                 }
                 Projectile.timeLeft = 2;
 
-                if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("MobHook").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedMobHook").Type] <= 0 && (Projectile.ai[1] != 1 || Projectile.localAI[1] < 0))
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] <= 0 && (Projectile.ai[1] != 1 || Projectile.localAI[1] < 0))
                 {
                     Rectangle rect = new Rectangle((int)(player.position.X + player.velocity.X - 2), (int)(player.position.Y + player.velocity.Y - 2), player.width + 4, player.height + 4);
                     for (int i = 0; i < Main.maxNPCs; i++)

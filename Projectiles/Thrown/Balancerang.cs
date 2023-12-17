@@ -55,8 +55,8 @@ namespace JoostMod.Projectiles.Thrown
         public override void Kill(int timeLeft)
         {
 
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * 1f, Mod.Find<ModProjectile>("Balancerang2").Type, (int)(Projectile.damage * 1f), 7, Projectile.owner);
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * -1f, Mod.Find<ModProjectile>("Balancerang3").Type, (int)(Projectile.damage * 1f), 7, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * 1f, ModContent.ProjectileType<Balancerang2>(), (int)(Projectile.damage * 1f), 7, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * -1f, ModContent.ProjectileType<Balancerang3>(), (int)(Projectile.damage * 1f), 7, Projectile.owner);
 
         }
 

@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("WaterBalloon").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.WaterBalloon>();
             Item.shootSpeed = 11f;
         }
         public override void AddRecipes()

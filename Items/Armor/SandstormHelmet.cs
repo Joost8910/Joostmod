@@ -25,7 +25,7 @@ namespace JoostMod.Items.Armor
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
 		{
-			return body.type == Mod.Find<ModItem>("SandstormBreastplate").Type && legs.type == Mod.Find<ModItem>("SandstormLeggings").Type;
+			return body.type == ModContent.ItemType<SandstormBreastplate>() && legs.type == ModContent.ItemType<SandstormLeggings>();
 		}
 
 		public override void UpdateArmorSet(Player player)

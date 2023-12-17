@@ -6,6 +6,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Utilities;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -36,7 +37,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.autoReuse = true;
             Item.value = 300000;
             Item.shootSpeed = 1f;
-            Item.shoot = Mod.Find<ModProjectile>("GrognakHammer").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.GrognakHammer>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/GrognakHammerGem");

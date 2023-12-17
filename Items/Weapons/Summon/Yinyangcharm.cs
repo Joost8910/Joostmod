@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Summon;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -29,13 +30,13 @@ namespace JoostMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("DarkBolt").Type;
+            Item.shoot = ModContent.ProjectileType<DarkBolt>();
             Item.shootSpeed = 12f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("LightBolt").Type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<LightBolt>(), damage, knockback, player.whoAmI);
             return false;
         }
 

@@ -64,7 +64,7 @@ namespace JoostMod.Projectiles.Melee
 
             if (Projectile.ai[0] == 0)
             {
-                SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.2f), Projectile.Center);
+                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.2f), Projectile.Center); // 230
             }
 
             float speed = 1 / player.GetAttackSpeed(DamageClass.Melee);
@@ -73,7 +73,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.ai[1] = 0;
                 SoundEngine.PlaySound(SoundID.Item8.WithVolumeScale(0.5f), Projectile.Center);
-                Projectile.NewProjectile(Projectile.Center, Projectile.velocity * 6 * speed, Mod.Find<ModProjectile>("GrognakBeam2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * 6 * speed, ModContent.ProjectileType<GrognakBeam2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (Projectile.ai[0] >= 24)
             {
@@ -105,10 +105,10 @@ namespace JoostMod.Projectiles.Melee
                 if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), start, end, 18, ref point))
                 {
                     crit = true;
-                    SoundEngine.PlaySound(SoundID.Trackable.WithVolumeScale(0.3f), target.Center);
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_1").WithVolumeScale(0.3f), Projectile.Center); // 211
                     for (int i = 0; i < 12; i++)
                     {
-                        Dust.NewDustDirect(p.Center + Projectile.velocity * 62, 1, 1, 197, 0, 0, 150, new Color(0, 255, 0), 1f).noGravity = true;
+                        Dust.NewDustDirect(p.Center + Projectile.velocity * 62, 1, 1, DustID.NorthPole, 0, 0, 150, new Color(0, 255, 0), 1f).noGravity = true;
                     }
                 }
             }
@@ -130,10 +130,10 @@ namespace JoostMod.Projectiles.Melee
                 if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), start, end, 18, ref point))
                 {
                     crit = true;
-                    SoundEngine.PlaySound(SoundID.Trackable.WithVolumeScale(0.3f), target.Center);
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_1").WithVolumeScale(0.3f), Projectile.Center); // 211
                     for (int i = 0; i < 12; i++)
                     {
-                        Dust.NewDustDirect(p.Center + Projectile.velocity * 62, 1, 1, 197, 0, 0, 150, new Color(0, 255, 0), 1f).noGravity = true;
+                        Dust.NewDustDirect(p.Center + Projectile.velocity * 62, 1, 1, DustID.NorthPole, 0, 0, 150, new Color(0, 255, 0), 1f).noGravity = true;
                     }
                 }
             }

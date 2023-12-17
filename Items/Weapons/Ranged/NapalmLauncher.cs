@@ -29,9 +29,9 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Napalm").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.Napalm>();
             Item.shootSpeed = 8f;
-            Item.useAmmo = Mod.Find<ModItem>("Napalm").Type;
+            Item.useAmmo = ModContent.ItemType<Ammo.Napalm>();
         }
         public override Vector2? HoldoutOffset()
         {

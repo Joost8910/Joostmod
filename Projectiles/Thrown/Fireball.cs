@@ -61,7 +61,7 @@ namespace JoostMod.Projectiles.Thrown
             for (i = 0; i < shootNum; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), Mod.Find<ModProjectile>("Flamethrown").Type, Projectile.damage, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<Flamethrown>(), Projectile.damage, 0, Projectile.owner);
             }
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
         }

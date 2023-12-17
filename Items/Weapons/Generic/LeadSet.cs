@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("LeadHatchet").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.LeadHatchet>();
             Item.shootSpeed = 12f;
             Item.crit = 4;
         }
@@ -104,7 +104,7 @@ namespace JoostMod.Items.Weapons.Generic
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, Mod.Find<ModProjectile>("LeadFlail").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, ModContent.ProjectileType<Projectiles.Melee.LeadFlail>(), damage, knockback, player.whoAmI);
             }
             if (wep == 2)
             {
@@ -116,7 +116,7 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("LeadHatchet").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.LeadHatchet>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

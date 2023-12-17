@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Generic
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("GiantNeedle").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.GiantNeedle>();
             Item.shootSpeed = 16f;
             Item.crit = 4;
         }
@@ -104,12 +104,12 @@ namespace JoostMod.Items.Weapons.Generic
             int wep = Main.rand.Next(4);
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("GiantArrow").Type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Ranged.GiantArrow>(), damage, knockback, player.whoAmI);
             }
             if (wep == 2)
             {
                 Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(5));
-                Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("GiantNeedle").Type, (int)(damage * 0.62f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Projectiles.Thrown.GiantNeedle>(), (int)(damage * 0.62f), knockback, player.whoAmI);
             }
             if (wep == 3)
             {
@@ -118,7 +118,7 @@ namespace JoostMod.Items.Weapons.Generic
                 for (int i = 0; i < numberProjectiles; i++)
                 {
                     Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .2f; // Watch out for dividing by 0 if there is only 1 projectile.
-                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X * 2, perturbedSpeed.Y * 2, Mod.Find<ModProjectile>("Splitend").Type, (int)(damage * 0.67f), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X * 2, perturbedSpeed.Y * 2, ModContent.ProjectileType<Projectiles.Melee.Splitend>(), (int)(damage * 0.67f), knockback, player.whoAmI);
                 }
             }
             if (wep == 0)
@@ -128,7 +128,7 @@ namespace JoostMod.Items.Weapons.Generic
                     Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(15));
                     float scale = 1f - Main.rand.NextFloat() * .3f;
                     perturbedSpeed = perturbedSpeed * scale;
-                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("Needle3").Type, damage / 5, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Projectiles.Magic.Needle3>(), damage / 5, knockback, player.whoAmI);
                 }
             }
             return false;

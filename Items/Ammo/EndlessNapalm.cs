@@ -23,8 +23,8 @@ namespace JoostMod.Items.Ammo
 			Item.knockBack = 1f;
 			Item.value = 480000;
 			Item.rare = ItemRarityID.LightRed;
-			Item.shoot = Mod.Find<ModProjectile>("Napalm").Type;
-			Item.ammo = Mod.Find<ModItem>("Napalm").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.Napalm>();
+			Item.ammo = ModContent.ItemType<Napalm>();
 		}
 		public override void AddRecipes()
 		{

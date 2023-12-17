@@ -211,7 +211,7 @@ namespace JoostMod.Projectiles.Magic
                 {
                     Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X / 2, Projectile.velocity.Y / 2).RotatedByRandom(MathHelper.ToRadians(360));
                     perturbedSpeed *= 1f - Main.rand.NextFloat() * .3f;
-                    Projectile.NewProjectile(source, i * 16 + 8, j * 16 + 8, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("WaterSplash").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, i * 16 + 8, j * 16 + 8, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<WaterSplash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.ai[0]--;
                 }
             }

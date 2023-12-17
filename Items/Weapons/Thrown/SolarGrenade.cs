@@ -30,7 +30,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("SolarGrenade").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.SolarGrenade>();
             Item.shootSpeed = 11f;
         }
         public override void AddRecipes()

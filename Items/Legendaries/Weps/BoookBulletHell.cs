@@ -37,7 +37,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item23;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("BoookBulletHell").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.BoookBulletHell>();
             Item.shootSpeed = 10f;
             Item.useAmmo = AmmoID.Bullet;
             Item.noUseGraphic = true;
@@ -85,7 +85,7 @@ namespace JoostMod.Items.Legendaries.Weps
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = Mod.Find<ModProjectile>("BoookBulletHell").Type;
+            type = ModContent.ProjectileType<Projectiles.Ranged.BoookBulletHell>();
             return true;
         }
         /*

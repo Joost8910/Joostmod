@@ -25,11 +25,11 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(Mod.Find<ModBuff>("BoneHurt").Type, 600, false);
+            target.AddBuff(ModContent.BuffType<Buffs.BoneHurt>(), 600, false);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(Mod.Find<ModBuff>("BoneHurt").Type, 600, false);
+            target.AddBuff(ModContent.BuffType<Buffs.BoneHurt>(), 600, false);
         }
     }
 }

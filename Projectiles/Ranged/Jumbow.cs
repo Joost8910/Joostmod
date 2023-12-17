@@ -88,7 +88,7 @@ namespace JoostMod.Projectiles.Ranged
             }
             if (!player.channel && Projectile.timeLeft == 10)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * Projectile.ai[0], Mod.Find<ModProjectile>("GiantArrow").Type, (int)(Projectile.damage * Projectile.ai[0]), Projectile.knockBack * Projectile.ai[0], Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * Projectile.ai[0], ModContent.ProjectileType<GiantArrow>(), (int)(Projectile.damage * Projectile.ai[0]), Projectile.knockBack * Projectile.ai[0], Projectile.owner);
                 SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
             }
 

@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("Stonefist").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.Stonefist>();
             Item.shootSpeed = 10f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

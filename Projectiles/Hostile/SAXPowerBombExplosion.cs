@@ -95,7 +95,7 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("SAXPowerBombExplosion2").Type, (int)(Projectile.damage * 0.25f), Projectile.knockBack);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<SAXPowerBombExplosion2>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack);
         }
     }
 }

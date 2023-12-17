@@ -145,10 +145,10 @@ namespace JoostMod.Projectiles.Melee
                                 float knockback = Projectile.knockBack;
                                 for (int i = 1; i <= 5 * Projectile.scale; i++)
                                 {
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + i * 16, Projectile.Center.Y - 60 * player.gravDir, 0.01f * i, 15 * player.gravDir, Mod.Find<ModProjectile>("DragonToothWave").Type, damage, knockback, Projectile.owner);
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X - i * 16, Projectile.Center.Y - 60 * player.gravDir, -0.01f * i, 15 * player.gravDir, Mod.Find<ModProjectile>("DragonToothWave").Type, damage, knockback, Projectile.owner);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + i * 16, Projectile.Center.Y - 60 * player.gravDir, 0.01f * i, 15 * player.gravDir, ModContent.ProjectileType<DragonToothWave>(), damage, knockback, Projectile.owner);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X - i * 16, Projectile.Center.Y - 60 * player.gravDir, -0.01f * i, 15 * player.gravDir, ModContent.ProjectileType<DragonToothWave>(), damage, knockback, Projectile.owner);
                                 }
-                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 60 * player.gravDir, 0, 15 * player.gravDir, Mod.Find<ModProjectile>("DragonToothWave").Type, damage, knockback, Projectile.owner);
+                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 60 * player.gravDir, 0, 15 * player.gravDir, ModContent.ProjectileType<DragonToothWave>(), damage, knockback, Projectile.owner);
                             }
                         }
                         else

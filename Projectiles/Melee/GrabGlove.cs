@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JoostMod.Projectiles.Grappling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -166,7 +167,7 @@ namespace JoostMod.Projectiles.Melee
                     }
                     Projectile.velocity = dir * scaleFactor6;
                 }
-                if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("MobHook").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedMobHook").Type] <= 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] <= 0)
                 {
                     Rectangle rect = new Rectangle((int)(player.position.X + player.velocity.X - 2), (int)(player.position.Y + player.velocity.Y - 2), player.width + 4, player.height + 4);
                     for (int i = 0; i < Main.maxNPCs; i++)
@@ -265,7 +266,7 @@ namespace JoostMod.Projectiles.Melee
                 if (Projectile.ai[0] <= -15)
                 {
                     Projectile.ai[0] = 0.1f;
-                    SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(-0.2f), Projectile.Center);
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_3").WithPitchOffset(-0.2f), Projectile.Center); // 216
                 }
                 if (Projectile.ai[0] > 0)
                 {
@@ -287,12 +288,12 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.localAI[0] = 1;
                 NPC target = Main.npc[(int)Projectile.localAI[1]];
-                if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("MobHook").Type] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("EnchantedMobHook").Type] > 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] > 0)
                 {
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         Projectile p = Main.projectile[i];
-                        if (p.active && p.owner == Projectile.owner && (p.type == Mod.Find<ModProjectile>("MobHook").Type || p.type == Mod.Find<ModProjectile>("EnchantedMobHook").Type))
+                        if (p.active && p.owner == Projectile.owner && (p.type == ModContent.ProjectileType<MobHook>() || p.type == ModContent.ProjectileType<EnchantedMobHook>()))
                         {
                             p.Kill();
                             break;
@@ -389,7 +390,7 @@ namespace JoostMod.Projectiles.Melee
                             if (Projectile.ai[0] <= -15)
                             {
                                 Projectile.ai[0] = 0.1f;
-                                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                                SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_1"), Projectile.Center); // 214
                             }
                             if (Projectile.ai[0] > 0)
                             {
@@ -412,7 +413,8 @@ namespace JoostMod.Projectiles.Melee
                                     ModPacket netMessage = packet;
                                     netMessage.Send(-1, player.whoAmI);
                                 }
-                                Projectile.NewProjectile(target.Center, target.velocity, Mod.Find<ModProjectile>("GrabThrow").Type, (int)(Projectile.damage * 4f), Projectile.knockBack, Projectile.owner, target.whoAmI);
+                                if (Main.myPlayer == Projectile.owner)
+                                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), (int)(Projectile.damage * 4f), Projectile.knockBack, Projectile.owner, target.whoAmI);
                                 if (player.immuneTime < 10)
                                 {
                                     player.immune = true;
@@ -481,7 +483,7 @@ namespace JoostMod.Projectiles.Melee
                         if (Projectile.ai[0] <= -15)
                         {
                             Projectile.ai[0] = 0.1f;
-                            SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                            SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_1"), Projectile.Center); // 214
                         }
                         if (Projectile.ai[0] > 0)
                         {
@@ -517,7 +519,8 @@ namespace JoostMod.Projectiles.Melee
                                 ModPacket netMessage2 = packet2;
                                 netMessage2.Send(-1, Projectile.owner);
                             }
-                            Projectile.NewProjectile(target.Center, player.velocity + aim * Projectile.knockBack * 3, Mod.Find<ModProjectile>("GrabThrow").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
+                            if (Main.myPlayer == Projectile.owner)
+                                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, player.velocity + aim * Projectile.knockBack * 3, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
                             if (player.immuneTime < 10)
                             {
                                 player.immune = true;
@@ -690,7 +693,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.localAI[1] = target.whoAmI;
                 Projectile.ai[0] = -1;
                 Projectile.ai[1] = 2;
-                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_2"), Projectile.Center); // 215
                 if (player.immuneTime < 20)
                 {
                     player.immune = true;
@@ -746,13 +749,13 @@ namespace JoostMod.Projectiles.Melee
                     }
                 }
             }
-            if (Projectile.ai[1] == 1 && target.statLife > 0 && target.ownedProjectileCounts[Projectile.type] + target.ownedProjectileCounts[Mod.Find<ModProjectile>("Stonefist2").Type] <= 0)
+            if (Projectile.ai[1] == 1 && target.statLife > 0 && target.ownedProjectileCounts[Projectile.type] + target.ownedProjectileCounts[ModContent.ProjectileType<Stonefist2>()] <= 0)
             {
                 Projectile.timeLeft = target.noKnockback ? 50 : 100;
                 Projectile.localAI[1] = target.whoAmI;
                 Projectile.ai[0] = -1;
                 Projectile.ai[1] = 3;
-                SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_2"), Projectile.Center); // 215
                 if (player.immuneTime < 20)
                 {
                     player.immune = true;

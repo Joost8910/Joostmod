@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace JoostMod.Buffs
 {
@@ -17,7 +18,7 @@ namespace JoostMod.Buffs
         {
             player.GetDamage(DamageClass.Throwing) *= 1.5f;
             player.ThrownVelocity *= 1.5f;
-            int dust = Dust.NewDust(player.position + new Vector2(0, player.width / 2), player.width, player.width, 163);
+            int dust = Dust.NewDust(player.position + new Vector2(0, player.width / 2), player.width, player.width, DustID.PoisonStaff);
             Main.dust[dust].noGravity = true;
         }
 	}

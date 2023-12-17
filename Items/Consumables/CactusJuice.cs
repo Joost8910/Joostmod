@@ -27,12 +27,12 @@ namespace JoostMod.Items.Consumables
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item3;
             Item.buffTime = 7200;
-            Item.buffType = Mod.Find<ModBuff>("CactusJuice").Type;
+            Item.buffType = ModContent.BuffType<Buffs.CactusJuice>();
         }
         public override void AddRecipes()
         {
             CreateRecipe(2)
-                .AddIngredient<Ammo.SucculentCactus>()
+                .AddIngredient<Materials.SucculentCactus>()
                 .AddIngredient(ItemID.Bottle, 2)
                 .Register();
         }

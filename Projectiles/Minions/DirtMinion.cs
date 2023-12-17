@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.ignoreWater = false;
 			inertia = 30f;
             shootCool = 150f;
-            shoot = Mod.Find<ModProjectile>("DirtBoltSummon").Type;
+            shoot = ModContent.ProjectileType<DirtBoltSummon>();
 			shootSpeed = 5.5f;
 			chaseDist = 150f;
 		}

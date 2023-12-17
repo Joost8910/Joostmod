@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Minions
 			chaseAccel = 7f;
 			chaseDist = 10f;
 			shootCool = 200f;
-			shoot = Mod.Find<ModProjectile>("Needle7").Type;
+			shoot = ModContent.ProjectileType<Needle7>();
 			shootSpeed = 15f;
             predict = true;
             grounded = true;

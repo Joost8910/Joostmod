@@ -11,7 +11,7 @@ namespace JoostMod.Items.GrappleHooks
             //clone and modify the ones we want to copy
             Item.CloneDefaults(ItemID.AmethystHook);
             Item.shootSpeed = 11f; // how quickly the hook is shot.
-            Item.shoot = Mod.Find<ModProjectile>("SwingyHook").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Grappling.SwingyHook>();
         }
 		public override void SetStaticDefaults()
 		{

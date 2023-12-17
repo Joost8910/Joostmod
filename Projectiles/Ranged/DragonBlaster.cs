@@ -41,6 +41,7 @@ namespace JoostMod.Projectiles.Ranged
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
+            var source = Projectile.GetSource_FromAI();
             Vector2 vector = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
             float speed = 11;
             float shootSpeed = 13f;
@@ -58,10 +59,10 @@ namespace JoostMod.Projectiles.Ranged
                 Projectile.netUpdate = true;
             }
             bool channelling = player.controlUseItem && Projectile.ai[0] == 0 || player.controlUseTile && Projectile.ai[0] == 1;
-            if (player.ownedProjectileCounts[Projectile.type] < 2 && (Projectile.ai[0] == 0 && player.controlUseTile || Projectile.ai[0] == 1 && player.controlUseItem && Projectile.ai[1] > 1))
+            if (Main.myPlayer == Projectile.owner && player.ownedProjectileCounts[Projectile.type] < 2 && (Projectile.ai[0] == 0 && player.controlUseTile || Projectile.ai[0] == 1 && player.controlUseItem && Projectile.ai[1] > 1))
             {
                 player.ownedProjectileCounts[Projectile.type] = 2;
-                Projectile.NewProjectileDirect(vector, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1 - Projectile.ai[0]);
+                Projectile.NewProjectileDirect(source, vector, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1 - Projectile.ai[0]);
             }
             if (Projectile.ai[1] <= 1)
             {
@@ -102,7 +103,7 @@ namespace JoostMod.Projectiles.Ranged
                 }
                 if (Projectile.ai[1] == 120)
                 {
-                    SoundEngine.PlaySound(SoundID.Trackable, Projectile.position);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_phantom_phoenix_shot_1"), Projectile.Center); // 218
                 }
                 if (Projectile.ai[1] >= 120)
                 {
@@ -114,6 +115,7 @@ namespace JoostMod.Projectiles.Ranged
             {
                 if (Projectile.ai[1] < 120)
                 {
+                    /*
                     int type = 0;
                     Item item = new Item();
                     bool canShoot = false;
@@ -140,27 +142,33 @@ namespace JoostMod.Projectiles.Ranged
                             }
                         }
                     }
+                    */
+                    bool canShoot = player.PickAmmo(player.HeldItem, out int type, out shootSpeed, out int damage, out float knockback, out int bulletID);
+
                     if (canShoot)
                     {
-                        shootSpeed += item.shootSpeed + (int)(Projectile.ai[1] / 30);
+                        shootSpeed += (int)(Projectile.ai[1] / 30);
+                        /*
                         type = item.shoot;
                         if (Projectile.timeLeft < 3600 && item.consumable && ItemLoader.ConsumeAmmo(player.HeldItem, item, player))
                         {
                             player.ConsumeItem(item.type);
                         }
-                        Projectile.NewProjectile(Projectile.Center, Projectile.velocity * shootSpeed, type, Projectile.damage + item.damage + Projectile.damage * (int)(Projectile.ai[1] / 30), Projectile.knockBack + item.knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
+                        */
+                        if (Main.myPlayer == Projectile.owner)
+                            Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity * shootSpeed, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else
                     {
-                        SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/MissileClick"));
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), Projectile.Center);
                     }
                     Projectile.localAI[1] = speed;
                     Projectile.localAI[0] = 1;
                 }
                 else
                 {
-                    Projectile.NewProjectile(Projectile.Center + Projectile.velocity * 30 * Projectile.scale + Projectile.velocity * 24, Projectile.velocity * shootSpeed * 0.5f, Mod.Find<ModProjectile>("DragonBlast").Type, Projectile.damage * 7, Projectile.knockBack * 7, Projectile.owner);
+                    Projectile.NewProjectile(source, Projectile.Center + Projectile.velocity * 30 * Projectile.scale + Projectile.velocity * 24, Projectile.velocity * shootSpeed * 0.5f, ModContent.ProjectileType<DragonBlast>(), Projectile.damage * 7, Projectile.knockBack * 7, Projectile.owner);
 
                     Vector2 dir = -Projectile.velocity;
                     dir.Normalize();
@@ -174,7 +182,7 @@ namespace JoostMod.Projectiles.Ranged
                         player.velocity.Y = dir.Y;
                     }
                     SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-                    SoundEngine.PlaySound(SoundID.Trackable, Projectile.Center);
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_phantom_phoenix_shot_0"), Projectile.Center); // 217
                     Projectile.localAI[1] = speed * 5;
                     Projectile.localAI[0] = 5;
                 }

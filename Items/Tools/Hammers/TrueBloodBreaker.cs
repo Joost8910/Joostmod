@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items.Tools.Hammers
 {
@@ -36,7 +37,7 @@ namespace JoostMod.Items.Tools.Hammers
                 if (player.velocity.Y == 0)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, player.Center);
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 64 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, 3f * player.direction, 0f, Mod.Find<ModProjectile>("BloodWave").Type, Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X + 64 * player.direction * Item.scale, player.Center.Y - 40 * player.gravDir, 3f * player.direction, 0f, ModContent.ProjectileType<BloodWave>(), Item.damage, Item.knockBack, player.whoAmI, player.gravDir);
                 }
                 else
                 {

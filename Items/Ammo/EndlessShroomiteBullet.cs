@@ -23,7 +23,7 @@ namespace JoostMod.Items.Ammo
 			Item.knockBack = 5f;
 			Item.value = 3000000;
 			Item.rare = ItemRarityID.Lime;
-			Item.shoot = Mod.Find<ModProjectile>("ShroomBullet").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.ShroomBullet>();
 			Item.shootSpeed = 5f;
 			Item.ammo = AmmoID.Bullet;
 		}

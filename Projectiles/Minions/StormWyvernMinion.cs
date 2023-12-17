@@ -224,7 +224,7 @@ namespace JoostMod.Projectiles.Minions
                         SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
                         dir.Normalize();
                         Projectile.velocity = dir;
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, dir, Mod.Find<ModProjectile>("StormWyvernMinionZap").Type, (int)(Projectile.damage * player.ownedProjectileCounts[Projectile.type]), Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, dir, ModContent.ProjectileType<StormWyvernMinionZap>(), (int)(Projectile.damage * player.ownedProjectileCounts[Projectile.type]), Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
                     }
                     if (Projectile.localAI[0] >= max+ aimWindow + 20)
                     {
@@ -473,7 +473,7 @@ namespace JoostMod.Projectiles.Minions
             {
                 float scale = Projectile.localAI[0] < max ? Projectile.localAI[0] / max : 1f;
                 float rot = MathHelper.ToRadians(Projectile.localAI[0] * 11);
-                Texture2D texture = TextureAssets.Projectile[Mod.Find<ModProjectile>("StormWyvernMinionZap").Type].Value;
+                Texture2D texture = TextureAssets.Projectile[ModContent.ProjectileType<StormWyvernMinionZap>()].Value;
                 rect = new Rectangle((texture.Width / 3) * ((int)Projectile.localAI[0] / 2) % 3, 0, (texture.Width / 3), (texture.Height / 3));
                 vect = new Vector2(((texture.Width / 3) / 2f), ((texture.Height / 3) / 2f));
                 Vector2 offSet = (Projectile.rotation - 1.57f).ToRotationVector2() * 30;

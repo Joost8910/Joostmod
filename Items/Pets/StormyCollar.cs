@@ -17,8 +17,8 @@ namespace JoostMod.Items.Pets
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.ZephyrFish);
-			Item.shoot = Mod.Find<ModProjectile>("Stormy").Type;
-			Item.buffType = Mod.Find<ModBuff>("Stormy").Type;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Pets.Stormy>();
+			Item.buffType = ModContent.BuffType<Buffs.Stormy>();
             Item.rare = ItemRarityID.Green;
             Item.value = 0;
         }

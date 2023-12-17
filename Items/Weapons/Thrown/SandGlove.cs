@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -45,19 +46,19 @@ namespace JoostMod.Items.Weapons.Thrown
             velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
             if (type == ProjectileID.SandBallGun)
             {
-                type = Mod.Find<ModProjectile>("SandBlock").Type;
+                type = ModContent.ProjectileType<SandBlock>();
             }
             if (type == ProjectileID.EbonsandBallGun)
             {
-                type = Mod.Find<ModProjectile>("EbonSandBlock").Type;
+                type = ModContent.ProjectileType<EbonSandBlock>();
             }
             if (type == ProjectileID.PearlSandBallGun)
             {
-                type = Mod.Find<ModProjectile>("PearlSandBlock").Type;
+                type = ModContent.ProjectileType<PearlSandBlock>();
             }
             if (type == ProjectileID.CrimsandBallGun)
             {
-                type = Mod.Find<ModProjectile>("CrimSandBlock").Type;
+                type = ModContent.ProjectileType<CrimSandBlock>();
             }
             return true;
         }

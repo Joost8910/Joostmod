@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -31,7 +32,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item106;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("BoneHurtingJuiceBottle").Type;
+            Item.shoot = ModContent.ProjectileType<BoneHurtingJuiceBottle>();
             Item.shootSpeed = 8f;
         }
         public override void AddRecipes()

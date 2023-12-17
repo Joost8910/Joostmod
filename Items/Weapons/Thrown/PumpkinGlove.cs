@@ -1,7 +1,7 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Thrown;
 
 namespace JoostMod.Items.Weapons.Thrown
 {
@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("Pumpkin2").Type;
+            Item.shoot = ModContent.ProjectileType<Pumpkin2>();
             Item.shootSpeed = 8f;
         }
     }

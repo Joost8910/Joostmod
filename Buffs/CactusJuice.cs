@@ -17,11 +17,14 @@ namespace JoostMod.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.statDefense -= 5;
+			player.GetDamage(DamageClass.Generic) += 0.25f;
+			/*
 			player.GetDamage(DamageClass.Melee) += 0.25f;
 			player.GetDamage(DamageClass.Throwing) += 0.25f;
 			player.GetDamage(DamageClass.Ranged) += 0.25f;
 			player.GetDamage(DamageClass.Magic) += 0.25f;
 			player.GetDamage(DamageClass.Summon) += 0.25f;
+			*/
 			player.slippy2 = true;
 		}
 

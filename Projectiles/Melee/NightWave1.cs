@@ -53,7 +53,7 @@ namespace JoostMod.Projectiles.Melee
                     dust.velocity.Y = (dust.velocity.Y - 5 * Projectile.ai[0]) * Main.rand.NextFloat();
                     SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
                     int offset = Projectile.ai[0] == -1 ? 24 : 8;
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + offset, 0, 0, Mod.Find<ModProjectile>("NightWave2").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + offset, 0, 0, ModContent.ProjectileType<NightWave2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
                 }
             }
         }

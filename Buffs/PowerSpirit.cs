@@ -17,7 +17,7 @@ namespace JoostMod.Buffs
 		{
 			player.maxMinions++;
 			JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-			if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("PowerSpirit").Type] > 0)
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<PowerSpirit>()] > 0)
 			{
 				modPlayer.powerSpirit = true;
 			}

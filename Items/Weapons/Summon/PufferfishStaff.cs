@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Minions;
 
 namespace JoostMod.Items.Weapons.Summon
 {
@@ -29,9 +29,9 @@ namespace JoostMod.Items.Weapons.Summon
             Item.value = 27000;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = Mod.Find<ModProjectile>("fishMinion").Type;
+            Item.shoot = ModContent.ProjectileType<fishMinion>();
             Item.shootSpeed = 7f;
-            Item.buffType = Mod.Find<ModBuff>("fishMinion").Type;
+            Item.buffType = ModContent.BuffType<Buffs.FishMinionBuff>();
             Item.buffTime = 3600;
         }
         /*

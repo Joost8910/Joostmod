@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Buffs
@@ -11,7 +12,8 @@ namespace JoostMod.Buffs
 			Description.SetDefault("Reduces damage taken by 40%, mobility greatly reduced");
 			Main.buffNoSave[Type] = true;
             Main.debuff[Type] = true;
-            canBeCleared/* tModPorter Note: Removed. Use BuffID.Sets.NurseCannotRemoveDebuff instead, and invert the logic */ = false;
+            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+            //canBeCleared/* tModPorter Note: Removed. Use BuffID.Sets.NurseCannotRemoveDebuff instead, and invert the logic */ = false;
 		}
 	}
 }

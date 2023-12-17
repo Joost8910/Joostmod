@@ -29,11 +29,11 @@ namespace JoostMod.Projectiles.Thrown
         {
             if (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 80 && (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidType == 0 || Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidType == 2))
             {
-                int d = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, Mod.Find<ModProjectile>("DousedChakram").Type, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
+                int d = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, ModContent.ProjectileType<DousedChakram>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
                 for (int k = 0; k < 200; k++)
                 {
                     Projectile g = Main.projectile[k];
-                    if ((g.type == Mod.Find<ModProjectile>("Fires").Type || g.type == Mod.Find<ModProjectile>("Fires2").Type) && g.active && g.owner == Projectile.owner)
+                    if ((g.type == ModContent.ProjectileType<Fires>() || g.type == ModContent.ProjectileType<Fires2>()) && g.active && g.owner == Projectile.owner)
                     {
                         g.ai[0] = d;
                     }
@@ -47,7 +47,7 @@ namespace JoostMod.Projectiles.Thrown
                 for (int l = 0; l < 200; l++)
                 {
                     Projectile f = Main.projectile[l];
-                    if ((f.type == Mod.Find<ModProjectile>("Fires").Type || f.type == Mod.Find<ModProjectile>("Fires2").Type) && f.active && f.owner == Projectile.owner)
+                    if ((f.type == ModContent.ProjectileType<Fires>() || f.type == ModContent.ProjectileType<Fires2>()) && f.active && f.owner == Projectile.owner)
                     {
                         f.ai[0] = Projectile.whoAmI;
                     }
@@ -60,8 +60,8 @@ namespace JoostMod.Projectiles.Thrown
             }
             if (Projectile.timeLeft % 30 == 0)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("Fires").Type, Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, Mod.Find<ModProjectile>("Fires2").Type, Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Fires>(), Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Fires2>(), Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);
             }
             if (Projectile.timeLeft <= 1760)
             {

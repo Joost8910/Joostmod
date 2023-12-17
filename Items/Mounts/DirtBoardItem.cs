@@ -1,9 +1,10 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Mounts;
 
 namespace JoostMod.Items.Mounts
 {
-	public class DirtBoard : ModItem
+	public class DirtBoardItem : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -21,7 +22,7 @@ namespace JoostMod.Items.Mounts
 			Item.rare = ItemRarityID.Blue;
 			Item.UseSound = SoundID.Item79;
 			Item.noMelee = true;
-			Item.mountType = Mod.Find<ModMount>("DirtBoard").Type;
+			Item.mountType = ModContent.MountType<DirtBoard>();
         }
     }
 }

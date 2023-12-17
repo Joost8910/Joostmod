@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Hostile
             int x = 8 + (int)(Projectile.position.X / 16) * 16;
             if (x != z)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), x, Projectile.position.Y, 0, 15f, Mod.Find<ModProjectile>("SaxWave1").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), x, Projectile.position.Y, 0, 15f, ModContent.ProjectileType<SaxWave1>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 z = x;
             }
         }

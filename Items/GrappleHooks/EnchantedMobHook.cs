@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
- 
+
 namespace JoostMod.Items.GrappleHooks
 {
     public class EnchantedMobHook : ModItem
@@ -12,7 +12,7 @@ namespace JoostMod.Items.GrappleHooks
             Item.CloneDefaults(ItemID.AmethystHook);
             Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 12.5f; // how quickly the hook is shot.
-            Item.shoot = Mod.Find<ModProjectile>("EnchantedMobHook").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Grappling.EnchantedMobHook>();
         }
         
 		public override void SetStaticDefaults()

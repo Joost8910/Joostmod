@@ -59,7 +59,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 if (Projectile.ai[1] == 0)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, Mod.Find<ModProjectile>("TerraSpearBeam").Type, Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TerraSpearBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
                     Projectile.ai[1]++;
                 }
                 Projectile.ai[0] -= 1.86f;

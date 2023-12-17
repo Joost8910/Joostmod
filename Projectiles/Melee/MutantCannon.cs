@@ -98,7 +98,7 @@ namespace JoostMod.Projectiles.Melee
                         Vector2 perturbedSpeed = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(60));
                         float scale = 1f - Main.rand.NextFloat() * .3f;
                         perturbedSpeed = perturbedSpeed * scale;
-                        Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, Mod.Find<ModProjectile>("Missile").Type, (int)(Projectile.damage * Projectile.ai[0]), Projectile.knockBack * Projectile.ai[0], player.whoAmI);
+                        Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Missile>(), (int)(Projectile.damage * Projectile.ai[0]), Projectile.knockBack * Projectile.ai[0], player.whoAmI);
                     }
                 }
                 Projectile.ai[1] += 0.2f * (55f / player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee);

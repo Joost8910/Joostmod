@@ -119,9 +119,9 @@ namespace JoostMod.Projectiles.Magic
                 {
                     dir = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("IceBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
-                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("IceBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, Mod.Find<ModProjectile>("IceBeam").Type, Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
+                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, ModContent.ProjectileType<IceBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
+                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, ModContent.ProjectileType<IceBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 8, dir.Y * 8, ModContent.ProjectileType<IceBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), Projectile.Center);
             }
             else
@@ -132,9 +132,9 @@ namespace JoostMod.Projectiles.Magic
                 {
                     dir = -Vector2.UnitY;
                 }
-                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 10, dir.Y * 10, Mod.Find<ModProjectile>("IceBeamCharged").Type, Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner, 1);
-                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 10, dir.Y * 10, Mod.Find<ModProjectile>("IceBeamCharged").Type, Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner);
-                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 10, dir.Y * 10, Mod.Find<ModProjectile>("IceBeamCharged").Type, Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner, -1);
+                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 10, dir.Y * 10, ModContent.ProjectileType<IceBeamCharged>(), Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner, 1);
+                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 10, dir.Y * 10, ModContent.ProjectileType<IceBeamCharged>(), Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner);
+                Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 10, dir.Y * 10, ModContent.ProjectileType<IceBeamCharged>(), Projectile.damage * 8, Projectile.knockBack * 8, Projectile.owner, -1);
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeamCharged"), Projectile.Center);
 
             }

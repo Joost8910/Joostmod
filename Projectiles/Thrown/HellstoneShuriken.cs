@@ -36,11 +36,14 @@ namespace JoostMod.Projectiles.Thrown
         public override void AI()
         {
             Projectile.spriteDirection = -Projectile.direction;
-            if (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 150 && (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidType == 0 || Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidType == 2))
+            if (Main.myPlayer == Projectile.owner)
             {
-                int d = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.75f, Projectile.velocity.Y * 0.75f, Mod.Find<ModProjectile>("DousedShuriken").Type, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
-                SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
-                Projectile.Kill();
+                if (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidAmount > 150 && (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidType == 0 || Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidType == 2))
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.75f, Projectile.velocity.Y * 0.75f, ModContent.ProjectileType<DousedShuriken>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
+                    SoundEngine.PlaySound(SoundID.Item13.WithVolumeScale(0.3f), Projectile.position);
+                    Projectile.Kill();
+                }
             }
         }
         public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)

@@ -33,7 +33,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.shoot = Mod.Find<ModProjectile>("UnicornLance").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.UnicornLance>();
             Item.shootSpeed = 18f;
         }
 

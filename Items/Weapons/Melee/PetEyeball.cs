@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.noMelee = true;
-            Item.shoot = Mod.Find<ModProjectile>("PetEyeball").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.PetEyeball>();
             Item.shootSpeed = 18f;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

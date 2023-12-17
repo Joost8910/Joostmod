@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.Items.Rewards
 {
@@ -32,7 +32,7 @@ namespace JoostMod.Items.Rewards
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item8;
 			Item.autoReuse = true;
-			Item.shoot = Mod.Find<ModProjectile>("Eyeball").Type;
+			Item.shoot = ModContent.ProjectileType<Eyeball>();
 			Item.shootSpeed = 6f;
 		}
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

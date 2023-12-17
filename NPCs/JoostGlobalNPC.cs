@@ -8,7 +8,6 @@ using JoostMod.Items.Materials;
 using JoostMod.Items.Mounts;
 using JoostMod.Items.Quest;
 using JoostMod.Items.Tools.Rods;
-using JoostMod.Items.Weapons.Magic;
 using JoostMod.Items.Weapons.Melee;
 using JoostMod.Items.Weapons.Summon;
 using JoostMod.Items.Weapons.Thrown;
@@ -69,12 +68,12 @@ namespace JoostMod.NPCs
                     {
                         shop.item[nextSlot].SetDefaults(ModContent.ItemType<Spikyballclump>());
                         nextSlot++;
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<Airplane>());
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<AirplaneKeys>());
                         nextSlot++;
                     }
                     break;
                 case NPCID.Merchant:
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Scooter>());
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<ScooterItem>());
                     nextSlot++;
                     if (Main.hardMode)
                     {

@@ -41,7 +41,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.rotation = Projectile.timeLeft * -Projectile.direction;
             if (Projectile.timeLeft % 30 == 0)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-5, 5) * .05f, -1f, Mod.Find<ModProjectile>("Thorn").Type, (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-5, 5) * .05f, -1f, ModContent.ProjectileType<Thorn>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

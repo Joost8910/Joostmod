@@ -29,7 +29,7 @@ namespace JoostMod.Items.Tools
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.value = 0;
             Item.rare = ItemRarityID.Red;
-            Item.shoot = Mod.Find<ModProjectile>("BlackHole").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.BlackHole>();
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

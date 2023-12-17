@@ -63,8 +63,13 @@ namespace JoostMod.Items.Weapons.Hybrid
         {
             return true;
         }
+        public override bool? CanChooseAmmo(Item ammo, Player player)
+        {
+            return ammo.ammo == AmmoID.Dart;
+        }
         public override bool CanUseItem(Player player)
         {
+            /*
             if (player.altFunctionUse == 2)
             {
                 Item.useAmmo = AmmoID.Dart;
@@ -73,7 +78,8 @@ namespace JoostMod.Items.Weapons.Hybrid
             {
                 Item.useAmmo = AmmoID.None;
             }
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("AscendedBambooShoot").Type] < 1)
+            */
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Hybrid.AscendedBambooShoot>()] < 1)
             {
                 return base.CanUseItem(player);
             }
@@ -90,7 +96,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             {
                 mode = 1;
             }
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, Mod.Find<ModProjectile>("AscendedBambooShoot").Type, damage, knockback, player.whoAmI, mode, type);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Hybrid.AscendedBambooShoot>(), damage, knockback, player.whoAmI, mode, type);
             return false;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

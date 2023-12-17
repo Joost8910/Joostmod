@@ -39,9 +39,9 @@ namespace JoostMod.Projectiles.Magic
         public override void AI()
         {
             Projectile.frame = 6 - Projectile.timeLeft;
-            if (Projectile.timeLeft == 4)
+            if (Main.myPlayer == Projectile.owner && Projectile.timeLeft == 4)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, Projectile.damage / 6, 5, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, Projectile.damage / 6, 5, Projectile.owner);
             }
         }
     }

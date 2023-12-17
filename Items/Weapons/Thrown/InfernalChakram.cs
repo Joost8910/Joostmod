@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using JoostMod.Projectiles.Thrown;
 
 
 namespace JoostMod.Items.Weapons.Thrown
@@ -30,12 +31,12 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = Mod.Find<ModProjectile>("InfernalChakram").Type;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>();
             Item.shootSpeed = 10f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[Mod.Find<ModProjectile>("DousedChakram").Type] < 1;
+            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<DousedChakram>()] < 1;
         }
         public override void AddRecipes()
         {

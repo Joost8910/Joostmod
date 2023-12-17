@@ -30,7 +30,7 @@ namespace JoostMod.Projectiles.Thrown
             //projectile.tileCollide = false;
             if (Projectile.timeLeft % 8 == 0)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Main.rand.Next(-Projectile.width / 2, Projectile.width / 2), Projectile.Center.Y, 0, 7, Mod.Find<ModProjectile>("Rain").Type, Projectile.damage, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Main.rand.Next(-Projectile.width / 2, Projectile.width / 2), Projectile.Center.Y, 0, 7, ModContent.ProjectileType<Rain>(), Projectile.damage, 0, Projectile.owner);
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
