@@ -165,7 +165,7 @@ namespace JoostMod.Projectiles
         public override void PostDraw(Color lightColor)
         {
             SpriteEffects effects = Projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D tex = Mod.Assets.Request<Texture2D>("Projectiles/DivineMirror_Light").Value;
+            Texture2D tex = ModContent.Request<Texture2D>("Projectiles/DivineMirror_Light").Value;
             float op = (Projectile.ai[0] - 20) / 60f;
             if (Projectile.ai[0] > 80)
             {

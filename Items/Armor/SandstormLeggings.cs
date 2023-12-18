@@ -35,7 +35,7 @@ namespace JoostMod.Items.Armor
 		{
 			CreateRecipe()
 				.AddIngredient<Materials.DesertCore>()
-				.AddRecipeGroup("JoostMod:AnyAdamantite", 16)
+				.AddRecipeGroup(nameof(ItemID.AdamantiteBar), 16)
 				.AddTile(TileID.MythrilAnvil)
 				.Register();
 		}

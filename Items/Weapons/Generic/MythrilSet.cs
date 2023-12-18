@@ -100,7 +100,7 @@ namespace JoostMod.Items.Weapons.Generic
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[64] + player.ownedProjectileCounts[ModContent.ProjectileType<MythrilStaff2>()] > 0)
+            if (player.ownedProjectileCounts[64] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Magic.MythrilStaff2>()] > 0)
             {
                 return false;
             }

@@ -17,7 +17,7 @@ namespace JoostMod.PlayerLayers
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/HavelsGreatshield_ShieldDown");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/HavelsGreatshield_ShieldDown");
             Rectangle frame = new Rectangle(drawPlayer.bodyFrame.X - 1, drawPlayer.bodyFrame.Y, drawPlayer.bodyFrame.Width + 6, drawPlayer.bodyFrame.Height);
             float rot = drawPlayer.bodyRotation;
             Vector2 drawPos = drawPlayer.bodyPosition;

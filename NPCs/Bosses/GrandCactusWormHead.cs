@@ -722,7 +722,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = Mod.Assets.Request<Texture2D>("NPCs/Bosses/GrandCactusWormEyes").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("NPCs/Bosses/GrandCactusWormEyes").Value;
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             int eyeFrame = 0;
             Color color = Color.YellowGreen;

@@ -201,7 +201,7 @@ namespace JoostMod.Projectiles.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/ZoraSpin_Glow");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/ZoraSpin_Glow");
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height / Main.projFrames[Projectile.type] * 0.5f);
             Rectangle? rect = new Rectangle?(new Rectangle(0, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type]));
             SpriteEffects effects = SpriteEffects.None;

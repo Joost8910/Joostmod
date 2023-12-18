@@ -69,9 +69,9 @@ namespace JoostMod.Items.Weapons.Ranged
             CreateRecipe()
                 .AddIngredient(ItemID.PhoenixBlaster)
                 .AddIngredient<Materials.FireEssence>(50)
-                .AddRecipeGroup("JoostMod:AnyCobalt", 4)
-                .AddRecipeGroup("JoostMod:AnyMythril", 4)
-                .AddRecipeGroup("JoostMod:AnyAdamantite", 4)
+                .AddRecipeGroup(nameof(ItemID.CobaltBar), 4)
+                .AddRecipeGroup(nameof(ItemID.MythrilBar), 4)
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 4)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
         }

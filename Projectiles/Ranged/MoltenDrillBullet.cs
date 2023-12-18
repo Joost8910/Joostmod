@@ -74,7 +74,7 @@ namespace JoostMod.Projectiles.Ranged
             if (Main.tile[(int)Math.Round(x), (int)Math.Round(y)].HasTile)
             {
                 SoundEngine.PlaySound(SoundID.Item23, Projectile.Center);
-                if (Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.Grass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.FleshGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.CorruptGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.HallowedGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.JungleGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.MushroomGrass)
+                if (Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.Grass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.CrimsonGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.CorruptGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.HallowedGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.JungleGrass || Main.tile[(int)Math.Round(x), (int)Math.Round(y)].TileType == TileID.MushroomGrass)
                 {
                     Main.player[Projectile.owner].PickTile((int)Math.Round(x), (int)Math.Round(y), 100);
                 }

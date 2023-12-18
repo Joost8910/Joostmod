@@ -380,11 +380,11 @@ namespace JoostMod.Projectiles.Minions
 
             float yOff = Projectile.height - rectangle.Height + 4;
             float armYOff = yOff + ((Projectile.frame == 2 || Projectile.frame == 6) ? -6 : -4);
-            Texture2D armTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Minions/Gnome_Arm");
+            Texture2D armTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Minions/Gnome_Arm");
             int armFrame = 0;
             Rectangle armRect = new Rectangle(0, armFrame * armTex.Height / 6, armTex.Width, armTex.Height / 6);
 
-            Texture2D shieldTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Minions/Gnome_Shield");
+            Texture2D shieldTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Minions/Gnome_Shield");
             int shieldFrame = (int)Projectile.localAI[0];
             Rectangle shieldRect = new Rectangle(0, shieldFrame * shieldTex.Height / 2, shieldTex.Width, shieldTex.Height / 2);
 

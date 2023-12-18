@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
 {
     public class ActualMace : ModProjectile
     {
-        public override string Texture => "JoostMod/Items/Weapons/ActualMace";
+        public override string Texture => "JoostMod/Items/Weapons/Melee/ActualMace";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Actual Mace");

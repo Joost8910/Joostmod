@@ -195,7 +195,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Copper_Chain");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Copper_Chain");
             Player player = Main.player[Projectile.owner];
             Vector2 position = Projectile.Center;
             Vector2 playerCenter = player.MountedCenter;

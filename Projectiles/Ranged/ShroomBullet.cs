@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,9 +28,9 @@ namespace JoostMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (Projectile.timeLeft % 10 == 0)
+            if (Projectile.timeLeft % 10 == 0 && Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, 131, (int)(Projectile.damage * 0.5f), 0, Projectile.owner);
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ProjectileID.Mushroom, (int)(Projectile.damage * 0.5f), 0, Projectile.owner).DamageType = Projectile.DamageType;
             }
         }
 

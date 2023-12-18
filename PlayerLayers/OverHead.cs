@@ -19,7 +19,7 @@ namespace JoostMod.PlayerLayers
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
             Rectangle frame = drawPlayer.bodyFrame;
             float rot = drawPlayer.headRotation;
             Vector2 drawPos = drawPlayer.bodyPosition;
@@ -28,12 +28,12 @@ namespace JoostMod.PlayerLayers
 
             if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Head");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Head");
                 color *= 0.5f;
             }
             if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Head");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Head");
                 color *= 0.5f;
             }
             SpriteEffects effects = SpriteEffects.None;

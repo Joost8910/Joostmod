@@ -99,7 +99,7 @@ namespace JoostMod.Projectiles.Hostile
                 Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.oldRot[k], drawOrigin, Projectile.scale, effects, 0);
             }
 
-            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Axe_Chain");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Axe_Chain");
             NPC host = Main.npc[(int)Projectile.ai[0]];
             Vector2 position = Projectile.Center;
             Vector2 arm = host.Center + new Vector2(39 * host.direction, -38);

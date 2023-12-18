@@ -23,16 +23,16 @@ namespace JoostMod.Items.Placeable
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
 			Item.value = 5000;
-			Item.rare = Item.RarityID.Cyan;
+			Item.rare = ItemRarityID.Cyan;
 			Item.createTile = Mod.Find<ModTile>("Fury").Type;
 		}
-				public override void AddRecipes()
+		public override void AddRecipes()
 		{
 			CreateRecipe()
-.AddRecipeGroup("Wood", 10)
-.AddRecipeGroup("IronBar")
-.AddTile(TileID.WorkBenches)
-.Register();
+			.AddRecipeGroup("Wood", 10)
+			.AddRecipeGroup("IronBar")
+			.AddTile(TileID.WorkBenches)
+			.Register();
 		}
 	}
 }

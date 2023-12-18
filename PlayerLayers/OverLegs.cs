@@ -17,7 +17,7 @@ namespace JoostMod.PlayerLayers
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Legs");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Legs");
             Rectangle frame = drawPlayer.legFrame;
             float rot = drawPlayer.legRotation;
             Vector2 drawPos = drawPlayer.legPosition;
@@ -26,12 +26,12 @@ namespace JoostMod.PlayerLayers
 
             if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Legs");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Legs");
                 color *= 0.5f;
             }
             if (drawPlayer.GetModPlayer<JoostPlayer>().slimeActive)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Legs");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/SlimeActive_Legs");
                 color *= 0.5f;
             }
             SpriteEffects effects = SpriteEffects.None;

@@ -110,7 +110,7 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Adamantite_Chain");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Adamantite_Chain");
 
             Vector2 position = Projectile.Center;
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;

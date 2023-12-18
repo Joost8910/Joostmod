@@ -251,7 +251,7 @@ namespace JoostMod.NPCs
                     spriteBatch.Draw(tex, drawPos, rect, color2, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
                 }
             }
-            return base.PreDraw(spriteBatch, drawColor);
+            return true;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -264,7 +264,7 @@ namespace JoostMod.NPCs
             {
                 effects = SpriteEffects.None;
             }
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/EarthElemental_Pupils");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/EarthElemental_Pupils");
             Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
             Vector2 drawOrigin = new Vector2((tex.Width / 2), (tex.Height / 2));
             Vector2 offSet = NPC.DirectionTo(Main.player[NPC.target].Center) * 2;

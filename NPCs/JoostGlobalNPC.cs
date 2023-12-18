@@ -321,13 +321,6 @@ namespace JoostMod.NPCs
         }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            Player player = Main.player[npc.lastInteraction];
-            if (npc.lastInteraction == 255)
-            {
-                player = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
-            }
-            JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-
             npcLoot.Add(ItemDropRule.ByCondition(new LegendDropCondition(), ModContent.ItemType<EvilStone>(), 500));
             npcLoot.Add(ItemDropRule.ByCondition(new SDropCondition(), ModContent.ItemType<OnePunch>(), 500000));
             npcLoot.Add(new LeadingConditionRule(new Conditions.NotFromStatue()).OnSuccess(ItemDropRule.NormalvsExpertNotScalingWithLuck(ModContent.ItemType<EvilStone>(), 30000, 25000)));

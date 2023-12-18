@@ -46,7 +46,8 @@ namespace JoostMod.Projectiles.Accessory
                     Projectile.velocity.Y = shootToY;
                     if (Projectile.ai[1] == 60)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, shootToX, shootToY, ModContent.ProjectileType<ShadowBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner); //Spawning a projectile
+                        if (Main.myPlayer == Projectile.owner)
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, shootToX, shootToY, ModContent.ProjectileType<ShadowBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner); //Spawning a projectile
                         SoundEngine.PlaySound(SoundID.Item8, Projectile.position);
                         Projectile.ai[1] = 0;
                     }

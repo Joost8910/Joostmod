@@ -9,6 +9,7 @@ using Terraria.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using JoostMod.Items.Legendaries;
 using JoostMod.Projectiles.Fishhooks;
+using JoostMod.Projectiles.Ranged;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -39,7 +40,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.shoot = ModContent.ProjectileType<UncleCariusHook>();
             Item.shootSpeed = 17f;
             //item.fishingPole = 100; 
-            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/UncleCariusPole_String");
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/Weps/UncleCariusPole_String");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

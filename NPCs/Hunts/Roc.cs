@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Hunts
 {

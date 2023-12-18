@@ -43,9 +43,9 @@ namespace JoostMod.Items.Weapons.Thrown
             CreateRecipe()
                 .AddIngredient<Materials.WaterEssence>(50)
                 .AddIngredient(ItemID.WoodenBoomerang)
-                .AddRecipeGroup("JoostMod:AnyCobalt", 3)
-                .AddRecipeGroup("JoostMod:AnyMythril", 3)
-                .AddRecipeGroup("JoostMod:AnyAdamantite", 3)
+                .AddRecipeGroup(nameof(ItemID.CobaltBar), 3)
+                .AddRecipeGroup(nameof(ItemID.MythrilBar), 3)
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 3)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
         }

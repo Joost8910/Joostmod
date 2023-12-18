@@ -12,7 +12,11 @@ namespace JoostMod.PlayerLayers
     {
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            return drawInfo.drawPlayer.HeldItem.GetGlobalItem<JoostGlobalItem>().glowmaskTex != null;
+            if (drawInfo.drawPlayer.HeldItem.TryGetGlobalItem<JoostGlobalItem>(out JoostGlobalItem jgi))
+            {
+                return jgi.glowmaskTex != null;
+            }
+            return false;
         }
         public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.HeldItem);
 

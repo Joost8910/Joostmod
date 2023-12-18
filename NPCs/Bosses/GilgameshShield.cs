@@ -39,7 +39,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.CanReflect())
+            if (projectile.CanBeReflected())
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath3, NPC.Center);
                 SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);

@@ -530,7 +530,7 @@ namespace JoostMod.Projectiles.Grappling
                         }
                     }
                     rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
-                    Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Projectiles/Grappling/MobHook_Chain");
+                    Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Grappling/MobHook_Chain");
                     Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f));
                     Main.EntitySpriteDraw(tex, new Vector2(value.X - Main.screenPosition.X + tex.Width * 0.5f, value.Y - Main.screenPosition.Y + tex.Height * 0.5f), new Rectangle?(new Rectangle(0, 0, tex.Width, (int)num)), color2, rotation2, new Vector2(tex.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0);
                 }

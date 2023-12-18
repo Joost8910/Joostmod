@@ -6,7 +6,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace JoostMod.Items
+namespace JoostMod.Items.Consumables
 {
     public class Cactusofdoom : ModItem
     {

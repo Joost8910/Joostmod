@@ -475,7 +475,7 @@ namespace JoostMod.NPCs.Bosses
         {
             SpriteEffects effects = SpriteEffects.None;
             Color color = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
-            Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/IceCoreX").Value;
+            Texture2D tex = ModContent.Request<Texture2D>("NPCs/Bosses/IceCoreX").Value;
             Rectangle rect = new Rectangle(0, (int)NPC.localAI[0] * 64, (tex.Width), (tex.Height / 8));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 16);
             float rotation = 0;

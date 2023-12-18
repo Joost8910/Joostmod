@@ -40,7 +40,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.shoot = ModContent.ProjectileType<Projectiles.Melee.GrognakHammer>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/GrognakHammerGem");
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/Weps/GrognakHammerGem");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

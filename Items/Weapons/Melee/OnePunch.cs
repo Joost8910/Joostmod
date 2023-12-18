@@ -36,7 +36,7 @@ namespace JoostMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
             Item.useTurn = true;
-            Item.shoot = ModContent.ProjectileType<Projectiles.Melee.OnePunch>();
+            Item.shoot = ModContent.ProjectileType<Projectiles.OnePunch>();
             Item.shootSpeed = 10;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

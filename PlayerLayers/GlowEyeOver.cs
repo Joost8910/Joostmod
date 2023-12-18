@@ -20,7 +20,7 @@ namespace JoostMod.PlayerLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             SpriteBatch spriteBatch = Main.spriteBatch;
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Face");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/GlowingContacts_Face");
             Rectangle frame = drawPlayer.bodyFrame;
             float rot = drawPlayer.headRotation;
             Vector2 drawPos = drawPlayer.bodyPosition;
@@ -29,19 +29,19 @@ namespace JoostMod.PlayerLayers
             int eyeType = drawPlayer.GetModPlayer<JoostPlayer>().glowEyeType;
             if (eyeType == 2)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Alt");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/GlowingContacts_Alt");
             }
             if (eyeType == 3)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Helm");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/GlowingContacts_Helm");
             }
             if (eyeType == 4)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_HelmAlt");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/GlowingContacts_HelmAlt");
             }
             if (eyeType == 5)
             {
-                tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Genji");
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/GlowingContacts_Genji");
             }
             if (drawPlayer.GetModPlayer<JoostPlayer>().glowEyeNoGlow)
             {

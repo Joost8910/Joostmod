@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         private const int MAX_CHARGE = 30;
         private const float MOVE_DISTANCE = 20f;
-        private int sound = 0;
+        //private int sound = 0;
         public float Distance
         {
             get { return Projectile.localAI[1]; }

@@ -11,7 +11,7 @@ namespace JoostMod.UI
 {
     public class HuntUIButton : UIElement
     {
-        public static Texture2D bgTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll");
+        public static Texture2D bgTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll");
         private HuntInfo hunt;
         private float scale = 1f;
         

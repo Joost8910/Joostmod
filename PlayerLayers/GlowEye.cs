@@ -20,7 +20,7 @@ namespace JoostMod.PlayerLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             SpriteBatch spriteBatch = Main.spriteBatch;
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/GlowingContacts_Face");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/GlowingContacts_Face");
             Rectangle frame = drawPlayer.bodyFrame;
             float rot = drawPlayer.headRotation;
             Vector2 drawPos = drawPlayer.bodyPosition;

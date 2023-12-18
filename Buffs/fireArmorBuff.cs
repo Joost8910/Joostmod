@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Buffs
 {
-	public class fireArmorBuff : ModBuff
+	public class FireArmorBuff : ModBuff
 	{
 		public override void SetStaticDefaults()
 		{

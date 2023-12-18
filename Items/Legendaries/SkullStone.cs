@@ -48,22 +48,22 @@ namespace JoostMod.Items.Legendaries
         }
         public override void PostDrawInInventory(SpriteBatch sb, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Placeable/SkullStone");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/SkullStone");
             drawColor = new Color(0, 51 + (int)(Main.DiscoG * 0.3f), 76 + (int)(Main.DiscoG * 0.3f));
             sb.Draw(tex, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
-            Texture2D tex2 = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Placeable/SkullStoneEyes");
+            Texture2D tex2 = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/SkullStoneEyes");
             Color color2 = new Color(0, Main.DiscoG, Main.DiscoG);
             sb.Draw(tex2, position, frame, color2, 0f, origin, scale, SpriteEffects.None, 0f);
         }
         public override void PostDrawInWorld(SpriteBatch sb, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Placeable/SkullStone");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/SkullStone");
             float x = (float)(Item.width / 2f - tex.Width / 2f);
             float y = Item.height - tex.Height;
             lightColor = new Color(0, 51 + (int)(Main.DiscoG * 0.3f), 76 + (int)(Main.DiscoG * 0.3f));
             alphaColor = lightColor;
             sb.Draw(tex, new Vector2(Item.position.X - Main.screenPosition.X + tex.Width / 2 + x, Item.position.Y - Main.screenPosition.Y + tex.Height / 2 + y + 2f), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), lightColor, rotation, new Vector2(tex.Width / 2, tex.Height / 2), scale, SpriteEffects.None, 0f);
-            Texture2D tex2 = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Placeable/SkullStoneEyes");
+            Texture2D tex2 = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/SkullStoneEyes");
             Color color2 = new Color(0, Main.DiscoG, Main.DiscoG);
             sb.Draw(tex2, new Vector2(Item.position.X - Main.screenPosition.X + tex.Width / 2 + x, Item.position.Y - Main.screenPosition.Y + tex.Height / 2 + y + 2f), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color2, rotation, new Vector2(tex.Width / 2, tex.Height / 2), scale, SpriteEffects.None, 0f);
         }

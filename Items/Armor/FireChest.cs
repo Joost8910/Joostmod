@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body, EquipType.HandsOff)]
+    [AutoloadEquip(EquipType.Body)]
     public class FireChest : ModItem
     {
         public override void SetStaticDefaults()
@@ -34,9 +34,9 @@ namespace JoostMod.Items.Armor
         {
             CreateRecipe()
                 .AddIngredient<Materials.FireEssence>(50)
-                .AddRecipeGroup("JoostMod:AnyCobalt", 8)
-                .AddRecipeGroup("JoostMod:AnyMythril", 8)
-                .AddRecipeGroup("JoostMod:AnyAdamantite", 8)
+                .AddRecipeGroup(nameof(ItemID.CobaltBar), 8)
+                .AddRecipeGroup(nameof(ItemID.MythrilBar), 8)
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 8)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
         }

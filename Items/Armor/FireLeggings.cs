@@ -28,9 +28,9 @@ namespace JoostMod.Items.Armor
         {
             CreateRecipe()
                 .AddIngredient<Materials.FireEssence>(50)
-                .AddRecipeGroup("JoostMod:AnyCobalt", 6)
-                .AddRecipeGroup("JoostMod:AnyMythril", 6)
-                .AddRecipeGroup("JoostMod:AnyAdamantite", 6)
+                .AddRecipeGroup(nameof(ItemID.CobaltBar), 6)
+                .AddRecipeGroup(nameof(ItemID.MythrilBar), 6)
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 6)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
         }

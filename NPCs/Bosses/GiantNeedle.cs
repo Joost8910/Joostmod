@@ -30,14 +30,13 @@ namespace JoostMod.NPCs.Bosses
 			NPC.noTileCollide = true;
 			NPC.noGravity = true;
 		}
-				public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0)
-			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/GiantNeedle"), NPC.scale);
-			}
-
-		}	
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("GiantNeedle").Type);
+            }
+        }
 		
 		public override void AI()
 		{

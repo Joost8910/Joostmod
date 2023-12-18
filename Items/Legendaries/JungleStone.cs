@@ -48,13 +48,13 @@ namespace JoostMod.Items.Legendaries
         }
         public override void PostDrawInInventory(SpriteBatch sb, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Placeable/JungleStone");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/JungleStone");
             drawColor = new Color((int)(Main.DiscoG * 0.5f), 255, 0);
             sb.Draw(tex, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
         }
         public override void PostDrawInWorld(SpriteBatch sb, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Placeable/JungleStone");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/JungleStone");
             float x = (float)(Item.width / 2f - tex.Width / 2f);
             float y = Item.height - tex.Height;
             lightColor = new Color((int)(Main.DiscoG * 0.5f), 255, 0);

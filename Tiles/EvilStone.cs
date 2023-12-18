@@ -63,7 +63,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(127, 0, (255 - Main.DiscoG));
-            Main.EntitySpriteDraw(Mod.Assets.Request<Texture2D>("Tiles/EvilStonePupil").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("Tiles/EvilStonePupil").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

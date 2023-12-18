@@ -366,7 +366,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            /*Texture2D armTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackArm").Value;
+            /*Texture2D armTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackArm").Value;
             int totalArmFrames = 3;
             int armFrame = 0;
             float armRotation = 0;
@@ -405,7 +405,7 @@ namespace JoostMod.NPCs.Bosses
             armOffset = armOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
             armRotation += npc.rotation;*/
 
-            Texture2D shoulderTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackShoulder").Value;
+            Texture2D shoulderTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackShoulder").Value;
             int totalShoulderFrames = 1;
             int shoulderFrame = 0;
             float shoulderRotation = 0;
@@ -430,7 +430,7 @@ namespace JoostMod.NPCs.Bosses
                 shoulderOffset.X += 2;
             }
 
-            Texture2D forearmTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackForearm").Value;
+            Texture2D forearmTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackForearm").Value;
             int totalForearmFrames = 1;
             int forearmFrame = 0;
             float forearmRotation = 0;
@@ -440,7 +440,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 forearmVect = new Vector2((float)forearmTex.Width / 2, (float)forearmTex.Height / (2 * totalForearmFrames));
 
 
-            Texture2D handTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackHand").Value;
+            Texture2D handTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackHand").Value;
             int totalHandFrames = 3;
             int handFrame = 0;
             float handRotation = 0;
@@ -552,7 +552,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Texture2D shoulderTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontShoulder").Value;
+            Texture2D shoulderTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontShoulder").Value;
             int totalShoulderFrames = 1;
             int shoulderFrame = 0;
             float shoulderRotation = 0;
@@ -577,7 +577,7 @@ namespace JoostMod.NPCs.Bosses
                 shoulderOffset.X += 2;
             }
 
-            Texture2D forearmTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontForearm").Value;
+            Texture2D forearmTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontForearm").Value;
             int totalForearmFrames = 1;
             int forearmFrame = 0;
             float forearmRotation = 0;
@@ -587,7 +587,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 forearmVect = new Vector2((float)forearmTex.Width / 2, (float)forearmTex.Height / (2 * totalForearmFrames));
 
 
-            Texture2D handTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontHand").Value;
+            Texture2D handTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontHand").Value;
             int totalHandFrames = 3;
             int handFrame = 0;
             float handRotation = 0;
@@ -675,10 +675,10 @@ namespace JoostMod.NPCs.Bosses
 
             if (NPC.dontTakeDamage && NPC.ai[0] < 40)
             {
-                Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh_SpinToWin").Value;
+                Texture2D tex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_SpinToWin").Value;
                 if (NPC.ai[0] < 20)
                 {
-                    tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_SpinToWin").Value;
+                    tex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_SpinToWin").Value;
                 }
                 Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height * 0.5f) / 2);
                 for (int i = 0; i < NPC.oldPos.Length; i++)

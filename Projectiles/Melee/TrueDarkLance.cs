@@ -59,7 +59,8 @@ namespace JoostMod.Projectiles.Melee
             {
                 if (Projectile.ai[1] == 0)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+                    if (Main.myPlayer == Projectile.owner)
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
                     Projectile.ai[1]++;
                 }
                 Projectile.ai[0] -= 2f;
@@ -90,7 +91,7 @@ namespace JoostMod.Projectiles.Melee
             Color color = lightColor;
             Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 80 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 80 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             return false;
         }
     }

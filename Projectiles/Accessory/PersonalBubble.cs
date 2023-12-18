@@ -53,7 +53,7 @@ namespace JoostMod.Projectiles.Accessory
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (player.active && !player.dead && player.GetModPlayer<JoostPlayer>().waterBubbleItem && !player.GetModPlayer<JoostPlayer>().hideBubble)
+            if (player.active && !player.dead && player.GetModPlayer<JoostPlayer>().waterBubbleItem != null && !player.GetModPlayer<JoostPlayer>().hideBubble)
             {
                 Projectile.position.X = player.MountedCenter.X - Projectile.width / 2;
                 Projectile.position.Y = player.MountedCenter.Y - Projectile.height / 2;

@@ -84,7 +84,7 @@ namespace JoostMod.Projectiles.Melee
             }
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
             Color color = lightColor * ((255f - Projectile.alpha) / 255f);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             return false;
         }
 

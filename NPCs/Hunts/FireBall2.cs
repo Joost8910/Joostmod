@@ -1,5 +1,6 @@
 using System;
 using JoostMod.Buffs;
+using JoostMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -168,7 +169,8 @@ namespace JoostMod.NPCs.Hunts
         }
         public override bool CheckDead()
         {
-            Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FireballExplosion>(), NPC.damage, 20, (int)NPC.target);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FireballExplosion>(), NPC.damage, 20, (int)NPC.target);
             return true;
         }
     }

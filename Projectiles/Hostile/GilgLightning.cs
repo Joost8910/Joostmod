@@ -5,13 +5,8 @@ namespace JoostMod.Projectiles.Hostile
 {
     public class GilgLightning : ModProjectile
     {
-        public override string Texture
-        {
-            get
-            {
-                return "Terraria/Projectile_466";
-            }
-        }
+
+        public override string Texture => "Terraria/Images/Projectile_466";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilgamesh's Wrath");

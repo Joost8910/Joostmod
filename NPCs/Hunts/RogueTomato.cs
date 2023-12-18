@@ -50,7 +50,7 @@ namespace JoostMod.NPCs.Hunts
         public override void OnKill()
         {
             JoostWorld.downedRogueTomato = true;
-            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.Rogu>(), Main.rand, 1, 1, 1, false);
+            CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.RogueTomato>(), Main.rand, 1, 1, 1, false);
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

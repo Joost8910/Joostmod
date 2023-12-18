@@ -61,7 +61,7 @@ namespace JoostMod.Items.Weapons.Summon
         {
             CreateRecipe()
                 .AddIngredient(ItemID.GardenGnome)
-                .AddRecipeGroup("JoostMod:AnyAdamantite", 8)
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 8)
                 .AddIngredient(ItemID.SoulofMight, 10)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();

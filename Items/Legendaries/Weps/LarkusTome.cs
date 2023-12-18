@@ -44,7 +44,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.shootSpeed = 7f;
             Item.buffType = ModContent.BuffType<Buffs.PowerSpirit>();
             Item.buffTime = 3600;
-            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/Items/Weapons/LarkusTome_Glow");
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/Weps/LarkusTome_Glow");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

@@ -34,9 +34,8 @@ namespace JoostMod
         }
         public override void PostSetupContent()
         {
-            Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-            battleRodsLoaded = ModLoader.GetMod("UnuBattleRods") != null;
-            if (bossChecklist != null)
+            battleRodsLoaded = ModLoader.TryGetMod("UnuBattleRods", out Mod UnuBattleRods);
+            if (ModLoader.TryGetMod("BossChecklist", out Mod bossChecklist))
             {
                 /*
                 bossChecklist.Call("AddMiniBossWithInfo", "Pinkzor", 0.1f, (Func<bool>)(() => JoostWorld.downedPinkzor), "Rarely found on the surface or underground. The Huntmaster will spawn after it is killed");
@@ -72,8 +71,7 @@ namespace JoostMod
                 bossChecklist.Call("AddBoss", 15.8f, new List<int>() { ModContent.NPCType<Gilgamesh>(), ModContent.NPCType<Enkidu>() }, this, "Gilgamesh and Enkidu", (Func<bool>)(() => JoostWorld.downedGilgamesh), ModContent.ItemType<Excalipoor>(), new List<int>() { ModContent.ItemType<Items.Armor.GilgameshMask>(), ModContent.ItemType<Items.Placeable.COTBBMusicBox>(), ModContent.ItemType<Items.Placeable.GilgameshTrophy>() }, new List<int>() { ModContent.ItemType<GilgBag>(), ModContent.ItemType<Items.Weapons.Hybrid.Gilgameshset>(), ModContent.ItemType<GenjiToken>() }, "Use an [i:" + Find<ModItem>("Excalipoor").Type + "] anywhere", "<Gilgamesh> Hah! I won!", "JoostMod/NPCs/Bosses/GilgameshAndEnkiduBossLog");
 
             }
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
-            if (fargos != null)
+            if (ModLoader.TryGetMod("Fargowiltas", out Mod fargos))
             {
                 // AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
                 //item internal name, inline method for retrieving downed value, price to sell for in copper

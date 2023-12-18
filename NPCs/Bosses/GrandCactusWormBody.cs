@@ -145,7 +145,7 @@ namespace JoostMod.NPCs.Bosses
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             if (NPC.defense >= 1000)
             {
-                texture = Mod.Assets.Request<Texture2D>("NPCs/Bosses/GrandCactusWormBodyInvincible").Value;
+                texture = ModContent.Request<Texture2D>("NPCs/Bosses/GrandCactusWormBodyInvincible").Value;
             }
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, new Rectangle?(), drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);

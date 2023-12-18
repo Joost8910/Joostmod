@@ -41,9 +41,9 @@ namespace JoostMod
                 ItemID.TitaniumBar
             });
             RecipeGroup.RegisterGroup("JoostMod:Saplings", group);
-            RecipeGroup.RegisterGroup("JoostMod:AnyCobalt", cpgroup);
-            RecipeGroup.RegisterGroup("JoostMod:AnyMythril", mogroup);
-            RecipeGroup.RegisterGroup("JoostMod:AnyAdamantite", atgroup);
+            RecipeGroup.RegisterGroup(nameof(ItemID.CobaltBar), cpgroup);
+            RecipeGroup.RegisterGroup(nameof(ItemID.MythrilBar), mogroup);
+            RecipeGroup.RegisterGroup(nameof(ItemID.AdamantiteBar), atgroup);
         }
 
         public override void AddRecipes()

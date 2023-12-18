@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -101,7 +100,7 @@ namespace JoostMod.Items.Weapons.Generic
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[215] + player.ownedProjectileCounts[ModContent.ProjectileType<OrichalcumStaff2>()] > 0)
+            if (player.ownedProjectileCounts[215] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Magic.OrichalcumStaff2>()] > 0)
             {
                 return false;
             }

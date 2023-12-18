@@ -41,7 +41,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.5f)));
-            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/ShrineOfLegendsGem").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Tiles/ShrineOfLegendsGem").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

@@ -20,6 +20,16 @@ using JoostMod.Projectiles.Ranged;
 using JoostMod.Projectiles.Thrown;
 using JoostMod.Projectiles.Melee;
 using JoostMod.Projectiles.Summon;
+using JoostMod.Items.Weapons.Thrown;
+using JoostMod.Items.Legendaries.Weps;
+using JoostMod.Items.Rewards;
+using JoostMod.Items.Weapons.Melee;
+using JoostMod.Items.Pets;
+using JoostMod.Items.Weapons.Summon;
+using JoostMod.Items.Weapons.Ranged;
+using JoostMod.Items.Weapons.Magic;
+using JoostMod.Items.Consumables;
+using JoostMod.Items.Legendaries;
 
 namespace JoostMod
 {
@@ -273,7 +283,7 @@ namespace JoostMod
         }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)/* tModPorter Suggestion: Return an Item array to add to the players starting items. Use ModifyStartingInventory for modifying them if needed */
         {
-            return new[] { new Item(Mod.Find<ModItem>("StormyCollar").Type) };
+            return new[] { new Item(ModContent.ItemType<StormyCollar>()) };
         }
         public override void UpdateBadLifeRegen()
         {
@@ -365,47 +375,47 @@ namespace JoostMod
         }
         public override void FrameEffects()
         {
-            if (Player.HeldItem.type == Mod.Find<ModItem>("CactusGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<CactusGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "CactusGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("ChlorophyteGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<ChlorophyteGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "ChlorophyteGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("GnunderGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<GnunderGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GnunderGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("GooGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<GooGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GooGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("HellstoneShuriken").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<HellstoneGlove>())
             {
-                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "HellstoneShuriken", EquipType.HandsOn);
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "HellstoneGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("PumpkinGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<PumpkinGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "PumpkinGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("StoneFist").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<StoneFist>())
             {
                 Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "StoneFist", EquipType.HandsOff);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("OnePunch").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<OnePunch>())
             {
                 Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "OnePunch", EquipType.HandsOff);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("SandGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<SandGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "SandGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("MutantCannon").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<Items.Weapons.Melee.MutantCannon>())
             {
                 Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "MutantCannon", EquipType.HandsOff);
             }
-            if (Player.HeldItem.type == Mod.Find<ModItem>("GrabGlove").Type)
+            if (Player.HeldItem.type == ModContent.ItemType<Items.Weapons.Melee.GrabGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GrabGlove", EquipType.HandsOn);
                 Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "GrabGlove", EquipType.HandsOff);
@@ -699,7 +709,7 @@ namespace JoostMod
                 }
                 if (fireArmor)
                 {
-                    Player.AddBuff(ModContent.BuffType<fireArmorBuff>(), 2);
+                    Player.AddBuff(ModContent.BuffType<FireArmorBuff>(), 2);
                     if (!fireArmorIsActive)
                     {
                         SoundEngine.PlaySound(new ("Terraria/Sounds/Custom/dd2_betsy_fireball_shot_1"), Player.Center); //198
@@ -1037,40 +1047,40 @@ namespace JoostMod
             {
                 if (Main.rand.NextBool(Math.Max(5, 500 / power)) && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    itemDrop = Mod.Find<ModItem>("GrenadeFish").Type;
+                    itemDrop = ModContent.ItemType<Items.Weapons.Thrown.GrenadeFish>();
                 }
                 if (Main.rand.NextBool(Math.Max(20, 2000 / power)) && worldLayer == 1 && !Main.hardMode && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    itemDrop = Mod.Find<ModItem>("PufferfishStaff").Type;
+                    itemDrop = ModContent.ItemType<PufferfishStaff>();
                 }
                 if (Main.rand.NextBool(Math.Max(25, 2500 / power)) && Player.ZoneCorrupt && NPC.downedBoss2)
                 {
-                    itemDrop = Mod.Find<ModItem>("ToxicBucket").Type;
+                    itemDrop = ModContent.ItemType<ToxicBucket>();
                 }
                 if (Main.rand.NextBool(Math.Max(25, 2500 / power)) && Player.ZoneCrimson && NPC.downedBoss2)
                 {
-                    itemDrop = Mod.Find<ModItem>("BloodyBucket").Type;
+                    itemDrop = ModContent.ItemType<BloodyBucket>();
                 }
                 if (Main.rand.NextBool(Math.Max(30 * (Main.hardMode ? 2 : 1), 3000 / power)) && worldLayer == 1 && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    itemDrop = Mod.Find<ModItem>("BubbleShield").Type;
+                    itemDrop = ModContent.ItemType<Items.Accessories.BubbleShield>();
                 }
                 if (Main.rand.NextBool(Math.Max(30, 6000 / power)) && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.position.X / 16 < 350 || Player.position.X / 16 > Main.maxTilesX - 350))
                 {
-                    itemDrop = Mod.Find<ModItem>("Larpoon").Type;
+                    itemDrop = ModContent.ItemType<Items.Weapons.Ranged.Larpoon>();
                 }
                 if (Main.rand.NextBool(Math.Max(30, 6000 / power)) && (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3) && (Player.ZoneJungle || Player.ZoneSnow))
                 {
-                    itemDrop = Mod.Find<ModItem>("RoboCod").Type;
+                    itemDrop = ModContent.ItemType<RoboCod>();
                 }
                 if (Main.rand.NextBool(Math.Max(60, 12000 / power)) && NPC.downedGolemBoss && Main.tile[(int)(Player.Center.X / 16), (int)(Player.Center.Y / 16)].WallType == WallID.LihzahrdBrickUnsafe)
                 {
-                    itemDrop = Mod.Find<ModItem>("Sunfish").Type;
+                    itemDrop = ModContent.ItemType<Sunfish>();
                 }
             }
             if (inWater && Main.rand.NextBool(Math.Max(20, 1000 / power)) && Main.hardMode && cactoidCommendationItem != null && Player.ZoneDesert)
             {
-                itemDrop = Mod.Find<ModItem>("CactoidCompact").Type;
+                itemDrop = ModContent.ItemType<CactoidCompact>();
             }
 
             if (lunarRod && Main.rand.NextBool(4))
@@ -1083,38 +1093,38 @@ namespace JoostMod
                 {
                     if (Player.ZoneCorrupt || Player.ZoneCrimson)
                     {
-                        itemDrop = Mod.Find<ModItem>("EvilStone").Type;
+                        itemDrop = ModContent.ItemType<EvilStone>();
                     }
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneDungeon)
                 {
-                    itemDrop = Mod.Find<ModItem>("SkullStone").Type;
+                    itemDrop = ModContent.ItemType<SkullStone>();
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneJungle)
                 {
-                    itemDrop = Mod.Find<ModItem>("JungleStone").Type;
+                    itemDrop = ModContent.ItemType<JungleStone>();
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && Player.ZoneUnderworldHeight)
                 {
-                    itemDrop = Mod.Find<ModItem>("InfernoStone").Type;
+                    itemDrop = ModContent.ItemType<InfernoStone>();
                 }
                 else if (Main.rand.NextBool(Math.Max(100, 200000 / power)) && inWater)
                 {
                     if (Player.position.X / 16 < 350)
                     {
-                        itemDrop = Mod.Find<ModItem>("SeaStoneWest").Type;
+                        itemDrop = ModContent.ItemType<SeaStoneWest>();
                     }
                     if (Player.position.X / 16 > Main.maxTilesX - 350)
                     {
-                        itemDrop = Mod.Find<ModItem>("SeaStoneEast").Type;
+                        itemDrop = ModContent.ItemType<SeaStoneEast>();
                     }
                     if (worldLayer >= 3)
                     {
-                        itemDrop = Mod.Find<ModItem>("SeaStoneDeep").Type;
+                        itemDrop = ModContent.ItemType<SeaStoneDeep>();
                     }
                     if (worldLayer <= 0)
                     {
-                        itemDrop = Mod.Find<ModItem>("SeaStoneHigh").Type;
+                        itemDrop = ModContent.ItemType<SeaStoneHigh>();
                     }
                 }
             }
@@ -1122,38 +1132,38 @@ namespace JoostMod
             {
                 if (Player.position.X / 16 < 350 && !westStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneWest").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneWest>();
                 }
                 if (Player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneEast").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneEast>();
                 }
                 if (worldLayer >= 3 && !deepStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneDeep").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneDeep>();
                 }
                 if (worldLayer <= 0 && !highStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneHigh").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneHigh>();
                 }
             }
             if (Main.rand.NextBool(Math.Max(4, 400 / power)) && inWater && isUncleCarius)
             {
                 if (Player.position.X / 16 < 350 && !westStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneWest").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneWest>();
                 }
                 if (Player.position.X / 16 > Main.maxTilesX - 350 && !eastStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneEast").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneEast>();
                 }
                 if (worldLayer >= 3 && !deepStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneDeep").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneDeep>();
                 }
                 if (worldLayer <= 0 && !highStone)
                 {
-                    itemDrop = Mod.Find<ModItem>("SeaStoneHigh").Type;
+                    itemDrop = ModContent.ItemType<SeaStoneHigh>();
                 }
             }
         }
@@ -1213,7 +1223,7 @@ namespace JoostMod
             {
                 if (fireArmorIsActive)
                 {
-                    Player.AddBuff(ModContent.BuffType<fireArmorBuff>(), 2);
+                    Player.AddBuff(ModContent.BuffType<FireArmorBuff>(), 2);
                     Player.GetDamage(DamageClass.Ranged) *= 1.4f;
                     Player.moveSpeed *= 1.4f;
                     Player.maxRunSpeed *= 1.4f;
@@ -1804,11 +1814,11 @@ namespace JoostMod
             }
             if (shieldSaplingItem != null)
             {
-                if (Player.ownedProjectileCounts[ModContent.ProjectileType<ShieldSapling>()] < 1)
+                if (Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Accessory.ShieldSapling>()] < 1)
                 {
                     var source = Player.GetSource_Accessory(shieldSaplingItem);
                     float knockback = Player.GetKnockback(DamageClass.Summon).ApplyTo(2f);
-                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0, 0, ModContent.ProjectileType<ShieldSapling>(), 1, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0, 0, ModContent.ProjectileType<Projectiles.Accessory.ShieldSapling>(), 1, knockback, Player.whoAmI);
                 }
             }
             if (swordSaplingItem != null)
@@ -1864,13 +1874,13 @@ namespace JoostMod
                 hatchetSaplingTimer--;
                 if (hatchetSaplingTimer < 0 && target)
                 {
-                    if (Player.ownedProjectileCounts[ModContent.ProjectileType<CopperHatchet>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<CopperHatchet2>()] < 3)
+                    if (Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.CopperHatchet>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<CopperHatchet2>()] < 3)
                     {
                         var source = Player.GetSource_Accessory(hatchetSaplingItem);
                         int damage = Player.GetWeaponDamage(hatchetSaplingItem);
                         float knockback = Player.GetWeaponKnockback(hatchetSaplingItem);
                         SoundEngine.PlaySound(SoundID.Item19, Player.Center);
-                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * 12 * Player.ThrownVelocity, shoot.Y * 12 * Player.ThrownVelocity, ModContent.ProjectileType<CopperHatchet>(), damage, knockback, Player.whoAmI);
+                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * 12 * Player.ThrownVelocity, shoot.Y * 12 * Player.ThrownVelocity, ModContent.ProjectileType<Projectiles.Thrown.CopperHatchet>(), damage, knockback, Player.whoAmI);
                     }
                     hatchetSaplingTimer = 15;
                 }
@@ -2901,7 +2911,7 @@ namespace JoostMod
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile projectile = Main.projectile[i];
-                    if (projectile.type == ModContent.ProjectileType<ShieldSapling>() && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
+                    if (projectile.type == ModContent.ProjectileType<Projectiles.Accessory.ShieldSapling>() && proj.getRect().Intersects(projectile.getRect()) && proj.hostile && proj.damage <= 15 && proj.active)
                     {
                         //Main.NewText(proj.damage, Color.DarkGreen);
                         proj.Kill();

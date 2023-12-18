@@ -317,7 +317,7 @@ namespace JoostMod.NPCs
             }
             spriteBatch.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + vect.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(texture.Height / Main.npcFrameCount[NPC.type]) + 4f + vect.Y), new Rectangle?(rect), drawColor, NPC.rotation, vect, NPC.scale, SpriteEffects.None, 0f);
 
-            Texture2D tex = (Texture2D)Mod.Assets.Request<Texture2D>("JoostMod/NPCs/WaterElemental_Hand");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/WaterElemental_Hand");
             int frame = NPC.frame.Y / 62;
             Rectangle rect2 = new Rectangle(0, frame * (tex.Height / 6), tex.Width, tex.Height / 6);
             Vector2 drawOrigin = new Vector2((tex.Width / 2), ((tex.Height / 6) / 2));

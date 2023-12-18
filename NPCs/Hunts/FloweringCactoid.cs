@@ -1,15 +1,13 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Items.Quest;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Legendaries;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -177,7 +175,7 @@ namespace JoostMod.NPCs.Hunts
 				{
 					if (NPC.velocity.X == 0 && NPC.velocity.Y == 0)
 					{
-						if (Main.rand.Next(4) == 0)
+						if (Main.rand.NextBool(4))
 						{
 							dir *= -1;
 						}

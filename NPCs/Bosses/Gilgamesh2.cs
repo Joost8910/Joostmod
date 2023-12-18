@@ -1225,7 +1225,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 ribbonEffects = SpriteEffects.None;
             }
-            Texture2D ribbonTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_Ribbons").Value;
+            Texture2D ribbonTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_Ribbons").Value;
             int totalRibbonFrames = 6;
             int ribbonFrame = 0;
             float ribbonRotation = 0;
@@ -1237,7 +1237,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 ribbonVect = new Vector2((float)ribbonTex.Width / 2, (float)ribbonTex.Height / (2 * totalRibbonFrames));
 
 
-            Texture2D flailTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_FlailArm").Value;
+            Texture2D flailTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_FlailArm").Value;
             int totalFlailFrames = 2;
             int flailFrame = 0;
             float flailRotation = 0;
@@ -1258,7 +1258,7 @@ namespace JoostMod.NPCs.Bosses
             Rectangle flailRect = new Rectangle(0, flailFrame * (flailTex.Height / totalFlailFrames), (flailTex.Width), (flailTex.Height / totalFlailFrames));
             Vector2 flailVect = new Vector2((float)flailTex.Width / 2, (float)flailTex.Height / (2 * totalFlailFrames));
 
-            Texture2D naginataTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_NaginataArm").Value;
+            Texture2D naginataTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_NaginataArm").Value;
             int totalNaginataFrames = 3;
             int naginataFrame = 0;
             float naginataRotation = 0;
@@ -1285,7 +1285,7 @@ namespace JoostMod.NPCs.Bosses
             Rectangle naginataRect = new Rectangle(0, naginataFrame * (naginataTex.Height / totalNaginataFrames), (naginataTex.Width), (naginataTex.Height / totalNaginataFrames));
             Vector2 naginataVect = new Vector2((float)naginataTex.Width / 2, (float)naginataTex.Height / (2 * totalNaginataFrames));
 
-            Texture2D axeTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_AxeArm").Value;
+            Texture2D axeTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_AxeArm").Value;
             int totalAxeFrames = 3;
             int axeFrame = 0;
             float axeRotation = 0;
@@ -1326,7 +1326,7 @@ namespace JoostMod.NPCs.Bosses
             Rectangle axeRect = new Rectangle(0, axeFrame * (axeTex.Height / totalAxeFrames), (axeTex.Width), (axeTex.Height / totalAxeFrames));
             Vector2 axeVect = new Vector2((float)axeTex.Width / 2, (float)axeTex.Height / (2 * totalAxeFrames));
 
-            Texture2D shieldTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_ShieldArm").Value;
+            Texture2D shieldTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_ShieldArm").Value;
             int totalShieldFrames = 3;
             int shieldFrame = 0;
             float shieldRotation = 0;
@@ -1465,7 +1465,7 @@ namespace JoostMod.NPCs.Bosses
             }
             Color color = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
 
-            Texture2D kunaiTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_KunaiArm").Value;
+            Texture2D kunaiTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_KunaiArm").Value;
             int totalKunaiFrames = 3;
             int kunaiFrame = 0;
             float kunaiRotation = 0;
@@ -1513,7 +1513,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 excalipoorEffects = SpriteEffects.None;
             }
-            Texture2D excalipoorTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_ExcalipoorArms").Value;
+            Texture2D excalipoorTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_ExcalipoorArms").Value;
             int totalExcalipoorFrames = 2;
             int excalipoorFrame = 0;
             float excalipoorRotation = 0;
@@ -1565,7 +1565,7 @@ namespace JoostMod.NPCs.Bosses
             dir = NPC.direction;
             SpriteEffects busterSwordEffects = SpriteEffects.None;
 
-            Texture2D busterSwordTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_BusterSwordArm").Value;
+            Texture2D busterSwordTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_BusterSwordArm").Value;
             int totalBusterSwordFrames = 5;
             int busterSwordFrame = 0;
             float busterSwordRotation = 0;
@@ -1735,7 +1735,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 masamuneEffects = SpriteEffects.None;
             }
-            Texture2D masamuneTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_MasamuneArm").Value;
+            Texture2D masamuneTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_MasamuneArm").Value;
             int totalMasamuneFrames = 5;
             int masamuneFrame = 0;
             float masamuneRotation = 0;
@@ -1862,7 +1862,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 gunBladeEffects = SpriteEffects.None;
             }
-            Texture2D gunBladeTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_GunBladeArm").Value;
+            Texture2D gunBladeTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_GunBladeArm").Value;
             int totalGunBladeFrames = 3;
             int gunBladeFrame = 0;
             float gunBladeRotation = 0;
@@ -1936,7 +1936,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 eyesEffects = SpriteEffects.None;
             }
-            Texture2D eyesTex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_Eyes").Value;
+            Texture2D eyesTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_Eyes").Value;
             int totaleyesFrames = 1;
             int eyesFrame = 0;
             float eyesRotation = 0;

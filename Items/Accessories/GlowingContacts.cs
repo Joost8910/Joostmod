@@ -16,7 +16,7 @@ namespace JoostMod.Items.Accessories
                 "Place in slot 4 for a closed-helm texture\n" +
                 "Place in slot 5 for a raised closed-helm texture\n" +
                 "Place in slot 6 for genji helm texture");
-            ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[Item.type] = true;
+            ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[Item.faceSlot] = true;
 		}
 		public override void SetDefaults()
 		{

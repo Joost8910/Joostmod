@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace JoostMod.Items
+namespace JoostMod.Items.Ammo
 {
 	public class FishFood : ModItem
 	{

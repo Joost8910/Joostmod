@@ -773,12 +773,12 @@ namespace JoostMod.NPCs.Bosses
             Color color = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
             //Color alpha2 = npc.GetAlpha(buffColor);
             //Color color = new Color((int)((float)npc.color.R * ((float)alpha2.R / 255)), (int)((float)npc.color.G * ((float)alpha2.G / 255)), (int)((float)npc.color.B * ((float)alpha2.B / 255)));
-            Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/Bosses/SAX_ArmCannon").Value;
+            Texture2D tex = ModContent.Request<Texture2D>("NPCs/Bosses/SAX_ArmCannon").Value;
             Rectangle rect = new Rectangle(0, 0, (tex.Width), (tex.Height / 2));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 4);
             float rotation = NPC.direction > 0 ? NPC.ai[3] - (float)(Math.PI) : NPC.ai[3];
 
-            Texture2D tex2 = Mod.Assets.Request<Texture2D>("NPCs/Bosses/SAX_ChargingBeam").Value;
+            Texture2D tex2 = ModContent.Request<Texture2D>("NPCs/Bosses/SAX_ChargingBeam").Value;
             Rectangle rect2 = new Rectangle(0, (int)NPC.localAI[0] * 46, (tex2.Width), (tex2.Height / 13));
             Vector2 vect2 = new Vector2((float)tex2.Width / 2, (float)tex2.Height / 26);
 
@@ -852,7 +852,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 vector = new Vector2(((texture.Width / xFrameCount) / 2f), ((texture.Height / Main.npcFrameCount[NPC.type]) / 2f));
             if (NPC.localAI[3] > 0)
             {
-                Texture2D tex3 = Mod.Assets.Request<Texture2D>("NPCs/Bosses/SAX_Death").Value;
+                Texture2D tex3 = ModContent.Request<Texture2D>("NPCs/Bosses/SAX_Death").Value;
                 Rectangle rect3 = new Rectangle(0, NPC.frame.Y, tex3.Width, (tex3.Height / 10));
                 Vector2 vect3 = new Vector2((tex3.Width / 2f), ((tex3.Height / 10) / 2f));
                 spriteBatch.Draw(tex3, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(tex3.Width) / 2f + vect3.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - (float)(tex3.Height / 10) + 4f + vect3.Y), new Rectangle?(rect3), color, NPC.rotation, vect3, NPC.scale, effects, 0f);

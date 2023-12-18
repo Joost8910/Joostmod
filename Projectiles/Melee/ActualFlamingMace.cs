@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
 {
     public class ActualFlamingMace : ModProjectile
     {
-        public override string Texture => "JoostMod/Items/Weapons/ActualFlamingMace";
+        public override string Texture => "JoostMod/Items/Weapons/Melee/ActualFlamingMace";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Actual Flaming Mace");
@@ -276,7 +276,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.localAI[1] != 0)
             {
-                tex = Mod.Assets.Request<Texture2D>("Items/Weapons/ActualMace").Value;
+                tex = ModContent.Request<Texture2D>("Items/Weapons/ActualMace").Value;
             }
             Color color = lightColor;
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);

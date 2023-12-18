@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using JoostMod.Mounts;
 
 namespace JoostMod.Items.Mounts
 {
@@ -23,14 +24,14 @@ namespace JoostMod.Items.Mounts
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item79;
 			Item.noMelee = true;
-			Item.mountType = ModContent.MountType<Mounts.SandShark>();
+			Item.mountType = ModContent.MountType<SandShark>();
         }
         public override void AddRecipes()
         {
             CreateRecipe()
 				.AddIngredient<Materials.DesertCore>()
 				.AddIngredient(ItemID.SharkFin, 4)
-				.AddRecipeGroup("Joostmod:AnyAdamantite", 15)
+				.AddRecipeGroup(nameof(ItemID.AdamantiteBar), 15)
 				.AddTile(TileID.MythrilAnvil)
 				.Register();
         }

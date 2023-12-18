@@ -270,7 +270,7 @@ namespace JoostMod.Projectiles.Melee
             Color color = lightColor;
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
 
-            Texture2D gemTex = Mod.Assets.Request<Texture2D>("Projectiles/Melee/GrognakHammerGem").Value;
+            Texture2D gemTex = ModContent.Request<Texture2D>("Projectiles/Melee/GrognakHammerGem").Value;
             Color gemColor = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f));
             Main.EntitySpriteDraw(gemTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), gemColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             return false;

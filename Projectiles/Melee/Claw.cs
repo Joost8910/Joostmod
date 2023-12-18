@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JoostMod.Projectiles.Grappling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -44,6 +45,8 @@ namespace JoostMod.Projectiles.Melee
             Projectile.localAI[0] = reader.ReadInt16();
             Projectile.localAI[1] = reader.ReadInt16();
         }
+        int iFramesRapid = 2;
+        int iFramesLeap = 24;
         float force = 3.5f;
         public override bool PreAI()
         {
@@ -198,7 +201,7 @@ namespace JoostMod.Projectiles.Melee
                 }
                 if (Projectile.ai[0] != 2)
                 {
-                    if (player.ownedProjectileCounts[Projectile.type] < 2 && Projectile.localAI[1] >= 3)
+                    if (player.ownedProjectileCounts[Projectile.type] < 2 && Projectile.localAI[1] >= 3 && Main.myPlayer == Projectile.owner)
                     {
                         Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), origin, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 2, 0);
                     }
@@ -222,8 +225,9 @@ namespace JoostMod.Projectiles.Melee
                     {
                         if (Projectile.ai[0] != 2 && player.ownedProjectileCounts[Projectile.type] < 2)
                         {
-                            Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), origin, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 2, 1);
-                            if (player.velocity.Y == 0)
+                            if (Main.myPlayer == Projectile.owner)
+                                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), origin, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 2, 1);
+                            if (player.velocity.Y == 0 && !player.controlDown)
                             {
                                 player.velocity.Y = -player.gravDir * 6;
                             }
@@ -266,9 +270,11 @@ namespace JoostMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            int frameX = 0;
             if (Projectile.ai[0] == 2)
             {
-                tex = Mod.Assets.Request<Texture2D>("Projectiles/Melee/Claw2").Value;
+                frameX = 1;
+                //tex = ModContent.Request<Texture2D>("Projectiles/Melee/Claw2").Value;
             }
             SpriteEffects effects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -277,8 +283,8 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.localAI[1] >= 0)
             {
-                Vector2 drawOrigin = new Vector2(tex.Width / 2, tex.Height / Main.projFrames[Projectile.type] / 2);
-                Rectangle? rect = new Rectangle?(new Rectangle(0, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type]));
+                Vector2 drawOrigin = new Vector2(tex.Width / 2 / 2, tex.Height / Main.projFrames[Projectile.type] / 2);
+                Rectangle? rect = new Rectangle?(new Rectangle(frameX * tex.Width / 2, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width / 2, tex.Height / Main.projFrames[Projectile.type]));
                 if (Projectile.ai[1] >= 1)
                 {
                     for (int k = 0; k < Projectile.oldPos.Length; k++)
@@ -313,7 +319,6 @@ namespace JoostMod.Projectiles.Melee
                 crit = true;
             }
         }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[Projectile.owner];
@@ -347,11 +352,11 @@ namespace JoostMod.Projectiles.Melee
                         if (Collision.SolidCollision(pos, target.width, target.height))
                         {
                             player.velocity = -dir * force;
-                            if (player.immuneTime < 2)
+                            if (player.immuneTime < iFramesRapid)
                             {
                                 player.immune = true;
                                 player.immuneNoBlink = true;
-                                player.immuneTime = 2;
+                                player.immuneTime = iFramesRapid;
                             }
                         }
                     }
@@ -367,20 +372,20 @@ namespace JoostMod.Projectiles.Melee
                         incoming = true;
                     }
                     player.velocity = -dir * (force + (incoming ? target.velocity.Length() : 0));
-                    if (player.immuneTime < 2)
+                    if (player.immuneTime < iFramesRapid)
                     {
                         player.immune = true;
                         player.immuneNoBlink = true;
-                        player.immuneTime = 2;
+                        player.immuneTime = iFramesRapid;
                     }
                 }
             }
             else
             {
-                if (player.immuneTime < 10)
+                if (player.immuneTime < iFramesLeap)
                 {
                     player.immune = true;
-                    player.immuneTime = 10;
+                    player.immuneTime = iFramesLeap;
                 }
                 if (target.knockBackResist == 0)
                 {
@@ -416,11 +421,11 @@ namespace JoostMod.Projectiles.Melee
                     if (Collision.SolidCollision(pos, target.width, target.height))
                     {
                         player.velocity = -dir * 2;
-                        if (player.immuneTime < 2)
+                        if (player.immuneTime < iFramesRapid)
                         {
                             player.immune = true;
                             player.immuneNoBlink = true;
-                            player.immuneTime = 2;
+                            player.immuneTime = iFramesRapid;
                         }
                     }
                 }
@@ -435,20 +440,20 @@ namespace JoostMod.Projectiles.Melee
                         incoming = true;
                     }
                     player.velocity = -dir * (force + (incoming ? target.velocity.Length() : 0));
-                    if (player.immuneTime < 2)
+                    if (player.immuneTime < iFramesRapid)
                     {
                         player.immune = true;
                         player.immuneNoBlink = true;
-                        player.immuneTime = 2;
+                        player.immuneTime = iFramesRapid;
                     }
                 }
             }
             else
             {
-                if (player.immuneTime < 10)
+                if (player.immuneTime < iFramesLeap)
                 {
                     player.immune = true;
-                    player.immuneTime = 10;
+                    player.immuneTime = iFramesLeap;
                 }
             }
         }

@@ -37,9 +37,9 @@ namespace JoostMod.Items.Armor
             CreateRecipe()
                 .AddIngredient<Materials.EarthEssence>(50)
                 .AddIngredient(ItemID.StoneBlock, 200)
-                .AddRecipeGroup("JoostMod:AnyCobalt", 8)
-                .AddRecipeGroup("JoostMod:AnyMythril", 8)
-                .AddRecipeGroup("JoostMod:AnyAdamantite", 8)
+                .AddRecipeGroup(nameof(ItemID.CobaltBar), 8)
+                .AddRecipeGroup(nameof(ItemID.MythrilBar), 8)
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 8)
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
         }
