@@ -11,7 +11,7 @@ namespace JoostMod.PlayerLayers
     {
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            return drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().drawOverArmor;
+            return drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().DrawOverArmor();
         }
         public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 

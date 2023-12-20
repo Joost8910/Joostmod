@@ -32,6 +32,18 @@ namespace JoostMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = 42;
+            hitbox.Height = 42;
+            hitbox.X -= (hitbox.Width - Projectile.width) / 2;
+            hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
+        }
+        public override void ModifyDamageScaling(ref float damageScale)
+        {
+            damageScale *= 0.1f * Projectile.penetrate;
+        }
+        /*
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.damage = (int)(Projectile.damage * 0.8f);
@@ -41,10 +53,12 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.Kill();
             }
         }
+        */
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Player player = Main.player[Projectile.owner];
             hitDirection = target.Center.X < player.Center.X ? -1 : 1;
+            knockback *= Projectile.penetrate / 10;
         }
         public override void AI()
         {
@@ -104,18 +118,24 @@ namespace JoostMod.Projectiles.Melee
                                 pos.Y -= 16 * hitDir;
                             }
                         }
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos.X, pos.Y, 0, 15 * hitDir, type, Projectile.damage, Projectile.knockBack * 2, Projectile.owner, Projectile.direction, Projectile.scale);
+                        if (Main.myPlayer == Projectile.owner)
+                        {
+                            float edgeScale = 0.9f;
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos.X, pos.Y, 0, 15 * hitDir, type, Projectile.damage, Projectile.knockBack * 2, Projectile.owner, Projectile.direction, Projectile.scale);
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos.X + 16 * edgeScale * Projectile.direction, pos.Y, 0, 15 * hitDir, type, Projectile.damage, Projectile.knockBack * 2, Projectile.owner, Projectile.direction, Projectile.scale * edgeScale);
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos.X - 16 * edgeScale * Projectile.direction, pos.Y, 0, 15 * hitDir, type, Projectile.damage, Projectile.knockBack * 2, Projectile.owner, Projectile.direction, Projectile.scale * edgeScale);
+                        }
                         Projectile.Kill();
                     }
                     else if (Projectile.timeLeft > 180 - 20 * player.GetAttackSpeed(DamageClass.Melee))
                     {
                         Projectile.timeLeft = 180 - (int)(20 * player.GetAttackSpeed(DamageClass.Melee));
                         SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
-                        float rot = (Projectile.spriteDirection > 0 ? Projectile.ai[1] * gravDir : -Projectile.ai[1] + 180) * (float)Math.PI / 180;
+                        float rot = (Projectile.spriteDirection > 0 ? Projectile.ai[1] : -Projectile.ai[1] + 180) * (float)Math.PI / 180;
                         Vector2 rPos = rot.ToRotationVector2();
                         Projectile.localAI[0] -= 140 * rPos.X;
                         Projectile.localAI[1] -= 140 * rPos.Y;
-                        Projectile.ai[1] += 150;
+                        Projectile.ai[1] += 150 * gravDir;
                         if (Main.myPlayer == Projectile.owner)
                         {
                             //Projectile.NewProjectile(Main.MouseWorld.X, Main.MouseWorld.Y, 0, 15 * gravDir, type, projectile.damage, projectile.knockback * 2, projectile.owner, projectile.direction, projectile.scale);
@@ -143,13 +163,13 @@ namespace JoostMod.Projectiles.Melee
                 Main.dust[num1].noGravity = true;
                 Main.dust[num1].velocity *= 0.1f;
             }
-            double deg = Projectile.spriteDirection > 0 ? Projectile.ai[1] + 30 * gravDir : -Projectile.ai[1] + 150;
+            double deg = Projectile.spriteDirection > 0 ? Projectile.ai[1] + 30 * gravDir : -Projectile.ai[1] + (180 - 30 * gravDir);
             double rad = deg * (Math.PI / 180);
             double dist = 70;
             Vector2 origin = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
             Projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
             Projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
-            Projectile.rotation = Projectile.spriteDirection > 0 ? (float)rad : (float)(rad + 3.14f);
+            Projectile.rotation = Projectile.spriteDirection > 0 ? (float)rad : (float)(rad + Math.PI);
             Projectile.ai[1] += Projectile.ai[0] * 18 / (1 + Projectile.extraUpdates) * gravDir;
         }
         public override void Kill(int timeLeft)
@@ -172,6 +192,10 @@ namespace JoostMod.Projectiles.Melee
             if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
+            }
+            if (Projectile.ai[1] < 0)
+            {
+                effects = SpriteEffects.FlipVertically;
             }
             Vector2 drawOrigin = new Vector2(tex.Width / 2, tex.Height / 2);
             for (int k = Projectile.oldPos.Length - 1; k > 0; k--)

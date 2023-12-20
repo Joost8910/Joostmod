@@ -48,7 +48,8 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.position.Y += 16 * Projectile.scale;
             }
-            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, -15f, ModContent.ProjectileType<GrogWaveFlipped1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.spriteDirection, Projectile.scale);
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, -15f, ModContent.ProjectileType<GrogWaveFlipped1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.spriteDirection, Projectile.scale);
         }
 
     }

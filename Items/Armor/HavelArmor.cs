@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,12 @@ namespace JoostMod.Items.Armor
             Item.value = 300000;
             Item.rare = ItemRarityID.Pink;
             Item.defense = 30;
+        }
+        public override void EquipFrameEffects(Player player, EquipType type)
+        {
+            player.GetModPlayer<JoostPlayer>().skirtTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Skirt");
+            player.GetModPlayer<JoostPlayer>().betterShoulderTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_BetterShoulder");
+            //player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "HavelArmor", EquipType.Waist);
         }
         public override void UpdateEquip(Player player)
         {

@@ -15,6 +15,9 @@ namespace JoostMod.Projectiles.Melee
         int startup = 15;
         int active = 10;
         int endlag = 15;
+        float dmgMult = 1.3f;
+        float projMult = 1.2f;
+        float shockwaveMult = 3.5f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Warhammer of Grognak");
@@ -62,7 +65,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * 1.3f);
+            damage = (int)(damage * dmgMult);
             if (Projectile.ai[0] == 2)
             {
                 crit = true;
@@ -70,7 +73,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)(damage * 1.3f);
+            damage = (int)(damage * dmgMult);
             if (Projectile.ai[0] == 2)
             {
                 crit = true;
@@ -95,7 +98,8 @@ namespace JoostMod.Projectiles.Melee
                 else
                 {
                     Projectile.Kill();
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.ProjectileType<GrognakHammer2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.myPlayer == Projectile.owner)
+                        Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.ProjectileType<GrognakHammer2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
             var source = Projectile.GetSource_FromAI();
@@ -109,7 +113,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.velocity.Y = 0;
                 Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
                 Projectile.velocity.X = Projectile.direction;
-                Projectile.direction *= (int)player.gravDir;
+                //Projectile.direction *= (int)player.gravDir;
             }
             else
             {
@@ -124,7 +128,7 @@ namespace JoostMod.Projectiles.Melee
                 float rad = 0;
                 if (player.gravDir < 0)
                 {
-                    rad += 3.14f;
+                    rad += (float)(Math.PI + (Math.PI / 2 * Projectile.direction));
                 }
                 if (Projectile.ai[1] < startup)
                 {
@@ -134,7 +138,7 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.ai[0] = 2;
                         Projectile.ai[1] = 0;
                     }
-                    Projectile.rotation = player.fullRotation + (startup - Projectile.ai[1]) * 0.0174f * 5 * Projectile.direction + rad;
+                    Projectile.rotation = player.fullRotation + (startup - Projectile.ai[1]) * (float)(Math.PI / 180) * 5 * Projectile.direction * (int)player.gravDir + rad;
                 }
                 if (Projectile.ai[1] >= startup && (Projectile.ai[1] < startup + active || Projectile.localAI[1] == 1))
                 {
@@ -161,32 +165,33 @@ namespace JoostMod.Projectiles.Melee
                         {
                             Projectile.localNPCHitCooldown = active;
                             Projectile.localAI[1] = 1;
-                            Projectile.NewProjectile(source, player.Center, Projectile.velocity, ModContent.ProjectileType<GrognakBeam>(), (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, speed * 1.8f);
+                            if (Main.myPlayer == Projectile.owner)
+                                Projectile.NewProjectile(source, player.Center, Projectile.velocity, ModContent.ProjectileType<GrognakBeam>(), (int)(Projectile.damage * projMult), Projectile.knockBack, Projectile.owner, speed * 1.8f);
                         }
                         else
                         {
-                            Projectile.NewProjectile(source, player.Center, Projectile.velocity, ModContent.ProjectileType<GrognakBeam>(), (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, speed);
+                            if (Main.myPlayer == Projectile.owner)
+                                Projectile.NewProjectile(source, player.Center, Projectile.velocity, ModContent.ProjectileType<GrognakBeam>(), (int)(Projectile.damage * projMult), Projectile.knockBack, Projectile.owner, speed);
                         }
                     }
                     if (Projectile.localAI[1] == 1)
                     {
-                        player.fullRotation = (Projectile.ai[1] - startup) * 0.0174f * player.direction * (360 / (active + endlag));
+                        player.fullRotation = (Projectile.ai[1] - startup) * (float)(Math.PI/180) * player.direction * player.gravDir * (360 / (active + endlag));
                         player.mount.Dismount(player);
                     }
                     if (Projectile.ai[1] < startup + active)
                     {
-                        Projectile.rotation = player.fullRotation + (Projectile.ai[1] - startup) * 0.0174f * Projectile.direction * (180 / active) + rad;
+                        Projectile.rotation = player.fullRotation + (Projectile.ai[1] - startup) * (float)(Math.PI/180) * Projectile.direction * (int)player.gravDir * (180 / active) + rad;
                     }
                     else
                     {
-                        Projectile.rotation = player.fullRotation + 180 * 0.0174f * Projectile.direction + rad;
+                        Projectile.rotation = player.fullRotation + 180 * (float)(Math.PI/180) * Projectile.direction * (int)player.gravDir + rad;
                     }
                 }
                 if (Projectile.ai[1] >= startup + active + endlag)
                 {
                     Projectile.Kill();
                 }
-                Projectile.spriteDirection = Projectile.direction;
                 Projectile.timeLeft = 2;
                 if (Projectile.ai[1] < startup)
                 {
@@ -214,7 +219,7 @@ namespace JoostMod.Projectiles.Melee
                 }
                 player.itemRotation = 0;
             }
-            if (Projectile.ai[0] == 2)
+            if (Projectile.ai[0] == 2) // Leaping Shockwave
             {
                 if (Projectile.ai[1] < 1)
                 {
@@ -229,17 +234,16 @@ namespace JoostMod.Projectiles.Melee
                 {
                     Projectile.ai[1] += 3;
                 }
-                Projectile.spriteDirection = Projectile.direction;
                 Projectile.timeLeft = 2;
                 player.mount.Dismount(player);
                 if (player.gravDir == -1)
                 {
-                    Projectile.rotation = -(Projectile.ai[1] - 2) * 0.0174f * 7f * Projectile.direction - (float)(1.566 * player.direction);
+                    Projectile.rotation = -(Projectile.ai[1] - 2) * (float)(Math.PI/180) * 7f * Projectile.direction - (float)(1.566 * player.direction);
                     player.fullRotation = (float)(Projectile.rotation - 3.14 * player.direction);
                 }
                 else
                 {
-                    Projectile.rotation = (Projectile.ai[1] - 2) * 0.0174f * 7f * Projectile.direction;
+                    Projectile.rotation = (Projectile.ai[1] - 2) * (float)(Math.PI/180) * 7f * Projectile.direction;
                     player.fullRotation = (float)(Projectile.rotation - 1.566 * player.direction);
                 }
                 player.itemTime = (int)(player.itemAnimationMax * 0.6);
@@ -252,9 +256,20 @@ namespace JoostMod.Projectiles.Melee
                     Projectile.Kill();
                 }
             }
+            Projectile.spriteDirection = Projectile.direction * (int)player.gravDir;
             player.fullRotationOrigin = player.Center - player.position;
             int length = 50;
-            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f + new Vector2((float)Math.Cos(Projectile.rotation + 1.566 + 2.349 * Projectile.direction) * length * Projectile.scale, (float)Math.Sin(Projectile.rotation + 1.566 + 2.349 * Projectile.direction) * length * Projectile.scale);
+            //float r = Projectile.rotation * 180 / (float)Math.PI;
+            //Main.NewText(r, Color.Teal);
+
+            double rotate = (Projectile.rotation + 1.566 + 2.349 * Projectile.direction);
+            Vector2 vect = new Vector2((float)Math.Cos(rotate) * length * Projectile.scale, (float)Math.Sin(rotate) * length * Projectile.scale);
+            //vect.X *= (int)player.gravDir;
+
+            //r = vect.ToRotation() * 180 / (float)Math.PI;
+            //Main.NewText(r, Color.Purple);
+
+            Projectile.position = player.MountedCenter - Projectile.Size / 2f + vect;
             player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
             return false;
@@ -263,16 +278,21 @@ namespace JoostMod.Projectiles.Melee
         {
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
-            if (Projectile.direction == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
+            float rot = Projectile.rotation;
+            if (Main.player[Projectile.owner].gravDir < 0)
+            {
+                rot -= (float)(Math.PI/2 * Projectile.direction);
+            }
             Color color = lightColor;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, rot, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
 
-            Texture2D gemTex = ModContent.Request<Texture2D>("Projectiles/Melee/GrognakHammerGem").Value;
+            Texture2D gemTex = ModContent.Request<Texture2D>($"{Texture}_Gem").Value;
             Color gemColor = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f));
-            Main.EntitySpriteDraw(gemTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), gemColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
+            Main.EntitySpriteDraw(gemTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), gemColor, rot, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             return false;
         }
         public override void Kill(int timeLeft)
@@ -294,13 +314,16 @@ namespace JoostMod.Projectiles.Melee
                     dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-12, -6) * 0.4f;
                 }
                 SoundEngine.PlaySound(SoundID.Item70, Projectile.position);
-                if (player.gravDir == -1)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, ModContent.ProjectileType<GrogWaveFlipped>(), (int)(Projectile.damage * 3.5f), Projectile.knockBack * 2.5f, Projectile.owner);
-                }
-                else
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, ModContent.ProjectileType<GrogWave>(), (int)(Projectile.damage * 3.5f), Projectile.knockBack * 2.5f, Projectile.owner);
+                    if (player.gravDir == -1)
+                    {
+                        Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, ModContent.ProjectileType<GrogWaveFlipped>(), (int)(Projectile.damage * shockwaveMult), Projectile.knockBack * 2.5f, Projectile.owner);
+                    }
+                    else
+                    {
+                        Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center.X + 48 * Projectile.direction * Projectile.scale, Projectile.Center.Y, Projectile.direction * 8f, 0f, ModContent.ProjectileType<GrogWave>(), (int)(Projectile.damage * shockwaveMult), Projectile.knockBack * 2.5f, Projectile.owner);
+                    }
                 }
                 player.fullRotation = 0f;
             }

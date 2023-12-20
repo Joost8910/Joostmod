@@ -178,7 +178,13 @@ namespace JoostMod
         public int enemyIgnoreDefenseDamage = 0;
         private Vector2 oldVelocity = Vector2.Zero;
 
-        public bool drawOverArmor = false;
+        public Texture2D skirtTex = null;
+        public Texture2D betterShoulderTex = null;
+
+        public bool DrawOverArmor()
+        {
+            return havelArmorActive || pinkSlimeActive || slimeActive;
+        }
 
         public override void ResetEffects()
         {
@@ -279,7 +285,8 @@ namespace JoostMod
             dashDamage = 0;
             enemyIgnoreDefenseDamage = 0;
 
-            drawOverArmor = havelArmorActive || pinkSlimeActive || slimeActive;
+            skirtTex = null;
+            betterShoulderTex = null;
         }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)/* tModPorter Suggestion: Return an Item array to add to the players starting items. Use ModifyStartingInventory for modifying them if needed */
         {

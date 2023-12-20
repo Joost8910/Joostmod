@@ -6,22 +6,28 @@ using Microsoft.Xna.Framework;
 
 namespace JoostMod.PlayerLayers
 {
-    public class OverTorso : PlayerDrawLayer
+    public class OverArmBack : PlayerDrawLayer
     {
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
             return drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().DrawOverArmor();
         }
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Torso);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Skin);
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
             Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_NewBody");
-            Rectangle frame = drawInfo.compTorsoFrame;
-            float rot = drawPlayer.bodyRotation;
+            Rectangle frame = drawInfo.compBackArmFrame;
+            Rectangle frameS = drawInfo.compBackShoulderFrame;
+            float rot = drawPlayer.bodyRotation + drawInfo.compositeBackArmRotation;
             Vector2 drawPos = drawPlayer.bodyPosition;
-            Vector2 origin = drawInfo.bodyVect;
+            Vector2 vector2 = Main.OffsetsPlayerHeadgear[drawInfo.drawPlayer.bodyFrame.Y / drawInfo.drawPlayer.bodyFrame.Height];
+            vector2.Y -= 2f;
+            drawPos += vector2 * (float)(-(float)drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically).ToDirectionInt());
+            Vector2 compositeOffset_BackArm = new Vector2((float)(6 * ((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : -1)), (float)(2 * ((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically)) ? 1 : -1)));
+            Vector2 origin = drawInfo.bodyVect + compositeOffset_BackArm;
+            //drawPos += compositeOffset_BackArm;
             Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
 
             if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
@@ -42,6 +48,13 @@ namespace JoostMod.PlayerLayers
             if (drawPlayer.gravDir == -1f)
             {
                 effects |= SpriteEffects.FlipVertically;
+            }
+
+            if (!drawInfo.hideCompositeShoulders)
+            {
+                DrawData dataS = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frameS), color, drawPlayer.bodyRotation, origin, 1f, effects, 0);
+                dataS.shader = drawInfo.cBody;
+                drawInfo.DrawDataCache.Add(dataS);
             }
             DrawData data = new DrawData(tex, new Vector2((float)((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(frame.Width / 2) + (float)(drawPlayer.width / 2))), (float)((int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawPlayer.height - (float)frame.Height + 4f))) + drawPos + origin, new Rectangle?(frame), color, rot, origin, 1f, effects, 0);
             data.shader = drawInfo.cBody;

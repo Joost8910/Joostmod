@@ -51,6 +51,12 @@ Gnome Staff
 Skeleton Staff
 - Damage decreased from 17 to 16
 
+Warhammer of Grognak
+- Strong attack beam now has an additive 10% damage penalty per pierce, rather than a multiplicative -20%
+- Strong attack beam shockwave from striking a tile no longer suffers the piercing damage penalty
+- Reverse Gravity Shockwave damage mult increased from 50% to 85% of standard shockwave damage
+- Adjusted hitboxes
+
 --- Accessories ---
 Stone of Jordan
 - Updated Sprite

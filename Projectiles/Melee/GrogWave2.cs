@@ -94,7 +94,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.velocity.Y -= Projectile.knockBack * target.knockBackResist * Projectile.scale;
+            target.velocity.Y -= Projectile.knockBack * target.knockBackResist * Projectile.ai[1];
             if (target.knockBackResist > 0)
             {
                 target.velocity.X = 0;
@@ -105,17 +105,16 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
             {
-                target.velocity.Y -= Projectile.knockBack * Projectile.scale;
+                target.velocity.Y -= Projectile.knockBack * Projectile.ai[1];
             }
+        }
+        public override void ModifyDamageScaling(ref float damageScale)
+        {
+            damageScale *= Projectile.ai[1];
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * Projectile.scale);
             knockback = 0;
-        }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
-        {
-            damage = (int)(damage * Projectile.scale);
         }
         public override bool PreDraw(ref Color lightColor)
         {

@@ -332,7 +332,7 @@ namespace JoostMod.Projectiles.Grappling
                     {
                         effects = SpriteEffects.FlipHorizontally;
                     }
-                    Main.EntitySpriteDraw(ModContent.Request<Texture2D>("Projectiles/Grappling/CactusHookChain").Value, new Vector2(vector14.X - Main.screenPosition.X, vector14.Y - Main.screenPosition.Y), new Rectangle?(new Rectangle(0, 0, TextureAssets.Chain30.Value.Width, TextureAssets.Chain30.Value.Height)), color15, rotation13, new Vector2(TextureAssets.Chain30.Value.Width * 0.5f, TextureAssets.Chain30.Value.Height * 0.5f), 1f, effects, 0);
+                    Main.EntitySpriteDraw(ModContent.Request<Texture2D>($"{Texture}_Chain").Value, new Vector2(vector14.X - Main.screenPosition.X, vector14.Y - Main.screenPosition.Y), new Rectangle?(new Rectangle(0, 0, TextureAssets.Chain30.Value.Width, TextureAssets.Chain30.Value.Height)), color15, rotation13, new Vector2(TextureAssets.Chain30.Value.Width * 0.5f, TextureAssets.Chain30.Value.Height * 0.5f), 1f, effects, 0);
                 }
             }
             return true;

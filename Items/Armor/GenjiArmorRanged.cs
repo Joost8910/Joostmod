@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,6 +22,11 @@ namespace JoostMod.Items.Armor
             Item.value = 10000000;
             Item.rare = ItemRarityID.Purple;
             Item.defense = 30;
+        }
+        public override void EquipFrameEffects(Player player, EquipType type)
+        {
+            player.GetModPlayer<JoostPlayer>().skirtTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Skirt");
+            player.GetModPlayer<JoostPlayer>().betterShoulderTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_BetterShoulder");
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

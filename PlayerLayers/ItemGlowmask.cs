@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using JoostMod.Items;
 using Terraria.GameContent;
+using Terraria.ID;
 
 namespace JoostMod.PlayerLayers
 {
@@ -12,9 +13,10 @@ namespace JoostMod.PlayerLayers
     {
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            if (drawInfo.drawPlayer.HeldItem.TryGetGlobalItem<JoostGlobalItem>(out JoostGlobalItem jgi))
+            Player player = drawInfo.drawPlayer;
+            if (player.HeldItem.TryGetGlobalItem<JoostGlobalItem>(out JoostGlobalItem jgi))
             {
-                return jgi.glowmaskTex != null;
+                return jgi.glowmaskTex != null && player.HeldItem.type != ItemID.None && !player.HeldItem.noUseGraphic && (player.itemAnimation > 0 || player.HeldItem.holdStyle == 1);
             }
             return false;
         }

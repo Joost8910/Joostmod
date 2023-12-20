@@ -20,7 +20,7 @@ namespace JoostMod.Projectiles.Melee
         {
             Projectile.width = 30;
             Projectile.height = 30;
-            Projectile.aiStyle = -1;
+            Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 3;
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             hitDirection = target.Center.X < player.Center.X ? -1 : 1;
         }
-        public override void AI()
+        public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.timeLeft % 6 == 0)
@@ -67,6 +67,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
             Projectile.direction = Projectile.velocity.X < 0 ? -1 : 1;
             Projectile.spriteDirection = Projectile.direction;
+            return false;
         }
         public override void Kill(int timeLeft)
         {

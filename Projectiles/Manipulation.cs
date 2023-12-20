@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Hunts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +34,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return target.friendly && Main.myPlayer == Projectile.owner && Main.mouseRight && target.type != Mod.Find<ModNPC>("FireBall").Type;
+            return target.friendly && Main.myPlayer == Projectile.owner && Main.player[Projectile.owner].controlUseTile && target.type != ModContent.NPCType<FireBall>();
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

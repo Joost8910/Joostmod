@@ -14,6 +14,7 @@ namespace JoostMod.Projectiles.Melee
         {
             DisplayName.SetDefault("Warhammer of Grognak");
         }
+        float mult = 0.85f;
         public override void SetDefaults()
         {
             Projectile.width = 36;
@@ -46,7 +47,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.velocity.Y += Projectile.knockBack * target.knockBackResist * Projectile.scale;
+            target.velocity.Y += Projectile.knockBack * target.knockBackResist * Projectile.ai[1] * mult;
             if (target.knockBackResist > 0)
             {
                 target.velocity.X = 0;
@@ -60,14 +61,13 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.Y += Projectile.knockBack * Projectile.scale;
             }
         }
+        public override void ModifyDamageScaling(ref float damageScale)
+        {
+            damageScale *= Projectile.ai[1] * mult;
+        }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * Projectile.scale);
-            knockback = knockback * Projectile.scale;
-        }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
-        {
-            damage = (int)(damage * Projectile.scale);
+            knockback *= Projectile.ai[1] * mult;
         }
         public override bool PreDraw(ref Color lightColor)
         {

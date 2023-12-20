@@ -56,7 +56,8 @@ namespace JoostMod.Projectiles.Melee
                         dust.velocity.Y = (dust.velocity.Y - 5) * Main.rand.NextFloat();
                     }
                     SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 32 + (int)(-56 * Projectile.ai[1]), 0, 0, ModContent.ProjectileType<GrogWave2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
+                    if (Main.myPlayer == Projectile.owner)
+                        Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 32 + (int)(-56 * Projectile.ai[1]), 0, 0, ModContent.ProjectileType<GrogWave2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
                 }
             }
         }

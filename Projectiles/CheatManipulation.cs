@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return Main.myPlayer == Projectile.owner && Main.mouseRight;
+            return Main.myPlayer == Projectile.owner && Main.player[Projectile.owner].controlUseTile;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
