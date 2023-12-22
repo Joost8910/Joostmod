@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using JoostMod.Items.Legendaries;
 using JoostMod.Projectiles.Fishhooks;
 using JoostMod.Projectiles.Ranged;
+using Terraria.GameContent.Events;
 
 namespace JoostMod.Items.Legendaries.Weps
 {
@@ -19,7 +20,7 @@ namespace JoostMod.Items.Legendaries.Weps
         {
             DisplayName.SetDefault("Uncle Carius's Fishing Pole");
             Tooltip.SetDefault("'This is the pole of ol' Uncle Carius\n" +
-            "Does more damage and fires more hooks as you kill bosses throughout the game\n" +
+            "Deals more damage and throws more hooks as you kill bosses throughout the game\n" +
             "Fishing power is equivelent to damage\n" +
             "Right click to throw some fish, velocity increases with boss progression");
         }
@@ -39,8 +40,8 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.autoReuse = false;
             Item.shoot = ModContent.ProjectileType<UncleCariusHook>();
             Item.shootSpeed = 17f;
-            //item.fishingPole = 100; 
-            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/Weps/UncleCariusPole_String");
+            Item.fishingPole = 100; 
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_String");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
@@ -94,6 +95,7 @@ namespace JoostMod.Items.Legendaries.Weps
                 mult *= JoostGlobalItem.LegendaryDamage() * 0.08f;
             }
             damage *= mult;
+            Item.fishingPole = (int)damage.ApplyTo(100);
         }
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
@@ -162,29 +164,84 @@ namespace JoostMod.Items.Legendaries.Weps
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //TODO: Update this to include 1.4 bosses
-            int num = 3 + //3
-                (NPC.downedSlimeKing ? 1 : 0) + //4
-                (NPC.downedBoss1 ? 1 : 0) + //5
-                (NPC.downedBoss2 ? 1 : 0) + //6
-                (NPC.downedQueenBee ? 1 : 0) + //7
-                (NPC.downedBoss3 ? 1 : 0) + // 8
-                (JoostWorld.downedCactusWorm ? 1 : 0) +//9
-                (Main.hardMode ? 1 : 0) + //10
-                (NPC.downedMechBoss1 ? 1 : 0) + //11
-                (NPC.downedMechBoss2 ? 1 : 0) + //12
-                (NPC.downedMechBoss3 ? 1 : 0) + //13
-                (NPC.downedPlantBoss ? 1 : 0) + //14
-                (NPC.downedGolemBoss ? 1 : 0) + //15
-                (NPC.downedFishron ? 1 : 0) + //16
-                (NPC.downedAncientCultist ? 1 : 0) + //17
-                (NPC.downedTowerNebula ? 1 : 0) + //18
-                (NPC.downedTowerSolar ? 1 : 0) + //19
-                (NPC.downedTowerVortex ? 1 : 0) + //20
-                (NPC.downedTowerStardust ? 1 : 0) + //21
-                (NPC.downedMoonlord ? 4 : 0) + //25
-                (JoostWorld.downedJumboCactuar ? 5 : 0) + //30
-                (JoostWorld.downedSAX ? 5 : 0) + //35
-                (JoostWorld.downedGilgamesh ? 5 : 0); //40
+            /*
+            int num = 3 +                                   //3
+                (NPC.downedSlimeKing ? 1 : 0) +             //4
+                (NPC.downedBoss1 ? 1 : 0) +                 //5
+                (NPC.downedBoss2 ? 1 : 0) +                 //6
+                (NPC.downedQueenBee ? 1 : 0) +              //7
+                (NPC.downedBoss3 ? 1 : 0) +                 //8
+                (JoostWorld.downedCactusWorm ? 1 : 0) +     //9
+                (Main.hardMode ? 1 : 0) +                   //10
+                (NPC.downedMechBoss1 ? 1 : 0) +             //11
+                (NPC.downedMechBoss2 ? 1 : 0) +             //12
+                (NPC.downedMechBoss3 ? 1 : 0) +             //13
+                (NPC.downedPlantBoss ? 1 : 0) +             //14
+                (NPC.downedGolemBoss ? 1 : 0) +             //15
+                (NPC.downedFishron ? 1 : 0) +               //16
+                (NPC.downedAncientCultist ? 1 : 0) +        //17
+                (NPC.downedTowerNebula ? 1 : 0) +           //18
+                (NPC.downedTowerSolar ? 1 : 0) +            //19
+                (NPC.downedTowerVortex ? 1 : 0) +           //20
+                (NPC.downedTowerStardust ? 1 : 0) +         //21
+                (NPC.downedMoonlord ? 4 : 0) +              //25
+                (JoostWorld.downedJumboCactuar ? 5 : 0) +   //30
+                (JoostWorld.downedSAX ? 5 : 0) +            //35
+                (JoostWorld.downedGilgamesh ? 5 : 0);       //40
+            */
+
+            float huntValue = 0.2f;
+            float eventValue = 0.5f;
+            float fNum = 1 +                                            //1
+            (JoostWorld.downedPinkzor ? huntValue : 0f) +               //1.2
+            (JoostWorld.downedRogueTomato ? huntValue : 0f) +           //1.4
+            (JoostWorld.downedWoodGuardian ? huntValue : 0f) +          //1.6
+                    (NPC.downedSlimeKing ? 1 : 0) +                     //2.6
+            (JoostWorld.downedFloweringCactoid ? huntValue : 0f) +      //2.8
+                (NPC.downedGoblins ? eventValue : 0f) +                 //3.3
+                    (NPC.downedBoss1 ? 1 : 0) +                         //4.3
+            (JoostWorld.downedICU ? huntValue : 0f) +                   //4.5
+                    (NPC.downedBoss2 ? 1 : 0) +                         //5.5
+            (JoostWorld.downedSporeSpawn ? huntValue : 0f) +            //5.7
+                (DD2Event.DownedInvasionT1 ? eventValue : 0f) +         //6.2
+                    (NPC.downedQueenBee ? 1 : 0) +                      //7.2
+            (JoostWorld.downedRoc ? huntValue : 0f) +                   //7.4
+                    (NPC.downedBoss3 ? 1 : 0) +                         //8.4
+            (JoostWorld.downedSkeletonDemoman ? huntValue : 0f) +       //7.6
+                    (NPC.downedDeerclops ? 1 : 0f) +                    //8.6
+                    (JoostWorld.downedCactusWorm ? 1 : 0) +             //9.6
+            (JoostWorld.downedImpLord ? huntValue : 0f) +               //9.8
+                    (Main.hardMode ? 1 : 0) +                           //10.8
+                (NPC.downedPirates ? eventValue : 0f) +                 //11.3
+            (JoostWorld.downedStormWyvern ? huntValue : 0f) +           //11.5
+                    (NPC.downedQueenSlime ? 1 : 0f) +                   //12.5
+                    (NPC.downedMechBoss1 ? 1 : 0) +                     //13.5
+                    (NPC.downedMechBoss2 ? 1 : 0) +                     //14.5
+                    (NPC.downedMechBoss3 ? 1 : 0) +                     //15.5                                         
+                (DD2Event.DownedInvasionT2 ? eventValue : 0f) +         //16
+                    (NPC.downedPlantBoss ? 1 : 0) +                     //17
+                    (NPC.downedGolemBoss ? 1 : 0) +                     //18
+                    (NPC.downedFishron ? 1 : 0) +                       //19
+                (NPC.downedMartians ? eventValue : 0f) +                //19.5
+            (NPC.downedHalloweenTree ? 0.2f : 0f) +                     //19.7
+            (NPC.downedHalloweenKing ? 0.2f : 0f) +                     //19.9
+            (NPC.downedChristmasTree ? 0.2f : 0f) +                     //21.1
+            (NPC.downedChristmasSantank ? 0.2f : 0f) +                  //21.3
+            (NPC.downedChristmasIceQueen ? 0.2f : 0f) +                 //21.5
+                    (NPC.downedEmpressOfLight ? 1 : 0f) +               //22.5
+                (DD2Event.DownedInvasionT3 ? 1 : 0f) +                  //23
+                    (NPC.downedAncientCultist ? 1 : 0) +                //24
+            (NPC.downedTowerNebula ? 0.25f : 0) +                       //24.25
+            (NPC.downedTowerSolar ? 0.25f : 0) +                        //24.5
+            (NPC.downedTowerVortex ? 0.25f : 0) +                       //24.75
+            (NPC.downedTowerStardust ? 0.25f : 0) +                     //25
+                    (NPC.downedMoonlord ? 3 : 0) +                      //28
+                    (JoostWorld.downedJumboCactuar ? 3 : 0) +           //31
+                    (JoostWorld.downedSAX ? 4 : 0) +                    //35
+                    (JoostWorld.downedGilgamesh ? 5 : 0);               //40
+            int num = (int)fNum;
+            Main.NewText(fNum, Color.Violet);
+            Main.NewText(num, Color.LightSeaGreen);
             if (player.altFunctionUse == 2)
             {
                 int numberProjectiles = 4 + Main.rand.Next(3);

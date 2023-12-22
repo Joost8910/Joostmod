@@ -1,10 +1,11 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
 
 namespace JoostMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Face)]
+    //[AutoloadEquip(EquipType.Face)]
     public class GlowingContacts : ModItem
 	{
 		public override void SetStaticDefaults()
@@ -16,7 +17,7 @@ namespace JoostMod.Items.Accessories
                 "Place in slot 4 for a closed-helm texture\n" +
                 "Place in slot 5 for a raised closed-helm texture\n" +
                 "Place in slot 6 for genji helm texture");
-            ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[Item.faceSlot] = true;
+            //ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[Item.faceSlot] = true;
 		}
 		public override void SetDefaults()
 		{
@@ -26,6 +27,7 @@ namespace JoostMod.Items.Accessories
 			Item.rare = ItemRarityID.Green;
 			Item.accessory = true;
             Item.vanity = true;
+            Item.canBePlacedInVanityRegardlessOfConditions = true;
 		}
         /*
         public override void EquipFrameEffects(Player player, EquipType type)
@@ -48,7 +50,12 @@ namespace JoostMod.Items.Accessories
             }
             Lighting.AddLight((int)pos.X, (int)pos.Y, 0.05f, 0.19f, 0.02f);
             */
-            Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.position.Y / 16f), 0.01f, 0.05f, 0.005f);
+            Vector2 pos = new Vector2(player.Center.X + player.direction * 3, player.position.Y + 8);
+            if (player.gravDir < 0)
+            {
+                pos.Y = player.position.Y + player.height - 8;
+            }
+            Lighting.AddLight((int)(pos.X / 16f), (int)(pos.Y / 16f), 0.02f, 0.1f, 0.01f);
             if (hideVisual)
             {
                 player.GetModPlayer<JoostPlayer>().glowEyeNoGlow = true;

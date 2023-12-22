@@ -6,6 +6,11 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Terraria.Utilities;
+using JoostMod.Items.Accessories;
+using JoostMod.Items.Mounts;
+using JoostMod.Items.Tools;
+using JoostMod.Items.Weapons.Melee;
+using JoostMod.Items.Weapons.Magic;
 
 namespace JoostMod
 {
@@ -224,13 +229,13 @@ namespace JoostMod
                         switch (gen)
                         {
                             case 3:
-                                id = Mod.Find<ModItem>("GlowingContacts").Type;
+                                id = ModContent.ItemType<GlowingContacts>();
                                 break;
                             case 6:
-                                id = Mod.Find<ModItem>("ClawedGauntlet").Type;
+                                id = ModContent.ItemType<ClawedGauntlet>();
                                 break;
                             case 11:
-                                id = Mod.Find<ModItem>("DirtBoard").Type;
+                                id = ModContent.ItemType<DirtBoardItem>();
                                 break;
                             default:
                                 break;
@@ -242,13 +247,13 @@ namespace JoostMod
                         switch (gen)
                         {
                             case 0:
-                                id = Mod.Find<ModItem>("SapSpell").Type;
+                                id = ModContent.ItemType<SapSpell>();
                                 break;
                             case 1:
-                                id = Mod.Find<ModItem>("DivineMirror").Type;
+                                id = ModContent.ItemType<DivineMirror>();
                                 break;
                             case 4:
-                                id = Mod.Find<ModItem>("ActualMace").Type;
+                                id = ModContent.ItemType<ActualMace>();
                                 break;
                             default:
                                 break;

@@ -22,7 +22,7 @@ namespace JoostMod.PlayerLayers
             Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
             Rectangle frame = drawPlayer.bodyFrame;
             float rot = drawPlayer.headRotation;
-            Vector2 drawPos = drawPlayer.bodyPosition;
+            Vector2 drawPos = drawPlayer.headPosition;
             Vector2 origin = drawInfo.headVect;
             Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
 

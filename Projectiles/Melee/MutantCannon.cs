@@ -143,6 +143,9 @@ namespace JoostMod.Projectiles.Melee
             player.itemTime = 10;
             player.itemAnimation = 10;
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
+
+            float armRot = player.itemRotation - (float)Math.PI / 2 * player.direction;
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.None, armRot);
             return false;
         }
         public override bool PreDraw(ref Color lightColor)

@@ -211,10 +211,10 @@ namespace JoostMod.Projectiles.Minions
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             Rectangle rectangle = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, (tex.Height / Main.projFrames[Projectile.type]));
 
-            Texture2D tex2 = ModContent.Request<Texture2D>("Projectiles/Minions/PowerSpirit_T1").Value;
+            Texture2D tex2 = ModContent.Request<Texture2D>($"{Texture}_T1").Value;
             Rectangle rectangle2 = new Rectangle(0, 0, tex2.Width, (tex2.Height / 8));
 
-            Texture2D tex3 = ModContent.Request<Texture2D>("Projectiles/Minions/PowerSpirit_T2").Value;
+            Texture2D tex3 = ModContent.Request<Texture2D>($"{Texture}_T2").Value;
             Rectangle rectangle3 = new Rectangle(0, 0, tex3.Width, (tex3.Height / 16));
             
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, tex.Height / 2 - Projectile.height / 2), new Rectangle?(rectangle), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);

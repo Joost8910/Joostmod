@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JoostMod.Items.Legendaries.Weps;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -138,7 +139,7 @@ namespace JoostMod.Projectiles.Fishhooks
                 int type = Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].type;
                 float gravDir = Main.player[Projectile.owner].gravDir;
 
-                if (type == Mod.Find<ModItem>("UncleCariusPole").Type) //add your Fishing Pole name here
+                if (type == ModContent.ItemType<UncleCariusPole>()) //add your Fishing Pole name here
                 {
                     pPosX += 40 * Main.player[Projectile.owner].direction;
                     if (player.direction < 0)

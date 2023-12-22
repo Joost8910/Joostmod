@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace JoostMod.Items.Weapons.Melee
 {
-    public class Claw : ModItem
+    public class ClawedGauntlet : ModItem
     {
         public override void SetStaticDefaults()
         {

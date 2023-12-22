@@ -24,9 +24,9 @@ namespace JoostMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 600;
             Projectile.alpha = 75;
-            Projectile.light = 0.7f;
+            Projectile.light = 0.2f;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -42,12 +42,16 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.direction = target.velocity.X > 0 ? 1 : target.velocity.X < 0 ? -1 : Projectile.direction;
                 Projectile.position = target.Center - Projectile.Size / 2;
                 Projectile.velocity = target.velocity / 2;
-                if (target.velocity.X == 0 || target.velocity.Y == 0 || Projectile.timeLeft < 175 && Collision.SolidCollision(target.position - new Vector2(2, 2), target.width + 4, target.height + 4))
+                if (target.velocity.X == 0 || target.velocity.Y == 0 || Projectile.timeLeft < 595 && Collision.SolidCollision(target.position - new Vector2(2, 2), target.width + 4, target.height + 4))
                 {
                     Projectile.ai[0] = -1;
                     Projectile.ai[1] = -1;
                     Projectile.timeLeft = 2;
                     Projectile.velocity = Vector2.Zero;
+                }
+                if (target.noGravity && target.velocity.Length() < 2)
+                {
+                    Projectile.Kill();
                 }
             }
             else if (Projectile.ai[1] >= 0 && Main.player[(int)Projectile.ai[1]].active)

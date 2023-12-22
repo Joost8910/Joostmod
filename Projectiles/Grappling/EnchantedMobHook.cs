@@ -417,7 +417,7 @@ namespace JoostMod.Projectiles.Grappling
                     player.wingTime = wingTime;
                     if (hitMob < 0)
                     {
-                    player.RefreshMovementAbilities();
+                        player.RefreshMovementAbilities();
                     }
                     if (!player.controlDown && player.velocity.Y > -Player.jumpSpeed)
                     {

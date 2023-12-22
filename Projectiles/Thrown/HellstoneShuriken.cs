@@ -27,7 +27,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.penetrate = 3;
             Projectile.timeLeft = 600;
             Projectile.alpha = 5;
-            Projectile.light = 0.5f;
+            //Projectile.light = 0.5f;
             Projectile.extraUpdates = 1;
             AIType = ProjectileID.Shuriken;
             Projectile.usesLocalNPCImmunity = true;
@@ -45,11 +45,18 @@ namespace JoostMod.Projectiles.Thrown
                     Projectile.Kill();
                 }
             }
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, TorchID.Orange, 0.5f);
         }
         public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
         {
             Player owner = Main.player[Projectile.owner];
             n.AddBuff(24, 180);
+        }
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 4; i++)
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare, Projectile.velocity.X / 10, Projectile.velocity.Y / 10, 100, default, 1f);
+            
         }
 
     }

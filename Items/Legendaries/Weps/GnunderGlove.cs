@@ -1,3 +1,4 @@
+//TODO: Change up the method for throwing the giant shuriken, the dodge jump makes aiming a slow multihit frustrating
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -115,6 +116,19 @@ namespace JoostMod.Items.Legendaries.Weps
             }
             return base.CanUseItem(player);
         }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            if (player.altFunctionUse == 0)
+            {
+                float spread = 15f * 0.0174f;
+                float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+                double baseAngle = Math.Atan2(velocity.X, velocity.Y);
+                double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
+                velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+                velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
+            }
+        }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
@@ -150,15 +164,6 @@ namespace JoostMod.Items.Legendaries.Weps
                         Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, knockback, player.whoAmI);
                     }
                 }
-            }
-            else
-            {
-                float spread = 15f * 0.0174f;
-                float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
-                double baseAngle = Math.Atan2(velocity.X, velocity.Y);
-                double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-                velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
-                velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
             }
             return player.altFunctionUse == 0;
         }

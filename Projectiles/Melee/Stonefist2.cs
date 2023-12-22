@@ -45,33 +45,11 @@ namespace JoostMod.Projectiles.Melee
         }
         private void JumpOff(Player player)
         {
-            player.velocity.X = player.direction * -6;
-            player.velocity.Y = player.gravDir * -10;
-            player.wingTime = player.wingTimeMax;
-            if (player.hasJumpOption_Cloud)
-            {
-                player.canJumpAgain_Cloud = true;
-            }
-            if (player.hasJumpOption_Sandstorm)
-            {
-                player.canJumpAgain_Sandstorm = true;
-            }
-            if (player.hasJumpOption_Blizzard)
-            {
-                player.canJumpAgain_Blizzard = true;
-            }
-            if (player.hasJumpOption_Fart)
-            {
-                player.canJumpAgain_Fart = true;
-            }
-            if (player.hasJumpOption_Sail)
-            {
-                player.canJumpAgain_Sail = true;
-            }
-            if (player.hasJumpOption_Unicorn)
-            {
-                player.canJumpAgain_Unicorn = true;
-            }
+            if (player.velocity.X * player.direction > -6)
+                player.velocity.X = player.direction * -6;
+            if (player.velocity.Y * player.gravDir > -6)
+                player.velocity.Y = player.gravDir * -6;
+            player.RefreshMovementAbilities();
             if (player.immuneTime < 10)
             {
                 player.immune = true;
@@ -174,6 +152,13 @@ namespace JoostMod.Projectiles.Melee
                             target.GetGlobalNPC<NPCs.JoostGlobalNPC>().immunePlayer = player.whoAmI;
                             target.velocity = player.velocity;
                             target.netUpdate = true;
+                            if (Projectile.timeLeft < 30)
+                            {
+                                int d = (Projectile.timeLeft % 6) / 3;
+                                target.position.X += d * 2 * player.direction;
+                                if (Projectile.timeLeft % 2 == 0)
+                                    Dust.NewDust(target.position, target.width, target.height, DustID.Stone, d * 3);
+                            }
                             if (Projectile.timeLeft < 2)
                             {
                                 target.velocity.X = player.direction * 4;
@@ -236,7 +221,8 @@ namespace JoostMod.Projectiles.Melee
                                     ModPacket netMessage = packet;
                                     netMessage.Send(-1, player.whoAmI);
                                 }
-                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                                if (Main.myPlayer == Projectile.owner)
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
                                 if (player.immuneTime < 10)
                                 {
                                     player.immune = true;
@@ -271,6 +257,28 @@ namespace JoostMod.Projectiles.Melee
                     if (player.controlUseItem || Projectile.localAI[0] == 2)
                     {
                         target.position = Projectile.Center + new Vector2(-target.width / 2, player.gravDir > 0 ? -target.height : 0);
+
+                        if (Projectile.timeLeft < 30)
+                        {
+                            int d = (Projectile.timeLeft % 6) / 3;
+                            target.position.X += d * 2 * player.direction;
+                            if (Projectile.timeLeft % 2 == 0)
+                                Dust.NewDust(target.position, target.width, target.height, DustID.Stone, d * 3);
+                        }
+                        if (Projectile.timeLeft < 2)
+                        {
+                            target.velocity.X = player.direction * 4;
+                            target.velocity.Y = player.gravDir * -2;
+                            if (player.immuneTime < 10)
+                            {
+                                player.immune = true;
+                                player.immuneNoBlink = false;
+                                player.immuneTime = 10;
+                            }
+                            Projectile.ai[1] = -1;
+                            Projectile.ai[0] = -1;
+                            Projectile.timeLeft = 15;
+                        }
                         if (player.controlUseTile)
                         {
                             Projectile.localAI[0] = 2;
@@ -332,7 +340,8 @@ namespace JoostMod.Projectiles.Melee
                                 ModPacket netMessage2 = packet2;
                                 netMessage2.Send(-1, Projectile.owner);
                             }
-                            Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, player.velocity + aim * Projectile.knockBack, ModContent.ProjectileType<GrabThrow>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
+                            if (Main.myPlayer == Projectile.owner)
+                                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, player.velocity + aim * Projectile.knockBack, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
                             if (player.immuneTime < 10)
                             {
                                 player.immune = true;
@@ -394,6 +403,9 @@ namespace JoostMod.Projectiles.Melee
             player.itemTime = 10;
             player.itemAnimation = 10;
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
+
+            float armRot = player.itemRotation - (float)Math.PI / 2 * player.direction;
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.None, armRot);
             return false;
         }
         public override bool PreDraw(ref Color lightColor)
@@ -451,7 +463,7 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[1] == 1 && target.life > 0 && target.knockBackResist > 0)
             {
-                Projectile.timeLeft = 120;
+                Projectile.timeLeft = 180;
                 Projectile.localAI[1] = target.whoAmI;
                 Projectile.ai[0] = -1;
                 Projectile.ai[1] = 2;

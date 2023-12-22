@@ -66,7 +66,7 @@ namespace JoostMod.Projectiles.Accessory
 
                 for (int i = 0; i < 100; i++)
                 {
-                    if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
+                    if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)
                     {
                         Main.combatText[i].active = false;
                         break;
@@ -146,7 +146,7 @@ namespace JoostMod.Projectiles.Accessory
 
                 for (int i = 0; i < 100; i++)
                 {
-                    if (Main.combatText[i].active && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
+                    if (Main.combatText[i].active && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)
                     {
                         Main.combatText[i].active = false;
                         break;

@@ -10,7 +10,8 @@ namespace JoostMod.PlayerLayers
     {
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            return drawInfo.drawPlayer.shield == (sbyte)EquipLoader.GetEquipSlot(JoostMod.instance, "HavelsGreatshield", EquipType.Shield);
+            Player p = drawInfo.drawPlayer;
+            return p.shield == (sbyte)EquipLoader.GetEquipSlot(JoostMod.instance, "HavelsGreatshield", EquipType.Shield) && !p.GetModPlayer<JoostPlayer>().havelBlocking;
         }
         public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.Backpacks, PlayerDrawLayers.Tails);
 

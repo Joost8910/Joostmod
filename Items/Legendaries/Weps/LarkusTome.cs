@@ -44,7 +44,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.shootSpeed = 7f;
             Item.buffType = ModContent.BuffType<Buffs.PowerSpirit>();
             Item.buffTime = 3600;
-            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/Weps/LarkusTome_Glow");
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Glow");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
@@ -91,10 +91,12 @@ namespace JoostMod.Items.Legendaries.Weps
         {
             return true;
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             if (player.ownedProjectileCounts[type] > 0)
             {
                 float slots = 0;

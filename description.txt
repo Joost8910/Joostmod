@@ -32,6 +32,11 @@ Bone Hurting Juice
 
 Brawler's Glove
 - Punching player velocity no longer scaled with knockback
+- Adjusted hitboxes
+
+Stone Fist
+- Left click now only applies impact throw on critical hits
+- Right click grab time limit increased from 2 to 3 seconds
 
 Ember Staff
 - Damage decreased from 6 to 5

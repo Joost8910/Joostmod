@@ -149,6 +149,9 @@ namespace JoostMod.Projectiles.Melee
             player.itemTime = 10;
             player.itemAnimation = 10;
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
+
+            float armRot = player.itemRotation - (float)Math.PI / 2 * player.direction;
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.None, armRot);
             return false;
         }
         public override bool PreDraw(ref Color lightColor)
@@ -198,13 +201,13 @@ namespace JoostMod.Projectiles.Melee
             {
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_1"), Projectile.Center); // 208
             }
-            if (target.knockBackResist > 0 && Projectile.ai[0] >= 1)
+            if (Main.myPlayer == Projectile.owner && crit && target.knockBackResist > 0 && Projectile.ai[0] >= 1)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, target.whoAmI);
             }
             for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 1);
+                Dust.NewDust(target.position, target.width, target.height, DustID.Stone);
             }
             target.velocity += Projectile.velocity / 10 * knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
         }
@@ -225,13 +228,13 @@ namespace JoostMod.Projectiles.Melee
             {
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_1"), Projectile.Center); // 208
             }
-            if (Projectile.ai[0] >= 1)
+            if (Main.myPlayer == Projectile.owner && crit && Projectile.ai[0] >= 1)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
             }
             for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 1);
+                Dust.NewDust(target.position, target.width, target.height, DustID.Stone);
             }
             if (!target.noKnockback)
             {

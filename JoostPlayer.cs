@@ -406,7 +406,7 @@ namespace JoostMod
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "PumpkinGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == ModContent.ItemType<StoneFist>())
+            if (Player.HeldItem.type == ModContent.ItemType<StoneFist>() && Player.itemAnimation == 0)
             {
                 Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "StoneFist", EquipType.HandsOff);
             }
@@ -418,7 +418,7 @@ namespace JoostMod
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "SandGlove", EquipType.HandsOn);
             }
-            if (Player.HeldItem.type == ModContent.ItemType<Items.Weapons.Melee.MutantCannon>())
+            if (Player.HeldItem.type == ModContent.ItemType<Items.Weapons.Melee.MutantCannon>() && Player.itemAnimation == 0)
             {
                 Player.handoff = (sbyte)EquipLoader.GetEquipSlot(Mod, "MutantCannon", EquipType.HandsOff);
             }
@@ -2349,9 +2349,9 @@ namespace JoostMod
                 havelBlocking = true;
                 if (Player.ownedProjectileCounts[ModContent.ProjectileType<HavelShield>()] < 1)
                 {
-                    var source = Player.GetSource_Accessory(bubbleShieldItem);
-                    int damage = Player.GetWeaponDamage(bubbleShieldItem);
-                    float knockback = Player.GetWeaponKnockback(bubbleShieldItem);
+                    var source = Player.GetSource_Accessory(havelShieldItem);
+                    int damage = Player.GetWeaponDamage(havelShieldItem);
+                    float knockback = Player.GetWeaponKnockback(havelShieldItem);
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0, 0, ModContent.ProjectileType<HavelShield>(), damage, knockback, Player.whoAmI);
                 }
                 if (Math.Abs(Player.velocity.X) < Player.maxRunSpeed * 1.2f)

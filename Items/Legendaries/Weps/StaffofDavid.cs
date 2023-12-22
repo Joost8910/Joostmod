@@ -40,7 +40,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.shootSpeed = 14f;
             Item.shoot = ModContent.ProjectileType<DavidLaser>();
             Item.value = 300000;
-            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Items/Legendaries/Weps/StaffofDavidCrystal");
+            Item.GetGlobalItem<JoostGlobalItem>().glowmaskTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Crystal");
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

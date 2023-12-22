@@ -25,7 +25,6 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -69,6 +68,7 @@ namespace JoostMod.Projectiles.Ranged
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             bool channeling = (player.controlUseItem || player.controlUseTile) && player.inventory[player.selectedItem].shoot == Projectile.type && !player.dead && !player.noItems && !player.CCed;
+//            Main.NewText(channeling);
             if (channeling)
             {
                 if (Main.myPlayer == Projectile.owner)
@@ -205,7 +205,7 @@ namespace JoostMod.Projectiles.Ranged
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height / Main.projFrames[Projectile.type] * 0.5f);
             Rectangle? rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 
-            Texture2D barrelTex = ModContent.Request<Texture2D>("Projectiles/BoookBulletHell_Barrel").Value;
+            Texture2D barrelTex = ModContent.Request<Texture2D>($"{Texture}_Barrel").Value;
             Vector2 offSet = new Vector2(46, -6 * Projectile.direction);
             offSet = offSet.RotatedBy(Projectile.rotation + (Projectile.direction == -1 ? 3.14f : 0));
             float rot = Projectile.rotation + MathHelper.ToRadians(Projectile.localAI[1]) * Projectile.direction;
@@ -220,7 +220,7 @@ namespace JoostMod.Projectiles.Ranged
             if (Main.myPlayer == Projectile.owner)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                Texture2D tex = ModContent.Request<Texture2D>("Projectiles/BoookBulletHell_Gear").Value;
+                Texture2D tex = ModContent.Request<Texture2D>($"{Texture}_Gear").Value;
                 Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height / 3 * 0.5f);
                 Rectangle? rect = new Rectangle(0, tex.Height / 3 * (int)Projectile.ai[1], tex.Width, tex.Height / 3);
                 Vector2 drawPos = new Vector2(Main.player[Projectile.owner].Center.X - 20, Main.player[Projectile.owner].position.Y - 18);
@@ -228,13 +228,13 @@ namespace JoostMod.Projectiles.Ranged
                 Color color = Color.White;
                 Main.EntitySpriteDraw(tex, drawPos - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, 0, drawOrigin, scale, effects, 0);
 
-                tex = ModContent.Request<Texture2D>("Projectiles/BoookBulletHell_Speedometer").Value;
+                tex = ModContent.Request<Texture2D>($"{Texture}_Speedometer").Value;
                 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
                 rect = new Rectangle(0, 0, tex.Width, tex.Height);
                 drawPos = new Vector2(Main.player[Projectile.owner].Center.X + 20, Main.player[Projectile.owner].position.Y - 18);
                 Main.EntitySpriteDraw(tex, drawPos - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, 0, drawOrigin, scale, effects, 0);
 
-                tex = ModContent.Request<Texture2D>("Projectiles/BoookBulletHell_Speedometer2").Value;
+                tex = ModContent.Request<Texture2D>($"{Texture}_Speedometer2").Value;
                 float rot = MathHelper.ToRadians(Projectile.localAI[0] * 2.25f);
                 Main.EntitySpriteDraw(tex, drawPos - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, rot, drawOrigin, scale, effects, 0);
 

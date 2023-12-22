@@ -32,6 +32,14 @@ namespace JoostMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = 18;
+            hitbox.Height = 18;
+            hitbox.X -= (hitbox.Width - Projectile.width) / 2;
+            hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
+        }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((short)Projectile.localAI[0]);
@@ -66,19 +74,30 @@ namespace JoostMod.Projectiles.Melee
                     Projectile.localAI[1] = -1;
                 }
             }
+            bool compFront = false;
+            bool compBack = false;
+            float armRot = player.itemRotation - (float)Math.PI / 2 * player.direction;
+            var frontStretch = Player.CompositeArmStretchAmount.None;
+            var backStretch = Player.CompositeArmStretchAmount.Quarter;
             if (Projectile.ai[1] == 0) //Punch
             {
+                compFront = true;
+                compBack = true;
                 Projectile.timeLeft = 3;
-                if (Projectile.ai[0] > -15 && Projectile.ai[0] <= 0)
+                if (Projectile.ai[0] > -15 && Projectile.ai[0] <= 0) //Pull back
                 {
-                    if (Projectile.localAI[0] == 0)
+                    if (Projectile.localAI[0] == 0) //Mainhand
                     {
-                        int frame = Projectile.ai[0] < -10 ? 10 : 11;
+                        int frame = 10;
                         player.bodyFrame.Y = frame * player.bodyFrame.Height;
+                        compFront = false;
+                        backStretch = Projectile.ai[0] < -7.5f ? Player.CompositeArmStretchAmount.Quarter : Player.CompositeArmStretchAmount.ThreeQuarters;
                     }
-                    else
+                    else //Backhand
                     {
-                        player.bodyFrame.Y = 17 * player.bodyFrame.Height;
+                        //player.bodyFrame.Y = 17 * player.bodyFrame.Height;
+                        frontStretch = Projectile.ai[0] < -10 ? (Projectile.ai[0] < -5 ? Player.CompositeArmStretchAmount.None : Player.CompositeArmStretchAmount.Quarter) : Player.CompositeArmStretchAmount.ThreeQuarters;
+                        backStretch = Player.CompositeArmStretchAmount.None;
                     }
                     Projectile.ai[0] -= 3.75f * speed;
                 }
@@ -99,26 +118,40 @@ namespace JoostMod.Projectiles.Melee
                     {
                         player.velocity.X = player.direction * force * speed;
                     }
-                    if (player.controlDown && -Projectile.velocity.Y * player.gravDir > 0 && player.velocity.Y * player.gravDir < force)
+                    if (player.controlDown && player.velocity.Y != 0 && player.velocity.Y * player.gravDir < force)
                     {
                         player.velocity.Y = player.gravDir * force * speed;
+                        Dust.NewDustPerfect(player.Center, DustID.GemAmethyst, Vector2.Zero).noGravity = true;
                     }
                 }
-                if (Projectile.ai[0] > 0)
+                if (Projectile.ai[0] > 0) //Follow Through
                 {
                     Projectile.ai[0] += 3.75f * speed;
-                    if (Projectile.localAI[0] == 0)
+                    if (Projectile.localAI[0] == 0) ///Mainhand
                     {
+                        origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.None, 0);
+                        compFront = true;
+                        /*
                         if (Projectile.ai[0] < 15f)
                         {
-                            int frame = Projectile.ai[0] > 7.5f ? 17 : 11;
-                            player.bodyFrame.Y = frame * player.bodyFrame.Height;
+                            //int frame = Projectile.ai[0] > 7.5f ? 17 : 11;
+                            //player.bodyFrame.Y = frame * player.bodyFrame.Height;
                         }
+                        */
+                        frontStretch = Projectile.ai[0] > 7.5f ? Player.CompositeArmStretchAmount.Full : Player.CompositeArmStretchAmount.ThreeQuarters;
                     }
-                    else
+                    else //Offhand
                     {
-                        int frame = Projectile.ai[0] > 15f ? 11 : 17;
-                        player.bodyFrame.Y = frame * player.bodyFrame.Height;
+                        origin = player.GetBackHandPosition(Player.CompositeArmStretchAmount.None, 0);
+                        //int frame = Projectile.ai[0] > 15f ? 11 : 17;
+                        //player.bodyFrame.Y = frame * player.bodyFrame.Height;
+                        if (Projectile.ai[0] > 15)
+                        {
+                            int frame = 11;
+                            player.bodyFrame.Y = frame * player.bodyFrame.Height;
+                            compFront = false;
+                        }
+                        backStretch = Player.CompositeArmStretchAmount.Full;
                     }
                 }
                 if (Projectile.ai[0] >= 30)
@@ -141,22 +174,23 @@ namespace JoostMod.Projectiles.Melee
                     }
                 }
             }
-            if (player.active && !player.dead && !player.noItems && !player.CCed && player.inventory[player.selectedItem].type == Mod.Find<ModItem>("GrabGlove").Type)
+            if (player.active && !player.dead && !player.noItems && !player.CCed && player.inventory[player.selectedItem].type == ModContent.ItemType<Items.Weapons.Melee.GrabGlove>())
             {
                 if (Main.myPlayer == Projectile.owner && Projectile.ai[1] >= 0)
                 {
-                    float scaleFactor6 = Projectile.ai[0] * 0.5f;
+                    float scaleFactor6 = Math.Abs(Projectile.ai[0]) * 0.5f;
                     Vector2 dir = Main.MouseWorld - origin;
                     dir.Normalize();
+                    Vector2 pDir = Main.MouseWorld - player.Center;
                     if (dir.HasNaNs())
                     {
                         dir = Vector2.UnitX * player.direction;
                     }
-                    if (dir.X > 0)
+                    if (pDir.X > 0)
                     {
                         player.ChangeDir(1);
                     }
-                    if (dir.X < 0)
+                    if (pDir.X < 0)
                     {
                         player.ChangeDir(-1);
                     }
@@ -165,7 +199,7 @@ namespace JoostMod.Projectiles.Melee
                     {
                         Projectile.netUpdate = true;
                     }
-                    Projectile.velocity = dir * scaleFactor6;
+                    Projectile.velocity = dir * Math.Max(scaleFactor6, 0.01f);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] <= 0)
                 {
@@ -246,6 +280,8 @@ namespace JoostMod.Projectiles.Melee
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
+
+            
             if (Projectile.ai[1] == 1) //Grab
             {
                 Projectile.timeLeft = 3;
@@ -319,6 +355,13 @@ namespace JoostMod.Projectiles.Melee
                             target.GetGlobalNPC<NPCs.JoostGlobalNPC>().immunePlayer = player.whoAmI;
                             target.velocity = player.velocity;
                             target.netUpdate = true;
+                            if (Projectile.timeLeft < 30)
+                            {
+                                int d = (Projectile.timeLeft % 6) / 3;
+                                target.position.X += d * 2 * player.direction;
+                                if (Projectile.timeLeft % 3 == 0)
+                                    Dust.NewDust(target.position, target.width, target.height, DustID.Smoke, d);
+                            }
                             if (Projectile.timeLeft < 2)
                             {
                                 target.velocity.X = player.direction * 4;
@@ -341,9 +384,12 @@ namespace JoostMod.Projectiles.Melee
                             {
                                 offset.X = -(player.width + 4 + target.width / 2);
                             }
-                            if (Projectile.timeLeft <= 40 && !Collision.SolidCollision(new Vector2(player.Center.X, player.position.Y + player.gravDir * (40 - Projectile.timeLeft) * 0.5f), 1, player.height))
+                            if (Projectile.timeLeft <= 40)
                             {
-                                offset.Y += player.gravDir * (40 - Projectile.timeLeft) * 0.5f;
+                                if (!Collision.SolidCollision(new Vector2(player.Center.X, player.position.Y + player.gravDir * (40 - Projectile.timeLeft) * 0.5f), 1, player.height))
+                                    offset.Y += player.gravDir * (40 - Projectile.timeLeft) * 0.5f;
+                                if (Projectile.timeLeft % 5 == 0)
+                                    Dust.NewDust(player.position, player.width, player.height, DustID.Smoke, player.direction * 2, player.gravDir * -5);
                             }
                             Vector2 pos = target.Center + offset;
                             if (pos.Y < 666 || pos.Y + player.height > (Main.maxTilesY - 10) * 16 || Collision.SolidCollision(pos, player.width, player.height / 2))
@@ -465,6 +511,27 @@ namespace JoostMod.Projectiles.Melee
                         {
                             Projectile.ai[0] = -1;
                         }
+                        if (Projectile.timeLeft < 30)
+                        {
+                            int d = (Projectile.timeLeft % 6) / 3;
+                            target.position.X += d * 2 * player.direction;
+                            if (Projectile.timeLeft % 3 == 0)
+                                Dust.NewDust(target.position, target.width, target.height, DustID.Smoke, d);
+                        }
+                        if (Projectile.timeLeft < 2)
+                        {
+                            target.velocity.X = player.direction * 4;
+                            target.velocity.Y = player.gravDir * -2;
+                            if (player.immuneTime < 10)
+                            {
+                                player.immune = true;
+                                player.immuneNoBlink = false;
+                                player.immuneTime = 10;
+                            }
+                            Projectile.ai[1] = -1;
+                            Projectile.ai[0] = -1;
+                            Projectile.timeLeft = 15;
+                        }
                         player.itemRotation = (float)Math.Atan2(aim.Y * Projectile.direction, aim.X * Projectile.direction);
                     }
                     else
@@ -541,9 +608,11 @@ namespace JoostMod.Projectiles.Melee
             if (Projectile.localAI[0] == 2 && (Projectile.ai[1] == 2 || Projectile.ai[1] == 3)) //Pummel
             {
                 Projectile.localAI[0] = 2;
+                compBack = true;
                 if (Projectile.ai[0] > -15 && Projectile.ai[0] <= 0)
                 {
                     Projectile.ai[0] -= 3f * speed;
+                    backStretch = Projectile.ai[0] < -7.5f? Player.CompositeArmStretchAmount.None : Player.CompositeArmStretchAmount.Quarter;
                 }
                 if (Projectile.ai[0] <= -15)
                 {
@@ -553,6 +622,7 @@ namespace JoostMod.Projectiles.Melee
                 if (Projectile.ai[0] > 0)
                 {
                     Projectile.ai[0] += 3f * speed;
+                    backStretch = Player.CompositeArmStretchAmount.Full;
                 }
                 if (Projectile.ai[0] >= 30)
                 {
@@ -563,6 +633,12 @@ namespace JoostMod.Projectiles.Melee
                 dir.Normalize();
                 Projectile.velocity = dir * Projectile.ai[0] * 0.5f;
             }
+            
+            if (compFront)
+                player.SetCompositeArmFront(true, frontStretch, armRot);
+            if (compBack)
+                player.SetCompositeArmBack(true, backStretch, armRot);
+
             Projectile.position = Projectile.velocity + origin - Projectile.Size / 2f;
             return false;
         }
