@@ -66,7 +66,7 @@ namespace JoostMod.Projectiles.Minions
             Projectile.localAI[0] = reader.ReadInt16();
             Projectile.localAI[1] = reader.ReadInt16();
         }
-        int aimWindow = 30;
+        int aimWindow = 45;
         public override bool PreAI()
         {
             //CheckActive()
@@ -104,7 +104,7 @@ namespace JoostMod.Projectiles.Minions
                         }
                     }
                 }
-                if (!foundWings)
+                if (!foundWings && Main.myPlayer == Projectile.owner)
                 {
                     Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1, Projectile.identity).minionSlots = 0;
                     Projectile.netUpdate = true;
@@ -143,6 +143,10 @@ namespace JoostMod.Projectiles.Minions
                     float chargeSpeed = 12.5f;
                     player.itemAnimation = 2;
                     player.itemTime = 2;
+                    if (Projectile.localAI[0] >= max && player.controlUseTile)
+                    {
+                        player.MinionNPCTargetAim(true);
+                    }
                     Vector2 dir = Main.MouseWorld - Projectile.Center;
                     if (!player.controlUseTile)
                     {
@@ -260,7 +264,7 @@ namespace JoostMod.Projectiles.Minions
                             }
                         }
                     }
-                    if (!foundLegs)
+                    if (!foundLegs && Main.myPlayer == Projectile.owner)
                     {
                         Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 2, Projectile.whoAmI).minionSlots = 0;
                         Projectile.netUpdate = true;
@@ -288,7 +292,7 @@ namespace JoostMod.Projectiles.Minions
                             prevSeg.ai[0] = 2;
                             Projectile.ai[0] = 3;
                         }
-                        if (prevSeg.ai[0] == 1)
+                        if (prevSeg.ai[0] == 1 && Main.myPlayer == Projectile.owner)
                         {
                             Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 3, Projectile.whoAmI).minionSlots = 0;
                             Projectile.netUpdate = true;

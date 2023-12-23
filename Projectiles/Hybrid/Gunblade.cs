@@ -21,7 +21,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.CountsAsClass(DamageClass.Melee);
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;

@@ -33,11 +33,10 @@ namespace JoostMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<ShroomSentry>();
             Item.sentry = true;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.MouseWorld - new Vector2(0, 50);
             velocity.Y = 48;
-            return true;
         }
     }
 }

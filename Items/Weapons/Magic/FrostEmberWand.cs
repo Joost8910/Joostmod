@@ -20,8 +20,8 @@ namespace JoostMod.Items.Weapons.Magic
             Item.width = 24;
             Item.height = 24;
             Item.mana = 3;
-            Item.useTime = 40;
-            Item.useAnimation = 40;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 0;
@@ -42,8 +42,8 @@ namespace JoostMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.IceTorch)
-                .AddIngredient(ItemID.BorealWood, 6)
+                .AddIngredient<EmberWand>()
+                .AddIngredient(ItemID.IceTorch, 99)
                 .AddTile(TileID.WorkBenches)
                 .Register();
         }

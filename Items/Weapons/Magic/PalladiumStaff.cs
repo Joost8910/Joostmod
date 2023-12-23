@@ -34,12 +34,11 @@ namespace JoostMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<CrystalChunk>();
             Item.shootSpeed = 1f;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             float distance = player.Distance(Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY));
             velocity.X = velocity.X * (distance / 30);
             velocity.Y = velocity.Y * (distance / 30);
-            return true;
         }
         public override void AddRecipes()
         {

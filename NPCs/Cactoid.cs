@@ -69,7 +69,8 @@ namespace JoostMod.NPCs
             NPC.knockBackResist = 0.4f;
 			NPC.aiStyle = -1;
 			NPC.frameCounter = 0;
-			Banner = NPC.type;
+            NPC.chaseable = false;
+            Banner = NPC.type;
 			BannerItem = ModContent.ItemType<CactoidBanner>();  
 		}
 
@@ -442,6 +443,7 @@ namespace JoostMod.NPCs
                 {
                     NPC.aiStyle = -1;
                     NPC.damage = 0;
+                    NPC.chaseable = false;
                     NPC.ai[1] += 1 + Main.rand.Next(5);
                     NPC.netUpdate = true;
                     if (NPC.direction == 0)
@@ -473,6 +475,7 @@ namespace JoostMod.NPCs
                 {
                     NPC.FaceTarget();
                     NPC.aiStyle = 26;
+                    NPC.chaseable = true;
                     AIType = NPCID.Unicorn;
                     if (Main.expertMode)
                     {

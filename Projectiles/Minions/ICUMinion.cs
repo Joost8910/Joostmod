@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,13 +50,18 @@ namespace JoostMod.Projectiles.Minions
 			if (modPlayer.icuMinion)
 			{
 				Projectile.timeLeft = 2;
-			}
+            }
         }
-        float rot = 0;
-        private void SelectFrame()
+        public override void PostAI()
         {
-            rot += 22.5f * 0.0174f;
-            Projectile.rotation = rot * Projectile.direction;
+            if (Projectile.ai[1] > 20 || Projectile.ai[1] == 0)
+                Projectile.localAI[0] = (Projectile.localAI[0] + 30f) % 360;
+			float rot = Projectile.localAI[0] * (float)Math.PI / 180;
+            Projectile.rotation = rot;
+        }
+        public override void ShootEffects(ref Vector2 shootvel)
+        {
+			Projectile.localAI[0] = shootvel.ToRotation() * 180 / (float)Math.PI;
         }
     }
 }

@@ -49,21 +49,16 @@ namespace JoostMod.Items.Rewards
 		{
 			return true;
 		}
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            position = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+        }
+        public override bool CanShoot(Player player)
+        {
+            return player.altFunctionUse != 2;
+        }
 		
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-		{
-			position = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
-			return player.altFunctionUse != 2;
-		}
-		
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
-		{
-			if(player.altFunctionUse == 2)
-			{
-				player.MinionNPCTargetAim(false);
-			}
-			return base.UseItem(player);
-		}
 	}
 }
 

@@ -30,7 +30,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.scale = 1f;
             AIType = ProjectileID.Bullet;
             Projectile.DamageType = DamageClass.Throwing;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.CountsAsClass(DamageClass.Magic);
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }

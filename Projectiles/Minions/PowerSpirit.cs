@@ -74,7 +74,7 @@ namespace JoostMod.Projectiles.Minions
             rapidAmount = (int)Projectile.minionSlots;
             Lighting.AddLight(Projectile.Center, new Vector3(0.35f, 1f, 0.6f) * (Projectile.minionSlots * 0.2f) * (1 + ((Projectile.localAI[0] - 60) / 100f)));
         }
-        public override void ShootEffects()
+        public override void ShootEffects(ref Vector2 shootvel)
         {
             Projectile.frameCounter++;
             damageMult = 1f + (Projectile.minionSlots * 0.05f);
@@ -151,7 +151,7 @@ namespace JoostMod.Projectiles.Minions
                         {
                             if (Main.myPlayer == Projectile.owner)
                             {
-                                ShootEffects();
+                                ShootEffects(ref Projectile.velocity);
                                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
                                 Main.projectile[proj].netUpdate = true;
                                 Projectile.netUpdate = true;
@@ -168,7 +168,7 @@ namespace JoostMod.Projectiles.Minions
                         {
                             if (Projectile.localAI[1] % (rapidRate * 2) == 0 && Main.myPlayer == Projectile.owner)
                             {
-                                ShootEffects();
+                                ShootEffects(ref Projectile.velocity);
                                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
                                 Main.projectile[proj].netUpdate = true;
                                 Projectile.netUpdate = true;

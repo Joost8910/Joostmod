@@ -30,7 +30,7 @@ namespace JoostMod.Projectiles.Hybrid
             AIType = ProjectileID.Bullet;
             Projectile.arrow = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.CountsAsClass(DamageClass.Magic);
         }
         public override void AI()
         {

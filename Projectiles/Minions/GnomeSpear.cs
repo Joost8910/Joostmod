@@ -18,8 +18,8 @@ namespace JoostMod.Projectiles.Minions
         }
 		public override void SetDefaults()
 		{
-			Projectile.width = 16;
-			Projectile.height = 16;
+			Projectile.width = 26;
+			Projectile.height = 26;
 			Projectile.aiStyle = -1;
 			Projectile.timeLeft = 16;
 			Projectile.friendly = true;
@@ -35,9 +35,11 @@ namespace JoostMod.Projectiles.Minions
 		{
             Projectile owner = Main.projectile[(int)Projectile.ai[0]];
             Projectile.spriteDirection = Projectile.direction;
-            Projectile.position += Projectile.velocity * 10f * Projectile.ai[1];
+            owner.direction = Projectile.direction;
             Projectile.position = owner.Center + new Vector2(0, 9) - (Projectile.Size / 2);
-			Projectile.position += Projectile.velocity * Projectile.ai[1];
+			Vector2 dir = Projectile.velocity;
+			dir.Normalize();
+			Projectile.position += dir * 5.5f * Projectile.ai[1];
             if (Projectile.ai[1] == 0f)
 			{
 				Projectile.ai[1] = 3f;
@@ -52,9 +54,9 @@ namespace JoostMod.Projectiles.Minions
 			{
 				Projectile.ai[1] += 1f;
                 Projectile.frame = 1;
-                owner.velocity = Projectile.velocity * 2f;
-			}
-			Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
+                owner.velocity = Projectile.velocity;
+            }
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
 			if (Projectile.spriteDirection == -1)
 			{
 				Projectile.rotation -= 1.57f;

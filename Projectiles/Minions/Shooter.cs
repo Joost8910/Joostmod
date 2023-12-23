@@ -1,6 +1,8 @@
 using System;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace JoostMod.Projectiles.Minions
 {
@@ -30,7 +32,7 @@ namespace JoostMod.Projectiles.Minions
 
         protected bool fallThroughPlat = true;
 
-        public virtual void ShootEffects()
+        public virtual void ShootEffects(ref Vector2 shootvel)
         {
         }
 
@@ -87,10 +89,7 @@ namespace JoostMod.Projectiles.Minions
 					targetPos = npc.Center;
                     if (predict)
                     {
-                        Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, Projectile.Center) / shootSpeed));
-                        predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, Projectile.Center) / shootSpeed));
-                        targetDist = Vector2.Distance(Projectile.Center, predictedPos);
-                        targetPos = predictedPos;
+                        PredictPosition(npc, ref targetPos, ref targetDist);
                     }
                     target = true;
 				}
@@ -100,17 +99,16 @@ namespace JoostMod.Projectiles.Minions
 				NPC npc = Main.npc[k];
 				if (npc.CanBeChasedBy(this, false))
 				{
-					float distance = Vector2.Distance(npc.Center, Projectile.Center);
+                    //Main.NewText(Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height), Color.Red);
+                    //Main.NewText(Collision.CanHitLine(Projectile.Center, 0, 0, npc.Center, 0, 0), Color.Green);
+                    float distance = Vector2.Distance(npc.Center, Projectile.Center);
                     if ((distance < targetDist || !target) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
                         targetDist = distance;
                         targetPos = npc.Center;
                         if (predict)
                         {
-                            Vector2 predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(npc.Center, Projectile.Center) / shootSpeed));
-                            predictedPos = npc.Center + npc.velocity + (npc.velocity * (Vector2.Distance(predictedPos, Projectile.Center) / shootSpeed));
-                            targetDist = Vector2.Distance(Projectile.Center, predictedPos);
-                            targetPos = predictedPos;
+                            PredictPosition(npc, ref targetPos, ref targetDist);
                         }
                         target = true;
                     }
@@ -298,7 +296,6 @@ namespace JoostMod.Projectiles.Minions
                         Projectile.ai[1] = 1f;
                         if (Main.myPlayer == Projectile.owner)
                         {
-                            ShootEffects();
                             Vector2 shootVel = targetPos - Projectile.Center;
                             if (shootVel == Vector2.Zero)
                             {
@@ -306,6 +303,7 @@ namespace JoostMod.Projectiles.Minions
                             }
                             shootVel.Normalize();
                             shootVel *= shootSpeed;
+                            ShootEffects(ref shootVel);
                             if (shootNum > 1)
                             {
                                 float spread = shootSpread * 0.0174f;
@@ -336,7 +334,6 @@ namespace JoostMod.Projectiles.Minions
                     {
                         if (Projectile.ai[1] % rapidRate == 0 && Main.myPlayer == Projectile.owner)
                         {
-                            ShootEffects();
                             Vector2 shootVel = targetPos - Projectile.Center;
                             if (shootVel == Vector2.Zero)
                             {
@@ -344,6 +341,7 @@ namespace JoostMod.Projectiles.Minions
                             }
                             shootVel.Normalize();
                             shootVel *= shootSpeed;
+                            ShootEffects(ref shootVel);
                             if (shootNum > 1)
                             {
                                 float spread = shootSpread * 0.0174f;
@@ -382,5 +380,98 @@ namespace JoostMod.Projectiles.Minions
 			fallThrough = fallThroughPlat;
 			return true;
 		}
-	}
+        public void PredictPosition(NPC npc, ref Vector2 targetPos, ref float targetDist)
+        {
+            Vector2 predictedVel = npc.velocity;
+            Vector2 predictedPos = npc.position + predictedVel;
+            float predictedTime = Vector2.Distance(npc.Center, Projectile.Center) / shootSpeed;
+            for (int i = 0; i < predictedTime; i++)
+            {
+                PredictGravity(npc, predictedPos, ref predictedVel);
+                predictedPos += predictedVel;
+            }
+
+            predictedTime = Vector2.Distance(predictedPos, Projectile.Center) / shootSpeed;
+            predictedVel = npc.velocity;
+            predictedPos = npc.position + predictedVel;
+            for (int i = 0; i < predictedTime; i++)
+            {
+                PredictGravity(npc, predictedPos, ref predictedVel);
+                predictedPos += predictedVel;
+            }
+
+            targetDist = Vector2.Distance(Projectile.Center, predictedPos);
+            targetPos = predictedPos + new Vector2(npc.width / 2, npc.height / 2);
+            //Dust.NewDustPerfect(targetPos, DustID.Adamantite, Vector2.Zero, 0, Color.Red, 3f).noGravity = true;
+        }
+        public void PredictGravity(NPC npc, Vector2 predictedPos, ref Vector2 predictedVelocity)
+        {
+            if (!npc.noGravity)
+            {
+                float gravity = 0.3f;
+                float maxFallSpeed = 10f;
+                if (npc.type == NPCID.MushiLadybug)
+                {
+                    gravity = 0.1f;
+                    maxFallSpeed = 3f;
+                }
+                else if (npc.type == NPCID.VortexRifleman && npc.ai[2] == 1f)
+                {
+                    gravity = 0.1f;
+                    maxFallSpeed = 2f;
+                }
+                else if ((npc.type == NPCID.DD2OgreT2 || npc.type == NPCID.DD2OgreT3) && npc.ai[0] > 0f && npc.ai[1] == 2f)
+                {
+                    gravity = 0.45f;
+                    maxFallSpeed = 32f;
+                }
+                else if (npc.type == NPCID.VortexHornet && npc.ai[2] == 1f)
+                {
+                    gravity = 0.1f;
+                    maxFallSpeed = 4f;
+                }
+                else if (npc.type == NPCID.VortexHornetQueen)
+                {
+                    gravity = 0.1f;
+                    maxFallSpeed = 3f;
+                }
+                else if (npc.type == NPCID.SandElemental)
+                {
+                    gravity = 0f;
+                }
+                float num = (float)(Main.maxTilesX / 4200);
+                num *= num;
+                float num2 = (float)((double)(npc.position.Y / 16f - (60f + 10f * num)) / (Main.worldSurface / 6.0));
+                if ((double)num2 < 0.25)
+                {
+                    num2 = 0.25f;
+                }
+                if (num2 > 1f)
+                {
+                    num2 = 1f;
+                }
+                gravity *= num2;
+                if (npc.wet)
+                {
+                    gravity = 0.2f;
+                    maxFallSpeed = 7f;
+                    if (npc.honeyWet)
+                    {
+                        gravity = 0.1f;
+                        maxFallSpeed = 4f;
+                    }
+                }
+                predictedVelocity.Y += gravity;
+                if (predictedVelocity.Y > maxFallSpeed)
+                {
+                    predictedVelocity.Y = maxFallSpeed;
+                }
+            }
+            if (!npc.noTileCollide)
+            {
+                predictedVelocity = Collision.TileCollision(predictedPos, predictedVelocity, npc.width, npc.height);
+            }
+        }
+    }
+    
 }

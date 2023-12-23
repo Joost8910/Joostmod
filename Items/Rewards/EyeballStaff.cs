@@ -37,7 +37,12 @@ namespace JoostMod.Items.Rewards
 		}
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position.X + Main.rand.Next(-30, 30), position.Y + Main.rand.Next(-30, 30), velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+            Vector2 pos = new(position.X + Main.rand.Next(-30, 31), position.Y + Main.rand.Next(-30, 31));
+            if (Collision.SolidCollision(pos - new Vector2(8, 8), 16, 16))
+			{
+				pos = position + new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10));
+            }
+            Projectile.NewProjectile(source, pos, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
         public override void ModifyTooltips(List<TooltipLine> list)

@@ -43,7 +43,7 @@ namespace JoostMod.Items.Weapons.Magic
             double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
             velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
             velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
             velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
             velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
@@ -51,10 +51,9 @@ namespace JoostMod.Items.Weapons.Magic
             {
                 SoundEngine.PlaySound(SoundID.Item7, position);
             }
-
-            return true;
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            return false;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe()

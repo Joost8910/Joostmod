@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles.Minions
 		{
 			Projectile.netImportant = true;
 			Projectile.width = 48;
-			Projectile.height = 59;
+			Projectile.height = 60;
 			Projectile.friendly = true;
 			Projectile.DamageType = DamageClass.Summon;
 			Projectile.minion = true;
@@ -61,7 +61,7 @@ namespace JoostMod.Projectiles.Minions
 		{
 			Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 93, 0f, 0f, 0, default(Color), 0.7f);
 		}
-        public override void ShootEffects()
+        public override void ShootEffects(ref Vector2 shootvel)
         {
             Projectile.frame = (Projectile.frame + 1) % 2;
             SoundEngine.PlaySound(SoundID.Item7, Projectile.Center);

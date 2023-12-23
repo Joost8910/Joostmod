@@ -28,11 +28,11 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.CountsAsClass(DamageClass.Magic);
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.DamageType = DamageClass.Magic;
             Projectile.extraUpdates = 1;
         }
         public override void AI()

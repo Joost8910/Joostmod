@@ -34,9 +34,12 @@ namespace JoostMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TerraFury>();
             Item.shootSpeed = 28f;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position.Y -= Item.scale * 42 - 42;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             Projectile.NewProjectile(source, position.X, position.Y, -velocity.X, -velocity.Y, type, damage, knockback, player.whoAmI, 2f);
             return true;
         }

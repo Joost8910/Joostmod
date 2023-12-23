@@ -31,6 +31,7 @@ namespace JoostMod.Items
         public int fishingPower = 0;
         public Texture2D glowmaskTex = null;
         public Color glowmaskColor = Color.White;
+        public bool drawOverArm = false;
         public override bool InstancePerEntity
         {
             get

@@ -105,7 +105,8 @@ namespace JoostMod.Items.Rewards
             return false;
         }
 		
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        /*
+		public override bool? UseItem(Player player)
 		{
 			if(player.altFunctionUse == 2)
 			{
@@ -113,6 +114,7 @@ namespace JoostMod.Items.Rewards
 			}
 			return base.UseItem(player);
 		}
+        */
 	}
 }
 

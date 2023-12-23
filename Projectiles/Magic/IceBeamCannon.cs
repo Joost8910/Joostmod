@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -30,8 +31,8 @@ namespace JoostMod.Projectiles.Magic
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
-            float num = 1.57079637f;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float num = (float)Math.PI / 2;
+            Vector2 origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.None, 0);
             bool channeling = player.channel && !player.noItems && !player.CCed && !player.dead;
             if (channeling)
             {
@@ -47,18 +48,19 @@ namespace JoostMod.Projectiles.Magic
                     {
                         scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     }
-                    Vector2 vector13 = Main.MouseWorld - vector;
-                    vector13.Normalize();
-                    if (vector13.HasNaNs())
+                    Vector2 dir = Main.MouseWorld - origin;
+                    dir.Normalize();
+                    player.ChangeDir(Math.Sign(player.DirectionTo(Main.MouseWorld).X));
+                    if (dir.HasNaNs())
                     {
-                        vector13 = Vector2.UnitX * player.direction;
+                        dir = Vector2.UnitX * player.direction;
                     }
-                    vector13 *= scaleFactor6;
-                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
+                    dir *= scaleFactor6;
+                    if (dir.X != Projectile.velocity.X || dir.Y != Projectile.velocity.Y)
                     {
                         Projectile.netUpdate = true;
                     }
-                    Projectile.velocity = vector13;
+                    Projectile.velocity = dir;
                 }
             }
             else
@@ -94,19 +96,24 @@ namespace JoostMod.Projectiles.Magic
             Lighting.AddLight(Projectile.Center, light * 0.5f, light, light);
 
 
-            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f + Vector2.Normalize(Projectile.velocity) * 24;
-            Projectile.rotation = Projectile.velocity.ToRotation() + num;
-            Projectile.spriteDirection = Projectile.direction;
-            Projectile.timeLeft = 2;
-            player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
 
+            float armRot = player.itemRotation - num * Projectile.direction;
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRot);
+            origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, armRot);
+            Projectile.position = origin - Projectile.Size / 2f + Vector2.Normalize(Projectile.velocity) * 9;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
             return false;
         }
-
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            overPlayers.Add(index);
+        }
         public override void Kill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JoostMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -39,7 +40,7 @@ namespace JoostMod.Projectiles.Minions
 			inertia = 8f;
 			shoot = ModContent.ProjectileType<GnomeSpear>();
             chaseDist = 30;
-			shootSpeed = 7.5f;
+			shootSpeed = 15f;
 			spacingMult = 0.75f;
 			shootCool = 40f;
             grounded = true;
@@ -51,7 +52,8 @@ namespace JoostMod.Projectiles.Minions
 		public override void FlyingDust()
         {
             Projectile.rotation = 0;
-            Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 0, Color.Red, 0.7f);
+            if (Main.rand.NextBool(2))
+                Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 0, Color.Red, 0.7f);
 		}
 		public override void CheckActive()
 		{
@@ -65,8 +67,8 @@ namespace JoostMod.Projectiles.Minions
 			{
 				Projectile.timeLeft = 2;
 			}
-		}
-        public override void ShootEffects()
+        }
+        public override void ShootEffects(ref Vector2 shootvel)
         {
             shootAI0 = Projectile.whoAmI;
         }
@@ -120,7 +122,7 @@ namespace JoostMod.Projectiles.Minions
             }
             Projectile.localAI[0] = 0;
             Player player = Main.player[Projectile.owner];
-            if (player.HeldItem.type == Mod.Find<ModItem>("GnomeStaff").Type && !player.noItems && !player.CCed && !player.dead)
+            if (player.HeldItem.type == ModContent.ItemType<GnomeStaff>() && !player.noItems && !player.CCed && !player.dead)
             {
                 if (player.controlUseTile && player.itemTime > 0 && player.itemTime < 5)
                 {
@@ -254,16 +256,16 @@ namespace JoostMod.Projectiles.Minions
             }
             if ((int)Projectile.localAI[1] > 0)
             {
+                if ((int)Projectile.localAI[1] == shootCool + bashTime)
+                {
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_0") with { Volume = 0.9f, Pitch = 1.3f }, Projectile.Center); // 213
+                }
                 Projectile.tileCollide = true;
                 Projectile.localAI[1]--;
                 if (player.controlUseTile)
                 {
                     player.itemTime = 4;
                     player.itemAnimation = 4;
-                }
-                if ((int)Projectile.localAI[1] == shootCool + bashTime)
-                {
-                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_0") with { Volume = 0.9f, Pitch = 1.3f}, Projectile.Center); // 213
                 }
             }
             if ((int)Projectile.localAI[1] != 0 || Projectile.localAI[0] > 0)
@@ -303,12 +305,9 @@ namespace JoostMod.Projectiles.Minions
             float KB = Projectile.knockBack;
             if (Projectile.localAI[1] <= shootCool)
             {
-                knockback = 0;
-                crit = false;
-
                 for (int i = 0; i < 100; i++)
                 {
-                    if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == damage.ToString() && Projectile.Distance(Main.combatText[i].position) < 250)
+                    if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)
                     {
                         Main.combatText[i].active = false;
                         break;

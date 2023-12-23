@@ -45,15 +45,6 @@ namespace JoostMod.Items.Weapons.Summon
             position = Main.MouseWorld;
             return player.altFunctionUse != 2;
         }
-
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim(false);
-            }
-            return base.UseItem(player);
-        }
         public override void AddRecipes()
         {
             CreateRecipe()

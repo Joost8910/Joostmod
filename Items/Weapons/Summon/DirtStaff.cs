@@ -43,11 +43,11 @@ namespace JoostMod.Items.Weapons.Summon
             return true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.MouseWorld;
-            return player.altFunctionUse != 2;
         }
+        public override bool CanShoot(Player player) => player.altFunctionUse != 2;
 
         public override bool CanUseItem(Player player)
         {
@@ -88,14 +88,6 @@ namespace JoostMod.Items.Weapons.Summon
                 }
             }
             return base.CanUseItem(player);
-        }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim(false);
-            }
-            return base.UseItem(player);
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

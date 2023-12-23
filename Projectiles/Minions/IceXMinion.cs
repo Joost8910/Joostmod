@@ -1,6 +1,9 @@
+using JoostMod.Projectiles.Accessory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -58,11 +61,15 @@ namespace JoostMod.Projectiles.Minions
                 Projectile.frameCounter = 0;
             }
         }
+        public override void ShootEffects(ref Vector2 shootvel)
+        {
+            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam").WithVolumeScale(0.2f), Projectile.Center);
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects effects = SpriteEffects.None;
             Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16));
-            Texture2D tex = ModContent.Request<Texture2D>("Projectiles/XParasite").Value;
+            Texture2D tex = TextureAssets.Projectile[ModContent.ProjectileType<XParasiteIce>()].Value;
             Rectangle rect = new Rectangle(0, (int)(Projectile.frameCounter / 6) * 34, (tex.Width), (tex.Height / 6));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 12);
             float rotation = 0;

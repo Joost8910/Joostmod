@@ -36,7 +36,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.shootSpeed = 12.5f;
             Item.useAmmo = AmmoID.Sand;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             float spread = 7.5f * 0.0174f;
             float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
@@ -60,7 +60,6 @@ namespace JoostMod.Items.Weapons.Thrown
             {
                 type = ModContent.ProjectileType<CrimSandBlock>();
             }
-            return true;
         }
         public override void AddRecipes()
         {

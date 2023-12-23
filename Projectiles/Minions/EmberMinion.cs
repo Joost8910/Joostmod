@@ -31,9 +31,9 @@ namespace JoostMod.Projectiles.Minions
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = false;
 			inertia = 20f;
-            shootCool = 100f;
+            shootCool = 110f;
             shoot = ModContent.ProjectileType<FlameSummon>();
-			shootSpeed = 9.5f;
+			shootSpeed = 9f;
 			chaseDist = 70f;
 		}
 		public override void CheckActive()
