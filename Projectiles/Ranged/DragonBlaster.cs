@@ -42,13 +42,18 @@ namespace JoostMod.Projectiles.Ranged
         {
             Player player = Main.player[Projectile.owner];
             var source = Projectile.GetSource_FromAI();
-            Vector2 vector = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
+            Vector2 origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.None, 0);
             float speed = 11;
             float shootSpeed = 13f;
             if (Projectile.ai[0] == 1)
             {
+                origin = player.GetBackHandPosition(Player.CompositeArmStretchAmount.None, 0);
                 Projectile.scale = 0.75f;
             }
+            Vector2 v = Main.OffsetsPlayerHeadgear[player.bodyFrame.Y / player.bodyFrame.Height];
+            v.Y -= 2f;
+            origin += v * player.gravDir;
+
             Projectile.width = (int)(44f * Projectile.scale);
             Projectile.height = (int)(44f * Projectile.scale);
 
@@ -62,7 +67,7 @@ namespace JoostMod.Projectiles.Ranged
             if (Main.myPlayer == Projectile.owner && player.ownedProjectileCounts[Projectile.type] < 2 && (Projectile.ai[0] == 0 && player.controlUseTile || Projectile.ai[0] == 1 && player.controlUseItem && Projectile.ai[1] > 1))
             {
                 player.ownedProjectileCounts[Projectile.type] = 2;
-                Projectile.NewProjectileDirect(source, vector, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1 - Projectile.ai[0]);
+                Projectile.NewProjectileDirect(source, origin, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1 - Projectile.ai[0]);
             }
             if (Projectile.ai[1] <= 1)
             {
@@ -70,17 +75,18 @@ namespace JoostMod.Projectiles.Ranged
             }
             if (Projectile.localAI[1] <= 0 && Main.myPlayer == Projectile.owner)
             {
-                Vector2 vector13 = Main.MouseWorld - vector;
-                vector13.Normalize();
-                if (vector13.HasNaNs())
+                Vector2 dir = Main.MouseWorld - origin;
+                dir.Normalize();
+                player.ChangeDir(Math.Sign(player.DirectionTo(Main.MouseWorld).X));
+                if (dir.HasNaNs())
                 {
-                    vector13 = Vector2.UnitX * player.direction;
+                    dir = Vector2.UnitX * player.direction;
                 }
-                if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
+                if (dir.X != Projectile.velocity.X || dir.Y != Projectile.velocity.Y)
                 {
                     Projectile.netUpdate = true;
                 }
-                Projectile.velocity = vector13;
+                Projectile.velocity = dir;
             }
             if (player.noItems || player.CCed || player.dead || !player.active || !channelling && Projectile.localAI[1] <= 0 && Projectile.localAI[0] <= 0 && Projectile.ai[1] <= 2)
             {
@@ -156,7 +162,7 @@ namespace JoostMod.Projectiles.Ranged
                         }
                         */
                         if (Main.myPlayer == Projectile.owner)
-                            Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity * shootSpeed, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
+                            Projectile.NewProjectile(source, origin, Projectile.velocity * shootSpeed, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else
@@ -168,7 +174,7 @@ namespace JoostMod.Projectiles.Ranged
                 }
                 else
                 {
-                    Projectile.NewProjectile(source, Projectile.Center + Projectile.velocity * 30 * Projectile.scale + Projectile.velocity * 24, Projectile.velocity * shootSpeed * 0.5f, ModContent.ProjectileType<DragonBlast>(), Projectile.damage * 7, Projectile.knockBack * 7, Projectile.owner);
+                    Projectile.NewProjectile(source, origin + Projectile.velocity * 30 * Projectile.scale + Projectile.velocity * 24, Projectile.velocity * shootSpeed * 0.5f, ModContent.ProjectileType<DragonBlast>(), Projectile.damage * 7, Projectile.knockBack * 7, Projectile.owner);
 
                     Vector2 dir = -Projectile.velocity;
                     dir.Normalize();
@@ -194,30 +200,40 @@ namespace JoostMod.Projectiles.Ranged
                 float len = Projectile.localAI[0] * speed;
                 float kick = Projectile.localAI[1] < len * 0.75f ? Projectile.localAI[1] / 3 : len - Projectile.localAI[1];
                 float rot = Projectile.velocity.ToRotation() - 7f * 0.0174f * Projectile.direction * kick;
-                Projectile.rotation = rot + (Projectile.direction == -1 ? 3.14f : 0);
+                Projectile.rotation = rot + (player.direction == -1 ? 3.14f : 0);
             }
             else
             {
-                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
+                Projectile.rotation = Projectile.velocity.ToRotation() + (player.direction == -1 ? 3.14f : 0);
             }
             if (Projectile.localAI[1] <= 0 && !channelling)
             {
                 Projectile.localAI[0] = 0;
             }
-            Projectile.position = vector + Projectile.velocity * 14 * (Projectile.ai[0] * 0.7f + 0.5f) - Projectile.Size / 2f;
-            Projectile.spriteDirection = Projectile.direction;
-            if (player.gravDir < 0)
-            {
-                Projectile.rotation += 3.14f;
-                Projectile.spriteDirection = -Projectile.direction;
-            }
-            player.ChangeDir(Projectile.direction);
+            float rotate = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
+            float armRot = rotate - (float)(Math.PI / 2) * Projectile.direction;
             if (Projectile.ai[0] == 0)
             {
                 player.heldProj = Projectile.whoAmI;
-                player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
-
+                player.itemRotation = rotate;
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRot);
+                origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, armRot);
+                origin += v * player.gravDir;
             }
+            else
+            {
+                player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armRot);
+                origin = player.GetBackHandPosition(Player.CompositeArmStretchAmount.Full, armRot);
+                origin += v * player.gravDir;
+            }
+            Projectile.position = origin + Projectile.velocity * Projectile.scale - Projectile.Size / 2f;
+            Projectile.spriteDirection = player.direction;
+            if (player.gravDir < 0)
+            {
+                Projectile.rotation += 3.14f;
+                Projectile.spriteDirection = -player.direction;
+            }
+            //player.ChangeDir(Projectile.direction);
             player.itemTime = 2;
             player.itemAnimation = 2;
             Projectile.timeLeft = 2;

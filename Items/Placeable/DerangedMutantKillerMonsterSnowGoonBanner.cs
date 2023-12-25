@@ -23,7 +23,7 @@ public override void SetStaticDefaults()
             Item.consumable = true;  
             Item.rare = ItemRarityID.Green; 
             Item.value = Item.buyPrice(0, 1, 0, 0);  
-            Item.createTile = Mod.Find<ModTile>("DerangedMutantKillerMonsterSnowGoonBanner").Type;  
+            Item.createTile = ModContent.TileType<Tiles.Banners.DerangedMutantKillerMonsterSnowGoonBanner>();  
             Item.placeStyle = 0;
         }
     }

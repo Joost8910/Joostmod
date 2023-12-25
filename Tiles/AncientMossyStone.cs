@@ -14,7 +14,7 @@ namespace JoostMod.Tiles
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileMoss[Type] = true;
-            ItemDrop = Mod.Find<ModItem>("AncientStone").Type;
+            ItemDrop = ModContent.ItemType<Items.Legendaries.AncientStone>();
             AddMapEntry(new Color(18, 104, 60));
             DustType = 93;
             MinPick = 100;
@@ -29,7 +29,7 @@ namespace JoostMod.Tiles
             if (fail)
             {
                 noItem = true;
-                Main.tile[i, j].TileType = (ushort)Mod.Find<ModTile>("AncientStone").Type;
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<AncientStone>();
                 WorldGen.SquareTileFrame(i, j, true);
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {

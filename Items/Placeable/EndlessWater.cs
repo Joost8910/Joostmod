@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
 			Item.useTime = 10;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-			Item.createTile = Mod.Find<ModTile>("EndlessWater").Type;
+			Item.createTile = ModContent.TileType<Tiles.EndlessWater>();
             Item.rare = ItemRarityID.Blue;
             Item.mech = true;
 		}

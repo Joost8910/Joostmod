@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
             Item.consumable = true;  
             Item.rare = ItemRarityID.Green; 
             Item.value = Item.buyPrice(0, 2, 50, 0);  
-            Item.createTile = Mod.Find<ModTile>("GraySlimeBanner").Type;  
+            Item.createTile = ModContent.TileType<Tiles.Banners.GraySlimeBanner>();  
             Item.placeStyle = 0;
         }
     }

@@ -41,7 +41,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(0, 255, (int)(51 + (Main.DiscoG * 0.5f)));
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Tiles/ShrineOfLegendsGem").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_Gem").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -51,7 +51,7 @@ namespace JoostMod.Tiles
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>("ShrineOfLegends").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Legendaries.ShrineOfLegends>());
 		}
 	}
 }

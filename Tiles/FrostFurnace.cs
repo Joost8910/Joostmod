@@ -42,7 +42,7 @@ namespace JoostMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, Mod.Find<ModItem>("FrostFurnace").Type);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeable.FrostFurnace>());
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)

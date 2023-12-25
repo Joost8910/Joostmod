@@ -26,7 +26,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>("DeoremMuaMusicBox").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.DeoremMuaMusicBox>());
 		}
 
 		public override void MouseOver(int i, int j)
@@ -34,7 +34,7 @@ namespace JoostMod.Tiles
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
-			player.cursorItemIconID = Mod.Find<ModItem>("DeoremMuaMusicBox").Type;
+			player.cursorItemIconID = ModContent.ItemType<Items.Placeable.DeoremMuaMusicBox>();
 		}
 	}
 }

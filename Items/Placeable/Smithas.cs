@@ -24,7 +24,7 @@ namespace JoostMod.Items.Placeable
 			Item.consumable = true;
 			Item.value = 5000;
 			Item.rare = ItemRarityID.Cyan;
-			Item.createTile = Mod.Find<ModTile>("Smithas").Type;
+			Item.createTile = ModContent.TileType<Tiles.Smithas>();
 		}
 				public override void AddRecipes()
 		{

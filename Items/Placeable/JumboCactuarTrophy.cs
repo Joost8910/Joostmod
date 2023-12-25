@@ -22,7 +22,7 @@ namespace JoostMod.Items.Placeable
 			Item.consumable = true;
             Item.value = 500000;
             Item.rare = ItemRarityID.Yellow;
-			Item.createTile = Mod.Find<ModTile>("BossTrophy").Type;
+			Item.createTile = ModContent.TileType<Tiles.BossTrophy>();
 			Item.placeStyle = 0;
 		}
 	}

@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
 			Item.useTime = 2;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-			Item.createTile = Mod.Find<ModTile>("DirtPlatform").Type;
+			Item.createTile = ModContent.TileType<Tiles.DirtPlatform>();
 		}
 
 		public override void AddRecipes()

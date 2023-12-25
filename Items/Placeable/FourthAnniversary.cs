@@ -26,7 +26,7 @@ namespace JoostMod.Items.Placeable
             Item.consumable = true;
             Item.value = 500000;
             Item.rare = ItemRarityID.Yellow;
-            Item.createTile = Mod.Find<ModTile>("FourthAnniversary").Type;
+            Item.createTile = ModContent.TileType<Tiles.FourthAnniversary>();
             Item.placeStyle = 0;
         }
         public override void PostDrawInInventory(SpriteBatch sb, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

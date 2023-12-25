@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
 			Item.value = 27000;
-			Item.createTile = Mod.Find<ModTile>("TARDISChest").Type;
+			Item.createTile = ModContent.TileType<Tiles.TARDISChest>();
 		}
 
 		public override void AddRecipes()

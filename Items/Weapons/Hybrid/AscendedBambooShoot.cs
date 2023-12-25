@@ -63,13 +63,8 @@ namespace JoostMod.Items.Weapons.Hybrid
         {
             return true;
         }
-        public override bool? CanChooseAmmo(Item ammo, Player player)
-        {
-            return ammo.ammo == AmmoID.Dart;
-        }
         public override bool CanUseItem(Player player)
         {
-            /*
             if (player.altFunctionUse == 2)
             {
                 Item.useAmmo = AmmoID.Dart;
@@ -78,7 +73,6 @@ namespace JoostMod.Items.Weapons.Hybrid
             {
                 Item.useAmmo = AmmoID.None;
             }
-            */
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Hybrid.AscendedBambooShoot>()] < 1)
             {
                 return base.CanUseItem(player);
@@ -87,7 +81,11 @@ namespace JoostMod.Items.Weapons.Hybrid
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            return false;
+            return player.altFunctionUse == 2 && !player.ItemAnimationJustStarted;
+        }
+        public override bool NeedsAmmo(Player player)
+        {
+            return player.altFunctionUse == 2;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -96,7 +94,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             {
                 mode = 1;
             }
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Hybrid.AscendedBambooShoot>(), damage, knockback, player.whoAmI, mode, type);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Hybrid.AscendedBambooShoot>(), damage, knockback, player.whoAmI, mode);
             return false;
         }
         public override int ChoosePrefix(UnifiedRandom rand)

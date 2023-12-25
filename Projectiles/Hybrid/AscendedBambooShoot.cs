@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -98,6 +99,29 @@ namespace JoostMod.Projectiles.Hybrid
             }
             return false;
         }
+
+        int[] dartItems = new int[7];
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(dartItems[0]);
+            writer.Write(dartItems[1]);
+            writer.Write(dartItems[2]);
+            writer.Write(dartItems[3]);
+            writer.Write(dartItems[4]);
+            writer.Write(dartItems[5]);
+            writer.Write(dartItems[6]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            dartItems[0] = reader.ReadInt16();
+            dartItems[1] = reader.ReadInt16();
+            dartItems[2] = reader.ReadInt16();
+            dartItems[3] = reader.ReadInt16();
+            dartItems[4] = reader.ReadInt16();
+            dartItems[5] = reader.ReadInt16();
+            dartItems[6] = reader.ReadInt16();
+        }
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
@@ -176,20 +200,32 @@ namespace JoostMod.Projectiles.Hybrid
             }
             else
             {
-                if (Projectile.localAI[0] < 8)
+                if (Projectile.ai[1] < 8)
                 {
                     Projectile.localAI[1] += speed * player.GetAttackSpeed(DamageClass.Melee);
                 }
-                if (Projectile.localAI[1] > 45 && Projectile.localAI[0] < 8 && player.inventory.Any(item => item.ammo == AmmoID.Dart && item.stack > 0))
+                if (Projectile.localAI[1] > 45 && Projectile.ai[1] < 8)
                 {
                     Projectile.localAI[1] = 0;
-                    Projectile.localAI[0]++;
-                    if (Projectile.localAI[0] == 8)
+                    if (Projectile.ai[1] == 7)
                     {
+                        Projectile.ai[1]++;
+                        Projectile.frame++;
                         SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_sky_dragons_fury_shot_2"), Projectile.Center); // 228
                     }
                     else
                     {
+                        bool canShoot = player.PickAmmo(player.HeldItem, out int type, out float shootSpeed, out int damage, out float knockback, out int ammoID);
+                        if (canShoot)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item65, Projectile.Center);
+
+                            //Projectile.ai[1] = type;
+                            dartItems[(int)Projectile.ai[1]] = ammoID;
+                            Projectile.ai[1]++;
+                            Projectile.frame++;
+                        }
+                        /*
                         SoundEngine.PlaySound(SoundID.Item65, Projectile.Center);
                         if ((int)Projectile.ai[1] == ProjectileID.Seed)
                         {
@@ -211,8 +247,8 @@ namespace JoostMod.Projectiles.Hybrid
                         {
                             player.ConsumeItem(ItemID.PoisonDart);
                         }
+                        */
                     }
-                    Projectile.frame++;
                 }
             }
             Projectile.velocity.Normalize();
@@ -255,6 +291,38 @@ namespace JoostMod.Projectiles.Hybrid
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            if (Projectile.ai[0] > 0 && Projectile.ai[1] > 0 && Main.myPlayer == Projectile.owner)
+            {
+                Projectile.velocity.Normalize();
+                for (int i = 0; i < Projectile.ai[1]; i++)
+                {
+                    if (i == 7)
+                    {
+                        float shootSpeed = player.inventory[player.selectedItem].shootSpeed;
+                        Projectile.NewProjectile(Projectile.GetSource_Death(), vector, Projectile.velocity * shootSpeed, ModContent.ProjectileType<AscendedBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_phantom_phoenix_shot_0"), Projectile.Center); // 217
+                    }
+                    else
+                    {
+                        float shootSpeed = player.inventory[player.selectedItem].shootSpeed;
+                        int damage = player.GetWeaponDamage(player.HeldItem);
+                        float kb = player.GetWeaponKnockback(player.HeldItem) * 0.5f;
+                        int type = ProjectileID.Seed;
+                        Item item = new Item(dartItems[i], 0);
+                        if (item.ammo == AmmoID.Dart)
+                        {
+                            damage += item.damage;
+                            kb += item.knockBack;
+                            shootSpeed += item.shootSpeed;
+                            type = item.shoot;
+                        }
+                        Vector2 vel = Projectile.velocity * (shootSpeed + i * shootSpeed / 11);
+                        Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, dartItems[i]), vector, vel, type, damage, kb, Projectile.owner);
+                        SoundEngine.PlaySound(SoundID.Item63, Projectile.Center);
+                    }
+                }
+            }
+            /*
             if (Projectile.ai[0] > 0 && Main.myPlayer == Projectile.owner)
             {
                 Projectile.velocity.Normalize();
@@ -274,6 +342,7 @@ namespace JoostMod.Projectiles.Hybrid
                     }
                 }
             }
+            */
         }
     }
 }

@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
             Item.consumable = true;  
             Item.rare = ItemRarityID.Green; 
             Item.value = Item.buyPrice(0, 1, 0, 0);  
-            Item.createTile = Mod.Find<ModTile>("AirElementalBanner").Type;  
+            Item.createTile = ModContent.TileType<Tiles.Banners.AirElementalBanner>();  
             Item.placeStyle = 0;
         }
     }

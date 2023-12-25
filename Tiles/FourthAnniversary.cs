@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using JoostMod.Items.Placeable;
 
 namespace JoostMod.Tiles
 {
@@ -36,7 +37,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>("FourthAnniversary").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.FourthAnniversary>());
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -61,7 +62,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Tiles/FourthAnniversarySolarEclipse").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_Eclipse").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 
@@ -78,7 +79,7 @@ namespace JoostMod.Tiles
             color.A = (byte)((int)(255f * (alpha / 1000f)));
             if (alpha > 0 && !(Main.bloodMoon && Main.time > 200 && Main.time < 31400) && !(Main.eclipse && Main.time > 200 && Main.time < 53000))
             {
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Tiles/FourthAnniversaryNight").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_Night").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
 
             color = Lighting.GetColor(i, j, paintColor);
@@ -97,7 +98,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Tiles/FourthAnniversaryBloodMoon").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_BloodMoon").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
         }

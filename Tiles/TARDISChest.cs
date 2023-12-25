@@ -47,7 +47,7 @@ namespace JoostMod.Tiles
 			AdjTiles = new int[] { TileID.Containers };
 			TileID.Sets.BasicChest[Type] = true;
 			ContainerName.SetDefault("TARDIS Chest");
-			ChestDrop = Mod.Find<ModItem>("TARDISChest").Type;
+			ChestDrop = ModContent.ItemType<Items.Placeable.TARDISChest>();
 		}
 
 		public string MapChestName(string name, int i, int j)
@@ -183,7 +183,7 @@ namespace JoostMod.Tiles
 				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "TARDIS Chest";
 				if (player.cursorItemIconText == "TARDIS Chest")
 				{
-					player.cursorItemIconID = Mod.Find<ModItem>("TARDISChest").Type;
+					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.TARDISChest>();
 					player.cursorItemIconText = "";
 				}
 			}

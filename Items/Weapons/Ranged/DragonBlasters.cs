@@ -25,7 +25,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.height = 36;
             Item.useTime = 11;
             Item.useAnimation = 11;
-            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useStyle = ItemUseStyleID.HiddenAnimation;
             Item.knockBack = 3;
             Item.value = 250000;
             Item.rare = ItemRarityID.Pink;
@@ -40,7 +40,7 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            return Main.rand.NextFloat() > 0.35f;
+            return Main.rand.NextFloat() > 0.35f && !player.ItemAnimationJustStarted;
         }
         public override bool CanUseItem(Player player)
         {
@@ -57,12 +57,13 @@ namespace JoostMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             type = ModContent.ProjectileType<DragonBlaster>();
+            int mode = 0;
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 1);
-                return false;
+                mode = 1;
             }
-            return true;
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, mode);
+            return false;
         }
         public override void AddRecipes()
         {

@@ -39,7 +39,7 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            return false;
+            return !player.ItemAnimationJustStarted;
         }
         public override bool CanUseItem(Player player)
         {

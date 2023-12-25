@@ -1,3 +1,4 @@
+using JoostMod.Items.Legendaries;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,7 +11,7 @@ namespace JoostMod.Tiles
 {
 	public class EvilStone : ModTile
 	{
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -23,17 +24,16 @@ namespace JoostMod.Tiles
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stone of Death");
-			AddMapEntry(new Color(127, 0, 255), name);
-			DustType = 14;
-            TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
+            AddMapEntry(new Color(127, 0, 255), name);
+            DustType = 14;
+            TileID.Sets.DisableSmartCursor[Type] = true;
         }
-
         public override bool RightClick(int i, int j)
         {
             WorldGen.KillTile(i, j, false, false, false);
-            if (Main.netMode == 1 && !Main.tile[i, j].HasTile)
+            if (Main.netMode == NetmodeID.MultiplayerClient && !Main.tile[i, j].HasTile)
             {
-                NetMessage.SendData(17, -1, -1, null, 4, (float)i, (float)j, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 4, (float)i, (float)j, 0f, 0, 0, 0);
             }
             return true;
         }
@@ -42,7 +42,7 @@ namespace JoostMod.Tiles
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = Mod.Find<ModItem>("EvilStone").Type;
+            player.cursorItemIconID = ModContent.ItemType<Items.Legendaries.EvilStone>();
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
@@ -63,7 +63,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(127, 0, (255 - Main.DiscoG));
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("Tiles/EvilStonePupil").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>($"{Texture}_Pupil").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -73,7 +73,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, Mod.Find<ModItem>("EvilStone").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Legendaries.EvilStone>());
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

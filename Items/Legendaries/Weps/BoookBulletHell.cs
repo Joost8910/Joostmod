@@ -81,7 +81,7 @@ namespace JoostMod.Items.Legendaries.Weps
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            return Main.rand.NextFloat() < 0.5f;
+            return Main.rand.NextFloat() < 0.5f && !player.ItemAnimationJustStarted;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

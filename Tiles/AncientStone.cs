@@ -14,7 +14,7 @@ namespace JoostMod.Tiles
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
-            ItemDrop = Mod.Find<ModItem>("AncientStone").Type;
+            ItemDrop = ModContent.ItemType<Items.Legendaries.AncientStone>();
 			AddMapEntry(new Color(56, 94, 51));
             DustType = 46;
             MinPick = 100;

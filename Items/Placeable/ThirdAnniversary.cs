@@ -23,7 +23,7 @@ namespace JoostMod.Items.Placeable
             Item.consumable = true;
             Item.value = 500000;
             Item.rare = ItemRarityID.Yellow;
-            Item.createTile = Mod.Find<ModTile>("ThirdAnniversary").Type;
+            Item.createTile = ModContent.TileType<Tiles.ThirdAnniversary>();
             Item.placeStyle = 0;
         }
     }

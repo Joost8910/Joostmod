@@ -117,10 +117,10 @@ namespace JoostMod.Projectiles.Ranged
                 }
                 Projectile.localAI[1] = (Projectile.localAI[1] + 45f / rate) % 360;
 
-                Projectile.ai[0]--;
-                if (Projectile.ai[0] <= 0)
+                Projectile.ai[0]++;
+                if (Projectile.ai[0] >= rate)
                 {
-                    Projectile.ai[0] = rate;
+                    Projectile.ai[0] = 0;
                     /*
                     Item bullet = new Item();
                     bool canShoot = false;

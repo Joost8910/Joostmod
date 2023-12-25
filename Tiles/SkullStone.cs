@@ -42,7 +42,7 @@ namespace JoostMod.Tiles
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = Mod.Find<ModItem>("SkullStone").Type;
+            player.cursorItemIconID = ModContent.ItemType<Items.Legendaries.SkullStone>();
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
@@ -63,7 +63,7 @@ namespace JoostMod.Tiles
                 vector = Vector2.Zero;
             }
             Color color = new Color(0, Main.DiscoG, Main.DiscoG);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Tiles/SkullStoneEyes").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_Eyes").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + vector, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -73,7 +73,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, Mod.Find<ModItem>("SkullStone").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Legendaries.SkullStone>());
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

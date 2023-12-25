@@ -24,7 +24,7 @@ namespace JoostMod.Items.Placeable
             Item.consumable = true;  
             Item.rare = ItemRarityID.Orange; 
             Item.value = Item.buyPrice(0, 10, 0, 0);  
-            Item.createTile = Mod.Find<ModTile>("ElementalForge").Type;  
+            Item.createTile = ModContent.TileType<Tiles.ElementalForge>();  
             Item.placeStyle = 0;
         }
         public override void AddRecipes()

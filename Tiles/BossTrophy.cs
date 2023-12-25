@@ -30,16 +30,16 @@ namespace JoostMod.Tiles
 			switch (frameX / 54)
 			{
 				case 0:
-					item = Mod.Find<ModItem>("JumboCactuarTrophy").Type;
+					item = ModContent.ItemType<Items.Placeable.JumboCactuarTrophy>();
 					break;
 				case 1:
-					item = Mod.Find<ModItem>("SAXTrophy").Type;
+					item = ModContent.ItemType<Items.Placeable.SAXTrophy>();
 					break;
 				case 2:
-					item = Mod.Find<ModItem>("GilgameshTrophy").Type;
+					item = ModContent.ItemType<Items.Placeable.GilgameshTrophy>();
 					break;
                 case 3:
-                    item = Mod.Find<ModItem>("GrandCactusWormTrophy").Type;
+                    item = ModContent.ItemType<Items.Placeable.GrandCactusWormTrophy>();
                     break;
             }
 			if (item > 0)

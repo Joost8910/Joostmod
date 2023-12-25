@@ -28,7 +28,7 @@ namespace JoostMod.Tiles.Banners     //We need this to basically indicate the fo
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>("SpectreBanner").Type);//this defines what to drop when this tile is destroyed
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.SpectreBanner>());//this defines what to drop when this tile is destroyed
         }
 
         public override void NearbyEffects(int i, int j, bool closer)   //this make so the banner give an effect to nearby players

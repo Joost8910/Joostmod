@@ -42,7 +42,7 @@ namespace JoostMod.Tiles
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = Mod.Find<ModItem>("InfernoStone").Type;
+            player.cursorItemIconID = ModContent.ItemType<Items.Legendaries.InfernoStone>();
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
@@ -62,7 +62,7 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, Mod.Find<ModItem>("InfernoStone").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Legendaries.InfernoStone>());
 		}
         public override void NearbyEffects(int i, int j, bool closer)
         {

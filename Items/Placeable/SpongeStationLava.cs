@@ -22,7 +22,7 @@ namespace JoostMod.Items.Placeable
 			Item.useTime = 10;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-			Item.createTile = Mod.Find<ModTile>("SpongeStationLava").Type;
+			Item.createTile = ModContent.TileType<Tiles.SpongeStationLava>();
             Item.rare = ItemRarityID.Lime;
             Item.mech = true;
 		}

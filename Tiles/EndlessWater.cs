@@ -43,11 +43,11 @@ namespace JoostMod.Tiles
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
-			player.cursorItemIconID = Mod.Find<ModItem>("EndlessWater").Type;
+			player.cursorItemIconID = ModContent.ItemType<Items.Placeable.EndlessWater>();
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, Mod.Find<ModItem>("EndlessWater").Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.EndlessWater>());
 		}
         public override bool RightClick(int i, int j)
         {

@@ -24,7 +24,7 @@ namespace JoostMod.Items.Placeable
             Item.consumable = true;
             Item.rare = ItemRarityID.Blue;
             Item.value = Item.buyPrice(0, 0, 3, 0);
-            Item.createTile = Mod.Find<ModTile>("FrostFurnace").Type;
+            Item.createTile = ModContent.TileType<Tiles.FrostFurnace>();
             Item.placeStyle = 0;
         }
         public override void AddRecipes()

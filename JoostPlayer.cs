@@ -2265,13 +2265,13 @@ namespace JoostMod
                                 }
                                 */
                                 Player.gravity = 0;
-                                int d = Dust.NewDust(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, 246, -Player.velocity.X * 0.5f, Player.velocity.Y * 0.5f, 50, Color.Gold, 1.5f);
+                                int d = Dust.NewDust(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, DustID.GoldCoin, -Player.velocity.X * 0.5f, Player.velocity.Y * 0.5f, 50, Color.Gold, 1.5f);
                                 Main.dust[d].velocity.X = Main.dust[d].velocity.X * 0.2f;
                                 Main.dust[d].velocity.Y = Main.dust[d].velocity.Y * 0.2f;
                                 Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(Player.cShoe, Player);
                                 if (hoverBootsTimer < 60)
                                 {
-                                    Dust.NewDustDirect(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, 31, -Player.velocity.X * 0.5f, Player.velocity.Y * 0.5f, 50, Color.White, 1f).velocity *= 0.2f;
+                                    Dust.NewDustDirect(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, DustID.Smoke, Player.velocity.X, Player.velocity.Y * 0.5f, 50, Color.White, 1f).velocity.Y *= 0.4f;
                                 }
                             }
                             Player.canRocket = true;
