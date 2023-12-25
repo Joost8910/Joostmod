@@ -104,7 +104,7 @@ namespace JoostMod.Projectiles.Ranged
                     }
                     if (Main.rand.NextBool(Math.Max(20 - (int)(Projectile.ai[1] / 6), 1)))
                     {
-                        Dust.NewDustDirect(Projectile.Center + Projectile.velocity * 30 * Projectile.scale - new Vector2(12, 12), 12, 12, 6).noGravity = true;
+                        Dust.NewDustDirect(Projectile.Center + Projectile.velocity * 30 * Projectile.scale - new Vector2(6, 6), 12, 12, DustID.Torch).noGravity = true;
                     }
                 }
                 if (Projectile.ai[1] == 120)
@@ -114,7 +114,7 @@ namespace JoostMod.Projectiles.Ranged
                 if (Projectile.ai[1] >= 120)
                 {
                     player.velocity.X *= 0.99f;
-                    Dust.NewDustDirect(Projectile.Center + Projectile.velocity * 30 * Projectile.scale - new Vector2(12, 12), 12, 12, 6).noGravity = true;
+                    Dust.NewDustDirect(Projectile.Center + Projectile.velocity * 30 * Projectile.scale - new Vector2(6, 6), 12, 12, DustID.Torch).noGravity = true;
                 }
             }
             else if (Projectile.localAI[0] <= 0)
@@ -153,7 +153,7 @@ namespace JoostMod.Projectiles.Ranged
 
                     if (canShoot)
                     {
-                        shootSpeed += (int)(Projectile.ai[1] / 30);
+                        shootSpeed += (Projectile.ai[1] / 30);
                         /*
                         type = item.shoot;
                         if (Projectile.timeLeft < 3600 && item.consumable && ItemLoader.ConsumeAmmo(player.HeldItem, item, player))

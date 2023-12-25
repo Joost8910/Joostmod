@@ -25,10 +25,11 @@ namespace JoostMod.Items.Rewards
             Item.damage = 7;
             Item.DamageType = DamageClass.Ranged;
             Item.knockBack = 2;
+            Item.shootSpeed = 6.6f;
         }
         public override bool? CanChooseAmmo(Item ammo, Player player)
         {
-            return ammo.type == AmmoID.Arrow;
+            return ammo.ammo == AmmoID.Arrow;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -45,7 +46,7 @@ namespace JoostMod.Items.Rewards
                     {
                         line2.OverrideColor = new Color(230, 204, 128);
                     }
-                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "knockback")
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
                     {
                         line2.OverrideColor = Color.DarkGray;
                     }

@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Minions
 {
@@ -89,7 +90,7 @@ namespace JoostMod.Projectiles.Minions
 					targetPos = npc.Center;
                     if (predict)
                     {
-                        PredictPosition(npc, ref targetPos, ref targetDist);
+                        ModContent.GetInstance<JoostFunctions>().PredictNPCPosition(Projectile.Center, shootSpeed, npc, ref targetPos, ref targetDist);
                     }
                     target = true;
 				}
@@ -108,7 +109,7 @@ namespace JoostMod.Projectiles.Minions
                         targetPos = npc.Center;
                         if (predict)
                         {
-                            PredictPosition(npc, ref targetPos, ref targetDist);
+                            ModContent.GetInstance<JoostFunctions>().PredictNPCPosition(Projectile.Center, shootSpeed, npc, ref targetPos, ref targetDist);
                         }
                         target = true;
                     }
@@ -376,10 +377,11 @@ namespace JoostMod.Projectiles.Minions
             CreateDust();
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
-		{
-			fallThrough = fallThroughPlat;
-			return true;
-		}
+        {
+            fallThrough = fallThroughPlat;
+            return true;
+        }
+        /*
         public void PredictPosition(NPC npc, ref Vector2 targetPos, ref float targetDist)
         {
             Vector2 predictedVel = npc.velocity;
@@ -393,7 +395,7 @@ namespace JoostMod.Projectiles.Minions
 
             predictedTime = Vector2.Distance(predictedPos, Projectile.Center) / shootSpeed;
             predictedVel = npc.velocity;
-            predictedPos = npc.position + predictedVel;
+            predictedPos = npc.position;
             for (int i = 0; i < predictedTime; i++)
             {
                 PredictGravity(npc, predictedPos, ref predictedVel);
@@ -472,6 +474,7 @@ namespace JoostMod.Projectiles.Minions
                 predictedVelocity = Collision.TileCollision(predictedPos, predictedVelocity, npc.width, npc.height);
             }
         }
+            */
     }
     
 }

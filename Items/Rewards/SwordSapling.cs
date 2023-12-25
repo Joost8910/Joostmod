@@ -41,7 +41,7 @@ namespace JoostMod.Items.Rewards
                     {
                         line2.OverrideColor = new Color(230, 204, 128);
                     }
-                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "knockback")
+                    if (line2.Name == "Damage" || line2.Name == "CritChance" || line2.Name == "Knockback")
                     {
                         line2.OverrideColor = Color.DarkGray;
                     }

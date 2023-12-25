@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Accessory
         {
             Player P = Main.player[Projectile.owner];
 
-            Projectile.position = P.MountedCenter - Projectile.Center;
+            Projectile.position = P.Center - (Projectile.Size / 2);
             Projectile.position += Projectile.velocity * Projectile.ai[1];
             if (Projectile.ai[1] == 0f)
             {

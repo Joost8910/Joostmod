@@ -1832,14 +1832,16 @@ namespace JoostMod
             {
                 bool target = false;
                 Vector2 shoot = new Vector2(0, 0);
+                float dist = 70;
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
                     if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, Player.Center) < 70 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Vector2.Distance(npc.Center, Player.Center) < dist && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
                         {
                             target = true;
+                            dist = Vector2.Distance(npc.Center, Player.Center);
                             shoot = Player.DirectionTo(npc.Center);
                         }
                     }
@@ -1853,7 +1855,7 @@ namespace JoostMod
                         int damage = Player.GetWeaponDamage(swordSaplingItem);
                         float knockback = Player.GetWeaponKnockback(swordSaplingItem);
                         SoundEngine.PlaySound(SoundID.Item1, Player.Center);
-                        Projectile.NewProjectile(source, Player.Center.X + 16*Player.direction, Player.Center.Y, shoot.X * 3, shoot.Y * 3, ModContent.ProjectileType<SaplingSword>(), damage, knockback, Player.whoAmI, 9);
+                        Projectile.NewProjectile(source, Player.Center, shoot * 3, ModContent.ProjectileType<SaplingSword>(), damage, knockback, Player.whoAmI, 9);
                     }
                     swordSaplingTimer = (int)(9f / Player.GetAttackSpeed(DamageClass.Melee));
                 }
@@ -1898,22 +1900,28 @@ namespace JoostMod
             }
             if (bowSaplingItem != null)
             {
-                bool target = false;
-                Vector2 shoot = new Vector2(0, 0);
+                Vector2 origin = Player.Center;
+                bool hasTarget = false;
+                float dist = 800;
+                Vector2 targetPos = new Vector2(0, 0);
+                NPC target = Main.npc[0];
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
                     if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, Player.Center) < 800 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        //Main.NewText(Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height)); 
+                        if (Vector2.Distance(npc.Center, origin) < dist && (origin.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(origin, 1, 1, npc.position, npc.width, npc.height))
                         {
-                            target = true;
-                            shoot = Player.DirectionTo(npc.Center);
+                            dist = Vector2.Distance(npc.Center, origin);
+                            hasTarget = true;
+                            targetPos = npc.Center + npc.velocity;
+                            target = npc;
                         }
                     }
                 }
                 bowSaplingTimer--;
-                if (bowSaplingTimer < 0 && target)
+                if (bowSaplingTimer < 0 && hasTarget)
                 {
                     //int damage = (int)(7 * Player.GetDamage(DamageClass.Generic) * (Player.GetDamage(DamageClass.Generic) + Player.GetDamage(DamageClass.Ranged) - 1f) * Player.GetDamage(DamageClass.Ranged));
                     //float knockback = 2;
@@ -1950,8 +1958,43 @@ namespace JoostMod
                     */
                     if (flag)
                     {
-                        SoundEngine.PlaySound(SoundID.Item5, Player.Center);
-                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * speed, shoot.Y * speed, proj, damage, knockback, Player.whoAmI);
+                        ModContent.GetInstance<JoostFunctions>().PredictNPCPosition(origin, speed, target, ref targetPos, ref dist);
+                        float g = -0.1f;
+                        Vector2 vect = origin + Player.DirectionTo(targetPos) * 15 * speed;
+                        /*float time = dist / speed;
+                        time -= 15;
+                        if (time > 0)
+                            targetPos.Y -= (g * time * time * 0.5f);
+                        */
+                        /*
+                        Vector2 v = Vector2.Zero;
+                        v.X = (targetPos.X - origin.X) / time;
+                        v.Y = -(targetPos.Y + 0.5f * g * time * time - origin.Y) / time;
+                        */
+
+                        //float d = Math.Abs(targetPos.X - origin.X);
+                        //float theta = (float)Math.Asin(d / (speed * 2 / 0.1f));
+
+                        float v = speed;
+                        float x = targetPos.X - vect.X;
+                        float y = targetPos.Y - vect.Y;
+                        double sub = (v*v*v*v) - g * (g * (x*x) + 2 * y * (v*v));
+                        double o = ((v * v) - Math.Sqrt(Math.Abs(sub)));
+                        double a = (g * x);
+                        /*
+                        for (int i = 0; i < Math.Abs(x); i += 8)
+                        {
+                            Vector2 dustPos = vect;
+                            dustPos.X += i * Math.Sign(x);
+                            dustPos.Y += (float)(o / a) * i * Math.Sign(x);
+                            Dust.NewDustPerfect(dustPos, DustID.Adamantite, Vector2.Zero).noGravity = true;
+                        }
+                        */
+                        targetPos.Y = vect.Y + (float)(o / a) * x;
+
+                        Vector2 shoot = Vector2.Normalize(targetPos - origin) * speed;
+                        SoundEngine.PlaySound(SoundID.Item5, origin);
+                        Projectile.NewProjectile(source, origin, shoot, proj, damage, knockback, Player.whoAmI);
                     }
                     bowSaplingTimer = 27;
                 }
@@ -1962,27 +2005,31 @@ namespace JoostMod
             }
             if (staffSaplingItem != null)
             {
-                bool target = false;
-                Vector2 shoot = new Vector2(0, 0);
+                bool hasTarget = false;
+                float dist = 650;
+                float speed = 6.5f;
+                Vector2 targetPos = Vector2.Zero;
                 for (int k = 0; k < 200; k++)
                 {
                     NPC npc = Main.npc[k];
                     if (npc.CanBeChasedBy(Player, false))
                     {
-                        if (Vector2.Distance(npc.Center, Player.Center) < 650 && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Vector2.Distance(npc.Center, Player.Center) < dist && (Player.Center.X - npc.Center.X) * Player.direction > 0 && Collision.CanHitLine(Player.Center, 1, 1, npc.position, npc.width, npc.height))
                         {
-                            target = true;
-                            shoot = Player.DirectionTo(npc.Center);
+                            dist = Vector2.Distance(npc.Center, Player.Center);
+                            hasTarget = true;
+                            ModContent.GetInstance<JoostFunctions>().PredictNPCPosition(Player.Center, speed, npc, ref targetPos, ref dist);
                         }
                     }
                 }
                 staffSaplingTimer--;
-                if (staffSaplingTimer < 0 && target)
+                if (staffSaplingTimer < 0 && hasTarget)
                 {
+                    Vector2 shoot = Player.DirectionTo(targetPos);
                     var source = Player.GetSource_Accessory(staffSaplingItem);
                     int damage = Player.GetWeaponDamage(staffSaplingItem);
                     float knockback = Player.GetWeaponKnockback(staffSaplingItem);
-                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, shoot.X * 6.5f, shoot.Y * 6.5f, ProjectileID.AmethystBolt, damage, knockback, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center, shoot * speed, ProjectileID.AmethystBolt, damage, knockback, Player.whoAmI);
                     staffSaplingTimer = 37;
                 }
             }
@@ -2264,7 +2311,7 @@ namespace JoostMod
                                     player.velocity.Y = (player.gravity + 1E-06f) * -player.gravDir;
                                 }
                                 */
-                                Player.gravity = 0;
+                        Player.gravity = 0;
                                 int d = Dust.NewDust(new Vector2(Player.position.X - 4f, Player.position.Y + (Player.gravDir > 0 ? (float)Player.height + 2f : -2f)), Player.width + 8, 4, DustID.GoldCoin, -Player.velocity.X * 0.5f, Player.velocity.Y * 0.5f, 50, Color.Gold, 1.5f);
                                 Main.dust[d].velocity.X = Main.dust[d].velocity.X * 0.2f;
                                 Main.dust[d].velocity.Y = Main.dust[d].velocity.Y * 0.2f;
@@ -3153,6 +3200,7 @@ namespace JoostMod
                 }
             }
         }
+        
         public void Dash()
         {
             if (dashType == 1 && Player.dashDelay < 0 && Player.whoAmI == Main.myPlayer) //Shield of Flesh
