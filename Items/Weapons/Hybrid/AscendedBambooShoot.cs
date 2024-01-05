@@ -1,3 +1,4 @@
+using JoostMod.DamageClasses;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -20,9 +21,7 @@ namespace JoostMod.Items.Weapons.Hybrid
         public override void SetDefaults()
         {
             Item.damage = 42;
-            Item.DamageType = DamageClass.Melee;
-            Item.CountsAsClass(DamageClass.Ranged); //TODO: Check if this works? If not, then uncomment the modifying tomfoolery
-                                                    //Item.DamageType = DamageClass.Ranged;
+            Item.DamageType = ModContent.GetInstance<MeleeRangedHybrid>();
             Item.width = 140;
             Item.height = 20;
             Item.noMelee = true;
@@ -39,7 +38,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             Item.shoot = 10;
             Item.shootSpeed = 15f;
         }
-        //TODO: see if using CountsAsClass() Simplifies this tomfoolery
+        //Using CountsAsClass() does not work as expected, it only returns a bool; it cannot be modified directly
         /*
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
@@ -51,7 +50,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             crit += player.GetCritChance(DamageClass.Ranged);
         }
         */
-
+        /*
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];
@@ -59,6 +58,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             list.RemoveAt(dmg);
             list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " melee and ranged damage"));
         }
+        */
         public override bool AltFunctionUse(Player player)
         {
             return true;
@@ -97,7 +97,19 @@ namespace JoostMod.Items.Weapons.Hybrid
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Hybrid.AscendedBambooShoot>(), damage, knockback, player.whoAmI, mode);
             return false;
         }
-        public override int ChoosePrefix(UnifiedRandom rand)
+        public override bool MeleePrefix()
+        {
+            return Main.rand.NextBool(2);
+        }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
+        public override bool RangedPrefix()
+        {
+            return true;
+        }
+        /*public override int ChoosePrefix(UnifiedRandom rand)
         {
             if (Main.rand.NextBool(3))
             {
@@ -172,7 +184,7 @@ namespace JoostMod.Items.Weapons.Hybrid
                 }
             }
             return base.ChoosePrefix(rand);
-        }
+        }*/
         public override void AddRecipes()
         {
             CreateRecipe()

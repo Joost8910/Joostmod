@@ -123,7 +123,7 @@ namespace JoostMod.Projectiles.Hybrid
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            float speed = 21f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee) / 2;
+            float speed = (21f / player.inventory[player.selectedItem].useTime) * player.GetAttackSpeed(DamageClass.Melee) / (Projectile.extraUpdates + 1);
             Projectile.localNPCHitCooldown = (int)(21f / speed);
             Projectile.scale = player.inventory[player.selectedItem].scale;
             Projectile.width = (int)(Projectile.scale * 100);

@@ -24,8 +24,8 @@ namespace JoostMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
         public override void PostAI()
         {
@@ -41,7 +41,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/TheHive_Chain");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Chain");
 
             Vector2 position = Projectile.Center;
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;

@@ -39,6 +39,10 @@ namespace JoostMod.Prefixes
     }
     public class GrognakPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Grognak's");
+        }
         public override byte meleeDamage => 6;
         public override bool CanRoll(Item item)
         {
@@ -47,6 +51,10 @@ namespace JoostMod.Prefixes
     }
     public class GnundersonPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gnunderson's");
+        }
         public override byte thrownDamage => 6;
         public override bool CanRoll(Item item)
         {
@@ -55,6 +63,10 @@ namespace JoostMod.Prefixes
     }
     public class BoookPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Boook's");
+        }
         public override byte rangedDamage => 6;
         public override bool CanRoll(Item item)
         {
@@ -63,6 +75,10 @@ namespace JoostMod.Prefixes
     }
     public class DavidPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("David's");
+        }
         public override byte magicDamage => 6;
         public override bool CanRoll(Item item)
         {
@@ -71,6 +87,10 @@ namespace JoostMod.Prefixes
     }
     public class LarkusPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Larkus's");
+        }
         public override byte summonDamage => 6; 
         public override bool CanRoll(Item item)
         {
@@ -79,6 +99,10 @@ namespace JoostMod.Prefixes
     }
     public class UncleCariusPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Uncle Carius's");
+        }
         public override byte fishingPower => 5;
         public override bool CanRoll(Item item)
         {
@@ -87,6 +111,10 @@ namespace JoostMod.Prefixes
     }
     public class HeartyPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hearty");
+        }
         public override byte maxHealth => 25;
         public override bool CanRoll(Item item)
         {
@@ -95,6 +123,10 @@ namespace JoostMod.Prefixes
     }
     public class RejuvenatingPrefix : AccessoryPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Rejuvenating");
+        }
         public override byte lifeRegen => 1;
         public override bool CanRoll(Item item)
         {

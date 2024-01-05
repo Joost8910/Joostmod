@@ -2,189 +2,104 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Melee
 {
-    public class TheRose : ModProjectile
+    public class TheRose : Flail
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Rose");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = 26;
+            Projectile.height = 26;
             Projectile.aiStyle = 15;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 4800;
             Projectile.penetrate = -1;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            outTime = 18;
+            throwSpeed = 13f;
+            returnSpeed = 10f;
+            returnSpeedAfterHeld = 15f;
+            swingHitCD = 15;
+            swingSpeed = 0.8f;
+            chainTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Chain");
         }
-        public override bool PreDrawExtras()
-        {
-            return false;
-        }
-        public override bool PreAI()
+        public override void ThrowEffects()
         {
             Player player = Main.player[Projectile.owner];
-            if (player.dead)
+            if (Main.myPlayer == Projectile.owner && player.ownedProjectileCounts[ModContent.ProjectileType<RoseThorns>()] <= 0)
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<RoseThorns>(), (int)(Projectile.damage * 0.8f), Projectile.knockBack * 0.5f, Projectile.owner, Projectile.whoAmI);
+        }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = (int)(30 * Projectile.scale);
+            hitbox.Height = (int)(30 * Projectile.scale);
+            hitbox.X -= (hitbox.Width - Projectile.width) / 2;
+            hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
+        }
+        public override void CheckStats(ref float speedMult)
+        {
+            Player player = Main.player[Projectile.owner];
+            if (player.HeldItem.shoot == Projectile.type)
             {
-                Projectile.Kill();
-                return false;
+                Projectile.scale = player.HeldItem.scale;
+                speedMult *= 44f / player.HeldItem.useTime;
             }
-            player.itemAnimation = 10;
-            player.itemTime = 10;
-            if (Projectile.Center.X > player.Center.X)
-            {
-                Projectile.direction = 1;
-            }
-            else
-            {
-                Projectile.direction = -1;
-            }
-            Vector2 playerCenter = player.MountedCenter;
-            Vector2 dir = player.DirectionTo(Projectile.Center);
-            if (Main.myPlayer == Projectile.owner)
-            {
-                bool channeling = player.channel && !player.noItems && !player.CCed;
-                if (channeling)
-                {
-                    dir = Main.MouseWorld - playerCenter;
-                    dir.Normalize();
-                    if (dir.HasNaNs())
-                    {
-                        dir = Vector2.UnitX * player.direction;
-                    }
-                    playerCenter += dir * 62;
-                    if (Main.MouseWorld.X > player.Center.X)
-                    {
-                        if (player.direction < 0 && (Main.MouseWorld.Y < player.position.Y + player.height && player.gravDir > 0 || Main.MouseWorld.Y > player.position.Y && player.gravDir < 0))
-                        {
-                            player.bodyFrame.Y = player.bodyFrame.Height;
-                        }
-                    }
-                    else
-                    {
-                        if (player.direction > 0 && (Main.MouseWorld.Y < player.position.Y + player.height && player.gravDir > 0 || Main.MouseWorld.Y > player.position.Y && player.gravDir < 0))
-                        {
-                            player.bodyFrame.Y = player.bodyFrame.Height;
-                        }
-                    }
-                    if (dir.X != Projectile.velocity.X || dir.Y != Projectile.velocity.Y)
-                    {
-                        Projectile.netUpdate = true;
-                    }
-                }
-            }
-            player.itemRotation = (float)Math.Atan2((double)(dir.Y * player.direction), (double)(dir.X * player.direction));
-            float num207 = playerCenter.X - Projectile.Center.X;
-            float num208 = playerCenter.Y - Projectile.Center.Y;
-            float num209 = (float)Math.Sqrt((double)(num207 * num207 + num208 * num208));
-            if (Projectile.ai[0] == 0f)
-            {
-                float num210 = 100f; //Distance before coming back
-                Projectile.tileCollide = true;
-                if (num209 > num210)
-                {
-                    Projectile.ai[0] = 1f;
-                    Projectile.netUpdate = true;
-                }
-                else if (!player.channel)
-                {
-                    if (Projectile.velocity.Y < 0f)
-                    {
-                        Projectile.velocity.Y = Projectile.velocity.Y * 0.9f;
-                    }
-                    Projectile.velocity.Y = Projectile.velocity.Y + 1f;
-                    Projectile.velocity.X = Projectile.velocity.X * 0.9f;
-                }
-            }
-            else if (Projectile.ai[0] == 1f)
-            {
-                float num211 = 14f / player.GetAttackSpeed(DamageClass.Melee);
-                float num212 = 0.9f / player.GetAttackSpeed(DamageClass.Melee);
-                float num213 = 500f;
-                float num214 = Math.Abs(num207);
-                float num215 = Math.Abs(num208);
-                if (Projectile.ai[1] == 1f)
-                {
-                    Projectile.tileCollide = false;
-                }
-                if (!player.channel || num209 > num213 || !Projectile.tileCollide || Projectile.timeLeft < 600)
-                {
-                    Projectile.ai[1] = 1f;
-                    if (Projectile.tileCollide)
-                    {
-                        Projectile.netUpdate = true;
-                    }
-                    Projectile.tileCollide = false;
-                    if (num209 < 20f)
-                    {
-                        Projectile.Kill();
-                    }
-                }
-                if (!Projectile.tileCollide)
-                {
-                    num212 *= 2f;
-                }
-                int num216 = 60;
-                if (num209 > num216 || !Projectile.tileCollide)
-                {
-                    num209 = num211 / num209;
-                    num207 *= num209;
-                    num208 *= num209;
-                    Vector2 vector21 = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
-                    float num217 = num207 - Projectile.velocity.X;
-                    float num218 = num208 - Projectile.velocity.Y;
-                    float num219 = (float)Math.Sqrt((double)(num217 * num217 + num218 * num218));
-                    num219 = num212 / num219;
-                    num217 *= num219;
-                    num218 *= num219;
-                    Projectile.velocity.X = Projectile.velocity.X * 0.98f;
-                    Projectile.velocity.Y = Projectile.velocity.Y * 0.98f;
-                    Projectile.velocity.X = Projectile.velocity.X + num217;
-                    Projectile.velocity.Y = Projectile.velocity.Y + num218;
-                }
-                else
-                {
-                    if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 6f)
-                    {
-                        Projectile.velocity.X = Projectile.velocity.X * 0.96f;
-                        Projectile.velocity.Y = Projectile.velocity.Y + 0.2f;
-                    }
-                    if (Main.player[Projectile.owner].velocity.X == 0f)
-                    {
-                        Projectile.velocity.X = Projectile.velocity.X * 0.96f;
-                    }
-                }
-            }
-            if (Projectile.velocity.X < 0f)
-            {
-                Projectile.rotation -= (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f;
-                if (player.direction < 0)
-                {
-                    player.heldProj = Projectile.whoAmI;
-                }
-            }
-            else
-            {
-                Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f;
-                if (player.direction > 0)
-                {
-                    player.heldProj = Projectile.whoAmI;
-                }
-            }
-            return false;
+            Projectile.width = (int)(26 * Projectile.scale);
+            Projectile.height = (int)(26 * Projectile.scale);
+        }
+    }
+    public class RoseThorns : ModProjectile
+    {
+        public override string Texture => "JoostMod/Projectiles/Melee/TheRose";
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("The Rose's Thorns");
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 4800;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/TheRose_Chain");
+            return false;
+        }
+        public override void AI()
+        {
+            Projectile owner = Main.projectile[(int)(Projectile.ai[0])];
+            if (!owner.active || owner.type != ModContent.ProjectileType<TheRose>() || Projectile.owner != owner.owner)
+            {
+                Projectile.Kill();
+            }
+            Projectile.Center = owner.Center;
+            Projectile.velocity = owner.velocity;
+            Projectile.timeLeft = 2;
+        }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            hitDirection = Math.Sign(Projectile.Center.X - Main.player[Projectile.owner].Center.X);
+        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
             Player player = Main.player[Projectile.owner];
-            Vector2 position = Projectile.Center;
             Vector2 playerCenter = player.MountedCenter;
             if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
             {
@@ -206,34 +121,13 @@ namespace JoostMod.Projectiles.Melee
                 playerCenter.X += -10 * player.direction;
                 playerCenter.Y += -14 * player.gravDir;
             }
-            Rectangle? sourceRectangle = new Microsoft.Xna.Framework.Rectangle?();
-            Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-            float num1 = texture.Height;
-            Vector2 vector2_4 = playerCenter - position;
-            float rotation = (float)Math.Atan2(vector2_4.Y, vector2_4.X) - 1.57f;
-            bool flag = true;
-            if (float.IsNaN(position.X) && float.IsNaN(position.Y))
-                flag = false;
-            if (float.IsNaN(vector2_4.X) && float.IsNaN(vector2_4.Y))
-                flag = false;
-            while (flag)
+            float point = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), playerCenter, Projectile.Center, 8, ref point))
             {
-                if ((double)vector2_4.Length() < (double)num1 + 1.0)
-                {
-                    flag = false;
-                }
-                else
-                {
-                    Vector2 vector2_1 = vector2_4;
-                    vector2_1.Normalize();
-                    position += vector2_1 * num1;
-                    vector2_4 = playerCenter - position;
-                    Color color2 = Lighting.GetColor((int)position.X / 16, (int)(position.Y / 16.0));
-                    color2 = Projectile.GetAlpha(color2);
-                    Main.EntitySpriteDraw(texture, position - Main.screenPosition, sourceRectangle, color2, rotation, origin, 1f, SpriteEffects.None, 0);
-                }
+                return true;
             }
-            return true;
+            return false;
         }
+
     }
 }

@@ -18,6 +18,10 @@ Clawed Gauntlet
 Twin Claws
 Slime Armor
 Pink Slime Armor
+Glow-In-The-Dark Dye
+Gaussian Dye
+Ghostly Dye
+Team Outline Dye
 
 --- Weapons ---
 1000 Needles
@@ -34,8 +38,8 @@ Brawler's Glove
 - Punching player velocity no longer scaled with knockback
 - Adjusted hitboxes
 
-- Eyeball Staff
- Projectiles now bounce off tiles
+Eyeball Staff
+- Projectiles now bounce off tiles
 
 Ember Staff
 - Damage decreased from 6 to 5
@@ -69,8 +73,11 @@ Storm Wyvern Scroll
 - During the aim window, holding right click will apply the minion targeting reticle
 (Let go of right click then to have the storm wyvern aim at that target instead of the mouse)
 
+The Rose
+- The chain now has its own damage hitbox, dealing 40% base damage
+
 Warhammer of Grognak
-- Strong attack beam now has an additive 10% damage penalty per pierce, rather than a multiplicative -20%
+- Strong attack beam now has an additive -10% damage penalty per pierce, rather than a multiplicative -20%
 - Strong attack beam shockwave from striking a tile no longer suffers the piercing damage penalty
 - Reverse Gravity Shockwave damage mult increased from 50% to 85% of standard shockwave damage
 - Adjusted hitboxes

@@ -9,6 +9,7 @@ using Terraria.Utilities;
 using JoostMod.Projectiles.Melee;
 using JoostMod.Projectiles.Thrown;
 using JoostMod.Projectiles.Hybrid;
+using JoostMod.DamageClasses;
 
 namespace JoostMod.Items.Weapons.Hybrid
 {
@@ -23,8 +24,7 @@ namespace JoostMod.Items.Weapons.Hybrid
         public override void SetDefaults()
         {
             Item.damage = 800;
-            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
-            Item.CountsAsClass(DamageClass.Throwing);
+            Item.DamageType = ModContent.GetInstance<MeleeThrowingHybrid>();
             Item.width = 36;
             Item.height = 60;
             Item.useTime = 24;
@@ -83,7 +83,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             {
                 Gilgwep = Main.rand.Next(5);
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Flail>()] > 0 && Gilgwep == 4)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GilgSetFlail>()] > 0 && Gilgwep == 4)
             {
                 Gilgwep = Main.rand.Next(4);
             }
@@ -105,7 +105,7 @@ namespace JoostMod.Items.Weapons.Hybrid
             }
             if (Gilgwep == 4)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, ModContent.ProjectileType<Flail>(), (int)(damage * 2.5f), knockback * 2, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, ModContent.ProjectileType<GilgSetFlail>(), (int)(damage * 2.5f), knockback * 2, player.whoAmI);
             }
             if (Gilgwep == 3)
             {
@@ -138,39 +138,9 @@ namespace JoostMod.Items.Weapons.Hybrid
             }
             return false;
         }
-        public override int ChoosePrefix(UnifiedRandom rand)
+        public override bool RangedPrefix()
         {
-            if (Main.rand.NextBool(2))
-            {
-                switch (rand.Next(12))
-                {
-                    case 1:
-                        return PrefixID.Rapid;
-                    case 2:
-                        return PrefixID.Hasty;
-                    case 3:
-                        return PrefixID.Intimidating;
-                    case 4:
-                        return PrefixID.Deadly2;
-                    case 5:
-                        return PrefixID.Staunch;
-                    case 6:
-                        return PrefixID.Awful;
-                    case 7:
-                        return PrefixID.Lethargic;
-                    case 8:
-                        return PrefixID.Awkward;
-                    case 9:
-                        return PrefixID.Powerful;
-                    case 10:
-                        return PrefixID.Frenzying;
-                    case 11:
-                        return PrefixID.Sighted;
-                    default:
-                        return PrefixID.Unreal;
-                }
-            }
-            return base.ChoosePrefix(rand);
+            return true;
         }
 
     }

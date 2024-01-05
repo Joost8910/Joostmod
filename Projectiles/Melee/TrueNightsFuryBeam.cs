@@ -15,16 +15,23 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.width = 38;
-            Projectile.height = 38;
+            Projectile.width = 30;
+            Projectile.height = 30;
             Projectile.aiStyle = 27;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.alpha = 75;
-            Projectile.light = 0.5f;
+            //Projectile.light = 0.5f;
 
+        }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = (int)(38 * Projectile.scale);
+            hitbox.Height = (int)(38 * Projectile.scale);
+            hitbox.X -= (hitbox.Width - Projectile.width) / 2;
+            hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
         }
         public override void AI()
         {
@@ -46,6 +53,7 @@ namespace JoostMod.Projectiles.Melee
                 Main.dust[num1].noGravity = true;
                 Main.dust[num1].velocity *= 0.1f;
             }
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.8f, 0.25f);
             Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
         public override void Kill(int timeLeft)

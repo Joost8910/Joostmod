@@ -3,38 +3,59 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Melee
 {
-    public class CopperFlail : ModProjectile
+    public class CopperFlail : Flail
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Copper Flail");
+            //ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4; //Ball o hurt is 8
+            //ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 34;
-            Projectile.height = 34;
+            Projectile.width = 26;
+            Projectile.height = 26;
             Projectile.aiStyle = 15;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 3600;
             Projectile.penetrate = -1;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            throwSpeed = 8f;
+            swingHitCD = 15;
+            swingSpeed = 0.8f;
+            outTime = 13;
+            returnSpeed = 8f;
+            returnSpeedAfterHeld = 13f;
+            chainTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Copper_Chain");
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            width = (int)(26 * Projectile.scale);
-            height = (int)(26 * Projectile.scale);
-            return true;
+            hitbox.Width = (int)(34 * Projectile.scale);
+            hitbox.Height = (int)(34 * Projectile.scale);
+            hitbox.X -= (hitbox.Width - Projectile.width) / 2;
+            hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
         }
-        public override bool PreDrawExtras()
+        public override void CheckStats(ref float speedMult)
         {
-            return false;
+            Player player = Main.player[Projectile.owner];
+            if (player.HeldItem.shoot == Projectile.type)
+            {
+                Projectile.scale = player.HeldItem.scale;
+                speedMult *= 44f / player.HeldItem.useTime;
+            }
+            Projectile.width = (int)(26 * Projectile.scale);
+            Projectile.height = (int)(26 * Projectile.scale);
         }
+
+
+        /*
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
@@ -193,6 +214,13 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
+        */
+        /*
+        public override bool PreDrawExtras()
+        {
+            return false;
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/Copper_Chain");
@@ -252,9 +280,22 @@ namespace JoostMod.Projectiles.Melee
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
+            if (Projectile.ai[0] == 1 || Projectile.ai[0] == 2)
+            {
+                for (int k = 0; k < Projectile.oldPos.Length; k++)
+                {
+                    Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + Projectile.Size / 2 + new Vector2(0f, Projectile.gfxOffY);
+                    Color color2 = Projectile.GetAlpha(lightColor) * (0.4f - k * 0.05f);
+                    float scale = Projectile.scale * (1.2f - k * 0.05f);
+                    Rectangle? rect = new Rectangle?(new Rectangle(0, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type] * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type]));
+                    Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, rect, color2, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), scale, SpriteEffects.None, 0);
+                }
+            }
+
             Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16.0));
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             return false;
         }
+        */
     }
 }

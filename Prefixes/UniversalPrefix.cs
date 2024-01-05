@@ -26,6 +26,10 @@ namespace JoostMod.Prefixes
     }
     public class DecisivePrefix : UniversalPrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Decisive");
+        }
         public override float knockback => -0.1f;
         public override int crit => 18;
         public override bool CanRoll(Item item)

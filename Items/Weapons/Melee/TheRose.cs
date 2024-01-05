@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,10 +10,11 @@ namespace JoostMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Rose");
+            Tooltip.SetDefault("Has a chain of damaging thorns");
         }
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 38;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
             Item.noMelee = true;
             Item.scale = 1.1f;
@@ -31,6 +33,14 @@ namespace JoostMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.shoot = ModContent.ProjectileType<Projectiles.Melee.TheRose>();
             Item.shootSpeed = 14f;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            damage /= 2;
+        }
+        public override bool MeleePrefix()
+        {
+            return true;
         }
         public override void AddRecipes()
         {

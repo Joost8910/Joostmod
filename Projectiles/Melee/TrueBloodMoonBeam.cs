@@ -45,6 +45,7 @@ namespace JoostMod.Projectiles.Melee
                 Main.dust[num1].noGravity = true;
                 Main.dust[num1].velocity *= 0.1f;
             }
+            Lighting.AddLight(Projectile.Center, 0.7f, 0.7f, 0.35f);
             Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
         public override void Kill(int timeLeft)

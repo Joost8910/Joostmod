@@ -28,10 +28,14 @@ namespace JoostMod.Prefixes
     }
     public class ImpracticallyOversizedPrefix : MeleePrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Impractically Oversized");
+        }
         public override float damage => 0.15f;
         public override float speed => -0.5f;
-        public override float knockback => -0.3f;
-        public override float size => -0.5f;
+        public override float knockback => 0.3f;
+        public override float size => 1f;
         public override bool CanRoll(Item item)
         {
             return item.damage > 0 && !(item.pick > 0 || item.hammer > 0 || item.axe > 0);
@@ -39,10 +43,14 @@ namespace JoostMod.Prefixes
     }
     public class MiniaturePrefix : MeleePrefix
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Miniature");
+        }
         public override float damage => -0.2f;
         public override float speed => 0.333f;
-        public override float knockback => 0.3f;
-        public override float size => 1f;
+        public override float knockback => -0.3f;
+        public override float size => -0.5f;
         public override bool CanRoll(Item item)
         {
             return item.damage > 1 && item.useTime > 4;

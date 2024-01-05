@@ -1,3 +1,4 @@
+using JoostMod.DamageClasses;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -15,8 +16,7 @@ namespace JoostMod.Items.Ammo
         public override void SetDefaults()
         {
             Item.maxStack = 1;
-            Item.DamageType = DamageClass.Ranged;
-            Item.DamageType = DamageClass.Magic;
+            Item.DamageType = ModContent.GetInstance<MagicRangedHybrid>();
             Item.damage = 14;
             Item.width = 32;
             Item.height = 32;
@@ -34,25 +34,6 @@ namespace JoostMod.Items.Ammo
                 .AddIngredient<SoulArrow>(3996)
                 .AddTile(TileID.CrystalBall)
                 .Register();
-        }
-        /*
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            add += (player.magicDamage - 1f);
-            mult *= player.magicDamageMult;
-        }
-        */
-        public override void ModifyWeaponCrit(Player player, ref float crit)
-        {
-            crit += player.GetCritChance(DamageClass.Magic);
-            crit /= 2;
-        }
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            Player player = Main.player[Main.myPlayer];
-            int dmg = list.FindIndex(x => x.Name == "Damage");
-            list.RemoveAt(dmg);
-            list.Insert(dmg, new TooltipLine(Mod, "Damage", player.GetWeaponDamage(Item) + " ranged and magic damage"));
         }
     }
 }

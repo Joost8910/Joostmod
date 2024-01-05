@@ -39,59 +39,10 @@ namespace JoostMod.Items.Weapons.Generic
             Item.shootSpeed = 6f;
             Item.crit = 4;
         }
-        public override int ChoosePrefix(UnifiedRandom rand)
+
+        public override bool WeaponPrefix()
         {
-            switch (rand.Next(24))
-            {
-                case 1:
-                    return PrefixID.Agile;
-                case 2:
-                    return PrefixID.Annoying;
-                case 3:
-                    return PrefixID.Broken;
-                case 4:
-                    return PrefixID.Damaged;
-                case 5:
-                    return PrefixID.Deadly2;
-                case 6:
-                    return PrefixID.Demonic;
-                case 7:
-                    return PrefixID.Forceful;
-                case 8:
-                    return PrefixID.Godly;
-                case 9:
-                    return PrefixID.Hurtful;
-                case 10:
-                    return PrefixID.Keen;
-                case 11:
-                    return PrefixID.Lazy;
-                case 12:
-                    return PrefixID.Murderous;
-                case 13:
-                    return PrefixID.Nasty;
-                case 14:
-                    return PrefixID.Nimble;
-                case 15:
-                    return PrefixID.Quick;
-                case 16:
-                    return PrefixID.Ruthless;
-                case 17:
-                    return PrefixID.Shoddy;
-                case 18:
-                    return PrefixID.Slow;
-                case 19:
-                    return PrefixID.Sluggish;
-                case 20:
-                    return PrefixID.Strong;
-                case 21:
-                    return PrefixID.Superior;
-                case 22:
-                    return PrefixID.Unpleasant;
-                case 23:
-                    return PrefixID.Weak;
-                default:
-                    return PrefixID.Zealous;
-            }
+            return true;
         }
         /*
         public override void ModifyWeaponCrit(Player player, ref float crit)
