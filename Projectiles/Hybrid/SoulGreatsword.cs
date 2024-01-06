@@ -38,7 +38,7 @@ namespace JoostMod.Projectiles.Hybrid
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            Vector2 center = player.RotatedRelativePoint(player.position + new Vector2(player.width / 2, 20), true);
+            Vector2 center = player.MountedCenter;
             Projectile.velocity = Vector2.Zero;
             Projectile.direction = player.direction * (int)player.gravDir;
             float speed = player.GetAttackSpeed(DamageClass.Melee) / 2;

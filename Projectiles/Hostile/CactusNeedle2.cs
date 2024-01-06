@@ -1,3 +1,5 @@
+using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Town;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +45,7 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type == Mod.Find<ModNPC>("Cactus Person").Type && !NPC.AnyNPCs(Mod.Find<ModNPC>("JumboCactuar").Type))
+            if (target.type == ModContent.NPCType<CactusPerson>() && !NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))
             {
                 return false;
             }

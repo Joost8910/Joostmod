@@ -14,7 +14,8 @@ namespace JoostMod.Items.Materials
 			DisplayName.SetDefault("Earth Essence");
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 7));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
-		}
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+        }
 		public override void SetDefaults()
 		{
 			Item.maxStack = 999;

@@ -20,6 +20,23 @@ namespace JoostMod.ItemDropRules.DropConditions
             return null;
         }
     }
+    public class EvilStoneDropCondition : IItemDropRuleCondition
+    {
+        public bool CanDrop(DropAttemptInfo info)
+        {
+            return !info.npc.SpawnedFromStatue;
+        }
+
+        public bool CanShowItemDropInUI()
+        {
+            return false;
+        }
+
+        public string GetConditionDescription()
+        {
+            return null;
+        }
+    }
     public class SDropCondition : IItemDropRuleCondition
     {
         public bool CanDrop(DropAttemptInfo info)

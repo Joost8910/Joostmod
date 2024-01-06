@@ -21,6 +21,7 @@ namespace JoostMod.Items.Consumables
             DisplayName.SetDefault("Treasure Bag (SA-X)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.BossBag[Item.type] = true;
         }

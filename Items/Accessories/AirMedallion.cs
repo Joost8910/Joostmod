@@ -32,7 +32,7 @@ namespace JoostMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Materials.TinyTwister>(50)
+                .AddIngredient<Materials.AirEssence>(50)
                 .AddRecipeGroup(nameof(ItemID.CobaltBar), 3)
                 .AddRecipeGroup(nameof(ItemID.MythrilBar), 3)
                 .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 3)

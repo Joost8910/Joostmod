@@ -37,7 +37,7 @@ namespace JoostMod.Items.Weapons.Thrown
         {
             CreateRecipe(50)
                 .AddIngredient(ItemID.Grenade, 50)
-                .AddIngredient<Materials.TinyTwister>()
+                .AddIngredient<Materials.AirEssence>()
                 .AddTile<Tiles.ElementalForge>()
                 .Register();
         }

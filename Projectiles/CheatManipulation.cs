@@ -35,8 +35,12 @@ namespace JoostMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            Player player = Main.player[Projectile.owner];
             damage = (target.lifeMax / 20 + (target.defense / 2));
-            crit = true;
+            if (player.controlUp)
+                crit = false;
+            else
+                crit = true;
         }
         public override void AI()
         {
@@ -47,6 +51,10 @@ namespace JoostMod.Projectiles
             {
                 Projectile.position = Main.MouseWorld;
                 Projectile.netUpdate = true;
+                if (player.controlDown)
+                    Projectile.idStaticNPCHitCooldown = 1;
+                else
+                    Projectile.idStaticNPCHitCooldown = 4;
             }
             for (int i = 0; i < Main.item.Length; i++)
             {

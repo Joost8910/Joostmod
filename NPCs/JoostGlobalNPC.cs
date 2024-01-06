@@ -3,6 +3,7 @@ using JoostMod.ItemDropRules.DropConditions;
 using JoostMod.Items.Accessories;
 using JoostMod.Items.Ammo;
 using JoostMod.Items.Consumables;
+using JoostMod.Items.Dyes;
 using JoostMod.Items.Legendaries;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Mounts;
@@ -17,6 +18,7 @@ using Microsoft.Xna.Framework;
 using System.Data;
 using System.Linq;
 using Terraria;
+using Terraria.Enums;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -114,6 +116,26 @@ namespace JoostMod.NPCs
                     nextSlot++;
                     shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrabGlove>());
                     nextSlot++;
+                    break;
+                case NPCID.DyeTrader:
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<TeamOutlineDye>());
+                        nextSlot++;
+                    }
+                    if (Main.GetMoonPhase() >= MoonPhase.ThreeQuartersAtLeft && Main.GetMoonPhase() <= MoonPhase.QuarterAtLeft)
+                    {
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<BlurryDye>());
+                        nextSlot++;
+                    }
+                    if (!Main.dayTime)
+                    {
+                        if (Main.GetMoonPhase() == MoonPhase.Empty)
+                            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GhostDye>());
+                        else
+                            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GlowInTheDarkDye>());
+                        nextSlot++;
+                    }
                     break;
             }
         }
@@ -323,7 +345,7 @@ namespace JoostMod.NPCs
         {
             npcLoot.Add(ItemDropRule.ByCondition(new LegendDropCondition(), ModContent.ItemType<EvilStone>(), 500));
             npcLoot.Add(ItemDropRule.ByCondition(new SDropCondition(), ModContent.ItemType<OnePunch>(), 500000));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotFromStatue()).OnSuccess(ItemDropRule.NormalvsExpertNotScalingWithLuck(ModContent.ItemType<EvilStone>(), 30000, 25000)));
+            npcLoot.Add(new LeadingConditionRule(new EvilStoneDropCondition()).OnSuccess(ItemDropRule.NormalvsExpertNotScalingWithLuck(ModContent.ItemType<EvilStone>(), 30000, 25000)));
             /*if (npc.type == NPCID.Clown) 1.4.4 changes bananarang to no longer stack
             {
                 npcLoot.Add()
@@ -361,29 +383,82 @@ namespace JoostMod.NPCs
                     ItemDropRule.Common(ModContent.ItemType<PumpkinStaff>())
                 }));
                 */
+                //Mod.Logger.Info("Checking Pumpking droptable...");
 
-                foreach (var rule in npcLoot.Get())//This is supposed to add to the existing loot table, needs testing
+                foreach (var rule in npcLoot.Get())//Finally got this loot table tomfuckery to work, gave up on ice queen tho
                 {
-                    if (rule is OneFromRulesRule oneFromRules && oneFromRules.options.Contains(ItemDropRule.Common(ItemID.TheHorsemansBlade)))
+                    /*
+                    Mod.Logger.Info("Rule: " + rule.ToString());
+                    foreach (var a in rule.ChainedRules.ToArray())
                     {
-                        var og = oneFromRules.options.ToList();
-                        og.Add(ItemDropRule.Common(ModContent.ItemType<PumpkinGlove>()));
-                        og.Add(ItemDropRule.Common(ModContent.ItemType<PumpkinStaff>()));
-                        oneFromRules.options = og.ToArray();
+                        Mod.Logger.Info("   Chain: " + a.ToString());
+                        Mod.Logger.Info("      Chain2: " + a.RuleToChain.ToString());
+                    }
+                    */
+
+                    if (rule is LeadingConditionRule lcr)
+                    {
+                        foreach (var cr in lcr.ChainedRules)
+                        {
+                            if (cr is Chains.TryIfSucceeded tic && tic.RuleToChain is OneFromRulesRule oneFromRules)
+                            {
+                                /*
+                                foreach (var a in oneFromRules.options.ToArray())
+                                {
+                                    Mod.Logger.Info("onefromRules options: " + a.ToString());
+                                    if (a is CommonDrop cd)
+                                        Mod.Logger.Info("  Drop: " + cd.itemId);
+                                }
+                                */
+                                //Mod.Logger.Info("Droptable Contains The Horsemans Blade: " + oneFromRules.options.Contains(ItemDropRule.Common(ItemID.TheHorsemansBlade)));
+                                var og = oneFromRules.options.ToList();
+                                og.Add(ItemDropRule.Common(ModContent.ItemType<PumpkinGlove>()));
+                                og.Add(ItemDropRule.Common(ModContent.ItemType<PumpkinStaff>()));
+                                oneFromRules.options = og.ToArray();
+                            }
+                        }
                     }
                 }
             }
+            if (npc.type == NPCID.Flocko)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.FrostMoonDropGatingChance(), ModContent.ItemType<SnowFlake>(), 20));
+            }
             if (npc.type == NPCID.IceQueen)
             {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.FrostMoonDropGatingChance(), ModContent.ItemType<SnowFlake>(), 4));
+                //Mod.Logger.Info("Checking Ice Queen droptable...");
+                /*
                 foreach (var rule in npcLoot.Get())//This is supposed to add to the existing loot table, needs testing
                 {
-                    if (rule is OneFromOptionsDropRule oneFromOptions && oneFromOptions.dropIds.Contains(ItemID.NorthPole))
+                    //Mod.Logger.Info("Rule: " + rule.ToString());
+                    foreach (var a in rule.ChainedRules.ToArray())
                     {
-                        var og = oneFromOptions.dropIds.ToList();
-                        og.Add(ModContent.ItemType<SnowFlake>());
-                        oneFromOptions.dropIds = og.ToArray();
+                        //Mod.Logger.Info("   Chain: " + a.ToString());
+                        //Mod.Logger.Info("      Chain2: " + a.RuleToChain.ToString());
+                        if (a.RuleToChain is CommonDrop cd)
+                        {
+                            //Mod.Logger.Info("    cd: " + cd.ToString());
+                            //Mod.Logger.Info("    cdItem: " + cd.itemId);
+                            if (cd.itemId == ItemID.BabyGrinchMischiefWhistle)
+                            {
+                                cd.OnFailedRoll(ItemDropRule.Common(ModContent.ItemType<SnowFlake>(), 4));
+                            }
+                        }
+                    }
+                    //Mod.Logger.Info("Droptable Rule is OneFromOptionsDropRule: " + (rule is OneFromOptionsDropRule o));
+                    if (rule is OneFromOptionsDropRule oneFromOptions)
+                    {
+                        Mod.Logger.Info("Droptable Contains North Pole: " + oneFromOptions.dropIds.Contains(ItemID.NorthPole));
+                        if (oneFromOptions.dropIds.Contains(ItemID.NorthPole))
+                        {
+                            var og = oneFromOptions.dropIds.ToList();
+                            og.Add(ModContent.ItemType<SnowFlake>());
+                            oneFromOptions.dropIds = og.ToArray();
+                        }
                     }
                 }
+                */
             }
         }
         /*

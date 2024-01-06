@@ -83,7 +83,6 @@ namespace JoostMod.Projectiles.Melee
         {
             Player player = Main.player[Projectile.owner];
             JoostPlayer modPlayer = player.GetModPlayer<JoostPlayer>();
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             Projectile.scale = player.inventory[player.selectedItem].scale;
             Projectile.width = (int)(64 * Projectile.scale);
             Projectile.height = (int)(64 * Projectile.scale);

@@ -41,7 +41,7 @@ namespace JoostMod.Items.Weapons.Thrown
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Materials.TinyTwister>(50)
+                .AddIngredient<Materials.AirEssence>(50)
                 .AddIngredient(ItemID.WoodenBoomerang)
                 .AddRecipeGroup(nameof(ItemID.CobaltBar), 3)
                 .AddRecipeGroup(nameof(ItemID.MythrilBar), 3)

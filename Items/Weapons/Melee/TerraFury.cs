@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -38,14 +39,11 @@ namespace JoostMod.Items.Weapons.Melee
         {
             position.Y -= Item.scale * 42 - 42;
             damage /= 2;
+            if (player.altFunctionUse == 2)
+                type = ModContent.ProjectileType<TerraFury2>();
         }
         public override bool AltFunctionUse(Player player)
         {
-            return true;
-        }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            //Projectile.NewProjectile(source, position.X, position.Y, -velocity.X, -velocity.Y, type, damage, knockback, player.whoAmI, 2f);
             return true;
         }
         public override bool MeleePrefix()

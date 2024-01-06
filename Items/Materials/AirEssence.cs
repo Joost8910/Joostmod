@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
@@ -7,14 +5,15 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Materials
 {
-	public class TinyTwister : ModItem
+	public class AirEssence : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Air Essence");
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 6));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
-		}
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+        }
 		public override void SetDefaults()
 		{
 			Item.maxStack = 999;

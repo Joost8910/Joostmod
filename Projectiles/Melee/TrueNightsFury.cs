@@ -28,9 +28,9 @@ namespace JoostMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             outTime = 12;
-            throwSpeed = 26f;
+            throwSpeed = 28f;
             returnSpeed = 28f;
-            returnSpeedAfterHeld = 32f;
+            returnSpeedAfterHeld = 34f;
             chainTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Chain");
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)

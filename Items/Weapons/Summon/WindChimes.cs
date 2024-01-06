@@ -50,7 +50,7 @@ namespace JoostMod.Items.Weapons.Summon
         {
             CreateRecipe()
                 .AddIngredient(ItemID.Bell)
-                .AddIngredient<Materials.TinyTwister>(50)
+                .AddIngredient<Materials.AirEssence>(50)
                 .AddRecipeGroup(nameof(ItemID.CobaltBar), 4)
                 .AddRecipeGroup(nameof(ItemID.MythrilBar), 4)
                 .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 4)

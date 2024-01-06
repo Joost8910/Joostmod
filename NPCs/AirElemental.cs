@@ -56,7 +56,7 @@ namespace JoostMod.NPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             //I think elementals dropping multiple stacks would make them more aesthetically pleasing to kill
-            int essence = ModContent.ItemType<TinyTwister>();
+            int essence = ModContent.ItemType<AirEssence>();
             var parameters = new DropOneByOne.Parameters()
             {
                 ChanceNumerator = 1,

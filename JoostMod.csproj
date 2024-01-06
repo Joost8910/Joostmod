@@ -11,9 +11,6 @@
     <None Remove="Shaders\GaussianBlurShader.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\GaussianBlurShader.fx" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
 </Project>

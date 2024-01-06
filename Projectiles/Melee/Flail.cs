@@ -18,6 +18,7 @@ namespace JoostMod.Projectiles.Melee
         protected int throwHitCD = 10;
         protected float swingSpeed = 1f;
         protected Texture2D chainTex = null;
+        protected bool isOffhand = false;
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
@@ -31,6 +32,9 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.Kill();
                 return false;
             }
+            bool controlUseItem = isOffhand ? player.controlUseTile : player.controlUseItem;
+            if (Main.myPlayer == Projectile.owner)
+                controlUseItem = isOffhand ? Main.mouseRight : Main.mouseLeft;
 
             Vector2 mountedCenter = player.MountedCenter;
 
@@ -128,8 +132,10 @@ namespace JoostMod.Projectiles.Melee
                         {
                             Vector2 mouseWorld = Main.MouseWorld;
                             Vector2 vector = mountedCenter.DirectionTo(mouseWorld).SafeNormalize(Vector2.UnitX * player.direction);
-                            player.ChangeDir(vector.X > 0f ? 1 : -1);
-                            if (!player.channel)
+
+                            if (!isOffhand)
+                                player.ChangeDir(vector.X > 0f ? 1 : -1);
+                            if (!controlUseItem)
                             {
                                 Projectile.ai[0] = 1f;
                                 Projectile.ai[1] = 0f;
@@ -161,17 +167,13 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.ai[1]++;
                         bool flag3 = Projectile.ai[1] >= outTime;
                         flag3 |= Projectile.Distance(mountedCenter) >= throwLimit;
-                        if (player.controlUseItem)
+                        if (controlUseItem)
                         {
                             Projectile.ai[0] = 6f;
                             Projectile.ai[1] = 0f;
                             Projectile.netUpdate = true;
                             Projectile.velocity *= 0.2f;
-                            if (Main.myPlayer == Projectile.owner)
-                            {
-                                ReachedPeakEffects();
-                                //Projectile.NewProjectile(Projectile.GetProjectileSource_FromProjectile(), Projectile.Center, Projectile.velocity, 928, Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, 0f);
-                            }
+                            ReachedPeakEffects();
                         }
                         else
                         {
@@ -181,13 +183,10 @@ namespace JoostMod.Projectiles.Melee
                                 Projectile.ai[1] = 0f;
                                 Projectile.netUpdate = true;
                                 Projectile.velocity *= 0.3f;
-                                if (Main.myPlayer == Projectile.owner)
-                                {
-                                    ReachedPeakEffects();
-                                    //Projectile.NewProjectile(Projectile.GetProjectileSource_FromProjectile(), Projectile.Center, Projectile.velocity, 928, Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, 0f);
-                                }
+                                ReachedPeakEffects();
                             }
-                            player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
+                            if (!isOffhand)
+                                player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
                             Projectile.localNPCHitCooldown = throwHitCD;
                         }
                         break;
@@ -200,7 +199,7 @@ namespace JoostMod.Projectiles.Melee
                             Projectile.Kill();
                             return false;
                         }
-                        if (player.controlUseItem)
+                        if (controlUseItem)
                         {
                             Projectile.ai[0] = 6f;
                             Projectile.ai[1] = 0f;
@@ -211,12 +210,13 @@ namespace JoostMod.Projectiles.Melee
                         {
                             Projectile.velocity *= 0.98f;
                             Projectile.velocity = Projectile.velocity.MoveTowards(vector3 * rs, returnAccel);
-                            player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
+                            if (!isOffhand)
+                                player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
                         }
                         break;
                     }
                 case 3: //Old Behavior
-                    if (!player.controlUseItem)
+                    if (!controlUseItem)
                     {
                         Projectile.ai[0] = 4f;
                         Projectile.ai[1] = 0f;
@@ -255,7 +255,8 @@ namespace JoostMod.Projectiles.Melee
                                 Projectile.velocity.X = Projectile.velocity.X * 0.96f;
                             }
                         }
-                        player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
+                        if (!isOffhand)
+                            player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
                     }
                     break;
                 case 4: //Returning after being held in place
@@ -276,7 +277,8 @@ namespace JoostMod.Projectiles.Melee
                             Projectile.Kill();
                             return false;
                         }
-                        player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
+                        if (!isOffhand)
+                            player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
                         break;
                     }
                 case 5: //Bouncing off tile
@@ -293,12 +295,13 @@ namespace JoostMod.Projectiles.Melee
                             Projectile.localNPCHitCooldown = throwHitCD;
                             Projectile.velocity.Y = Projectile.velocity.Y + 0.6f;
                             Projectile.velocity.X = Projectile.velocity.X * 0.95f;
-                            player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
+                            if (!isOffhand)
+                                player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
                         }
                         break;
                     }
                 case 6: //Held in place
-                    if (!player.controlUseItem || Projectile.Distance(mountedCenter) > maxHeldDistance)
+                    if (!controlUseItem || Projectile.Distance(mountedCenter) > maxHeldDistance)
                     {
                         Projectile.ai[0] = 4f;
                         Projectile.ai[1] = 0f;
@@ -308,7 +311,8 @@ namespace JoostMod.Projectiles.Melee
                     {
                         Projectile.velocity.Y = Projectile.velocity.Y + 0.8f;
                         Projectile.velocity.X = Projectile.velocity.X * 0.95f;
-                        player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
+                        if (!isOffhand)
+                            player.ChangeDir(player.Center.X < Projectile.Center.X ? 1 : -1);
                     }
                     break;
             }
@@ -329,14 +333,36 @@ namespace JoostMod.Projectiles.Melee
                 }
             }
             Projectile.timeLeft = 2;
-            player.heldProj = Projectile.whoAmI;
             player.SetDummyItemTime(2);
-            player.itemRotation = Projectile.DirectionFrom(mountedCenter).ToRotation();
-            if (Projectile.Center.X < mountedCenter.X)
+            if (isOffhand)
             {
-                player.itemRotation += 3.14159274f;
+                var stretch = Player.CompositeArmStretchAmount.Full;
+                float rot = Projectile.DirectionFrom(mountedCenter).ToRotation();
+                if (Math.Sign((Projectile.Center.X - mountedCenter.X) * player.direction) < 0)
+                {
+                    rot *= -1;
+                    stretch = Player.CompositeArmStretchAmount.Quarter;
+                }
+                if (Projectile.Center.X < mountedCenter.X)
+                {
+                    rot += 3.14159274f;
+                }
+                rot = MathHelper.WrapAngle(rot);
+
+                float armRot = rot - (float)Math.PI / 2 * player.direction;
+                player.SetCompositeArmBack(true, stretch, armRot);
             }
-            player.itemRotation = MathHelper.WrapAngle(player.itemRotation);
+            else
+            {
+                player.heldProj = Projectile.whoAmI;
+                player.itemRotation = Projectile.DirectionFrom(mountedCenter).ToRotation();
+                if (Projectile.Center.X < mountedCenter.X)
+                {
+                    player.itemRotation += 3.14159274f;
+                }
+                player.itemRotation = MathHelper.WrapAngle(player.itemRotation);
+            }
+
             //Projectile.AI_015_Flails_Dust(doFastThrowDust);
             Dust(doFastThrowDust);
             return false;
@@ -373,25 +399,46 @@ namespace JoostMod.Projectiles.Melee
                 Player player = Main.player[Projectile.owner];
                 Vector2 position = Projectile.Center;
                 Vector2 playerCenter = player.MountedCenter;
-                if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
+                if (isOffhand)
                 {
-                    playerCenter.X += 8 * player.direction;
-                    playerCenter.Y += 2 * player.gravDir;
+                    var stretch = Player.CompositeArmStretchAmount.Full;
+                    float rot = Projectile.DirectionFrom(playerCenter).ToRotation();
+                    if (Math.Sign((Projectile.Center.X - playerCenter.X) * player.direction) < 0)
+                    {
+                        rot *= -1;
+                        stretch = Player.CompositeArmStretchAmount.Quarter;
+                    }
+                    if (Projectile.Center.X < playerCenter.X)
+                    {
+                        rot += 3.14159274f;
+                    }
+                    rot = MathHelper.WrapAngle(rot);
+                    
+                    float armRot = rot - (float)Math.PI / 2 * player.direction;
+                    playerCenter = player.GetBackHandPosition(stretch, armRot);
                 }
-                else if (player.bodyFrame.Y == player.bodyFrame.Height * 2)
+                else
                 {
-                    playerCenter.X += 6 * player.direction;
-                    playerCenter.Y += -12 * player.gravDir;
-                }
-                else if (player.bodyFrame.Y == player.bodyFrame.Height * 4)
-                {
-                    playerCenter.X += 6 * player.direction;
-                    playerCenter.Y += 8 * player.gravDir;
-                }
-                else if (player.bodyFrame.Y == player.bodyFrame.Height)
-                {
-                    playerCenter.X += -10 * player.direction;
-                    playerCenter.Y += -14 * player.gravDir;
+                    if (player.bodyFrame.Y == player.bodyFrame.Height * 3)
+                    {
+                        playerCenter.X += 8 * player.direction;
+                        playerCenter.Y += 2 * player.gravDir;
+                    }
+                    else if (player.bodyFrame.Y == player.bodyFrame.Height * 2)
+                    {
+                        playerCenter.X += 6 * player.direction;
+                        playerCenter.Y += -12 * player.gravDir;
+                    }
+                    else if (player.bodyFrame.Y == player.bodyFrame.Height * 4)
+                    {
+                        playerCenter.X += 6 * player.direction;
+                        playerCenter.Y += 8 * player.gravDir;
+                    }
+                    else if (player.bodyFrame.Y == player.bodyFrame.Height)
+                    {
+                        playerCenter.X += -10 * player.direction;
+                        playerCenter.Y += -14 * player.gravDir;
+                    }
                 }
                 Rectangle sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
                 Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
