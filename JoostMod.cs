@@ -15,6 +15,8 @@ using JoostMod.Items.Materials;
 using JoostMod.Items.Accessories;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.GrappleHooks;
+using Terraria.Graphics.Shaders;
+using ReLogic.Content;
 
 namespace JoostMod
 {
@@ -327,6 +329,13 @@ namespace JoostMod
         {
             instance = this;
             ArmorAbilityHotKey = KeybindLoader.RegisterKeybind(this, "Armor Ability", "Z");
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Ref<Effect> projShaderRef = new Ref<Effect>(this.Assets.Request<Effect>("Shaders/JuiceProjectileShaders", AssetRequestMode.ImmediateLoad).Value);
+
+                GameShaders.Misc["TrueGungnirBeam"] = new MiscShaderData(projShaderRef, "GungnirBeamShaderPass");
+            }
         }
         
         class SpawnRateMultiplierGlobalNPC : GlobalNPC

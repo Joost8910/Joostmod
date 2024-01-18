@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
@@ -48,25 +50,29 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.height = (int)(54 * Projectile.scale);
                 Projectile.netUpdate = true;
             }
+            float stabMult = 2.3f;
             Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
-            Projectile.position += Projectile.velocity * Projectile.ai[0]; if (Projectile.ai[0] == 0f)
+            Projectile.position += Projectile.velocity * Projectile.ai[0]; 
+            if (Projectile.ai[0] == 0f)
             {
                 Projectile.ai[0] = 3f;
                 Projectile.netUpdate = true;
             }
+            if (Projectile.ai[1] == 0)
+            {
+                if (Main.myPlayer == Projectile.owner)
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueGungnirBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult);
+                Projectile.ai[1]++;
+                SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
+            }
             if (player.itemAnimation < player.itemAnimationMax / 2)
             {
-                if (Projectile.ai[1] == 0)
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TrueGungnirBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
-                    Projectile.ai[1]++;
-                }
-                Projectile.ai[0] -= 2.3f;
+                Projectile.ai[0] -= stabMult;
             }
             else
             {
-                Projectile.ai[0] += 2.3f;
+                Projectile.ai[0] += stabMult;
             }
             if (player.itemAnimation == 0)
             {
