@@ -66,11 +66,11 @@ namespace JoostMod.Projectiles.Melee
                 }
                 if (Projectile.ai[0] < 12)
                 {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.UndergroundHallowedEnemies, Projectile.velocity.X / 3, Projectile.velocity.Y / 3, 100, default, 0.7f + Main.rand.Next(5) / 10);
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, Projectile.velocity.X / 3, Projectile.velocity.Y / 3, 100, default, 0.7f + Main.rand.Next(5) / 10);
                 }
                 if (Projectile.ai[0] >= 30 && Projectile.ai[0] < 60)
                 {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, DustID.UndergroundHallowedEnemies);
+                    int dust = Dust.NewDust(player.position, player.width, player.height, DustID.WitherLightning);
                     Main.dust[dust].noGravity = true;
                 }
                 if (Projectile.ai[0] == 33)
@@ -84,10 +84,8 @@ namespace JoostMod.Projectiles.Melee
                 }
                 if (Projectile.ai[0] > 60)
                 {
-                    int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 71, 8, -3 * player.gravDir, 0, default, 1);
-                    Main.dust[dust2].noGravity = true;
-                    int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 71, -8, -3 * player.gravDir, 0, default, 1);
-                    Main.dust[dust3].noGravity = true;
+                    Dust.NewDustDirect(new Vector2(player.Center.X + 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, DustID.WitherLightning, 8, -3 * player.gravDir, 0, default, 1).noGravity = true;
+                    Dust.NewDustDirect(new Vector2(player.Center.X - 12, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, DustID.WitherLightning, -8, -3 * player.gravDir, 0, default, 1).noGravity = true;
                 }
             }
             else

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Melee
@@ -45,7 +46,11 @@ namespace JoostMod.Projectiles.Melee
             if (Projectile.ai[0] == 33 * 2)
             {
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_cyclone_slash_2"), Projectile.Center);
+
             }
+            if (Projectile.ai[0] % 3 == 0)
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, 0, 0, 100, default, 0.8f + Main.rand.Next(5) / 10).noGravity = true;
+
             player.velocity.Y *= 0.9f;
             player.fallStart = (int)(player.position.Y / 16f);
             player.ChangeDir(Projectile.direction * (Projectile.ai[0] % 14 < 7 ? Projectile.direction : -Projectile.direction));

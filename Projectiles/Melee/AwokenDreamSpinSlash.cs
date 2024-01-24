@@ -49,8 +49,8 @@ namespace JoostMod.Projectiles.Melee
             {
                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/hero_nail_art_cyclone_slash_2"), Projectile.Center);
             }
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.UndergroundHallowedEnemies, Projectile.velocity.X * 20, 0, 100, default, 0.8f + Main.rand.Next(5) / 10);
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.UndergroundHallowedEnemies, Projectile.velocity.X * -20, 0, 100, default, 0.8f + Main.rand.Next(5) / 10);
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, Projectile.velocity.X * 20, 0, 100, default, 0.8f + Main.rand.Next(5) / 10).noGravity = true;
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, Projectile.velocity.X * -20, 0, 100, default, 0.8f + Main.rand.Next(5) / 10).noGravity = true;
             player.velocity.Y *= 0.9f;
             player.fallStart = (int)(player.position.Y / 16f);
             player.ChangeDir(Projectile.direction * (Projectile.ai[0] % 14 < 7 ? Projectile.direction : -Projectile.direction));

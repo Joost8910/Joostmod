@@ -64,7 +64,7 @@ namespace JoostMod.Projectiles.Melee
                 if (Main.myPlayer == Projectile.owner)
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueGungnirBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult);
                 Projectile.ai[1]++;
-                SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
+                //SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
             }
             if (player.itemAnimation < player.itemAnimationMax / 2)
             {

@@ -36,6 +36,11 @@ namespace JoostMod.Projectiles.Melee
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            if (Projectile.ai[0] == 1)
+            {
+                for (int i = 0; i < 12; i++)
+                    Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, 0, 0, 100, default, 1.6f + Main.rand.Next(5) / 10).noGravity = true;
+            }
             Projectile.ai[0]++;
             bool channeling = Projectile.ai[0] < 25 && !player.noItems && !player.CCed;
             if (!channeling)
@@ -78,8 +83,8 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.frame = 8;
             }
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 71, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 100, default, 0.8f + Main.rand.Next(5) / 10);
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 71, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 100, default, 0.8f + Main.rand.Next(5) / 10);
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 100, default, 0.8f + Main.rand.Next(5) / 10);
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 100, default, 0.8f + Main.rand.Next(5) / 10);
             Projectile.position = Projectile.velocity + vector - Projectile.Size / 2f;
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1 ? 3.14f : 0);
             Projectile.spriteDirection = Projectile.direction;

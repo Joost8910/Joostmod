@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace JoostMod.Items.Dyes
 {
     //Temporary tomfuckery until ported to 1.4.4
-    public class GungnirBeamShader : ModItem
+    public class DarkLanceBeamShader : ModItem
     {
         public override string Texture => "JoostMod/Items/Dyes/GhostDye";
         public override void SetStaticDefaults()
@@ -18,7 +18,7 @@ namespace JoostMod.Items.Dyes
             {
                 GameShaders.Armor.BindShader(
                     Item.type,
-                    new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Shaders/JuiceProjectileShaders", AssetRequestMode.ImmediateLoad).Value), "GungnirBeamShaderPass").UseColor(new Color(0.9f, 0.52f, 0.87f)).UseSecondaryColor(new Color(0.22f, 0.45f, 0.82f)) // Be sure to update the effect path and pass name here.
+                    new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Shaders/JuiceProjectileShaders", AssetRequestMode.ImmediateLoad).Value), "GungnirBeamShaderPass").UseColor(new Color(0.7f, 0.21f, 0.79f)).UseSecondaryColor(new Color(0.49f, 0.82f, 0f)) // Be sure to update the effect path and pass name here.
                 );
             }
         }

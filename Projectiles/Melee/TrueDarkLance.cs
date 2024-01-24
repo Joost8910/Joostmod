@@ -48,26 +48,34 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.height = (int)(52 * Projectile.scale);
                 Projectile.netUpdate = true;
             }
+            float stabMult = 2f;
             Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
-            Projectile.position += Projectile.velocity * Projectile.ai[0]; if (Projectile.ai[0] == 0f)
+            Projectile.position += Projectile.velocity * Projectile.ai[0]; 
+            if (Projectile.ai[0] == 0f)
             {
                 Projectile.ai[0] = 3f;
                 Projectile.netUpdate = true;
             }
+            if (Projectile.ai[1] == 0)
+            {
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Vector2 velA = Projectile.velocity.RotatedBy(9 * Math.PI / 180);
+                    Vector2 velB = Projectile.velocity.RotatedBy(-9 * Math.PI / 180);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, 22);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, -22);
+                }
+                Projectile.ai[1]++;
+            }
             if (player.itemAnimation < player.itemAnimationMax / 2)
             {
-                if (Projectile.ai[1] == 0)
-                {
-                    if (Main.myPlayer == Projectile.owner)
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
-                    Projectile.ai[1]++;
-                }
-                Projectile.ai[0] -= 2f;
+                Projectile.ai[0] -= stabMult;
             }
             else
             {
-                Projectile.ai[0] += 2f;
+                Projectile.ai[0] += stabMult;
             }
             if (player.itemAnimation == 0)
             {

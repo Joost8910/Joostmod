@@ -22,13 +22,17 @@ float4 GungnirBeamShaderFunction(float4 sampleColor : COLOR0, float2 coords : TE
     float4 color = tex2D(uImage0, coords);
     //float3 color2 = float3(0.22f, 0.45f, 0.82f);
     
-    float frameX = ((1 - coords.x) * uImageSize0.x - uSourceRect.x) / uSourceRect.w;
+    float frameX = (coords.x * uImageSize0.x - uSourceRect.x) / uSourceRect.w;
+    float frameXreverse = ((1 - coords.x) * uImageSize0.x - uSourceRect.x) / uSourceRect.w;
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
     //float wave = pow(max(sin(frameY * 8 + uWorldPosition.y / 20), 0), 3);
-    float wave = pow(max(sin((frameX * frameY) * -8 + uTime * 8), 0),
-    3);
-    color.rgb *= wave * uColor + sampleColor.rgb;
+    float wave = pow(max(sin((frameXreverse * frameY) * -12 + uTime * 12), 0), 3);
+    
+    float core = pow(max(sin((frameX + frameY) * 3.14f * 2.5), 0), 5);
+    color.rgb *= (core * uColor + wave * uSecondaryColor) * min(sampleColor.a * 2, 1) + sampleColor.rgb;
     color.a *= sampleColor.a;
+    
+    
     return color;
 }
 technique Technique1

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Melee
@@ -64,7 +65,7 @@ namespace JoostMod.Projectiles.Melee
                 }
                 if (Projectile.ai[0] < 20)
                 {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 71, Projectile.velocity.X / 3, Projectile.velocity.Y / 3, 100, default, 0.7f + Main.rand.Next(5) / 10);
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning, Projectile.velocity.X / 3, Projectile.velocity.Y / 3, 100, default, 0.7f + Main.rand.Next(5) / 10);
                 }
             }
             else

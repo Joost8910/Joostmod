@@ -49,7 +49,7 @@ namespace JoostMod.Projectiles.Melee
         {
             for (int i = 0; i < 20; i++)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 71);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning);
                 Main.dust[dust].noGravity = true;
             }
         }

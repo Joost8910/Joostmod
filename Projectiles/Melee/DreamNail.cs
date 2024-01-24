@@ -66,7 +66,7 @@ namespace JoostMod.Projectiles.Melee
                 }
                 if (Projectile.ai[0] >= 24 && Projectile.ai[0] < 75)
                 {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, 71);
+                    int dust = Dust.NewDust(player.position, player.width, player.height, DustID.WitherLightning);
                     Main.dust[dust].noGravity = true;
                 }
                 if (Projectile.ai[0] == 26)
@@ -79,10 +79,8 @@ namespace JoostMod.Projectiles.Melee
                 }
                 if (Projectile.ai[0] > 75)
                 {
-                    int dust2 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 71, 5, -3 * player.gravDir, 0, default, 1);
-                    Main.dust[dust2].noGravity = true;
-                    int dust3 = Dust.NewDust(new Vector2(player.Center.X - 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, 71, -5, -3 * player.gravDir, 0, default, 1);
-                    Main.dust[dust3].noGravity = true;
+                    Dust.NewDustDirect(new Vector2(player.Center.X + 4, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, DustID.WitherLightning, 5, -3 * player.gravDir, 0, default, 1).noGravity = true;
+                    Dust.NewDustDirect(new Vector2(player.Center.X - 12, player.Center.Y + player.height / 2 * player.gravDir), 1, 1, DustID.WitherLightning, -5, -3 * player.gravDir, 0, default, 1).noGravity = true;
                 }
             }
             else

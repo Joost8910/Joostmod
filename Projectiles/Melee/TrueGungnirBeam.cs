@@ -17,6 +17,8 @@ namespace JoostMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("True Gungnir");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
@@ -27,12 +29,12 @@ namespace JoostMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 100;
+            Projectile.timeLeft = 24;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.alpha = 125;
+            Projectile.alpha = 255;
             //Projectile.light = 0.5f;
-            //Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = 1;
             Projectile.tileCollide = false;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -49,15 +51,18 @@ namespace JoostMod.Projectiles.Melee
                 Projectile spear = Main.projectile[(int)Projectile.ai[0]];
                 if (spear.type == ModContent.ProjectileType<TrueGungnir>() && spear.owner == Projectile.owner)
                 {
-                    if (player.itemAnimation >= player.itemAnimationMax / 2)
+                    float max = player.itemAnimationMax / 2;
+                    if (player.itemAnimation >= max)
                     {
-                        Projectile.scale = spear.scale * 1.3f;
+                        Projectile.scale = spear.scale;
                         Projectile.Center = spear.Center + player.velocity;
                         Projectile.width = (int)(60 * Projectile.scale);
                         Projectile.height = (int)(60 * Projectile.scale);
                         Projectile.rotation = (float)Math.Atan2((double)spear.velocity.Y, (double)spear.velocity.X) + 0.785f;
-                        Projectile.velocity = player.velocity + spear.velocity * Projectile.ai[1];
+                        Projectile.velocity = spear.velocity * Projectile.ai[1];
                         Projectile.netUpdate = true;
+                        Projectile.timeLeft = 24;
+                        Projectile.alpha = (int)(255f * ((player.itemAnimation - max) / max));
                     }
                     else
                     {
@@ -68,6 +73,11 @@ namespace JoostMod.Projectiles.Melee
                     }
                 }
             }
+            else
+            {
+                Projectile.alpha += 10;
+            }
+            /*
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.scale -= 0.02f;
@@ -88,15 +98,16 @@ namespace JoostMod.Projectiles.Melee
                     Projectile.localAI[0] = 0f;
                 }
             }
+            */
             int num1 = Dust.NewDust(
                      Projectile.position,
                      Projectile.width,
                      Projectile.height,
-                     72, //Dust ID
+                     DustID.PortalBoltTrail, //Dust ID
                      Projectile.velocity.X,
                      Projectile.velocity.Y,
                      100, //alpha goes from 0 to 255
-                     default,
+                     new Color(231, 135, 223),
                      1f
                      );
 
@@ -106,21 +117,19 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 15 * Projectile.scale; i++)
+            for (int i = 0; i < 10 * Projectile.scale; i++)
             {
-                int dust = Dust.NewDust(
+                Dust.NewDustDirect(
                          Projectile.position,
                          Projectile.width,
                          Projectile.height,
-                         72, //Dust ID
-                         Projectile.velocity.X,
-                         Projectile.velocity.Y,
+                         DustID.RainbowMk2, //Dust ID
+                         0,
+                         0,
                          100, //alpha goes from 0 to 255
-                         default,
-                         1f
-                         );
-
-                Main.dust[dust].noGravity = true;
+                         new Color(231, 135, 223),
+                         1.5f
+                         ).noGravity = true;
             }
         }
         public override bool PreDraw(ref Color lightColor)
@@ -144,6 +153,14 @@ namespace JoostMod.Projectiles.Melee
             Main.instance.PrepareDrawnEntityDrawing(Projectile, shader);
 
             //DrawData data = new DrawData(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
+            {
+                Color c = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
+                Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
+                Texture2D trailTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Trail");
+                Main.EntitySpriteDraw(trailTex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+            }
 
             Main.EntitySpriteDraw(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
 
