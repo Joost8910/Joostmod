@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using ReLogic.Content;
+using Terraria.Audio;
 
 namespace JoostMod.Projectiles.Melee
 {
@@ -51,7 +52,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile spear = Main.projectile[(int)Projectile.ai[0]];
                 if (spear.type == ModContent.ProjectileType<TrueGungnir>() && spear.owner == Projectile.owner)
                 {
-                    float max = player.itemAnimationMax / 2;
+                    float max = player.itemAnimationMax * 2f / 3f;
                     if (player.itemAnimation >= max)
                     {
                         Projectile.scale = spear.scale;
@@ -66,6 +67,7 @@ namespace JoostMod.Projectiles.Melee
                     }
                     else
                     {
+                        SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
                         Projectile.ai[0] = -1;
                         Projectile.tileCollide = true;
                         Projectile.penetrate = 3;

@@ -50,23 +50,24 @@ namespace JoostMod.Projectiles.Melee
             }
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
             Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
+            float stabMult = 3f;
             if (Projectile.ai[0] == 0f)
             {
                 Projectile.ai[0] = 3f;
                 Projectile.netUpdate = true;
             }
+            if (Projectile.ai[1] == 0 && Main.myPlayer == Projectile.owner)
+            {
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TerraSpearBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult);
+                Projectile.ai[1]++;
+            }
             if (player.itemAnimation < player.itemAnimationMax * 2f / 3f)
             {
-                if (Projectile.ai[1] == 0)
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TerraSpearBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
-                    Projectile.ai[1]++;
-                }
-                Projectile.ai[0] -= 1.86f;
+                Projectile.ai[0] -= stabMult * 0.5f;
             }
             else
             {
-                Projectile.ai[0] += 3.73f;
+                Projectile.ai[0] += stabMult;
             }
             if (player.itemAnimation == 0)
             {

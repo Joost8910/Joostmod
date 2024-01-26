@@ -50,7 +50,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.height = (int)(54 * Projectile.scale);
                 Projectile.netUpdate = true;
             }
-            float stabMult = 2.3f;
+            float stabMult = 3.3f;
             Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
             Projectile.position += Projectile.velocity * Projectile.ai[0]; 
@@ -62,13 +62,13 @@ namespace JoostMod.Projectiles.Melee
             if (Projectile.ai[1] == 0)
             {
                 if (Main.myPlayer == Projectile.owner)
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueGungnirBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TrueGungnirBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
                 Projectile.ai[1]++;
                 //SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
             }
-            if (player.itemAnimation < player.itemAnimationMax / 2)
+            if (player.itemAnimation < player.itemAnimationMax  * 2f / 3f)
             {
-                Projectile.ai[0] -= stabMult;
+                Projectile.ai[0] -= stabMult * 0.5f;
             }
             else
             {

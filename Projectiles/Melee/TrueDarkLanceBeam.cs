@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -37,8 +38,8 @@ namespace JoostMod.Projectiles.Melee
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            width = 18;
-            height = 18;
+            width = 12;
+            height = 12;
             return true;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -59,22 +60,36 @@ namespace JoostMod.Projectiles.Melee
                 Projectile spear = Main.projectile[(int)Projectile.ai[0]];
                 if (spear.type == ModContent.ProjectileType<TrueDarkLance>() && spear.owner == Projectile.owner)
                 {
-                    if (player.itemAnimation >= player.itemAnimationMax / 2)
+                    float max = player.itemAnimationMax * 2f / 3f;
+                    if (player.itemAnimation >= max || Projectile.localAI[0] == 0)
                     {
-                        Vector2 offset = Vector2.Normalize(spear.velocity) * Projectile.ai[1];
-                        offset = offset.RotatedBy(Math.PI / 2);
+                        Vector2 size = Projectile.Size;
                         Projectile.scale = spear.scale;
-                        Projectile.Center = spear.Center + player.velocity + Projectile.velocity * (Projectile.ai[1] == 0 ? 3 : 1.5f) + offset;
                         Projectile.width = (int)(42 * Projectile.scale);
                         Projectile.height = (int)(42 * Projectile.scale);
+                        Projectile.position -= (Projectile.Size / 2) - (size / 2);
+
+                        Vector2 offset = Vector2.Normalize(spear.velocity) * spear.scale * Projectile.ai[1];
+                        offset = offset.RotatedBy(Math.PI / 2);
+                        Projectile.Center = (Projectile.ai[1] == 0 ? spear.Center + Projectile.velocity * 3 : Projectile.Center + offset) + player.velocity;
+
                         Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
                         Projectile.netUpdate = true;
                         Projectile.timeLeft = 24;
-                        Projectile.alpha = (int)(255f * ((float)player.itemAnimation / player.itemAnimationMax));
+                        Projectile.alpha = 127 + (int)(128f * ((player.itemAnimation - max) / max));
+                        Projectile.localAI[0] = 1;
                     }
                     else
                     {
-                        Projectile.velocity *= 1.25f;
+                        if (Projectile.ai[1] == 0)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
+                            Vector2 velA = Projectile.velocity.RotatedBy(12 * Math.PI / 180);
+                            Vector2 velB = Projectile.velocity.RotatedBy(-12 * Math.PI / 180);
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], 2);
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], -2);
+                        }
+                        
                         Projectile.ai[0] = -1;
                         Projectile.tileCollide = true;
                         Projectile.penetrate = 3;

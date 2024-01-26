@@ -48,7 +48,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.height = (int)(52 * Projectile.scale);
                 Projectile.netUpdate = true;
             }
-            float stabMult = 2f;
+            float stabMult = 3f;
             Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
             Projectile.position += Projectile.velocity * Projectile.ai[0]; 
@@ -61,17 +61,19 @@ namespace JoostMod.Projectiles.Melee
             {
                 if (Main.myPlayer == Projectile.owner)
                 {
+                    /*
                     Vector2 velA = Projectile.velocity.RotatedBy(9 * Math.PI / 180);
                     Vector2 velB = Projectile.velocity.RotatedBy(-9 * Math.PI / 180);
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, 22);
+                    */
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI);
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, -22);
+                    //Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, -22);
                 }
                 Projectile.ai[1]++;
             }
-            if (player.itemAnimation < player.itemAnimationMax / 2)
+            if (player.itemAnimation < player.itemAnimationMax * 2f / 3f)
             {
-                Projectile.ai[0] -= stabMult;
+                Projectile.ai[0] -= stabMult * 0.5f;
             }
             else
             {
