@@ -1,4 +1,5 @@
 using System;
+using JoostMod.DamageClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -29,8 +30,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.light = 0.75f;
             Projectile.scale = 1f;
             AIType = ProjectileID.Bullet;
-            Projectile.DamageType = DamageClass.Throwing;
-            Projectile.CountsAsClass(DamageClass.Magic);
+            Projectile.DamageType = ModContent.GetInstance<MagicThrowingHybrid>();
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }

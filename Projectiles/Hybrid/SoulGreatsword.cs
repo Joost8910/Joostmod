@@ -1,4 +1,5 @@
 using System;
+using JoostMod.DamageClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -27,8 +28,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.timeLeft = 104;
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
-            Projectile.DamageType = DamageClass.Melee;
-            Projectile.CountsAsClass(DamageClass.Magic);
+            Projectile.DamageType = ModContent.GetInstance<MagicMeleeHybrid>();
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Hybrid
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 50f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee) / 2;
+                speed = (50f / player.inventory[player.selectedItem].useTime) * (player.GetAttackSpeed(DamageClass.Melee) / 2);
                 Projectile.width = (int)(160 * Projectile.scale);
                 Projectile.height = (int)(160 * Projectile.scale);
                 Projectile.netUpdate = true;

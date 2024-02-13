@@ -121,7 +121,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.ai[0] == 1)
             {
-                float speed = 1 / player.GetAttackSpeed(DamageClass.Melee);
+                float speed = player.GetAttackSpeed(DamageClass.Melee);
 
                 Projectile.ai[1] += speed;
                 float rad = 0;

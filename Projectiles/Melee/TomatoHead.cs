@@ -61,7 +61,7 @@ namespace JoostMod.Projectiles.Melee
                     if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
                         Projectile.scale = player.inventory[player.selectedItem].scale;
-                        Projectile.localAI[1] = 30f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee);
+                        Projectile.localAI[1] = (30f / player.inventory[player.selectedItem].useTime) * player.GetAttackSpeed(DamageClass.Melee);
                         scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     }
                     Vector2 vector13 = Main.MouseWorld - vector;

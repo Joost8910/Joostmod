@@ -1,5 +1,5 @@
 The Joostmod has to offer
-456 new items
+468 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -82,6 +82,10 @@ Warhammer of Grognak
 - Reverse Gravity Shockwave damage mult increased from 50% to 85% of standard shockwave damage
 - Adjusted hitboxes
 
+Whirlwind
+- Now benefits from melee speed 
+- Grants featherfall while in use
+
 --- Accessories ---
 Stone of Jordan
 - Updated Sprite
@@ -94,6 +98,10 @@ Hover Boots
 
 Personal bubble
 - Recipe no longer requires Bubble Shield
+
+--- Armor ---
+Zora Armor
+- Zora Spin sucks slightly less when out of water
 
 --- Grappling Hooks ---
 Swingy Hook
@@ -154,3 +162,6 @@ Plantera
 - Expert Life Fruit amount reduced from 2-5, to 1-5 
 Duke Fishron
 - Bubble Knife, Duke Fishrod, and Mega Bubble Shield drop chance reduced to 25% / 33%(Expert)
+Fire Elemental
+- Increased fire rate of burning spheres
+- Burning sphere firing animation can be interrupted by an attack with strong knockback or a crit

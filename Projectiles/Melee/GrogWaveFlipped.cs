@@ -24,6 +24,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.timeLeft = 100;
             Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
+            Projectile.noEnchantmentVisuals = true;
         }
         public override bool? CanHitNPC(NPC target)
         {

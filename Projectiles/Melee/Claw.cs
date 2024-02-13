@@ -145,7 +145,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.Kill();
             }
-            float speed = 7f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee);
+            float speed = (7f / player.inventory[player.selectedItem].useTime) * player.GetAttackSpeed(DamageClass.Melee);
             if (Projectile.velocity.Y * player.gravDir >= 0)
             {
                 origin.Y += 4 * player.gravDir;

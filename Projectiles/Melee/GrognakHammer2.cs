@@ -37,14 +37,14 @@ namespace JoostMod.Projectiles.Melee
             Projectile.scale = player.inventory[player.selectedItem].scale;
             Projectile.width = (int)(82 * Projectile.scale);
             Projectile.height = (int)(30 * Projectile.scale);
-            Projectile.localNPCHitCooldown = (int)(24 * player.GetAttackSpeed(DamageClass.Melee));
+            Projectile.localNPCHitCooldown = (int)(24f / player.GetAttackSpeed(DamageClass.Melee));
 
             if (Projectile.owner == Main.myPlayer)
             {
                 Vector2 mousePos = Main.MouseWorld;
                 Vector2 diff = mousePos - pCenter;
                 diff.Normalize();
-                float home = 12f * player.GetAttackSpeed(DamageClass.Melee);
+                float home = 12f;
                 Projectile.velocity = ((home - 1f) * Projectile.velocity + diff) / home;
                 Projectile.velocity.Normalize();
                 Projectile.spriteDirection = Projectile.velocity.X > 0 ? 1 : -1;
@@ -58,7 +58,7 @@ namespace JoostMod.Projectiles.Melee
                 SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.2f), Projectile.Center); // 230
             }
 
-            float speed = 1 / player.GetAttackSpeed(DamageClass.Melee);
+            float speed = player.GetAttackSpeed(DamageClass.Melee);
             Projectile.ai[0] += speed;
             if (Projectile.ai[0] >= 4 && Projectile.ai[1] == 1)
             {

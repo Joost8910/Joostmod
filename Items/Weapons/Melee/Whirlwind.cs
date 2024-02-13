@@ -12,7 +12,7 @@ namespace JoostMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whirlwind");
-            Tooltip.SetDefault("Increases defense by 20 while in use");
+            Tooltip.SetDefault("Increases defense by 20 and slows descent while in use");
         }
         public override void SetDefaults()
         {

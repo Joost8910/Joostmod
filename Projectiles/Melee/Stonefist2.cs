@@ -64,7 +64,7 @@ namespace JoostMod.Projectiles.Melee
         {
             Player player = Main.player[Projectile.owner];
             Vector2 origin = player.RotatedRelativePoint(player.MountedCenter, true);
-            float speed = 55f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee);
+            float speed = (55f / player.inventory[player.selectedItem].useTime) * player.GetAttackSpeed(DamageClass.Melee);
             Projectile.localNPCHitCooldown = (int)(27 / speed);
             if (player.active && !player.dead && !player.noItems && !player.CCed)
             {

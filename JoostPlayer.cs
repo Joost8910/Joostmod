@@ -765,8 +765,9 @@ namespace JoostMod
                 if (zoraArmor && Player.ownedProjectileCounts[ModContent.ProjectileType<ZoraSpin>()] < 1)
                 {
                     int damage = (int)Player.GetDamage(DamageClass.Magic).ApplyTo(40f);
-                    int wet = Player.wet ? 1 : 0;
-                    float speed = 6;
+                    bool rain = Main.raining && Collision.CanHitLine(Player.position, Player.width, Player.height, new Vector2(Player.Center.X + (Main.screenPosition.Y - Player.Center.Y) / 14f * Main.windSpeedCurrent * 12f, Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0;
+                    int wet = Player.wet || rain ? 1 : 0;
+                    float speed = 8;
                     Vector2 vel = new Vector2(0, -Player.gravity);
                     if (Player.controlRight)
                     {
@@ -788,9 +789,9 @@ namespace JoostMod
                     {
                         vel *= 0.707f;
                     }
-                    if (Player.wet)
+                    if (wet > 0)
                     {
-                        vel *= 2;
+                        vel *= 1.5f;
                         if (Player.immuneTime < 24)
                         {
                             Player.immune = true;

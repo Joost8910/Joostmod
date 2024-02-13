@@ -1,4 +1,5 @@
 using System;
+using JoostMod.DamageClasses;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -20,8 +21,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Ranged;
-            Projectile.CountsAsClass(DamageClass.Melee);
+            Projectile.DamageType = ModContent.GetInstance<MeleeRangedHybrid>();
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;

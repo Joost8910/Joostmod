@@ -1,3 +1,4 @@
+using JoostMod.DamageClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -29,8 +30,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.alpha = 150;
             AIType = ProjectileID.Bullet;
             Projectile.arrow = true;
-            Projectile.DamageType = DamageClass.Ranged;
-            Projectile.CountsAsClass(DamageClass.Magic);
+            Projectile.DamageType = ModContent.GetInstance<MagicRangedHybrid>();
         }
         public override void AI()
         {

@@ -59,7 +59,7 @@ namespace JoostMod.Projectiles.Magic
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 center = player.Center;
             if (Projectile.ai[0] == 0 && Projectile.ai[1] == 0)
             {
                 Projectile.timeLeft = 40;
@@ -72,7 +72,7 @@ namespace JoostMod.Projectiles.Magic
             if (Projectile.timeLeft < 20)
             {
                 Projectile.ai[1]++;
-                Projectile.velocity *= 0.95f;
+                Projectile.velocity *= 0.98f;
                 Projectile.localNPCHitCooldown = 12;
                 Projectile.alpha += 6;
                 if ((int)Projectile.ai[1] % 2 == 0)
@@ -83,7 +83,7 @@ namespace JoostMod.Projectiles.Magic
             else if (Projectile.timeLeft < 10)
             {
                 Projectile.localNPCHitCooldown = 18;
-                Projectile.velocity *= 0.9f;
+                Projectile.velocity *= 0.96f;
                 Projectile.ai[1]++;
                 Projectile.alpha += 6;
                 if ((int)Projectile.ai[1] % 3 == 0)
@@ -98,12 +98,13 @@ namespace JoostMod.Projectiles.Magic
                 {
                     Projectile.frame = (Projectile.frame + 1) % 6;
                 }
-                if (!player.wet && Projectile.velocity.Y < player.maxFallSpeed)
-                {
-                    Projectile.velocity.Y += player.gravity;
-                }
+            }
+            if (!player.wet && Projectile.velocity.Y < player.maxFallSpeed)
+            {
+                Projectile.velocity.Y += player.gravity;
             }
             bool rain = Main.raining && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, new Vector2(Projectile.Center.X + (Main.screenPosition.Y - Projectile.Center.Y) / 14f * Main.windSpeedCurrent * 12f, Main.screenPosition.Y - 20), 1, 1) && Main.screenPosition.Y <= Main.worldSurface * 16.0;
+
             if (player.wet || rain)
             {
                 if (Projectile.ai[0] == 0)
@@ -119,6 +120,10 @@ namespace JoostMod.Projectiles.Magic
                 }
                 Vector2 vel = Vector2.Zero;
                 float speed = 10;
+                if (player.controlUp || player.controlJump)
+                {
+                    vel.Y -= player.gravDir * speed;
+                }
                 if (player.controlRight)
                 {
                     vel.X += speed;
@@ -126,10 +131,6 @@ namespace JoostMod.Projectiles.Magic
                 if (player.controlLeft)
                 {
                     vel.X -= speed;
-                }
-                if (player.controlUp || player.controlJump)
-                {
-                    vel.Y -= player.gravDir * speed;
                 }
                 if (player.controlDown)
                 {
@@ -139,9 +140,9 @@ namespace JoostMod.Projectiles.Magic
                 {
                     vel *= 0.707f;
                 }
-                if (vel.Length() > 10)
+                if (vel.Length() > speed)
                 {
-                    vel *= 10 / vel.Length();
+                    vel *= speed / vel.Length();
                 }
                 player.controlLeft = false;
                 player.controlRight = false;
@@ -152,6 +153,19 @@ namespace JoostMod.Projectiles.Magic
                 if (vel != Vector2.Zero)
                     Projectile.velocity = ((home - 1f) * Projectile.velocity + vel) / home;
             }
+            else
+            {
+                float speed = 6;
+                if (player.controlRight && Projectile.velocity.X < speed)
+                {
+                    Projectile.velocity.X += player.runAcceleration;
+                }
+                if (player.controlLeft && Projectile.velocity.X > -speed)
+                {
+                    Projectile.velocity.X -= player.runAcceleration;
+                }
+            }
+
             if (Math.Abs(player.velocity.X) < 0.0001f && Math.Abs(Projectile.velocity.X) > 1)
             {
                 Projectile.velocity.X *= -1;
@@ -165,7 +179,7 @@ namespace JoostMod.Projectiles.Magic
             player.velocity = Projectile.velocity;
             player.fallStart = (int)(player.position.Y / 16f);
             player.ChangeDir(Projectile.direction * (Projectile.ai[1] % 12 < 6 ? Projectile.direction : -Projectile.direction));
-            Projectile.position = vector - Projectile.Size / 2f - Projectile.velocity;
+            Projectile.position = center - Projectile.Size / 2f - Projectile.velocity;
             Projectile.rotation = 0;
             Projectile.spriteDirection = Projectile.direction;
             player.heldProj = Projectile.whoAmI;

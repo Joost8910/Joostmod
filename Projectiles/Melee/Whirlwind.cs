@@ -23,8 +23,8 @@ namespace JoostMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.alpha = 80;
             Projectile.extraUpdates = 1;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 8;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             DrawHeldProjInFrontOfHeldItemAndArms = true;
@@ -33,6 +33,8 @@ namespace JoostMod.Projectiles.Melee
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float speed = player.GetAttackSpeed(DamageClass.Melee);
+            Projectile.localNPCHitCooldown = (int)(16f / speed);
             bool channeling = player.channel && !player.noItems && !player.CCed;
             if (channeling)
             {
@@ -62,12 +64,12 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.Kill();
             }
-            if (Projectile.ai[0] % 16 <= 0)
+            if (Projectile.ai[0] % 16 / speed <= 0)
             {
                 SoundEngine.PlaySound(SoundID.Item18, Projectile.position);
             }
             Projectile.frameCounter++;
-            if (Projectile.frameCounter >= 8)
+            if (Projectile.frameCounter >= 8 / speed)
             {
                 Projectile.frameCounter = 0;
                 Projectile.frame = (Projectile.frame + 1) % 6;

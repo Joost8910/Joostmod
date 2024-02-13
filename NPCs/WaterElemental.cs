@@ -48,14 +48,14 @@ namespace JoostMod.NPCs
             {
                 ChanceNumerator = 1,
                 ChanceDenominator = 1,
-                MinimumStackPerChunkBase = 2,
-                MaximumStackPerChunkBase = 6,
-                MinimumItemDropsCount = 8,
-                MaximumItemDropsCount = 20,
+                MinimumStackPerChunkBase = 1,
+                MaximumStackPerChunkBase = 4,
+                MinimumItemDropsCount = 4,
+                MaximumItemDropsCount = 8,
             };
             var expertParamaters = parameters;
-            expertParamaters.MinimumItemDropsCount = 12;
-            expertParamaters.MaximumItemDropsCount = 30;
+            expertParamaters.MinimumStackPerChunkBase = 2;
+            expertParamaters.MaximumStackPerChunkBase = 5;
             npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
         }

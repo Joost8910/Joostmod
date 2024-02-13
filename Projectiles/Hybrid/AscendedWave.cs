@@ -22,6 +22,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.extraUpdates = 1;
             Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
+            Projectile.noEnchantmentVisuals = true;
         }
         public override bool? CanHitNPC(NPC target)
         {

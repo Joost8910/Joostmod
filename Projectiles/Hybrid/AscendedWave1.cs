@@ -23,6 +23,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             AIType = ProjectileID.Bullet;
+            Projectile.noEnchantmentVisuals = true;
         }
         public override bool? CanHitNPC(NPC target)
         {

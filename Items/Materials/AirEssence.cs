@@ -22,7 +22,10 @@ namespace JoostMod.Items.Materials
 			Item.value = 10000;
 			Item.rare = ItemRarityID.LightRed;
 		}
-
-	}
+        public override bool CanStackInWorld(Item item2)
+        {
+            return false;
+        }
+    }
 }
 

@@ -42,9 +42,10 @@ namespace JoostMod.Projectiles.Melee
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
+            float speed = (55f / player.inventory[player.selectedItem].useTime) * player.GetAttackSpeed(DamageClass.Melee);
             if (Projectile.ai[0] < 1)
             {
-                Projectile.ai[0] += 0.02f * (55f / player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee);
+                Projectile.ai[0] += 0.02f * speed;
                 if (Projectile.ai[0] > 1)
                 {
                     Projectile.ai[0] = 1;
@@ -111,7 +112,7 @@ namespace JoostMod.Projectiles.Melee
                     SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_3"), Projectile.Center); // 216
                     Projectile.soundDelay = -10;
                 }
-                Projectile.ai[1] += 0.2f * (55f / player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee);
+                Projectile.ai[1] += 0.2f * speed;
                 Vector2 dir = Projectile.velocity;
                 dir.Normalize();
                 dir = dir * 10f * (Projectile.ai[1] + 0.75f) * (55f / player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee);

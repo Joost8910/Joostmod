@@ -59,14 +59,14 @@ namespace JoostMod.NPCs
             {
                 ChanceNumerator = 1,
                 ChanceDenominator = 1,
-                MinimumStackPerChunkBase = 2,
-                MaximumStackPerChunkBase = 6,
-                MinimumItemDropsCount = 8,
-                MaximumItemDropsCount = 20,
+                MinimumStackPerChunkBase = 1,
+                MaximumStackPerChunkBase = 4,
+                MinimumItemDropsCount = 4,
+                MaximumItemDropsCount = 8,
             };
             var expertParamaters = parameters;
-            expertParamaters.MinimumItemDropsCount = 12;
-            expertParamaters.MaximumItemDropsCount = 30;
+            expertParamaters.MinimumStackPerChunkBase = 2;
+            expertParamaters.MaximumStackPerChunkBase = 5;
             npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
             npcLoot.Add(ItemDropRule.Common(ItemID.LivingFireBlock, 4, 20, 50));
@@ -111,15 +111,25 @@ namespace JoostMod.NPCs
             return !spawnInfo.PlayerInTown && spawnInfo.SpawnTileY >= Main.maxTilesY - 250 && Main.hardMode ? 0.06f : 0f;
 
         }
+        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+            int sphereRate = Main.expertMode ? 270 : 330;
+            if ((knockback > 6 || crit) && NPC.ai[3] > sphereRate)
+            {
+                NPC.ai[3] = sphereRate / 2;
+            }
+            return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
+        }
         public override void AI()
         {
+            int sphereRate = Main.expertMode ? 270 : 330;
             NPC.localAI[0]++;
             Player P = Main.player[NPC.target];
             if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
                 NPC.TargetClosest(true);
             }
-            if (Main.expertMode && NPC.localAI[0] > 800 && NPC.ai[3] < 370 && NPC.ai[3] > 60)
+            if (Main.expertMode && NPC.localAI[0] > 800 && NPC.ai[3] < sphereRate && NPC.ai[3] > 60)
             {
                 NPC.aiStyle = -1;
                 NPC.knockBackResist = 0f;
@@ -178,14 +188,14 @@ namespace JoostMod.NPCs
                 NPC.FaceTarget();
                 Vector2 spherePos = new Vector2(NPC.Center.X, NPC.position.Y - 20);
                 NPC.ai[3]++;
-                if (NPC.ai[3] == 370)
+                if (NPC.ai[3] == sphereRate)
                 {
                     SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
                 }
-                if (NPC.ai[3] > 370)
+                if (NPC.ai[3] > sphereRate)
                 {
                     NPC.velocity *= 0.8f;
-                    int amount = (int)(NPC.ai[3] - 370);
+                    int amount = (int)(NPC.ai[3] - sphereRate);
                     for (int d = 0; d < amount; d++)
                     {
                         Dust dust = Dust.NewDustDirect(spherePos - new Vector2(5, 5), 10, 10, 6, NPC.velocity.X * 0.8f, NPC.velocity.Y * 0.8f, 0, default(Color), 1.5f);
@@ -197,7 +207,7 @@ namespace JoostMod.NPCs
                     }
                     NPC.netUpdate = true;
                 }
-                if (NPC.ai[3] > 400)
+                if (NPC.ai[3] > sphereRate + 30)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
