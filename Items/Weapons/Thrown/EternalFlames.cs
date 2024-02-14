@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Thrown;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,16 +12,17 @@ namespace JoostMod.Items.Weapons.Thrown
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternal Flames");
-            //Tooltip.SetDefault("");
+            Tooltip.SetDefault("Righ click for a special targeted attack\n" +
+                "'Got it memorized?'");
         }
         public override void SetDefaults()
         {
-            Item.damage = 50;
+            Item.damage = 56;
             Item.DamageType = DamageClass.Throwing;
             Item.width = 24;
             Item.height = 24;
-            Item.useTime = 9;
-            Item.useAnimation = 9;
+            Item.useTime = 13;
+            Item.useAnimation = 13;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 5;
@@ -30,18 +32,30 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.noUseGraphic = true;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.EternalFlame>();
-            Item.shootSpeed = 24f;
+            Item.shootSpeed = 13f;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vel = velocity;
-            float sp = vel.Length();
-            Projectile.NewProjectile(source, position, vel, type, damage, knockback, player.whoAmI, sp);
+            if (player.altFunctionUse == 2)
+            {
+                Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<EternalFlame2>(), damage, knockback, player.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y);
+                Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<EternalFlame2>(), damage, knockback, player.whoAmI, -Main.MouseWorld.X, Main.MouseWorld.Y);
+            }
+            else
+            {
+                float sp = velocity.Length();
+                float mDist = player.Distance(Main.MouseWorld);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, sp, mDist);
+            }
             return false;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] < 2;
+            return player.ownedProjectileCounts[Item.shoot] < 2 && player.ownedProjectileCounts[ModContent.ProjectileType<EternalFlame2>()] < 1;
+        }
+        public override bool AltFunctionUse(Player player)
+        {
+            return player.ownedProjectileCounts[Item.shoot] < 1;
         }
     }
 }

@@ -354,6 +354,10 @@ namespace JoostMod.NPCs
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HoverBoots>(), 5));
             }
+            if (npc.type >= NPCID.HellArmoredBones && npc.type <= NPCID.HellArmoredBonesSword)
+            {
+                npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EternalFlames>(), 130, 88));
+            }
             if (npc.type == NPCID.SkeletronHead)
             {
                 npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<SkellyStaff>(), 2));

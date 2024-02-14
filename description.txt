@@ -1,5 +1,5 @@
 The Joostmod has to offer
-468 new items
+469 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -15,6 +15,7 @@ Dirt Board
 Divine Mirror
 Staff of Degeneration
 Clawed Gauntlet
+Eternal Flames
 Twin Claws
 Slime Armor
 Pink Slime Armor
@@ -156,7 +157,7 @@ Whirlwind Sphere
 Hunt Master
 - Can now be warped by the King Statue
 Mothron
-- Broken Hero FLail, Broken Hero Hammer, and Broken Hero Spear now have equal drop chances to Broken Hero Sword 
+- Broken Hero Flail, Broken Hero Hammer, and Broken Hero Spear now have equal drop chances to Broken Hero Sword 
 Plantera
 - Rose Weave drop chance reduced to 25% / 33%(Expert)
 - Expert Life Fruit amount reduced from 2-5, to 1-5 
@@ -165,3 +166,5 @@ Duke Fishron
 Fire Elemental
 - Increased fire rate of burning spheres
 - Burning sphere firing animation can be interrupted by an attack with strong knockback or a crit
+Water, Earth, Fire, and Air Elementals
+- Now drop essences in several small stacks
