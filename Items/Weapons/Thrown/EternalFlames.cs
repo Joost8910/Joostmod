@@ -12,7 +12,7 @@ namespace JoostMod.Items.Weapons.Thrown
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternal Flames");
-            Tooltip.SetDefault("Righ click for a special targeted attack\n" +
+            Tooltip.SetDefault("Right click for a special targeted attack\n" +
                 "'Got it memorized?'");
         }
         public override void SetDefaults()

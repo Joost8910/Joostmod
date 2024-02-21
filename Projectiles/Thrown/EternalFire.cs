@@ -23,7 +23,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Throwing;
-            Projectile.penetrate = 8;
+            Projectile.penetrate = 6;
             Projectile.timeLeft = 75;
             Projectile.extraUpdates = 1;
             Projectile.tileCollide = false;
@@ -80,7 +80,7 @@ namespace JoostMod.Projectiles.Thrown
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-            Color color = Color.White * (Projectile.penetrate / 8f);
+            Color color = Color.White * (Projectile.penetrate / 6f);
             int s = 75 - Projectile.timeLeft;
             if (Projectile.timeLeft > 45)
             {

@@ -56,17 +56,18 @@ namespace JoostMod.Projectiles.Thrown
                         Projectile.velocity = Projectile.DirectionTo(player.MountedCenter) * Projectile.ai[0] * 2;
                     }
                     Vector2 move = player.MountedCenter - Projectile.Center;
-                    if (Projectile.localAI[0] == t)
+                    if (Projectile.localAI[1] == 0)
                     {
                         int x = Projectile.velocity.X > 0 ? 1 : -1;
                         int y = Projectile.velocity.Y > 0 ? 1 : -1;
                         move = new Vector2(x, -y) * 100;
+                        Projectile.localAI[1]++;
                     }
                     if (move.Length() > 12 * Projectile.ai[0] && Projectile.localAI[0] < t + 5)
                     {
                         Projectile.localAI[0] = t + 5;
                     }
-                    if (Projectile.localAI[0] > t + 15)
+                    if (Projectile.localAI[0] > t + 30)
                     {
                         Projectile.tileCollide = false;
                     }
@@ -94,11 +95,21 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            int t = Math.Max((int)(Projectile.ai[1] / Projectile.ai[0]), 2);
+            if (Projectile.localAI[0] < t)
+                Projectile.localAI[0] = t;
+            else
+                Projectile.localAI[0] += 20;
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.OnFire3, 300);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            int t = Math.Max((int)(Projectile.ai[1] / Projectile.ai[0]), 2);
+            if (Projectile.localAI[0] < t)
+                Projectile.localAI[0] = t;
+            else
+                Projectile.localAI[0] += 20;
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.OnFire3, 300);
         }
@@ -112,7 +123,7 @@ namespace JoostMod.Projectiles.Thrown
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item10.WithVolumeScale(0.5f), Projectile.Center);
             return false;
         }
 
@@ -187,12 +198,63 @@ namespace JoostMod.Projectiles.Thrown
                 }
                 if (!alt)
                 {
-                    Dust.NewDustPerfect(targetPos, DustID.GemTopaz, Vector2.Zero, 30, Color.Yellow, 1.5f).noGravity = true;
-                    for (int d = 0; d < 15; d++)
+                    if (tNPC >= 0)
                     {
-                        Vector2 p = new Vector2(10, 0).RotatedBy((d + 1.5) * Math.PI / 18f);
-                        Dust.NewDustPerfect(targetPos + p, DustID.GemTopaz, Vector2.Zero, 30, Color.Yellow, 1f).noGravity = true;
-                        Dust.NewDustPerfect(targetPos - p, DustID.GemTopaz, Vector2.Zero, 30, Color.Yellow, 1f).noGravity = true;
+                        int type = 247;
+                        float fade = 1.5f;
+                        Vector2 vel = Main.npc[tNPC].velocity;
+                        for (int i = 0; i < 3; i++)
+                        {
+                            double rot = Math.PI * i * 2 / 3 - Math.PI / 2.8;
+
+                            Vector2 p = new Vector2(-18, 0).RotatedBy(rot);
+                            Dust dust = Dust.NewDustPerfect(targetPos + p, type, vel, 30, Color.Blue, 1f);
+                            dust.noGravity = true;
+                            dust.fadeIn = fade;
+
+                            for (int d = 0; d < 10; d++)
+                            {
+                                p = new Vector2(8, 0).RotatedBy(rot);
+                                dust = Dust.NewDustPerfect(targetPos + p, type, vel, 30, Color.Aquamarine, 1f);
+                                dust.noGravity = true;
+                                dust.fadeIn = fade;
+
+
+                                dust = Dust.NewDustPerfect(targetPos + p * -2, type, vel, 30, Color.Blue, 1f);
+                                dust.noGravity = true;
+                                dust.fadeIn = fade;
+
+                                rot += Math.PI / 24;
+                            }
+
+                            rot -= Math.PI / 24;
+                            p = new Vector2(-18, 0).RotatedBy(rot);
+                            dust = Dust.NewDustPerfect(targetPos + p, type, vel, 30, Color.Blue, 1f);
+                            dust.noGravity = true;
+                            dust.fadeIn = fade;
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            double rot = Math.PI * i * 2 / 3 - Math.PI / 2;
+                            Vector2 p = new Vector2(2, 0).RotatedBy(rot);
+
+                            Dust dust = Dust.NewDustPerfect(targetPos + p, 246, Vector2.Zero, 30, Color.Yellow, 1f);
+                            dust.noGravity = true;
+                            dust.fadeIn = 1.5f;
+
+                            rot += Math.PI / 2;
+                            for (int d = 0; d < 9; d++)
+                            {
+                                p = new Vector2(10, 0).RotatedBy(rot);
+                                dust = Dust.NewDustPerfect(targetPos + p, 246, Vector2.Zero, 30, Color.Yellow, 1f);
+                                dust.noGravity = true;
+                                dust.fadeIn = 1.5f;
+                                rot += Math.PI / 24;
+                            }
+                        }
                     }
                 }
             }
