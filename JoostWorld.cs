@@ -234,6 +234,9 @@ namespace JoostMod
                             case 6:
                                 id = ModContent.ItemType<ClawedGauntlet>();
                                 break;
+                            case 7:
+                                id = ModContent.ItemType<VaultingPole>();
+                                break;
                             case 11:
                                 id = ModContent.ItemType<DirtBoardItem>();
                                 break;

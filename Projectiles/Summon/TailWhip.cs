@@ -264,7 +264,7 @@ namespace JoostMod.Projectiles.Summon
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Projectiles/TailWhip_Chain");
+            Texture2D texture = ModContent.Request<Texture2D>($"{Texture}_Chain").Value;
 
             Vector2 position = Projectile.Center;
             Player player = Main.player[Projectile.owner];

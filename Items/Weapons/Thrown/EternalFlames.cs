@@ -17,7 +17,7 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 56;
+            Item.damage = 64;
             Item.DamageType = DamageClass.Throwing;
             Item.width = 24;
             Item.height = 24;
@@ -51,6 +51,14 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override bool CanUseItem(Player player)
         {
+            if (player.altFunctionUse == 2)
+            {
+                Item.UseSound = SoundID.MaxMana;
+            }
+            else
+            {
+                Item.UseSound = SoundID.Item1;
+            }
             return player.ownedProjectileCounts[Item.shoot] < 2 && player.ownedProjectileCounts[ModContent.ProjectileType<EternalFlame2>()] < 1;
         }
         public override bool AltFunctionUse(Player player)

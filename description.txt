@@ -1,5 +1,5 @@
 The Joostmod has to offer
-469 new items
+471 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -12,11 +12,13 @@ Version 0.9.1
 --- New Additions ---
 Glow-In-The-Dark Contacts
 Dirt Board
+Vaulting Pole
+Long Pole
 Divine Mirror
 Staff of Degeneration
 Clawed Gauntlet
-Eternal Flames
 Twin Claws
+Eternal Flames
 Slime Armor
 Pink Slime Armor
 Glow-In-The-Dark Dye
