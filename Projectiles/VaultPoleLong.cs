@@ -91,7 +91,7 @@ namespace JoostMod.Projectiles
                 Projectile.Kill();
             }
         
-            Projectile.spriteDirection = Projectile.direction;
+            Projectile.spriteDirection = Projectile.direction * (int)player.gravDir;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
@@ -147,17 +147,110 @@ namespace JoostMod.Projectiles
             else
             {
                 Vector2 point = new Vector2(Projectile.ai[0], Projectile.ai[1]);
-                Vector2 nCenter = point - Projectile.velocity * (Projectile.localAI[0] + Projectile.localAI[1]);
 
-                Vector2 pVel = nCenter - player.MountedCenter;
-                pVel = Collision.TileCollision(player.position, pVel, player.width, player.height);
-                Vector4 vect2 = Collision.SlopeCollision(player.position, pVel, player.width, player.height);
+                Point tileCoord = point.ToTileCoordinates();
+                Tile tile = Main.tile[tileCoord.X, tileCoord.Y];
+                int conveyorDir = TileID.Sets.ConveyorDirection[tile.TileType];
+                if (conveyorDir == 0)
+                {
+                    tileCoord.Y++;
+                    tile = Main.tile[tileCoord.X, tileCoord.Y];
+                    conveyorDir = TileID.Sets.ConveyorDirection[tile.TileType];
+                }
+                if (conveyorDir != 0)
+                {
+                    Vector2 lineStart = default(Vector2);
+                    Vector2 lineStart2 = default(Vector2);
+                    lineStart.X = (lineStart2.X = (float)(tileCoord.X * 16));
+                    Vector2 lineEnd = default(Vector2);
+                    Vector2 lineEnd2 = default(Vector2);
+                    lineEnd.X = (lineEnd2.X = (float)(tileCoord.X * 16 + 16));
+                    int num = 0;
+                    int num2 = 0;
+                    bool flag = false;
+                    switch (tile.Slope)
+                    {
+                        case (SlopeType)1:
+                            lineStart2.Y = (float)(tileCoord.Y * 16);
+                            lineEnd2.Y = (lineEnd.Y = (lineStart.Y = (float)(tileCoord.Y * 16 + 16)));
+                            break;
+                        case (SlopeType)2:
+                            lineEnd2.Y = (float)(tileCoord.Y * 16);
+                            lineStart2.Y = (lineEnd.Y = (lineStart.Y = (float)(tileCoord.Y * 16 + 16)));
+                            break;
+                        case (SlopeType)3:
+                            lineEnd.Y = (lineStart2.Y = (lineEnd2.Y = (float)(tileCoord.Y * 16)));
+                            lineStart.Y = (float)(tileCoord.Y * 16 + 16);
+                            break;
+                        case (SlopeType)4:
+                            lineStart.Y = (lineStart2.Y = (lineEnd2.Y = (float)(tileCoord.Y * 16)));
+                            lineEnd.Y = (float)(tileCoord.Y * 16 + 16);
+                            break;
+                        default:
+                            if (tile.IsHalfBlock)
+                            {
+                                lineStart2.Y = (lineEnd2.Y = (float)(tileCoord.Y * 16 + 8));
+                            }
+                            else
+                            {
+                                lineStart2.Y = (lineEnd2.Y = (float)(tileCoord.Y * 16));
+                            }
+                            lineStart.Y = (lineEnd.Y = (float)(tileCoord.Y * 16 + 16));
+                            break;
+                    }
+                    Vector2 vector = new Vector2(0.0001f);
+                    Vector2 size = new Vector2(6, 6);
+                    Vector2 pos = point - size / 2;
+                    int num5 = 0;
+                    if (!TileID.Sets.Platforms[tile.TileType] && Collision.CheckAABBvLineCollision2(pos - vector, size + vector * 2f, lineStart, lineEnd))
+                    {
+                        num5--;
+                    }
+                    if (Collision.CheckAABBvLineCollision2(pos - vector, size + vector * 2f, lineStart2, lineEnd2))
+                    {
+                        num5++;
+                    }
+                    if (num5 != 0)
+                    {
+                        flag = true;
+                        num += conveyorDir * num5 * (int)player.gravDir;
+                        if (tile.LeftSlope)
+                        {
+                            num2 += (int)player.gravDir * conveyorDir;
+                        }
+                        if (tile.RightSlope)
+                        {
+                            num2 -= (int)player.gravDir * conveyorDir;
+                        }
+                    }
+
+                    if (flag && num != 0)
+                    {
+                        num = Math.Sign(num);
+                        num2 = Math.Sign(num2);
+                        Vector2 velocity = Vector2.Normalize(new Vector2((float)num * player.gravDir, (float)num2)) * 2.5f;
+                        Vector2 vector2 = Collision.TileCollision(pos, velocity, (int)size.X, (int)size.Y, false, false, (int)player.gravDir);
+                        pos += vector2;
+                        Vector2 velocity2 = new Vector2(0f, 2.5f * player.gravDir);
+                        vector2 = Collision.TileCollision(pos, velocity2, (int)size.X, (int)size.Y, false, false, (int)player.gravDir);
+                        pos += vector2;
+                        pos += size / 2;
+                        point = pos;
+                        Projectile.ai[0] = point.X;
+                        Projectile.ai[1] = point.Y;
+                    }
+                }
+
+                Vector2 nCenter = point - Projectile.velocity * (Projectile.localAI[0] + Projectile.localAI[1]);
+                Vector2 pVel = nCenter - Projectile.Center;
+                pVel = Collision.TileCollision(Projectile.Center - player.Size / 2, pVel, player.width, player.height);
+                Vector4 vect2 = Collision.SlopeCollision(Projectile.Center - player.Size / 2, pVel, player.width, player.height);
                 pVel = new Vector2(vect2.Z, vect2.W);
                 if (Projectile.localAI[1] > 0)
                 {
                     player.fallStart = (int)player.position.Y / 16;
                 }
-                if (pVel == nCenter - player.MountedCenter)
+                if (pVel == nCenter - Projectile.Center)
                 {
                     Projectile.localAI[0] += Projectile.localAI[1];
                     Projectile.localAI[1] += 0.5f;

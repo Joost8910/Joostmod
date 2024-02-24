@@ -14,8 +14,8 @@ namespace JoostMod.Items.Tools
         }
         public override void SetDefaults()
         {
-            Item.width = 24;
-            Item.height = 86;
+            Item.width = 22;
+            Item.height = 76;
             Item.noMelee = true;
             Item.useTime = 30;
             Item.useAnimation = 30;
