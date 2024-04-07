@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bottle Of Bone Hurting Juice");
+            // DisplayName.SetDefault("Bottle Of Bone Hurting Juice");
         }
         public override void SetDefaults()
         {
@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.timeLeft = 350;
             AIType = ProjectileID.Shuriken;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.position);
             for (int i = 0; i < 12; i++)

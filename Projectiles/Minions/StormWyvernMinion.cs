@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Minions
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Storm Wyvern");
+			// DisplayName.SetDefault("Storm Wyvern");
 			Main.projFrames[Projectile.type] = 5;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
 			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles.Minions
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 60;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
             float mult = 1f;
@@ -44,9 +44,9 @@ namespace JoostMod.Projectiles.Minions
             {
                 mult = (player.ownedProjectileCounts[Projectile.type] - 3) * 4 / player.ownedProjectileCounts[Projectile.type];
             }
-            damage = (int)(damage * mult);
+            modifiers.SourceDamage *= mult;
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             Player player = Main.player[Projectile.owner];
             float mult = 1f;
@@ -54,7 +54,7 @@ namespace JoostMod.Projectiles.Minions
             {
                 mult = (player.ownedProjectileCounts[Projectile.type] - 3) * 4 / player.ownedProjectileCounts[Projectile.type];
             }
-            damage = (int)(damage * mult);
+            modifiers.SourceDamage *= mult;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

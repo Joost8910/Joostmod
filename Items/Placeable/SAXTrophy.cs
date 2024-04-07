@@ -7,7 +7,7 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("SA-X Trophy");
+			// DisplayName.SetDefault("SA-X Trophy");
 		}
 		public override void SetDefaults()
 		{

@@ -11,7 +11,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Night's Fury");
+            // DisplayName.SetDefault("True Night's Fury");
         }
         public override void SetDefaults()
         {

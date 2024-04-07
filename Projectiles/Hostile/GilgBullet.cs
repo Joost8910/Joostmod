@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Gunblade");
+            // DisplayName.SetDefault("Gilgamesh's Gunblade");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.scale = 1.5f;
             AIType = ProjectileID.Bullet;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.velocity *= -1;
         }

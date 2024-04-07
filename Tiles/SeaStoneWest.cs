@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,8 +22,8 @@ namespace JoostMod.Tiles
             TileObjectData.newTile.AnchorWall = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stone of the West Sea");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Stone of the West Sea");
 			AddMapEntry(new Color(255, 255, 0), name);
 			DustType = 103;
             TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
@@ -60,10 +61,6 @@ namespace JoostMod.Tiles
 			num = fail ? 1 : 3;
 		}
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Legendaries.SeaStoneWest>());
-		}
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (closer)

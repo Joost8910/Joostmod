@@ -15,7 +15,7 @@ namespace JoostMod.Projectiles
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Black Hole");
+			// DisplayName.SetDefault("Black Hole");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

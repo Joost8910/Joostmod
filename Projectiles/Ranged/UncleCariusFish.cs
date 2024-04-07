@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fish");
+            // DisplayName.SetDefault("Fish");
         }
         public override void SetDefaults()
         {

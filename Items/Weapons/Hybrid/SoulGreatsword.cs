@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Greatsword");
-            Tooltip.SetDefault("Attack with a mighty greatsword formed from souls");
+            // DisplayName.SetDefault("Soul Greatsword");
+            // Tooltip.SetDefault("Attack with a mighty greatsword formed from souls");
         }
         public override void SetDefaults()
         {

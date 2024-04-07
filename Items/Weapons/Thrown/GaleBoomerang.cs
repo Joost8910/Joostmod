@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gale Boomerang");
-            Tooltip.SetDefault("A piercing boomerang that picks up enemies and items");
+            // DisplayName.SetDefault("Gale Boomerang");
+            // Tooltip.SetDefault("A piercing boomerang that picks up enemies and items");
         }
         public override void SetDefaults()
         {

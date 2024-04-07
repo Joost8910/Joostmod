@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimson Weapon Set");
-            Tooltip.SetDefault("'An evil presence emanates from these weapons'");
+            // DisplayName.SetDefault("Crimson Weapon Set");
+            // Tooltip.SetDefault("'An evil presence emanates from these weapons'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

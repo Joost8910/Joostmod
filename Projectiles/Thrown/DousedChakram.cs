@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Doused Chakram");
+            // DisplayName.SetDefault("Doused Chakram");
         }
         public override void SetDefaults()
         {

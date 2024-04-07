@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gold Flail");
+            // DisplayName.SetDefault("Gold Flail");
         }
         public override void SetDefaults()
         {

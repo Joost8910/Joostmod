@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wind Ball");
+            // DisplayName.SetDefault("Wind Ball");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

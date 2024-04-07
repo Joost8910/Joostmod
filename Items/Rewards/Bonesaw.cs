@@ -9,8 +9,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bonesaw");
-			Tooltip.SetDefault("Slain enemies explode into bones\n" + "Guaranteed critical hits against skeletal creatures");
+			// DisplayName.SetDefault("Bonesaw");
+			// Tooltip.SetDefault("Slain enemies explode into bones\n" + "Guaranteed critical hits against skeletal creatures");
 		}
 		public override void SetDefaults()
 		{

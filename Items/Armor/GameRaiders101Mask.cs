@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gameraiders101 Mask");
-            Tooltip.SetDefault("'Great for impersonating youtubers!'");
+            // DisplayName.SetDefault("Gameraiders101 Mask");
+            // Tooltip.SetDefault("'Great for impersonating youtubers!'");
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
         public override void SetDefaults()

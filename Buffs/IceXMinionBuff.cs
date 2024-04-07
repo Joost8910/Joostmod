@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ice Core-X Minion");
-			Description.SetDefault("The Ice Core-X will fight for you");
+			// DisplayName.SetDefault("Ice Core-X Minion");
+			// Description.SetDefault("The Ice Core-X will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

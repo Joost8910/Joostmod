@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spectral Orb");
+            // DisplayName.SetDefault("Spectral Orb");
         }
         public override void SetDefaults()
         {

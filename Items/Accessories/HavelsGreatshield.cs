@@ -11,11 +11,11 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Havel's Greatshield");
-			Tooltip.SetDefault("Reduces movement speed by 5%\n" +
+			// DisplayName.SetDefault("Havel's Greatshield");
+			/* Tooltip.SetDefault("Reduces movement speed by 5%\n" +
                 "Right click to block attacks in front of you\n" + 
                 "Blocking an attack reduces its damage by an amount equal to the shield's damage\n" + 
-                "Left click while blocking to shield bash");
+                "Left click while blocking to shield bash"); */
 		}
 		public override void SetDefaults()
 		{

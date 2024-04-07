@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sand Shark");
-			Description.SetDefault("'The desert DOES have fish'");
+			// DisplayName.SetDefault("Sand Shark");
+			// Description.SetDefault("'The desert DOES have fish'");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

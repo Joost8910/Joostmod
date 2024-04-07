@@ -11,8 +11,8 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shrine of Legends");
-            Tooltip.SetDefault("Used to craft legendary weapons");
+            // DisplayName.SetDefault("Shrine of Legends");
+            // Tooltip.SetDefault("Used to craft legendary weapons");
         }
         public override void SetDefaults()
         {

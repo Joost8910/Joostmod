@@ -11,15 +11,15 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Dark Lance");
+            // DisplayName.SetDefault("True Dark Lance");
         }
         public override void SetDefaults()
         {
             Projectile.width = 52;
             Projectile.height = 52;
             Projectile.scale = 1.1f;
-            Projectile.aiStyle = 19;
-            Projectile.timeLeft = 90;
+            Projectile.aiStyle = -1;
+            Projectile.timeLeft = 190;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;

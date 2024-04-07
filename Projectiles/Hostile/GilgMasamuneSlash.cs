@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Masamune");
+            // DisplayName.SetDefault("Masamune");
             Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace JoostMod.Projectiles.Hostile
             }
             Projectile.spriteDirection = Projectile.direction;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {

@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Awoken Dream Dash Slash");
+            // DisplayName.SetDefault("Awoken Dream Dash Slash");
             Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()
@@ -28,9 +28,13 @@ namespace JoostMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 2;
+            modifiers.ScalingArmorPenetration += 1f;
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
+        {
+            modifiers.ScalingArmorPenetration += 1f;
         }
         public override bool PreAI()
         {

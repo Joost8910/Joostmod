@@ -9,7 +9,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gray Slime");
+            // DisplayName.SetDefault("Gray Slime");
             Main.npcFrameCount[NPC.type] = 5;
         }
         public override void SetDefaults()

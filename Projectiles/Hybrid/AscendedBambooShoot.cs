@@ -16,7 +16,7 @@ namespace JoostMod.Projectiles.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ascended Bamboo Shoot");
+            // DisplayName.SetDefault("Ascended Bamboo Shoot");
             Main.projFrames[Projectile.type] = 9;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
@@ -51,26 +51,33 @@ namespace JoostMod.Projectiles.Hybrid
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.localAI[1] > -21)
             {
-                target.velocity.Y -= knockback * target.knockBackResist * player.gravDir;
+                target.velocity.Y -= hit.Knockback * target.knockBackResist * player.gravDir;
             }
             else
             {
-                target.velocity.Y += knockback * target.knockBackResist * player.gravDir;
+                target.velocity.Y += hit.Knockback * target.knockBackResist * player.gravDir;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.localAI[1] <= -21)
             {
-                damage = (int)(damage * 1.2f);
+                modifiers.SourceDamage *= 1.2f;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            if (Projectile.localAI[1] <= -21)
+            {
+                modifiers.SourceDamage *= 1.2f;
+            }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
@@ -287,7 +294,7 @@ namespace JoostMod.Projectiles.Hybrid
             Main.EntitySpriteDraw(texture, new Vector2(Projectile.position.X - Main.screenPosition.X + Projectile.width / 2 - texture.Width / 2f + vector.X, Projectile.position.Y - Main.screenPosition.Y + (6 + 7 * Projectile.scale) - texture.Height / Main.projFrames[Projectile.type] + vector.Y * 1.5f), new Rectangle?(rectangle), color, Projectile.rotation, vector, Projectile.scale, effects, 0);
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -317,7 +324,7 @@ namespace JoostMod.Projectiles.Hybrid
                             type = item.shoot;
                         }
                         Vector2 vel = Projectile.velocity * (shootSpeed + i * shootSpeed / 11);
-                        Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, dartItems[i]), vector, vel, type, damage, kb, Projectile.owner);
+                        Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, dartItems[i]), vector, vel, type, damage, kb, Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item63, Projectile.Center);
                     }
                 }

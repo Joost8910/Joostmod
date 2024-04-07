@@ -7,8 +7,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Music Box (Vs. SA-X)");
-			Tooltip.SetDefault("From Metroid Fusion");
+			// DisplayName.SetDefault("Music Box (Vs. SA-X)");
+			// Tooltip.SetDefault("From Metroid Fusion");
 
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSAX"), ModContent.ItemType<SAXMusicBox>(), ModContent.TileType<Tiles.SAXMusicBox>());
         }

@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Death Knight Banner");
+			// DisplayName.SetDefault("Death Knight Banner");
 		}
         public override void SetDefaults()
         {  

@@ -9,7 +9,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Gungnir");
+            // DisplayName.SetDefault("True Gungnir");
         }
         public override void SetDefaults()
         {

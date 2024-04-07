@@ -12,9 +12,9 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scroll of the Storm");
-			Tooltip.SetDefault("Summons a young Storm Wyvern to fight for you\n" +
-                "Hold Right Click to command the Storm Wyvern to charge a lightning blast");
+			// DisplayName.SetDefault("Scroll of the Storm");
+			/* Tooltip.SetDefault("Summons a young Storm Wyvern to fight for you\n" +
+                "Hold Right Click to command the Storm Wyvern to charge a lightning blast"); */
 		}
 		public override void SetDefaults()
 		{

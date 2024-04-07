@@ -10,7 +10,7 @@ namespace JoostMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vaulting Pole");
+            // DisplayName.SetDefault("Vaulting Pole");
         }
         public override void SetDefaults()
         {

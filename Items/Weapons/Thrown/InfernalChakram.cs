@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infernal Chakram");
-            Tooltip.SetDefault("A flaming chakram that creates orbiting fireballs");
+            // DisplayName.SetDefault("Infernal Chakram");
+            // Tooltip.SetDefault("A flaming chakram that creates orbiting fireballs");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
         }
         public override void SetDefaults()

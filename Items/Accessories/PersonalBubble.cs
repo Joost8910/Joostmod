@@ -8,10 +8,10 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Personal Bubble");
-			Tooltip.SetDefault("You always count as being in water\n" +
+			// DisplayName.SetDefault("Personal Bubble");
+			/* Tooltip.SetDefault("You always count as being in water\n" +
                 "Your magic attacks deal 15% more damage to submerged enemies\n" +
-                "Pushes back enemies; hide visual to disable");
+                "Pushes back enemies; hide visual to disable"); */
 		}
 		public override void SetDefaults()
 		{

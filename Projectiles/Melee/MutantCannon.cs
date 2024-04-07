@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mutated Arm Cannon");
+            // DisplayName.SetDefault("Mutated Arm Cannon");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -183,26 +183,26 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.scale > 0.7f)
             {
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_1"), Projectile.Center); // 208
             }
-            target.velocity += Projectile.velocity / 10 * knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
+            target.velocity += Projectile.velocity / 10 * hit.Knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
             if (player.immuneTime < 20 && Projectile.ai[0] >= 1)
             {
                 player.immune = true;
                 player.immuneTime = 20;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            knockback = knockback * Projectile.ai[0] * Projectile.ai[0];
-            damage = (int)(damage * Projectile.ai[0]);
+            modifiers.Knockback *= Projectile.ai[0] * Projectile.ai[0];
+            modifiers.SourceDamage *= Projectile.ai[0];
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] > 0.7f)
@@ -214,9 +214,9 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity += Projectile.velocity / 10 * Projectile.knockBack * Projectile.ai[0] * Projectile.ai[0];
             }
         }
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = (int)(damage * Projectile.ai[0]);
+            modifiers.SourceDamage *= Projectile.ai[0];
         }
     }
 }

@@ -10,8 +10,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weather Star - Slime Rain");
-            Tooltip.SetDefault("'Throw it at a wall and see if it sticks!'");
+            // DisplayName.SetDefault("Weather Star - Slime Rain");
+            // Tooltip.SetDefault("'Throw it at a wall and see if it sticks!'");
         }
         public override void SetDefaults()
         {

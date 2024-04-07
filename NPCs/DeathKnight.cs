@@ -35,7 +35,7 @@ namespace JoostMod.NPCs
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Death Knight");
+            // DisplayName.SetDefault("Death Knight");
             Main.npcFrameCount[NPC.type] = 8;
         }
         public override void SetDefaults()
@@ -62,7 +62,7 @@ namespace JoostMod.NPCs
             npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<SigilofSkulls>(), 10, 7));
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
@@ -77,14 +77,14 @@ namespace JoostMod.NPCs
                 Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("DeathKnight5").Type);
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 109, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 109, 2.5f * (float)hit.HitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
-            return (tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44) && spawnInfo.PlanteraDefeated && spawnInfo.SpawnTileY >= Main.rockLayer && Main.hardMode ? 0.01f : 0f;
+            return (tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44) && NPC.downedPlantBoss && Main.hardMode && spawnInfo.SpawnTileY >= Main.rockLayer && Main.hardMode ? 0.01f : 0f;
         }
         public override void AI()
         {

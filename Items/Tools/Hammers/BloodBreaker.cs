@@ -9,7 +9,7 @@ namespace JoostMod.Items.Tools.Hammers
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Breaker");
+            // DisplayName.SetDefault("Blood Breaker");
         }
         public override void SetDefaults()
         {

@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Twin Claws");
-            Tooltip.SetDefault("Right click for a powerful leaping slash");
+            // DisplayName.SetDefault("Twin Claws");
+            // Tooltip.SetDefault("Right click for a powerful leaping slash");
         }
         public override void SetDefaults()
         {

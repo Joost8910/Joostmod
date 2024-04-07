@@ -12,9 +12,9 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Robocod");
-            Tooltip.SetDefault("Fires a spread of lasers\n" +
-                "Fished in the Jungle or Tundra after a mechanical boss has been defeated");
+            // DisplayName.SetDefault("Robocod");
+            /* Tooltip.SetDefault("Fires a spread of lasers\n" +
+                "Fished in the Jungle or Tundra after a mechanical boss has been defeated"); */
         }
         public override void SetDefaults()
         {

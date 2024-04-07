@@ -8,8 +8,8 @@ namespace JoostMod.Items.Quest
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Big Bone");
-            Tooltip.SetDefault("Quest item for the Hunt Master");
+			// DisplayName.SetDefault("Big Bone");
+            // Tooltip.SetDefault("Quest item for the Hunt Master");
         }
 
 		public override void SetDefaults()

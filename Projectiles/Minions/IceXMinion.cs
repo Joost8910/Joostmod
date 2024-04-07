@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Minions
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ice Core-X");
+			// DisplayName.SetDefault("Ice Core-X");
             Main.projFrames[Projectile.type] = 17;
             Main.projPet[Projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;

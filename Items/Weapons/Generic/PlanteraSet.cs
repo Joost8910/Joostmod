@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plantera Weapon Set");
-            Tooltip.SetDefault("'BRING IT ON YOU GIANT F---'");
+            // DisplayName.SetDefault("Plantera Weapon Set");
+            // Tooltip.SetDefault("'BRING IT ON YOU GIANT F---'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

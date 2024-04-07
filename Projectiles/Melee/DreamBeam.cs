@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dream Nail");
+            // DisplayName.SetDefault("Dream Nail");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Melee
             height = 30;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 20; i++)
             {
@@ -53,13 +53,13 @@ namespace JoostMod.Projectiles.Melee
                 Main.dust[dust].noGravity = true;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 4;
+            modifiers.ScalingArmorPenetration += 0.5f;
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            damage += target.statDefense / 4;
+            modifiers.ScalingArmorPenetration += 0.5f;
         }
         public override bool PreDraw(ref Color lightColor)
         {

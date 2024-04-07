@@ -9,10 +9,10 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Coiled Nail");
-            Tooltip.SetDefault("Hold attack to charge a great slash!\n" +
+            // DisplayName.SetDefault("Coiled Nail");
+            /* Tooltip.SetDefault("Hold attack to charge a great slash!\n" +
             "Unleash it forward while dashing for a long ranged dash slash!\n" +
-            "Unleash it while holding up or down for a spin attack!");
+            "Unleash it while holding up or down for a spin attack!"); */
         }
         public override void SetDefaults()
         {

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Accessories
     { 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hover Boots");
-            Tooltip.SetDefault("Allows you to walk on air");
+            // DisplayName.SetDefault("Hover Boots");
+            // Tooltip.SetDefault("Allows you to walk on air");
         }
         public override void SetDefaults()
         {

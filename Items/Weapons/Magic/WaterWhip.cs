@@ -10,11 +10,11 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Tendril");
-            Tooltip.SetDefault("Left click for a slapping tendril\n" +
+            // DisplayName.SetDefault("Water Tendril");
+            /* Tooltip.SetDefault("Left click for a slapping tendril\n" +
                 "Damage dealt is based on the tendril's speed\n" +
                 "Right click for a grasping tendril\n" +
-                "Grabs hit enemies and items");
+                "Grabs hit enemies and items"); */
         }
         public override void SetDefaults()
         {

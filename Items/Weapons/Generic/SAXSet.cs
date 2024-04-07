@@ -16,8 +16,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SA-X Weapon Set");
-            Tooltip.SetDefault("'Cold and explosive'");
+            // DisplayName.SetDefault("SA-X Weapon Set");
+            // Tooltip.SetDefault("'Cold and explosive'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("1000'C Degrees Knife");
-            Tooltip.SetDefault("'That's 1832 degrees Fahrenheit");
+            // DisplayName.SetDefault("1000'C Degrees Knife");
+            // Tooltip.SetDefault("'That's 1832 degrees Fahrenheit");
         }
         public override void SetDefaults()
         {

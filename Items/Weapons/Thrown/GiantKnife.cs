@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Giant's Knife");
-            Tooltip.SetDefault("'It's so long!'");
+            // DisplayName.SetDefault("Giant's Knife");
+            // Tooltip.SetDefault("'It's so long!'");
         }
         public override void SetDefaults()
         {

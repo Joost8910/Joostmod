@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stardust Grenade");
+            // DisplayName.SetDefault("Stardust Grenade");
         }
         public override void SetDefaults()
         {
@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Thrown
 
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             for (int i = 0; i < 5; i++)

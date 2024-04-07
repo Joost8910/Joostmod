@@ -9,11 +9,11 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brawler's Glove");
-            Tooltip.SetDefault("Punches enemies with your bare hands\n" +
+            // DisplayName.SetDefault("Brawler's Glove");
+            /* Tooltip.SetDefault("Punches enemies with your bare hands\n" +
                 "Hold right click to grab an enemy\n" +
                 "Left click while grabbing to pummel\n" +
-                "Release right click to throw");
+                "Release right click to throw"); */
         }
         public override void SetDefaults()
         {

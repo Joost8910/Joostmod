@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pumpkin Staff");
-            Tooltip.SetDefault("Summons a swirling shield of pumpkins\n" + "Right click to send the pumpkins outwards");
+            // DisplayName.SetDefault("Pumpkin Staff");
+            // Tooltip.SetDefault("Summons a swirling shield of pumpkins\n" + "Right click to send the pumpkins outwards");
         }
         public override void SetDefaults()
         {

@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wind");
+            // DisplayName.SetDefault("Wind");
             Main.projFrames[Projectile.type] = 12;
         }
         public override void SetDefaults()

@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tomato Head");
-			Tooltip.SetDefault("It's still wriggling");
+			// DisplayName.SetDefault("Tomato Head");
+			// Tooltip.SetDefault("It's still wriggling");
 		}
 		public override void SetDefaults()
 		{

@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Ball");
+            // DisplayName.SetDefault("Water Ball");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -97,7 +97,7 @@ namespace JoostMod.Projectiles.Magic
                                 //projectile.localAI[0] += Main.tile[i, j].liquid;
                                 //Main.tile[i, j].liquid = 0;
                                 WorldGen.SquareTileFrame(i, j, false);
-                                if (Main.netMode == 1)
+                                if (Main.netMode == NetmodeID.MultiplayerClient)
                                 {
                                     NetMessage.sendWater(i, j);
                                 }
@@ -176,12 +176,12 @@ namespace JoostMod.Projectiles.Magic
             }
             if (Main.rand.NextBool((int)(3f / Projectile.scale)))
             {
-                Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 172, Projectile.velocity.X * -0.5f, Projectile.velocity.Y * -0.5f, 0, default, 1f + Projectile.ai[0] / 16).noGravity = true;
+                Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.DungeonWater, Projectile.velocity.X * -0.5f, Projectile.velocity.Y * -0.5f, 0, default, 1f + Projectile.ai[0] / 16).noGravity = true;
                 if (Main.rand.NextBool(20))
-                    Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 172, Projectile.velocity.X * -0.5f, Projectile.velocity.Y * -0.5f, 0, default, 1f + Projectile.ai[0] / 25);
+                    Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonWater, Projectile.velocity.X * -0.5f, Projectile.velocity.Y * -0.5f, 0, default, 1f + Projectile.ai[0] / 25);
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             SoundEngine.PlaySound(SoundID.Splash, Projectile.position);
@@ -239,21 +239,21 @@ namespace JoostMod.Projectiles.Magic
                     Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonWater, vel.X, vel.Y, 0, default, 1f + Projectile.ai[0] / 16);
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.ai[1] >= 1)
             {
                 float mult = 1f + Projectile.ai[0] / 5;
-                damage = (int)(damage * mult);
-                knockback = knockback + mult;
+                modifiers.SourceDamage *= mult;
+                modifiers.Knockback *= mult;
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (Projectile.ai[1] >= 1)
             {
                 float mult = 1f + Projectile.ai[0] / 5;
-                damage = (int)(damage * mult);
+                modifiers.SourceDamage *= mult;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

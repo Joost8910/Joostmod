@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Magic Tornado");
-			Description.SetDefault("The Tornado will fight for you");
+			// DisplayName.SetDefault("Magic Tornado");
+			// Description.SetDefault("The Tornado will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

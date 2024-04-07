@@ -41,7 +41,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grognak's");
+            // DisplayName.SetDefault("Grognak's");
         }
         public override byte meleeDamage => 6;
         public override bool CanRoll(Item item)
@@ -53,7 +53,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gnunderson's");
+            // DisplayName.SetDefault("Gnunderson's");
         }
         public override byte thrownDamage => 6;
         public override bool CanRoll(Item item)
@@ -65,7 +65,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boook's");
+            // DisplayName.SetDefault("Boook's");
         }
         public override byte rangedDamage => 6;
         public override bool CanRoll(Item item)
@@ -77,7 +77,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("David's");
+            // DisplayName.SetDefault("David's");
         }
         public override byte magicDamage => 6;
         public override bool CanRoll(Item item)
@@ -89,7 +89,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Larkus's");
+            // DisplayName.SetDefault("Larkus's");
         }
         public override byte summonDamage => 6; 
         public override bool CanRoll(Item item)
@@ -101,7 +101,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Uncle Carius's");
+            // DisplayName.SetDefault("Uncle Carius's");
         }
         public override byte fishingPower => 5;
         public override bool CanRoll(Item item)
@@ -113,7 +113,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hearty");
+            // DisplayName.SetDefault("Hearty");
         }
         public override byte maxHealth => 25;
         public override bool CanRoll(Item item)
@@ -125,7 +125,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rejuvenating");
+            // DisplayName.SetDefault("Rejuvenating");
         }
         public override byte lifeRegen => 1;
         public override bool CanRoll(Item item)

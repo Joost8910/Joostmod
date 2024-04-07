@@ -11,9 +11,9 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of the High Sea");
-            Tooltip.SetDefault("Grants water walking buff while placed or in inventory\n" +
-                "Fished in the sky");
+            // DisplayName.SetDefault("Stone of the High Sea");
+            /* Tooltip.SetDefault("Grants water walking buff while placed or in inventory\n" +
+                "Fished in the sky"); */
         }
         public override void SetDefaults()
         {

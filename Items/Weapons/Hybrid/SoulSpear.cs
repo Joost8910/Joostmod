@@ -14,8 +14,8 @@ namespace JoostMod.Items.Weapons.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Spear");
-            Tooltip.SetDefault("Fire a piercing soul spear\n" + "Goes through blocks for a short distance");
+            // DisplayName.SetDefault("Soul Spear");
+            // Tooltip.SetDefault("Fire a piercing soul spear\n" + "Goes through blocks for a short distance");
         }
         public override void SetDefaults()
         {

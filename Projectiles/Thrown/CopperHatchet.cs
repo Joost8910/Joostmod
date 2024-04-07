@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Copper Hatchet");
+            // DisplayName.SetDefault("Copper Hatchet");
         }
         public override void SetDefaults()
         {
@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.Kill();
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<CopperHatchet2>(), (int)(Projectile.damage * 1f), 3, Projectile.owner);

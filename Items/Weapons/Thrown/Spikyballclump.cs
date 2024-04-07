@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clump of Spiky Balls");
-            Tooltip.SetDefault("'Your pockets hurt'");
+            // DisplayName.SetDefault("Clump of Spiky Balls");
+            // Tooltip.SetDefault("'Your pockets hurt'");
         }
         public override void SetDefaults()
         {

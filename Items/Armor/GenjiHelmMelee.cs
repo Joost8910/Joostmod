@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Golden Genji Helm");
-            Tooltip.SetDefault("50% Increased Melee damage\n" + "25% Increased Melee speed");
+            // DisplayName.SetDefault("Golden Genji Helm");
+            // Tooltip.SetDefault("50% Increased Melee damage\n" + "25% Increased Melee speed");
         }
         public override void SetDefaults()
         {

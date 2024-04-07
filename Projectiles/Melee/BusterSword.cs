@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Buster Sword");
+            // DisplayName.SetDefault("Buster Sword");
         }
         public override void SetDefaults()
         {
@@ -28,12 +28,12 @@ namespace JoostMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
-            target.velocity.Y -= knockback * target.knockBackResist * player.gravDir;
+            target.velocity.Y -= hit.Knockback * target.knockBackResist * player.gravDir;
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
@@ -120,7 +120,7 @@ namespace JoostMod.Projectiles.Melee
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);

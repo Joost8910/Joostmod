@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scroll of Water");
-            Tooltip.SetDefault("Creates a controllable ball of water\n" + "Collects nearby water to grow");
+            // DisplayName.SetDefault("Scroll of Water");
+            // Tooltip.SetDefault("Creates a controllable ball of water\n" + "Collects nearby water to grow");
         }
         public override void SetDefaults()
         {

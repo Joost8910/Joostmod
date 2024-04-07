@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hellfire Weapon Set");
-            Tooltip.SetDefault("'Hot, HOT! Way too hot!'");
+            // DisplayName.SetDefault("Hellfire Weapon Set");
+            // Tooltip.SetDefault("'Hot, HOT! Way too hot!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

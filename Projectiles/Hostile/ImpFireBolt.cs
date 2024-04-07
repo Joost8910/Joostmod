@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Imp Lord's Fire");
+            // DisplayName.SetDefault("Imp Lord's Fire");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (!target.HasBuff(BuffID.OnFire))
             {

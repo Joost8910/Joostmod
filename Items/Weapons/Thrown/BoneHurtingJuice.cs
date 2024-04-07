@@ -9,10 +9,10 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bone Hurting Juice");
-            Tooltip.SetDefault("Debuff damage steadily increases over time\n" +
+            // DisplayName.SetDefault("Bone Hurting Juice");
+            /* Tooltip.SetDefault("Debuff damage steadily increases over time\n" +
                 "Debuff deals double damage against skeletal creatures\n" +
-                "'Ow, oof, ouch, my bones'");
+                "'Ow, oof, ouch, my bones'"); */
         }
         public override void SetDefaults()
         {

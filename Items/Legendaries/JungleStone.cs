@@ -11,9 +11,9 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of Overgrowth");
-            Tooltip.SetDefault("Grants swiftness buff while placed or in inventory\n" +
-                "Found in the Underground Jungle above cavern layer");
+            // DisplayName.SetDefault("Stone of Overgrowth");
+            /* Tooltip.SetDefault("Grants swiftness buff while placed or in inventory\n" +
+                "Found in the Underground Jungle above cavern layer"); */
         }
         public override void SetDefaults()
         {

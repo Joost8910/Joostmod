@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Homing Soulmass");
-            Tooltip.SetDefault("Summons homing soulmasses that stay above you before seeking enemies\n" +
-                "Right click to target an enemy");
+            // DisplayName.SetDefault("Homing Soulmass");
+            /* Tooltip.SetDefault("Summons homing soulmasses that stay above you before seeking enemies\n" +
+                "Right click to target an enemy"); */
         }
         public override void SetDefaults()
         {

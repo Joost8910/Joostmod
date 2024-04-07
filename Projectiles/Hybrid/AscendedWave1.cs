@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ascended Wave");
+            // DisplayName.SetDefault("Ascended Wave");
         }
         public override void SetDefaults()
         {
@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles.Hybrid
             fallThrough = false;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4 * Projectile.ai[0]);
             Point pos = posi.ToTileCoordinates();

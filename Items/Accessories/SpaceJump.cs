@@ -8,8 +8,8 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Space Jump");
-			Tooltip.SetDefault("Allows you to jump infinitely");
+			// DisplayName.SetDefault("Space Jump");
+			// Tooltip.SetDefault("Allows you to jump infinitely");
 		}
 		public override void SetDefaults()
 		{

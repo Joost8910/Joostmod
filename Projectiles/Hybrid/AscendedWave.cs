@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ascended Wave");
+            // DisplayName.SetDefault("Ascended Wave");
         }
         public override void SetDefaults()
         {

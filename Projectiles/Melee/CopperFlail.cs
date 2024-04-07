@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Copper Flail");
+            // DisplayName.SetDefault("Copper Flail");
             //ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4; //Ball o hurt is 8
             //ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

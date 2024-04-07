@@ -13,8 +13,9 @@ namespace JoostMod.NPCs.Bosses
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Giant Needle");
-		}
+            // DisplayName.SetDefault("Giant Needle");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+        }
 		public override void SetDefaults()
 		{
 			NPC.width = 26;
@@ -30,7 +31,7 @@ namespace JoostMod.NPCs.Bosses
 			NPC.noTileCollide = true;
 			NPC.noGravity = true;
 		}
-		public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(NPC.HitInfo hit)
 		{
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

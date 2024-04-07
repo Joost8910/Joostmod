@@ -17,18 +17,11 @@ namespace JoostMod.NPCs.Bosses
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gilgamesh");
+			// DisplayName.SetDefault("Gilgamesh");
 			Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Confused
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
 		public override void SetDefaults()
 		{
@@ -51,9 +44,9 @@ namespace JoostMod.NPCs.Bosses
             NPC.noGravity = true;
         }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
 		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.625f * bossLifeScale);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.625f * balance);
 			NPC.damage = (int)(NPC.damage * 0.7f);
 		}
         public override bool PreKill()

@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toxic Bucket");
-            Tooltip.SetDefault("Fished in the Corruption after the Eater of Worlds has been defeated");
+            // DisplayName.SetDefault("Toxic Bucket");
+            // Tooltip.SetDefault("Fished in the Corruption after the Eater of Worlds has been defeated");
         }
         public override void SetDefaults()
         {

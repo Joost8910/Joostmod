@@ -9,8 +9,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Counter Attack");
-			Description.SetDefault("Thrown damage and velocity increased by 50%");
+			// DisplayName.SetDefault("Counter Attack");
+			// Description.SetDefault("Thrown damage and velocity increased by 50%");
 			Main.buffNoSave[Type] = true;
 		}
 

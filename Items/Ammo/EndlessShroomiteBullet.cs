@@ -9,8 +9,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Endless Shroomite Pouch");
-			Tooltip.SetDefault("Leaves a trail of damaging mushrooms");
+			// DisplayName.SetDefault("Endless Shroomite Pouch");
+			// Tooltip.SetDefault("Leaves a trail of damaging mushrooms");
 		}
 		public override void SetDefaults()
 		{

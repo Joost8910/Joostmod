@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Flail");
+            // DisplayName.SetDefault("Gilgamesh's Flail");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -26,7 +26,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.timeLeft = 300;
             Projectile.tileCollide = false;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {

@@ -21,7 +21,7 @@ namespace JoostMod.Projectiles.Hostile
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lightning Strike");
+            // DisplayName.SetDefault("Lightning Strike");
         }
         public override void SetDefaults()
         {

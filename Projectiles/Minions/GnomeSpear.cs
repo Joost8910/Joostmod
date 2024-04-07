@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Minions
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gnome");
+			// DisplayName.SetDefault("Gnome");
             Main.projFrames[Projectile.type] = 2;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

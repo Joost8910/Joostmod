@@ -18,10 +18,10 @@ namespace JoostMod.Items.GrappleHooks
         
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactus Worm Hook");
-			Tooltip.SetDefault("Hold the grapple button to have the hook go through tiles\n" + 
+			// DisplayName.SetDefault("Cactus Worm Hook");
+			/* Tooltip.SetDefault("Hold the grapple button to have the hook go through tiles\n" + 
                 "Let go of the grapple button to grip tile\n" +
-                "Pulls you through tiles");
+                "Pulls you through tiles"); */
 		}
     }
 }

@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lord's Flame");
-            Tooltip.SetDefault("Hold attack to charge a bigger fireball");
+			// DisplayName.SetDefault("Lord's Flame");
+            // Tooltip.SetDefault("Hold attack to charge a bigger fireball");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }

@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pet Eyeball");
+            // DisplayName.SetDefault("Pet Eyeball");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
@@ -48,15 +48,15 @@ namespace JoostMod.Projectiles.Melee
             height = (int)(30f * Projectile.scale);
             return true;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.Center.X > Main.player[Projectile.owner].Center.X)
             {
-                hitDirection = 1;
+                modifiers.HitDirectionOverride = 1;
             }
             else
             {
-                hitDirection = -1;
+                modifiers.HitDirectionOverride = -1;
             }
         }
         public override bool PreAI()

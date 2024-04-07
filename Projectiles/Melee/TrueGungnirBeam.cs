@@ -17,7 +17,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Gungnir");
+            // DisplayName.SetDefault("True Gungnir");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -117,7 +117,7 @@ namespace JoostMod.Projectiles.Melee
             Main.dust[num1].velocity *= 0.1f;
             Lighting.AddLight(Projectile.Center, 0.625f, 0.3f, 0.6f);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10 * Projectile.scale; i++)
             {
@@ -149,55 +149,56 @@ namespace JoostMod.Projectiles.Melee
             Vector2 offset = Vector2.Normalize(Projectile.velocity);
 
 
-            int intended = Main.CurrentDrawnEntityShader; //Temporary until 1.4.4
-            int shader = GameShaders.Armor.GetShaderIdFromItemId(ModContent.ItemType<GungnirBeamShader>());
+            //int intended = Main.CurrentDrawnEntityShader; //Temporary until 1.4.4
+            //int shader = GameShaders.Armor.GetShaderIdFromItemId(ModContent.ItemType<GungnirBeamShader>());
 
-            Main.instance.PrepareDrawnEntityDrawing(Projectile, shader);
+            //Main.instance.PrepareDrawnEntityDrawing(Projectile, shader);
 
-            //DrawData data = new DrawData(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+
+            MiscShaderData shaderData = GameShaders.Misc["TrueGungnirBeam"];
+            shaderData.UseColor(new Color(0.9f, 0.52f, 0.87f));
+            shaderData.UseSecondaryColor(new Color(0.22f, 0.45f, 0.82f));
+            shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
 
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 Color c = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
                 Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
                 Texture2D trailTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Trail");
-                Main.EntitySpriteDraw(trailTex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+                //Main.EntitySpriteDraw(trailTex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+                DrawData dataTrail = new DrawData(trailTex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+                shaderData.Apply(dataTrail);
+                dataTrail.Draw(Main.spriteBatch);
             }
 
-            Main.EntitySpriteDraw(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            DrawData data = new DrawData(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
+            //Main.EntitySpriteDraw(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
 
             scale = Projectile.scale * 1.1f;
             color = Color.White * ((255f - Projectile.alpha) / 255f);
-            //DrawData data2 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            DrawData data2 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data2);
+            data2.Draw(Main.spriteBatch);
 
-            Main.EntitySpriteDraw(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            //Main.EntitySpriteDraw(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
 
             scale = Projectile.scale;
             color = new Color(231, 135, 223) * ((255f - Projectile.alpha) / 255f);
-            //DrawData data3 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            Main.EntitySpriteDraw(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            Main.instance.PrepareDrawnEntityDrawing(Projectile, intended);
-
-
-
-            /* Wont work until 1.4.4
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
-
-            MiscShaderData shaderData = GameShaders.Misc["TrueGungnirBeam"];
-            shaderData.UseColor(new Color(57, 115, 210));
-            shaderData.UseImage0(tex)
-            shaderData.Apply(new DrawData?());
-            data.Draw(Main.spriteBatch);
-            shaderData.Apply(new DrawData?());
-            data2.Draw(Main.spriteBatch);
-            shaderData.Apply(new DrawData?());
+            DrawData data3 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data3);
             data3.Draw(Main.spriteBatch);
+
+            //Main.EntitySpriteDraw(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            //Main.instance.PrepareDrawnEntityDrawing(Projectile, intended);
+
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
-            */
+            
             return false;
         }
 

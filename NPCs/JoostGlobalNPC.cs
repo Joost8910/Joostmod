@@ -60,82 +60,34 @@ namespace JoostMod.NPCs
             }
             immunePlayer = -1;
         }
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        public override void ModifyShop(NPCShop shop)
         {
             Player player = Main.player[Main.myPlayer];
-            switch (type)
+            switch (shop.NpcType)
             {
                 case NPCID.GoblinTinkerer:
-                    if (Main.hardMode)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<Spikyballclump>());
-                        nextSlot++;
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<AirplaneKeys>());
-                        nextSlot++;
-                    }
+                    shop.Add<Spikyballclump>(Condition.Hardmode);
+                    shop.Add<AirplaneKeys>(Condition.Hardmode);
                     break;
                 case NPCID.Merchant:
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<ScooterItem>());
-                    nextSlot++;
-                    if (Main.hardMode)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<GiantKnife>());
-                        nextSlot++;
-                    }
+                    shop.Add<ScooterItem>();
+                    shop.Add<GiantKnife>(Condition.Hardmode);
                     break;
                 case NPCID.Dryad:
-                    shop.item[nextSlot].SetDefaults(208);
-                    nextSlot++;
+                    shop.Add(ItemID.JungleRose, Condition.InJungle);
                     break;
                 case NPCID.Truffle:
-                    if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<ShroomStaff>());
-                        nextSlot++;
-                    }
-                    break;
-                case NPCID.Steampunker:
-                    if (player.ZoneDesert)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<DesertSolution>());
-                        nextSlot++;
-                    }
-                    else if (player.ZoneSnow)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<WinterSolution>());
-                        nextSlot++;
-                    }
-                    else
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<TemperateSolution>());
-                        nextSlot++;
-                    }
+                    shop.Add<ShroomStaff>(Condition.DownedMechBossAny);
                     break;
                 case NPCID.TravellingMerchant:
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<WonderWaffle>());
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrabGlove>());
-                    nextSlot++;
+                    shop.Add<GrabGlove>();
+                    shop.Add<WonderWaffle>(Condition.MoonPhasesOdd);
                     break;
                 case NPCID.DyeTrader:
-                    if (Main.netMode == NetmodeID.MultiplayerClient)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<TeamOutlineDye>());
-                        nextSlot++;
-                    }
-                    if (Main.GetMoonPhase() >= MoonPhase.ThreeQuartersAtLeft && Main.GetMoonPhase() <= MoonPhase.QuarterAtLeft)
-                    {
-                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<BlurryDye>());
-                        nextSlot++;
-                    }
-                    if (!Main.dayTime)
-                    {
-                        if (Main.GetMoonPhase() == MoonPhase.Empty)
-                            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GhostDye>());
-                        else
-                            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GlowInTheDarkDye>());
-                        nextSlot++;
-                    }
+                    shop.Add<TeamOutlineDye>(Condition.Multiplayer);
+                    shop.Add<BlurryDye>(Condition.MoonPhasesHalf0);
+                    shop.Add<GhostDye>(new Condition("Mods.JoostMod.Conditions.NightNewMoon", () => !Main.dayTime && Main.GetMoonPhase() == MoonPhase.Empty));
+                    shop.Add<GlowInTheDarkDye>(new Condition("Mods.JoostMod.Conditions.NightNotNewMoon", () => !Main.dayTime && Main.GetMoonPhase() != MoonPhase.Empty));
                     break;
             }
         }
@@ -561,7 +513,7 @@ namespace JoostMod.NPCs
             }
         }
         */
-        public override bool? CanHitNPC(NPC npc, NPC target)
+        public override bool CanHitNPC(NPC npc, NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
             if (npc.type == NPCID.BurningSphere && target.type == ModContent.NPCType<Hunts.FireBall>())
             {

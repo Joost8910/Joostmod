@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Power Bomb");
+            // DisplayName.SetDefault("Power Bomb");
         }
         public override void SetDefaults()
         {
@@ -96,7 +96,7 @@ namespace JoostMod.Projectiles.Thrown
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 8, SpriteEffects.None, 0);
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<PowerBombExplosion2>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner);
         }

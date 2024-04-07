@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fire Flinger");
-			Tooltip.SetDefault("Uses Gel for ammo");
+			// DisplayName.SetDefault("Fire Flinger");
+			// Tooltip.SetDefault("Uses Gel for ammo");
 		}
 		public override void SetDefaults()
 		{

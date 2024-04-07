@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lunar Cactus Helmet");
-			Tooltip.SetDefault("Throwing velocity increased by 35%\n" + "Reduces thrown item consumption by 50%");
+			// DisplayName.SetDefault("Lunar Cactus Helmet");
+			// Tooltip.SetDefault("Throwing velocity increased by 35%\n" + "Reduces thrown item consumption by 50%");
 			ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 		}
 		public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slapping Water Tendril");
+            // DisplayName.SetDefault("Slapping Water Tendril");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -38,7 +38,7 @@ namespace JoostMod.Projectiles.Magic
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, -oldVelocity.X, -oldVelocity.Y);
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water, -oldVelocity.X, -oldVelocity.Y);
                 }
                 SoundEngine.PlaySound(SoundID.SplashWeak, Projectile.Center);
             }
@@ -60,22 +60,22 @@ namespace JoostMod.Projectiles.Magic
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             float mult = Vector2.Distance(Projectile.position, Projectile.oldPos[1]) * 0.05f;
             if (mult > 3f)
                 mult = 3f;
-            damage = (int)(damage * mult);
-            knockback = 0;
+            modifiers.SourceDamage *= mult;
+            modifiers.DisableKnockback();
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             float mult = Vector2.Distance(Projectile.position, Projectile.oldPos[1]) * 0.05f;
             if (mult > 3)
                 mult = 3f;
-            damage = (int)(damage * mult);
+            modifiers.SourceDamage *= mult;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.knockBackResist > 0)
             {
@@ -89,10 +89,10 @@ namespace JoostMod.Projectiles.Magic
             SoundEngine.PlaySound(SoundID.Splash, Projectile.Center);
             for (int i = 0; i < 12; i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 33, -target.velocity.X, -target.velocity.Y, 0, default, 2);
+                Dust.NewDust(target.position, target.width, target.height, DustID.Water, -target.velocity.X, -target.velocity.Y, 0, default, 2);
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (!target.noKnockback)
             {
@@ -106,7 +106,7 @@ namespace JoostMod.Projectiles.Magic
             SoundEngine.PlaySound(SoundID.Splash, Projectile.Center);
             for (int i = 0; i < 12; i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 33, -target.velocity.X, -target.velocity.Y, 0, default, 2);
+                Dust.NewDust(target.position, target.width, target.height, DustID.Water, -target.velocity.X, -target.velocity.Y, 0, default, 2);
             }
         }
         int nextProj = -1;

@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Frostfire Ember");
-			Description.SetDefault("The frostfire ember will fight for you");
+			// DisplayName.SetDefault("Frostfire Ember");
+			// Description.SetDefault("The frostfire ember will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

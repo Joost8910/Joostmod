@@ -12,7 +12,7 @@ namespace JoostMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Long Pole");
+            // DisplayName.SetDefault("Long Pole");
         }
         public override void SetDefaults()
         {

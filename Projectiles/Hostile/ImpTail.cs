@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Imp Lord's Tail");
+            // DisplayName.SetDefault("Imp Lord's Tail");
         }
         public override void SetDefaults()
         {
@@ -65,7 +65,7 @@ namespace JoostMod.Projectiles.Hostile
                 }
             }
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (!target.HasBuff(BuffID.Venom))
             {

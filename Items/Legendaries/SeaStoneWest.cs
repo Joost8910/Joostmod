@@ -11,9 +11,9 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of the West Sea");
-            Tooltip.SetDefault("Grants sonar buff while placed or in inventory\n" +
-                "Fished in the left ocean");
+            // DisplayName.SetDefault("Stone of the West Sea");
+            /* Tooltip.SetDefault("Grants sonar buff while placed or in inventory\n" +
+                "Fished in the left ocean"); */
         }
         public override void SetDefaults()
         {

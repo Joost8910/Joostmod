@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tomato Head");
+            // DisplayName.SetDefault("Tomato Head");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Melee
         {
             return !target.friendly && Projectile.ai[1] >= 20;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (player.immuneTime < Projectile.localNPCHitCooldown)

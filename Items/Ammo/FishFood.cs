@@ -9,7 +9,7 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fishy Food");
+			// DisplayName.SetDefault("Fishy Food");
 		}
 		public override void SetDefaults()
 		{

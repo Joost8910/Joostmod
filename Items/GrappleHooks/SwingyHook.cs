@@ -15,8 +15,8 @@ namespace JoostMod.Items.GrappleHooks
         }
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Swingy Hook");
-			Tooltip.SetDefault("Move left or right to swing\n" + "Move up or down to retract/extend");
+			// DisplayName.SetDefault("Swingy Hook");
+			// Tooltip.SetDefault("Move left or right to swing\n" + "Move up or down to retract/extend");
 		}
         public override void AddRecipes()  //How to craft this item
         {

@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("SA-X Mask");
+			// DisplayName.SetDefault("SA-X Mask");
 		}
 
 		public override void SetDefaults()

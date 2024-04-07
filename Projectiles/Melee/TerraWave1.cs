@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Firma");
+            // DisplayName.SetDefault("Terra Firma");
         }
         public override void SetDefaults()
         {
@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Melee
             fallThrough = false;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4 * Projectile.ai[0]);
             Point pos = posi.ToTileCoordinates();

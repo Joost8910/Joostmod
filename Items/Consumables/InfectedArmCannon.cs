@@ -12,8 +12,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infected Arm Cannon");
-            Tooltip.SetDefault("Summons the SA-X");
+            // DisplayName.SetDefault("Infected Arm Cannon");
+            // Tooltip.SetDefault("Summons the SA-X");
         }
         public override void SetDefaults()
         {

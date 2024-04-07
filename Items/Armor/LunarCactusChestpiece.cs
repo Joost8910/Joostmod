@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lunar Cactus Chestpiece");
-			Tooltip.SetDefault("Throwing crit chance increased by 35%\n" + "Life Regeneration increased by 8");
+			// DisplayName.SetDefault("Lunar Cactus Chestpiece");
+			// Tooltip.SetDefault("Throwing crit chance increased by 35%\n" + "Life Regeneration increased by 8");
 			ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
 		}
 

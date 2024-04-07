@@ -24,18 +24,11 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh");
+            // DisplayName.SetDefault("Gilgamesh");
             Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 8;
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Confused
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {
@@ -58,9 +51,9 @@ namespace JoostMod.NPCs.Bosses
             NPC.noGravity = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.625f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.625f * balance);
             NPC.damage = (int)(NPC.damage * 0.7f);
         }
         public override void BossLoot(ref string name, ref int potionType)
@@ -176,16 +169,16 @@ namespace JoostMod.NPCs.Bosses
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if ((int)NPC.ai[3] % 2 == 1)
             {
-                damage = damage / 3;
-                crit = false;
+                modifiers.FinalDamage /= 3;
+                modifiers.DisableCrit();
             }
             if (NPC.ai[2] > 0)
             {
-                damage = (int)(damage * 0.75f);
+                modifiers.FinalDamage *= 0.75f;
             }
             /*
             if (npc.ai[3] >= 8)
@@ -202,34 +195,34 @@ namespace JoostMod.NPCs.Bosses
                 }
             }*/
         }
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             if ((int)NPC.ai[3] % 2 == 1)
             {
-                damage = damage / 3;
-                crit = false;
+                modifiers.SourceDamage /= 3;
+                modifiers.DisableCrit();
             }
             if (NPC.ai[2] > 0)
             {
-                damage = (int)(damage * 0.75f);
+                modifiers.SourceDamage *= 0.75f;
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (NPC.ai[2] == 3 && NPC.ai[0] >= 60 && NPC.ai[2] < 76)
             {
-                damage = (int)(damage * 2f);
+                modifiers.SourceDamage *= 2f;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (NPC.ai[2] == 3 && NPC.ai[0] >= 60 && NPC.ai[2] < 76)
             {
-                damage = (int)(damage * 2f);
+                modifiers.SourceDamage *= 2f;
             }
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (NPC.ai[2] == 3 && NPC.localAI[3] < 14 && NPC.ai[3] >= 6)
             {

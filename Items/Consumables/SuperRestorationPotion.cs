@@ -8,8 +8,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Super Restoration Potion");
-            Tooltip.SetDefault("Reduced potion cooldown");
+            // DisplayName.SetDefault("Super Restoration Potion");
+            // Tooltip.SetDefault("Reduced potion cooldown");
         }
         public override void SetDefaults()
         {

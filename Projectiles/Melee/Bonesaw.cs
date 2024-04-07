@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bonesaw");
+            // DisplayName.SetDefault("Bonesaw");
         }
         public override void SetDefaults()
         {
@@ -26,23 +26,30 @@ namespace JoostMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public override void ModifyHitNPC(NPC npc, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (npc.HitSound == SoundID.NPCHit2 || npc.HitSound == SoundID.DD2_SkeletonHurt)
+            if (target.HitSound == SoundID.NPCHit2 || target.HitSound == SoundID.DD2_SkeletonHurt)
             {
-                crit = true;
+                modifiers.SetCrit();
             }
         }
-        public override void OnHitNPC(NPC npc, int damage, float knockback, bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            var source = Projectile.GetSource_OnHit(npc);
-            if (npc.life <= 0)
+            if(target.boneArmor)
             {
-                for (int i = 0; i < npc.width / 12; i++)
+                modifiers.FinalDamage *= 2;
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            var source = Projectile.GetSource_OnHit(target);
+            if (target.life <= 0)
+            {
+                for (int i = 0; i < target.width / 12; i++)
                 {
-                    for (int j = 0; j < npc.height / 12; j++)
+                    for (int j = 0; j < target.height / 12; j++)
                     {
-                        Vector2 pos = npc.position + new Vector2(i * 12, j * 12);
+                        Vector2 pos = target.position + new Vector2(i * 12, j * 12);
                         //Vector2 dir = pos - npc.Center;
                         //dir.Normalize();
                         Vector2 vel = new Vector2(Main.rand.Next(9) - 4, Main.rand.Next(9) - 4);

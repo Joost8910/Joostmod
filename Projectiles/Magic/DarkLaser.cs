@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser of Darkness");
+            // DisplayName.SetDefault("Laser of Darkness");
         }
         public override void SetDefaults()
         {

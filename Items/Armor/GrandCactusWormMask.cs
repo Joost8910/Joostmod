@@ -8,7 +8,7 @@ namespace JoostMod.Items.Armor
 	{
 public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactus Worm Mask");
+			// DisplayName.SetDefault("Cactus Worm Mask");
 		}
 		public override void SetDefaults()
 		{

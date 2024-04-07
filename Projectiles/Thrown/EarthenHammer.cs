@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Hammer");
+            // DisplayName.SetDefault("Earthen Hammer");
         }
         public override void SetDefaults()
         {
@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles.Thrown
             fallThrough = false;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 40; i++)
             {

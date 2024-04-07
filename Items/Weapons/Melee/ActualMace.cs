@@ -9,11 +9,11 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Actual Mace");
-            Tooltip.SetDefault(//"Not to be confused with the flail labeled 'Mace'\n" +
+            // DisplayName.SetDefault("Actual Mace");
+            /* Tooltip.SetDefault(//"Not to be confused with the flail labeled 'Mace'\n" +
                 "Hold attack to charge the swing\n" +
                 "Charged attacks reduce enemy defense\n" +
-                "Can be upgraded with torches");
+                "Can be upgraded with torches"); */
         }
         public override void SetDefaults()
         {

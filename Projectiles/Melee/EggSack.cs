@@ -21,7 +21,7 @@ namespace JoostMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Egg Sack");
+            // DisplayName.SetDefault("Egg Sack");
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 20;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 300f;
         }

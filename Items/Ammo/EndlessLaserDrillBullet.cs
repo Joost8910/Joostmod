@@ -9,11 +9,11 @@ namespace JoostMod.Items.Ammo
 	{
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Endless Laser Drill Bullet Pouch");
-            Tooltip.SetDefault("Breaks struck tiles\n" +
+            // DisplayName.SetDefault("Endless Laser Drill Bullet Pouch");
+            /* Tooltip.SetDefault("Breaks struck tiles\n" +
                 "Does little but rapid damage\n" +
                 "Always shoots straight towards your cursor\n" +
-                "230% Pickaxe Power");
+                "230% Pickaxe Power"); */
         }
         public override void SetDefaults()
         {

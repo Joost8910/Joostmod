@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grasping Water Tendril");
+            // DisplayName.SetDefault("Grasping Water Tendril");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Magic
             return false;
         }
         int nextProj = -1;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.localAI[1] == 0 && target.knockBackResist > 0 && target.type != NPCID.TargetDummy)
             {

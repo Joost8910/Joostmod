@@ -11,8 +11,8 @@ namespace JoostMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tome of Manipulation");
-            Tooltip.SetDefault("Allows you to pick up and move friendly NPCs\n" + "Right click while holding the NPC to rapidly damage the NPC");
+            // DisplayName.SetDefault("Tome of Manipulation");
+            // Tooltip.SetDefault("Allows you to pick up and move friendly NPCs\n" + "Right click while holding the NPC to rapidly damage the NPC");
         }
         public override void SetDefaults()
         {

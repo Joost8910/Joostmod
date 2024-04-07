@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stormy");
-			Description.SetDefault("Best girl");
+			// DisplayName.SetDefault("Stormy");
+			// Description.SetDefault("Best girl");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.vanityPet[Type] = true;
 		}

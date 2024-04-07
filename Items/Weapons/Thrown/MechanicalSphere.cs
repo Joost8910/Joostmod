@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mechanical Sphere");
-            Tooltip.SetDefault("'Unleash mechanical power'");
+            // DisplayName.SetDefault("Mechanical Sphere");
+            // Tooltip.SetDefault("'Unleash mechanical power'");
         }
         public override void SetDefaults()
         {

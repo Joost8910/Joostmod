@@ -7,8 +7,8 @@ namespace JoostMod.Items.Placeable
 	{
 		  public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Music Box (Deorem/Mua Boss Fight)");
-			Tooltip.SetDefault("From Metroid: Zero Mission");
+			// DisplayName.SetDefault("Music Box (Deorem/Mua Boss Fight)");
+			// Tooltip.SetDefault("From Metroid: Zero Mission");
 
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DeoremMua"), ModContent.ItemType<DeoremMuaMusicBox>(), ModContent.TileType<Tiles.DeoremMuaMusicBox>());
         }

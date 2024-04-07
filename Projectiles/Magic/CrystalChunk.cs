@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal Chunk");
+            // DisplayName.SetDefault("Crystal Chunk");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Magic
         {
             Projectile.rotation = Projectile.timeLeft * -Projectile.direction;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float spread = (float)Math.PI * 2;
             int baseSpeed = 4;

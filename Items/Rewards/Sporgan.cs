@@ -10,8 +10,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sporgan");
-			Tooltip.SetDefault("Spews spore clouds after taking damage");
+			// DisplayName.SetDefault("Sporgan");
+			// Tooltip.SetDefault("Spews spore clouds after taking damage");
 		}
 		public override void SetDefaults()
 		{

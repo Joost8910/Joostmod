@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silver Genji Helm");
-            Tooltip.SetDefault("75% Increased Minion damage and knockback\n" + "Max sentries increased by 4");
+            // DisplayName.SetDefault("Silver Genji Helm");
+            // Tooltip.SetDefault("75% Increased Minion damage and knockback\n" + "Max sentries increased by 4");
         }
 
         public override void SetDefaults()

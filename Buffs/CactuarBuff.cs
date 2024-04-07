@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactuar");
-			Description.SetDefault("The Cactuar will fight for you");
+			// DisplayName.SetDefault("Cactuar");
+			// Description.SetDefault("The Cactuar will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

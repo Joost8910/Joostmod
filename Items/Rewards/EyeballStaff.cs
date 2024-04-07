@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Eyeball Staff");
-			Tooltip.SetDefault("Rapidly shoots eyeballs");
+			// DisplayName.SetDefault("Eyeball Staff");
+			// Tooltip.SetDefault("Rapidly shoots eyeballs");
 		}
 		public override void SetDefaults()
 		{

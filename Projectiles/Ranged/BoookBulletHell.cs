@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boook's Bullet Hell");
+            // DisplayName.SetDefault("Boook's Bullet Hell");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
@@ -46,13 +46,13 @@ namespace JoostMod.Projectiles.Ranged
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage /= 2;
+            modifiers.SourceDamage *= 0.5f;
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            damage /= 2;
+            modifiers.SourceDamage *= 0.5f;
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
@@ -173,7 +173,7 @@ namespace JoostMod.Projectiles.Ranged
                         {
                             damage = (int)(damage * 0.6f);
                         }
-                        Projectile.NewProjectile(Projectile.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), Projectile.Center + offSet, shootDir, type, damage, knockback, Projectile.owner);
+                        Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), Projectile.Center + offSet, shootDir, type, damage, knockback, Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else

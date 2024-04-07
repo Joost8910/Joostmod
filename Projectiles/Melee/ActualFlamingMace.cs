@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Melee
         public override string Texture => "JoostMod/Items/Weapons/Melee/ActualFlamingMace";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Actual Flaming Mace");
+            // DisplayName.SetDefault("Actual Flaming Mace");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -202,13 +202,28 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * (Projectile.localAI[0] + 1));
-            knockback = knockback * (Projectile.localAI[0] + 1);
+            modifiers.SourceDamage *= Projectile.localAI[0] + 1;
+            modifiers.Knockback *= Projectile.localAI[0] + 1;
             if (target.velocity.Y == 0)
             {
-                hitDirection = target.Center.X < Main.player[Projectile.owner].Center.X ? -1 : 1;
+                modifiers.HitDirectionOverride = target.Center.X < Main.player[Projectile.owner].Center.X ? -1 : 1;
+            }
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            modifiers.SourceDamage *= Projectile.localAI[0] + 1;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Projectile.localAI[0] > maxCharge * 0.9f)
+            {
+                target.AddBuff(BuffID.Ichor, 360);
+            }
+            if (Projectile.localAI[1] == 0)
+            {
+                target.AddBuff(BuffID.OnFire, (int)(360 * Projectile.localAI[0]) + 144);
             }
             Player player = Main.player[Projectile.owner];
             if (target.knockBackResist > 0)
@@ -219,17 +234,24 @@ namespace JoostMod.Projectiles.Melee
                     {
                         Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
                     }
-                    target.velocity.Y = (knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
+                    target.velocity.Y = (hit.Knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
                 }
-                else if (Projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -knockback)
+                else if (Projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -hit.Knockback)
                 {
-                    target.velocity.Y = -knockback * target.knockBackResist;
+                    target.velocity.Y = -hit.Knockback * target.knockBackResist;
                 }
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
-            damage = (int)(damage * (Projectile.localAI[0] + 1));
+            if (Projectile.localAI[0] > maxCharge * 0.9f)
+            {
+                target.AddBuff(BuffID.Ichor, 360);
+            }
+            if (Projectile.localAI[1] == 0)
+            {
+                target.AddBuff(BuffID.OnFire, (int)(360 * Projectile.localAI[0]) + 144);
+            }
             Player player = Main.player[Projectile.owner];
             if (player.velocity.Y * player.gravDir > 3 && Projectile.ai[1] > 120)
             {
@@ -242,28 +264,6 @@ namespace JoostMod.Projectiles.Melee
             else if (Projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -Projectile.knockBack)
             {
                 target.velocity.Y = -Projectile.knockBack;
-            }
-        }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            if (Projectile.localAI[0] > maxCharge * 0.9f)
-            {
-                target.AddBuff(BuffID.Ichor, 360);
-            }
-            if (Projectile.localAI[1] == 0)
-            {
-                target.AddBuff(BuffID.OnFire, (int)(360 * Projectile.localAI[0]) + 144);
-            }
-        }
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            if (Projectile.localAI[0] > maxCharge * 0.9f)
-            {
-                target.AddBuff(BuffID.Ichor, 360);
-            }
-            if (Projectile.localAI[1] == 0)
-            {
-                target.AddBuff(BuffID.OnFire, (int)(360 * Projectile.localAI[0]) + 144);
             }
         }
         public override bool PreDraw(ref Color lightColor)

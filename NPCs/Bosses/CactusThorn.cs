@@ -11,7 +11,8 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Thorn");
+            // DisplayName.SetDefault("Cactus Thorn");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {

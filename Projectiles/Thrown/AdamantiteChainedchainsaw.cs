@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adamantite Chained-Chainsaw");
+            // DisplayName.SetDefault("Adamantite Chained-Chainsaw");
         }
         public override void SetDefaults()
         {
@@ -38,7 +38,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.ai[1] = 2;
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[1] != 2)
             {

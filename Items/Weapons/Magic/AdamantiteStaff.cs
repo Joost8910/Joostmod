@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser Staff");
-            Tooltip.SetDefault("Fires a bouncing laser");
+            // DisplayName.SetDefault("Laser Staff");
+            // Tooltip.SetDefault("Fires a bouncing laser");
         }
         public override void SetDefaults()
         {

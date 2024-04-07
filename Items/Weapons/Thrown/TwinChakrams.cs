@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Twin chakrams");
-            Tooltip.SetDefault("Throws two chakrams that pierce through enemies");
+            // DisplayName.SetDefault("Twin chakrams");
+            // Tooltip.SetDefault("Throws two chakrams that pierce through enemies");
         }
         public override void SetDefaults()
         {

@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("1000 Needles");
+            // DisplayName.SetDefault("1000 Needles");
         }
         public override void SetDefaults()
         {
@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Magic
 			}	
 		}
         */
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = Projectile.GetSource_OnHit(target);
             for (int i = 0; i < 16; i++)

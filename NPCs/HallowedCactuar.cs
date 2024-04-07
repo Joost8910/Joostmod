@@ -16,7 +16,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactuar");
+            // DisplayName.SetDefault("Cactuar");
             Main.npcFrameCount[NPC.type] = 3;
         }
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace JoostMod.NPCs
             Banner = ModContent.NPCType<Cactuar>();
             BannerItem = ModContent.ItemType<CactuarBanner>();
         }
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
             if (target.type == ModContent.NPCType<CactusPerson>() && !NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))
             {
@@ -95,7 +95,7 @@ namespace JoostMod.NPCs
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Anniversary>(), 100));
             npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.LightShard, 10, 7));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

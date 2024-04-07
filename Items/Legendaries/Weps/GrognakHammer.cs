@@ -14,13 +14,13 @@ namespace JoostMod.Items.Legendaries.Weps
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warhammer of Grognak");
-            Tooltip.SetDefault("'Warhammer of the legendary Grognak'\n" +
+            // DisplayName.SetDefault("Warhammer of Grognak");
+            /* Tooltip.SetDefault("'Warhammer of the legendary Grognak'\n" +
             "Does more damage as you kill bosses throughout the game\n" +
             "Right click for a strong attack\n" +
             "Hold UP during strong attack to unleash a mighty shockwave attack\n" +
             "(5 second Cooldown)\n" +
-            "Does not function as a tool hammer");
+            "Does not function as a tool hammer"); */
         }
         public override void SetDefaults()
         {

@@ -28,14 +28,9 @@ namespace JoostMod.Projectiles.Grappling
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Swingy Hook");
+            // DisplayName.SetDefault("Swingy Hook");
+            ProjectileID.Sets.SingleGrappleHook[Type] = true;
         }
-
-        public override bool? SingleGrappleHook(Player player)
-        {
-            return true;
-        }
-
         public override void UseGrapple(Player player, ref int type)
         {
             int hooksOut = 0;
@@ -366,7 +361,7 @@ namespace JoostMod.Projectiles.Grappling
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Main.player[Projectile.owner].fullRotation = 0;
         }

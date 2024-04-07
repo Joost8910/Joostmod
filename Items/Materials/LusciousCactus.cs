@@ -9,8 +9,8 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Luscious Cactus");
-			Tooltip.SetDefault("'Choose your loot!'");
+			// DisplayName.SetDefault("Luscious Cactus");
+			// Tooltip.SetDefault("'Choose your loot!'");
 		}
 		public override void SetDefaults()
 		{

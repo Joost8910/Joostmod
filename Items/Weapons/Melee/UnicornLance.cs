@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Unicorn Lance");
-            Tooltip.SetDefault("Does more damage the faster you are moving");
+            // DisplayName.SetDefault("Unicorn Lance");
+            // Tooltip.SetDefault("Does more damage the faster you are moving");
         }
         public override void SetDefaults()
         {

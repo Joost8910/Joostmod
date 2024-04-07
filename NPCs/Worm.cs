@@ -13,7 +13,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Worm");
+            // DisplayName.SetDefault("Cactus Worm");
         }
 
         public override void Init()
@@ -32,7 +32,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alpha Cactus Worm");
+            // DisplayName.SetDefault("Alpha Cactus Worm");
         }
 
         public override void Init()
@@ -52,7 +52,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Wyvern");
+            // DisplayName.SetDefault("Storm Wyvern");
         }
 
         public override void Init()

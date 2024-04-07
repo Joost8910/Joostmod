@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clump of Spiky Balls");
+            // DisplayName.SetDefault("Clump of Spiky Balls");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -38,7 +38,7 @@ namespace JoostMod.Projectiles.Thrown
 
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             for (int i = 0; i < 4; i++)

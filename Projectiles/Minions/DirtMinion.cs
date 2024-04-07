@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Minions
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Soil Spirit");
+			// DisplayName.SetDefault("Soil Spirit");
 			Main.projFrames[Projectile.type] = 4;
 			Main.projPet[Projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;

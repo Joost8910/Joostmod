@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Naginata");
+            // DisplayName.SetDefault("Gilgamesh's Naginata");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Hostile
             }
             return base.CanHitPlayer(target);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {

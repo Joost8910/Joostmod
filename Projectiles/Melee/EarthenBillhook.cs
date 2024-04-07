@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Billhook");
+            // DisplayName.SetDefault("Earthen Billhook");
         }
         public override void SetDefaults()
         {
@@ -31,13 +31,13 @@ namespace JoostMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 25;
             Projectile.extraUpdates = 1;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            if (player.itemAnimation < player.itemAnimationMax / 2 && target.Distance(player.Center + player.velocity) > 60 + knockback + target.width / 2)
+            if (player.itemAnimation < player.itemAnimationMax / 2 && target.Distance(player.Center + player.velocity) > 60 + target.width / 2)
             {
-                hitDirection = -Projectile.direction;
-                knockback *= 0.6f;
+                modifiers.HitDirectionOverride = -Projectile.direction;
+                modifiers.Knockback *= 0.6f;
             }
         }
         public override void AI()

@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Missile");
+            // DisplayName.SetDefault("Missile");
         }
         public override void SetDefaults()
         {
@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Hostile
                 }
             }
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {
@@ -51,7 +51,7 @@ namespace JoostMod.Projectiles.Hostile
             }
             Projectile.Kill();
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<SAXExplosion2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

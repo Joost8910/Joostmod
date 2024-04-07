@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Power Bomb");
-            Tooltip.SetDefault("Explodes into a powerful heat wave");
+            // DisplayName.SetDefault("Power Bomb");
+            // Tooltip.SetDefault("Explodes into a powerful heat wave");
         }
         public override void SetDefaults()
         {

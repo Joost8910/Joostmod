@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boomerang Bullet");
+            // DisplayName.SetDefault("Boomerang Bullet");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -28,7 +28,7 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.idStaticNPCHitCooldown = 10;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int item = Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<Items.Ammo.BoomerangBullet>(), 1, false, 0, false, false);
             if (Main.netMode == NetmodeID.MultiplayerClient && item >= 0)

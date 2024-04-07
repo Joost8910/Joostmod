@@ -10,7 +10,7 @@ namespace JoostMod.Items.Tools.Hammers
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Firma");
+            // DisplayName.SetDefault("Terra Firma");
         }
         public override void SetDefaults()
         {

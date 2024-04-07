@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dream Nail");
-            Tooltip.SetDefault("'Cut through the veil between dreams and waking'\n" +
-            "Attacks pierce 50% of enemy defense");
+            // DisplayName.SetDefault("Dream Nail");
+            /* Tooltip.SetDefault("'Cut through the veil between dreams and waking'\n" +
+            "Attacks pierce 50% of enemy defense"); */
         }
         public override void SetDefaults()
         {

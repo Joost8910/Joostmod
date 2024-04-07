@@ -7,8 +7,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Music Box (The Decisive Battle)");
-			Tooltip.SetDefault("From Final Fantasy VI");
+			// DisplayName.SetDefault("Music Box (The Decisive Battle)");
+			// Tooltip.SetDefault("From Final Fantasy VI");
 
 			MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/TheDecisiveBattle"), ModContent.ItemType<DecisiveBattleMusicBox>(), ModContent.TileType<Tiles.DecisiveBattleMusicBox>());
 		}

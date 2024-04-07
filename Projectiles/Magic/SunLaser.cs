@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sunbeam");
+            // DisplayName.SetDefault("Sunbeam");
         }
         public override void SetDefaults()
         {

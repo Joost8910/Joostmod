@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shroom Staff");
-            Tooltip.SetDefault("Summons a giant mushroom that creates homing spores\n" +
-            "The mushroom knocks enemies upwards as it sprouts");
+            // DisplayName.SetDefault("Shroom Staff");
+            /* Tooltip.SetDefault("Summons a giant mushroom that creates homing spores\n" +
+            "The mushroom knocks enemies upwards as it sprouts"); */
         }
         public override void SetDefaults()
         {

@@ -18,7 +18,7 @@ namespace JoostMod.Projectiles.Fishhooks
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Duke Fish hook");
+            // DisplayName.SetDefault("Duke Fish hook");
         }
 
         public override bool PreDrawExtras()      //this draws the fishing line correctly

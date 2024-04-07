@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("a thousand swords");
+            // DisplayName.SetDefault("a thousand swords");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -42,7 +42,7 @@ namespace JoostMod.Projectiles.Hostile
             }
             return false;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {
@@ -50,9 +50,10 @@ namespace JoostMod.Projectiles.Hostile
             }
             target.immuneTime = 1;
         }
-        public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = Projectile.damage;
+            modifiers.ScalingArmorPenetration += 1f;
+            modifiers.SetMaxDamage(Projectile.damage);
         }
         public override void AI()
         {

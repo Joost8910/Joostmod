@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vile Cactus Worm");
+            // DisplayName.SetDefault("Vile Cactus Worm");
             ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true;
             Main.projFrames[Projectile.type] = 3;
         }

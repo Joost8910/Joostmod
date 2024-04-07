@@ -9,8 +9,8 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Desert Core");
-			Tooltip.SetDefault("'Filled with mysterious energy'");
+			// DisplayName.SetDefault("Desert Core");
+			// Tooltip.SetDefault("'Filled with mysterious energy'");
 		}
 		public override void SetDefaults()
 		{

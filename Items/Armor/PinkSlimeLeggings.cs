@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pink Slime Leggings");
-            Tooltip.SetDefault("Slightly increased jump speed");
+            // DisplayName.SetDefault("Pink Slime Leggings");
+            // Tooltip.SetDefault("Slightly increased jump speed");
         }
         public override void SetDefaults()
         {

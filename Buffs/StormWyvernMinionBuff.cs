@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Storm Wyvern");
-			Description.SetDefault("The storm wyvern will fight for you");
+			// DisplayName.SetDefault("Storm Wyvern");
+			// Description.SetDefault("The storm wyvern will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

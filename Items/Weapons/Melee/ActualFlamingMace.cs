@@ -10,11 +10,11 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Actual Flaming Mace");
-            Tooltip.SetDefault(//"Not to be confused with the flail labeled 'Flaming Mace'\n" +
+            // DisplayName.SetDefault("Actual Flaming Mace");
+            /* Tooltip.SetDefault(//"Not to be confused with the flail labeled 'Flaming Mace'\n" +
                 "Hold attack to charge the swing\n" +
                 "Charged attacks reduce enemy defense\n" +
-                "Sets enemies on fire");
+                "Sets enemies on fire"); */
         }
         public override void SetDefaults()
         {

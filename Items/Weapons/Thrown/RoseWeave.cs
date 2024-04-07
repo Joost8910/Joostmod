@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rose Weave");
-            Tooltip.SetDefault("Showers thorns in the air");
+            // DisplayName.SetDefault("Rose Weave");
+            // Tooltip.SetDefault("Showers thorns in the air");
         }
         public override void SetDefaults()
         {

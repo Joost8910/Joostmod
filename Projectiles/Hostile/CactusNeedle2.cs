@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Needle");
+            // DisplayName.SetDefault("Cactus Needle");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -25,22 +25,20 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.timeLeft = 45;
             AIType = ProjectileID.Bullet;
         }
-        Vector2 playerVelocity = Vector2.Zero;
         public override void AI()
         {
             Projectile.damage = 1;
         }
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = 1;
-            playerVelocity = target.velocity;
+            modifiers.SetMaxDamage(1);
+            modifiers.Knockback *= 0;
         }
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (!player.dead)
+            if (!target.dead)
             {
-                player.immuneTime = 1;
-                player.velocity = playerVelocity;
+                target.immuneTime = 1;
             }
         }
         public override bool? CanHitNPC(NPC target)

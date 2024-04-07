@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Volcanic Arrow");
+            // DisplayName.SetDefault("Volcanic Arrow");
         }
         public override void SetDefaults()
         {
@@ -25,15 +25,15 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.arrow = true;
             AIType = ProjectileID.WoodenArrowFriendly;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 600);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.OnFire, 600);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, -Projectile.velocity.X, -Projectile.velocity.Y, 0, default, 2f);

@@ -12,9 +12,9 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sapling");
-			Tooltip.SetDefault("Can be upgraded with items to assist you\n" + 
-			"Rides around on your back");
+			// DisplayName.SetDefault("Sapling");
+			/* Tooltip.SetDefault("Can be upgraded with items to assist you\n" + 
+			"Rides around on your back"); */
 		}
 		public override void SetDefaults()
 		{

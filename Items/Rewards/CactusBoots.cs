@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
     { 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Boots");
-            Tooltip.SetDefault("Sprouts damaging cacti as you walk");
+            // DisplayName.SetDefault("Cactus Boots");
+            // Tooltip.SetDefault("Sprouts damaging cacti as you walk");
         }
         public override void SetDefaults()
         {

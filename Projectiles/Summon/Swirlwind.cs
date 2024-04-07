@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hurricane");
+            // DisplayName.SetDefault("Hurricane");
         }
         public override void SetDefaults()
         {
@@ -112,7 +112,7 @@ namespace JoostMod.Projectiles.Summon
                     if (target.Distance(Projectile.Center) <= 180 + (target.width > target.height ? target.width : target.height))
                     {
                         bool tooClose = player.Distance(target.Center) <= (target.width > target.height ? target.width : target.height) + 40;
-                        if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
+                        if (target.active && !target.friendly && !target.dontTakeDamage && target.type != NPCID.TargetDummy && !target.boss && target.knockBackResist > 0)
                         {
                             Vector2 vel = target.DirectionTo(Projectile.Center) * Projectile.ai[1] * 0.625f;
                             vel = vel.RotatedBy(90f * -Projectile.direction);
@@ -146,15 +146,15 @@ namespace JoostMod.Projectiles.Summon
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Main.EntitySpriteDraw(tex, drawPosition, rect, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (target.Distance(Projectile.Center) < 30)
-                crit = true;
+                modifiers.SetCrit();
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             if (target.Distance(Projectile.Center) < 30)
-                crit = true;
+                modifiers.FinalDamage *= 2;
         }
         public override bool? CanHitNPC(NPC target)
         {

@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultimate Illusion");
+            // DisplayName.SetDefault("Ultimate Illusion");
         }
         public override void SetDefaults()
         {
@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Hostile
         {
             hitbox = new Rectangle((int)Projectile.position.X + 16, (int)Projectile.position.Y, 128, 280);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 150, 0, 0, ModContent.ProjectileType<UltimateIllusion5>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }

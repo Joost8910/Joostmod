@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Snow Flake");
-            Tooltip.SetDefault("'Don't get frostbite!");
+            // DisplayName.SetDefault("Snow Flake");
+            // Tooltip.SetDefault("'Don't get frostbite!");
         }
         public override void SetDefaults()
         {

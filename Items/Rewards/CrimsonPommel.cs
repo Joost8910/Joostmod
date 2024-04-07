@@ -10,9 +10,9 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimson Pommel");
-            Tooltip.SetDefault("Striking an enemy with a melee weapon inflicts Life Rend\n" +
-                "Killing an enemy with Life Rend will heal you for 4% of the enemy's max life");
+            // DisplayName.SetDefault("Crimson Pommel");
+            /* Tooltip.SetDefault("Striking an enemy with a melee weapon inflicts Life Rend\n" +
+                "Killing an enemy with Life Rend will heal you for 4% of the enemy's max life"); */
         }
         public override void SetDefaults()
         {

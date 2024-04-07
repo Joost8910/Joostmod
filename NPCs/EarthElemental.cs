@@ -19,18 +19,11 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earth Elemental");
+            // DisplayName.SetDefault("Earth Elemental");
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Poisoned,
-                    BuffID.Venom
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
         }
         public override void SetDefaults()
         {
@@ -78,14 +71,14 @@ namespace JoostMod.NPCs
             }
         }
         */
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (NPC.ai[2] >= 100 && (NPC.ai[2] < 300 || NPC.ai[2] > 400))
             {
-                damage *= 2;
+                modifiers.SourceDamage *= 2;
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

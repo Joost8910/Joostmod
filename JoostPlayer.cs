@@ -175,7 +175,7 @@ namespace JoostMod
         public int dashDamage = 0;
         private bool[] dashHit = new bool[200];
         private bool dashBounce = false;
-        public int enemyIgnoreDefenseDamage = 0;
+        //public int enemyIgnoreDefenseDamage = 0;
         private Vector2 oldVelocity = Vector2.Zero;
 
         public Texture2D skirtTex = null;
@@ -283,7 +283,7 @@ namespace JoostMod
             runAccelerationMult = 1;
             dashType = 0;
             dashDamage = 0;
-            enemyIgnoreDefenseDamage = 0;
+            //enemyIgnoreDefenseDamage = 0;
 
             skirtTex = null;
             betterShoulderTex = null;
@@ -706,7 +706,7 @@ namespace JoostMod
                         SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.3f), Player.Center); //230
                         for (int d = 0; d < 40; d++)
                         {
-                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width+20, Player.height+20, 1, Player.velocity.X * 0.8f, Player.velocity.Y * 0.8f, 0, default(Color), 1.5f);
+                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width+20, Player.height+20, DustID.Stone, Player.velocity.X * 0.8f, Player.velocity.Y * 0.8f, 0, default(Color), 1.5f);
                             Vector2 vel = Player.MountedCenter - Main.dust[dust].position;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel + Player.velocity * 0.8f;
@@ -721,14 +721,14 @@ namespace JoostMod
                     {
                         SoundEngine.PlaySound(new ("Terraria/Sounds/Custom/dd2_betsy_fireball_shot_1"), Player.Center); //198
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDustDirect(Player.position, Player.width, Player.height, 6, Player.velocity.X, Player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
+                            Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Torch, Player.velocity.X, Player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
                         fireArmorIsActive = true;
                     }
                     else
                     {
                         SoundEngine.PlaySound(SoundID.Item13, Player.Center);
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDust(Player.position, Player.width, Player.height, 31, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
+                            Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
                         fireArmorIsActive = false;
                     }
                 }
@@ -759,7 +759,7 @@ namespace JoostMod
                         Player.AddBuff(ModContent.BuffType<AirArmorBuff>(), duration);
                         SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_2"), Player.Center); //203
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDust(Player.position, Player.width, Player.height, 31, -4 * Player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
+                            Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, -4 * Player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
                     }
                 }
                 if (zoraArmor && Player.ownedProjectileCounts[ModContent.ProjectileType<ZoraSpin>()] < 1)
@@ -831,7 +831,7 @@ namespace JoostMod
                         SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1").WithPitchOffset(-0.1f), Player.Center); //230
                         for (int d = 0; d < 40; d++)
                         {
-                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, 4, Player.velocity.X, Player.velocity.Y, 100, Color.Blue, 1f);
+                            int dust = Dust.NewDust(Player.position - new Vector2(10, 10), Player.width + 20, Player.height + 20, DustID.TintableDust, Player.velocity.X, Player.velocity.Y, 100, Color.Blue, 1f);
                             Vector2 vel = Player.MountedCenter - Main.dust[dust].position;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel + Player.velocity;
@@ -847,7 +847,8 @@ namespace JoostMod
                 }
             }
         }
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+
+        public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)// tModPorter If you don't need the Item, consider using OnHitNPC instead 
         {
             if (item.CountsAsClass(DamageClass.Melee) && gMelee && Player.ownedProjectileCounts[ModContent.ProjectileType<Masamune>()] < 1)
             {
@@ -855,7 +856,8 @@ namespace JoostMod
                 //Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), 0, 0, Player.whoAmI);
             }
         }
-        public override void OnHitPvp(Item item, Player target, int damage, bool crit)
+        /*
+        public override void OnHitPvp(Item item, Player target, int damage, bool crit)// tModPorter Note: Removed. Use OnHurt on the receiving player and check info.PvP. Use info.DamageSource.SourcePlayerIndex to get the attacking player
         {
             if (item.CountsAsClass(DamageClass.Melee) && gMelee && Player.ownedProjectileCounts[ModContent.ProjectileType<Masamune>()] < 1)
             {
@@ -863,11 +865,12 @@ namespace JoostMod
                 //Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), 0, 0, Player.whoAmI);
             }
         }
-        public override void OnHitNPCWithProj(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        */
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)// tModPorter If you don't need the Projectile, consider using OnHitNPC instead 
         {
-            Player player = Main.player[projectile.owner];
-            var source = projectile.GetSource_OnHit(target);
-            if (projectile.CountsAsClass(DamageClass.Melee) && player.heldProj == projectile.whoAmI)
+            Player player = Main.player[proj.owner];
+            var source = proj.GetSource_OnHit(target);
+            if (proj.CountsAsClass(DamageClass.Melee) && player.heldProj == proj.whoAmI)
             {
                 if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
                 {
@@ -899,22 +902,22 @@ namespace JoostMod
                     //Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), 0, 0, player.whoAmI);
                 }
             }
-            if (projectile.CountsAsClass(DamageClass.Ranged))
+            if (proj.CountsAsClass(DamageClass.Ranged))
             {
                 if (fireArmorIsActive)
                 {
                     target.AddBuff(BuffID.OnFire, 600);
                 }
             }
-            if (projectile.minion)
+            if (proj.minion)
             {
-                if (airMedallion && projectile.type != ModContent.ProjectileType<AirBlast>() && Main.rand.NextBool(10))
+                if (airMedallion && proj.type != ModContent.ProjectileType<AirBlast>() && Main.rand.NextBool(10))
                 {
                     SoundEngine.PlaySound(SoundID.Item18, target.Center);
                     Projectile.NewProjectile(source, target.Center.X, target.position.Y + target.height, 0, -10f, ModContent.ProjectileType<AirBlast>(), (int)player.GetDamage(DamageClass.Summon).ApplyTo(25), 0, player.whoAmI);
                 }
             }
-            if (sandStorm && projectile.CountsAsClass(DamageClass.Throwing))
+            if (sandStorm && proj.CountsAsClass(DamageClass.Throwing))
             {
                 int erg = 80;
                 if (Main.rand.NextBool(2))
@@ -926,8 +929,8 @@ namespace JoostMod
                     erg = -80;
                 }
 
-                float xPos = projectile.position.X + erg;
-                Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-80, 81));
+                float xPos = proj.position.X + erg;
+                Vector2 vector2 = new Vector2(xPos, proj.position.Y + Main.rand.Next(-80, 81));
 
                 float num80 = xPos;
                 Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
@@ -937,113 +940,275 @@ namespace JoostMod
                 velocity.Y *= dir * 150 * player.ThrownVelocity;
                 if (sandStormTimer <= 0)
                 {
-                    Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Sand>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, projectile.owner);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Sand>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, proj.owner);
                     sandStormTimer = 5;
                 }
 
             }
 
         }
-        public override void OnHitPvpWithProj(Projectile projectile, Player target, int damage, bool crit)
+        public override void OnHurt(Player.HurtInfo info)
         {
-            Player player = Main.player[projectile.owner];
-            var source = projectile.GetSource_OnHit(target);
-            if (projectile.CountsAsClass(DamageClass.Melee) && player.heldProj == projectile.whoAmI)
+            if (info.PvP)
             {
-                if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
+                Player attacker = Main.player[info.DamageSource.SourcePlayerIndex];
+                Projectile proj = Main.projectile[info.DamageSource.SourceProjectileLocalIndex];
+                JoostModPlayer jItemPlayer = attacker.GetModPlayer<JoostModPlayer>();
+                JoostPlayer jPlayer = attacker.GetModPlayer<JoostPlayer>();
+                Player target = Player;
+                var source = proj.GetSource_OnHit(target);
+
+                if (proj.CountsAsClass(DamageClass.Melee) && attacker.heldProj == proj.whoAmI)
                 {
-                    if (target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<LifeDrink>()))
+                    if (jItemPlayer.crimsonPommel)
                     {
-                        float lifeStoled = target.statLifeMax2 * 0.04f;
-                        if ((int)lifeStoled > 0 && !player.moonLeech)
+                        if (target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<LifeDrink>()))
                         {
-                            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, lifeStoled);
+                            float lifeStoled = target.statLifeMax2 * 0.04f;
+                            if ((int)lifeStoled > 0 && !attacker.moonLeech)
+                            {
+                                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, attacker.whoAmI, attacker.whoAmI, lifeStoled);
+                            }
                         }
+                        target.AddBuff(ModContent.BuffType<LifeDrink>(), 1200, false);
                     }
-                    target.AddBuff(ModContent.BuffType<LifeDrink>(), 1200, false);
-                }
-                if (player.GetModPlayer<JoostModPlayer>().corruptPommel)
-                {
-                    if (target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
+                    if (jItemPlayer.corruptPommel)
                     {
-                        float damag = target.statLifeMax2 * 0.25f;
-                        if ((int)damag > 0)
+                        if (target.statLife <= 0 && !target.HasBuff(ModContent.BuffType<CorruptSoul>()))
                         {
-                            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, player.whoAmI);
+                            float damag = target.statLifeMax2 * 0.25f;
+                            if ((int)damag > 0)
+                            {
+                                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0, -5, ModContent.ProjectileType<CorruptedSoul>(), (int)damag, 0, attacker.whoAmI);
+                            }
                         }
+                        target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
                     }
-                    target.AddBuff(ModContent.BuffType<CorruptSoul>(), 1200, false);
+                    if (jPlayer.gMelee && attacker.ownedProjectileCounts[ModContent.ProjectileType<Masamune>()] < 1)
+                    {
+                        Projectile.NewProjectile(source, Player.Center.X, attacker.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), (int)attacker.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, attacker.whoAmI);
+                        //Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), 0, 0, player.whoAmI);
+                    }
                 }
-                if (gMelee && player.ownedProjectileCounts[ModContent.ProjectileType<Masamune>()] < 1)
+                if (proj.CountsAsClass(DamageClass.Ranged))
                 {
-                    Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), (int)player.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, player.whoAmI);
-                    //Projectile.NewProjectile(source, Player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), 0, 0, player.whoAmI);
+                    if (jPlayer.fireArmorIsActive)
+                    {
+                        target.AddBuff(BuffID.OnFire, 600);
+                    }
+                }
+                if (jPlayer.sandStorm && proj.CountsAsClass(DamageClass.Throwing))
+                {
+                    int erg = 80;
+                    if (Main.rand.NextBool(2))
+                    {
+                        erg = -80;
+                    }
+
+                    float xPos = proj.position.X + erg;
+                    Vector2 vector2 = new Vector2(xPos, proj.position.Y + Main.rand.Next(-80, 81));
+
+                    float num80 = xPos;
+                    Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
+                    float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
+                    dir = 10 / num80;
+                    velocity.X *= dir * 150 * attacker.ThrownVelocity;
+                    velocity.Y *= dir * 150 * attacker.ThrownVelocity;
+                    if (jPlayer.sandStormTimer <= 0)
+                    {
+                        Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Sand>(), (int)attacker.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, proj.owner);
+                        jPlayer.sandStormTimer = 5;
+                    }
+
                 }
             }
-            if (projectile.CountsAsClass(DamageClass.Ranged))
+
+            if (XShieldItem != null && XShieldTimer > 0)
             {
-                if (fireArmorIsActive)
+                XShieldTimer -= info.Damage;
+            }
+            if (dirtArmor)
+            {
+                int dirt = 0;
+                for (int i = 0; i < 58; i++)
                 {
-                    target.AddBuff(BuffID.OnFire, 600);
+                    if (Player.inventory[i].type == ItemID.DirtBlock && Player.inventory[i].stack > 0)
+                    {
+                        dirt += Player.inventory[i].stack;
+                    }
+                }
+                int amount = Math.Min(((dirt / 666) / 2), info.Damage);
+                for (int i = 0; i < 58 && amount > 0; i++)
+                {
+                    if (Player.inventory[i].stack > 0 && Player.inventory[i].type == ItemID.DirtBlock)
+                    {
+                        if (Player.inventory[i].stack >= amount)
+                        {
+                            Player.inventory[i].stack -= amount;
+                            amount = 0;
+                        }
+                        else
+                        {
+                            amount -= Player.inventory[i].stack;
+                            Player.inventory[i].stack = 0;
+                        }
+                        if (Player.inventory[i].stack <= 0)
+                        {
+                            Player.inventory[i].SetDefaults(0, false);
+                        }
+                        if (amount <= 0)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
-            if (sandStorm && projectile.CountsAsClass(DamageClass.Throwing))
+            if (havelArmorActive)
             {
-                int erg = 80;
-                if (Main.rand.NextBool(2))
+                info.SoundDisabled = true;
+                //playSound = false;
+                //genGore = false;
+                SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.5f), Player.Center);
+                for (int d = 0; d < 10; d++)
                 {
-                    erg = 80;
+                    Dust.NewDust(Player.position, Player.width, Player.height, DustID.Stone);
                 }
-                else
+            }
+            if (pinkSlimeActive)
+            {
+                info.SoundDisabled = true;
+                Player.velocity.X = Math.Max(Math.Abs(Player.velocity.X), 5f) * info.HitDirection;
+                if ((Player.controlLeft || Player.controlRight))
                 {
-                    erg = -80;
+                    if (Math.Abs(Player.velocity.X) < Player.jumpSpeed + Player.jumpSpeedBoost)
+                        Player.velocity.X = (Player.jumpSpeed + Player.jumpSpeedBoost) * Math.Sign(Player.velocity.X);
+                    if (Math.Abs(Player.velocity.X) < 196)
+                        Player.velocity.X += Player.runAcceleration + Math.Sign(Player.velocity.X);
                 }
-
-                float xPos = projectile.position.X + erg;
-                Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-80, 81));
-
-                float num80 = xPos;
-                Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
-                float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
-                dir = 10 / num80;
-                velocity.X *= dir * 150 * player.ThrownVelocity;
-                velocity.Y *= dir * 150 * player.ThrownVelocity;
-                if (sandStormTimer <= 0)
+                SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.7f).WithPitchOffset(-0.4f), Player.Center);
+                for (int d = 0; d < 10; d++)
                 {
-                    Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Sand>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, projectile.owner);
-                    sandStormTimer = 5;
+                    Dust.NewDust(Player.position, Player.width, Player.height, DustID.PinkSlime);
                 }
-
+            }
+            if (slimeActive)
+            {
+                info.SoundDisabled = true;
+                SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.7f).WithPitchOffset(-0.4f), Player.Center);
+                for (int d = 0; d < 10; d++)
+                {
+                    Dust.NewDust(Player.position, Player.width, Player.height, DustID.TintableDust, 0, 0, 100, Color.Blue);
+                }
             }
         }
-        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Projectile, consider using ModifyHitNPC instead */
         {
             if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && target.wet)
             {
-                damage = (int)(damage * 1.15f);
-                knockback *= 1.15f;
+                modifiers.SourceDamage *= 1.15f;
+                modifiers.Knockback *= 1.15f;
+                //damage = (int)(damage * 1.15f);
+                //knockback *= 1.15f;
             }
         }
-        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
-        {
-            if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && target.wet)
-            {
-                damage = (int)(damage * 1.15f);
-            }
-        }
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Item, consider using ModifyHitNPC instead */
         {
             if (waterBubbleItem != null && item.CountsAsClass(DamageClass.Magic) && target.wet)
             {
-                damage = (int)(damage * 1.15f);
-                knockback *= 1.15f;
+                modifiers.SourceDamage *= 1.15f;
+                modifiers.Knockback *= 1.15f;
+                //damage = (int)(damage * 1.15f);
+                //knockback *= 1.15f;
             }
         }
-        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        public override bool ConsumableDodge(Player.HurtInfo info)
         {
-            if (waterBubbleItem != null && item.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (Player.HasBuff(ModContent.BuffType<gThrownDodge>()))
             {
-                damage = (int)(damage * 1.15f);
+                Player.AddBuff(ModContent.BuffType<gThrownBuff>(), 200);
+                Player.longInvince = true;
+                Player.ShadowDodge();
+                for (int j = 0; j < 80; j++)
+                {
+                    int num = Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, 0f, 0f, 0, Color.Black, 1f);
+                    Dust dust = Main.dust[num];
+                    dust.position.X = dust.position.X + (float)Main.rand.Next(-20, 21);
+                    dust.position.Y = dust.position.Y + (float)Main.rand.Next(-20, 21);
+                    dust.velocity *= 0.4f;
+                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        dust.noGravity = true;
+                    }
+                }
+                if (Player.whoAmI == Main.myPlayer)
+                {
+                    for (int j = 0; j < 22; j++)
+                    {
+                        if (Player.buffTime[j] > 0 && Player.buffType[j] == ModContent.BuffType<gThrownDodge>())
+                        {
+                            Player.DelBuff(j);
+                        }
+                    }
+                }
+                return true;
+            }
+            return base.ConsumableDodge(info);
+        }
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
+        {
+            if (modifiers.PvP)
+            {
+                Player attacker = Main.player[modifiers.DamageSource.SourcePlayerIndex];
+                if (attacker.GetModPlayer<JoostPlayer>().waterBubbleItem != null && Player.wet)
+                {
+                    Projectile proj = Main.projectile[modifiers.DamageSource.SourceProjectileLocalIndex];
+                    if (proj.CountsAsClass(DamageClass.Magic))
+                    {
+                        modifiers.SourceDamage *= 1.15f;
+                    }
+                    Item item = modifiers.DamageSource.SourceItem;
+                    if (item.CountsAsClass(DamageClass.Magic))
+                    {
+                        modifiers.SourceDamage *= 1.15f;
+                    }
+                }
+            }
+            /*
+            if (enemyIgnoreDefenseDamage > 0)
+            {
+                damage = enemyIgnoreDefenseDamage;
+                customDamage = true;
+            }
+            enemyIgnoreDefenseDamage = 0;
+            */
+            if (sporganItem != null)
+            {
+                var source = Player.GetSource_Accessory(sporganItem);
+                int sdamage = Player.GetWeaponDamage(sporganItem);
+                float knockback = Player.GetWeaponKnockback(sporganItem);
+                int num = 10;
+                double deltaAngle = (float)(Math.PI * 2) / num;
+                for (int i = 0; i < num; i++)
+                {
+                    double offsetAngle = (float)(Math.PI / 2) + deltaAngle * i;
+                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), ProjectileID.SporeCloud, sdamage, knockback, Player.whoAmI);
+                }
+            }
+            
+            if (havelArmorActive)
+            {
+                modifiers.FinalDamage *= 0.6f;
+            }
+            if (pinkSlimeActive)
+            {
+                modifiers.FinalDamage *= 0.5f;
+            }
+            if (slimeActive)
+            {
+                modifiers.FinalDamage *= 0.8f;
             }
         }
         public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
@@ -1214,7 +1379,7 @@ namespace JoostMod
                 {
                     Player.AddBuff(ModContent.BuffType<gRangedBuff>(), 2);
                     Player.GetDamage(DamageClass.Ranged) *= 1 + (Player.statDefense * 0.005f);
-                    Player.statDefense = 0;
+                    Player.statDefense *= 0;
                 }
             }
             else
@@ -1242,7 +1407,7 @@ namespace JoostMod
                     Player.onFire = true;
                     Player.ClearBuff(BuffID.Chilled);
                     Player.ClearBuff(BuffID.Frozen);
-                    Dust.NewDust(Player.position, Player.width, Player.width, 6, 0, 0, 0, default, Main.rand.NextFloat() + 1);
+                    Dust.NewDust(Player.position, Player.width, Player.width, DustID.Torch, 0, 0, 0, default, Main.rand.NextFloat() + 1);
                 }
             }
             else
@@ -1277,7 +1442,7 @@ namespace JoostMod
 
                         for (int d = 0; d < 30; d++)
                         {
-                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, 1, 0, 0, 0, default(Color), 1.5f);
+                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.Stone, 0, 0, 0, default(Color), 1.5f);
                             Vector2 vel = Main.dust[dust].position - Player.MountedCenter;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel;
@@ -1433,7 +1598,7 @@ namespace JoostMod
                         SoundEngine.PlaySound(SoundID.NPCDeath1.WithPitchOffset(-0.2f), Player.Center);
                         for (int d = 0; d < 30; d++)
                         {
-                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, 4, 0, 0, 100, Color.Blue, 1.5f);
+                            int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.TintableDust, 0, 0, 100, Color.Blue, 1.5f);
                             Vector2 vel = Main.dust[dust].position - Player.MountedCenter;
                             vel.Normalize();
                             Main.dust[dust].velocity = vel;
@@ -1800,13 +1965,13 @@ namespace JoostMod
                                     }
                                     if (flag || Main.tileSpelunker[(int)Main.tile[i, j].TileType] || (Main.tileAlch[(int)Main.tile[i, j].TileType] && Main.tile[i, j].TileType != 82))
                                     {
-                                        int dust = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, 204, 0f, 0f, 150, default(Color), 0.3f);
+                                        int dust = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, DustID.TreasureSparkle, 0f, 0f, 150, default(Color), 0.3f);
                                         Main.dust[dust].fadeIn = 0.75f;
                                         Dust dust2 = Main.dust[dust];
                                         dust2.velocity *= 0.1f;
                                         if (spelunkGlow)
                                         {
-                                            int dust3 = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, 213, 0f, 0f, 150, default(Color), 0.3f);
+                                            int dust3 = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, DustID.MinecartSpark, 0f, 0f, 150, default(Color), 0.3f);
                                             Main.dust[dust3].fadeIn = 0.75f;
                                             Dust dust4 = Main.dust[dust3];
                                             dust4.velocity *= 0.1f;
@@ -2091,7 +2256,7 @@ namespace JoostMod
                         SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                         for (int i = 0; i < 7; i++)
                         {
-                            Dust.NewDust(Player.position, Player.width, Player.height, 16, Main.rand.Next(-5, 5), Main.rand.Next(-5, 0), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
+                            Dust.NewDust(Player.position, Player.width, Player.height, DustID.Cloud, Main.rand.Next(-5, 5), Main.rand.Next(-5, 0), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
                         }
                     }
                     else if (Player.gravDir == -1f && Player.velocity.Y < -num * 15)
@@ -2101,7 +2266,7 @@ namespace JoostMod
                         SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                         for (int i = 0; i < 7; i++)
                         {
-                            Dust.NewDust(Player.position, Player.width, Player.height, 16, Main.rand.Next(-5, 5), Main.rand.Next(0, 5), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
+                            Dust.NewDust(Player.position, Player.width, Player.height, DustID.Cloud, Main.rand.Next(-5, 5), Main.rand.Next(0, 5), 0, default(Color), Main.rand.Next(2, 5) * 0.2f);
                         }
                     }
                 }
@@ -2439,7 +2604,7 @@ namespace JoostMod
                 {
                     type = Main.tile[num + 1, num2].TileType;
                 }
-                if (type != -1 && TileID.Sets.TouchDamageHot[type] != 0)
+                if (type != -1 && TileID.Sets.TouchDamageHot[type])
                 {
                     Player.maxRunSpeed *= 4f;
                     Player.runAcceleration *= 2f;
@@ -2471,7 +2636,7 @@ namespace JoostMod
                 Player.runSlowdown *= 3f;
                 Player.jumpSpeedBoost += 5f;
                 Player.noFallDmg = true;
-                Dust.NewDust(Player.position, Player.width, Player.height, 31, -4 * Player.direction, 0f, 0, Color.White, 1f);
+                Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, -4 * Player.direction, 0f, 0, Color.White, 1f);
             }
             if (airArmorDodgeTimer > 0)
             {
@@ -2977,141 +3142,7 @@ namespace JoostMod
             }
             return base.CanBeHitByProjectile(proj);
         }
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
-        {
-            if (enemyIgnoreDefenseDamage > 0)
-            {
-                damage = enemyIgnoreDefenseDamage;
-                customDamage = true;
-            }
-            enemyIgnoreDefenseDamage = 0;
-            if (sporganItem != null)
-            {
-                var source = Player.GetSource_Accessory(sporganItem);
-                int sdamage = Player.GetWeaponDamage(sporganItem);
-                float knockback = Player.GetWeaponKnockback(sporganItem);
-                int num = 10;
-                double deltaAngle = (float)(Math.PI * 2) / num;
-                for (int i = 0; i < num; i++)
-                {
-                    double offsetAngle = (float)(Math.PI / 2) + deltaAngle * i;
-                    Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 3 * (float)Math.Sin(offsetAngle), 3 * (float)Math.Cos(offsetAngle), ProjectileID.SporeCloud, sdamage, knockback, Player.whoAmI);
-                }
-            }
-            if (Player.HasBuff(ModContent.BuffType<gThrownDodge>()))
-            {
-                Player.AddBuff(ModContent.BuffType<gThrownBuff>(), 200);
-                Player.longInvince = true;
-                Player.ShadowDodge();
-                for (int j = 0; j < 80; j++)
-                {
-                    int num = Dust.NewDust(Player.position, Player.width, Player.height, 31, 0f, 0f, 0, Color.Black, 1f);
-                    Dust dust = Main.dust[num];
-                    dust.position.X = dust.position.X + (float)Main.rand.Next(-20, 21);
-                    dust.position.Y = dust.position.Y + (float)Main.rand.Next(-20, 21);
-                    dust.velocity *= 0.4f;
-                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        dust.noGravity = true;
-                    }
-                }
-                if (Player.whoAmI == Main.myPlayer)
-                {
-                    for (int j = 0; j < 22; j++)
-                    {
-                        if (Player.buffTime[j] > 0 && Player.buffType[j] == ModContent.BuffType<gThrownDodge>())
-                        {
-                            Player.DelBuff(j);
-                        }
-                    }
-                }
-                return false;
-            }
-            if (XShieldItem != null && XShieldTimer > 0)
-            {
-                XShieldTimer -= damage;
-            }
-            if (dirtArmor)
-            {
-                int dirt = 0;
-                for (int i = 0; i < 58; i++)
-                {
-                    if (Player.inventory[i].type == ItemID.DirtBlock && Player.inventory[i].stack > 0)
-                    {
-                        dirt += Player.inventory[i].stack;
-                    }
-                }
-                int amount = Math.Min(((dirt / 666) / 2), damage);
-                for (int i = 0; i < 58 && amount > 0; i++)
-                {
-                    if (Player.inventory[i].stack > 0 && Player.inventory[i].type == ItemID.DirtBlock)
-                    {
-                        if (Player.inventory[i].stack >= amount)
-                        {
-                            Player.inventory[i].stack -= amount;
-                            amount = 0;
-                        }
-                        else
-                        {
-                            amount -= Player.inventory[i].stack;
-                            Player.inventory[i].stack = 0;
-                        }
-                        if (Player.inventory[i].stack <= 0)
-                        {
-                            Player.inventory[i].SetDefaults(0, false);
-                        }
-                        if (amount <= 0)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-            if (havelArmorActive)
-            {
-                damage = (int)(damage * 0.6f);
-                playSound = false;
-                genGore = false;
-                SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.5f), Player.Center);
-                for (int d = 0; d < 10; d++)
-                {
-                    Dust.NewDust(Player.position, Player.width, Player.height, 1);
-                }
-            }
-            if (pinkSlimeActive)
-            {
-                Player.velocity.X = Math.Max(Math.Abs(Player.velocity.X), 5f) * hitDirection;
-                if ((Player.controlLeft || Player.controlRight))
-                {
-                    if (Math.Abs(Player.velocity.X) < Player.jumpSpeed + Player.jumpSpeedBoost)
-                        Player.velocity.X = (Player.jumpSpeed + Player.jumpSpeedBoost) * Math.Sign(Player.velocity.X);
-                    if (Math.Abs(Player.velocity.X) < 196)
-                        Player.velocity.X += Player.runAcceleration + Math.Sign(Player.velocity.X);
-                }
-                damage = (int)(damage * 0.5f);
-                playSound = false;
-                genGore = false;
-                SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.7f).WithPitchOffset(-0.4f), Player.Center);
-                for (int d = 0; d < 10; d++)
-                {
-                    Dust.NewDust(Player.position, Player.width, Player.height, 243);
-                }
-            }
-            if (slimeActive)
-            {
-                damage = (int)(damage * 0.8f);
-                playSound = false;
-                genGore = false;
-                SoundEngine.PlaySound(SoundID.NPCHit1.WithVolumeScale(0.7f).WithPitchOffset(-0.4f), Player.Center);
-                for (int d = 0; d < 10; d++)
-                {
-                    Dust.NewDust(Player.position, Player.width, Player.height, 4, 0, 0, 100, Color.Blue);
-                }
-            }
-            return true;
-        }
+        
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (damageSource.SourceOtherIndex == 8)
@@ -3131,7 +3162,7 @@ namespace JoostMod
             }
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             if (havelArmorActive && npc.knockBackResist > 0)
             {
@@ -3151,7 +3182,7 @@ namespace JoostMod
                 }
                 npc.velocity.X = dir * KB;
                 npc.velocity.Y--;
-                if (Main.netMode != 0)
+                if (Main.netMode != NetmodeID.SinglePlayer)
                 {
                     ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)JoostModMessageType.NPCpos);
@@ -3172,7 +3203,7 @@ namespace JoostMod
                 slimedNPCOffset = Player.Center - npc.Center;
             }
         }
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
             if (havelShieldItem != null && Player.ownedProjectileCounts[ModContent.ProjectileType<HavelShield>()] > 0)
             {
@@ -3181,12 +3212,12 @@ namespace JoostMod
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (rect.Intersects(npc.getRect()))
                 {
-                    damage -= (int)Player.GetWeaponDamage(havelShieldItem);
+                    modifiers.FinalDamage -= (int)Player.GetWeaponDamage(havelShieldItem);
                     SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.4f), npc.Center);
                 }
             }
         }
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
             if (havelShieldItem != null && Player.ownedProjectileCounts[ModContent.ProjectileType<HavelShield>()] > 0)
             {
@@ -3195,7 +3226,7 @@ namespace JoostMod
                 Rectangle rect = new Rectangle((int)x, (int)y, 18, 46);
                 if (proj.Colliding(proj.getRect(), rect))
                 {
-                    damage -= (int)Player.GetWeaponDamage(havelShieldItem);
+                    modifiers.FinalDamage -= (int)Player.GetWeaponDamage(havelShieldItem);
                     proj.penetrate--;
                     SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.4f), proj.Center);
                 }
@@ -3299,11 +3330,11 @@ namespace JoostMod
                         int num13;
                         if (Player.velocity.Y == 0f)
                         {
-                            num13 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + (float)Player.height - 4f), Player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f);
+                            num13 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + (float)Player.height - 4f), Player.width, 8, DustID.Smoke, 0f, 0f, 100, default(Color), 1.4f);
                         }
                         else
                         {
-                            num13 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + (float)(Player.height / 2) - 8f), Player.width, 16, 31, 0f, 0f, 100, default(Color), 1.4f);
+                            num13 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + (float)(Player.height / 2) - 8f), Player.width, 16, DustID.Smoke, 0f, 0f, 100, default(Color), 1.4f);
                         }
                         Main.dust[num13].velocity *= 0.1f;
                         Main.dust[num13].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
@@ -3411,7 +3442,7 @@ namespace JoostMod
                         Player.dashDelay = -1;
                         for (int num21 = 0; num21 < 0; num21++)
                         {
-                            int num22 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y), Player.width, Player.height, 31, 0f, 0f, 100, default(Color), 2f);
+                            int num22 = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y), Player.width, Player.height, DustID.Smoke, 0f, 0f, 100, default(Color), 2f);
                             Dust dust3 = Main.dust[num22];
                             dust3.position.X = dust3.position.X + (float)Main.rand.Next(-5, 6);
                             Dust dust4 = Main.dust[num22];

@@ -14,8 +14,9 @@ namespace JoostMod.NPCs.Hunts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Wyvern");
+            // DisplayName.SetDefault("Storm Wyvern");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {

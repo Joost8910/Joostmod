@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crown of Fire");
-            Tooltip.SetDefault("18% increased ranged crit Chance");
+            // DisplayName.SetDefault("Crown of Fire");
+            // Tooltip.SetDefault("18% increased ranged crit Chance");
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
         public override void SetDefaults()

@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Axe");
+            // DisplayName.SetDefault("Axe");
         }
         public override void SetDefaults()
         {

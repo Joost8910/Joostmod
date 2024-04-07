@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Personal Bubble");
+            // DisplayName.SetDefault("Personal Bubble");
         }
         public override void SetDefaults()
         {
@@ -42,11 +42,11 @@ namespace JoostMod.Projectiles.Accessory
         {
             if (projectile.Center.X < target.Center.X)
             {
-                hitDirection = 1;
+                modifiers.HitDirectionOverride = 1;
             }
             else
             {
-                hitDirection = -1;
+                modifiers.HitDirectionOverride = -1;
             }
         }
         */

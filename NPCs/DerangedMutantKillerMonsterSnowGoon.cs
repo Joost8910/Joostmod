@@ -13,7 +13,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deranged Mutant Killer Monster Snow Goon");
+            // DisplayName.SetDefault("Deranged Mutant Killer Monster Snow Goon");
             Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.Zombie];
         }
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace JoostMod.NPCs
             npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.HandWarmer, 40, 25));
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

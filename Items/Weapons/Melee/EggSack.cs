@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Egg Sack");
-            Tooltip.SetDefault("'SPIDERS!'");
+            // DisplayName.SetDefault("Egg Sack");
+            // Tooltip.SetDefault("'SPIDERS!'");
         }
         public override void SetDefaults()
         {

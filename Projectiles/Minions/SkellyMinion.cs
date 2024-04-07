@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Minions
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Skelly");
+			// DisplayName.SetDefault("Skelly");
 			Main.projFrames[Projectile.type] = 4;
 			Main.projPet[Projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;

@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Arrow");
+            // DisplayName.SetDefault("Soul Arrow");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
@@ -97,7 +97,7 @@ namespace JoostMod.Projectiles.Hybrid
             height = 12;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 12; i++)
             {

@@ -15,8 +15,8 @@ namespace JoostMod.Items.Consumables
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Treasure Bag (Alpha Cactus Worm)");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			// DisplayName.SetDefault("Treasure Bag (Alpha Cactus Worm)");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             ItemID.Sets.BossBag[Item.type] = true;
             ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
 		}

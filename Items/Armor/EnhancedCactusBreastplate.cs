@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enhanced Cactus Breastplate");
-            Tooltip.SetDefault("4% increased damage");
+            // DisplayName.SetDefault("Enhanced Cactus Breastplate");
+            // Tooltip.SetDefault("4% increased damage");
         }
         public override void SetDefaults()
         {

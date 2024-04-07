@@ -11,8 +11,10 @@ namespace JoostMod.NPCs.Hunts
     { 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spore");
-		}
+            // DisplayName.SetDefault("Spore");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
+        }
         public override void SetDefaults()
         {
             NPC.width = 10;
@@ -40,7 +42,7 @@ namespace JoostMod.NPCs.Hunts
         {
             return false;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

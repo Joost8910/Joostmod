@@ -8,7 +8,7 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Broken Hero Flail");
+			// DisplayName.SetDefault("Broken Hero Flail");
 		}
 		public override void SetDefaults()
 		{

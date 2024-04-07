@@ -10,8 +10,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weather Star - Rain");
-            Tooltip.SetDefault("'Make it rain!'");
+            // DisplayName.SetDefault("Weather Star - Rain");
+            // Tooltip.SetDefault("'Make it rain!'");
         }
         public override void SetDefaults()
         {

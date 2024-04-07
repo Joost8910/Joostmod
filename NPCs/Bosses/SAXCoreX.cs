@@ -23,22 +23,11 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SA-X");
+            // DisplayName.SetDefault("SA-X");
             Main.npcFrameCount[NPC.type] = 17;
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Confused,
-                    BuffID.Frostburn,
-                    BuffID.Frostburn2,
-                    ModContent.BuffType<InfectedRed>(),
-                    ModContent.BuffType<InfectedGreen>(),
-                    ModContent.BuffType<InfectedBlue>(),
-                    ModContent.BuffType<InfectedYellow>()
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedYellow>()] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Frostburn] = true;
         }
         public override void SetDefaults()
         {
@@ -62,16 +51,16 @@ namespace JoostMod.NPCs.Bosses
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSax");
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * balance);
             NPC.damage = (int)(NPC.damage * 0.75f);
         }
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.SuperHealingPotion;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
@@ -120,7 +109,7 @@ namespace JoostMod.NPCs.Bosses
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<SAXMusicBox>(), 4));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<SAXMask>(), 7));
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             Vector2 vect = NPC.velocity;
             vect.Normalize();
@@ -129,33 +118,33 @@ namespace JoostMod.NPCs.Bosses
             {
                 if (projectile.minion || projectile.sentry)
                 {
-                    damage = damage / 2;
+                    modifiers.SourceDamage /= 2;
                 }
                 else if (Main.player[projectile.owner].heldProj == projectile.whoAmI)
                 {
-                    damage = damage / 3;
+                    modifiers.SourceDamage /= 3;
                 }
                 else
                 {
-                    damage = damage / 5;
+                    modifiers.SourceDamage /= 5;
                 }
-                crit = false;
+                modifiers.DisableCrit();
                 //npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
                 //npc.netUpdate = true;
             }
             else
             {
                 SoundEngine.PlaySound(SoundID.NPCHit18, NPC.Center);
-                damage = damage / 2;
-                crit = true;
+                modifiers.SourceDamage /= 2;
+                modifiers.SetCrit();
             }
         }
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             if (NPC.ai[0] < 56)
             {
-                damage = damage / 3;
-                crit = false;
+                modifiers.SourceDamage /= 2;
+                modifiers.DisableCrit();
                 //npc.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
                 //npc.netUpdate = true;
             }
@@ -165,11 +154,11 @@ namespace JoostMod.NPCs.Bosses
             }
         }
         bool message = false;
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (NPC.ai[0] < 56)
             {
-                NPC.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                NPC.ai[2] += 1 + ((damageDone / 2) * (Main.expertMode ? 2 : 1));
                 if (Main.netMode != 0)
                 {
                     ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);
@@ -187,14 +176,14 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             Vector2 vect = NPC.velocity;
             vect.Normalize();
             Rectangle eye = new Rectangle((int)(NPC.Center.X + (vect.X * 24)) - 16, (int)(NPC.Center.Y + (vect.Y * 24)) - 16, 32, 32);
             if (NPC.ai[0] < 56 || !projectile.Hitbox.Intersects(eye))
             {
-                NPC.ai[2] += 1 + ((damage / 2) * (Main.expertMode ? 2 : 1));
+                NPC.ai[2] += 1 + ((damageDone / 2) * (Main.expertMode ? 2 : 1));
                 if (Main.netMode != NetmodeID.SinglePlayer)
                 {
                     ModPacket netMessage = GetPacket(SAXCoreMessageType.ShellHit);

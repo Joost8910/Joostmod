@@ -8,11 +8,11 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Laser Drill Bullet");
-			Tooltip.SetDefault("Breaks struck tiles\n" +
+			// DisplayName.SetDefault("Laser Drill Bullet");
+			/* Tooltip.SetDefault("Breaks struck tiles\n" +
 				"Does little but rapid damage\n" +
 				"Always shoots straight at your cursor\n" +
-				"230% Pickaxe Power");
+				"230% Pickaxe Power"); */
 		}
 		public override void SetDefaults()
 		{

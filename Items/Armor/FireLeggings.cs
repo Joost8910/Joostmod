@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoldering Leggings");
-            Tooltip.SetDefault("10% increased movement speed");
+            // DisplayName.SetDefault("Smoldering Leggings");
+            // Tooltip.SetDefault("10% increased movement speed");
         }
         public override void SetDefaults()
         {

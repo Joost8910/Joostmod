@@ -11,10 +11,10 @@ namespace JoostMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Black Hole Tome");
-            Tooltip.SetDefault("--Cheat Item--\n" + 
+            // DisplayName.SetDefault("Black Hole Tome");
+            /* Tooltip.SetDefault("--Cheat Item--\n" + 
                 "Creates a controllable black hole that sucks in creatures and annihilates them\n" +
-                "Life regenerates and infinite immunity frames while held");
+                "Life regenerates and infinite immunity frames while held"); */
         }
         public override void SetDefaults()
         {

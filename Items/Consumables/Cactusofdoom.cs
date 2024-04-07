@@ -12,8 +12,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mustachioed Cactus");
-            Tooltip.SetDefault("Summons the Jumbo Cactuar in the desert");
+            // DisplayName.SetDefault("Mustachioed Cactus");
+            // Tooltip.SetDefault("Summons the Jumbo Cactuar in the desert");
         }
         public override void SetDefaults()
         {

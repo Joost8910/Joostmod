@@ -9,10 +9,10 @@ namespace JoostMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Endless Hallowed Drill Bullet Pouch");
-            Tooltip.SetDefault("Breaks struck tiles\n" +
+            // DisplayName.SetDefault("Endless Hallowed Drill Bullet Pouch");
+            /* Tooltip.SetDefault("Breaks struck tiles\n" +
                 "Does little but rapid damage\n" +
-                "200% Pickaxe Power");
+                "200% Pickaxe Power"); */
         }
         public override void SetDefaults()
         {

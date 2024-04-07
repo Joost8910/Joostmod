@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("FrostFlame");
+            // DisplayName.SetDefault("FrostFlame");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
@@ -60,10 +60,10 @@ namespace JoostMod.Projectiles.Minions
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(0f, Projectile.height * 1.5f), new Rectangle?(new Rectangle(0, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type])), Color.White, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(BuffID.Frostburn, 60);
+            target.AddBuff(BuffID.Frostburn, 60);
         }
     }
 }

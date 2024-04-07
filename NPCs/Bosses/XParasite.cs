@@ -12,19 +12,9 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("X Parasite");
+            // DisplayName.SetDefault("X Parasite");
             Main.npcFrameCount[NPC.type] = 6;
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    ModContent.BuffType<InfectedRed>(),
-                    ModContent.BuffType<InfectedGreen>(),
-                    ModContent.BuffType<InfectedBlue>(),
-                    ModContent.BuffType<InfectedYellow>()
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedYellow>()] = true;
         }
         public override void SetDefaults()
         {
@@ -62,7 +52,7 @@ namespace JoostMod.NPCs.Bosses
             packet.Write(NPC.whoAmI);
             return packet;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             NPC.DeathSound = SoundID.NPCDeath19;
             target.AddBuff(ModContent.BuffType<InfectedYellow>(), 900);
@@ -74,7 +64,7 @@ namespace JoostMod.NPCs.Bosses
                 netMessage.Send();
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
         {
             target.AddBuff(ModContent.BuffType<InfectedYellow>(), 900);
             NPC.life = 0;
@@ -84,7 +74,7 @@ namespace JoostMod.NPCs.Bosses
         {
             return false;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

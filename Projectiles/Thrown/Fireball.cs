@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fireball");
+            // DisplayName.SetDefault("Fireball");
         }
         public override void SetDefaults()
         {
@@ -48,7 +48,7 @@ namespace JoostMod.Projectiles.Thrown
             }
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int shootNum = 12;
             float shootSpread = 360f;

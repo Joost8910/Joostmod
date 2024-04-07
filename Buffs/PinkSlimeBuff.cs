@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bouncy Slime");
-			Description.SetDefault("Very bouncy. 50% reduced damage. Cannot use items.");
+			// DisplayName.SetDefault("Bouncy Slime");
+			// Description.SetDefault("Very bouncy. 50% reduced damage. Cannot use items.");
 			Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;

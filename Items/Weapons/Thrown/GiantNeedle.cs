@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Giant Needle");
-            Tooltip.SetDefault("'Better than a sharp stick in the eye.'\n" + "'No, definitely worse...'");
+            // DisplayName.SetDefault("Giant Needle");
+            // Tooltip.SetDefault("'Better than a sharp stick in the eye.'\n" + "'No, definitely worse...'");
         }
         public override void SetDefaults()
         {

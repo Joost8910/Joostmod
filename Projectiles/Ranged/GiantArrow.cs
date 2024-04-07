@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Giant Arrow");
+            // DisplayName.SetDefault("Giant Arrow");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -56,7 +56,7 @@ namespace JoostMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float numberProjectiles = 3;
             float rotation = MathHelper.ToRadians(45);

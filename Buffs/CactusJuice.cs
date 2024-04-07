@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("High on Cactus Juice");
-			Description.SetDefault("Minus 5 defense, damage increased by 25%, wont stop moving");
+			// DisplayName.SetDefault("High on Cactus Juice");
+			// Description.SetDefault("Minus 5 defense, damage increased by 25%, wont stop moving");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;

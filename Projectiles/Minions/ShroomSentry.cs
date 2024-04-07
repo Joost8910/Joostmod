@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Minions
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Shroom Sentry");
+			// DisplayName.SetDefault("Shroom Sentry");
 			Main.projFrames[Projectile.type] = 6;
 		}
 		public override void SetDefaults()
@@ -46,11 +46,11 @@ namespace JoostMod.Projectiles.Minions
 		{
 			return Projectile.ai[0] < 30 && Projectile.ai[0] >= 24 && !target.friendly;
 		}
-		public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
-			if (n.active && !n.friendly && !n.dontTakeDamage && n.type != 488)
+			if (target.active && !target.friendly && !target.dontTakeDamage && target.type != NPCID.TargetDummy)
 			{
-				n.velocity.Y = -2.5f * knockback * n.knockBackResist;
+                target.velocity.Y = -2.5f * hit.Knockback * target.knockBackResist;
 			}
 		}
 		public override void AI()

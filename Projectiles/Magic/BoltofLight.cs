@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bolt of Light");
+            // DisplayName.SetDefault("Bolt of Light");
         }
         public override void SetDefaults()
         {

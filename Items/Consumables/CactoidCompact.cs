@@ -10,8 +10,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactoid Compact");
-            Tooltip.SetDefault("Summons a cactoid\n" + "Fished in the hardmode desert with the Cactoid Commendation equipped");
+            // DisplayName.SetDefault("Cactoid Compact");
+            // Tooltip.SetDefault("Summons a cactoid\n" + "Fished in the hardmode desert with the Cactoid Commendation equipped");
         }
         public override void SetDefaults()
         {

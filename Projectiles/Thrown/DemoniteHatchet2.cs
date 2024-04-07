@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Demonite Hatchet");
+            // DisplayName.SetDefault("Demonite Hatchet");
         }
         public override void SetDefaults()
         {

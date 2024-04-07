@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acidic Saliva");
+            // DisplayName.SetDefault("Acidic Saliva");
         }
         public override void SetDefaults()
         {
@@ -38,11 +38,11 @@ namespace JoostMod.Projectiles.Hostile
             }
             return true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 300 + Main.rand.Next(300));
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Poisoned, 300 + Main.rand.Next(300));
             if (Main.expertMode)
@@ -55,7 +55,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.velocity.X *= 0.98f;
             Projectile.velocity.Y = Projectile.velocity.Y < 10 ? Projectile.velocity.Y + 0.3f : Projectile.velocity.Y;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.tile[Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y].LiquidAmount <= 80)
             {

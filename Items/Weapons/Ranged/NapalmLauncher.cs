@@ -10,9 +10,9 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Napalm Launcher");
-            Tooltip.SetDefault("Uses napalms for ammo\n" +
-                "25% chance to not consume ammo");
+            // DisplayName.SetDefault("Napalm Launcher");
+            /* Tooltip.SetDefault("Uses napalms for ammo\n" +
+                "25% chance to not consume ammo"); */
         }
         public override void SetDefaults()
         {
@@ -53,7 +53,7 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            damage.CombineWith(player.rocketDamage);
+            damage.CombineWith(player.specialistDamage);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace JoostMod.Items.Dyes
                     new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Shaders/JuiceArmorShaders", AssetRequestMode.ImmediateLoad).Value), "BlurShaderPass") // Be sure to update the effect path and pass name here.
                 );
             }
-            DisplayName.SetDefault("Gaussian Dye"); 
+            // DisplayName.SetDefault("Gaussian Dye"); 
         }
 
         public override void SetDefaults()

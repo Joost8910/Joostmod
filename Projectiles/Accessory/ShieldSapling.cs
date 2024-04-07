@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Shield");
+            // DisplayName.SetDefault("Sapling - Shield");
         }
         public override void SetDefaults()
         {
@@ -37,36 +37,26 @@ namespace JoostMod.Projectiles.Accessory
             }
             return base.CanHitNPC(target);
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = 0;
-            knockback = 0;
-            crit = false;
+            modifiers.FinalDamage *= 0;
+            modifiers.DisableKnockback();
+            modifiers.DisableCrit();
+            modifiers.HideCombatText();
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = 0;
+            modifiers.FinalDamage *= 0;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            knockback = 0;
-            crit = false;
-
-            for (int i = 0; i < 100; i++)
-            {
-                if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)
-                {
-                    Main.combatText[i].active = false;
-                    break;
-                }
-            }
             //CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkGreen, "BLOCKED", true, false);
 
             SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.Center);
             if (target.knockBackResist > 0)
             {
                 target.velocity.X = Projectile.direction * Projectile.knockBack;
-                if (Main.netMode != 0)
+                if (Main.netMode != NetmodeID.SinglePlayer)
                 {
                     ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)JoostModMessageType.NPCpos);
@@ -82,10 +72,8 @@ namespace JoostMod.Projectiles.Accessory
                 target.life++;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            crit = false;
-
             for (int i = 0; i < 100; i++)
             {
                 if (Main.combatText[i].active && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)

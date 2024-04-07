@@ -9,8 +9,8 @@ namespace JoostMod.Items.Quest
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Storm Wyvern Soul");
-            Tooltip.SetDefault("Quest item for the Hunt Master");
+			// DisplayName.SetDefault("Storm Wyvern Soul");
+            // Tooltip.SetDefault("Quest item for the Hunt Master");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }

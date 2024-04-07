@@ -8,7 +8,7 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Sickle");
+            // DisplayName.SetDefault("Hallowed Sickle");
         }
         public override void SetDefaults()
         {

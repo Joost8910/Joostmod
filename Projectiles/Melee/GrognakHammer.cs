@@ -20,7 +20,7 @@ namespace JoostMod.Projectiles.Melee
         float shockwaveMult = 3.5f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warhammer of Grognak");
+            // DisplayName.SetDefault("Warhammer of Grognak");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -42,12 +42,12 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             return !target.friendly && (Projectile.ai[0] == 1 && Projectile.ai[1] >= startup && (Projectile.ai[1] < startup + active || Projectile.localAI[1] == 1) || Projectile.ai[0] == 2 && Projectile.ai[1] < 226 || player.velocity.Y * player.gravDir > 9);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (target.knockBackResist > 0 && player.velocity.Y * player.gravDir > 1)
             {
-                target.velocity.Y = (knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
+                target.velocity.Y = (hit.Knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
             }
         }
         public override bool CanHitPvp(Player target)
@@ -55,7 +55,7 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             return Projectile.ai[0] == 1 && Projectile.ai[1] >= startup && (Projectile.ai[1] < startup + active || Projectile.localAI[1] == 1) || Projectile.ai[0] == 2 && Projectile.ai[1] < 226 || player.velocity.Y * player.gravDir > 9;
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
@@ -63,20 +63,20 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.Y = (Projectile.knockBack + Math.Abs(player.velocity.Y)) * player.gravDir;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * dmgMult);
+            modifiers.SourceDamage *= dmgMult;
             if (Projectile.ai[0] == 2)
             {
-                crit = true;
+                modifiers.SetCrit();
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            damage = (int)(damage * dmgMult);
+            modifiers.SourceDamage *= dmgMult;
             if (Projectile.ai[0] == 2)
             {
-                crit = true;
+                modifiers.FinalDamage *= 2;
             }
         }
         public override bool PreAI()
@@ -294,7 +294,7 @@ namespace JoostMod.Projectiles.Melee
             Main.EntitySpriteDraw(gemTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), gemColor, rot, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.localAI[1] == 1)

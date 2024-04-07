@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Pets
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stormy");
+			// DisplayName.SetDefault("Stormy");
 			Main.projFrames[Projectile.type] = 34;
 			Main.projPet[Projectile.type] = true;
         }

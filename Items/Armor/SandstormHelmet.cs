@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandstorm Helmet");
-			Tooltip.SetDefault("25% increased Throwing Damage\n" + "50% chance to not consume thrown items");
+			// DisplayName.SetDefault("Sandstorm Helmet");
+			// Tooltip.SetDefault("25% increased Throwing Damage\n" + "50% chance to not consume thrown items");
 		}
 
 		public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Portal");
+            // DisplayName.SetDefault("Portal");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()

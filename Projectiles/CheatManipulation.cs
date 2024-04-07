@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tome of Greater Manipulation");
+            // DisplayName.SetDefault("Tome of Greater Manipulation");
         }
         public override void SetDefaults()
         {
@@ -33,14 +33,14 @@ namespace JoostMod.Projectiles
         {
             return Main.myPlayer == Projectile.owner && Main.mouseRight;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            damage = (target.lifeMax / 20 + (target.defense / 2));
+            modifiers.FinalDamage.Flat = target.lifeMax / 20;
             if (player.controlUp)
-                crit = false;
+                modifiers.DisableCrit();
             else
-                crit = true;
+                modifiers.SetCrit();
         }
         public override void AI()
         {

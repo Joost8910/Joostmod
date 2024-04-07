@@ -9,8 +9,8 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Airplane");
-			Tooltip.SetDefault("'It can fly!'");
+			// DisplayName.SetDefault("Airplane");
+			// Tooltip.SetDefault("'It can fly!'");
 		}
 		public override void SetDefaults()
 		{

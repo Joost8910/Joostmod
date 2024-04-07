@@ -14,9 +14,10 @@ namespace JoostMod.NPCs.Hunts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spore Mother");
+			// DisplayName.SetDefault("Spore Mother");
             Main.npcFrameCount[NPC.type] = 3;
-		}
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+        }
 		public override void SetDefaults()
 		{
 			NPC.width = 50;
@@ -32,9 +33,9 @@ namespace JoostMod.NPCs.Hunts
 			NPC.noGravity = true;
             NPC.netAlways = true;
 		}
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -53,7 +54,7 @@ namespace JoostMod.NPCs.Hunts
         {
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             NPC.ai[0]++;
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)

@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tail Whip");
-            Tooltip.SetDefault("Envenoms struck targets");
+			// DisplayName.SetDefault("Tail Whip");
+            // Tooltip.SetDefault("Envenoms struck targets");
 		}
 		public override void SetDefaults()
 		{

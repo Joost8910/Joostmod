@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lord's Flame");
+            // DisplayName.SetDefault("Lord's Flame");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
@@ -33,11 +33,11 @@ namespace JoostMod.Projectiles.Magic
             height = 40;
             return true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 900, true);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.OnFire, 900, true);
         }
@@ -100,7 +100,7 @@ namespace JoostMod.Projectiles.Magic
             }
             Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, -Projectile.velocity.X / 5, -Projectile.velocity.Y / 5, 100, default, 2f + Main.rand.Next(20) * 0.1f).noGravity = true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             //Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("FireballExplosion"), projectile.damage * 3, projectile.knockback, projectile.owner);
             if (Main.myPlayer == Projectile.owner)

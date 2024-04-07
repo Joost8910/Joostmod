@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Giant Needle");
+            // DisplayName.SetDefault("Giant Needle");
         }
         public override void SetDefaults()
         {

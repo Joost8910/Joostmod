@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("-1000'C Degrees Knife");
+            // DisplayName.SetDefault("-1000'C Degrees Knife");
         }
         public override void SetDefaults()
         {

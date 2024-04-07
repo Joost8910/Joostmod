@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gnome Warrior");
-			Description.SetDefault("The Gnome Warrior will fight with you");
+			// DisplayName.SetDefault("Gnome Warrior");
+			// Description.SetDefault("The Gnome Warrior will fight with you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

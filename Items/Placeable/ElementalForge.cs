@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Elemental Forge");
-            Tooltip.SetDefault("Used to make items from Elemental Essences\n" + "Functions as both an Adamantite forge and a Mythril Anvil");
+			// DisplayName.SetDefault("Elemental Forge");
+            // Tooltip.SetDefault("Used to make items from Elemental Essences\n" + "Functions as both an Adamantite forge and a Mythril Anvil");
 		}
         public override void SetDefaults()
         {

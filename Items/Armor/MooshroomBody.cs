@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mooshroom Top");
+			// DisplayName.SetDefault("Mooshroom Top");
 			ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
 		}
 		public override void SetDefaults()

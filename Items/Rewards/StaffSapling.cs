@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Staff");
-            Tooltip.SetDefault("Shoots enemies behind you\n" + "5% reduced mana usage");
+            // DisplayName.SetDefault("Sapling - Staff");
+            // Tooltip.SetDefault("Shoots enemies behind you\n" + "5% reduced mana usage");
         }
         public override void SetDefaults()
         {

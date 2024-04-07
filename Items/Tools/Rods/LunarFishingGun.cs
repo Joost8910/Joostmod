@@ -13,8 +13,8 @@ namespace JoostMod.Items.Tools.Rods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunar Fishing Shotgun");
-            Tooltip.SetDefault("Fires many fishing hooks\n" + "Can fish up Lunar Fragments");
+            // DisplayName.SetDefault("Lunar Fishing Shotgun");
+            // Tooltip.SetDefault("Fires many fishing hooks\n" + "Can fish up Lunar Fragments");
         }
         public override void SetDefaults()
         {

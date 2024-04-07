@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tao Leggings");
-			Tooltip.SetDefault("3% increased damage and crit chance\n" + "15% increased movement speed");
+			// DisplayName.SetDefault("Tao Leggings");
+			// Tooltip.SetDefault("3% increased damage and crit chance\n" + "15% increased movement speed");
 		}
 
 		public override void SetDefaults()

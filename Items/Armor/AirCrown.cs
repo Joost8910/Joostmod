@@ -9,9 +9,9 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crown of Wind");
-            Tooltip.SetDefault("20% increased summon damage\n" +
-                "Increases your max number of minions");
+            // DisplayName.SetDefault("Crown of Wind");
+            /* Tooltip.SetDefault("20% increased summon damage\n" +
+                "Increases your max number of minions"); */
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
         public override void SetDefaults()

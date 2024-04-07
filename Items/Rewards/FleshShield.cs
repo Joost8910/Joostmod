@@ -11,10 +11,10 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Shield of Flesh");
-			Tooltip.SetDefault("Double tap left or right to dash into enemies\n" + 
+			// DisplayName.SetDefault("Shield of Flesh");
+			/* Tooltip.SetDefault("Double tap left or right to dash into enemies\n" + 
                 "Occasionally summons leeches that steal life\n" + 
-                "Leeches summon faster the less life you have");
+                "Leeches summon faster the less life you have"); */
 		}
 		public override void SetDefaults()
 		{

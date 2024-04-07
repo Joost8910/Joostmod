@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kerbal Kannon");
-            Tooltip.SetDefault("Launches Kerbals at high velocity");
+            // DisplayName.SetDefault("Kerbal Kannon");
+            // Tooltip.SetDefault("Launches Kerbals at high velocity");
         }
         public override void SetDefaults()
         {

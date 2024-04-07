@@ -13,8 +13,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Veridian Genji Armor");
-            Tooltip.SetDefault("20% Increased throwing crit chance\n" + "Max Life increased by 225");
+            // DisplayName.SetDefault("Veridian Genji Armor");
+            // Tooltip.SetDefault("20% Increased throwing crit chance\n" + "Max Life increased by 225");
         }
         public override void SetDefaults()
         {

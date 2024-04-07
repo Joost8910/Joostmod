@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Naginata");
+            // DisplayName.SetDefault("Naginata");
         }
         public override void SetDefaults()
         {

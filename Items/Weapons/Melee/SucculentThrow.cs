@@ -7,9 +7,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Succulent Throw");
-            Tooltip.SetDefault("Picks up a hit enemy\n" +
-                "Does not work on enemies immune to knockback");
+            // DisplayName.SetDefault("Succulent Throw");
+            /* Tooltip.SetDefault("Picks up a hit enemy\n" +
+                "Does not work on enemies immune to knockback"); */
         }
         public override void SetDefaults()
         {

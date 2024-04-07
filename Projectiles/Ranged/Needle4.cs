@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Needle");
+            // DisplayName.SetDefault("Needle");
         }
         public override void SetDefaults()
         {

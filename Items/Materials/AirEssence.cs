@@ -9,7 +9,7 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Air Essence");
+			// DisplayName.SetDefault("Air Essence");
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 6));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;

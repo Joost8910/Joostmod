@@ -10,9 +10,9 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sunfish");
-            Tooltip.SetDefault("Creates a controllable sunbeam\n" +
-                "Fished in the Lihzahrd Temple after the Golem has been defeated");
+            // DisplayName.SetDefault("Sunfish");
+            /* Tooltip.SetDefault("Creates a controllable sunbeam\n" +
+                "Fished in the Lihzahrd Temple after the Golem has been defeated"); */
         }
         public override void SetDefaults()
         {

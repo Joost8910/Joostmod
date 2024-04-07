@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Airplane");
-			Description.SetDefault("It can fly!");
+			// DisplayName.SetDefault("Airplane");
+			// Description.SetDefault("It can fly!");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

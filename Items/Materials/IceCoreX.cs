@@ -12,7 +12,7 @@ namespace JoostMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Core-X");
+            // DisplayName.SetDefault("Ice Core-X");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }

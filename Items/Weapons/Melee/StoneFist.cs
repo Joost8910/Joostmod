@@ -10,12 +10,12 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone Fist");
-            Tooltip.SetDefault("'The real fist of Fury'\n" +
+            // DisplayName.SetDefault("Stone Fist");
+            /* Tooltip.SetDefault("'The real fist of Fury'\n" +
                 "Charges up a powerful punch\n" +
                 "Right Click while charged to grab an enemy\n" +
                 "Hold Right Click to pummel the grabbed enemy\n" +
-                "Let go of Left Click to throw the grabbed enemy");
+                "Let go of Left Click to throw the grabbed enemy"); */
         }
         public override void SetDefaults()
         {

@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fireball");
-            Tooltip.SetDefault("Explodes into lingering flames");
+            // DisplayName.SetDefault("Fireball");
+            // Tooltip.SetDefault("Explodes into lingering flames");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
         }
         public override void SetDefaults()

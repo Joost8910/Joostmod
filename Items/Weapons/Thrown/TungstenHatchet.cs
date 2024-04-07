@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tungsten Hatchet");
-            Tooltip.SetDefault("'On a chain!'\n" + "Stacks up to 3");
+            // DisplayName.SetDefault("Tungsten Hatchet");
+            // Tooltip.SetDefault("'On a chain!'\n" + "Stacks up to 3");
         }
         public override void SetDefaults()
         {

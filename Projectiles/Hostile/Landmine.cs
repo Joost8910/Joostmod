@@ -16,7 +16,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.penetrate = 1;
             Projectile.timeLeft = 9000;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.ai[1] < 3)
             {
@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles.Hostile
                 Projectile.timeLeft = 3;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[1] < 3)
             {
@@ -54,7 +54,7 @@ namespace JoostMod.Projectiles.Hostile
             return;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int i = 0; i < 50; i++)

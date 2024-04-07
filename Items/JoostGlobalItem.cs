@@ -16,6 +16,7 @@ using JoostMod.Items.Weapons.Thrown;
 using JoostMod.Items.Tools.Rods;
 using JoostMod.Projectiles.Accessory;
 using JoostMod.Projectiles.Magic;
+using JoostMod.Projectiles.Melee;
 
 namespace JoostMod.Items
 {
@@ -73,7 +74,7 @@ namespace JoostMod.Items
             myClone.fishingPower = fishingPower;
             return myClone;
         }
-        public override bool PreReforge(Item item)
+        public override void PreReforge(Item item)/* tModPorter Note: Use CanReforge instead for logic determining if a reforge can happen. */
         {
             meleeDamage = 0;
             thrownDamage = 0;
@@ -83,7 +84,7 @@ namespace JoostMod.Items
             maxHealth = 0;
             lifeRegen = 0;
             fishingPower = 0;
-            return base.PreReforge(item);
+            //return base.PreReforge(item);
         }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -364,7 +365,7 @@ namespace JoostMod.Items
     }
     public class MeleeStrike : GlobalItem
     {
-        public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_OnHit(target);
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
@@ -392,7 +393,7 @@ namespace JoostMod.Items
                 target.AddBuff(ModContent.BuffType<Buffs.CorruptSoul>(), 1200, false);
             }
         }
-        public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_OnHit(target);
             if (player.GetModPlayer<JoostModPlayer>().crimsonPommel)
@@ -418,6 +419,12 @@ namespace JoostMod.Items
                     }
                 }
                 target.AddBuff(ModContent.BuffType<Buffs.CorruptSoul>(), 1200, false);
+            }
+
+            if (item.CountsAsClass(DamageClass.Melee) && player.GetModPlayer<JoostPlayer>().gMelee && player.ownedProjectileCounts[ModContent.ProjectileType<Masamune>()] < 1)
+            {
+                Projectile.NewProjectile(player.GetSource_OnHit(target), player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), (int)player.GetDamage(DamageClass.Melee).ApplyTo(500), 5f, player.whoAmI);
+                //Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<Masamune>(), 0, 0, Player.whoAmI);
             }
         }
     }

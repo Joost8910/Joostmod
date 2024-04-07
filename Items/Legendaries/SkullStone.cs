@@ -11,9 +11,9 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of Death");
-            Tooltip.SetDefault("Grants the night owl buff while placed or in inventory\n" +
-                "Found in the dungeon");
+            // DisplayName.SetDefault("Stone of Death");
+            /* Tooltip.SetDefault("Grants the night owl buff while placed or in inventory\n" +
+                "Found in the dungeon"); */
         }
         public override void SetDefaults()
         {

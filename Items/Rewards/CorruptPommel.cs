@@ -10,10 +10,10 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corrupt Pommel");
-            Tooltip.SetDefault("Striking an enemy with a melee weapon inflicts Corrupted Soul, dealing damage over time\n" +
+            // DisplayName.SetDefault("Corrupt Pommel");
+            /* Tooltip.SetDefault("Striking an enemy with a melee weapon inflicts Corrupted Soul, dealing damage over time\n" +
                                "Enemies that die with Corrupted Soul damages a nearby enemy for 25% \n" +
-                               "of the corrupted enemy's max life (capping at 9999) and inflicts Corrupted Soul\n");
+                               "of the corrupted enemy's max life (capping at 9999) and inflicts Corrupted Soul\n"); */
         }
         public override void SetDefaults()
         {

@@ -12,7 +12,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Fury");
+            // DisplayName.SetDefault("Terra Fury");
         }
         public override void SetDefaults()
         {

@@ -11,7 +11,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactite");
+            // DisplayName.SetDefault("Cactite");
             Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace JoostMod.NPCs
             npcLoot.Add(ItemDropRule.Common(ItemID.Cactus, 1, 3, 6));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Anniversary>(), 100));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

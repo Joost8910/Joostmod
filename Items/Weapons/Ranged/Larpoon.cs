@@ -10,10 +10,10 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Larpoon");
-            Tooltip.SetDefault("Launches a harpoon that shoots lasers at enemies\n" +
+            // DisplayName.SetDefault("Larpoon");
+            /* Tooltip.SetDefault("Launches a harpoon that shoots lasers at enemies\n" +
                 "Fished in the ocean after a mechanical boss has been defeated\n" +
-                "'Live-Action-Role-Playing Harpoon' - Loki");
+                "'Live-Action-Role-Playing Harpoon' - Loki"); */
         }
         public override void SetDefaults()
         {

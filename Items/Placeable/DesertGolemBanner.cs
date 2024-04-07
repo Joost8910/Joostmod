@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Desert Golem Banner");
+			// DisplayName.SetDefault("Desert Golem Banner");
 		}
         public override void SetDefaults()
         {  

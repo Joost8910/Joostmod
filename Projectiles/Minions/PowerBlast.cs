@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit of Power");
+            // DisplayName.SetDefault("Spirit of Power");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

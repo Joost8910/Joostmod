@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Demonite Hatchet");
-            Tooltip.SetDefault("'On a chain!'\n" + "Stacks up to 3");
+            // DisplayName.SetDefault("Demonite Hatchet");
+            // Tooltip.SetDefault("'On a chain!'\n" + "Stacks up to 3");
         }
         public override void SetDefaults()
         {

@@ -15,8 +15,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("100 Needles");
-            Tooltip.SetDefault("Unleashes a flurry of needles");
+            // DisplayName.SetDefault("100 Needles");
+            // Tooltip.SetDefault("Unleashes a flurry of needles");
         }
         public override void SetDefaults()
         {

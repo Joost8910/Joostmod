@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shadowlight Bow");
-            Tooltip.SetDefault("Does not consume ammo\n" + "'Find your inner pieces'");
+            // DisplayName.SetDefault("Shadowlight Bow");
+            // Tooltip.SetDefault("Does not consume ammo\n" + "'Find your inner pieces'");
         }
         public override void SetDefaults()
         {

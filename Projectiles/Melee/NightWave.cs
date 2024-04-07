@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Night's Wrath");
+            // DisplayName.SetDefault("True Night's Wrath");
         }
         public override void SetDefaults()
         {

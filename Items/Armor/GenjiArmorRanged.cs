@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimson Genji Armor");
-            Tooltip.SetDefault("35% increased Ranged Crit chance\n" + "Max Life increased by 200");
+            // DisplayName.SetDefault("Crimson Genji Armor");
+            // Tooltip.SetDefault("35% increased Ranged Crit chance\n" + "Max Life increased by 200");
         }
         public override void SetDefaults()
         {

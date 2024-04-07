@@ -11,8 +11,8 @@ namespace JoostMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Genji Token");
-            Tooltip.SetDefault("'Choose your loot!'");
+            // DisplayName.SetDefault("Genji Token");
+            // Tooltip.SetDefault("'Choose your loot!'");
         }
         public override void SetDefaults()
         {

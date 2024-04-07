@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble");
+            // DisplayName.SetDefault("Bubble");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()

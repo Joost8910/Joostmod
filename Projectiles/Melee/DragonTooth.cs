@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Tooth");
+            // DisplayName.SetDefault("Dragon Tooth");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -258,33 +258,33 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * (Projectile.localAI[0] + 1));
-            knockback = knockback * (Projectile.localAI[0] + 1);
+            modifiers.SourceDamage *= Projectile.localAI[0] + 1;
+            modifiers.Knockback *= Projectile.localAI[0] + 1;
             if (target.velocity.Y == 0)
-                hitDirection = target.Center.X < Main.player[Projectile.owner].Center.X ? -1 : 1;
+                modifiers.HitDirectionOverride = target.Center.X < Main.player[Projectile.owner].Center.X ? -1 : 1;
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            damage = (int)(damage * (Projectile.localAI[0] + 1));
+            modifiers.SourceDamage *= Projectile.localAI[0] + 1;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (target.knockBackResist > 0)
             {
                 if (Projectile.localAI[1] > 0 && Projectile.ai[1] >= 150)
                 {
-                    target.velocity.Y = (knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
+                    target.velocity.Y = (hit.Knockback + Math.Abs(player.velocity.Y)) * player.gravDir * target.knockBackResist;
                 }
-                else if (Projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -knockback)
+                else if (Projectile.ai[1] < 90 && player.velocity.Y == 0 && target.velocity.Y != 0 && target.velocity.Y > -hit.Knockback)
                 {
-                    target.velocity.Y = -knockback;
+                    target.velocity.Y = -hit.Knockback;
                 }
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)

@@ -15,8 +15,8 @@ namespace JoostMod.Items.GrappleHooks
         }
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Grabby Swingy Hook");
-			Tooltip.SetDefault("Grabs onto enemies!");
+			// DisplayName.SetDefault("Grabby Swingy Hook");
+			// Tooltip.SetDefault("Grabs onto enemies!");
 		}
         public override void AddRecipes() 
         {

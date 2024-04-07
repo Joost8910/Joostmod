@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Friend of Cactoids");
-			Description.SetDefault("Cactoids become friendly and will fight for you");
+			// DisplayName.SetDefault("Friend of Cactoids");
+			// Description.SetDefault("Cactoids become friendly and will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

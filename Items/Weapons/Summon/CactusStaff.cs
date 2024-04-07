@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Staff");
-            Tooltip.SetDefault("Summons a Cactuar to fight for you");
+            // DisplayName.SetDefault("Cactus Staff");
+            // Tooltip.SetDefault("Summons a Cactuar to fight for you");
         }
         public override void SetDefaults()
         {

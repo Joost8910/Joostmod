@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enhanced Energy");
-			Description.SetDefault("Damage and Movement Speed increased by 10%");
+			// DisplayName.SetDefault("Enhanced Energy");
+			// Description.SetDefault("Damage and Movement Speed increased by 10%");
 			Main.buffNoSave[Type] = true;
 		}
 

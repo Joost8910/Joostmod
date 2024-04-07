@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkle Staff");
-            Tooltip.SetDefault("'Pretty, oh so pretty'");
+            // DisplayName.SetDefault("Sparkle Staff");
+            // Tooltip.SetDefault("'Pretty, oh so pretty'");
         }
         public override void SetDefaults()
         {

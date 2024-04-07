@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Cannon");
-            Tooltip.SetDefault("Fires a sticky cactus that damages enemies multiple times");
+            // DisplayName.SetDefault("Cactus Cannon");
+            // Tooltip.SetDefault("Fires a sticky cactus that damages enemies multiple times");
         }
         public override void SetDefaults()
         {

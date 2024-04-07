@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warhammer of Grognak");
+            // DisplayName.SetDefault("Warhammer of Grognak");
             Main.projFrames[Projectile.type] = 12;
         }
         public override void SetDefaults()
@@ -137,7 +137,7 @@ namespace JoostMod.Projectiles.Melee
             player.SetCompositeArmBack(true, backStretch, bArmRot);
 
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.frame >= 3 && Projectile.frame <= 5)
             {
@@ -149,7 +149,7 @@ namespace JoostMod.Projectiles.Melee
                 Vector2 end = start + unit * 18;
                 if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), start, end, 18, ref point))
                 {
-                    crit = true;
+                    modifiers.SetCrit();
                     SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_1").WithVolumeScale(0.3f), Projectile.Center); // 211
                     for (int i = 0; i < 12; i++)
                     {
@@ -159,11 +159,11 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.ai[0] > 10)
             {
-                damage = (int)(damage * 0.8f);
-                knockback *= 0.8f;
+                modifiers.SourceDamage *= 0.8f;
+                modifiers.Knockback *= 0.8f;
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             if (Projectile.frame >= 3 && Projectile.frame <= 5)
             {
@@ -175,7 +175,7 @@ namespace JoostMod.Projectiles.Melee
                 Vector2 end = start + unit * 18;
                 if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), start, end, 18, ref point))
                 {
-                    crit = true;
+                    modifiers.FinalDamage *= 2;
                     SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_1").WithVolumeScale(0.3f), Projectile.Center); // 211
                     for (int i = 0; i < 12; i++)
                     {
@@ -185,7 +185,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.ai[0] > 10)
             {
-                damage = (int)(damage * 0.8f);
+                modifiers.SourceDamage *= 0.8f;
             }
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

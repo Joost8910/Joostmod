@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -19,11 +20,11 @@ namespace JoostMod.Tiles
 			TileObjectData.addTile(Type);
 			DustType = 7;
 			TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Trophy");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Trophy");
 			AddMapEntry(new Color(120, 85, 60), name);
 		}
-
+		/*
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			int item = 0;
@@ -47,5 +48,6 @@ namespace JoostMod.Tiles
 				Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, item);
 			}
 		}
+		*/
 	}
 }

@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Excalipoor... somehow");
+            // DisplayName.SetDefault("Excalipoor... somehow");
         }
         public override void SetDefaults()
         {
@@ -26,7 +26,7 @@ namespace JoostMod.Projectiles.Hostile
         {
             Projectile.damage = 1;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.Center);
             Item.NewItem(Projectile.GetSource_Death(), Projectile.Center, Mod.Find<ModItem>("BrokenExcalipoor").Type);

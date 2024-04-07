@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoldering Breastplate");
-            Tooltip.SetDefault("18% increased ranged damage");
+            // DisplayName.SetDefault("Smoldering Breastplate");
+            // Tooltip.SetDefault("18% increased ranged damage");
             ArmorIDs.Body.Sets.HidesHands[Item.bodySlot] = false;
         }
         public override void SetDefaults()

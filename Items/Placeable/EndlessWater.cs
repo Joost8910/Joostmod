@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Endless Water Pump");
-            Tooltip.SetDefault("'Flood the world!'");
+            // DisplayName.SetDefault("Endless Water Pump");
+            // Tooltip.SetDefault("'Flood the world!'");
 		}
 
 		public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandstorm Javelin");
-            Tooltip.SetDefault("Hold attack to charge the throw\nMax charge drills through sand and launches it backwards");
+            // DisplayName.SetDefault("Sandstorm Javelin");
+            // Tooltip.SetDefault("Hold attack to charge the throw\nMax charge drills through sand and launches it backwards");
         }
         public override void SetDefaults()
         {

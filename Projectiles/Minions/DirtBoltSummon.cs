@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("DirtBolt");
+            // DisplayName.SetDefault("DirtBolt");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()

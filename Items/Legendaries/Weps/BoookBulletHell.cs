@@ -14,13 +14,13 @@ namespace JoostMod.Items.Legendaries.Weps
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boook's Bullet Hell");
-            Tooltip.SetDefault("'Crazy Gun Contraption of the legendary Boook'\n" +
+            // DisplayName.SetDefault("Boook's Bullet Hell");
+            /* Tooltip.SetDefault("'Crazy Gun Contraption of the legendary Boook'\n" +
             "Does more damage as you kill bosses throughout the game\n" +
             "Fires a crazy amount of bullets\n" +
             "Right click to spin the barrel\n" +
             "Deals 40% reduced damage when using homing ammunition\n" +
-            "50% chance to not consume ammo");
+            "50% chance to not consume ammo"); */
         }
         public override void SetDefaults()
         {

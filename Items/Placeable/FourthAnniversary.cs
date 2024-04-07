@@ -10,8 +10,8 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Joostmod's Fourth Anniversary");
-            Tooltip.SetDefault("'The Journey may End, but the legend never dies'");
+            // DisplayName.SetDefault("Joostmod's Fourth Anniversary");
+            // Tooltip.SetDefault("'The Journey may End, but the legend never dies'");
         }
         public override void SetDefaults()
         {

@@ -11,9 +11,9 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Shield");
-            Tooltip.SetDefault("Tries to block attackers behind you\n" + 
-                "Cannot block projectiles that have a base damage greater than 30");
+            // DisplayName.SetDefault("Sapling - Shield");
+            /* Tooltip.SetDefault("Tries to block attackers behind you\n" + 
+                "Cannot block projectiles that have a base damage greater than 30"); */
         }
         public override void SetDefaults()
         {

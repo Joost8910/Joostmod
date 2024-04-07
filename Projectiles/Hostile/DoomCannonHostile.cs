@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Doom Cannon");
+            // DisplayName.SetDefault("Doom Cannon");
             Main.projFrames[Projectile.type] = 12;
         }
         public override void SetDefaults()
@@ -117,7 +117,7 @@ namespace JoostMod.Projectiles.Hostile
             owner.direction = Projectile.direction;
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             NPC owner = Main.npc[(int)Projectile.ai[0]];
             if (owner.active && owner.life > 0 && owner.ai[2] == 4 && owner.type == Mod.Find<ModNPC>("SkeletonDemoman").Type && Projectile.ai[1] >= 660)

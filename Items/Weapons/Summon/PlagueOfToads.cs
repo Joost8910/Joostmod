@@ -14,8 +14,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plague of Toads");
-            Tooltip.SetDefault("Summons multiple toads to chase down enemies");
+            // DisplayName.SetDefault("Plague of Toads");
+            // Tooltip.SetDefault("Summons multiple toads to chase down enemies");
         }
         public override void SetDefaults()
         {

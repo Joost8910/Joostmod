@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warhammer of Grognak");
+            // DisplayName.SetDefault("Warhammer of Grognak");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.damage = (int)(Projectile.damage * 0.7f);
             Projectile.knockBack *= 0.7f;
@@ -40,10 +40,10 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.Kill();
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            hitDirection = target.Center.X < player.Center.X ? -1 : 1;
+            modifiers.HitDirectionOverride = target.Center.X < player.Center.X ? -1 : 1;
         }
         public override bool PreAI()
         {
@@ -69,7 +69,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.spriteDirection = Projectile.direction;
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 4; i++)
             {

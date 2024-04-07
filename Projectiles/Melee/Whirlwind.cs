@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Whirlwind");
+            // DisplayName.SetDefault("Whirlwind");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()

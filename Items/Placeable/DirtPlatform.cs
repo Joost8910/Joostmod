@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dirt Platform");
-            Tooltip.SetDefault("Places at insane speeds");
+            // DisplayName.SetDefault("Dirt Platform");
+            // Tooltip.SetDefault("Places at insane speeds");
 		}
 
 		public override void SetDefaults()

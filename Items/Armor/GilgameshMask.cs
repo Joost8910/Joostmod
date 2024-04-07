@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gilgamesh Mask");
+			// DisplayName.SetDefault("Gilgamesh Mask");
 		}
 
 		public override void SetDefaults()

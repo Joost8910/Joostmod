@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hellfire Glove");
-            Tooltip.SetDefault("Rapidly throws flaming shurikens");
+            // DisplayName.SetDefault("Hellfire Glove");
+            // Tooltip.SetDefault("Rapidly throws flaming shurikens");
         }
         public override void SetDefaults()
         {

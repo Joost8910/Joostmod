@@ -7,8 +7,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Joostmod's Fifth Anniversary");
-			Tooltip.SetDefault("'Face reveal'");
+			// DisplayName.SetDefault("Joostmod's Fifth Anniversary");
+			// Tooltip.SetDefault("'Face reveal'");
 		}
 		public override void SetDefaults()
 		{

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vile Cactus Worm");
-            Tooltip.SetDefault("Casts a controllable cactus worm");
+            // DisplayName.SetDefault("Vile Cactus Worm");
+            // Tooltip.SetDefault("Casts a controllable cactus worm");
         }
         public override void SetDefaults()
         {

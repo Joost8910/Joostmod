@@ -10,11 +10,11 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scroll of Death");
-			Tooltip.SetDefault("Summon multiple skulls when below half health\n" + 
+			// DisplayName.SetDefault("Scroll of Death");
+			/* Tooltip.SetDefault("Summon multiple skulls when below half health\n" + 
 			"Increases max number of minions by 2\n" + 
 			"Increases summon damage by 15%\n" + 
-			"Increases minion knockback");
+			"Increases minion knockback"); */
 		}
 		public override void SetDefaults()
 		{

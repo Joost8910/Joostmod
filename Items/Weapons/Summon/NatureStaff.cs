@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of Nature");
-            Tooltip.SetDefault("Summons a swirling shield of leaves\n" + "Right click to send the leaves outwards");
+            // DisplayName.SetDefault("Staff of Nature");
+            // Tooltip.SetDefault("Summons a swirling shield of leaves\n" + "Right click to send the leaves outwards");
         }
         public override void SetDefaults()
         {

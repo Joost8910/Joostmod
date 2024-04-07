@@ -9,9 +9,9 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Havel's Leggings");
-            Tooltip.SetDefault("6% increased melee damage\n" +
-                "10% reduced movement speed");
+            // DisplayName.SetDefault("Havel's Leggings");
+            /* Tooltip.SetDefault("6% increased melee damage\n" +
+                "10% reduced movement speed"); */
         }
         public override void SetDefaults()
         {

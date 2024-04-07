@@ -8,8 +8,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Napalm");
-			Tooltip.SetDefault("'Fiery'");
+			// DisplayName.SetDefault("Napalm");
+			// Tooltip.SetDefault("'Fiery'");
 		}
 		public override void SetDefaults()
 		{

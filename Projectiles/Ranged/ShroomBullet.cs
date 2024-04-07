@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shroomite Bullet");
+            // DisplayName.SetDefault("Shroomite Bullet");
         }
         public override void SetDefaults()
         {

@@ -9,10 +9,10 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Tooth");
-            Tooltip.SetDefault("Increases defense by 10 while held\n" +
+            // DisplayName.SetDefault("Dragon Tooth");
+            /* Tooltip.SetDefault("Increases defense by 10 while held\n" +
                 "Hold attack to charge the swing\n" +
-                "Unleash a charged swing while falling to do a plunging attack");
+                "Unleash a charged swing while falling to do a plunging attack"); */
         }
         public override void SetDefaults()
         {

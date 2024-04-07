@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Spear");
+            // DisplayName.SetDefault("Soul Spear");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -64,7 +64,7 @@ namespace JoostMod.Projectiles.Hybrid
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 22; i++)
             {

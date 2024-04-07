@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Jumbo Cactuar Mask");
+			// DisplayName.SetDefault("Jumbo Cactuar Mask");
 		}
 
 		public override void SetDefaults()

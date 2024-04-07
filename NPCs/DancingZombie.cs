@@ -8,7 +8,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Zombie");
+            // DisplayName.SetDefault("Zombie");
             Main.npcFrameCount[NPC.type] = 16;
         }
         public override void SetDefaults()
@@ -33,7 +33,7 @@ namespace JoostMod.NPCs
         {
             return !spawnInfo.PlayerInTown && !spawnInfo.Invasion && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && spawnInfo.SpawnTileY <= Main.worldSurface && !spawnInfo.Sky && !Main.dayTime ? 0.005f : 0f;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

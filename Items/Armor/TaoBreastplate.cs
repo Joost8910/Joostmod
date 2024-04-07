@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tao Breastplate");
-			Tooltip.SetDefault("4% increased damage and crit chance");
+			// DisplayName.SetDefault("Tao Breastplate");
+			// Tooltip.SetDefault("4% increased damage and crit chance");
 		}
 
 		public override void SetDefaults()

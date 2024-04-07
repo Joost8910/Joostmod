@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nebula Grenade");
-            Tooltip.SetDefault("Creates a nebula upon impact");
+            // DisplayName.SetDefault("Nebula Grenade");
+            // Tooltip.SetDefault("Creates a nebula upon impact");
         }
         public override void SetDefaults()
         {

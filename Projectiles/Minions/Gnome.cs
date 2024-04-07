@@ -15,7 +15,7 @@ namespace JoostMod.Projectiles.Minions
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gnome");
+			// DisplayName.SetDefault("Gnome");
 			Main.projFrames[Projectile.type] = 7;
 			Main.projPet[Projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
@@ -289,17 +289,17 @@ namespace JoostMod.Projectiles.Minions
             }
             return base.CanHitNPC(target);
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            hitDirection = Projectile.direction;
+            modifiers.HitDirectionOverride = Projectile.direction;
             if (Projectile.localAI[1] <= shootCool)
             {
-                damage = 0;
-                knockback = 0;
-                crit = false;
+                modifiers.SetMaxDamage(0);
+                modifiers.DisableKnockback();
+                modifiers.DisableCrit();
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             float KB = Projectile.knockBack;

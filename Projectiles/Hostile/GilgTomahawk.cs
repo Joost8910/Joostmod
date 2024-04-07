@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Tomahawk");
+            // DisplayName.SetDefault("Gilgamesh's Tomahawk");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -26,7 +26,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {

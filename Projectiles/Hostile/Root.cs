@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Root");
+            // DisplayName.SetDefault("Root");
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace JoostMod.Projectiles.Hostile
             fallThrough = false;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4);
             Point pos = posi.ToTileCoordinates();

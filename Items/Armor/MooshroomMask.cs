@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mooshroom Mask");
-            Tooltip.SetDefault("MOOOO");
+            // DisplayName.SetDefault("Mooshroom Mask");
+            // Tooltip.SetDefault("MOOOO");
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
         public override void SetDefaults()

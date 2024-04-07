@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Overwhelming Fire");
-			Description.SetDefault("Ranged damage and movement speed increased by 40%, rapidly losing life");
+			// DisplayName.SetDefault("Overwhelming Fire");
+			// Description.SetDefault("Ranged damage and movement speed increased by 40%, rapidly losing life");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

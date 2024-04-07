@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of Degeneration");
-            Tooltip.SetDefault("Inflicts a damage over time effect on struck enemies\n" +
-                "Homes in on the clicked target");
+            // DisplayName.SetDefault("Staff of Degeneration");
+            /* Tooltip.SetDefault("Inflicts a damage over time effect on struck enemies\n" +
+                "Homes in on the clicked target"); */
         }
         public override void SetDefaults()
         {

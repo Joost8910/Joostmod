@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Doom Cannon");
+            // DisplayName.SetDefault("Doom Cannon");
             Main.projFrames[Projectile.type] = 12;
         }
         public override void SetDefaults()
@@ -199,7 +199,7 @@ namespace JoostMod.Projectiles.Ranged
             player.itemRotation = MathHelper.WrapAngle(Projectile.rotation);
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             if (Main.myPlayer == Projectile.owner && !player.dead && !Main.mouseRight && Projectile.ai[0] >= 60)

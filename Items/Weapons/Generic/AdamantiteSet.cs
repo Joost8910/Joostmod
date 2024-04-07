@@ -14,8 +14,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adamantite Weapon Set");
-            Tooltip.SetDefault("'ALL the adamantite!'");
+            // DisplayName.SetDefault("Adamantite Weapon Set");
+            // Tooltip.SetDefault("'ALL the adamantite!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

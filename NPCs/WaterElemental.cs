@@ -16,10 +16,11 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Elemental");
+            // DisplayName.SetDefault("Water Elemental");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
         }
         public override void SetDefaults()
         {
@@ -37,7 +38,6 @@ namespace JoostMod.NPCs
             NPC.frameCounter = 0;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WaterElementalBanner>();
-            NPC.buffImmune[BuffID.OnFire] = true;
             NPC.alpha = 50;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -59,25 +59,25 @@ namespace JoostMod.NPCs
             npcLoot.Add(new DropBasedOnExpertMode(new DropOneByOne(essence, parameters), new DropOneByOne(essence, expertParamaters)));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SecondAnniversary>(), 50));
         }
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (NPC.ai[1] >= 20)
             {
-                damage *= 2;
+                modifiers.SourceDamage *= 2;
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 30; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 103, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 103, 2.5f * (float)hit.HitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
             for (int k = 0; k < 4; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 103, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 103, 2.5f * (float)hit.HitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
             }
             //npc.ai[2] += (float)(damage / 3);
         }

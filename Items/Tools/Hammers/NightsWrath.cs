@@ -8,7 +8,7 @@ namespace JoostMod.Items.Tools.Hammers
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Night's Wrath");
+            // DisplayName.SetDefault("Night's Wrath");
         }
         public override void SetDefaults()
         {

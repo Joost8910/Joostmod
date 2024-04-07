@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Hammer");
+            // DisplayName.SetDefault("Earthen Hammer");
             Main.projFrames[Projectile.type] = 4;
         }
         public override void SetDefaults()
@@ -96,7 +96,7 @@ namespace JoostMod.Projectiles.Thrown
 			Main.EntitySpriteDraw(tex, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY) + new Vector2(0f, projectile.height*1.5f), new Rectangle?(new Rectangle(0, (tex.Height / Main.projFrames[projectile.type]) * projectile.frame, tex.Width, tex.Height / Main.projFrames[projectile.type])), color, projectile.rotation, new Vector2(tex.Width/2, tex.Height/2), projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}*/
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.knockBackResist > 0)
             {
@@ -104,7 +104,7 @@ namespace JoostMod.Projectiles.Thrown
                 target.velocity.Y -= Projectile.knockBack * target.knockBackResist;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
@@ -112,9 +112,9 @@ namespace JoostMod.Projectiles.Thrown
                 target.velocity.Y -= Projectile.knockBack;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            knockback = 0;
+            modifiers.DisableKnockback();
         }
     }
 }

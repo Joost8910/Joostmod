@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser Drill Bullet");
+            // DisplayName.SetDefault("Laser Drill Bullet");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
@@ -27,14 +27,15 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 0;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.velocity.Normalize();
             Projectile.ai[0] = 5;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = target.defense / 2 + damage / 40;
+            modifiers.ScalingArmorPenetration += 1f;
+            modifiers.FinalDamage /= 40f;
         }
         public override void AI()
         {

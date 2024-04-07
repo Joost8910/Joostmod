@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Counter Dodge Cooldown");
-			Description.SetDefault("Cannot use Counter Dodge");
+			// DisplayName.SetDefault("Counter Dodge Cooldown");
+			// Description.SetDefault("Cannot use Counter Dodge");
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
             Main.persistentBuff[Type] = true;

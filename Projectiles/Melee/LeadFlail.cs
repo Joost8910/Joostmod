@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lead Flail");
+            // DisplayName.SetDefault("Lead Flail");
         }
         public override void SetDefaults()
         {

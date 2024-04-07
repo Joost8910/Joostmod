@@ -16,8 +16,9 @@ namespace JoostMod.NPCs.Hunts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Skeleton Demolitionist");
+            // DisplayName.SetDefault("Skeleton Demolitionist");
             Main.npcFrameCount[NPC.type] = 13;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {
@@ -36,9 +37,9 @@ namespace JoostMod.NPCs.Hunts
             NPC.noGravity = false;
             NPC.netAlways = true;
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -53,14 +54,14 @@ namespace JoostMod.NPCs.Hunts
         {
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             NPC.ai[0] += NPC.ai[0] < 1 ? 1 : 0;
             if (NPC.life > 0)
             {
-                for (int i = 0; i < (int)((damage / NPC.lifeMax) * 500); i++)
+                for (int i = 0; i < (int)((hit.Damage / NPC.lifeMax) * 500); i++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 26, hitDirection, -1f, 0, default(Color), 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 26, hit.HitDirection, -1f, 0, default(Color), 1f);
                 }
             }
             else
@@ -68,7 +69,7 @@ namespace JoostMod.NPCs.Hunts
                 var sauce = NPC.GetSource_Death();
                 for (int i = 0; i < 20; i++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 26, 2.5f * hitDirection, -2.5f, 0, default(Color), 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 26, 2.5f * hit.HitDirection, -2.5f, 0, default(Color), 1f);
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

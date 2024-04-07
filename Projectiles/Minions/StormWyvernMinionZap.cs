@@ -23,7 +23,7 @@ namespace JoostMod.Projectiles.Minions
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lightning Strike");
+            // DisplayName.SetDefault("Lightning Strike");
         }
         public override void SetDefaults()
         {
@@ -88,13 +88,13 @@ namespace JoostMod.Projectiles.Minions
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            crit = true;
+            modifiers.SetCrit();
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            crit = true;
+            modifiers.FinalDamage *= 2;
         }
         public override void AI()
         {

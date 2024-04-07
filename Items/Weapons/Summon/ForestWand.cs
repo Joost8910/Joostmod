@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wand of the Forest");
-            Tooltip.SetDefault("Summons a swirling shield of leaves\n" + "Right click to send the leaves outwards");
+            // DisplayName.SetDefault("Wand of the Forest");
+            // Tooltip.SetDefault("Summons a swirling shield of leaves\n" + "Right click to send the leaves outwards");
         }
         public override void SetDefaults()
         {

@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Greater Elemental Weapon Set");
-            Tooltip.SetDefault("'Unleash the elements!'");
+            // DisplayName.SetDefault("Greater Elemental Weapon Set");
+            // Tooltip.SetDefault("'Unleash the elements!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 16));
         }
         public override void SetDefaults()

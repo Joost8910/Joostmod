@@ -16,8 +16,9 @@ namespace JoostMod.NPCs.Hunts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Imp Lord");
+			// DisplayName.SetDefault("Imp Lord");
 			Main.npcFrameCount[NPC.type] = 24;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
 		public override void SetDefaults()
 		{
@@ -37,9 +38,9 @@ namespace JoostMod.NPCs.Hunts
             NPC.netAlways = true;
             NPC.buffImmune[BuffID.OnFire] = true;
         }
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
 		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -55,7 +56,7 @@ namespace JoostMod.NPCs.Hunts
             JoostWorld.downedImpLord = true;
             CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.ImpLord>(), Main.rand, 1, 1, 1, false);
         }
-		public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(NPC.HitInfo hit)
 		{
             if (NPC.ai[0] == 0)
             {

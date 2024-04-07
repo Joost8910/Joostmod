@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Hallowed Flail");
+            // DisplayName.SetDefault("True Hallowed Flail");
         }
         public override void SetDefaults()
         {
@@ -56,7 +56,7 @@ namespace JoostMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0.625f, 0.3f, 0.6f);
             Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {

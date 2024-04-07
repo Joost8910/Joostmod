@@ -10,8 +10,8 @@ namespace JoostMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of Jordan");
-            Tooltip.SetDefault("10% increased damage\n" + "Max Life and Mana increased by 20");
+            // DisplayName.SetDefault("Stone of Jordan");
+            // Tooltip.SetDefault("10% increased damage\n" + "Max Life and Mana increased by 20");
         }
         public override void SetDefaults()
         {

@@ -12,9 +12,9 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Spelunker Glowstick");
-            Tooltip.SetDefault("Provides light\n" +
-            "Exposes nearby treasure");
+            // DisplayName.SetDefault("Sapling - Spelunker Glowstick");
+            /* Tooltip.SetDefault("Provides light\n" +
+            "Exposes nearby treasure"); */
         }
         public override void SetDefaults()
         {

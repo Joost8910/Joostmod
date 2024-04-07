@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame");
+            // DisplayName.SetDefault("Flame");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()
@@ -37,13 +37,13 @@ namespace JoostMod.Projectiles.Minions
                 Projectile.Kill();
             }
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(BuffID.OnFire, 60);
+            target.AddBuff(BuffID.OnFire, 60);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Flame2Summon>(), Projectile.damage, 0, Projectile.owner);
         }

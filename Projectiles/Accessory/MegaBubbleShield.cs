@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mega Bubble Shield");
+            // DisplayName.SetDefault("Mega Bubble Shield");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

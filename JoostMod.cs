@@ -36,7 +36,7 @@ namespace JoostMod
         }
         public override void PostSetupContent()
         {
-            battleRodsLoaded = ModLoader.TryGetMod("UnuBattleRods", out Mod UnuBattleRods);
+            //battleRodsLoaded = ModLoader.TryGetMod("UnuBattleRods", out Mod UnuBattleRods);
             if (ModLoader.TryGetMod("BossChecklist", out Mod bossChecklist))
             {
                 /*
@@ -73,6 +73,7 @@ namespace JoostMod
                 bossChecklist.Call("AddBoss", 15.8f, new List<int>() { ModContent.NPCType<Gilgamesh>(), ModContent.NPCType<Enkidu>() }, this, "Gilgamesh and Enkidu", (Func<bool>)(() => JoostWorld.downedGilgamesh), ModContent.ItemType<Excalipoor>(), new List<int>() { ModContent.ItemType<Items.Armor.GilgameshMask>(), ModContent.ItemType<Items.Placeable.COTBBMusicBox>(), ModContent.ItemType<Items.Placeable.GilgameshTrophy>() }, new List<int>() { ModContent.ItemType<GilgBag>(), ModContent.ItemType<Items.Weapons.Hybrid.Gilgameshset>(), ModContent.ItemType<GenjiToken>() }, "Use an [i:" + Find<ModItem>("Excalipoor").Type + "] anywhere", "<Gilgamesh> Hah! I won!", "JoostMod/NPCs/Bosses/GilgameshAndEnkiduBossLog");
 
             }
+            /*
             if (ModLoader.TryGetMod("Fargowiltas", out Mod fargos))
             {
                 // AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
@@ -83,6 +84,7 @@ namespace JoostMod
                 fargos.Call("AddSummon", 15.8f, "JoostMod", "Excalipoor", (Func<bool>)(() => JoostWorld.downedGilgamesh), 20000000);
 
             }
+            */
             InitializeHunts();
         }
         // string:"AddHunt", string:huntName, string:questText, string:completeText, int:questItem, Func<bool>:questActive, Func<bool>:questAvailable, Func<bool>:questCompleted, Func<bool>:showQuest, Func<bool>:downedHunt, Action<Player>:reward, int:xFrameCount

@@ -16,21 +16,21 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yonade");
+            // DisplayName.SetDefault("Yonade");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 12f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 11f;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (crit)
+            if (hit.Crit)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, Projectile.DirectionTo(target.Center), ProjectileID.Grenade, (int)(Projectile.damage * 2.6f), Projectile.knockBack * 2.6f, Projectile.owner);
                 Projectile.Kill();
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
-            if (crit)
+            if (Main.rand.Next(100) < Projectile.CritChance)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, Projectile.DirectionTo(target.Center), ProjectileID.Grenade, (int)(Projectile.damage * 2.6f), Projectile.knockBack * 2.6f, Projectile.owner);
                 Projectile.Kill();

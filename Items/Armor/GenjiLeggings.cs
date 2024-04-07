@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Genji Leggings");
-			Tooltip.SetDefault("Allows the wearer to run incredibly fast\n" + "Life regeneration increased by 8");
+			// DisplayName.SetDefault("Genji Leggings");
+			// Tooltip.SetDefault("Allows the wearer to run incredibly fast\n" + "Life regeneration increased by 8");
 		}
 
 		public override void SetDefaults()

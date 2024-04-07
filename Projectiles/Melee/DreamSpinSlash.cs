@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dream Spin Slash");
+            // DisplayName.SetDefault("Dream Spin Slash");
             Main.projFrames[Projectile.type] = 14;
         }
         public override void SetDefaults()
@@ -28,9 +28,9 @@ namespace JoostMod.Projectiles.Melee
             Projectile.idStaticNPCHitCooldown = 4;
             Projectile.extraUpdates = 1;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 4;
+            modifiers.ScalingArmorPenetration += 0.5f;
         }
         public override bool PreAI()
         {

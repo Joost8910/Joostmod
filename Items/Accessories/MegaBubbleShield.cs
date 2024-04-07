@@ -10,8 +10,8 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mega Bubble Shield");
-			Tooltip.SetDefault("Creates a powerful bubble that knocks back enemies");
+			// DisplayName.SetDefault("Mega Bubble Shield");
+			// Tooltip.SetDefault("Creates a powerful bubble that knocks back enemies");
 		}
 		public override void SetDefaults()
 		{

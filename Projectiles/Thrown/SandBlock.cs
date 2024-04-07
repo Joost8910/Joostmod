@@ -17,7 +17,7 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sand");
+            // DisplayName.SetDefault("Sand");
         }
         public override void AI()
         {
@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.Kill();
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int item = -1;
             int x = (int)(Projectile.position.X + Projectile.width / 2) / 16;

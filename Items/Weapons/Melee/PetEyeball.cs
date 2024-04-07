@@ -9,7 +9,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pet Eyeball");
+            // DisplayName.SetDefault("Pet Eyeball");
         }
         public override void SetDefaults()
         {

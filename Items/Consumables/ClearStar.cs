@@ -10,8 +10,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weather Star - Clear");
-            Tooltip.SetDefault("'Praise the sun!'");
+            // DisplayName.SetDefault("Weather Star - Clear");
+            // Tooltip.SetDefault("'Praise the sun!'");
         }
         public override void SetDefaults()
         {

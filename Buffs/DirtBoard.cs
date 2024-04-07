@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dirt Board");
-			Description.SetDefault("All-terrain snowboard");
+			// DisplayName.SetDefault("Dirt Board");
+			// Description.SetDefault("All-terrain snowboard");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Napalm");
+            // DisplayName.SetDefault("Napalm");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.extraUpdates = 1;
             AIType = ProjectileID.Shuriken;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var souce = Projectile.GetSource_Death();
             Projectile.NewProjectile(souce, Projectile.Center.X, Projectile.Center.Y, 7f, 0f, 85, (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);

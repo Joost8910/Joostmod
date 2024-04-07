@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tao Mask");
-			Tooltip.SetDefault("8% increased damage and crit chance");
+			// DisplayName.SetDefault("Tao Mask");
+			// Tooltip.SetDefault("8% increased damage and crit chance");
 		}
 
 		public override void SetDefaults()

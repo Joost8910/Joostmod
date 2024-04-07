@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cyclops Mask");
-			Tooltip.SetDefault("'Lack of depth perception can be an issue'");
+			// DisplayName.SetDefault("Cyclops Mask");
+			// Tooltip.SetDefault("'Lack of depth perception can be an issue'");
 		}
 		public override void SetDefaults()
 		{

@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Weather Star - Clear");
+			// DisplayName.SetDefault("Weather Star - Clear");
 		}
 		public override void SetDefaults()
 		{
@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles
                 Projectile.Kill();
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Main.rainTime = 0;
             Main.raining = false;

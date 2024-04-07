@@ -11,11 +11,11 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Ultimate Fist");
-            Tooltip.SetDefault("--Cheat Item--\n" +
+            // DisplayName.SetDefault("The Ultimate Fist");
+            /* Tooltip.SetDefault("--Cheat Item--\n" +
             "Charges the ultimate fist attack\n" +
             "Full charge one-shots nearly anything\n" +
-            "Life regenerates and infinite immunity frames while held");
+            "Life regenerates and infinite immunity frames while held"); */
         }
         public override void SetDefaults()
         {

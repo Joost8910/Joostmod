@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandstorm Javelin");
+            // DisplayName.SetDefault("Sandstorm Javelin");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             Main.projFrames[Projectile.type] = 5;
@@ -274,14 +274,14 @@ namespace JoostMod.Projectiles.Thrown
         {
             return Projectile.ai[1] > 0;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * (Projectile.localAI[0] + 1));
-            knockback = knockback * (Projectile.localAI[0] + 1);
+            modifiers.SourceDamage *= Projectile.localAI[0] + 1;
+            modifiers.Knockback *= Projectile.localAI[0] + 1;
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            damage = (int)(damage * (Projectile.localAI[0] + 1));
+            modifiers.SourceDamage *= Projectile.localAI[0] + 1;
         }
         public override bool CanHitPvp(Player target)
         {

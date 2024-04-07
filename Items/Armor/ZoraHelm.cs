@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Zora Helm");
-            Tooltip.SetDefault("18% increased magic crit chance");
+            // DisplayName.SetDefault("Zora Helm");
+            // Tooltip.SetDefault("18% increased magic crit chance");
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
         public override void SetDefaults()

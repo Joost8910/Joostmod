@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Giant Boot");
+			// DisplayName.SetDefault("Giant Boot");
 		}
 
 		public override void SetDefaults()

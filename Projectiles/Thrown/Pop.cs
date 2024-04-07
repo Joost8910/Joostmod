@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grenade Fish");
+            // DisplayName.SetDefault("Grenade Fish");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()

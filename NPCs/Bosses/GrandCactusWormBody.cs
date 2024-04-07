@@ -14,7 +14,8 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Grand Cactus Worm");
+            // DisplayName.SetDefault("The Grand Cactus Worm");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {
@@ -42,18 +43,18 @@ namespace JoostMod.NPCs.Bosses
             }
             return base.CanHitPlayer(target, ref cooldownSlot);
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            if (damage > 2 && (projectile.penetrate > 2 || projectile.penetrate < 0))
+            if (projectile.penetrate > 2 || projectile.penetrate < 0)
             {
-                damage = (int)(damage * 0.6f);
+                modifiers.SourceDamage *= 0.6f;
             }
             if (projectile.type == ModContent.ProjectileType<DoomSkull3>())
             {
-                damage /= 2; 
+                modifiers.SourceDamage /= 2; 
             }
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.damage = (int)(NPC.damage * 0.7f);
         }
@@ -61,7 +62,7 @@ namespace JoostMod.NPCs.Bosses
         {
             rotation = NPC.rotation;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus");
+            // DisplayName.SetDefault("Cactus");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true;
         }

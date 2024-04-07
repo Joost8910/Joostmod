@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of the sea");
-            Tooltip.SetDefault("Creates multiple streams of water\n" + "Right click to fire bolts of water");
+            // DisplayName.SetDefault("Staff of the sea");
+            // Tooltip.SetDefault("Creates multiple streams of water\n" + "Right click to fire bolts of water");
         }
         public override void SetDefaults()
         {

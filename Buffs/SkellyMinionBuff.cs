@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mini Skeleton");
-			Description.SetDefault("The Skelly will fight with you");
+			// DisplayName.SetDefault("Mini Skeleton");
+			// Description.SetDefault("The Skelly will fight with you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

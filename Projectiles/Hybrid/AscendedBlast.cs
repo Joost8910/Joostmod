@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ascended Blast");
+            // DisplayName.SetDefault("Ascended Blast");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 4;
@@ -40,13 +40,13 @@ namespace JoostMod.Projectiles.Hybrid
             height = 34;
             return true;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            crit = true;
+            modifiers.SetCrit();
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            crit = true;
+            modifiers.FinalDamage *= 2;
         }
         public override void AI()
         {
@@ -58,7 +58,7 @@ namespace JoostMod.Projectiles.Hybrid
             {
                 Projectile.frameCounter = 0;
                 Projectile.frame = (Projectile.frame + 1) % 4;
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 56, Projectile.velocity.X * -0.2f, Projectile.velocity.Y * -0.2f, 100);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BlueFairy, Projectile.velocity.X * -0.2f, Projectile.velocity.Y * -0.2f, 100);
             }
         }
         public override bool PreDraw(ref Color lightColor)

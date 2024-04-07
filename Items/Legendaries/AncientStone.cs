@@ -8,7 +8,7 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Stone");
+            // DisplayName.SetDefault("Ancient Stone");
         }
 
         public override void SetDefaults()

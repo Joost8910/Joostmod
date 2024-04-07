@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Night's Fury");
+            // DisplayName.SetDefault("True Night's Fury");
         }
         public override void SetDefaults()
         {
@@ -56,7 +56,7 @@ namespace JoostMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0.5f, 0.8f, 0.25f);
             Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {

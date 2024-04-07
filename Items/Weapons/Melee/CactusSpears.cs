@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Spears");
-            Tooltip.SetDefault("'What's better than a spear? Five spears!'");
+            // DisplayName.SetDefault("Cactus Spears");
+            // Tooltip.SetDefault("'What's better than a spear? Five spears!'");
         }
         public override void SetDefaults()
         {

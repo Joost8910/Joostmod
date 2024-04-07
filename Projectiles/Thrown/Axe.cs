@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Axe");
+            // DisplayName.SetDefault("Axe");
         }
         public override void SetDefaults()
         {
@@ -79,7 +79,7 @@ namespace JoostMod.Projectiles.Thrown
 
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, -Projectile.velocity.X / 2, -Projectile.velocity.Y / 2, ModContent.ProjectileType<Axe2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack / 3, Projectile.owner);

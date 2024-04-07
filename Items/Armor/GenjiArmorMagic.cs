@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Azure Genji Armor");
-            Tooltip.SetDefault("Max Mana increased by 200\n" + "Max Life increased by 175");
+            // DisplayName.SetDefault("Azure Genji Armor");
+            // Tooltip.SetDefault("Max Mana increased by 200\n" + "Max Life increased by 175");
         }
         public override void SetDefaults()
         {

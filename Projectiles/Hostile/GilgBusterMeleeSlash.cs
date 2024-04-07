@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Buster Sword");
+            // DisplayName.SetDefault("Gilgamesh's Buster Sword");
             Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()
@@ -59,7 +59,7 @@ namespace JoostMod.Projectiles.Hostile
                 Projectile.rotation = Projectile.velocity.ToRotation() + flip == -1 ? 3.14f : 0;
             }
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {
@@ -68,9 +68,10 @@ namespace JoostMod.Projectiles.Hostile
             }
             target.immuneTime = (int)(9 / Math.Abs(Projectile.ai[1]));
         }
-        public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = Projectile.damage;
+            modifiers.ScalingArmorPenetration += 1f;
+            modifiers.SetMaxDamage(Projectile.damage);
         }
         public override bool PreDraw(ref Color lightColor)
         {

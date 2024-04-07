@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Zora Greaves");
-            Tooltip.SetDefault("Increases maximum mana by 80");
+            // DisplayName.SetDefault("Zora Greaves");
+            // Tooltip.SetDefault("Increases maximum mana by 80");
             ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
         }
         public override void SetDefaults()

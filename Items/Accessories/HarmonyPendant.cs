@@ -9,8 +9,8 @@ namespace JoostMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Harmony Pendant");
-            Tooltip.SetDefault("Reduces spawnrates by 80%");
+            // DisplayName.SetDefault("Harmony Pendant");
+            // Tooltip.SetDefault("Reduces spawnrates by 80%");
         }
         public override void SetDefaults()
         {

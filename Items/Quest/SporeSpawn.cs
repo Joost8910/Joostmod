@@ -8,8 +8,8 @@ namespace JoostMod.Items.Quest
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spore Core");
-            Tooltip.SetDefault("Quest item for the Hunt Master");
+            // DisplayName.SetDefault("Spore Core");
+            // Tooltip.SetDefault("Quest item for the Hunt Master");
         }
 
         public override void SetDefaults()

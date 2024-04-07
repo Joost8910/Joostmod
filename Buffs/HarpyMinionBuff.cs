@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Miniature Harpy");
-			Description.SetDefault("The Harpy will fight with you");
+			// DisplayName.SetDefault("Miniature Harpy");
+			// Description.SetDefault("The Harpy will fight with you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

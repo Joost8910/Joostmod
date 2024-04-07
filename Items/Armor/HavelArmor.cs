@@ -10,10 +10,10 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Havel's Armor");
-            Tooltip.SetDefault("Grants immunity to knockback\n" + 
+            // DisplayName.SetDefault("Havel's Armor");
+            /* Tooltip.SetDefault("Grants immunity to knockback\n" + 
                 "7% increased melee damage\n" +
-                "10% reduced movement speed");
+                "10% reduced movement speed"); */
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
             //ArmorIDs.Body.Sets.shouldersAreAlwaysInTheBack[Item.bodySlot] = true;
         }

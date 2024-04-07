@@ -11,8 +11,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Excalipoor");
-            Tooltip.SetDefault("Summons Gilgamesh and his sidekick");
+            // DisplayName.SetDefault("Excalipoor");
+            // Tooltip.SetDefault("Summons Gilgamesh and his sidekick");
         }
         public override void SetDefaults()
         {

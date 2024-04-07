@@ -9,14 +9,14 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("X Shield");
-			Tooltip.SetDefault("Creates X Parasites periodically\n" +
+			// DisplayName.SetDefault("X Shield");
+			/* Tooltip.SetDefault("Creates X Parasites periodically\n" +
                 "X Parasites infect the target, dealing damage over time and making them create more x parasites on death\n" + 
                 "Red parasites make the target drop hearts and are scaled by ranged damage\n" + 
                 "Green parasites make the target drop an energy orb and are scaled by throwing damage\n" + 
                 "Blue parasites make the target drop mana stars and are scaled by magic damage\n" + 
                 "Yellow parasites make the target drop more money and are scaled by melee damage\n" + 
-                "Grants immunity to knockback and infection");
+                "Grants immunity to knockback and infection"); */
 		}
 		public override void SetDefaults()
 		{

@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frozen Orb");
-            Tooltip.SetDefault("Creates an orb of ice that fires icicles");
+            // DisplayName.SetDefault("Frozen Orb");
+            // Tooltip.SetDefault("Creates an orb of ice that fires icicles");
         }
         public override void SetDefaults()
         {

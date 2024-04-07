@@ -10,8 +10,8 @@ namespace JoostMod.Items.Pets
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Flower Collar");
-			Tooltip.SetDefault("In loving memory of Stormy");
+			// DisplayName.SetDefault("Flower Collar");
+			// Tooltip.SetDefault("In loving memory of Stormy");
 		}
 
 		public override void SetDefaults()

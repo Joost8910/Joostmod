@@ -11,9 +11,9 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of the Deep Sea");
-            Tooltip.SetDefault("Grants crate buff while placed or in inventory\n" +
-                "Fished in caverns");
+            // DisplayName.SetDefault("Stone of the Deep Sea");
+            /* Tooltip.SetDefault("Grants crate buff while placed or in inventory\n" +
+                "Fished in caverns"); */
         }
         public override void SetDefaults()
         {

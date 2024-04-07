@@ -10,9 +10,9 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandstorm Leggings");
-			Tooltip.SetDefault("20% increased Throwing Velocity and movement speed\n"
-			+ "Sandstorms no longer blow you around");
+			// DisplayName.SetDefault("Sandstorm Leggings");
+			/* Tooltip.SetDefault("20% increased Throwing Velocity and movement speed\n"
+			+ "Sandstorms no longer blow you around"); */
 		}
 
 		public override void SetDefaults()

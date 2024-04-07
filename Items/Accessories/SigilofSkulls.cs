@@ -10,9 +10,9 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sigil of Skulls");
-			Tooltip.SetDefault("Summon multiple skulls when below half health\n" + 
-			"Increases max number of minions");
+			// DisplayName.SetDefault("Sigil of Skulls");
+			/* Tooltip.SetDefault("Summon multiple skulls when below half health\n" + 
+			"Increases max number of minions"); */
 		}
 		public override void SetDefaults()
 		{

@@ -42,12 +42,8 @@ namespace JoostMod.Projectiles.Grappling
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Worm Hook");
-        }
-
-        public override bool? SingleGrappleHook(Player player)
-        {
-            return true;
+            // DisplayName.SetDefault("Cactus Worm Hook");
+            ProjectileID.Sets.SingleGrappleHook[Type] = true;
         }
 
         public override float GrappleRange()

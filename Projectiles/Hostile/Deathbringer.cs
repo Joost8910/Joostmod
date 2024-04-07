@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Death Knight");
+            // DisplayName.SetDefault("Death Knight");
         }
         public override void SetDefaults()
         {

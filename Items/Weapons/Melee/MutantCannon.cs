@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mutated Arm Cannons");
-            Tooltip.SetDefault("Charge up to dash forward and fire a volley of missiles");
+            // DisplayName.SetDefault("Mutated Arm Cannons");
+            // Tooltip.SetDefault("Charge up to dash forward and fire a volley of missiles");
         }
         public override void SetDefaults()
         {

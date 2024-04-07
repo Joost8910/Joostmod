@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Long Pole");
+			// DisplayName.SetDefault("Long Pole");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()

@@ -13,8 +13,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Palladium Weapon Set");
-            Tooltip.SetDefault("'ALL the palladium!'");
+            // DisplayName.SetDefault("Palladium Weapon Set");
+            // Tooltip.SetDefault("'ALL the palladium!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

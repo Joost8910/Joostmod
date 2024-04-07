@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frostfire Staff");
-            Tooltip.SetDefault("Summons an Frostfire Ember to fight for you");
+            // DisplayName.SetDefault("Frostfire Staff");
+            // Tooltip.SetDefault("Summons an Frostfire Ember to fight for you");
         }
         public override void SetDefaults()
         {

@@ -13,8 +13,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gold Weapon Set");
-            Tooltip.SetDefault("'I just wanna know where the gold at!'");
+            // DisplayName.SetDefault("Gold Weapon Set");
+            // Tooltip.SetDefault("'I just wanna know where the gold at!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

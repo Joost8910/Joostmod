@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gray Slime Banner");
+			// DisplayName.SetDefault("Gray Slime Banner");
 		}
         public override void SetDefaults()
         {   

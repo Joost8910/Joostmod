@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enhanced Cactus Helmet");
-            Tooltip.SetDefault("3% increased critical strike chance");
+            // DisplayName.SetDefault("Enhanced Cactus Helmet");
+            // Tooltip.SetDefault("3% increased critical strike chance");
         }
         public override void SetDefaults()
         {

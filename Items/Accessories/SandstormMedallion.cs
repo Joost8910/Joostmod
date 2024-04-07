@@ -8,10 +8,10 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandstorm Medallion");
-			Tooltip.SetDefault("15% Increased throwing damage\n" +
+			// DisplayName.SetDefault("Sandstorm Medallion");
+			/* Tooltip.SetDefault("15% Increased throwing damage\n" +
                 "While in a sandstorm gain 15% increased movement speed,\n" +
-                " throwing velocity, and chance to not consume thrown items");
+                " throwing velocity, and chance to not consume thrown items"); */
 		}
 		public override void SetDefaults()
 		{

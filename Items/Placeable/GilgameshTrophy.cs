@@ -7,7 +7,7 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gilgamesh Trophy");
+			// DisplayName.SetDefault("Gilgamesh Trophy");
 		}
 		public override void SetDefaults()
 		{

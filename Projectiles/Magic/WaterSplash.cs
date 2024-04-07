@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Splash");
+            // DisplayName.SetDefault("Water Splash");
         }
         public override void SetDefaults()
         {
@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Magic
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.damage /= 2;
             Projectile.knockBack /= 2;
@@ -46,7 +46,7 @@ namespace JoostMod.Projectiles.Magic
             }
             Projectile.velocity.X *= 0.98f;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int x = Projectile.Center.ToTileCoordinates().X;
             int y = Projectile.Center.ToTileCoordinates().Y;

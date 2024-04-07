@@ -9,8 +9,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Corrupted Soul");
-            Description.SetDefault("Losing Life; will spawn a corrupted soul upon death");
+			// DisplayName.SetDefault("Corrupted Soul");
+            // Description.SetDefault("Losing Life; will spawn a corrupted soul upon death");
             Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

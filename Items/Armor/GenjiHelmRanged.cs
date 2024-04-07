@@ -11,8 +11,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimson Genji Helm");
-            Tooltip.SetDefault("50% Increased Ranged damage\n" + "You no longer consume ammo");
+            // DisplayName.SetDefault("Crimson Genji Helm");
+            // Tooltip.SetDefault("50% Increased Ranged damage\n" + "You no longer consume ammo");
         }
         public override void SetDefaults()
         {

@@ -10,11 +10,11 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Volcanic Longbow");
-            Tooltip.SetDefault("Transforms wooden arrows into Volcanic Arrows\n" +
+            // DisplayName.SetDefault("Volcanic Longbow");
+            /* Tooltip.SetDefault("Transforms wooden arrows into Volcanic Arrows\n" +
                 "Volcanic Arrows deal 50% more damage and drop a trail of damaging lava droplets\n" +
                 "Right clicking nocks additional arrows\n" +
-                "Can nock up to 5 arrows");
+                "Can nock up to 5 arrows"); */
         }
         public override void SetDefaults()
         {

@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pufferfish Staff");
-            Tooltip.SetDefault("Summons a floating pufferfish to fight for you");
+            // DisplayName.SetDefault("Pufferfish Staff");
+            // Tooltip.SetDefault("Summons a floating pufferfish to fight for you");
         }
         public override void SetDefaults()
         {

@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Worm");
+            // DisplayName.SetDefault("Cactus Worm");
             ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type] = true;
         }
         public override void SetDefaults()

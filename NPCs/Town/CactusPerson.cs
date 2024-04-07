@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -18,12 +19,12 @@ namespace JoostMod.NPCs.Town
     public class CactusPerson : ModNPC
     {
         public override string Texture
-		{
-			get
-			{
-				return "JoostMod/NPCs/Town/CactusPerson";
-			}
-		}
+        {
+            get
+            {
+                return "JoostMod/NPCs/Town/CactusPerson";
+            }
+        }
 
         /*
 		public override string[] AltTextures
@@ -39,49 +40,48 @@ namespace JoostMod.NPCs.Town
 			return Mod.Properties.Autoload;
 		}
         */
-
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Person");
+            // DisplayName.SetDefault("Cactus Person");
             Main.npcFrameCount[NPC.type] = 25;
-			NPCID.Sets.ExtraFramesCount[NPC.type] = 5;
-			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
-			NPCID.Sets.DangerDetectRange[NPC.type] = 750;
-			NPCID.Sets.AttackType[NPC.type] = 0;
-			NPCID.Sets.AttackTime[NPC.type] = 35;
-			NPCID.Sets.AttackAverageChance[NPC.type] = 10;
-			NPCID.Sets.HatOffsetY[NPC.type] = 6;
-		}
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 5;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 750;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 35;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 10;
+            NPCID.Sets.HatOffsetY[NPC.type] = 6;
+        }
 
-		public override void SetDefaults()
-		{
-			NPC.townNPC = true;
-			NPC.friendly = true;
-			NPC.width = 14;
-			NPC.height = 42;
-			NPC.aiStyle = 7;
-			NPC.damage = 18;
-			NPC.defense = 35;
-			NPC.lifeMax = 250;
-			NPC.HitSound = SoundID.NPCHit1;
-			NPC.DeathSound = SoundID.NPCDeath1;
-			NPC.knockBackResist = 1f;
+        public override void SetDefaults()
+        {
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 14;
+            NPC.height = 42;
+            NPC.aiStyle = 7;
+            NPC.damage = 18;
+            NPC.defense = 35;
+            NPC.lifeMax = 250;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 1f;
             AnimationType = NPCID.GoblinTinkerer;
         }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			int num = NPC.life > 0 ? 4 : 25;
-			for (int k = 0; k < num; k++)
-			{
-				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.t_Cactus);
-			} 
-		}
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            int num = NPC.life > 0 ? 4 : 25;
+            for (int k = 0; k < num; k++)
+            {
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.t_Cactus);
+            }
+        }
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return JoostWorld.downedCactusWorm;
         }
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
             if (target.type == ModContent.NPCType<Cactite>() || target.type == ModContent.NPCType<Cactoid>() || target.type == ModContent.NPCType<Cactuar>() || target.type == ModContent.NPCType<HallowedCactuar>())
             {
@@ -145,28 +145,28 @@ namespace JoostMod.NPCs.Town
             }
         }
         public override bool CheckConditions(int left, int right, int top, int bottom)
-		{
-			int score = 0;
+        {
+            int score = 0;
             WorldGen.Housing_GetTestedRoomBounds(out int startX, out int startY, out int endX, out int endY);
-			for (int x = startX; x <= endX; x++)
-			{
-				for (int y = startY; y <= endY; y++)
-				{
-					int type = Main.tile[x, y].TileType;
-					if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.HallowSandstone || type == TileID.SandstoneBrick || type == TileID.SandStoneSlab)
+            for (int x = startX; x <= endX; x++)
+            {
+                for (int y = startY; y <= endY; y++)
+                {
+                    int type = Main.tile[x, y].TileType;
+                    if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.HallowSandstone || type == TileID.SandstoneBrick || type == TileID.SandStoneSlab)
                     {
-						score++;
-					}
+                        score++;
+                    }
                     if (type == TileID.CactusBlock)
                     {
                         score += 5;
                     }
-				}
-			}
-			return score > 800;
-		}
+                }
+            }
+            return score > 800;
+        }
 
-		public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
+        public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
         {
             return new List<string>()
             {
@@ -184,7 +184,7 @@ namespace JoostMod.NPCs.Town
                 "Jamayo",
                 "Joost"
             };
-		}
+        }
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.Name.Contains("Needle") || projectile.Name.Contains("Cact"))
@@ -195,7 +195,7 @@ namespace JoostMod.NPCs.Town
         }
         public override string GetChat()
         {
-            if (Main.rand.Next(6) == 0 && (Main.bloodMoon || Main.eclipse))
+            if (Main.rand.NextBool(6) && (Main.bloodMoon || Main.eclipse))
             {
                 if (NPC.position.Y / 16 > Main.worldSurface)
                 {
@@ -217,7 +217,7 @@ namespace JoostMod.NPCs.Town
             }
             if (Main.bloodMoon)
             {
-                if (Main.raining && Main.rand.Next(4) == 0 && NPC.position.Y/16 <= Main.worldSurface)
+                if (Main.raining && Main.rand.NextBool(4)&& NPC.position.Y / 16 <= Main.worldSurface)
                 {
                     return "AACK It's raining blood!";
                 }
@@ -233,32 +233,32 @@ namespace JoostMod.NPCs.Town
             }
             if (Main.LocalPlayer.ZoneSandstorm && NPC.position.Y / 16 <= Main.worldSurface)
             {
-                if (Main.rand.Next(5) == 0)
+                if (Main.rand.NextBool(5))
                 {
                     return "It's best to stay inside during this weather lest you be buffeted and blown away";
                 }
-                if (Main.rand.Next(5) == 0 && Main.hardMode)
+                if (Main.rand.NextBool(5) && Main.hardMode)
                 {
                     return "What kind of wack-ass country is this to have SHARKS THAT LIVE IN THE SAND!?";
                 }
             }
             else if (Main.LocalPlayer.ZoneSnow)
             {
-                if (Main.rand.Next(5) == 0)
+                if (Main.rand.NextBool(5))
                 {
                     return "It's pricking cold here! Why am I here!?";
                 }
             }
-            else if (Main.raining && Main.rand.Next(6) == 0 && NPC.position.Y / 16 <= Main.worldSurface)
+            else if (Main.raining && Main.rand.NextBool(6) && NPC.position.Y / 16 <= Main.worldSurface)
             {
                 return "It's nice to get some moisture here now and then";
             }
             int truffle = NPC.FindFirstNPC(NPCID.Truffle);
-            if (truffle >= 0 && Main.rand.Next(6) == 0)
+            if (truffle >= 0 && Main.rand.NextBool(6))
             {
                 return "I can sympathize with " + Main.npc[truffle].GivenName + "; it's not easy being a tasty sentient plant surrounded by mammals.";
             }
-            if (Main.rand.Next(6) == 0)
+            if (Main.rand.NextBool(6))
             {
                 if (NPC.homeless)
                 {
@@ -286,19 +286,38 @@ namespace JoostMod.NPCs.Town
 
 
         public override void SetChatButtons(ref string button, ref string button2)
-		{
-			button = Language.GetTextValue("LegacyInterface.28");
-		}
+        {
+            button = Language.GetTextValue("LegacyInterface.28");
+        }
 
-		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
-		{
-			if (firstButton)
-			{
-				shop = true;
-			}
-		}
-
-		public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
+        {
+            if (firstButton)
+            {
+                shopName = "Shop";
+            }
+        }
+        public override void AddShops()
+        {
+            var npcShop = new NPCShop(Type)
+                .Add(ItemID.SandBlock)
+                .Add(ItemID.Cactus)
+                .Add(ItemID.PinkPricklyPear)
+                .Add<CactusJuice>()
+                .Add<SucculentCactus>()
+                .Add<CactusBait>()
+                .Add<ClearStar>()
+                .Add<RainStar>()
+                .Add<SandstormStar>()
+                .Add<SlimeStar>()
+                .Add<SucculentThrow>()
+                .Add<EnhancedCactusHelmet>()
+                .Add<EnhancedCactusBreastplate>()
+                .Add<EnhancedCactusLeggings>()
+                .Add<JoostJuice>(new Condition("Mods.JoostMod.Conditions.DownedJumboCactuar", () => JoostWorld.downedJumboCactuar));  
+        }
+        /*
+        public override void ModifyActiveShop(string shopName, Item[] items)
 		{
 			shop.item[nextSlot].SetDefaults(ItemID.SandBlock);
 			nextSlot++;
@@ -334,6 +353,7 @@ namespace JoostMod.NPCs.Town
                 nextSlot++;
             }
         }
+        */
 
 		public override void OnKill()
 		{

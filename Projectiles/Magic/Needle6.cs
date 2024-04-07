@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("1000 Needles");
+            // DisplayName.SetDefault("1000 Needles");
         }
         public override void SetDefaults()
         {

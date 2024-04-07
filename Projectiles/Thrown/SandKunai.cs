@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandstorm Kunai");
+            // DisplayName.SetDefault("Sandstorm Kunai");
         }
         public override void SetDefaults()
         {
@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles.Thrown
             hitbox.Width = 14;
             hitbox.Height = 14;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 12; i++)
             {

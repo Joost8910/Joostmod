@@ -7,7 +7,7 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Succulent Cactus");
+			// DisplayName.SetDefault("Succulent Cactus");
 		}
 		public override void SetDefaults()
 		{

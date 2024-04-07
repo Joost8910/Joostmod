@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Hammer");
+            // DisplayName.SetDefault("Earthen Hammer");
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace JoostMod.Projectiles.Thrown
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4);
             Point pos = posi.ToTileCoordinates();

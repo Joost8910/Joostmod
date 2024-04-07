@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lord's Flame");
+            // DisplayName.SetDefault("Lord's Flame");
             Main.projFrames[Projectile.type] = 18;
         }
         public override void SetDefaults()
@@ -98,7 +98,7 @@ namespace JoostMod.Projectiles.Magic
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             Player player = Main.player[Projectile.owner];

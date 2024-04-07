@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ultra Absorbtion Pump");
-			Tooltip.SetDefault("'Drain the world!'");
+			// DisplayName.SetDefault("Ultra Absorbtion Pump");
+			// Tooltip.SetDefault("'Drain the world!'");
 		}
 
 		public override void SetDefaults()
@@ -29,26 +29,24 @@ namespace JoostMod.Items.Placeable
 		}
 		public override void AddRecipes()
         {
-            /*
-                CreateRecipe()
-                .AddIngredient(ItemID.UltraAbsorbantSponge)
-                .AddIngredient(ItemID.InletPump)
-                .AddIngredient(ItemID.OutletPump)
-                .AddIngredient(ItemID.Wire, 2)
-                .AddTile(TileID.Anvils)
-                .Register();
-            */
+            CreateRecipe()
+            .AddIngredient(ItemID.UltraAbsorbantSponge)
+            .AddIngredient(ItemID.InletPump)
+            .AddIngredient(ItemID.OutletPump)
+            .AddIngredient(ItemID.Wire, 2)
+            .AddTile(TileID.Anvils)
+            .Register();
 
             CreateRecipe()
             .AddIngredient<SpongeStationWater>()
             .AddIngredient(ItemID.LavaAbsorbantSponge)
-            //.AddIngredient(ItemID.HoneyAbsorbantSponge)
+            .AddIngredient(ItemID.HoneyAbsorbantSponge)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
             CreateRecipe()
             .AddIngredient<SpongeStationLava>()
             .AddIngredient(ItemID.SuperAbsorbantSponge)
-            //.AddIngredient(ItemID.HoneyAbsorbantSponge)
+            .AddIngredient(ItemID.HoneyAbsorbantSponge)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
             CreateRecipe()

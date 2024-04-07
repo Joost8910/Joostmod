@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -19,14 +20,9 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
 			TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Music Box");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Music Box");
 			AddMapEntry(new Color(0, 50, 200), name);
-		}
-
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.SAXMusicBox>());
 		}
 
 		public override void MouseOver(int i, int j)

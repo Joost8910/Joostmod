@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactuar Pants");
+			// DisplayName.SetDefault("Cactuar Pants");
 			ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
 
         }

@@ -9,8 +9,9 @@ namespace JoostMod.NPCs.Bosses
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Alpha Cactus Worm");
-		}
+            // DisplayName.SetDefault("Alpha Cactus Worm");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+        }
 		public override void SetDefaults()
 		{
 			NPC.width = 156;

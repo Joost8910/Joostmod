@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultimate Illusion");
+            // DisplayName.SetDefault("Ultimate Illusion");
         }
         public override void SetDefaults()
         {

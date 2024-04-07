@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Firma");
+            // DisplayName.SetDefault("Terra Firma");
             Main.projFrames[Projectile.type] = 4;
         }
         public override void SetDefaults()
@@ -94,7 +94,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.height = 18;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.velocity.Y -= Projectile.knockBack * target.knockBackResist;
             if (target.knockBackResist > 0)
@@ -102,7 +102,7 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.X = 0;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
@@ -110,9 +110,9 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.Y -= Projectile.knockBack;
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            knockback = 0;
+            modifiers.DisableKnockback();
         }
     }
 }

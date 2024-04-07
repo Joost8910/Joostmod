@@ -14,7 +14,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone Fist");
+            // DisplayName.SetDefault("Stone Fist");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -190,7 +190,7 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.velocity.Y * player.gravDir > 0 && player.velocity.Y * player.gravDir > 0 && Math.Abs(Projectile.velocity.X) < 6 * Projectile.scale)
@@ -202,7 +202,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_1"), Projectile.Center); // 208
             }
-            if (Main.myPlayer == Projectile.owner && crit && target.knockBackResist > 0 && Projectile.ai[0] >= 1)
+            if (Main.myPlayer == Projectile.owner && hit.Crit && target.knockBackResist > 0 && Projectile.ai[0] >= 1)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, target.whoAmI);
             }
@@ -210,14 +210,14 @@ namespace JoostMod.Projectiles.Melee
             {
                 Dust.NewDust(target.position, target.width, target.height, DustID.Stone);
             }
-            target.velocity += Projectile.velocity / 10 * knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
+            target.velocity += Projectile.velocity / 10 * hit.Knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            knockback = knockback * Projectile.ai[0] * Projectile.ai[0];
-            damage = (int)(damage * Projectile.ai[0]);
+            modifiers.Knockback *= Projectile.ai[0] * Projectile.ai[0];
+            modifiers.SourceDamage *= Projectile.ai[0];
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.velocity.Y * player.gravDir > 0 && player.velocity.Y * player.gravDir > 0 && Math.Abs(Projectile.velocity.X) < 6 * Projectile.scale)
@@ -229,10 +229,12 @@ namespace JoostMod.Projectiles.Melee
             {
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_1"), Projectile.Center); // 208
             }
+            /*
             if (Main.myPlayer == Projectile.owner && crit && Projectile.ai[0] >= 1)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, -1, target.whoAmI);
             }
+            */
             for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {
                 Dust.NewDust(target.position, target.width, target.height, DustID.Stone);
@@ -250,9 +252,9 @@ namespace JoostMod.Projectiles.Melee
                 netMessage.Send(-1, -1);
             }
         }
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = (int)(damage * Projectile.ai[0]);
+            modifiers.SourceDamage *= Projectile.ai[0];
         }
     }
 }

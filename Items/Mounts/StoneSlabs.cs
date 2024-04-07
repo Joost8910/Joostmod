@@ -9,8 +9,8 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Slabs of Stone");
-			Tooltip.SetDefault("Summons rideable stone slabs");
+			// DisplayName.SetDefault("Slabs of Stone");
+			// Tooltip.SetDefault("Summons rideable stone slabs");
 		}
 		public override void SetDefaults()
 		{

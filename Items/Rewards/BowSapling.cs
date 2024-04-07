@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sapling - Bow");
-			Tooltip.SetDefault("Shoots enemies behind you\n" + "5% increased ranged crit chance");
+			// DisplayName.SetDefault("Sapling - Bow");
+			// Tooltip.SetDefault("Shoots enemies behind you\n" + "5% increased ranged crit chance");
 		}
 		public override void SetDefaults()
 		{

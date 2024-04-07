@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shrapnel");
+            // DisplayName.SetDefault("Shrapnel");
         }
         public override void SetDefaults()
         {
@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float numberProjectiles = 3;
             float rotation = MathHelper.ToRadians(45);

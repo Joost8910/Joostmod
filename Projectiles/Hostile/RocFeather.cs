@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Roc Feather");
+            // DisplayName.SetDefault("Roc Feather");
         }
         public override void SetDefaults()
         {

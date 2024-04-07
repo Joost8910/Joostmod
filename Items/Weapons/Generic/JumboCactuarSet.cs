@@ -15,8 +15,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jumbo Cactuar Weapon Set");
-            Tooltip.SetDefault("'Very Prickly'");
+            // DisplayName.SetDefault("Jumbo Cactuar Weapon Set");
+            // Tooltip.SetDefault("'Very Prickly'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

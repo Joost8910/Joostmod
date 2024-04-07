@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mythril Weapon Set");
-            Tooltip.SetDefault("'ALL the mythril!'");
+            // DisplayName.SetDefault("Mythril Weapon Set");
+            // Tooltip.SetDefault("'ALL the mythril!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

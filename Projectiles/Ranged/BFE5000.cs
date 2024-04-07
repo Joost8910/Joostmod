@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("BFE5000");
+            // DisplayName.SetDefault("BFE5000");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles.Ranged
                 Dust.NewDust(Projectile.position - Vector2.Normalize(Projectile.velocity) * 80, Projectile.width, Projectile.height, 6, -Projectile.velocity.X * 1.2f, -Projectile.velocity.Y * 1.2f, 100, default, 2f + (float)Main.rand.Next(10) / 10);
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, ModContent.ProjectileType<Explosion>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
             int shootNum = 3 + Main.rand.Next(4);

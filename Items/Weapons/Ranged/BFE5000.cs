@@ -10,9 +10,9 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The BFE 5000");
-            Tooltip.SetDefault("'I want it huge, unstable, prone to overheating and a good chance it will blow up if you look at it from the wrong angle.'\n" +
-            "'I didn't become a kerbonaut for an easy ride, dammit!'");
+            // DisplayName.SetDefault("The BFE 5000");
+            /* Tooltip.SetDefault("'I want it huge, unstable, prone to overheating and a good chance it will blow up if you look at it from the wrong angle.'\n" +
+            "'I didn't become a kerbonaut for an easy ride, dammit!'"); */
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace JoostMod.Items.Weapons.Ranged
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            damage.CombineWith(player.rocketDamage);
+            damage.CombineWith(player.specialistDamage);
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

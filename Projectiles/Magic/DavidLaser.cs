@@ -30,7 +30,7 @@ namespace JoostMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser of David");
+            // DisplayName.SetDefault("Laser of David");
         }
         public override void SetDefaults()
         {
@@ -108,9 +108,13 @@ namespace JoostMod.Projectiles.Magic
         /// <summary>
         /// Change the behavior after hit a NPC
         /// </summary>
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 2;
+            modifiers.ScalingArmorPenetration += 1f;
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
+        {
+            modifiers.ScalingArmorPenetration += 1f;
         }
 
         /// <summary>
@@ -184,7 +188,7 @@ namespace JoostMod.Projectiles.Magic
                 for (int k = 0; k < chargeFact + 1; k++)
                 {
                     Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - chargeFact * 2);
-                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, 178, Projectile.velocity.X / 2f,
+                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, DustID.BubbleBurst_Green, Projectile.velocity.X / 2f,
                         Projectile.velocity.Y / 2f, 0, dustColor, 1f)];
                     dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
                     dust.noGravity = true;
@@ -216,26 +220,26 @@ namespace JoostMod.Projectiles.Magic
 				float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
 				Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);*/
                 Vector2 dustVel = unit;
-                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 178, dustVel.X, dustVel.Y, 0, dustColor, 1f)];
+                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.BubbleBurst_Green, dustVel.X, dustVel.Y, 0, dustColor, 1f)];
                 dust.noGravity = true;
                 dust.scale = 2f;
 
 
-                dust = Main.dust[Dust.NewDust(Main.player[Projectile.owner].Center + unit * -65, 0, 0, 178, unit.X * i, unit.Y * i, 0, dustColor, 1f)];
+                dust = Main.dust[Dust.NewDust(Main.player[Projectile.owner].Center + unit * -65, 0, 0, DustID.BubbleBurst_Green, unit.X * i, unit.Y * i, 0, dustColor, 1f)];
                 dust.noGravity = true;
                 dust.fadeIn = 0f;
                 dust.scale = 0.88f;
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 Vector2 offset = Projectile.velocity.RotatedBy(1.57f, new Vector2()) * ((float)Main.rand.NextDouble() - 0.5f) * Projectile.width;
-                Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, 31, 0.0f, 0.0f, 100, dustColor, 1.5f)];
+                Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, DustID.Smoke, 0.0f, 0.0f, 100, dustColor, 1.5f)];
                 dust.velocity = dust.velocity * 0.5f;
                 dust.velocity.Y = -Math.Abs(dust.velocity.Y);
 
                 unit = dustPos - Main.player[Projectile.owner].Center;
                 unit.Normalize();
-                dust = Main.dust[Dust.NewDust(Main.player[Projectile.owner].Center + 65 * unit, 8, 8, 31, 0.0f, 0.0f, 100, dustColor, 1.5f)];
+                dust = Main.dust[Dust.NewDust(Main.player[Projectile.owner].Center + 65 * unit, 8, 8, DustID.Smoke, 0.0f, 0.0f, 100, dustColor, 1.5f)];
                 dust.velocity = dust.velocity * 0.5f;
                 dust.velocity.Y = -Math.Abs(dust.velocity.Y);
             }

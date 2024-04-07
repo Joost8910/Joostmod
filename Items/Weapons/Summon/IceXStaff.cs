@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Core-X Staff");
-            Tooltip.SetDefault("Summons an SA-X Core-X to fight for you");
+            // DisplayName.SetDefault("Ice Core-X Staff");
+            // Tooltip.SetDefault("Summons an SA-X Core-X to fight for you");
         }
         public override void SetDefaults()
         {

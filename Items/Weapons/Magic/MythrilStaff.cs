@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Twilight Staff");
-            Tooltip.SetDefault("Spins around you firing bolts of light and night");
+            // DisplayName.SetDefault("Twilight Staff");
+            // Tooltip.SetDefault("Spins around you firing bolts of light and night");
         }
         public override void SetDefaults()
         {

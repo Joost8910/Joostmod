@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Blood Moon");
+            // DisplayName.SetDefault("True Blood Moon");
         }
         public override void SetDefaults()
         {
@@ -48,7 +48,7 @@ namespace JoostMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0.7f, 0.7f, 0.35f);
             Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {

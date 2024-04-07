@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Focus Souls");
-            Tooltip.SetDefault("Fires multiple focused beams of souls");
+            // DisplayName.SetDefault("Focus Souls");
+            // Tooltip.SetDefault("Fires multiple focused beams of souls");
         }
         public override void SetDefaults()
         {

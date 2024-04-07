@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Treasure Goblin Banner");
+			// DisplayName.SetDefault("Treasure Goblin Banner");
 		}
         public override void SetDefaults()
         {  

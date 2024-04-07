@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tornade");
-            Tooltip.SetDefault("Releases a miniature tornado on impact");
+            // DisplayName.SetDefault("Tornade");
+            // Tooltip.SetDefault("Releases a miniature tornado on impact");
         }
         public override void SetDefaults()
         {

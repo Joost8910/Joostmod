@@ -10,10 +10,10 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactoid Commendation");
-			Tooltip.SetDefault("Non-corrupted Cactoids become friendly, fight for you, and regenerate health\n" + 
+			// DisplayName.SetDefault("Cactoid Commendation");
+			/* Tooltip.SetDefault("Non-corrupted Cactoids become friendly, fight for you, and regenerate health\n" + 
                 "Other players on your team are granted this effect\n" +
-                "Occasionally summons a cactoid");
+                "Occasionally summons a cactoid"); */
 		}
 		public override void SetDefaults()
 		{

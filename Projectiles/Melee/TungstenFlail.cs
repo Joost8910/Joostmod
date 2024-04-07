@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tungsten Flail");
+            // DisplayName.SetDefault("Tungsten Flail");
         }
         public override void SetDefaults()
         {

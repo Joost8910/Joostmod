@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grenade Fish");
+            // DisplayName.SetDefault("Grenade Fish");
         }
         public override void SetDefaults()
         {
@@ -37,7 +37,7 @@ namespace JoostMod.Projectiles.Thrown
             }
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, ModContent.ProjectileType<Pop>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
             SoundEngine.PlaySound(SoundID.Item54, Projectile.position);

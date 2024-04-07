@@ -13,8 +13,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silver Weapon Set");
-            Tooltip.SetDefault("'Still not as good as gold'");
+            // DisplayName.SetDefault("Silver Weapon Set");
+            // Tooltip.SetDefault("'Still not as good as gold'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

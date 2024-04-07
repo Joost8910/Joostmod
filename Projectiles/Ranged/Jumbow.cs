@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jumbow");
+            // DisplayName.SetDefault("Jumbow");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()

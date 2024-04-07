@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rose Weave");
+            // DisplayName.SetDefault("Rose Weave");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -44,11 +44,11 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Main.rand.Next(-5, 5) * .05f, -1f), ModContent.ProjectileType<Thorn>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner).DamageType = Projectile.DamageType;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.velocity *= -1;
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Projectile.velocity *= -1;
         }
@@ -64,7 +64,7 @@ namespace JoostMod.Projectiles.Thrown
             }
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * 1f, 33, (int)(Projectile.damage * 1f), Projectile.knockBack / 2, Projectile.owner);

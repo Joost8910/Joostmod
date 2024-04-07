@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("ICU");
-			Description.SetDefault("The ICU will fight for you");
+			// DisplayName.SetDefault("ICU");
+			// Description.SetDefault("The ICU will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

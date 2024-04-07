@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Blaster");
+            // DisplayName.SetDefault("Dragon Blaster");
         }
         public override void SetDefaults()
         {
@@ -162,7 +162,7 @@ namespace JoostMod.Projectiles.Ranged
                         }
                         */
                         if (Main.myPlayer == Projectile.owner)
-                            Projectile.NewProjectile(source, origin, Projectile.velocity * shootSpeed, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
+                            Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), origin, Projectile.velocity * shootSpeed, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else

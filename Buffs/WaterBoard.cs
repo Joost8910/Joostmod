@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Water Board");
-			Description.SetDefault("Hang ten!");
+			// DisplayName.SetDefault("Water Board");
+			// Description.SetDefault("Hang ten!");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

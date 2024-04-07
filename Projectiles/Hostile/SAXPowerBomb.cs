@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Power Bomb");
+            // DisplayName.SetDefault("Power Bomb");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
@@ -74,7 +74,7 @@ namespace JoostMod.Projectiles.Hostile
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

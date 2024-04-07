@@ -18,13 +18,13 @@ namespace JoostMod.Items.Legendaries.Weps
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gnunderson's Glove");
-            Tooltip.SetDefault("'Glove of the legendary Gnunderson'\n" +
+            // DisplayName.SetDefault("Gnunderson's Glove");
+            /* Tooltip.SetDefault("'Glove of the legendary Gnunderson'\n" +
             "Does more damage as you kill bosses throughout the game\n" +
             "Rapidly throws shurikens\n" +
             "Right click for an evasive jump that throws many shurikens\n" +
             "Hold UP during the jump to throw a giant shuriken\n" +
-            "(4 Second Cooldown");
+            "(4 Second Cooldown"); */
         }
         public override void SetDefaults()
         {

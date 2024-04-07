@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Soil Spirit");
-			Description.SetDefault("The soil spirit will fight for you");
+			// DisplayName.SetDefault("Soil Spirit");
+			// Description.SetDefault("The soil spirit will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

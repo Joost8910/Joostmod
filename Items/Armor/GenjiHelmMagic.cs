@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Azure Genji Helm");
-            Tooltip.SetDefault("65% Increased Magic damage\n" + "35% Reduced Mana Usage");
+            // DisplayName.SetDefault("Azure Genji Helm");
+            // Tooltip.SetDefault("65% Increased Magic damage\n" + "35% Reduced Mana Usage");
         }
         public override void SetDefaults()
         {

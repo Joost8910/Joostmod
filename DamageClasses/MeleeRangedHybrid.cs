@@ -6,7 +6,7 @@ namespace JoostMod.DamageClasses
     {
         public override void SetStaticDefaults()
         {
-            ClassName.SetDefault("melee and ranged damage");
+            // DisplayName.SetDefault("melee and ranged damage");
         }
         public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
         {

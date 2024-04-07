@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Beam");
-            Tooltip.SetDefault("Hold to charge a shot!\n" + "Sucks in items from larger distances while charging");
+            // DisplayName.SetDefault("Ice Beam");
+            // Tooltip.SetDefault("Hold to charge a shot!\n" + "Sucks in items from larger distances while charging");
         }
         public override void SetDefaults()
         {

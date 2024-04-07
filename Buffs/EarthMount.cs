@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Slabs of Stone");
-			Description.SetDefault("Rocky");
+			// DisplayName.SetDefault("Slabs of Stone");
+			// Description.SetDefault("Rocky");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

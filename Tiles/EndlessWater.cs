@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
@@ -25,8 +26,8 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 16, 16 };
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Endless Water Pump");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Endless Water Pump");
 			AddMapEntry(new Color(105, 107, 125), name);
 			DustType = 1;
 		}
@@ -44,10 +45,6 @@ namespace JoostMod.Tiles
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
 			player.cursorItemIconID = ModContent.ItemType<Items.Placeable.EndlessWater>();
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.EndlessWater>());
 		}
         public override bool RightClick(int i, int j)
         {

@@ -18,7 +18,7 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SA-X");
+            // DisplayName.SetDefault("SA-X");
             Main.npcFrameCount[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
@@ -37,7 +37,10 @@ namespace JoostMod.NPCs.Bosses
                     ModContent.BuffType<InfectedYellow>()
                 }
             };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedYellow>()] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Frostburn] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
         }
         public override void SetDefaults()
         {
@@ -61,9 +64,9 @@ namespace JoostMod.NPCs.Bosses
             NPC.scale = 0.625f;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.625f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.625f * balance);
             NPC.damage = (int)(NPC.damage * 0.75f);
         }
         public override bool PreKill()
@@ -271,7 +274,7 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
             if (NPC.localAI[0] > 60)
             {
@@ -279,7 +282,7 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (Main.expertMode && (NPC.ai[1] >= 100 || NPC.ai[2] >= 20))
             {
@@ -292,28 +295,28 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
-            if (NPC.localAI[0] > 90 && NPC.localAI[0] < 120 && NPC.localAI[2] <= 0 && NPC.velocity.Y == 0 && damage > 1000)
+            if (NPC.localAI[0] > 90 && NPC.localAI[0] < 120 && NPC.localAI[2] <= 0 && NPC.velocity.Y == 0 && hit.Damage > 1000)
             {
                 NPC.localAI[2]++;
                 NPC.netUpdate = true;
             }
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (NPC.localAI[0] <= 60)
             {
-                damage = (int)(damage * (NPC.localAI[0] / 60f));
-                crit = false;
+                modifiers.FinalDamage *= NPC.localAI[0] / 60f;
+                modifiers.DisableCrit();
             }
         }
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             if (NPC.localAI[0] <= 60)
             {
-                damage = (int)(damage * (NPC.localAI[0] / 60f));
-                crit = false;
+                modifiers.FinalDamage *= NPC.localAI[0] / 60f;
+                modifiers.DisableCrit();
             }
         }
         public override void AI()

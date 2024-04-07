@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hellfire Shuriken");
+            // DisplayName.SetDefault("Hellfire Shuriken");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -47,12 +47,12 @@ namespace JoostMod.Projectiles.Thrown
             }
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, TorchID.Orange, 0.5f);
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(24, 180);
+            target.AddBuff(24, 180);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 4; i++)
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare, Projectile.velocity.X / 10, Projectile.velocity.Y / 10, 100, default, 1f);

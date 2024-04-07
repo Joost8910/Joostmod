@@ -94,7 +94,7 @@ namespace JoostMod.UI
 
             spriteBatch.Draw(tex, drawPos, new Rectangle?(rect), iconColor, 0f, Vector2.Zero, num, SpriteEffects.None, 0f);
         }
-        public override void Click(UIMouseEvent evt)
+        public override void LeftClick(UIMouseEvent evt)
         {
             Player player = Main.LocalPlayer;
             if (hunt.available())

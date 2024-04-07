@@ -11,13 +11,13 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wonder Waffle");
-            Tooltip.SetDefault("'The amazing Wonder Waffle!'\n" +
+            // DisplayName.SetDefault("Wonder Waffle");
+            /* Tooltip.SetDefault("'The amazing Wonder Waffle!'\n" +
             "'The special secret ingredient makes this the most delicious waffle found anywhere!'\n" +
             "'Wonder Waffle is a registered trademark of Travellers Enterprise'\n" + 
             "Grants a random status effect\n" + 
             "Disclaimer: Some buffs do not function without certain requirements, so the Wonder Waffle may appear to do nothing\n" +
-            "WARNING: May have unintended disasterous effects when paired with other mods. Proceed at your own risk.");
+            "WARNING: May have unintended disasterous effects when paired with other mods. Proceed at your own risk."); */
         }
         public override void SetDefaults()
         {

@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultimate Illusion");
+            // DisplayName.SetDefault("Ultimate Illusion");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Hostile
             fallThrough = false;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, ModContent.ProjectileType<UltimateIllusion2>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);

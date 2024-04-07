@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pumpkin Glove");
-            Tooltip.SetDefault("Throws a pumpkin that explodes into homing pumpkins");
+            // DisplayName.SetDefault("Pumpkin Glove");
+            // Tooltip.SetDefault("Throws a pumpkin that explodes into homing pumpkins");
         }
         public override void SetDefaults()
         {

@@ -7,7 +7,7 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Broken Hero Hammer");
+			// DisplayName.SetDefault("Broken Hero Hammer");
 		}
 		public override void SetDefaults()
 		{

@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Veridian Genji Helm");
-            Tooltip.SetDefault("60% Increased throwing velocity and damage\n" + "You no longer consume thrown items");
+            // DisplayName.SetDefault("Veridian Genji Helm");
+            // Tooltip.SetDefault("60% Increased throwing velocity and damage\n" + "You no longer consume thrown items");
         }
         public override void SetDefaults()
         {

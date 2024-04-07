@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warhammer of Grognak");
+            // DisplayName.SetDefault("Warhammer of Grognak");
         }
         float mult = 0.85f;
         public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Melee
             fallThrough = true;
             return true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.velocity.Y += Projectile.knockBack * target.knockBackResist * Projectile.ai[1] * mult;
             if (target.knockBackResist > 0)
@@ -53,7 +53,7 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.X = 0;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback)
@@ -61,13 +61,14 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.Y += Projectile.knockBack * Projectile.scale;
             }
         }
-        public override void ModifyDamageScaling(ref float damageScale)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damageScale *= Projectile.ai[1] * mult;
+            modifiers.SourceDamage *= Projectile.ai[1] * mult;
+            modifiers.Knockback *= Projectile.ai[1] * mult;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            knockback *= Projectile.ai[1] * mult;
+            modifiers.SourceDamage *= Projectile.ai[1] * mult;
         }
         public override bool PreDraw(ref Color lightColor)
         {

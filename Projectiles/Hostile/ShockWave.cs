@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sand Wave");
+            // DisplayName.SetDefault("Sand Wave");
         }
         public override void SetDefaults()
         {

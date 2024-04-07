@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Hostile
         public override string Texture => "Terraria/Images/Projectile_466";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Wrath");
+            // DisplayName.SetDefault("Gilgamesh's Wrath");
         }
         public override void SetDefaults()
         {

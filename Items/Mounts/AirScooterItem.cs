@@ -9,8 +9,8 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Whirlwind Sphere");
-			Tooltip.SetDefault("Summons a rideable ball of air");
+			// DisplayName.SetDefault("Whirlwind Sphere");
+			// Tooltip.SetDefault("Summons a rideable ball of air");
 		}
 		public override void SetDefaults()
 		{

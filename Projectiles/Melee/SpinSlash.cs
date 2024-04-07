@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spin Slash");
+            // DisplayName.SetDefault("Spin Slash");
             Main.projFrames[Projectile.type] = 14;
         }
         public override void SetDefaults()

@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("BONELESS Pizza");
-			Description.SetDefault("Max health increased by 50");
+			// DisplayName.SetDefault("BONELESS Pizza");
+			// Description.SetDefault("Max health increased by 50");
 			Main.buffNoSave[Type] = false;
 		}
 

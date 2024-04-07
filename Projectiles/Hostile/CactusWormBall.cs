@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Ball");
+            // DisplayName.SetDefault("Cactus Ball");
         }
         public override void SetDefaults()
         {

@@ -8,10 +8,10 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Juice");
-            Tooltip.SetDefault("'It'll quench ya'\n" +
+            // DisplayName.SetDefault("Cactus Juice");
+            /* Tooltip.SetDefault("'It'll quench ya'\n" +
             "'Nothings quenchier'\n" +
-            "'It's the quenchiest!");
+            "'It's the quenchiest!"); */
         }
         public override void SetDefaults()
         {

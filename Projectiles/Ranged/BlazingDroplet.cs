@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lava Droplet");
+            // DisplayName.SetDefault("Lava Droplet");
         }
         public override void SetDefaults()
         {
@@ -22,11 +22,11 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 6;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 300);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.OnFire, 300);
         }
@@ -36,7 +36,7 @@ namespace JoostMod.Projectiles.Ranged
             if (Projectile.timeLeft % 10 == 0)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, -2, 0, default, 2f).noGravity = true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 3; i++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, 0, -10, 0, default, 2f);

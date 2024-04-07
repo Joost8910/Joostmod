@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Kunai");
+            // DisplayName.SetDefault("Gilgamesh's Kunai");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.timeLeft = 300;
             AIType = ProjectileID.Shuriken;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.expertMode)
             {

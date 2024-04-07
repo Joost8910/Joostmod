@@ -11,7 +11,7 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slime Helm");
+            // DisplayName.SetDefault("Slime Helm");
         }
         public override void SetDefaults()
         {

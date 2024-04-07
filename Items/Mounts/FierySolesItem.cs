@@ -9,8 +9,8 @@ namespace JoostMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fiery Soles");
-            Tooltip.SetDefault("Summons fire from your feet");
+            // DisplayName.SetDefault("Fiery Soles");
+            // Tooltip.SetDefault("Summons fire from your feet");
         }
         public override void SetDefaults()
         {

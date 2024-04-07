@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kerbal");
+            // DisplayName.SetDefault("Kerbal");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.extraUpdates = 1;
             AIType = ProjectileID.Bullet;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), ModContent.ProjectileType<Kerbal2>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
         }

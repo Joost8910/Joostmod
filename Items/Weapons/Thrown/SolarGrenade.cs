@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Solar Grenade");
-            Tooltip.SetDefault("Launches daybreaks upon impact");
+            // DisplayName.SetDefault("Solar Grenade");
+            // Tooltip.SetDefault("Launches daybreaks upon impact");
         }
         public override void SetDefaults()
         {

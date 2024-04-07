@@ -14,9 +14,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Billhook");
-            Tooltip.SetDefault("Right click to swing, causing a boulder to launch upwards when grounded\n" +
-                "Left click to thrust, hit the boulder to launch it");
+            // DisplayName.SetDefault("Earthen Billhook");
+            /* Tooltip.SetDefault("Right click to swing, causing a boulder to launch upwards when grounded\n" +
+                "Left click to thrust, hit the boulder to launch it"); */
         }
         public override void SetDefaults()
         {

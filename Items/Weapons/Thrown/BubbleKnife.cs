@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Thrown
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble Knife");
-            Tooltip.SetDefault("'Bubbles!'");
+            // DisplayName.SetDefault("Bubble Knife");
+            // Tooltip.SetDefault("'Bubbles!'");
         }
         public override void SetDefaults()
         {

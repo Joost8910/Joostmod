@@ -6,7 +6,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Balancerang");
+            // DisplayName.SetDefault("Balancerang");
         }
         public override void SetDefaults()
         {

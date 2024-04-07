@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bitter End");
+            // DisplayName.SetDefault("Bitter End");
         }
         public override void SetDefaults()
         {

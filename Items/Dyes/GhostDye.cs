@@ -19,7 +19,7 @@ namespace JoostMod.Items.Dyes
                     new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Shaders/JuiceArmorShaders", AssetRequestMode.ImmediateLoad).Value), "GhostShaderPass").UseColor(Color.Aquamarine) // Be sure to update the effect path and pass name here.
                 );
             }
-            DisplayName.SetDefault("Ghostly Dye"); 
+            // DisplayName.SetDefault("Ghostly Dye"); 
         }
 
         public override void SetDefaults()

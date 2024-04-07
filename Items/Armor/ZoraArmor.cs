@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Zora Armor");
-            Tooltip.SetDefault("20% increased magic damage");
+            // DisplayName.SetDefault("Zora Armor");
+            // Tooltip.SetDefault("20% increased magic damage");
         }
         public override void SetDefaults()
         {

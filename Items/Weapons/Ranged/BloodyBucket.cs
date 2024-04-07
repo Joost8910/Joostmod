@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloody Bucket");
-            Tooltip.SetDefault("Fished in the Crimson after the Brain of Cthulhu has been defeated");
+            // DisplayName.SetDefault("Bloody Bucket");
+            // Tooltip.SetDefault("Fished in the Crimson after the Brain of Cthulhu has been defeated");
         }
         public override void SetDefaults()
         {

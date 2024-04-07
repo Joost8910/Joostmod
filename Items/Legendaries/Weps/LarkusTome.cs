@@ -16,13 +16,13 @@ namespace JoostMod.Items.Legendaries.Weps
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Larkus's Tome");
-            Tooltip.SetDefault("'Tome of the legendary Larkus'\n" +
+            // DisplayName.SetDefault("Larkus's Tome");
+            /* Tooltip.SetDefault("'Tome of the legendary Larkus'\n" +
             "Does more damage as you kill bosses throughout the game\n" +
             "Summons a Spirit of Power to protect you\n" +
             "Increases your max number of minions\n" +
             "Hold Right Click to charge a more powerful blast\n" +
-            "(Cooldown based on how long it's charged)");
+            "(Cooldown based on how long it's charged)"); */
         }
         public override void SetDefaults()
         {

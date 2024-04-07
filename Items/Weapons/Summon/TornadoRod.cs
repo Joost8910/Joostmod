@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tornado Rod");
-            Tooltip.SetDefault("Summons a miniature tornado to fight for you");
+            // DisplayName.SetDefault("Tornado Rod");
+            // Tooltip.SetDefault("Summons a miniature tornado to fight for you");
         }
         public override void SetDefaults()
         {

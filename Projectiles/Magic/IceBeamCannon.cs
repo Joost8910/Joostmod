@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Beam");
+            // DisplayName.SetDefault("Ice Beam");
             Main.projFrames[Projectile.type] = 13;
         }
         public override void SetDefaults()
@@ -114,7 +114,7 @@ namespace JoostMod.Projectiles.Magic
         {
             overPlayers.Add(index);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             // Here you can use projectile.ai[0] to calculate how much time has passed, like the following

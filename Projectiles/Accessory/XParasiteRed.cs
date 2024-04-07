@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("X Parasite");
+            // DisplayName.SetDefault("X Parasite");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
@@ -30,16 +30,16 @@ namespace JoostMod.Projectiles.Accessory
             Projectile.timeLeft = 600;
             Projectile.alpha = 5;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.localAI[1] = target.whoAmI + 1;
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<InfectedRed>(), 900);
             Projectile.Kill();
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.localAI[1] > 0)
             {

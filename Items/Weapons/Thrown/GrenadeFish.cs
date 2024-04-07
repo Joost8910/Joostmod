@@ -10,7 +10,7 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grenade Fish");
+            // DisplayName.SetDefault("Grenade Fish");
         }
         public override void SetDefaults()
         {

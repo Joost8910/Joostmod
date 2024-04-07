@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sapling - Glowstick");
-			Tooltip.SetDefault("Provides light");
+			// DisplayName.SetDefault("Sapling - Glowstick");
+			// Tooltip.SetDefault("Provides light");
 		}
 		public override void SetDefaults()
 		{

@@ -19,7 +19,7 @@ namespace JoostMod.Items.Dyes
                     new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Shaders/JuiceArmorShaders", AssetRequestMode.ImmediateLoad).Value), "GlowShaderPass").UseColor(Color.LightGreen) // Be sure to update the effect path and pass name here.
                 );
             }
-            DisplayName.SetDefault("Glow-In-The-Dark Dye"); 
+            // DisplayName.SetDefault("Glow-In-The-Dark Dye"); 
         }
 
         public override void SetDefaults()

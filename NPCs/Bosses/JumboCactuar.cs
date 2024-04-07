@@ -18,9 +18,10 @@ namespace JoostMod.NPCs.Bosses
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Jumbo Cactuar");
+			// DisplayName.SetDefault("Jumbo Cactuar");
 			Main.npcFrameCount[NPC.type] = 5;
-		}
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+        }
 		public override void SetDefaults()
 		{
 			NPC.width = 200;
@@ -45,9 +46,9 @@ namespace JoostMod.NPCs.Bosses
             SceneEffectPriority = SceneEffectPriority.BossMedium;
         }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
 		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale)+1;
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance)+1;
 			NPC.damage = (int)(NPC.damage * 0.7f);
 		}
 		public override void BossLoot(ref string name, ref int potionType)
@@ -87,7 +88,7 @@ namespace JoostMod.NPCs.Bosses
 				}
 			}
 		}
-		public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(NPC.HitInfo hit)
 		{
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

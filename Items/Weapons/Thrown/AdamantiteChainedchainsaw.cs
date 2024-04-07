@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adamantite Chained-Chainsaw");
-            Tooltip.SetDefault("'On a chain!'\n" + "Stacks up to 4");
+            // DisplayName.SetDefault("Adamantite Chained-Chainsaw");
+            // Tooltip.SetDefault("'On a chain!'\n" + "Stacks up to 4");
         }
         public override void SetDefaults()
         {

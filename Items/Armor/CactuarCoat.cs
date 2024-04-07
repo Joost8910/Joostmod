@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactuar Coat");
+			// DisplayName.SetDefault("Cactuar Coat");
 			ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
 
         }

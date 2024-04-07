@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Impact");
+            // DisplayName.SetDefault("Impact");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -104,26 +104,26 @@ namespace JoostMod.Projectiles.Melee
             }
             return base.CanHitPvp(target);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[0] >= 0)
             {
                 NPC npc = Main.npc[(int)Projectile.ai[0]];
-                Main.player[Projectile.owner].ApplyDamageToNPC(npc, damage / 2, 0, Projectile.direction, false);
+                Main.player[Projectile.owner].ApplyDamageToNPC(npc, damageDone / 2, 0, Projectile.direction, false);
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            hitDirection = Projectile.direction;
+            modifiers.HitDirectionOverride = Projectile.direction;
             /*
             if (projectile.scale > 1)
             {
                 damage = (int)(damage * projectile.scale);
             }
             */
-            crit = true;
+            modifiers.SetCrit();
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             /*
             if (projectile.scale > 1)
@@ -131,7 +131,7 @@ namespace JoostMod.Projectiles.Melee
                 damage = (int)(damage * projectile.scale);
             }
             */
-            crit = true;
+            modifiers.FinalDamage *= 2;
         }
         public override bool PreDraw(ref Color lightColor)
         {

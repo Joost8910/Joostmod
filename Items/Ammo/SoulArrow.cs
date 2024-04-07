@@ -10,8 +10,8 @@ namespace JoostMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Arrow");
-            Tooltip.SetDefault("Has a slight homing effect");
+            // DisplayName.SetDefault("Soul Arrow");
+            // Tooltip.SetDefault("Has a slight homing effect");
         }
         public override void SetDefaults()
         {

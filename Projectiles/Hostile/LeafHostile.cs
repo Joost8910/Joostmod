@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leaf");
+            // DisplayName.SetDefault("Leaf");
         }
         public override void SetDefaults()
         {
@@ -36,11 +36,11 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.rotation = (float)rad;
             Projectile.ai[1] += 2f / ((401 - Projectile.timeLeft) * 1.2f * 3.14f / 360);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.Kill();
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 12; i++)
             {

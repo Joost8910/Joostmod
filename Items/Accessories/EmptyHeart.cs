@@ -8,9 +8,9 @@ namespace JoostMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empty Heart");
-            Tooltip.SetDefault("Reduces your health to 1\n" +
-                "20% Increased Damage");
+            // DisplayName.SetDefault("Empty Heart");
+            /* Tooltip.SetDefault("Reduces your health to 1\n" +
+                "20% Increased Damage"); */
         }
         public override void SetDefaults()
         {

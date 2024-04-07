@@ -10,8 +10,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Doom Cannon");
-			Tooltip.SetDefault("Charge up a deadly skull shot\n" + "Max charge tunnels through and destroys tiles\n" + "Right click to cancel the shot");
+			// DisplayName.SetDefault("Doom Cannon");
+			// Tooltip.SetDefault("Charge up a deadly skull shot\n" + "Max charge tunnels through and destroys tiles\n" + "Right click to cancel the shot");
 		}
 		public override void SetDefaults()
 		{

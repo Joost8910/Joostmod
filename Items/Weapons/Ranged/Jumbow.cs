@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jumbow");
-            Tooltip.SetDefault("'It's huge!'");
+            // DisplayName.SetDefault("Jumbow");
+            // Tooltip.SetDefault("'It's huge!'");
         }
         public override void SetDefaults()
         {

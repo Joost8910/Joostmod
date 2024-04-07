@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
 public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Deranged Mutant Killer Monster Snow Goon Banner");
+			// DisplayName.SetDefault("Deranged Mutant Killer Monster Snow Goon Banner");
 		}
         public override void SetDefaults()
         {  

@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eternal Flame");
+            // DisplayName.SetDefault("Eternal Flame");
         }
         public override void SetDefaults()
         {
@@ -93,7 +93,7 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.Kill();
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int t = Math.Max((int)(Projectile.ai[1] / Projectile.ai[0]), 2);
             if (Projectile.localAI[0] < t)
@@ -103,7 +103,7 @@ namespace JoostMod.Projectiles.Thrown
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.OnFire3, 300);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             int t = Math.Max((int)(Projectile.ai[1] / Projectile.ai[0]), 2);
             if (Projectile.localAI[0] < t)
@@ -133,7 +133,7 @@ namespace JoostMod.Projectiles.Thrown
         public override string Texture => "JoostMod/Projectiles/Thrown/EternalFlame";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eternal Flame");
+            // DisplayName.SetDefault("Eternal Flame");
         }
         public override void SetDefaults()
         {
@@ -423,12 +423,12 @@ namespace JoostMod.Projectiles.Thrown
             }
             return base.CanDamage();
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.OnFire3, 600);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.OnFire3, 600);

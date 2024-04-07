@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stone Flesh");
-			Description.SetDefault("Reduces damage taken by 40%, mobility greatly reduced");
+			// DisplayName.SetDefault("Stone Flesh");
+			// Description.SetDefault("Reduces damage taken by 40%, mobility greatly reduced");
 			Main.buffNoSave[Type] = true;
             Main.debuff[Type] = true;
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;

@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Beam");
+            // DisplayName.SetDefault("Ice Beam");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()
@@ -39,10 +39,10 @@ namespace JoostMod.Projectiles.Minions
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
             return false;
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(44, 200);
+            target.AddBuff(44, 200);
         }
         public override void AI()
         {

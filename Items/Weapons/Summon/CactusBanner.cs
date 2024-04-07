@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Banner");
-            Tooltip.SetDefault("Rapidly summons miniature cactus worms from the ground that damage enemies");
+            // DisplayName.SetDefault("Cactus Banner");
+            // Tooltip.SetDefault("Rapidly summons miniature cactus worms from the ground that damage enemies");
         }
         public override void SetDefaults()
         {

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("-1000'C Degrees Knife");
-            Tooltip.SetDefault("'So cold its atoms can't move!'");
+            // DisplayName.SetDefault("-1000'C Degrees Knife");
+            // Tooltip.SetDefault("'So cold its atoms can't move!'");
         }
         public override void SetDefaults()
         {

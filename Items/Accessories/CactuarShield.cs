@@ -9,9 +9,9 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactuar Shield");
-			Tooltip.SetDefault("Inflicts 20 times enemy contact damage back to the attacker\n" + 
-                "Grants immunity to knockback");
+			// DisplayName.SetDefault("Cactuar Shield");
+			/* Tooltip.SetDefault("Inflicts 20 times enemy contact damage back to the attacker\n" + 
+                "Grants immunity to knockback"); */
 		}
 		public override void SetDefaults()
 		{

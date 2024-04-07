@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Divine Mirror");
+			// DisplayName.SetDefault("Divine Mirror");
             Main.projFrames[Projectile.type] = 5;
         }
         public override void SetDefaults()

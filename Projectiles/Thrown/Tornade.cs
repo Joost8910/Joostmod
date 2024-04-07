@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tornade");
+            // DisplayName.SetDefault("Tornade");
         }
         public override void SetDefaults()
         {
@@ -23,7 +23,7 @@ namespace JoostMod.Projectiles.Thrown
             AIType = ProjectileID.Shuriken;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 15, 0, 0, ModContent.ProjectileType<Nado>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

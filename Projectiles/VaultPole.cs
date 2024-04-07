@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Vaulting Pole");
+			// DisplayName.SetDefault("Vaulting Pole");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()

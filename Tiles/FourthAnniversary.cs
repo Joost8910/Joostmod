@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using JoostMod.Items.Placeable;
@@ -30,15 +31,10 @@ namespace JoostMod.Tiles
 			TileObjectData.addTile(Type);
 			DustType = 7;
 			TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Joostmod's Fourth Anniversary");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Joostmod's Fourth Anniversary");
 			AddMapEntry(new Color(93, 137, 92), name);
 		}
-
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.FourthAnniversary>());
-        }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];

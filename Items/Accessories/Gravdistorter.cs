@@ -8,8 +8,8 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gravity Distortion Core");
-			Tooltip.SetDefault("Gravity gets weird");
+			// DisplayName.SetDefault("Gravity Distortion Core");
+			// Tooltip.SetDefault("Gravity gets weird");
 		}
 		public override void SetDefaults()
 		{

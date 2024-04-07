@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tome of Manipulation");
+            // DisplayName.SetDefault("Tome of Manipulation");
         }
         public override void SetDefaults()
         {
@@ -34,10 +34,10 @@ namespace JoostMod.Projectiles
         {
             return target.friendly && Main.myPlayer == Projectile.owner && Main.player[Projectile.owner].controlUseTile && target.type != ModContent.NPCType<FireBall>();
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (target.lifeMax / 20 + (target.defense / 2));
-            crit = true;
+            modifiers.FinalDamage.Flat = target.lifeMax / 20;
+            modifiers.SetCrit();
         }
         public override void AI()
         {

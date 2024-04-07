@@ -9,8 +9,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Endless Richoshot Pouch");
-			Tooltip.SetDefault("'Bouncy!'");
+			// DisplayName.SetDefault("Endless Richoshot Pouch");
+			// Tooltip.SetDefault("'Bouncy!'");
 		}
 		public override void SetDefaults()
 		{

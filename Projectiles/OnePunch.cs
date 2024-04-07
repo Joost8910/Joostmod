@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("ONE PAAAUUUUUWWWWNNNCCHH");
+			// DisplayName.SetDefault("ONE PAAAUUUUUWWWWNNNCCHH");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -161,16 +161,16 @@ namespace JoostMod.Projectiles
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-            knockback = knockback *Projectile.scale;
-            damage += (int)(target.life * Projectile.scale) + target.defense;
+            modifiers.Knockback *= Projectile.scale;
+            modifiers.FinalDamage.Flat += (int)(target.life * Projectile.scale);
             if (Projectile.scale >= 1)
             {
                 SoundEngine.PlaySound(SoundID.Item100, Projectile.position);
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.scale >= 1)
@@ -178,27 +178,27 @@ namespace JoostMod.Projectiles
                 SoundEngine.PlaySound(SoundID.Item100, player.position);
                 if (target.type != NPCID.TargetDummy)
                 {
-                    target.velocity = Projectile.velocity / 5 * knockback;
+                    target.velocity = Projectile.velocity / 5 * hit.Knockback;
                 }
             }
             else
             {
-                target.velocity += Projectile.velocity / 10 * knockback * target.knockBackResist * Projectile.scale;
+                target.velocity += Projectile.velocity / 10 * hit.Knockback * target.knockBackResist * Projectile.scale;
             }
             for (int i = 0; i < (int)(Projectile.scale * 40); i++)
             {
                 Dust.NewDust(target.position, target.width, target.height, 5, target.velocity.X, target.velocity.Y);
             }
         }
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage += (int)(target.statLife * Projectile.scale) + target.statDefense;
+            modifiers.FinalDamage.Flat += (int)(target.statLife * Projectile.scale);
             if (Projectile.scale >= 1)
             {
                 SoundEngine.PlaySound(SoundID.Item100, Projectile.position);
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.scale >= 1)

@@ -15,8 +15,9 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Desert Golem");
+            // DisplayName.SetDefault("Desert Golem");
             Main.npcFrameCount[NPC.type] = 17;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
         }
         public override void SetDefaults()
         {
@@ -39,7 +40,7 @@ namespace JoostMod.NPCs
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DesertCore>()));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FourthAnniversary>(), 10));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {

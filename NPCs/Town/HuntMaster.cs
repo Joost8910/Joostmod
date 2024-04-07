@@ -30,7 +30,7 @@ namespace JoostMod.NPCs.Town
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hunt Master");
+			// DisplayName.SetDefault("Hunt Master");
 			Main.npcFrameCount[NPC.type] = 25;
 			NPCID.Sets.ExtraFramesCount[NPC.type] = 5;
 			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
@@ -62,7 +62,7 @@ namespace JoostMod.NPCs.Town
             toKingStatue = true;
             return true;
         }
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
 		{
 			return JoostWorld.downedPinkzor;
         }
@@ -195,7 +195,7 @@ namespace JoostMod.NPCs.Town
 		{
 			button = "Quest";
 		}
-		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+		public override void OnChatButtonClicked(bool firstButton, ref string shopName)
 		{
 			Player player = Main.player[Main.myPlayer];
 			if (firstButton)

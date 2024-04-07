@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Power Bomb");
+            // DisplayName.SetDefault("Power Bomb");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
@@ -78,7 +78,7 @@ namespace JoostMod.Projectiles.Thrown
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<PowerBombExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/FusionPowerBombExplosion"), Projectile.Center);

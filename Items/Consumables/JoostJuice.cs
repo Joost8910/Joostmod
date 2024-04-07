@@ -10,10 +10,10 @@ namespace JoostMod.Items.Consumables
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Joost Juice");
-			Tooltip.SetDefault("Gives the effects of Well fed, Regeneration, Swiftness, Ironskin\n" +
+			// DisplayName.SetDefault("Joost Juice");
+			/* Tooltip.SetDefault("Gives the effects of Well fed, Regeneration, Swiftness, Ironskin\n" +
 			"Heartreach, Lifeforce, Endurance, Rage, Wrath, Warmth, and Summoning Buffs\n" +
-			"'Joosy'");
+			"'Joosy'"); */
 		}
 		public override void SetDefaults()
 		{

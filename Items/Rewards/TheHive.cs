@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("The Hive");
-            Tooltip.SetDefault("Rapidly spews bees that deal one-third damage");
+			// DisplayName.SetDefault("The Hive");
+            // Tooltip.SetDefault("Rapidly spews bees that deal one-third damage");
 		}
 		public override void SetDefaults()
 		{

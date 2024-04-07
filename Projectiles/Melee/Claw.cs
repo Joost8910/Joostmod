@@ -15,7 +15,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Twin Claws");
+            // DisplayName.SetDefault("Twin Claws");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             Main.projFrames[Projectile.type] = 28;
@@ -298,28 +298,28 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.ai[1] == 1)
             {
-                damage = (int)(damage * 1.25f);
-                crit = true;
+                modifiers.SourceDamage *= 1.25f;
+                modifiers.SetCrit();
             }
             Player player = Main.player[Projectile.owner];
             if (!player.controlLeft && !player.controlRight)
             {
-                knockback = 0;
+                modifiers.DisableKnockback();
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             if (Projectile.ai[1] == 1)
             {
-                damage = (int)(damage * 1.25f);
-                crit = true;
+                modifiers.SourceDamage *= 1.25f;
+                modifiers.FinalDamage *= 2f;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 dir = Projectile.velocity;
@@ -328,7 +328,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 if (target.knockBackResist > 0)
                 {
-                    target.velocity = dir * knockback * target.knockBackResist;
+                    target.velocity = dir * hit.Knockback * target.knockBackResist;
                     if (Vector2.Distance(target.position, player.position + player.velocity) < Vector2.Distance(target.position, player.position))
                     {
                         target.velocity += player.velocity;
@@ -401,7 +401,7 @@ namespace JoostMod.Projectiles.Melee
                 }
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             Vector2 dir = Projectile.velocity;

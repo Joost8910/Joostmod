@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Havel's Greatshield");
+            // DisplayName.SetDefault("Havel's Greatshield");
         }
         public override void SetDefaults()
         {
@@ -38,32 +38,32 @@ namespace JoostMod.Projectiles.Accessory
             }
             return base.CanHitNPC(target);
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.localAI[1] <= 0)
             {
-                damage = 0;
-                knockback = 0;
-                crit = false;
+                modifiers.FinalDamage *= 0;
+                modifiers.DisableKnockback();
+                modifiers.DisableCrit();
+                modifiers.HideCombatText();
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (Projectile.localAI[1] <= 0)
             {
-                damage = 0;
+                modifiers.FinalDamage *= 0;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             float KB = Projectile.knockBack;
             if (Projectile.localAI[1] <= 0)
             {
                 KB /= 4;
-                knockback = 0;
-                crit = false;
 
+                /*
                 for (int i = 0; i < 100; i++)
                 {
                     if (Main.combatText[i].active && Main.combatText[i].color == CombatText.DamagedHostile && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)
@@ -72,6 +72,7 @@ namespace JoostMod.Projectiles.Accessory
                         break;
                     }
                 }
+                */
                 //CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.DarkGreen, "BLOCKED", true, false);
                 if (target.life < target.lifeMax)
                 {
@@ -134,7 +135,7 @@ namespace JoostMod.Projectiles.Accessory
             }
             SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.2f), Projectile.Center);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.localAI[1] > 0)
             {
@@ -142,8 +143,6 @@ namespace JoostMod.Projectiles.Accessory
             }
             else
             {
-                crit = false;
-
                 for (int i = 0; i < 100; i++)
                 {
                     if (Main.combatText[i].active && Main.combatText[i].text == "1" && Projectile.Distance(Main.combatText[i].position) < 250)

@@ -9,11 +9,14 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Infected!");
-            Description.SetDefault("Losing Life; will spread X Parasites upon death");
+			// DisplayName.SetDefault("Infected!");
+            // Description.SetDefault("Losing Life; will spread X Parasites upon death");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.LongerExpertDebuff[Type] = true;
+            BuffID.Sets.GrantImmunityWith[Type].Add(ModContent.BuffType<InfectedRed>());
+            BuffID.Sets.GrantImmunityWith[Type].Add(ModContent.BuffType<InfectedGreen>());
+            BuffID.Sets.GrantImmunityWith[Type].Add(ModContent.BuffType<InfectedBlue>());
         }
         public override void Update(Player player, ref int buffIndex)
         {

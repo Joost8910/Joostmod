@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lava Absorbtion Pump");
+            // DisplayName.SetDefault("Lava Absorbtion Pump");
 		}
 
 		public override void SetDefaults()

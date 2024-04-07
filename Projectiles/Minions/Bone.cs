@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Minions
         private bool spawn = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bone");
+            // DisplayName.SetDefault("Bone");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()

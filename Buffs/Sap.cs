@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sap");
-            Description.SetDefault("Losing Life");
+			// DisplayName.SetDefault("Sap");
+            // Description.SetDefault("Losing Life");
             Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

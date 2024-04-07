@@ -9,8 +9,8 @@ namespace JoostMod.Items.Consumables
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("BONELESS Pizza");
-			Tooltip.SetDefault("Minor improvements to all stats\n" + "Increases max health by 50");
+			// DisplayName.SetDefault("BONELESS Pizza");
+			// Tooltip.SetDefault("Minor improvements to all stats\n" + "Increases max health by 50");
 		}
 		public override void SetDefaults()
 		{

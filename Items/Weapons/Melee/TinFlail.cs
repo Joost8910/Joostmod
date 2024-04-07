@@ -11,7 +11,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tin Flail");
+            // DisplayName.SetDefault("Tin Flail");
         }
         public override void SetDefaults()
         {

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vortex Grenade");
-            Tooltip.SetDefault("Releases homing vortex missiles on impact");
+            // DisplayName.SetDefault("Vortex Grenade");
+            // Tooltip.SetDefault("Releases homing vortex missiles on impact");
         }
         public override void SetDefaults()
         {

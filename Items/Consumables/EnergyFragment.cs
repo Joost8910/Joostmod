@@ -12,10 +12,10 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Energy Orb");
-			Tooltip.SetDefault("If this is in your inventory something went wrong.\n" + 
+            // DisplayName.SetDefault("Energy Orb");
+			/* Tooltip.SetDefault("If this is in your inventory something went wrong.\n" + 
             "It's meant to do a thing when picked up like hearts\n" + 
-            "Consume it for its effect since picking it up didn't work");
+            "Consume it for its effect since picking it up didn't work"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 3));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }

@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stinging Weapon Set");
-            Tooltip.SetDefault("'NO! Not the bees! NOT THE BEEEES!'");
+            // DisplayName.SetDefault("Stinging Weapon Set");
+            // Tooltip.SetDefault("'NO! Not the bees! NOT THE BEEEES!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

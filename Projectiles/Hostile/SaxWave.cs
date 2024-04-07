@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SA-X");
+            // DisplayName.SetDefault("SA-X");
         }
         public override void SetDefaults()
         {

@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Sword");
-            Tooltip.SetDefault("Stabs enemies behind you\n" + "5% increased melee speed");
+            // DisplayName.SetDefault("Sapling - Sword");
+            // Tooltip.SetDefault("Stabs enemies behind you\n" + "5% increased melee speed");
         }
         public override void SetDefaults()
         {

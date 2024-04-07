@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Whirlwind Sphere");
-			Description.SetDefault("Floaty");
+			// DisplayName.SetDefault("Whirlwind Sphere");
+			// Description.SetDefault("Floaty");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

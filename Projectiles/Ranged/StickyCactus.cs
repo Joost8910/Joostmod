@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sticky Cactus");
+            // DisplayName.SetDefault("Sticky Cactus");
         }
         public override void SetDefaults()
         {
@@ -29,13 +29,13 @@ namespace JoostMod.Projectiles.Ranged
         bool pvp = false;
         Vector2 offSet = Vector2.Zero;
         float rot = 0;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             pvp = false;
             hitMob = target.whoAmI;
             offSet = target.Center - Projectile.Center;
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             pvp = true;
             hitMob = target.whoAmI;

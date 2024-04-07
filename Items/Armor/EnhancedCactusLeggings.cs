@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enhanced Cactus Leggings");
-            Tooltip.SetDefault("5% increased movement speed");
+            // DisplayName.SetDefault("Enhanced Cactus Leggings");
+            // Tooltip.SetDefault("5% increased movement speed");
         }
         public override void SetDefaults()
         {

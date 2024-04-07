@@ -9,8 +9,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Infected!");
-            Description.SetDefault("Losing Life; will spread X Parasites upon death");
+			// DisplayName.SetDefault("Infected!");
+            // Description.SetDefault("Losing Life; will spread X Parasites upon death");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.LongerExpertDebuff[Type] = true;

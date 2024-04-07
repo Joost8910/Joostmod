@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Larpoon");
+            // DisplayName.SetDefault("Larpoon");
         }
         public override bool PreDrawExtras()
         {

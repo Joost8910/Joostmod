@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunar Shuriken");
-            Tooltip.SetDefault("'Unleash the power of the moon'");
+            // DisplayName.SetDefault("Lunar Shuriken");
+            // Tooltip.SetDefault("'Unleash the power of the moon'");
         }
         public override void SetDefaults()
         {

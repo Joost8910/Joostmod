@@ -13,8 +13,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Weapon Set");
-            Tooltip.SetDefault("'You fell a holy presence emanating from these weapons'");
+            // DisplayName.SetDefault("Hallowed Weapon Set");
+            // Tooltip.SetDefault("'You fell a holy presence emanating from these weapons'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

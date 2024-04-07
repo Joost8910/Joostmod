@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkle");
+            // DisplayName.SetDefault("Sparkle");
         }
         public override void SetDefaults()
         {

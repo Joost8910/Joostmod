@@ -17,10 +17,11 @@ namespace JoostMod.NPCs.Hunts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Roc");
+			// DisplayName.SetDefault("Roc");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.TrailCacheLength[NPC.type] = 5;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
 		public override void SetDefaults()
 		{
@@ -38,9 +39,9 @@ namespace JoostMod.NPCs.Hunts
             NPC.netAlways = true;
             NPC.noTileCollide = true;
 		}
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -55,7 +56,7 @@ namespace JoostMod.NPCs.Hunts
         {
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             NPC.ai[0]++;
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
@@ -101,7 +102,7 @@ namespace JoostMod.NPCs.Hunts
         {
             return NPC.ai[3] != 2 && base.CanHitPlayer(target, ref cooldownSlot);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (NPC.ai[3] == 1)
             {

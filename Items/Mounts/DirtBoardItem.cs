@@ -8,8 +8,8 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dirt Board");
-			Tooltip.SetDefault("Slide down slopes to gain velocity");
+			// DisplayName.SetDefault("Dirt Board");
+			// Tooltip.SetDefault("Slide down slopes to gain velocity");
 		}
 		public override void SetDefaults()
 		{

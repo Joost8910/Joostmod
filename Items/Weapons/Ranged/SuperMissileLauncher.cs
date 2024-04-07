@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Super Missile Launcher");
-            Tooltip.SetDefault("Fires powerful missiles");
+            // DisplayName.SetDefault("Super Missile Launcher");
+            // Tooltip.SetDefault("Fires powerful missiles");
         }
         public override void SetDefaults()
         {
@@ -36,7 +36,7 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            damage.CombineWith(player.rocketDamage);
+            damage.CombineWith(player.specialistDamage);
         }
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {

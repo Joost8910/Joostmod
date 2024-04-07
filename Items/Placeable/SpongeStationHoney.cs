@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Honey Absorbtion Pump");
+            // DisplayName.SetDefault("Honey Absorbtion Pump");
 		}
 
 		public override void SetDefaults()

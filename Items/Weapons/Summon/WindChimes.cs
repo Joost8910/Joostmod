@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chimes of the Wind");
-            Tooltip.SetDefault("Creates currents of wind that damages enemies");
+            // DisplayName.SetDefault("Chimes of the Wind");
+            // Tooltip.SetDefault("Creates currents of wind that damages enemies");
         }
         public override void SetDefaults()
         {

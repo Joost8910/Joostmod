@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hurricane Windwheel");
-            Tooltip.SetDefault("Creates a swirling current of wind that damages enemies");
+            // DisplayName.SetDefault("Hurricane Windwheel");
+            // Tooltip.SetDefault("Creates a swirling current of wind that damages enemies");
         }
         public override void SetDefaults()
         {

@@ -8,8 +8,8 @@ namespace JoostMod.Items.Quest
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jaws of the Eater of Worlds");
-            Tooltip.SetDefault("Quest item for the Hunt Master");
+            // DisplayName.SetDefault("Jaws of the Eater of Worlds");
+            // Tooltip.SetDefault("Quest item for the Hunt Master");
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thorny Cactus");
+            // DisplayName.SetDefault("Thorny Cactus");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Thrown
             height = 18;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float spread = (float)Math.PI * 2;
             int baseSpeed = 6;

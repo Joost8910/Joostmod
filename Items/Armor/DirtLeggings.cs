@@ -11,7 +11,7 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soil Pants");
+            // DisplayName.SetDefault("Soil Pants");
         }
         public override void SetDefaults()
         {

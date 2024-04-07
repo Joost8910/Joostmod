@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles.Accessory
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling Fish Hook");
+            // DisplayName.SetDefault("Sapling Fish Hook");
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -421,7 +421,7 @@ namespace JoostMod.Projectiles.Accessory
                         }
                         else
                         {
-                            NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, 370f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, 370f, 0f, 0f, 0, 0, 0);
                         }
                         Projectile.ai[0] = 2f;
                     }

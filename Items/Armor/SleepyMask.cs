@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sleepy Mask");
+			// DisplayName.SetDefault("Sleepy Mask");
 		}
 
 		public override void SetDefaults()

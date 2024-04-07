@@ -28,7 +28,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Decisive");
+            // DisplayName.SetDefault("Decisive");
         }
         public override float knockback => -0.1f;
         public override int crit => 18;

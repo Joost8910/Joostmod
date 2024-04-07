@@ -9,8 +9,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Endless Napalm Pouch");
-			Tooltip.SetDefault("'Fiery'");
+			// DisplayName.SetDefault("Endless Napalm Pouch");
+			// Tooltip.SetDefault("'Fiery'");
 		}
 		public override void SetDefaults()
 		{

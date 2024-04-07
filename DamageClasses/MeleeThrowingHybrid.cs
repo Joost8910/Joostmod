@@ -6,7 +6,7 @@ namespace JoostMod.DamageClasses
     {
         public override void SetStaticDefaults()
         {
-            ClassName.SetDefault("melee and throwing damage");
+            // DisplayName.SetDefault("melee and throwing damage");
         }
         public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
         {

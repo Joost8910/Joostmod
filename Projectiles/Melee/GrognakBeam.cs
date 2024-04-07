@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warhammer of Grognak");
+            // DisplayName.SetDefault("Warhammer of Grognak");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -39,10 +39,6 @@ namespace JoostMod.Projectiles.Melee
             hitbox.X -= (hitbox.Width - Projectile.width) / 2;
             hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
         }
-        public override void ModifyDamageScaling(ref float damageScale)
-        {
-            damageScale *= 0.1f * Projectile.penetrate;
-        }
         /*
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -54,11 +50,12 @@ namespace JoostMod.Projectiles.Melee
             }
         }
         */
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            hitDirection = target.Center.X < player.Center.X ? -1 : 1;
-            knockback *= Projectile.penetrate / 10;
+            modifiers.HitDirectionOverride = target.Center.X < player.Center.X ? -1 : 1;
+            modifiers.SourceDamage *= Projectile.penetrate * 0.1f;
+            modifiers.Knockback *= Projectile.penetrate * 0.1f;
         }
         public override void AI()
         {
@@ -153,7 +150,7 @@ namespace JoostMod.Projectiles.Melee
                             Projectile.position,
                             Projectile.width,
                             Projectile.height,
-                            197,
+                            DustID.NorthPole,
                             Projectile.velocity.X,
                             Projectile.velocity.Y,
                             Projectile.timeLeft < 75 ? 150 - Projectile.timeLeft * 2 : 0,
@@ -172,11 +169,11 @@ namespace JoostMod.Projectiles.Melee
             Projectile.rotation = Projectile.spriteDirection > 0 ? (float)rad : (float)(rad + Math.PI);
             Projectile.ai[1] += Projectile.ai[0] * 18 / (1 + Projectile.extraUpdates) * gravDir;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 197, 0, 0, 230 - timeLeft * 2, new Color(0, 255, 0), 3f).noGravity = true;
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.NorthPole, 0, 0, 230 - timeLeft * 2, new Color(0, 255, 0), 3f).noGravity = true;
             }
         }
         public override bool PreDraw(ref Color lightColor)

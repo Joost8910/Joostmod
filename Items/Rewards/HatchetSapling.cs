@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Hatchet");
-            Tooltip.SetDefault("Throws Hatchets at enemies behind you\n" + "5% increased throwing velocity");
+            // DisplayName.SetDefault("Sapling - Hatchet");
+            // Tooltip.SetDefault("Throws Hatchets at enemies behind you\n" + "5% increased throwing velocity");
         }
         public override void SetDefaults()
         {

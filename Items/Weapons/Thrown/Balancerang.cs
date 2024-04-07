@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Balancerang");
-            Tooltip.SetDefault("'Find your inner pieces'");
+            // DisplayName.SetDefault("Balancerang");
+            // Tooltip.SetDefault("'Find your inner pieces'");
         }
         public override void SetDefaults()
         {

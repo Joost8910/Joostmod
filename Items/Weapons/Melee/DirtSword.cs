@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soil Sword");
-            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" +
-                "Using this weapon consumes dirt equal to 1/20th of the damage bonus");
+            // DisplayName.SetDefault("Soil Sword");
+            /* Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" +
+                "Using this weapon consumes dirt equal to 1/20th of the damage bonus"); */
         }
         public override void SetDefaults()
         {

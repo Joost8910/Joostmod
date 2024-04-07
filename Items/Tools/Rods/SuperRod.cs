@@ -9,7 +9,7 @@ namespace JoostMod.Items.Tools.Rods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Super Rod");
+            // DisplayName.SetDefault("Super Rod");
         }
         public override void SetDefaults()
         {

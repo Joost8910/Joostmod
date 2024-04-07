@@ -13,8 +13,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandstorm Glove");
-            Tooltip.SetDefault("Rapidly throws sand\nUses sand blocks as ammo");
+            // DisplayName.SetDefault("Sandstorm Glove");
+            // Tooltip.SetDefault("Rapidly throws sand\nUses sand blocks as ammo");
         }
         public override void SetDefaults()
         {

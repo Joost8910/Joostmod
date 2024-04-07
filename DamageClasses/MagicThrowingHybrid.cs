@@ -6,7 +6,7 @@ namespace JoostMod.DamageClasses
     {
         public override void SetStaticDefaults()
         {
-            ClassName.SetDefault("throwing and magic damage");
+            // DisplayName.SetDefault("throwing and magic damage");
         }
         public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
         {

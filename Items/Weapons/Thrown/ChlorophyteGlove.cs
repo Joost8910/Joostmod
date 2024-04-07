@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chlorophyte Glove");
-            Tooltip.SetDefault("Throws spore clouds");
+            // DisplayName.SetDefault("Chlorophyte Glove");
+            // Tooltip.SetDefault("Throws spore clouds");
         }
         public override void SetDefaults()
         {

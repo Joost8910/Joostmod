@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yonade");
-            Tooltip.SetDefault("Drops and explodes on a critical hit");
+            // DisplayName.SetDefault("Yonade");
+            // Tooltip.SetDefault("Drops and explodes on a critical hit");
         }
         public override void SetDefaults()
         {

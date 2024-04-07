@@ -15,7 +15,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brawler's Glove");
+            // DisplayName.SetDefault("Brawler's Glove");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -675,34 +675,47 @@ namespace JoostMod.Projectiles.Melee
             }
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.ai[1] == 1)
             {
-                crit = true;
+                modifiers.SetCrit();
             }
+            /*
             if (target.knockBackResist > 0 && target.life < (damage - target.defense / 2) * (crit ? 2 : 1) && (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3))
             {
                 damage = (target.life + target.defense / 2 - 3) / (crit ? 2 : 1);
             }
+            */
+
+            if (target.knockBackResist > 0 && (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3))
+            {
+                modifiers.SetMaxDamage(target.life - 3);
+            }
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[1] == 0 && !player.controlLeft && !player.controlRight)
             {
-                knockback = 0;
+                modifiers.DisableKnockback();
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             if (Projectile.ai[1] == 1)
             {
-                crit = true;
+                modifiers.FinalDamage *= 2;
             }
+            /*
             if (target.statLife < (damage - target.statDefense / 2) * (crit ? 2 : 1) && (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3))
             {
                 damage = (target.statLife + target.statDefense / 2 - 3) / (crit ? 2 : 1);
             }
+            */
+            if (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3)
+            {
+                modifiers.SetMaxDamage(target.statLife - 3);
+            }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 dir = Projectile.velocity;
@@ -711,7 +724,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 if (target.knockBackResist > 0)
                 {
-                    target.velocity = dir * knockback * target.knockBackResist;
+                    target.velocity = dir * hit.Knockback * target.knockBackResist;
                     if (Vector2.Distance(target.position, player.position + player.velocity) < Vector2.Distance(target.position, player.position))
                     {
                         target.velocity += player.velocity;
@@ -778,7 +791,7 @@ namespace JoostMod.Projectiles.Melee
                 }
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             Vector2 dir = Projectile.velocity;

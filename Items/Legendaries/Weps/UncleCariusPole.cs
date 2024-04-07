@@ -18,11 +18,11 @@ namespace JoostMod.Items.Legendaries.Weps
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Uncle Carius's Fishing Pole");
-            Tooltip.SetDefault("'This is the pole of ol' Uncle Carius\n" +
+            // DisplayName.SetDefault("Uncle Carius's Fishing Pole");
+            /* Tooltip.SetDefault("'This is the pole of ol' Uncle Carius\n" +
             "Deals more damage and throws more hooks as you kill bosses throughout the game\n" +
             "Fishing power is equivelent to damage\n" +
-            "Right click to throw some fish, velocity increases with boss progression");
+            "Right click to throw some fish, velocity increases with boss progression"); */
         }
         public override void SetDefaults()
         {

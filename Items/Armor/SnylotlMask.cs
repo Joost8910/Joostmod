@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Snylotl Mask");
-			Tooltip.SetDefault("'HISSsss'");
+			// DisplayName.SetDefault("Snylotl Mask");
+			// Tooltip.SetDefault("'HISSsss'");
 		}
 		public override void SetDefaults()
 		{

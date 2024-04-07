@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Root");
+            // DisplayName.SetDefault("Root");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tornado Plate");
-            Tooltip.SetDefault("Increases your max number of minions");
+            // DisplayName.SetDefault("Tornado Plate");
+            // Tooltip.SetDefault("Increases your max number of minions");
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesHands[Item.bodySlot] = true;
         }

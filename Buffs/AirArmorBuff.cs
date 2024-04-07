@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Swirling Winds");
-			Description.SetDefault("Greatly increased mobility and life regen");
+			// DisplayName.SetDefault("Swirling Winds");
+			// Description.SetDefault("Greatly increased mobility and life regen");
 			Main.buffNoSave[Type] = true;
 		}
 

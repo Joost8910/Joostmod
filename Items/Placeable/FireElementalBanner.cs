@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fire Elemental Banner");
+			// DisplayName.SetDefault("Fire Elemental Banner");
 		}
         public override void SetDefaults()
         {

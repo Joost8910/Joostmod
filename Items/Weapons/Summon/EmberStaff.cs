@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ember Staff");
-            Tooltip.SetDefault("Summons an Ember to fight for you");
+            // DisplayName.SetDefault("Ember Staff");
+            // Tooltip.SetDefault("Summons an Ember to fight for you");
         }
         public override void SetDefaults()
         {

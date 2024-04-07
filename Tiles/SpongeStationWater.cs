@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,8 +22,8 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 16, 16 };
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Water Absorbtion Pump");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Water Absorbtion Pump");
 			AddMapEntry(new Color(105, 107, 125), name);
 			DustType = 1;
 		}
@@ -40,10 +41,6 @@ namespace JoostMod.Tiles
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
 			player.cursorItemIconID = ModContent.ItemType<Items.Placeable.SpongeStationWater>();
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.SpongeStationWater>());
 		}
         public override bool RightClick(int i, int j)
 		{

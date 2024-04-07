@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mechanical Weapon Set");
-            Tooltip.SetDefault("'BEEP BOOP MOTHERF---ER'");
+            // DisplayName.SetDefault("Mechanical Weapon Set");
+            // Tooltip.SetDefault("'BEEP BOOP MOTHERF---ER'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

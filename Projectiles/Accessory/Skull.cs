@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Skull");
+            // DisplayName.SetDefault("Skull");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()

@@ -11,8 +11,9 @@ namespace JoostMod.NPCs.Hunts
     { 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dead Man's Fire");
+			// DisplayName.SetDefault("Dead Man's Fire");
             Main.npcFrameCount[NPC.type] = 3;
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
         }
         public override void SetDefaults()
         {
@@ -28,30 +29,22 @@ namespace JoostMod.NPCs.Hunts
             NPC.aiStyle = -1;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.buffImmune[BuffID.OnFire] = true;
-            NPC.buffImmune[BuffID.Venom] = true;
-            NPC.buffImmune[BuffID.Poisoned] = true;
-            NPC.buffImmune[BuffID.Frostburn] = true;
-            NPC.buffImmune[BuffID.CursedInferno] = true;
-            NPC.buffImmune[BuffID.Daybreak] = true;
-            NPC.buffImmune[ModContent.BuffType<BoneHurt>()] = true;
-            NPC.buffImmune[ModContent.BuffType<CorruptSoul>()] = true;
         }
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
-            crit = false;
-            damage = 1;
+            modifiers.DisableCrit();
+            modifiers.SetMaxDamage(1);
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            crit = false;
-            damage = 1;
+            modifiers.DisableCrit();
+            modifiers.SetMaxDamage(1);
         }
         public override bool PreKill()
         {
             return false;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             Player P = Main.player[NPC.target];
             for (int i = 0; i < 10; i++)
@@ -109,7 +102,7 @@ namespace JoostMod.NPCs.Hunts
                 NPC.frame.Y = 0;
             }
         }
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
             if (target.type == NPCID.BurningSphere)
             {
@@ -125,7 +118,7 @@ namespace JoostMod.NPCs.Hunts
             }
             return base.CanBeHitByProjectile(projectile);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
         {
             if (target.type != NPCID.BurningSphere)
             {
@@ -134,7 +127,7 @@ namespace JoostMod.NPCs.Hunts
             }
             NPC.ai[2] = 0;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             NPC.life = 0;
             Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 30, 20);

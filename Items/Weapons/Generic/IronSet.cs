@@ -14,8 +14,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Iron Weapon Set");
-            Tooltip.SetDefault("'ALL the iron!'");
+            // DisplayName.SetDefault("Iron Weapon Set");
+            // Tooltip.SetDefault("'ALL the iron!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

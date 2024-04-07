@@ -7,8 +7,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Music Box (Clash on the Big Bridge)");
-			Tooltip.SetDefault("From Final Fantasy XII: The Zodiac Age");
+			// DisplayName.SetDefault("Music Box (Clash on the Big Bridge)");
+			// Tooltip.SetDefault("From Final Fantasy XII: The Zodiac Age");
 
 			MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ClashOnTheBigBridge"), ModContent.ItemType<COTBBMusicBox>(), ModContent.TileType<Tiles.COTBBMusicBox>());
 		}

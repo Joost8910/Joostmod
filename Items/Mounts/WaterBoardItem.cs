@@ -9,8 +9,8 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Water Board");
-			Tooltip.SetDefault("Summons a rideable board that floats");
+			// DisplayName.SetDefault("Water Board");
+			// Tooltip.SetDefault("Summons a rideable board that floats");
 		}
 		public override void SetDefaults()
 		{

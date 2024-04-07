@@ -9,8 +9,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Counter Dodge");
-			Description.SetDefault("You will dodge the next attack and gain Counter Attack");
+			// DisplayName.SetDefault("Counter Dodge");
+			// Description.SetDefault("You will dodge the next attack and gain Counter Attack");
 			Main.buffNoSave[Type] = true;
 		}
 

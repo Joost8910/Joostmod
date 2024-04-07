@@ -10,9 +10,9 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandstorm Breastplate");
-			Tooltip.SetDefault("20% increased Throwing Crit chance\n" +
-			"Reduced damage from cold sources");
+			// DisplayName.SetDefault("Sandstorm Breastplate");
+			/* Tooltip.SetDefault("20% increased Throwing Crit chance\n" +
+			"Reduced damage from cold sources"); */
 		}
 		public override void SetDefaults()
 		{

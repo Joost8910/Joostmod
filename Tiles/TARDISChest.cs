@@ -40,14 +40,14 @@ namespace JoostMod.Tiles
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("TARDIS Chest");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("TARDIS Chest");
 			AddMapEntry(new Color(20, 20, 200), name, MapChestName);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			TileID.Sets.BasicChest[Type] = true;
-			ContainerName.SetDefault("TARDIS Chest");
-			ChestDrop = ModContent.ItemType<Items.Placeable.TARDISChest>();
+			//DefaultContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("TARDIS Chest");
+			//ItemDrop/* tModPorter Note: Removed. Tiles and walls will drop the item which places them automatically. Use Register//ItemDrop to alter the automatic drop if necessary. */ = ModContent.ItemType<Items.Placeable.TARDISChest>();
 		}
 
 		public string MapChestName(string name, int i, int j)
@@ -81,7 +81,6 @@ namespace JoostMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
 			Chest.DestroyChest(i, j);
 		}
 

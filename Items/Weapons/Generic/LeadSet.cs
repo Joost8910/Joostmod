@@ -14,8 +14,8 @@ namespace JoostMod.Items.Weapons.Generic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lead Weapon Set");
-            Tooltip.SetDefault("'ALL the lead!'");
+            // DisplayName.SetDefault("Lead Weapon Set");
+            // Tooltip.SetDefault("'ALL the lead!'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 4));
         }
         public override void SetDefaults()

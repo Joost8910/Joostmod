@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boomerain");
-            Tooltip.SetDefault("A boomerang that drops damaging rain below it");
+            // DisplayName.SetDefault("Boomerain");
+            // Tooltip.SetDefault("A boomerang that drops damaging rain below it");
         }
         public override void SetDefaults()
         {

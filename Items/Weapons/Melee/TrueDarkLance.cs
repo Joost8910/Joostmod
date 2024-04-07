@@ -9,7 +9,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Dark Lance");
+            // DisplayName.SetDefault("True Dark Lance");
         }
         public override void SetDefaults()
         {

@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Rose");
+            // DisplayName.SetDefault("The Rose");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -64,7 +64,7 @@ namespace JoostMod.Projectiles.Melee
         public override string Texture => "JoostMod/Projectiles/Melee/TheRose";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Rose's Thorns");
+            // DisplayName.SetDefault("The Rose's Thorns");
         }
         public override void SetDefaults()
         {
@@ -93,9 +93,9 @@ namespace JoostMod.Projectiles.Melee
             Projectile.velocity = owner.velocity;
             Projectile.timeLeft = 2;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            hitDirection = Math.Sign(Projectile.Center.X - Main.player[Projectile.owner].Center.X);
+            modifiers.HitDirectionOverride = Math.Sign(Projectile.Center.X - Main.player[Projectile.owner].Center.X);
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

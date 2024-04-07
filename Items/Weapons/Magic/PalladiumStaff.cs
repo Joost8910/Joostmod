@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal Staff");
-            Tooltip.SetDefault("Shoots a chunk of crystal at your mouse's location that shatters into 8 shards");
+            // DisplayName.SetDefault("Crystal Staff");
+            // Tooltip.SetDefault("Shoots a chunk of crystal at your mouse's location that shatters into 8 shards");
         }
         public override void SetDefaults()
         {

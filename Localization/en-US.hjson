@@ -1,0 +1,4033 @@
+Mods: {
+	JoostMod: {
+		Buffs: {
+			AirArmorBuff: {
+				DisplayName: Swirling Winds
+				Description: Greatly increased mobility and life regen
+			}
+
+			AirScooterMount: {
+				DisplayName: Whirlwind Sphere
+				Description: Floaty
+			}
+
+			BoneHurt: {
+				DisplayName: Your bones hurt
+				Description: Losing life, amount lost increases over time
+			}
+
+			BONELESSPizza: {
+				DisplayName: BONELESS Pizza
+				Description: Max health increased by 50
+			}
+
+			CactoidFriend: {
+				DisplayName: Friend of Cactoids
+				Description: Cactoids become friendly and will fight for you
+			}
+
+			CactuarBuff: {
+				DisplayName: Cactuar
+				Description: The Cactuar will fight for you
+			}
+
+			CactusJuice: {
+				DisplayName: High on Cactus Juice
+				Description: Minus 5 defense, damage increased by 25%, wont stop moving
+			}
+
+			CorruptSoul: {
+				DisplayName: Corrupted Soul
+				Description: Losing Life; will spawn a corrupted soul upon death
+			}
+
+			DirtBoard: {
+				DisplayName: Dirt Board
+				Description: All-terrain snowboard
+			}
+
+			DirtMinionBuff: {
+				DisplayName: Soil Spirit
+				Description: The soil spirit will fight for you
+			}
+
+			EarthMount: {
+				DisplayName: Slabs of Stone
+				Description: Rocky
+			}
+
+			EmberMinionBuff: {
+				DisplayName: Ember
+				Description: The ember will fight for you
+			}
+
+			EnergyBuff: {
+				DisplayName: Enhanced Energy
+				Description: Damage and Movement Speed increased by 10%
+			}
+
+			EnkiduMinionBuff: {
+				DisplayName: Enkidu
+				Description: Enkidu will fight for you
+			}
+
+			FierySoles: {
+				DisplayName: Fiery Soles
+				Description: Hawt
+			}
+
+			FireArmorBuff: {
+				DisplayName: Overwhelming Fire
+				Description: Ranged damage and movement speed increased by 40%, rapidly losing life
+			}
+
+			FishMinionBuff: {
+				DisplayName: Pufferfish Minion
+				Description: The pufferfish will fight for you
+			}
+
+			FrostEmberMinion: {
+				DisplayName: Frostfire Ember
+				Description: The frostfire ember will fight for you
+			}
+
+			GnomeBuff: {
+				DisplayName: Gnome Warrior
+				Description: The Gnome Warrior will fight with you
+			}
+
+			gRangedBuff: {
+				DisplayName: Ranged Mastery
+				Description: Defense reduced to 0, ranged damage increased by 0.5% per defense point lost
+			}
+
+			gThrownBuff: {
+				DisplayName: Counter Attack
+				Description: Thrown damage and velocity increased by 50%
+			}
+
+			gThrownCooldown: {
+				DisplayName: Counter Dodge Cooldown
+				Description: Cannot use Counter Dodge
+			}
+
+			gThrownDodge: {
+				DisplayName: Counter Dodge
+				Description: You will dodge the next attack and gain Counter Attack
+			}
+
+			HarpyMinionBuff: {
+				DisplayName: Miniature Harpy
+				Description: The Harpy will fight with you
+			}
+
+			HavelBuff: {
+				DisplayName: Stone Flesh
+				Description: Reduces damage taken by 40%, mobility greatly reduced
+			}
+
+			IceXMinionBuff: {
+				DisplayName: Ice Core-X Minion
+				Description: The Ice Core-X will fight for you
+			}
+
+			ICUMinion: {
+				DisplayName: ICU
+				Description: The ICU will fight for you
+			}
+
+			InfectedBlue: {
+				DisplayName: Infected!
+				Description: Losing Life; will spread X Parasites upon death
+			}
+
+			InfectedGreen: {
+				DisplayName: Infected!
+				Description: Losing Life; will spread X Parasites upon death
+			}
+
+			InfectedRed: {
+				DisplayName: Infected!
+				Description: Losing Life; will spread X Parasites upon death
+			}
+
+			InfectedYellow: {
+				DisplayName: Infected!
+				Description: Losing Life; will spread X Parasites upon death
+			}
+
+			JoostJuice: {
+				DisplayName: Joost Juice
+				Description:
+					'''
+					Effects of Well fed, Regeneration, Swiftness, Ironskin
+					Heartreach, Lifeforce, Endurance, Rage, Wrath, Warmth, and Summoning
+					'''
+			}
+
+			LifeDrink: {
+				DisplayName: Life Rend
+				Description: Will heal a nearby enemy player on death
+			}
+
+			PinkSlimeBuff: {
+				DisplayName: Bouncy Slime
+				Description: Very bouncy. 50% reduced damage. Cannot use items.
+			}
+
+			PlaneMount: {
+				DisplayName: Airplane
+				Description: It can fly!
+			}
+
+			PowerSpirit: {
+				DisplayName: Spirit of Power
+				Description:
+					'''
+					The Spirit of Power will protect you
+					Max minions increased by 1
+					'''
+			}
+
+			SandSharkMount: {
+				DisplayName: Sand Shark
+				Description: "'The desert DOES have fish'"
+			}
+
+			Sap: {
+				DisplayName: Sap
+				Description: Losing Life
+			}
+
+			ScooterMount: {
+				DisplayName: Scooter
+				Description: Scoot... Scoot...
+			}
+
+			SkellyMinionBuff: {
+				DisplayName: Mini Skeleton
+				Description: The Skelly will fight with you
+			}
+
+			SlimeBuff: {
+				DisplayName: Sticky Slime
+				Description: 20% reduced damage. Sticks to enemies. Cannot use items.
+			}
+
+			StormWyvernMinionBuff: {
+				DisplayName: Storm Wyvern
+				Description: The storm wyvern will fight for you
+			}
+
+			Stormy: {
+				DisplayName: Stormy
+				Description: Best girl
+			}
+
+			WaterBoard: {
+				DisplayName: Water Board
+				Description: Hang ten!
+			}
+
+			Whirlwind: {
+				DisplayName: Whirlwind
+				Description: Defense increased by 20, featherfall
+			}
+
+			WindMinionBuff: {
+				DisplayName: Magic Tornado
+				Description: The Tornado will fight for you
+			}
+		}
+
+		DamageClasses: {
+			MagicMeleeHybrid.DisplayName: melee and magic damage
+			MagicRangedHybrid.DisplayName: ranged and magic damage
+			MagicThrowingHybrid.DisplayName: throwing and magic damage
+			MeleeRangedHybrid.DisplayName: melee and ranged damage
+			MeleeThrowingHybrid.DisplayName: melee and throwing damage
+		}
+
+		Items: {
+			AirMedallion: {
+				DisplayName: Gust Amulet
+				Tooltip:
+					'''
+					Increases movement speed by 10%
+					Your summon attacks have a 10% chance to create a gust of wind
+					'''
+			}
+
+			BlazingAnklet: {
+				DisplayName: Blazing Anklets
+				Tooltip:
+					'''
+					Increases running speed by 25%
+					For every 10mph you're running at, ranged crit chance increases by 1%
+					Greatly increases running speed while on fire blocks
+					Grants immunity to fire blocks
+					'''
+			}
+
+			BubbleShield: {
+				DisplayName: Bubble Shield
+				Tooltip:
+					'''
+					Creates a bubble that knocks back enemies
+					Fished in the ocean
+					'''
+			}
+
+			CactuarShield: {
+				DisplayName: Cactuar Shield
+				Tooltip:
+					'''
+					Inflicts 20 times enemy contact damage back to the attacker
+					Grants immunity to knockback
+					'''
+			}
+
+			EmptyHeart: {
+				DisplayName: Empty Heart
+				Tooltip:
+					'''
+					Reduces your health to 1
+					20% Increased Damage
+					'''
+			}
+
+			GlowingContacts: {
+				DisplayName: Glow-In-The-Dark Contacts
+				Tooltip:
+					'''
+					Toggle visiblity to disable glow effect
+					Place in slot 2 to wear over helmets
+					Place in slot 3 for raised eye texture
+					Place in slot 4 for a closed-helm texture
+					Place in slot 5 for a raised closed-helm texture
+					Place in slot 6 for genji helm texture
+					'''
+			}
+
+			Gravdistorter: {
+				DisplayName: Gravity Distortion Core
+				Tooltip: Gravity gets weird
+			}
+
+			HarmonyPendant: {
+				DisplayName: Harmony Pendant
+				Tooltip: Reduces spawnrates by 80%
+			}
+
+			HavelsGreatshield: {
+				DisplayName: Havel's Greatshield
+				Tooltip:
+					'''
+					Reduces movement speed by 5%
+					Right click to block attacks in front of you
+					Blocking an attack reduces its damage by an amount equal to the shield's damage
+					Left click while blocking to shield bash
+					'''
+			}
+
+			HavocPendant: {
+				DisplayName: Havoc Pendant
+				Tooltip: Multiplies spawnrates by 5
+			}
+
+			HoverBoots: {
+				DisplayName: Hover Boots
+				Tooltip: Allows you to walk on air
+			}
+
+			LunarCactusBooster: {
+				DisplayName: Lunar Cactus Booster
+				Tooltip:
+					'''
+					Allows flight and slow fall
+					Hold UP while flying to quickly ascend
+					Hold DOWN while flying to quickly descend
+					'''
+			}
+
+			MegaBubbleShield: {
+				DisplayName: Mega Bubble Shield
+				Tooltip: Creates a powerful bubble that knocks back enemies
+			}
+
+			PersonalBubble: {
+				DisplayName: Personal Bubble
+				Tooltip:
+					'''
+					You always count as being in water
+					Your magic attacks deal 15% more damage to submerged enemies
+					Pushes back enemies; hide visual to disable
+					'''
+			}
+
+			SandstormMedallion: {
+				DisplayName: Sandstorm Medallion
+				Tooltip:
+					'''
+					15% Increased throwing damage
+					While in a sandstorm gain 15% increased movement speed,
+					 throwing velocity, and chance to not consume thrown items
+					'''
+			}
+
+			ScrollofDeath: {
+				DisplayName: Scroll of Death
+				Tooltip:
+					'''
+					Summon multiple skulls when below half health
+					Increases max number of minions by 2
+					Increases summon damage by 15%
+					Increases minion knockback
+					'''
+			}
+
+			SigilofSkulls: {
+				DisplayName: Sigil of Skulls
+				Tooltip:
+					'''
+					Summon multiple skulls when below half health
+					Increases max number of minions
+					'''
+			}
+
+			SpaceJump: {
+				DisplayName: Space Jump
+				Tooltip: Allows you to jump infinitely
+			}
+
+			SpectralOrb: {
+				DisplayName: Spectral Orbs
+				Tooltip: Creates spectral orbs that damage enemies
+			}
+
+			StoneofJordan: {
+				DisplayName: Stone of Jordan
+				Tooltip:
+					'''
+					10% increased damage
+					Max Life and Mana increased by 20
+					'''
+			}
+
+			TownNPCSpawner: {
+				DisplayName: Free Real Estate Banner
+				Tooltip: Greatly increases the rate that town NPCs arrive
+			}
+
+			XShield: {
+				DisplayName: X Shield
+				Tooltip:
+					'''
+					Creates X Parasites periodically
+					X Parasites infect the target, dealing damage over time and making them create more x parasites on death
+					Red parasites make the target drop hearts and are scaled by ranged damage
+					Green parasites make the target drop an energy orb and are scaled by throwing damage
+					Blue parasites make the target drop mana stars and are scaled by magic damage
+					Yellow parasites make the target drop more money and are scaled by melee damage
+					Grants immunity to knockback and infection
+					'''
+			}
+
+			BoomerangBullet: {
+				DisplayName: Boomerang Bullet
+				Tooltip:
+					'''
+					'It really works!'
+					Has a 10% chance of returning to you
+					'''
+			}
+
+			DesertSolution: {
+				DisplayName: Desertification Solution
+				Tooltip:
+					'''
+					Used by the Clentaminator
+					Spreads the Desert
+					'''
+			}
+
+			DrillBullet: {
+				DisplayName: Drill Bullet
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					50% Pickaxe Power
+					'''
+			}
+
+			EndlessBoomerangBullet: {
+				DisplayName: Endless Boomerang Bullet Pouch
+				Tooltip:
+					'''
+					'It really works!'
+					Has a 10% chance of returning to you
+					'''
+			}
+
+			EndlessDrillBullet: {
+				DisplayName: Endless Drill Bullet Pouch
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					50% Pickaxe Power
+					'''
+			}
+
+			EndlessHallowedDrillBullet: {
+				DisplayName: Endless Hallowed Drill Bullet Pouch
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					200% Pickaxe Power
+					'''
+			}
+
+			EndlessLaserDrillBullet: {
+				DisplayName: Endless Laser Drill Bullet Pouch
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					Always shoots straight towards your cursor
+					230% Pickaxe Power
+					'''
+			}
+
+			EndlessMoltenDrillBullet: {
+				DisplayName: Endless Molten Drill Bullet Pouch
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					100% Pickaxe Power
+					'''
+			}
+
+			EndlessNapalm: {
+				DisplayName: Endless Napalm Pouch
+				Tooltip: "'Fiery'"
+			}
+
+			EndlessRichoshot: {
+				DisplayName: Endless Richoshot Pouch
+				Tooltip: "'Bouncy!'"
+			}
+
+			EndlessShroomiteBullet: {
+				DisplayName: Endless Shroomite Pouch
+				Tooltip: Leaves a trail of damaging mushrooms
+			}
+
+			EndlessSoulArrow: {
+				DisplayName: Endless Soul Arrow
+				Tooltip: Has a slight homing effect
+			}
+
+			FishFood: {
+				DisplayName: Fishy Food
+				Tooltip: ""
+			}
+
+			HallowedDrillBullet: {
+				DisplayName: Hallowed Drill Bullet
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					200% Pickaxe Power
+					'''
+			}
+
+			HungeringArrow: {
+				DisplayName: Hungering Arrow
+				Tooltip: A homing arrow with a 35% chance to pierce enemies
+			}
+
+			LaserDrillBullet: {
+				DisplayName: Laser Drill Bullet
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					Always shoots straight at your cursor
+					230% Pickaxe Power
+					'''
+			}
+
+			MoltenDrillBullet: {
+				DisplayName: Molten Drill Bullet
+				Tooltip:
+					'''
+					Breaks struck tiles
+					Does little but rapid damage
+					100% Pickaxe Power
+					'''
+			}
+
+			Napalm: {
+				DisplayName: Napalm
+				Tooltip: "'Fiery'"
+			}
+
+			Richoshot: {
+				DisplayName: Richoshot
+				Tooltip: "'Bouncy!'"
+			}
+
+			ShroomiteBullet: {
+				DisplayName: Shroomite Bullet
+				Tooltip: Leaves a trail of damaging mushrooms
+			}
+
+			SoulArrow: {
+				DisplayName: Soul Arrow
+				Tooltip: Has a slight homing effect
+			}
+
+			TemperateSolution: {
+				DisplayName: Temperate Solution
+				Tooltip:
+					'''
+					Used by the Clentaminator
+					Removes the Desert and Tundra
+					'''
+			}
+
+			WinterSolution: {
+				DisplayName: Winter Solution
+				Tooltip:
+					'''
+					Used by the Clentaminator
+					Spreads the tundra
+					'Winter is coming'
+					'''
+			}
+
+			AirArmor: {
+				DisplayName: Tornado Plate
+				Tooltip: Increases your max number of minions
+			}
+
+			AirCrown: {
+				DisplayName: Crown of Wind
+				Tooltip:
+					'''
+					20% increased summon damage
+					Increases your max number of minions
+					'''
+			}
+
+			AirLegs: {
+				DisplayName: Tornado Legs
+				Tooltip:
+					'''
+					20% increased movement speed
+					Increases your max number of minions
+					'''
+			}
+
+			CactuarCoat: {
+				DisplayName: Cactuar Coat
+				Tooltip: ""
+			}
+
+			CactuarMask: {
+				DisplayName: Cactuar Mask
+				Tooltip: ""
+			}
+
+			CactuarPants: {
+				DisplayName: Cactuar Pants
+				Tooltip: ""
+			}
+
+			Cuphead: {
+				DisplayName: Cup Mask
+				Tooltip: ""
+			}
+
+			CyclopsMask: {
+				DisplayName: Cyclops Mask
+				Tooltip: "'Lack of depth perception can be an issue'"
+			}
+
+			DirtBreastplate: {
+				DisplayName: Soil Breastplate
+				Tooltip: ""
+			}
+
+			DirtHelmet: {
+				DisplayName: Soil Helm
+				Tooltip: ""
+			}
+
+			DirtLeggings: {
+				DisplayName: Soil Pants
+				Tooltip: ""
+			}
+
+			EnhancedCactusBreastplate: {
+				DisplayName: Enhanced Cactus Breastplate
+				Tooltip: 4% increased damage
+			}
+
+			EnhancedCactusHelmet: {
+				DisplayName: Enhanced Cactus Helmet
+				Tooltip: 3% increased critical strike chance
+			}
+
+			EnhancedCactusLeggings: {
+				DisplayName: Enhanced Cactus Leggings
+				Tooltip: 5% increased movement speed
+			}
+
+			FireChest: {
+				DisplayName: Smoldering Breastplate
+				Tooltip: 18% increased ranged damage
+			}
+
+			FireCrown: {
+				DisplayName: Crown of Fire
+				Tooltip: 18% increased ranged crit Chance
+			}
+
+			FireLeggings: {
+				DisplayName: Smoldering Leggings
+				Tooltip: 10% increased movement speed
+			}
+
+			GameRaiders101Mask: {
+				DisplayName: Gameraiders101 Mask
+				Tooltip: "'Great for impersonating youtubers!'"
+			}
+
+			GenjiArmorMagic: {
+				DisplayName: Azure Genji Armor
+				Tooltip:
+					'''
+					Max Mana increased by 200
+					Max Life increased by 175
+					'''
+			}
+
+			GenjiArmorMelee: {
+				DisplayName: Golden Genji Armor
+				Tooltip:
+					'''
+					Enemies are most likely to target you
+					Max Life increased by 250
+					'''
+			}
+
+			GenjiArmorRanged: {
+				DisplayName: Crimson Genji Armor
+				Tooltip:
+					'''
+					35% increased Ranged Crit chance
+					Max Life increased by 200
+					'''
+			}
+
+			GenjiArmorSummon: {
+				DisplayName: Silver Genji Armor
+				Tooltip:
+					'''
+					Increases your max number of minions by 7
+					Max Life increased by 150
+					'''
+			}
+
+			GenjiArmorThrown: {
+				DisplayName: Veridian Genji Armor
+				Tooltip:
+					'''
+					20% Increased throwing crit chance
+					Max Life increased by 225
+					'''
+			}
+
+			GenjiHelmMagic: {
+				DisplayName: Azure Genji Helm
+				Tooltip:
+					'''
+					65% Increased Magic damage
+					35% Reduced Mana Usage
+					'''
+			}
+
+			GenjiHelmMelee: {
+				DisplayName: Golden Genji Helm
+				Tooltip:
+					'''
+					50% Increased Melee damage
+					25% Increased Melee speed
+					'''
+			}
+
+			GenjiHelmRanged: {
+				DisplayName: Crimson Genji Helm
+				Tooltip:
+					'''
+					50% Increased Ranged damage
+					You no longer consume ammo
+					'''
+			}
+
+			GenjiHelmSummon: {
+				DisplayName: Silver Genji Helm
+				Tooltip:
+					'''
+					75% Increased Minion damage and knockback
+					Max sentries increased by 4
+					'''
+			}
+
+			GenjiHelmThrown: {
+				DisplayName: Veridian Genji Helm
+				Tooltip:
+					'''
+					60% Increased throwing velocity and damage
+					You no longer consume thrown items
+					'''
+			}
+
+			GenjiLeggings: {
+				DisplayName: Genji Leggings
+				Tooltip:
+					'''
+					Allows the wearer to run incredibly fast
+					Life regeneration increased by 8
+					'''
+			}
+
+			GiantBoot: {
+				DisplayName: Giant Boot
+				Tooltip: ""
+			}
+
+			GilgameshMask: {
+				DisplayName: Gilgamesh Mask
+				Tooltip: ""
+			}
+
+			GnomeHat: {
+				DisplayName: Gnome Hat
+				Tooltip: "'To show your loyalty to the Gnome God'"
+			}
+
+			GrandCactusWormMask: {
+				DisplayName: Cactus Worm Mask
+				Tooltip: ""
+			}
+
+			HavelArmor: {
+				DisplayName: Havel's Armor
+				Tooltip:
+					'''
+					Grants immunity to knockback
+					7% increased melee damage
+					10% reduced movement speed
+					'''
+			}
+
+			HavelHelm: {
+				DisplayName: Havel's Helmet
+				Tooltip:
+					'''
+					8% increased melee crit Chance
+					10% reduced movement speed
+					'''
+			}
+
+			HavelLeggings: {
+				DisplayName: Havel's Leggings
+				Tooltip:
+					'''
+					6% increased melee damage
+					10% reduced movement speed
+					'''
+			}
+
+			JumboCactuarMask: {
+				DisplayName: Jumbo Cactuar Mask
+				Tooltip: ""
+			}
+
+			LunarCactusChestpiece: {
+				DisplayName: Lunar Cactus Chestpiece
+				Tooltip:
+					'''
+					Throwing crit chance increased by 35%
+					Life Regeneration increased by 8
+					'''
+			}
+
+			LunarCactusHelmet: {
+				DisplayName: Lunar Cactus Helmet
+				Tooltip:
+					'''
+					Throwing velocity increased by 35%
+					Reduces thrown item consumption by 50%
+					'''
+			}
+
+			LunarCactusLeggings: {
+				DisplayName: Lunar Cactus Leggings
+				Tooltip: Allows the wearer to run super fast
+			}
+
+			MooshroomBody: {
+				DisplayName: Mooshroom Top
+				Tooltip: ""
+			}
+
+			MooshroomLegs: {
+				DisplayName: Mooshroom Bottom
+				Tooltip: ""
+			}
+
+			MooshroomMask: {
+				DisplayName: Mooshroom Mask
+				Tooltip: MOOOO
+			}
+
+			Mugman: {
+				DisplayName: Mug Mask
+				Tooltip: ""
+			}
+
+			PinkSlimeCoat: {
+				DisplayName: Pink Slime Coat
+				Tooltip: ""
+			}
+
+			PinkSlimeHelm: {
+				DisplayName: Pink Slime Helm
+				Tooltip: ""
+			}
+
+			PinkSlimeLeggings: {
+				DisplayName: Pink Slime Leggings
+				Tooltip: Slightly increased jump speed
+			}
+
+			SandstormBreastplate: {
+				DisplayName: Sandstorm Breastplate
+				Tooltip:
+					'''
+					20% increased Throwing Crit chance
+					Reduced damage from cold sources
+					'''
+			}
+
+			SandstormHelmet: {
+				DisplayName: Sandstorm Helmet
+				Tooltip:
+					'''
+					25% increased Throwing Damage
+					50% chance to not consume thrown items
+					'''
+			}
+
+			SandstormLeggings: {
+				DisplayName: Sandstorm Leggings
+				Tooltip:
+					'''
+					20% increased Throwing Velocity and movement speed
+					Sandstorms no longer blow you around
+					'''
+			}
+
+			SAXMask: {
+				DisplayName: SA-X Mask
+				Tooltip: ""
+			}
+
+			SleepyMask: {
+				DisplayName: Sleepy Mask
+				Tooltip: ""
+			}
+
+			SlimeCoat: {
+				DisplayName: Slime Coat
+				Tooltip: ""
+			}
+
+			SlimeHelm: {
+				DisplayName: Slime Helm
+				Tooltip: ""
+			}
+
+			SlimeLeggings: {
+				DisplayName: Slime Leggings
+				Tooltip: ""
+			}
+
+			SnylotlMask: {
+				DisplayName: Snylotl Mask
+				Tooltip: "'HISSsss'"
+			}
+
+			TaoBreastplate: {
+				DisplayName: Tao Breastplate
+				Tooltip: 4% increased damage and crit chance
+			}
+
+			TaoLeggings: {
+				DisplayName: Tao Leggings
+				Tooltip:
+					'''
+					3% increased damage and crit chance
+					15% increased movement speed
+					'''
+			}
+
+			TaoMask: {
+				DisplayName: Tao Mask
+				Tooltip: 8% increased damage and crit chance
+			}
+
+			WhiteKnightMask: {
+				DisplayName: The Knight's Mask
+				Tooltip: ""
+			}
+
+			ZoraArmor: {
+				DisplayName: Zora Armor
+				Tooltip: 20% increased magic damage
+			}
+
+			ZoraGreaves: {
+				DisplayName: Zora Greaves
+				Tooltip: Increases maximum mana by 80
+			}
+
+			ZoraHelm: {
+				DisplayName: Zora Helm
+				Tooltip: 18% increased magic crit chance
+			}
+
+			BONELESSPizza: {
+				DisplayName: BONELESS Pizza
+				Tooltip:
+					'''
+					Minor improvements to all stats
+					Increases max health by 50
+					'''
+			}
+
+			BrokenExcalipoor: {
+				DisplayName: Broken Excalipoor
+				Tooltip: Demand a rematch with Gilgamesh and Enkidu
+			}
+
+			CactoidCompact: {
+				DisplayName: Cactoid Compact
+				Tooltip:
+					'''
+					Summons a cactoid
+					Fished in the hardmode desert with the Cactoid Commendation equipped
+					'''
+			}
+
+			CactusBait: {
+				DisplayName: Succulent Cactus Meal
+				Tooltip: Summons the Alpha Cactus Worm while in the underground desert
+			}
+
+			CactusJuice: {
+				DisplayName: Cactus Juice
+				Tooltip:
+					'''
+					'It'll quench ya'
+					'Nothings quenchier'
+					'It's the quenchiest!
+					'''
+			}
+
+			Cactusofdoom: {
+				DisplayName: Mustachioed Cactus
+				Tooltip: Summons the Jumbo Cactuar in the desert
+			}
+
+			ClearStar: {
+				DisplayName: Weather Star - Clear
+				Tooltip: "'Praise the sun!'"
+			}
+
+			EnergyFragment: {
+				DisplayName: Energy Orb
+				Tooltip:
+					'''
+					If this is in your inventory something went wrong.
+					It's meant to do a thing when picked up like hearts
+					Consume it for its effect since picking it up didn't work
+					'''
+			}
+
+			Excalipoor: {
+				DisplayName: Excalipoor
+				Tooltip: Summons Gilgamesh and his sidekick
+			}
+
+			GilgBag: {
+				DisplayName: Treasure Bag (Gilgamesh)
+				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+			}
+
+			GrandCactusWormBag: {
+				DisplayName: Treasure Bag (Alpha Cactus Worm)
+				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+			}
+
+			GreaterRestorationPotion: {
+				DisplayName: Greater Restoration Potion
+				Tooltip: Reduced potion cooldown
+			}
+
+			InfectedArmCannon: {
+				DisplayName: Infected Arm Cannon
+				Tooltip: Summons the SA-X
+			}
+
+			JoostJuice: {
+				DisplayName: Joost Juice
+				Tooltip:
+					'''
+					Gives the effects of Well fed, Regeneration, Swiftness, Ironskin
+					Heartreach, Lifeforce, Endurance, Rage, Wrath, Warmth, and Summoning Buffs
+					'Joosy'
+					'''
+			}
+
+			JumboCactuarBag: {
+				DisplayName: Treasure Bag (Jumbo Cactuar)
+				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+			}
+
+			RainStar: {
+				DisplayName: Weather Star - Rain
+				Tooltip: "'Make it rain!'"
+			}
+
+			SandstormStar: {
+				DisplayName: Weather Star - Sandstorm
+				Tooltip: "'Darude - Sandstorm'"
+			}
+
+			SlimeStar: {
+				DisplayName: Weather Star - Slime Rain
+				Tooltip: "'Throw it at a wall and see if it sticks!'"
+			}
+
+			SuperRestorationPotion: {
+				DisplayName: Super Restoration Potion
+				Tooltip: Reduced potion cooldown
+			}
+
+			WonderWaffle: {
+				DisplayName: Wonder Waffle
+				Tooltip:
+					'''
+					'The amazing Wonder Waffle!'
+					'The special secret ingredient makes this the most delicious waffle found anywhere!'
+					'Wonder Waffle is a registered trademark of Travellers Enterprise'
+					Grants a random status effect
+					Disclaimer: Some buffs do not function without certain requirements, so the Wonder Waffle may appear to do nothing
+					WARNING: May have unintended disasterous effects when paired with other mods. Proceed at your own risk.
+					'''
+			}
+
+			XBag: {
+				DisplayName: Treasure Bag (SA-X)
+				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+			}
+
+			BlurryDye: {
+				DisplayName: Gaussian Dye
+				Tooltip: ""
+			}
+
+			DarkLanceBeamShader: {
+				DisplayName: Dark Lance Beam Shader
+				Tooltip: ""
+			}
+
+			GhostDye: {
+				DisplayName: Ghostly Dye
+				Tooltip: ""
+			}
+
+			GlowInTheDarkDye: {
+				DisplayName: Glow-In-The-Dark Dye
+				Tooltip: ""
+			}
+
+			GungnirBeamShader: {
+				DisplayName: Gungnir Beam Shader
+				Tooltip: ""
+			}
+
+			TeamOutlineDye: {
+				DisplayName: Team Outline Dye
+				Tooltip: ""
+			}
+
+			TerraBeamShader: {
+				DisplayName: Terra Beam Shader
+				Tooltip: ""
+			}
+
+			CactusWormHook: {
+				DisplayName: Cactus Worm Hook
+				Tooltip:
+					'''
+					Hold the grapple button to have the hook go through tiles
+					Let go of the grapple button to grip tile
+					Pulls you through tiles
+					'''
+			}
+
+			EnchantedMobHook: {
+				DisplayName: Enchanted Grabby Swingy Hook
+				Tooltip:
+					'''
+					Swings faster and extends longer than before!
+					Grabs onto enemies!
+					'''
+			}
+
+			EnchantedSwingyHook: {
+				DisplayName: Enchanted Swingy Hook
+				Tooltip: Swings faster and extends longer than before!
+			}
+
+			MobHook: {
+				DisplayName: Grabby Swingy Hook
+				Tooltip: Grabs onto enemies!
+			}
+
+			SwingyHook: {
+				DisplayName: Swingy Hook
+				Tooltip:
+					'''
+					Move left or right to swing
+					Move up or down to retract/extend
+					'''
+			}
+
+			AncientStone: {
+				DisplayName: Ancient Stone
+				Tooltip: ""
+			}
+
+			EvilStone: {
+				DisplayName: Stone of Evil
+				Tooltip: ""
+			}
+
+			InfernoStone: {
+				DisplayName: Stone of Fire
+				Tooltip:
+					'''
+					Grants warmth buff while placed or in inventory
+					Found in hell
+					'''
+			}
+
+			JungleStone: {
+				DisplayName: Stone of Overgrowth
+				Tooltip:
+					'''
+					Grants swiftness buff while placed or in inventory
+					Found in the Underground Jungle above cavern layer
+					'''
+			}
+
+			SeaStoneDeep: {
+				DisplayName: Stone of the Deep Sea
+				Tooltip:
+					'''
+					Grants crate buff while placed or in inventory
+					Fished in caverns
+					'''
+			}
+
+			SeaStoneEast: {
+				DisplayName: Stone of the East Sea
+				Tooltip:
+					'''
+					Grants fishing buff while placed or in inventory
+					Fished in the right ocean
+					'''
+			}
+
+			SeaStoneHigh: {
+				DisplayName: Stone of the High Sea
+				Tooltip:
+					'''
+					Grants water walking buff while placed or in inventory
+					Fished in the sky
+					'''
+			}
+
+			SeaStoneWest: {
+				DisplayName: Stone of the West Sea
+				Tooltip:
+					'''
+					Grants sonar buff while placed or in inventory
+					Fished in the left ocean
+					'''
+			}
+
+			ShrineOfLegends: {
+				DisplayName: Shrine of Legends
+				Tooltip: Used to craft legendary weapons
+			}
+
+			SkullStone: {
+				DisplayName: Stone of Death
+				Tooltip:
+					'''
+					Grants the night owl buff while placed or in inventory
+					Found in the dungeon
+					'''
+			}
+
+			BoookBulletHell: {
+				DisplayName: Boook's Bullet Hell
+				Tooltip:
+					'''
+					'Crazy Gun Contraption of the legendary Boook'
+					Does more damage as you kill bosses throughout the game
+					Fires a crazy amount of bullets
+					Right click to spin the barrel
+					Deals 40% reduced damage when using homing ammunition
+					50% chance to not consume ammo
+					'''
+			}
+
+			GnunderGlove: {
+				DisplayName: Gnunderson's Glove
+				Tooltip:
+					'''
+					'Glove of the legendary Gnunderson'
+					Does more damage as you kill bosses throughout the game
+					Rapidly throws shurikens
+					Right click for an evasive jump that throws many shurikens
+					Hold UP during the jump to throw a giant shuriken
+					(4 Second Cooldown
+					'''
+			}
+
+			GrognakHammer: {
+				DisplayName: Warhammer of Grognak
+				Tooltip:
+					'''
+					'Warhammer of the legendary Grognak'
+					Does more damage as you kill bosses throughout the game
+					Right click for a strong attack
+					Hold UP during strong attack to unleash a mighty shockwave attack
+					(5 second Cooldown)
+					Does not function as a tool hammer
+					'''
+			}
+
+			LarkusTome: {
+				DisplayName: Larkus's Tome
+				Tooltip:
+					'''
+					'Tome of the legendary Larkus'
+					Does more damage as you kill bosses throughout the game
+					Summons a Spirit of Power to protect you
+					Increases your max number of minions
+					Hold Right Click to charge a more powerful blast
+					(Cooldown based on how long it's charged)
+					'''
+			}
+
+			StaffofDavid: {
+				DisplayName: Staff of David
+				Tooltip:
+					'''
+					'Staff of the legendary David'
+					Does more damage as you kill bosses throughout the game
+					Unleashes a defense-ignoring, rapidly damaging laser
+					Right click to fire three magical bolts
+					'''
+			}
+
+			UncleCariusPole: {
+				DisplayName: Uncle Carius's Fishing Pole
+				Tooltip:
+					'''
+					'This is the pole of ol' Uncle Carius
+					Deals more damage and throws more hooks as you kill bosses throughout the game
+					Fishing power is equivelent to damage
+					Right click to throw some fish, velocity increases with boss progression
+					'''
+			}
+
+			AirEssence: {
+				DisplayName: Air Essence
+				Tooltip: ""
+			}
+
+			BrokenHeroFlail: {
+				DisplayName: Broken Hero Flail
+				Tooltip: ""
+			}
+
+			BrokenHeroHammer: {
+				DisplayName: Broken Hero Hammer
+				Tooltip: ""
+			}
+
+			BrokenHeroSpear: {
+				DisplayName: Broken Hero Spear
+				Tooltip: ""
+			}
+
+			Cactustoken: {
+				DisplayName: Cactus Token
+				Tooltip: "'Choose your loot!'"
+			}
+
+			DesertCore: {
+				DisplayName: Desert Core
+				Tooltip: "'Filled with mysterious energy'"
+			}
+
+			EarthEssence: {
+				DisplayName: Earth Essence
+				Tooltip: ""
+			}
+
+			FireEssence: {
+				DisplayName: Fire Essence
+				Tooltip: ""
+			}
+
+			GenjiToken: {
+				DisplayName: Genji Token
+				Tooltip: "'Choose your loot!'"
+			}
+
+			IceCoreX: {
+				DisplayName: Ice Core-X
+				Tooltip: ""
+			}
+
+			LusciousCactus: {
+				DisplayName: Luscious Cactus
+				Tooltip: "'Choose your loot!'"
+			}
+
+			SucculentCactus: {
+				DisplayName: Succulent Cactus
+				Tooltip: ""
+			}
+
+			WaterEssence: {
+				DisplayName: Water Essence
+				Tooltip: ""
+			}
+
+			AirplaneKeys: {
+				DisplayName: Airplane
+				Tooltip: "'It can fly!'"
+			}
+
+			AirScooterItem: {
+				DisplayName: Whirlwind Sphere
+				Tooltip: Summons a rideable ball of air
+			}
+
+			DirtBoardItem: {
+				DisplayName: Dirt Board
+				Tooltip: Slide down slopes to gain velocity
+			}
+
+			FierySolesItem: {
+				DisplayName: Fiery Soles
+				Tooltip: Summons fire from your feet
+			}
+
+			SandySaddle: {
+				DisplayName: Sandy Saddle
+				Tooltip:
+					'''
+					Summons a rideable sand shark
+					Swims through sand
+					'''
+			}
+
+			ScooterItem: {
+				DisplayName: Scooter
+				Tooltip: "'Scoot around on this!'"
+			}
+
+			StoneSlabs: {
+				DisplayName: Slabs of Stone
+				Tooltip: Summons rideable stone slabs
+			}
+
+			WaterBoardItem: {
+				DisplayName: Water Board
+				Tooltip: Summons a rideable board that floats
+			}
+
+			StormyCollar: {
+				DisplayName: Flower Collar
+				Tooltip: In loving memory of Stormy
+			}
+
+			AirElementalBanner: {
+				DisplayName: Air Elemental Banner
+				Tooltip: ""
+			}
+
+			Anniversary: {
+				DisplayName: Joostmod's Anniversary
+				Tooltip: "'Celebrating one year of Cactus monsters and other stupid things'"
+			}
+
+			CactoidBanner: {
+				DisplayName: Cactoid Banner
+				Tooltip: ""
+			}
+
+			CactuarBanner: {
+				DisplayName: Cactuar Banner
+				Tooltip: ""
+			}
+
+			CactusWormBanner: {
+				DisplayName: Cactus Worm Banner
+				Tooltip: ""
+			}
+
+			COTBBMusicBox: {
+				DisplayName: Music Box (Clash on the Big Bridge)
+				Tooltip: From Final Fantasy XII: The Zodiac Age
+			}
+
+			DeathKnightBanner: {
+				DisplayName: Death Knight Banner
+				Tooltip: ""
+			}
+
+			DecisiveBattleMusicBox: {
+				DisplayName: Music Box (The Decisive Battle)
+				Tooltip: From Final Fantasy VI
+			}
+
+			DeoremMuaMusicBox: {
+				DisplayName: Music Box (Deorem/Mua Boss Fight)
+				Tooltip: From Metroid: Zero Mission
+			}
+
+			DerangedMutantKillerMonsterSnowGoonBanner: {
+				DisplayName: Deranged Mutant Killer Monster Snow Goon Banner
+				Tooltip: ""
+			}
+
+			DesertGolemBanner: {
+				DisplayName: Desert Golem Banner
+				Tooltip: ""
+			}
+
+			DirtPlatform: {
+				DisplayName: Dirt Platform
+				Tooltip: Places at insane speeds
+			}
+
+			EarthElementalBanner: {
+				DisplayName: Earth Elemental Banner
+				Tooltip: ""
+			}
+
+			ElementalForge: {
+				DisplayName: Elemental Forge
+				Tooltip:
+					'''
+					Used to make items from Elemental Essences
+					Functions as both an Adamantite forge and a Mythril Anvil
+					'''
+			}
+
+			EndlessWater: {
+				DisplayName: Endless Water Pump
+				Tooltip: "'Flood the world!'"
+			}
+
+			FifthAnniversary: {
+				DisplayName: Joostmod's Fifth Anniversary
+				Tooltip: "'Face reveal'"
+			}
+
+			FireElementalBanner: {
+				DisplayName: Fire Elemental Banner
+				Tooltip: ""
+			}
+
+			FourthAnniversary: {
+				DisplayName: Joostmod's Fourth Anniversary
+				Tooltip: "'The Journey may End, but the legend never dies'"
+			}
+
+			FrostFurnace: {
+				DisplayName: Frost Furnace
+				Tooltip: Used for smelting ore
+			}
+
+			Fury: {
+				DisplayName: Furious Forging
+				Tooltip: Can't really be used for impersonating youtubers, but ehhh whatever.
+			}
+
+			GilgameshTrophy: {
+				DisplayName: Gilgamesh Trophy
+				Tooltip: ""
+			}
+
+			GrandCactusWormTrophy: {
+				DisplayName: Cactus Worm Trophy
+				Tooltip: ""
+			}
+
+			GraySlimeBanner: {
+				DisplayName: Gray Slime Banner
+				Tooltip: ""
+			}
+
+			JumboCactuarTrophy: {
+				DisplayName: Jumbo Cactuar Trophy
+				Tooltip: ""
+			}
+
+			SandstoneFurnace: {
+				DisplayName: Sandstone Furnace
+				Tooltip: Used for smelting ore
+			}
+
+			SAXMusicBox: {
+				DisplayName: Music Box (Vs. SA-X)
+				Tooltip: From Metroid Fusion
+			}
+
+			SAXTrophy: {
+				DisplayName: SA-X Trophy
+				Tooltip: ""
+			}
+
+			SecondAnniversary: {
+				DisplayName: Joostmod's Second Anniversary
+				Tooltip: "'Thank you for putting up with my nonsense for two years'"
+			}
+
+			Smithas: {
+				DisplayName: Smithas Sigil
+				Tooltip: Can't really be used for impersonating youtubers, but ehhh whatever.
+			}
+
+			SpectreBanner: {
+				DisplayName: Spectre Banner
+				Tooltip: ""
+			}
+
+			SpongeStation: {
+				DisplayName: Ultra Absorbtion Pump
+				Tooltip: "'Drain the world!'"
+			}
+
+			SpongeStationHoney: {
+				DisplayName: Honey Absorbtion Pump
+				Tooltip: ""
+			}
+
+			SpongeStationLava: {
+				DisplayName: Lava Absorbtion Pump
+				Tooltip: ""
+			}
+
+			SpongeStationWater: {
+				DisplayName: Water Absorbtion Pump
+				Tooltip: ""
+			}
+
+			TARDISChest: {
+				DisplayName: TARDIS Chest
+				Tooltip:
+					'''
+					'It's bigger on the inside!'
+					DISCLAIMER: Same size as regular chests
+					'''
+			}
+
+			ThirdAnniversary: {
+				DisplayName: Joostmod's Third Anniversary
+				Tooltip: "'Over 1000 days of Joost'"
+			}
+
+			TreasureGoblinBanner: {
+				DisplayName: Treasure Goblin Banner
+				Tooltip: ""
+			}
+
+			WaterElementalBanner: {
+				DisplayName: Water Elemental Banner
+				Tooltip: ""
+			}
+
+			AlphaCactusWorm: {
+				DisplayName: Extra Succulent Cactus
+				Tooltip:
+					'''
+					Not actually a quest item
+					If this is in your inventory something went wrong.
+					It's meant to do a thing when picked up like hearts
+					Consume it for its effect since picking it up didn't work
+					'''
+			}
+
+			BrainOfCthulhu: {
+				DisplayName: Eye of Heart of Brain of Cthulhu
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			EaterOfWorlds: {
+				DisplayName: Jaws of the Eater of Worlds
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			EyeOfCthulhu: {
+				DisplayName: Tooth of Eye of Cthulhu
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			FloweringCactoid: {
+				DisplayName: Cactoid Flower
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			GrandCactusWorm: {
+				DisplayName: Head of the Grand Cactus Worm
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			ICU: {
+				DisplayName: Quad-retina Eye
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			ImpLord: {
+				DisplayName: Fiery Imp Tail
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			KingSlime: {
+				DisplayName: Slime King's Jewel
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			Pinkzor: {
+				DisplayName: Congealed Pink Gel
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			QueenBee: {
+				DisplayName: Royal Antenna
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			Roc: {
+				DisplayName: Large Wings
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			RogueTomato: {
+				DisplayName: Tomato Head
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			SkeletonDemoman: {
+				DisplayName: Clogged Cannon
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			Skeletron: {
+				DisplayName: Big Bone
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			SporeSpawn: {
+				DisplayName: Spore Core
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			StormWyvern: {
+				DisplayName: Storm Wyvern Soul
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			WallOfFlesh: {
+				DisplayName: Ball of Flesh
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			WoodGuardian: {
+				DisplayName: Strange Seed
+				Tooltip: Quest item for the Hunt Master
+			}
+
+			Bonesaw: {
+				DisplayName: Bonesaw
+				Tooltip:
+					'''
+					Slain enemies explode into bones
+					Guaranteed critical hits against skeletal creatures
+					'''
+			}
+
+			BowSapling: {
+				DisplayName: Sapling - Bow
+				Tooltip:
+					'''
+					Shoots enemies behind you
+					5% increased ranged crit chance
+					'''
+			}
+
+			CactoidCommendation: {
+				DisplayName: Cactoid Commendation
+				Tooltip:
+					'''
+					Non-corrupted Cactoids become friendly, fight for you, and regenerate health
+					Other players on your team are granted this effect
+					Occasionally summons a cactoid
+					'''
+			}
+
+			CactusBoots: {
+				DisplayName: Cactus Boots
+				Tooltip: Sprouts damaging cacti as you walk
+			}
+
+			CorruptPommel: {
+				DisplayName: Corrupt Pommel
+				Tooltip:
+					'''
+					Striking an enemy with a melee weapon inflicts Corrupted Soul, dealing damage over time
+					Enemies that die with Corrupted Soul damages a nearby enemy for 25% 
+					of the corrupted enemy's max life (capping at 9999) and inflicts Corrupted Soul
+
+					'''
+			}
+
+			CrimsonPommel: {
+				DisplayName: Crimson Pommel
+				Tooltip:
+					'''
+					Striking an enemy with a melee weapon inflicts Life Rend
+					Killing an enemy with Life Rend will heal you for 4% of the enemy's max life
+					'''
+			}
+
+			DoomCannon: {
+				DisplayName: Doom Cannon
+				Tooltip:
+					'''
+					Charge up a deadly skull shot
+					Max charge tunnels through and destroys tiles
+					Right click to cancel the shot
+					'''
+			}
+
+			EyeballStaff: {
+				DisplayName: Eyeball Staff
+				Tooltip: Rapidly shoots eyeballs
+			}
+
+			FireFlinger: {
+				DisplayName: Fire Flinger
+				Tooltip: Uses Gel for ammo
+			}
+
+			FishingSapling: {
+				DisplayName: Sapling - Fishing Rod
+				Tooltip:
+					'''
+					Fishes automatically when you hold a fishing pole
+					+5 Fishing Power
+					'''
+			}
+
+			FleshShield: {
+				DisplayName: Shield of Flesh
+				Tooltip:
+					'''
+					Double tap left or right to dash into enemies
+					Occasionally summons leeches that steal life
+					Leeches summon faster the less life you have
+					'''
+			}
+
+			GlowSapling: {
+				DisplayName: Sapling - Glowstick
+				Tooltip: Provides light
+			}
+
+			GooGlove: {
+				DisplayName: Gooey Glove
+				Tooltip: Flings multiple globules of bouncy pink gel
+			}
+
+			HatchetSapling: {
+				DisplayName: Sapling - Hatchet
+				Tooltip:
+					'''
+					Throws Hatchets at enemies behind you
+					5% increased throwing velocity
+					'''
+			}
+
+			ImpLordFlame: {
+				DisplayName: Lord's Flame
+				Tooltip: Hold attack to charge a bigger fireball
+			}
+
+			ObservantStaff: {
+				DisplayName: Observant Staff
+				Tooltip: Summons an ICU to fight for you
+			}
+
+			RocWings: {
+				DisplayName: Roc Wings
+				Tooltip:
+					'''
+					Allows short flight and gliding
+					Hold UP while not flying or using an item to glide
+					Hold left or right to angle your glide
+					'''
+			}
+
+			Sapling: {
+				DisplayName: Sapling
+				Tooltip:
+					'''
+					Can be upgraded with items to assist you
+					Rides around on your back
+					'''
+			}
+
+			ShieldSapling: {
+				DisplayName: Sapling - Shield
+				Tooltip:
+					'''
+					Tries to block attackers behind you
+					Cannot block projectiles that have a base damage greater than 30
+					'''
+			}
+
+			SpelunkerSapling: {
+				DisplayName: Sapling - Spelunker Glowstick
+				Tooltip:
+					'''
+					Provides light
+					Exposes nearby treasure
+					'''
+			}
+
+			Sporgan: {
+				DisplayName: Sporgan
+				Tooltip: Spews spore clouds after taking damage
+			}
+
+			StaffSapling: {
+				DisplayName: Sapling - Staff
+				Tooltip:
+					'''
+					Shoots enemies behind you
+					5% reduced mana usage
+					'''
+			}
+
+			StormWyvernScroll: {
+				DisplayName: Scroll of the Storm
+				Tooltip:
+					'''
+					Summons a young Storm Wyvern to fight for you
+					Hold Right Click to command the Storm Wyvern to charge a lightning blast
+					'''
+			}
+
+			SwordSapling: {
+				DisplayName: Sapling - Sword
+				Tooltip:
+					'''
+					Stabs enemies behind you
+					5% increased melee speed
+					'''
+			}
+
+			TailWhip: {
+				DisplayName: Tail Whip
+				Tooltip: Envenoms struck targets
+			}
+
+			TheHive: {
+				DisplayName: The Hive
+				Tooltip: Rapidly spews bees that deal one-third damage
+			}
+
+			TomatoHead: {
+				DisplayName: Tomato Head
+				Tooltip: It's still wriggling
+			}
+
+			BlackHole: {
+				DisplayName: Black Hole Tome
+				Tooltip:
+					'''
+					--Cheat Item--
+					Creates a controllable black hole that sucks in creatures and annihilates them
+					Life regenerates and infinite immunity frames while held
+					'''
+			}
+
+			CheatManipulationTome: {
+				DisplayName: Tome of Greater Manipulation
+				Tooltip:
+					'''
+					--Cheat Item--
+					Allows you to pick up and move NPCs
+					Right click while holding the NPC to rapidly damage the NPC
+					Life regenerates and infinite immunity frames while held
+					'''
+			}
+
+			DivineMirror: {
+				DisplayName: Divine Mirror
+				Tooltip:
+					'''
+					Hold out the mirror to charge a flash of divine light
+					Creatures caught in the light get sent to the world's spawn
+					Ineffective against bosses or knockback-immune enemies
+					Cannot be used while you have mana sickness
+					'''
+			}
+
+			AquaHammer: {
+				DisplayName: Aqua Hammer
+				Tooltip: ""
+			}
+
+			BloodBreaker: {
+				DisplayName: Blood Breaker
+				Tooltip: ""
+			}
+
+			JungleHammer: {
+				DisplayName: Jungle Hammer
+				Tooltip: ""
+			}
+
+			NightsWrath: {
+				DisplayName: Night's Wrath
+				Tooltip: ""
+			}
+
+			TerraFirma: {
+				DisplayName: Terra Firma
+				Tooltip: ""
+			}
+
+			TrueBloodBreaker: {
+				DisplayName: True Blood Breaker
+				Tooltip: ""
+			}
+
+			TrueNightsWrath: {
+				DisplayName: True Night's Wrath
+				Tooltip: ""
+			}
+
+			TruePwnhammer: {
+				DisplayName: True Pwnhammer
+				Tooltip: ""
+			}
+
+			LongPole: {
+				DisplayName: Long Pole
+				Tooltip: ""
+			}
+
+			ManipulationTome: {
+				DisplayName: Tome of Manipulation
+				Tooltip:
+					'''
+					Allows you to pick up and move friendly NPCs
+					Right click while holding the NPC to rapidly damage the NPC
+					'''
+			}
+
+			DukeFishingGun: {
+				DisplayName: Duke Fishgun
+				Tooltip: Fires many fishing hooks
+			}
+
+			DukeFishRod: {
+				DisplayName: Duke Fishrod
+				Tooltip: ""
+			}
+
+			FishingGun: {
+				DisplayName: Fishing Shotgun
+				Tooltip: Fires multiple fishing hooks
+			}
+
+			GoldenFishingGun: {
+				DisplayName: Golden Fishing Shotgun
+				Tooltip: Fires multiple fishing hooks
+			}
+
+			LunarFishingGun: {
+				DisplayName: Lunar Fishing Shotgun
+				Tooltip:
+					'''
+					Fires many fishing hooks
+					Can fish up Lunar Fragments
+					'''
+			}
+
+			LunarRod: {
+				DisplayName: Lunar Rod
+				Tooltip:
+					'''
+					Fires multiple fishing hooks
+					Can fish up Lunar Fragments
+					'''
+			}
+
+			MechanicalFishingGun: {
+				DisplayName: Mechanical Fishing Shotgun
+				Tooltip: Fires multiple fishing hooks
+			}
+
+			SuperFishingGun: {
+				DisplayName: Super Fishing Shotgun
+				Tooltip: Fires multiple fishing hooks
+			}
+
+			SuperRod: {
+				DisplayName: Super Rod
+				Tooltip: ""
+			}
+
+			VaultingPole: {
+				DisplayName: Vaulting Pole
+				Tooltip: ""
+			}
+
+			AdamantiteSet: {
+				DisplayName: Adamantite Weapon Set
+				Tooltip: "'ALL the adamantite!'"
+			}
+
+			BeeSet: {
+				DisplayName: Stinging Weapon Set
+				Tooltip: "'NO! Not the bees! NOT THE BEEEES!'"
+			}
+
+			CobaltSet: {
+				DisplayName: Cobalt Weapon Set
+				Tooltip: "'ALL the cobalt!'"
+			}
+
+			CopperSet: {
+				DisplayName: Copper Weapon Set
+				Tooltip: "'ALL the copper!'"
+			}
+
+			CrimtaneSet: {
+				DisplayName: Crimson Weapon Set
+				Tooltip: "'An evil presence emanates from these weapons'"
+			}
+
+			DemoniteSet: {
+				DisplayName: Corrupt Weapon Set
+				Tooltip: "'An evil presence emanates from these weapons'"
+			}
+
+			GoldSet: {
+				DisplayName: Gold Weapon Set
+				Tooltip: "'I just wanna know where the gold at!'"
+			}
+
+			HallowedSet: {
+				DisplayName: Hallowed Weapon Set
+				Tooltip: "'You fell a holy presence emanating from these weapons'"
+			}
+
+			HellstoneSet: {
+				DisplayName: Hellfire Weapon Set
+				Tooltip: "'Hot, HOT! Way too hot!'"
+			}
+
+			IronSet: {
+				DisplayName: Iron Weapon Set
+				Tooltip: "'ALL the iron!'"
+			}
+
+			JumboCactuarSet: {
+				DisplayName: Jumbo Cactuar Weapon Set
+				Tooltip: "'Very Prickly'"
+			}
+
+			LeadSet: {
+				DisplayName: Lead Weapon Set
+				Tooltip: "'ALL the lead!'"
+			}
+
+			MechanicalSet: {
+				DisplayName: Mechanical Weapon Set
+				Tooltip: "'BEEP BOOP MOTHERF---ER'"
+			}
+
+			MythrilSet: {
+				DisplayName: Mythril Weapon Set
+				Tooltip: "'ALL the mythril!'"
+			}
+
+			OrichalcumSet: {
+				DisplayName: Orichalcum Weapon Set
+				Tooltip: "'ALL the orichalcum!'"
+			}
+
+			PalladiumSet: {
+				DisplayName: Palladium Weapon Set
+				Tooltip: "'ALL the palladium!'"
+			}
+
+			PlanteraSet: {
+				DisplayName: Plantera Weapon Set
+				Tooltip: "'BRING IT ON YOU GIANT F---'"
+			}
+
+			PlatinumSet: {
+				DisplayName: Platinum Weapon Set
+				Tooltip: "'ALL the Platinum!'"
+			}
+
+			SAXSet: {
+				DisplayName: SA-X Weapon Set
+				Tooltip: "'Cold and explosive'"
+			}
+
+			SilverSet: {
+				DisplayName: Silver Weapon Set
+				Tooltip: "'Still not as good as gold'"
+			}
+
+			Taoset: {
+				DisplayName: Tao Weapon Set
+				Tooltip: "'You've found your inner pieces!'"
+			}
+
+			TinSet: {
+				DisplayName: Tin Weapon Set
+				Tooltip: "'ALL the tin!'"
+			}
+
+			TitaniumSet: {
+				DisplayName: Titanium Weapon Set
+				Tooltip: "'ALL the titanium!'"
+			}
+
+			TungstenSet: {
+				DisplayName: Tungsten Weapon Set
+				Tooltip: "'ALL the tungsten!'"
+			}
+
+			AscendedBambooShoot: {
+				DisplayName: Ascended Bamboo Shoot
+				Tooltip:
+					'''
+					Left click to swing
+					Right click to charge a seed barrage
+					Allows the collection of seeds for ammo
+					'''
+			}
+
+			Gilgameshset: {
+				DisplayName: Gilgamesh's Weapon Set
+				Tooltip: "'Too bad you don't have 8 arms'"
+			}
+
+			HomingSoulmass: {
+				DisplayName: Homing Soulmass
+				Tooltip:
+					'''
+					Summons homing soulmasses that stay above you before seeking enemies
+					Right click to target an enemy
+					'''
+			}
+
+			MightyBambooShoot: {
+				DisplayName: Mighty Bamboo Shoot
+				Tooltip:
+					'''
+					Left click to swing
+					Right click to charge a seed barrage
+					Allows the collection of seeds for ammo
+					'''
+			}
+
+			SoulGreatsword: {
+				DisplayName: Soul Greatsword
+				Tooltip: Attack with a mighty greatsword formed from souls
+			}
+
+			SoulSpear: {
+				DisplayName: Soul Spear
+				Tooltip:
+					'''
+					Fire a piercing soul spear
+					Goes through blocks for a short distance
+					'''
+			}
+
+			AdamantiteStaff: {
+				DisplayName: Laser Staff
+				Tooltip: Fires a bouncing laser
+			}
+
+			CobaltStaff: {
+				DisplayName: Crystal Staff
+				Tooltip: Shoots a chunk of crystal at your mouse's location that shatters into 8 shards
+			}
+
+			DirtWand: {
+				DisplayName: Soil Wand
+				Tooltip:
+					'''
+					Does 1 more damage for every 666 blocks of dirt in your inventory
+					Using this weapon consumes dirt equal to 1/20th of the damage bonus
+					'''
+			}
+
+			DualityStaff: {
+				DisplayName: Staff of Duality
+				Tooltip: "'Find your inner pieces'"
+			}
+
+			EmberWand: {
+				DisplayName: Ember Wand
+				Tooltip: Fires a small flame
+			}
+
+			EvenMoreNeedles: {
+				DisplayName: Needle Wrath
+				Tooltip: Unleashes a Hurricane of needles
+			}
+
+			FocusSouls: {
+				DisplayName: Focus Souls
+				Tooltip: Fires multiple focused beams of souls
+			}
+
+			FrostEmberWand: {
+				DisplayName: Frostfire Wand
+				Tooltip: Fires a small frostflame
+			}
+
+			FrozenOrb: {
+				DisplayName: Frozen Orb
+				Tooltip: Creates an orb of ice that fires icicles
+			}
+
+			IceBeam: {
+				DisplayName: Ice Beam
+				Tooltip:
+					'''
+					Hold to charge a shot!
+					Sucks in items from larger distances while charging
+					'''
+			}
+
+			IronStaff: {
+				DisplayName: Star Staff
+				Tooltip: ""
+			}
+
+			LeadStaff: {
+				DisplayName: Star Staff
+				Tooltip: ""
+			}
+
+			MoreNeedles: {
+				DisplayName: 1000 Needles
+				Tooltip: Unleashes a storm of needles
+			}
+
+			MythrilStaff: {
+				DisplayName: Twilight Staff
+				Tooltip: Spins around you firing bolts of light and night
+			}
+
+			Needles: {
+				DisplayName: 100 Needles
+				Tooltip: Unleashes a flurry of needles
+			}
+
+			OrichalcumStaff: {
+				DisplayName: Twilight Staff
+				Tooltip: Spins around you firing bolts of light and night
+			}
+
+			PalladiumStaff: {
+				DisplayName: Crystal Staff
+				Tooltip: Shoots a chunk of crystal at your mouse's location that shatters into 8 shards
+			}
+
+			SapSpell: {
+				DisplayName: Staff of Degeneration
+				Tooltip:
+					'''
+					Inflicts a damage over time effect on struck enemies
+					Homes in on the clicked target
+					'''
+			}
+
+			SparkleStaff: {
+				DisplayName: Sparkle Staff
+				Tooltip: "'Pretty, oh so pretty'"
+			}
+
+			StaffOfWater: {
+				DisplayName: Staff of the sea
+				Tooltip:
+					'''
+					Creates multiple streams of water
+					Right click to fire bolts of water
+					'''
+			}
+
+			Sunfish: {
+				DisplayName: Sunfish
+				Tooltip:
+					'''
+					Creates a controllable sunbeam
+					Fished in the Lihzahrd Temple after the Golem has been defeated
+					'''
+			}
+
+			TitaniumStaff: {
+				DisplayName: Laser Staff
+				Tooltip: Fires a bouncing laser
+			}
+
+			VileCactus: {
+				DisplayName: Vile Cactus Worm
+				Tooltip: Casts a controllable cactus worm
+			}
+
+			WaterScroll: {
+				DisplayName: Scroll of Water
+				Tooltip:
+					'''
+					Creates a controllable ball of water
+					Collects nearby water to grow
+					'''
+			}
+
+			WaterWhip: {
+				DisplayName: Water Tendril
+				Tooltip:
+					'''
+					Left click for a slapping tendril
+					Damage dealt is based on the tendril's speed
+					Right click for a grasping tendril
+					Grabs hit enemies and items
+					'''
+			}
+
+			ActualFlamingMace: {
+				DisplayName: Actual Flaming Mace
+				Tooltip:
+					'''
+					Hold attack to charge the swing
+					Charged attacks reduce enemy defense
+					Sets enemies on fire
+					'''
+			}
+
+			ActualMace: {
+				DisplayName: Actual Mace
+				Tooltip:
+					'''
+					Hold attack to charge the swing
+					Charged attacks reduce enemy defense
+					Can be upgraded with torches
+					'''
+			}
+
+			AwokenDreamNail: {
+				DisplayName: Awoken Dream Nail
+				Tooltip:
+					'''
+					'Can break into even the most protected mind'
+					Attacks ignore enemy defense
+					'''
+			}
+
+			BloodMoon: {
+				DisplayName: Blood Moon
+				Tooltip: ""
+			}
+
+			CactusSpears: {
+				DisplayName: Cactus Spears
+				Tooltip: "'What's better than a spear? Five spears!'"
+			}
+
+			ChanneledNail: {
+				DisplayName: Channeled Nail
+				Tooltip:
+					'''
+					Hold attack to charge a great slash!
+					Unleash it forward while dashing for a long ranged dash slash!
+					'''
+			}
+
+			ClawedGauntlet: {
+				DisplayName: Clawed Gauntlet
+				Tooltip: ""
+			}
+
+			CoiledNail: {
+				DisplayName: Coiled Nail
+				Tooltip:
+					'''
+					Hold attack to charge a great slash!
+					Unleash it forward while dashing for a long ranged dash slash!
+					Unleash it while holding up or down for a spin attack!
+					'''
+			}
+
+			CopperFlail: {
+				DisplayName: Copper Flail
+				Tooltip: ""
+			}
+
+			Deathbringer: {
+				DisplayName: Deathbringer
+				Tooltip:
+					'''
+					Critical hits have a chance to instantly kill enemies
+					Enemies with over 5000 life are immune to this effect
+					'''
+			}
+
+			DirtSword: {
+				DisplayName: Soil Sword
+				Tooltip:
+					'''
+					Does 1 more damage for every 666 blocks of dirt in your inventory
+					Using this weapon consumes dirt equal to 1/20th of the damage bonus
+					'''
+			}
+
+			DragonTooth: {
+				DisplayName: Dragon Tooth
+				Tooltip:
+					'''
+					Increases defense by 10 while held
+					Hold attack to charge the swing
+					Unleash a charged swing while falling to do a plunging attack
+					'''
+			}
+
+			DreamNail: {
+				DisplayName: Dream Nail
+				Tooltip:
+					'''
+					'Cut through the veil between dreams and waking'
+					Attacks pierce 50% of enemy defense
+					'''
+			}
+
+			EarthenBillhook: {
+				DisplayName: Earthen Billhook
+				Tooltip:
+					'''
+					Right click to swing, causing a boulder to launch upwards when grounded
+					Left click to thrust, hit the boulder to launch it
+					'''
+			}
+
+			EggSack: {
+				DisplayName: Egg Sack
+				Tooltip: "'SPIDERS!'"
+			}
+
+			GoldFlail: {
+				DisplayName: Gold Flail
+				Tooltip: ""
+			}
+
+			GrabGlove: {
+				DisplayName: Brawler's Glove
+				Tooltip:
+					'''
+					Punches enemies with your bare hands
+					Hold right click to grab an enemy
+					Left click while grabbing to pummel
+					Release right click to throw
+					'''
+			}
+
+			HallowedFlail: {
+				DisplayName: Incandescence
+				Tooltip: ""
+			}
+
+			IronFlail: {
+				DisplayName: Iron Flail
+				Tooltip: ""
+			}
+
+			LeadFlail: {
+				DisplayName: Lead Flail
+				Tooltip: ""
+			}
+
+			Mustache: {
+				DisplayName: The Mustache
+				Tooltip: "'From the face of the Jumbo Cactuar'"
+			}
+
+			MutantCannon: {
+				DisplayName: Mutated Arm Cannons
+				Tooltip: Charge up to dash forward and fire a volley of missiles
+			}
+
+			NegativeThousandDegreeKnife: {
+				DisplayName: -1000'C Degrees Knife
+				Tooltip: "'So cold its atoms can't move!'"
+			}
+
+			NightsFury: {
+				DisplayName: Night's Fury
+				Tooltip: ""
+			}
+
+			OldNail: {
+				DisplayName: Old Nail
+				Tooltip: "'Years of age and wear have blunted its blade'"
+			}
+
+			OnePunch: {
+				DisplayName: The Ultimate Fist
+				Tooltip:
+					'''
+					--Cheat Item--
+					Charges the ultimate fist attack
+					Full charge one-shots nearly anything
+					Life regenerates and infinite immunity frames while held
+					'''
+			}
+
+			PetEyeball: {
+				DisplayName: Pet Eyeball
+				Tooltip: ""
+			}
+
+			PlatinumFlail: {
+				DisplayName: Platinum Flail
+				Tooltip: ""
+			}
+
+			PureNail: {
+				DisplayName: Pure Nail
+				Tooltip:
+					'''
+					'Crafted to perfection, this ancient nail reveals its true form'
+					Fires beams that deal half damage while at full health
+					'''
+			}
+
+			SharpenedNail: {
+				DisplayName: Sharpened Nail
+				Tooltip: Hold attack to charge a great slash!
+			}
+
+			SilverFlail: {
+				DisplayName: Silver Flail
+				Tooltip: ""
+			}
+
+			StoneFist: {
+				DisplayName: Stone Fist
+				Tooltip:
+					'''
+					'The real fist of Fury'
+					Charges up a powerful punch
+					Right Click while charged to grab an enemy
+					Hold Right Click to pummel the grabbed enemy
+					Let go of Left Click to throw the grabbed enemy
+					'''
+			}
+
+			SucculentThrow: {
+				DisplayName: Succulent Throw
+				Tooltip:
+					'''
+					Picks up a hit enemy
+					Does not work on enemies immune to knockback
+					'''
+			}
+
+			TerraFury: {
+				DisplayName: Terra Fury
+				Tooltip: ""
+			}
+
+			TerraSpear: {
+				DisplayName: Terra Spear
+				Tooltip: ""
+			}
+
+			TheRose: {
+				DisplayName: The Rose
+				Tooltip: Has a chain of damaging thorns
+			}
+
+			ThousandDegreeKnife: {
+				DisplayName: 1000'C Degrees Knife
+				Tooltip: "'That's 1832 degrees Fahrenheit"
+			}
+
+			TinFlail: {
+				DisplayName: Tin Flail
+				Tooltip: ""
+			}
+
+			TrueBloodMoon: {
+				DisplayName: True Blood Moon
+				Tooltip: ""
+			}
+
+			TrueDarkLance: {
+				DisplayName: True Dark Lance
+				Tooltip: ""
+			}
+
+			TrueGungnir: {
+				DisplayName: True Gungnir
+				Tooltip: ""
+			}
+
+			TrueHallowedFlail: {
+				DisplayName: True Incandescence
+				Tooltip: ""
+			}
+
+			TrueNightsFury: {
+				DisplayName: True Night's Fury
+				Tooltip: ""
+			}
+
+			TungstenFlail: {
+				DisplayName: Tungsten Flail
+				Tooltip: ""
+			}
+
+			TwinClaws: {
+				DisplayName: Twin Claws
+				Tooltip: Right click for a powerful leaping slash
+			}
+
+			UnicornLance: {
+				DisplayName: Unicorn Lance
+				Tooltip: Does more damage the faster you are moving
+			}
+
+			Whirlwind: {
+				DisplayName: Whirlwind
+				Tooltip: Increases defense by 20 and slows descent while in use
+			}
+
+			Yonade: {
+				DisplayName: Yonade
+				Tooltip: Drops and explodes on a critical hit
+			}
+
+			BFE5000: {
+				DisplayName: The BFE 5000
+				Tooltip:
+					'''
+					'I want it huge, unstable, prone to overheating and a good chance it will blow up if you look at it from the wrong angle.'
+					'I didn't become a kerbonaut for an easy ride, dammit!'
+					'''
+			}
+
+			BloodyBucket: {
+				DisplayName: Bloody Bucket
+				Tooltip: Fished in the Crimson after the Brain of Cthulhu has been defeated
+			}
+
+			CactusCannon: {
+				DisplayName: Cactus Cannon
+				Tooltip: Fires a sticky cactus that damages enemies multiple times
+			}
+
+			DirtBow: {
+				DisplayName: Soil Bow
+				Tooltip:
+					'''
+					Does 1 more damage for every 666 blocks of dirt in your inventory
+					Using this weapon consumes dirt equal to 1/20th of the damage bonus
+					'''
+			}
+
+			DragonBlasters: {
+				DisplayName: Dragon Blasters
+				Tooltip:
+					'''
+					Left and right click to fire each gun
+					Hold the attack down to charge a blast of fire
+					35% chance to not consume ammo
+					'''
+			}
+
+			Jumbow: {
+				DisplayName: Jumbow
+				Tooltip: "'It's huge!'"
+			}
+
+			KerbalKannon: {
+				DisplayName: Kerbal Kannon
+				Tooltip: Launches Kerbals at high velocity
+			}
+
+			Larpoon: {
+				DisplayName: Larpoon
+				Tooltip:
+					'''
+					Launches a harpoon that shoots lasers at enemies
+					Fished in the ocean after a mechanical boss has been defeated
+					'Live-Action-Role-Playing Harpoon' - Loki
+					'''
+			}
+
+			NapalmLauncher: {
+				DisplayName: Napalm Launcher
+				Tooltip:
+					'''
+					Uses napalms for ammo
+					25% chance to not consume ammo
+					'''
+			}
+
+			RoboCod: {
+				DisplayName: Robocod
+				Tooltip:
+					'''
+					Fires a spread of lasers
+					Fished in the Jungle or Tundra after a mechanical boss has been defeated
+					'''
+			}
+
+			SearingBow: {
+				DisplayName: Volcanic Longbow
+				Tooltip:
+					'''
+					Transforms wooden arrows into Volcanic Arrows
+					Volcanic Arrows deal 50% more damage and drop a trail of damaging lava droplets
+					Right clicking nocks additional arrows
+					Can nock up to 5 arrows
+					'''
+			}
+
+			Shadowlightbow: {
+				DisplayName: Shadowlight Bow
+				Tooltip:
+					'''
+					Does not consume ammo
+					'Find your inner pieces'
+					'''
+			}
+
+			SuperMissileLauncher: {
+				DisplayName: Super Missile Launcher
+				Tooltip: Fires powerful missiles
+			}
+
+			ToxicBucket: {
+				DisplayName: Toxic Bucket
+				Tooltip: Fished in the Corruption after the Eater of Worlds has been defeated
+			}
+
+			CactusBanner: {
+				DisplayName: Cactus Banner
+				Tooltip: Rapidly summons miniature cactus worms from the ground that damage enemies
+			}
+
+			CactusStaff: {
+				DisplayName: Cactus Staff
+				Tooltip: Summons a Cactuar to fight for you
+			}
+
+			DirtStaff: {
+				DisplayName: Soil Staff
+				Tooltip:
+					'''
+					Does 1 more damage for every 666 blocks of dirt in your inventory
+					Summons a soil spirit to fight for you
+					Using this weapon consumes dirt equal half of the damage bonus
+					'''
+			}
+
+			EmberStaff: {
+				DisplayName: Ember Staff
+				Tooltip: Summons an Ember to fight for you
+			}
+
+			ForestWand: {
+				DisplayName: Wand of the Forest
+				Tooltip:
+					'''
+					Summons a swirling shield of leaves
+					Right click to send the leaves outwards
+					'''
+			}
+
+			FrostEmberStaff: {
+				DisplayName: Frostfire Staff
+				Tooltip: Summons an Frostfire Ember to fight for you
+			}
+
+			GnomeStaff: {
+				DisplayName: Gnome Staff
+				Tooltip:
+					'''
+					'With silver beard and crimson hat the gnome warriors fight valiantly for their people'
+					Summons a Gnome warrior
+					Hold right click to direct the gnome warriors to block
+					Gnome warriors cannot block projectiles with higher base damage than double their own damage
+					Left click while they're blocking to direct them to shield bash
+					'''
+			}
+
+			HarpyStaff: {
+				DisplayName: Harpy Rod
+				Tooltip: Summons a miniature Harpy to fight for you
+			}
+
+			IceXStaff: {
+				DisplayName: Ice Core-X Staff
+				Tooltip: Summons an SA-X Core-X to fight for you
+			}
+
+			NatureStaff: {
+				DisplayName: Staff of Nature
+				Tooltip:
+					'''
+					Summons a swirling shield of leaves
+					Right click to send the leaves outwards
+					'''
+			}
+
+			PlagueOfToads: {
+				DisplayName: Plague of Toads
+				Tooltip: Summons multiple toads to chase down enemies
+			}
+
+			PufferfishStaff: {
+				DisplayName: Pufferfish Staff
+				Tooltip: Summons a floating pufferfish to fight for you
+			}
+
+			PumpkinStaff: {
+				DisplayName: Pumpkin Staff
+				Tooltip:
+					'''
+					Summons a swirling shield of pumpkins
+					Right click to send the pumpkins outwards
+					'''
+			}
+
+			ShroomStaff: {
+				DisplayName: Shroom Staff
+				Tooltip:
+					'''
+					Summons a giant mushroom that creates homing spores
+					The mushroom knocks enemies upwards as it sprouts
+					'''
+			}
+
+			SkellyStaff: {
+				DisplayName: Skeleton Staff
+				Tooltip:
+					'''
+					Summons a mini Skeleton to fight for you
+					Mini Skeletons have a 20% chance to throw an empowered bone
+					'''
+			}
+
+			TornadoRod: {
+				DisplayName: Tornado Rod
+				Tooltip: Summons a miniature tornado to fight for you
+			}
+
+			WindChimes: {
+				DisplayName: Chimes of the Wind
+				Tooltip: Creates currents of wind that damages enemies
+			}
+
+			WindWheel: {
+				DisplayName: Hurricane Windwheel
+				Tooltip: Creates a swirling current of wind that damages enemies
+			}
+
+			Yinyangcharm: {
+				DisplayName: Yin Yang Charm
+				Tooltip: "'Find your inner pieces'"
+			}
+
+			AdamantiteChainedchainsaw: {
+				DisplayName: Adamantite Chained-Chainsaw
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 4
+					'''
+			}
+
+			Balancerang: {
+				DisplayName: Balancerang
+				Tooltip: "'Find your inner pieces'"
+			}
+
+			BoneHurtingJuice: {
+				DisplayName: Bone Hurting Juice
+				Tooltip:
+					'''
+					Debuff damage steadily increases over time
+					Debuff deals double damage against skeletal creatures
+					'Ow, oof, ouch, my bones'
+					'''
+			}
+
+			Boomerain: {
+				DisplayName: Boomerain
+				Tooltip: A boomerang that drops damaging rain below it
+			}
+
+			BubbleKnife: {
+				DisplayName: Bubble Knife
+				Tooltip: "'Bubbles!'"
+			}
+
+			CactusGlove: {
+				DisplayName: Cactus Glove
+				Tooltip: Throws a cactus that explodes into thorns
+			}
+
+			ChlorophyteGlove: {
+				DisplayName: Chlorophyte Glove
+				Tooltip: Throws spore clouds
+			}
+
+			CobaltChainedchainsaw: {
+				DisplayName: Cobalt Chained-Chainsaw
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 4
+					'''
+			}
+
+			CopperHatchet: {
+				DisplayName: Copper Hatchet
+				Tooltip:
+					'''
+					'On a Chain!'
+					Stacks up to 3
+					'''
+			}
+
+			CrimtaneHatchet: {
+				DisplayName: Crimtane Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			DemoniteHatchet: {
+				DisplayName: Demonite Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			DirtChakram: {
+				DisplayName: Soil Chakram
+				Tooltip:
+					'''
+					Does 1 more damage for every 666 blocks of dirt in your inventory
+					Stacks up to 3
+					Using this weapon dirt equal to 1/20th of the damage bonus
+					'''
+			}
+
+			EarthenHammer: {
+				DisplayName: Earthen Hammer
+				Tooltip: A mighty hammer that creates a shockwave on impact with the ground
+			}
+
+			ElementalSet: {
+				DisplayName: Greater Elemental Weapon Set
+				Tooltip: "'Unleash the elements!'"
+			}
+
+			ElementalSetTwo: {
+				DisplayName: Lesser Elemental Weapon Set
+				Tooltip: "'Unleash the elements!'"
+			}
+
+			EternalFlames: {
+				DisplayName: Eternal Flames
+				Tooltip:
+					'''
+					Right click for a special targeted attack
+					'Got it memorized?'
+					'''
+			}
+
+			Fireball: {
+				DisplayName: Fireball
+				Tooltip: Explodes into lingering flames
+			}
+
+			GaleBoomerang: {
+				DisplayName: Gale Boomerang
+				Tooltip: A piercing boomerang that picks up enemies and items
+			}
+
+			GiantKnife: {
+				DisplayName: Giant's Knife
+				Tooltip: "'It's so long!'"
+			}
+
+			GiantNeedle: {
+				DisplayName: Giant Needle
+				Tooltip:
+					'''
+					'Better than a sharp stick in the eye.'
+					'No, definitely worse...'
+					'''
+			}
+
+			GoldHatchet: {
+				DisplayName: Gold Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			GrenadeFish: {
+				DisplayName: Grenade Fish
+				Tooltip: ""
+			}
+
+			HallowedSickle: {
+				DisplayName: Hallowed Sickle
+				Tooltip: ""
+			}
+
+			HellstoneGlove: {
+				DisplayName: Hellfire Glove
+				Tooltip: Rapidly throws flaming shurikens
+			}
+
+			InfernalChakram: {
+				DisplayName: Infernal Chakram
+				Tooltip: A flaming chakram that creates orbiting fireballs
+			}
+
+			IronHatchet: {
+				DisplayName: Iron Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			LeadHatchet: {
+				DisplayName: Lead Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			LunarShuriken: {
+				DisplayName: Lunar Shuriken
+				Tooltip: "'Unleash the power of the moon'"
+			}
+
+			MechanicalSphere: {
+				DisplayName: Mechanical Sphere
+				Tooltip: "'Unleash mechanical power'"
+			}
+
+			MythrilChainedchainsaw: {
+				DisplayName: Mythril Chained-Chainsaw
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 4
+					'''
+			}
+
+			NebulaGrenade: {
+				DisplayName: Nebula Grenade
+				Tooltip: Creates a nebula upon impact
+			}
+
+			Needle: {
+				DisplayName: Needle
+				Tooltip:
+					'''
+					'Better than a sharp stick in the eye.'
+					'Oh wait...'
+					'''
+			}
+
+			OrichalcumChainedchainsaw: {
+				DisplayName: Orichalcum Chained-Chainsaw
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 4
+					'''
+			}
+
+			PalladiumChainedchainsaw: {
+				DisplayName: Palladium Chained-Chainsaw
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 4
+					'''
+			}
+
+			PlatinumHatchet: {
+				DisplayName: Platinum Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			PowerBomb: {
+				DisplayName: Power Bomb
+				Tooltip: Explodes into a powerful heat wave
+			}
+
+			PumpkinGlove: {
+				DisplayName: Pumpkin Glove
+				Tooltip: Throws a pumpkin that explodes into homing pumpkins
+			}
+
+			Rock: {
+				DisplayName: Rock
+				Tooltip: "'Sticks and stones may break my bones and give me a concussion'"
+			}
+
+			RoseWeave: {
+				DisplayName: Rose Weave
+				Tooltip: Showers thorns in the air
+			}
+
+			SandGlove: {
+				DisplayName: Sandstorm Glove
+				Tooltip:
+					'''
+					Rapidly throws sand
+					Uses sand blocks as ammo
+					'''
+			}
+
+			SandKunai: {
+				DisplayName: Sandstorm Kunai
+				Tooltip: Throws a spread of multiple kunais
+			}
+
+			SandstormJavelin: {
+				DisplayName: Sandstorm Javelin
+				Tooltip:
+					'''
+					Hold attack to charge the throw
+					Max charge drills through sand and launches it backwards
+					'''
+			}
+
+			SilverHatchet: {
+				DisplayName: Silver Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			SnowFlake: {
+				DisplayName: Snow Flake
+				Tooltip: "'Don't get frostbite!"
+			}
+
+			SolarGrenade: {
+				DisplayName: Solar Grenade
+				Tooltip: Launches daybreaks upon impact
+			}
+
+			Spikyballclump: {
+				DisplayName: Clump of Spiky Balls
+				Tooltip: "'Your pockets hurt'"
+			}
+
+			StardustGrenade: {
+				DisplayName: Stardust Grenade
+				Tooltip: Creates stardust cells that chase down enemies upon impact
+			}
+
+			TinHatchet: {
+				DisplayName: Tin Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			TitaniumChainedchainsaw: {
+				DisplayName: Titanium Chained-Chainsaw
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 4
+					'''
+			}
+
+			Tornade: {
+				DisplayName: Tornade
+				Tooltip: Releases a miniature tornado on impact
+			}
+
+			TungstenHatchet: {
+				DisplayName: Tungsten Hatchet
+				Tooltip:
+					'''
+					'On a chain!'
+					Stacks up to 3
+					'''
+			}
+
+			TwinChakrams: {
+				DisplayName: Twin chakrams
+				Tooltip: Throws two chakrams that pierce through enemies
+			}
+
+			VortexGrenade: {
+				DisplayName: Vortex Grenade
+				Tooltip: Releases homing vortex missiles on impact
+			}
+
+			WaterBalloon: {
+				DisplayName: Water Balloon
+				Tooltip: "'Splash!'"
+			}
+		}
+
+		NPCs: {
+			AirElemental.DisplayName: Air Elemental
+			AlphaCactusWormBody.DisplayName: Alpha Cactus Worm
+			AlphaCactusWormHead.DisplayName: Alpha Cactus Worm
+			AlphaCactusWormTail.DisplayName: Alpha Cactus Worm
+			CactusThorn.DisplayName: Cactus Thorn
+			Enkidu.DisplayName: Enkidu
+			GiantNeedle.DisplayName: Giant Needle
+			Gilgamesh.DisplayName: Gilgamesh
+			Gilgamesh2.DisplayName: Gilgamesh
+			GilgameshShield.DisplayName: Gilgamesh
+			GrandCactusWormBody.DisplayName: The Grand Cactus Worm
+			GrandCactusWormHead.DisplayName: The Grand Cactus Worm
+			GrandCactusWormTail.DisplayName: The Grand Cactus Worm
+			GreenXParasite.DisplayName: X Parasite
+			IceXParasite.DisplayName: X Parasite
+			IdleCactusWorm.DisplayName: Alpha Cactus Worm
+			JumboCactuar.DisplayName: Jumbo Cactuar
+			RedXParasite.DisplayName: X Parasite
+			SAX.DisplayName: SA-X
+			SAXCoreX.DisplayName: SA-X
+			SAXMutant.DisplayName: SA-X
+			XParasite.DisplayName: X Parasite
+			Cactite.DisplayName: Cactite
+			Cactoid.DisplayName: Cactoid
+			Cactuar.DisplayName: Cactuar
+			CactusWormBody.DisplayName: Cactus Worm
+			CactusWormHead.DisplayName: Cactus Worm
+			CactusWormTail.DisplayName: Cactus Worm
+			CorruptCactite.DisplayName: Cactite
+			CorruptCactoid.DisplayName: Cactoid
+			CorruptCactuar.DisplayName: Cactuar
+			CrimsonCactite.DisplayName: Cactite
+			CrimsonCactoid.DisplayName: Cactoid
+			CrimsonCactuar.DisplayName: Cactuar
+			DancingZombie.DisplayName: Zombie
+			DeathKnight.DisplayName: Death Knight
+			DerangedMutantKillerMonsterSnowGoon.DisplayName: Deranged Mutant Killer Monster Snow Goon
+			EarthElemental.DisplayName: Earth Elemental
+			FireElemental.DisplayName: Fire Elemental
+			GraySlime.DisplayName: Gray Slime
+			GraySlime2.DisplayName: Gray Slime
+			GraySlime3.DisplayName: Gray Slime
+			GraySlime4.DisplayName: Gray Slime
+			GraySlime5.DisplayName: Gray Slime
+			GraySlime6.DisplayName: Gray Slime
+			HallowedCactuar.DisplayName: Cactuar
+			FireBall.DisplayName: Dead Man's Fire
+			FireBall2.DisplayName: Dead Man's Fire
+			FloweringCactoid.DisplayName: Flowering Cactoid
+			ICU.DisplayName: ICU
+			ImpLord.DisplayName: Imp Lord
+			Pinkzor.DisplayName: Pinkzor
+			Roc.DisplayName: Roc
+			RogueTomato.DisplayName: Rogue Tomato
+			SkeletonDemoman.DisplayName: Skeleton Demolitionist
+			Spore.DisplayName: Spore
+			SporeSpawn.DisplayName: Spore Mother
+			StormWyvernBody.DisplayName: Storm Wyvern
+			StormWyvernBody2.DisplayName: Storm Wyvern
+			StormWyvernBody3.DisplayName: Storm Wyvern
+			StormWyvernHead.DisplayName: Storm Wyvern
+			StormWyvernLegs.DisplayName: Storm Wyvern
+			StormWyvernTail.DisplayName: Storm Wyvern
+			StormWyvernWings.DisplayName: Storm Wyvern
+			WoodGuardian.DisplayName: Forest's Vengeance
+			SandGolem.DisplayName: Desert Golem
+			Spectre.DisplayName: Spectre
+
+			CactusPerson: {
+				DisplayName: Cactus Person
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			HuntMaster: {
+				DisplayName: Hunt Master
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			TreasureGoblin.DisplayName: Treasure Goblin
+			WaterElemental.DisplayName: Water Elemental
+		}
+
+		Prefixes: {
+			AccessoryPrefix.DisplayName: Accessory Prefix
+			BoookPrefix.DisplayName: Boook's
+			DavidPrefix.DisplayName: David's
+			DecisivePrefix.DisplayName: Decisive
+			GnundersonPrefix.DisplayName: Gnunderson's
+			GrognakPrefix.DisplayName: Grognak's
+			HeartyPrefix.DisplayName: Hearty
+			ImpracticallyOversizedPrefix.DisplayName: Impractically Oversized
+			LarkusPrefix.DisplayName: Larkus's
+			MeleePrefix.DisplayName: Melee Prefix
+			MiniaturePrefix.DisplayName: Miniature
+			RejuvenatingPrefix.DisplayName: Rejuvenating
+			UncleCariusPrefix.DisplayName: Uncle Carius's
+			UniversalPrefix.DisplayName: Universal Prefix
+		}
+
+		Projectiles: {
+			BootCactus.DisplayName: Cactus
+			BubbleShield.DisplayName: Bubble Shield
+			Cactite.DisplayName: Cactite
+			Cactoid.DisplayName: Cactoid
+			CorruptedSoul.DisplayName: Corrupted Soul
+			HavelShield.DisplayName: Havel's Greatshield
+			Leech.DisplayName: Leechy Boi
+			MegaBubbleShield.DisplayName: Mega Bubble Shield
+			PersonalBubble.DisplayName: Personal Bubble
+			SaplingFishHook.DisplayName: Sapling Fish Hook
+			SaplingSword.DisplayName: Sapling
+			ShadowAura.DisplayName: Shadow Aura
+			ShadowBolt.DisplayName: Shadow bolt
+			ShieldSapling.DisplayName: Sapling - Shield
+			Skull.DisplayName: Skull
+			SpectreOrb.DisplayName: Spectral Orb
+			XParasiteGreen.DisplayName: X Parasite
+			XParasiteIce.DisplayName: X Parasite
+			XParasiteRed.DisplayName: X Parasite
+			XParasiteYellow.DisplayName: X Parasite
+			BlackHole.DisplayName: Black Hole
+			CheatManipulation.DisplayName: Tome of Greater Manipulation
+			ClearStar.DisplayName: Weather Star - Clear
+			DesertSolution.DisplayName: Desertification Spray
+			DivineMirror.DisplayName: Divine Mirror
+			DukeFishHook.DisplayName: DukeFishHook
+			DukeFishHook2.DisplayName: Duke Fish hook
+			Fishhook.DisplayName: Fish Hook
+			GoldenFishHook.DisplayName: Golden Fish Hook
+			LunarFishHook.DisplayName: Lunar Fish Hook
+			LunarFishHook2.DisplayName: Lunar Fish Hook
+			MechanicalFishHook.DisplayName: Mechanical Fish Hook
+			SuperFishHook.DisplayName: Super Fish Hook
+			SuperFishHook2.DisplayName: Super Fish Hook
+			UncleCariusHook.DisplayName: UncleCariusHook
+			CactusHook.DisplayName: Cactus Worm Hook
+			EnchantedMobHook.DisplayName: Enchanted Grabby Swingy Hook
+			EnchantedSwingyHook.DisplayName: Enchanted Swingy Hook
+			MobHook.DisplayName: Grabby Swingy Hook
+			SwingyHook.DisplayName: Swingy Hook
+			BitterEnd.DisplayName: Bitter End
+			BitterEnd2.DisplayName: Bitter End
+			CactusNeedle.DisplayName: 10000 Needles
+			CactusNeedle2.DisplayName: Cactus Needle
+			CactusWormBall.DisplayName: Cactus Ball
+			Deathbringer.DisplayName: Death Knight
+			DoomCannonHostile.DisplayName: Doom Cannon
+			DoomSkullHostile.DisplayName: Skull of Destruction
+			EnkiduWind.DisplayName: Enkidu's Wind
+			GilgAxe.DisplayName: Gilgamesh's Axe
+			GilgAxe2.DisplayName: Gilgamesh's Axe
+			GilgBullet.DisplayName: Gilgamesh's Gunblade
+			GilgBusterBeam.DisplayName: Gilgamesh's Buster Sword
+			GilgBusterLimitBeam.DisplayName: Gilgamesh's Buster Sword
+			GilgBusterLimitSlash.DisplayName: Gilgamesh's Buster Sword
+			GilgBusterMeleeSlash.DisplayName: Gilgamesh's Buster Sword
+			GilgExcalipoor.DisplayName: Excalipoor... somehow
+			GilgExcalipoorBeam.DisplayName: Excalipoor... somehow
+			GilgFlail.DisplayName: Gilgamesh's Flail
+			GilgKunai.DisplayName: Gilgamesh's Kunai
+			GilgLightning.DisplayName: Gilgamesh's Wrath
+			GilgMasamuneSlash.DisplayName: Masamune
+			GilgNaginata.DisplayName: Gilgamesh's Naginata
+			GilgNaginata1.DisplayName: Gilgamesh's Naginata
+			GilgPortal.DisplayName: Portal
+			GilgSword.DisplayName: a thousand swords
+			GilgTomahawk.DisplayName: Gilgamesh's Tomahawk
+			GilgWrath.DisplayName: Gilgamesh's Wrath
+			Grenade.DisplayName: Grenade
+			Gust.DisplayName: Gust
+			HostileFocusSoulBeam.DisplayName: Focus Souls
+			HostileFocusSouls.DisplayName: Focus Souls
+			HostileHomingSoulmass.DisplayName: Homing Soulmass
+			HostileSoulArrow.DisplayName: Soul Arrow
+			HostileSoulGreatsword.DisplayName: Soul Greatsword
+			HostileSoulSpear.DisplayName: Soul Spear
+			HostileWind.DisplayName: Wind
+			ImpFireBolt.DisplayName: Imp Lord's Fire
+			ImpTail.DisplayName: Imp Lord's Tail
+			Landmine.DisplayName: Landmine
+			LeafHostile.DisplayName: Leaf
+			RocFeather.DisplayName: Roc Feather
+			Root.DisplayName: Root
+			Root1.DisplayName: Root
+			SandBall.DisplayName: Sand Ball
+			SAXBeam.DisplayName: Ice Beam
+			SAXBeamCharged.DisplayName: Ice Beam
+			SAXExplosion.DisplayName: Explosion
+			SAXExplosion2.DisplayName: Explosion
+			SAXMissile.DisplayName: Missile
+			SAXPowerBomb.DisplayName: Power Bomb
+			SAXPowerBombExplosion.DisplayName: Power Bomb
+			SAXPowerBombExplosion2.DisplayName: Power Bomb
+			SAXSpit.DisplayName: Acidic Saliva
+			SAXSpit2.DisplayName: Acidic Saliva
+			SAXSuperMissile.DisplayName: Super Missile
+			SaxWave.DisplayName: SA-X
+			SaxWave1.DisplayName: SA-X
+			SaxWave2.DisplayName: SA-X
+			ShockWave.DisplayName: Sand Wave
+			ShockWave1.DisplayName: Sand Wave
+			ShockWave2.DisplayName: Desert Golem
+			StormWyvernZap.DisplayName: Lightning Strike
+			UltimateIllusion.DisplayName: Ultimate Illusion
+			UltimateIllusion1.DisplayName: Ultimate Illusion
+			UltimateIllusion2.DisplayName: Ultimate Illusion
+			UltimateIllusion3.DisplayName: Ultimate Illusion
+			UltimateIllusion4.DisplayName: Ultimate Illusion
+			UltimateIllusion5.DisplayName: Ultimate Illusion
+			AscendedBambooShoot.DisplayName: Ascended Bamboo Shoot
+			AscendedBlast.DisplayName: Ascended Blast
+			AscendedWave.DisplayName: Ascended Wave
+			AscendedWave1.DisplayName: Ascended Wave
+			AscendedWave2.DisplayName: Ascended Wave
+			BambooShoot.DisplayName: Mighty Bamboo Shoot
+			Gunblade.DisplayName: Gunblade
+			HomingSoulmass.DisplayName: Homing Soulmass
+			SoulArrow.DisplayName: Soul Arrow
+			SoulGreatsword.DisplayName: Soul Greatsword
+			SoulSpear.DisplayName: Soul Spear
+			BitterEndFriendly.DisplayName: Bitter End
+			BitterEndFriendly2.DisplayName: Bitter End
+			BoltofLight.DisplayName: Bolt of Light
+			BoltofNight.DisplayName: Bolt of Night
+			BurningSphere.DisplayName: Lord's Flame
+			CrystalChunk.DisplayName: Crystal Chunk
+			DarkLaser.DisplayName: Laser of Darkness
+			DavidBolt.DisplayName: Bolt of David
+			DavidLaser.DisplayName: Laser of David
+			DirtBolt.DisplayName: DirtBolt
+			Eyeball.DisplayName: Eyeball
+			FireballExplosion.DisplayName: Fire Blast
+			FireBlast.DisplayName: Lord's Flame
+			FireBolt.DisplayName: Lord's Flame
+			Flame.DisplayName: Flame
+			Flame2.DisplayName: Flame
+			FocusSoulBeam.DisplayName: Focus Souls
+			FocusSouls.DisplayName: Focus Souls
+			FrostFlame.DisplayName: FrostFlame
+			FrostFlame2.DisplayName: FrostFlame
+			FrozenOrb.DisplayName: Frozen Orb
+			GMagic.DisplayName: Magical Barrier
+			GreenLaser.DisplayName: Green Laser
+			IceBeam.DisplayName: Ice Beam
+			IceBeamCannon.DisplayName: Ice Beam
+			IceBeamCharged.DisplayName: Ice Beam
+			Icicle.DisplayName: Icicle
+			ImpLordFlame.DisplayName: Lord's Flame
+			LightLaser.DisplayName: Laser of Light
+			MythrilStaff.DisplayName: Twilight Staff
+			MythrilStaff2.DisplayName: Twilight Staff
+			Needle2.DisplayName: 1000 Needles
+			Needle3.DisplayName: Needles
+			Needle5.DisplayName: 100 Needles
+			Needle6.DisplayName: 1000 Needles
+			OrichalcumStaff.DisplayName: Twilight Staff
+			OrichalcumStaff2.DisplayName: Twilight Staff
+			PurpleLaser.DisplayName: Purple Laser
+			SapSpell.DisplayName: Sap
+			Sparkle.DisplayName: Sparkle
+			SunLaser.DisplayName: Sunbeam
+			VileCactusWorm.DisplayName: Vile Cactus Worm
+			WaterBall.DisplayName: Water Ball
+			WaterSplash.DisplayName: Water Splash
+			WaterWhip.DisplayName: Slapping Water Tendril
+			WaterWhip2.DisplayName: Grasping Water Tendril
+			ZoraSpin.DisplayName: Zora Spin
+			Manipulation.DisplayName: Tome of Manipulation
+			ActualFlamingMace.DisplayName: Actual Flaming Mace
+			ActualMace.DisplayName: Actual Mace
+			AwokenDreamBeam.DisplayName: Awoken Dream Nail
+			AwokenDreamDashSlash.DisplayName: Awoken Dream Dash Slash
+			AwokenDreamGreatSlash.DisplayName: Awoken Dream Great Slash
+			AwokenDreamNail.DisplayName: Awoken Dream Nail
+			AwokenDreamNail2.DisplayName: Awoken Dream Nail
+			AwokenDreamSpinSlash.DisplayName: Awoken Dream Spin Slash
+			BloodMoon.DisplayName: Blood Moon
+			BloodWave.DisplayName: True Blood Breaker
+			BloodWave1.DisplayName: True Blood Breaker
+			BloodWave2.DisplayName: True Blood Breaker
+			Bonesaw.DisplayName: Bonesaw
+			Boulder.DisplayName: Boulder
+			BusterBeam.DisplayName: Buster Sword
+			BusterSword.DisplayName: Buster Sword
+			CactusSpear.DisplayName: Cactus Spear
+			ChanneledNail.DisplayName: Channeled Nail
+			ChanneledNail2.DisplayName: Channeled Nail
+			Claw.DisplayName: Twin Claws
+			CoiledNail.DisplayName: Coiled Nail
+			CoiledNail2.DisplayName: Coiled Nail
+			CopperFlail.DisplayName: Copper Flail
+			DashSlash.DisplayName: Dash Slash
+			DragonTooth.DisplayName: Dragon Tooth
+			DragonToothWave.DisplayName: Plunging Attack
+			DragonToothWave2.DisplayName: Plunging Attack
+			DreamBeam.DisplayName: Dream Nail
+			DreamDashSlash.DisplayName: Dream Dash Slash
+			DreamGreatSlash.DisplayName: Dream Great Slash
+			DreamNail.DisplayName: Dream Nail
+			DreamNail2.DisplayName: Dream Nail
+			DreamSpinSlash.DisplayName: Dream Spin Slash
+			EarthenBillhook.DisplayName: Earthen Billhook
+			EarthenBillhook2.DisplayName: Earthen Billhook
+			EggSack.DisplayName: Egg Sack
+			Explosion2.DisplayName: Explosion
+			GilgSetFlail.DisplayName: Flail
+			GoldFlail.DisplayName: Gold Flail
+			GrabGlove.DisplayName: Brawler's Glove
+			GrabThrow.DisplayName: Impact
+			GreatSlash.DisplayName: Great Slash
+			GrognakBeam.DisplayName: Warhammer of Grognak
+			GrognakBeam2.DisplayName: Warhammer of Grognak
+			GrognakHammer.DisplayName: Warhammer of Grognak
+			GrognakHammer2.DisplayName: Warhammer of Grognak
+			GrogWave.DisplayName: Warhammer of Grognak
+			GrogWave1.DisplayName: Warhammer of Grognak
+			GrogWave2.DisplayName: Warhammer of Grognak
+			GrogWaveFlipped.DisplayName: Warhammer of Grognak
+			GrogWaveFlipped1.DisplayName: Warhammer of Grognak
+			GrogWaveFlipped2.DisplayName: Warhammer of Grognak
+			HallowedFlail.DisplayName: Incandescence
+			IronFlail.DisplayName: Iron Flail
+			LeadFlail.DisplayName: Lead Flail
+			LightWave.DisplayName: True Pwnhammer
+			LightWave1.DisplayName: True Pwnhammer
+			LightWave2.DisplayName: True Pwnhammer
+			Masamune.DisplayName: Masamune
+			Missile.DisplayName: Missile
+			MutantCannon.DisplayName: Mutated Arm Cannon
+			Naginata.DisplayName: Naginata
+			NegativeThousandDegreeKnife.DisplayName: -1000'C Degrees Knife
+			NightsFury.DisplayName: Night's Fury
+			NightWave.DisplayName: True Night's Wrath
+			NightWave1.DisplayName: True Night's Wrath
+			NightWave2.DisplayName: True Night's Wrath
+			OldNail.DisplayName: Old Nail
+			PetEyeball.DisplayName: Pet Eyeball
+			PlatinumFlail.DisplayName: Platinum Flail
+			PureBeam.DisplayName: Pure Nail
+			PureNail.DisplayName: Pure Nail
+			PureNail2.DisplayName: Pure Nail
+			RoseThorns.DisplayName: The Rose's Thorns
+			SharpenedNail.DisplayName: Sharpened Nail
+			SharpenedNail2.DisplayName: Sharpened Nail
+			SilverFlail.DisplayName: Silver Flail
+			SpinSlash.DisplayName: Spin Slash
+			Splitend.DisplayName: Split End
+			Stonefist.DisplayName: Stone Fist
+			Stonefist2.DisplayName: Stone Hand
+			SucculentThrow.DisplayName: Succulent Throw
+			TerraFirmaBeam.DisplayName: Terra Firma
+			TerraFury.DisplayName: Terra Fury
+			TerraFury2.DisplayName: Terra Fury
+			TerraFuryBeam.DisplayName: Terra Fury
+			TerraSpear.DisplayName: Terra Spear
+			TerraSpearBeam.DisplayName: Terra Spear
+			TerraSpearBeam2.DisplayName: Terra Spear
+			TerraWave.DisplayName: Terra Firma
+			TerraWave1.DisplayName: Terra Firma
+			TerraWave2.DisplayName: Terra Firma
+			TheHive.DisplayName: The Hive
+			TheRose.DisplayName: The Rose
+			TinFlail.DisplayName: Tin Flail
+			TomatoHead.DisplayName: Tomato Head
+			TrueBloodBreakerBeam.DisplayName: True Blood Breaker
+			TrueBloodMoon.DisplayName: True Blood Moon
+			TrueBloodMoonBeam.DisplayName: True Blood Moon
+			TrueDarkLance.DisplayName: True Dark Lance
+			TrueDarkLanceBeam.DisplayName: True Dark Lance
+			TrueGungnir.DisplayName: True Gungnir
+			TrueGungnirBeam.DisplayName: True Gungnir
+			TrueHallowedFlail.DisplayName: True Incandescence
+			TrueHallowedFlailBeam.DisplayName: True Hallowed Flail
+			TrueNightsFury.DisplayName: True Night's Fury
+			TrueNightsFuryBeam.DisplayName: True Night's Fury
+			TrueNightsWrathBeam.DisplayName: True Night's Wrath
+			TruePwnhammerBeam.DisplayName: True Pwnhammer
+			TungstenFlail.DisplayName: Tungsten Flail
+			UnicornLance.DisplayName: Unicorn Lance
+			Whirlwind.DisplayName: Whirlwind
+			Yonade.DisplayName: Yonade
+			Bone.DisplayName: Bone
+			BoneX.DisplayName: Bone
+			Bubble.DisplayName: Bubble
+			Cactuar.DisplayName: Cactuar
+			DirtBoltSummon.DisplayName: DirtBolt
+			DirtMinion.DisplayName: Soil Spirit
+			EmberMinion.DisplayName: Ember
+			EnkiduMinion.DisplayName: Enkidu
+			EnkiduWindFriendly.DisplayName: Enkidu's Wind
+			Feather.DisplayName: Feather
+			fishMinion.DisplayName: Pufferfish
+			Flame2Summon.DisplayName: Flame
+			FlameSummon.DisplayName: Flame
+			FrostEmberMinion.DisplayName: FrostEmber
+			FrostFlame2Summon.DisplayName: FrostFlame
+			FrostFlameSummon.DisplayName: FrostFlame
+			Gnome.DisplayName: Gnome
+			GnomeHat.DisplayName: Gnome Warrior's Hat
+			GnomeSpear.DisplayName: Gnome
+			HarpyMinion.DisplayName: Harpy Minion
+			IceBeamMinion.DisplayName: Ice Beam
+			IceBeamMinionStart.DisplayName: Ice Beam
+			IceXMinion.DisplayName: Ice Core-X
+			ICUBeam.DisplayName: Eye Laser
+			ICUMinion.DisplayName: ICU
+			Needle7.DisplayName: Needle
+			PowerBlast.DisplayName: Spirit of Power
+			PowerSpirit.DisplayName: Spirit of Power
+			PowerSpiritBlast.DisplayName: Spirit of Power
+			ShroomSentry.DisplayName: Shroom Sentry
+			SkellyMinion.DisplayName: Skelly
+			Spore.DisplayName: Shroom Spore
+			StormWyvernMinion.DisplayName: Storm Wyvern
+			StormWyvernMinionZap.DisplayName: Lightning Strike
+			WindBall.DisplayName: Wind Ball
+			WindMinion.DisplayName: Miniature Tornado
+			OnePunch.DisplayName: ONE PAAAUUUUUWWWWNNNCCHH
+			Stormy.DisplayName: Stormy
+			RainStar.DisplayName: Weather Star - Rain
+			BFE5000.DisplayName: BFE5000
+			BlazingArrow.DisplayName: Volcanic Arrow
+			BlazingDroplet.DisplayName: Lava Droplet
+			BloodyWater.DisplayName: Bloody Water
+			BloodyWater2.DisplayName: Bloody Water
+			BloodyWaterDisperse.DisplayName: Bloody Water
+			BoomerangBullet.DisplayName: Boomerang Bullet
+			BoomerangBullet2.DisplayName: Boomerang Bullet
+			BoookBulletHell.DisplayName: Boook's Bullet Hell
+			Darkarrow.DisplayName: Dark arrow
+			Darklightarrow.DisplayName: Light and Dark arrows
+			DoomCannon.DisplayName: Doom Cannon
+			DoomSkull.DisplayName: Doom Skull
+			DoomSkull2.DisplayName: Doom Skull
+			DoomSkull3.DisplayName: Skull of Destruction
+			DragonBlast.DisplayName: Dragon Blast
+			DragonBlaster.DisplayName: Dragon Blaster
+			DrillBullet.DisplayName: Drill Bullet
+			EndlessBoomerangBullet.DisplayName: Boomerang Bullet
+			EndlessBoomerangBullet2.DisplayName: Boomerang Bullet
+			Explosion.DisplayName: Explosion
+			GiantArrow.DisplayName: Giant Arrow
+			HallowedDrillBullet.DisplayName: Hallowed Drill Bullet
+			HungeringArrow.DisplayName: Hungering Arrow
+			Jumbow.DisplayName: Jumbow
+			Kerbal.DisplayName: Kerbal
+			Kerbal2.DisplayName: Kerbal
+			Larpoon.DisplayName: Larpoon
+			LaserDrillBullet.DisplayName: Laser Drill Bullet
+			Lightarrow.DisplayName: Light Arrow
+			MoltenDrillBullet.DisplayName: Molten Drill Bullet
+			Napalm.DisplayName: Napalm
+			Needle4.DisplayName: Needle
+			Richoshot.DisplayName: Richoshot
+			SearingBow.DisplayName: Volcanic Longbow
+			Shrapnel.DisplayName: Shrapnel
+			ShroomBullet.DisplayName: Shroomite Bullet
+			StickyCactus.DisplayName: Sticky Cactus
+			SuperMissile.DisplayName: Super Missile
+			ToxicWater.DisplayName: Toxic Water
+			ToxicWater2.DisplayName: Toxic Water
+			ToxicWaterDisperse.DisplayName: Toxic Water
+			UncleCariusFish.DisplayName: Fish
+			SandstormStar.DisplayName: Weather Star - Sandstorm
+			SlimeStar.DisplayName: Weather Star - Slime
+			AirBlast.DisplayName: Gust of Air
+			CactusSwarm.DisplayName: Cactus Worm
+			CactusWorm.DisplayName: Cactus Worm
+			DarkBolt.DisplayName: Darkness Sphere
+			Leaf.DisplayName: Leaf
+			Leaf2.DisplayName: Leaf
+			LightBolt.DisplayName: Light Sphere
+			Pumpkin.DisplayName: Pumpkin
+			Swirlwind.DisplayName: Hurricane
+			TailWhip.DisplayName: Tail Whip
+			Toad.DisplayName: Toad
+			Wind.DisplayName: Wind
+			TemperateSolution.DisplayName: Temperate Spray
+			AdamantiteChainedchainsaw.DisplayName: Adamantite Chained-Chainsaw
+			Axe.DisplayName: Axe
+			Axe2.DisplayName: Axe
+			Balancerang.DisplayName: Balancerang
+			Balancerang2.DisplayName: Balancerang
+			Balancerang3.DisplayName: Balancerang
+			BoneHurtingJuice.DisplayName: Bone Hurting Juice
+			BoneHurtingJuiceBottle.DisplayName: Bottle Of Bone Hurting Juice
+			Boomerain.DisplayName: Boomerain
+			BubbleBottle.DisplayName: Bubble Knife
+			BubbleThrown.DisplayName: Bubble
+			CactusThorn.DisplayName: Cactus Thorn
+			Chakram.DisplayName: Chakram
+			Chakram2.DisplayName: Chakram
+			CobaltChainedchainsaw.DisplayName: Cobalt Chained-Chainsaw
+			CopperHatchet.DisplayName: Copper Hatchet
+			CopperHatchet2.DisplayName: Copper Hatchet
+			CrimSandBlock.DisplayName: Crimsand
+			CrimtaneHatchet.DisplayName: Crimtane Hatchet
+			CrimtaneHatchet2.DisplayName: Crimtane Hatchet
+			DemoniteHatchet.DisplayName: Demonite Hatchet
+			DemoniteHatchet2.DisplayName: Demonite Hatchet
+			DirtChakram.DisplayName: Copper Hatchet
+			DousedChakram.DisplayName: Doused Chakram
+			DousedShuriken.DisplayName: Hellfire Shuriken
+			EarthenHammer.DisplayName: Earthen Hammer
+			EarthWave.DisplayName: Earthen Hammer
+			EarthWave1.DisplayName: Earthen Hammer
+			EarthWave2.DisplayName: Earthen Hammer
+			EbonSandBlock.DisplayName: Ebonsand
+			EternalFire.DisplayName: Eternal Flame
+			EternalFlame.DisplayName: Eternal Flame
+			EternalFlame2.DisplayName: Eternal Flame
+			Fireball.DisplayName: Fireball
+			Fires.DisplayName: Infernal Chakram
+			Fires2.DisplayName: Infernal Chakram
+			Flame2thrown.DisplayName: Flame
+			Flamethrown.DisplayName: Flame
+			GaleBoomerang.DisplayName: Gale Boomerang
+			GiantGnunderken.DisplayName: Gnunderson's Giant Shuriken
+			GiantKnife.DisplayName: Giant's Knife
+			GiantKnife2.DisplayName: Broken Giant's Knife
+			GiantKnife3.DisplayName: Broken Giant's Knife
+			GiantNeedle.DisplayName: Giant Needle
+			Gnunderken.DisplayName: Gnunderson's Shuriken
+			GoldHatchet.DisplayName: Gold Hatchet
+			GoldHatchet2.DisplayName: Gold Hatchet
+			GrenadeFish.DisplayName: Grenade Fish
+			HallowedSickle.DisplayName: Hallowed Sickle
+			HellstoneShuriken.DisplayName: Hellfire Shuriken
+			InfernalChakram.DisplayName: Infernal Chakram
+			IronHatchet.DisplayName: Iron Hatchet
+			IronHatchet2.DisplayName: Iron Hatchet
+			Kunai.DisplayName: Kunai
+			LeadHatchet.DisplayName: Lead Hatchet
+			LeadHatchet2.DisplayName: Lead Hatchet
+			LunarShuriken.DisplayName: Lunar Shuriken
+			MechanicalSphere.DisplayName: Mechanical Sphere
+			MythrilChainedchainsaw.DisplayName: Mythril Chained-Chainsaw
+			Nado.DisplayName: Tornade
+			NebulaGrenade.DisplayName: Nebula Grenade
+			Needle.DisplayName: Needle
+			OrichalcumChainedchainsaw.DisplayName: Orichalcum Chained-Chainsaw
+			PalladiumChainedchainsaw.DisplayName: Palladium Chained Chainsaw
+			PearlSandBlock.DisplayName: Pearlsand
+			PinkGoo.DisplayName: Pink Slime
+			PlatinumHatchet.DisplayName: Platinum Hatchet
+			PlatinumHatchet2.DisplayName: Platinum Hatchet
+			Pop.DisplayName: Grenade Fish
+			PowerBomb.DisplayName: Power Bomb
+			PowerBombExplosion.DisplayName: Power Bomb
+			PowerBombExplosion2.DisplayName: Power Bomb
+			Pumpkin2.DisplayName: Pumpkin
+			Rain.DisplayName: Rain
+			Rock.DisplayName: Rock
+			Sand.DisplayName: Sand
+			SandBlock.DisplayName: Sand
+			SandKunai.DisplayName: Sandstorm Kunai
+			SandstormJavelin.DisplayName: Sandstorm Javelin
+			SilverHatchet.DisplayName: Silver Hatchet
+			SilverHatchet2.DisplayName: Silver Hatchet
+			SnowFlake.DisplayName: Snow Flake
+			SolarGrenade.DisplayName: Solar Grenade
+			Spikyballclump.DisplayName: Clump of Spiky Balls
+			StardustGrenade.DisplayName: Stardust Grenade
+			StardustGrenadeFragment.DisplayName: Stardust Grenade
+			Thorn.DisplayName: Thorn
+			ThornShower.DisplayName: Rose Weave
+			ThornyCactus.DisplayName: Thorny Cactus
+			TinHatchet.DisplayName: Tin Hatchet
+			TinHatchet2.DisplayName: Tin Hatchet
+			TitaniumChainedchainsaw.DisplayName: Titanium Chained-Chainsaw
+			Tomahawk.DisplayName: Tomahawk
+			Tornade.DisplayName: Tornade
+			TungstenHatchet.DisplayName: Tungsten Hatchet
+			TungstenHatchet2.DisplayName: Tungsten Hatchet
+			VortexGrenade.DisplayName: Vortex Grenade
+			WaterBalloon.DisplayName: Water Balloon
+			VaultPole.DisplayName: Vaulting Pole
+			VaultPoleLong.DisplayName: Long Pole
+			WinterSolution.DisplayName: Winter Spray
+		}
+
+		Tiles: {
+			TARDISChest: {
+				ContainerName: TARDIS Chest
+				MapEntry: TARDIS Chest
+			}
+
+			Anniversary.MapEntry: Joostmod's Anniversary
+			AirElementalBanner.MapEntry: Air Elemental Banner
+			CactoidBanner.MapEntry: Cactoid Banner
+			CactuarBanner.MapEntry: Cactuar Banner
+			CactusWormBanner.MapEntry: Cactus Worm Banner
+			DeathKnightBanner.MapEntry: Death Knight Banner
+			DerangedMutantKillerMonsterSnowGoonBanner.MapEntry: Deranged Mutant Killer Monster Snow Goon Banner
+			DesertGolemBanner.MapEntry: Desert Golem Banner
+			EarthElementalBanner.MapEntry: Earth Elemental Banner
+			FireElementalBanner.MapEntry: Fire Elemental Banner
+			GraySlimeBanner.MapEntry: Gray Slime Banner
+			SpectreBanner.MapEntry: Spectre Banner
+			TreasureGoblinBanner.MapEntry: Treasure Goblin Banner
+			WaterElementalBanner.MapEntry: Water Elemental Banner
+			BossTrophy.MapEntry: Trophy
+			COTBBMusicBox.MapEntry: Music Box
+			DecisiveBattleMusicBox.MapEntry: Music Box
+			DeoremMuaMusicBox.MapEntry: Music Box
+			ElementalForge.MapEntry: Elemental Forge
+			EndlessWater.MapEntry: Endless Water Pump
+			EvilStone.MapEntry: Stone of Death
+			FifthAnniversary.MapEntry: Joostmod's Fifth Anniversary
+			FourthAnniversary.MapEntry: Joostmod's Fourth Anniversary
+			FrostFurnace.MapEntry: Frost Furnace
+			Fury.MapEntry: Furious Forging
+			InfernoStone.MapEntry: Stone of Fire
+			JungleStone.MapEntry: Stone of Overgrowth
+			SandstoneFurnace.MapEntry: Sandstone Furnace
+			SAXMusicBox.MapEntry: Music Box
+			SeaStoneDeep.MapEntry: Stone of the Deep Sea
+			SeaStoneEast.MapEntry: Stone of the East Sea
+			SeaStoneHigh.MapEntry: Stone of the High Sea
+			SeaStoneWest.MapEntry: Stone of the West Sea
+			SecondAnniversary.MapEntry: Joostmod's Second Anniversary
+			ShrineOfLegends.MapEntry: Shrine of Legends
+			SkullStone.MapEntry: Stone of Death
+			Smithas.MapEntry: Smithas Sigil
+			SpongeStation.MapEntry: Ultra Absorbtion Pump
+			SpongeStationHoney.MapEntry: Honey Absorbtion Pump
+			SpongeStationLava.MapEntry: Lava Absorbtion Pump
+			SpongeStationWater.MapEntry: Water Absorbtion Pump
+			ThirdAnniversary.MapEntry: Joostmod's Third Anniversary
+		}
+
+		Conditions: {
+			DownedJumboCactuar: After defeating the {$NPCs.JumboCactuar.DisplayName}
+			NightNewMoon: At night, during a New Moon
+			NightNotNewMoon: At night, when the moon is visible
+		}
+
+		"Keybinds.Armor Ability.DisplayName": Armor  Ability
+	}
+}

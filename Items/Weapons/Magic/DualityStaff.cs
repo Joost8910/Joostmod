@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of Duality");
-            Tooltip.SetDefault("'Find your inner pieces'");
+            // DisplayName.SetDefault("Staff of Duality");
+            // Tooltip.SetDefault("'Find your inner pieces'");
         }
         public override void SetDefaults()
         {

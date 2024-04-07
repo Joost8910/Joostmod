@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Spear");
+            // DisplayName.SetDefault("Cactus Spear");
         }
         public override void SetDefaults()
         {

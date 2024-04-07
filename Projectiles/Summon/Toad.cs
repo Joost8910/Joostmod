@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toad");
+            // DisplayName.SetDefault("Toad");
             Main.projFrames[Projectile.type] = 8;
         }
         public override void SetDefaults()
@@ -23,10 +23,10 @@ namespace JoostMod.Projectiles.Summon
             Projectile.timeLeft = 300;
             AIType = ProjectileID.BabySpider;
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(20, 180);
+            target.AddBuff(20, 180);
         }
         public override void AI()
         {

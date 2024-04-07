@@ -9,8 +9,8 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Free Real Estate Banner");
-			Tooltip.SetDefault("Greatly increases the rate that town NPCs arrive");
+			// DisplayName.SetDefault("Free Real Estate Banner");
+			// Tooltip.SetDefault("Greatly increases the rate that town NPCs arrive");
 		}
 		public override void SetDefaults()
 		{

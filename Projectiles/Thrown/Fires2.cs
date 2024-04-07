@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infernal Chakram");
+            // DisplayName.SetDefault("Infernal Chakram");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -28,10 +28,10 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(24, 180);
+            target.AddBuff(24, 180);
         }
         public override void AI()
         {

@@ -9,9 +9,9 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandy Saddle");
-			Tooltip.SetDefault("Summons a rideable sand shark\n" +
-                "Swims through sand");
+			// DisplayName.SetDefault("Sandy Saddle");
+			/* Tooltip.SetDefault("Summons a rideable sand shark\n" +
+                "Swims through sand"); */
 		}
 		public override void SetDefaults()
 		{

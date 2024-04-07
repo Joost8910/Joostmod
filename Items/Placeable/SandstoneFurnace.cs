@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandstone Furnace");
-            Tooltip.SetDefault("Used for smelting ore");
+			// DisplayName.SetDefault("Sandstone Furnace");
+            // Tooltip.SetDefault("Used for smelting ore");
 		}
         public override void SetDefaults()
         {

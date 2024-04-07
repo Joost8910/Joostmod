@@ -131,7 +131,7 @@ The Knight's Mask
 
 --- Consumables ---
 Wonder Waffle
-- Fixed issue where the Wonder Waffle would not be sold
+- Now sold only when the moon is crescent or gibbous
 - Increased price from 15 silver to ~20 silver
 
 --- Mounts ---

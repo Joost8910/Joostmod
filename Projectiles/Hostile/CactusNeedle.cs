@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("10000 Needles");
+            // DisplayName.SetDefault("10000 Needles");
         }
         public override void SetDefaults()
         {
@@ -22,13 +22,14 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.timeLeft = 300;
             AIType = ProjectileID.Bullet;
         }
-        public override void ModifyHitPlayer(Player player, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = 10;
+            //player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = 10;
+            modifiers.FinalDamage.Flat = 10;
         }
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            player.immuneTime = 1;
+            target.immuneTime = 1;
             Projectile.penetrate--;
             if (Projectile.penetrate <= 0)
             {

@@ -9,8 +9,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Life Rend");
-            Description.SetDefault("Will heal a nearby enemy player on death");
+			// DisplayName.SetDefault("Life Rend");
+            // Description.SetDefault("Will heal a nearby enemy player on death");
             Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;
         }

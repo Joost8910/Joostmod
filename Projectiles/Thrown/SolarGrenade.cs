@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Solar Grenade");
+            // DisplayName.SetDefault("Solar Grenade");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -39,7 +39,7 @@ namespace JoostMod.Projectiles.Thrown
 
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, 0f, 10f, 636, (int)(Projectile.damage * 0.5f), 0, Projectile.owner);

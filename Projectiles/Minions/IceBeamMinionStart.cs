@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Beam");
+            // DisplayName.SetDefault("Ice Beam");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Minions
             Projectile.Kill();
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 pos = Projectile.Center;
             Vector2 dir = Projectile.velocity;

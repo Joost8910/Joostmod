@@ -9,7 +9,7 @@ namespace JoostMod.Items.Tools.Hammers
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aqua Hammer");
+            // DisplayName.SetDefault("Aqua Hammer");
         }
         public override void SetDefaults()
         {

@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Zora Spin");
+            // DisplayName.SetDefault("Zora Spin");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
@@ -190,7 +190,7 @@ namespace JoostMod.Projectiles.Magic
             player.fullRotation = MathHelper.WrapAngle(Projectile.rotation);
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (player.immuneTime < 6)
@@ -203,7 +203,7 @@ namespace JoostMod.Projectiles.Magic
                 target.velocity = Projectile.velocity;
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             player.fullRotation = 0;

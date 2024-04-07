@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling - Fishing Rod");
-            Tooltip.SetDefault("Fishes automatically when you hold a fishing pole\n" + "+5 Fishing Power");
+            // DisplayName.SetDefault("Sapling - Fishing Rod");
+            // Tooltip.SetDefault("Fishes automatically when you hold a fishing pole\n" + "+5 Fishing Power");
         }
         public override void SetDefaults()
         {

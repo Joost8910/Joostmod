@@ -20,7 +20,7 @@ namespace JoostMod.Items.Dyes
                     new TeamOutlineShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Shaders/JuiceArmorShaders", AssetRequestMode.ImmediateLoad).Value), "OutlineShaderPass") // Be sure to update the effect path and pass name here.
                 );
             }
-            DisplayName.SetDefault("Team Outline Dye"); 
+            // DisplayName.SetDefault("Team Outline Dye"); 
         }
 
         public override void SetDefaults()

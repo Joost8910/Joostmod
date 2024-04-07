@@ -14,8 +14,9 @@ namespace JoostMod.NPCs.Hunts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("ICU");
-		}
+            // DisplayName.SetDefault("ICU");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+        }
 		public override void SetDefaults()
 		{
 			NPC.width = 60;
@@ -31,9 +32,9 @@ namespace JoostMod.NPCs.Hunts
 			NPC.noGravity = true;
             NPC.netAlways = true;
 		}
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -52,21 +53,21 @@ namespace JoostMod.NPCs.Hunts
             JoostWorld.downedICU = true;
             CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.ICU>(), Main.rand, 1, 1, 1, false);
         }
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             if (item.CountsAsClass(DamageClass.Melee))
             {
-                crit = true;
+                modifiers.SetCrit();
             }
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (projectile.CountsAsClass(DamageClass.Melee) && Main.player[projectile.owner].heldProj == projectile.whoAmI)
             {
-                crit = true;
+                modifiers.SetCrit();
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             NPC.ai[0]++;
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)

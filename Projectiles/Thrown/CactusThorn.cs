@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Thorn");
+            // DisplayName.SetDefault("Cactus Thorn");
         }
         public override void SetDefaults()
         {

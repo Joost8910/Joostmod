@@ -10,13 +10,13 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Glow-In-The-Dark Contacts");
-            Tooltip.SetDefault("Toggle visiblity to disable glow effect\n" +
+			// DisplayName.SetDefault("Glow-In-The-Dark Contacts");
+            /* Tooltip.SetDefault("Toggle visiblity to disable glow effect\n" +
                 "Place in slot 2 to wear over helmets\n" +
                 "Place in slot 3 for raised eye texture\n" +
                 "Place in slot 4 for a closed-helm texture\n" +
                 "Place in slot 5 for a raised closed-helm texture\n" +
-                "Place in slot 6 for genji helm texture");
+                "Place in slot 6 for genji helm texture"); */
             //ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[Item.faceSlot] = true;
 		}
 		public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace JoostMod.Items.Accessories
 			Item.rare = ItemRarityID.Green;
 			Item.accessory = true;
             Item.vanity = true;
-            Item.canBePlacedInVanityRegardlessOfConditions = true;
+            Item.hasVanityEffects = true;
 		}
         /*
         public override void EquipFrameEffects(Player player, EquipType type)

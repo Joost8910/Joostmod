@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sapling");
+            // DisplayName.SetDefault("Sapling");
         }
         public override void SetDefaults()
         {

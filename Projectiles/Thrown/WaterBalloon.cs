@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Balloon");
+            // DisplayName.SetDefault("Water Balloon");
         }
         public override void SetDefaults()
         {
@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles.Thrown
             AIType = ProjectileID.Shuriken;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             int shootNum = 16;

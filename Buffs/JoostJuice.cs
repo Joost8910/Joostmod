@@ -8,9 +8,9 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Joost Juice");
-			Description.SetDefault("Effects of Well fed, Regeneration, Swiftness, Ironskin\n" + 
-			"Heartreach, Lifeforce, Endurance, Rage, Wrath, Warmth, and Summoning");
+			// DisplayName.SetDefault("Joost Juice");
+			/* Description.SetDefault("Effects of Well fed, Regeneration, Swiftness, Ironskin\n" + 
+			"Heartreach, Lifeforce, Endurance, Rage, Wrath, Warmth, and Summoning"); */
 			Main.buffNoSave[Type] = false;
 		}
 

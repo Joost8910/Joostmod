@@ -11,6 +11,7 @@ using JoostMod.Items.Mounts;
 using JoostMod.Items.Tools;
 using JoostMod.Items.Weapons.Melee;
 using JoostMod.Items.Weapons.Magic;
+using Terraria.WorldBuilding;
 
 namespace JoostMod
 {
@@ -173,7 +174,7 @@ namespace JoostMod
             while (flag)
             {
                 int i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.6), (int)((double)Main.maxTilesX * 0.975));
-                if (WorldGen.dungeonX > Main.maxTilesX / 2)
+                if (GenVars.dungeonX > Main.maxTilesX / 2)
                 {
                     i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.025), (int)((double)Main.maxTilesX * 0.4));
                 }
@@ -187,7 +188,7 @@ namespace JoostMod
             bool flag2 = true;
             while (flag2)
             {
-                int x = WorldGen.dungeonX + WorldGen.genRand.Next(200) - 100;
+                int x = GenVars.dungeonX + WorldGen.genRand.Next(200) - 100;
                 int y = (int)Main.worldSurface + WorldGen.genRand.Next(400) + 10;
                 if (!Main.tile[x - 1, y + 2].HasTile && Main.tile[x, y + 5].HasTile && Main.wallDungeon[Main.tile[x - 1, y + 2].WallType] && Main.tileDungeon[Main.tile[x, y + 5].TileType])
                 {

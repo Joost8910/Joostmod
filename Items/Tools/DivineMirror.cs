@@ -10,11 +10,11 @@ namespace JoostMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Divine Mirror");
-            Tooltip.SetDefault("Hold out the mirror to charge a flash of divine light\n" +
+            // DisplayName.SetDefault("Divine Mirror");
+            /* Tooltip.SetDefault("Hold out the mirror to charge a flash of divine light\n" +
                 "Creatures caught in the light get sent to the world's spawn\n" +
                 "Ineffective against bosses or knockback-immune enemies\n" +
-                "Cannot be used while you have mana sickness");
+                "Cannot be used while you have mana sickness"); */
         }
         public override void SetDefaults()
         {

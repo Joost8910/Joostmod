@@ -12,8 +12,8 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silver Genji Armor");
-            Tooltip.SetDefault("Increases your max number of minions by 7\n" + "Max Life increased by 150");
+            // DisplayName.SetDefault("Silver Genji Armor");
+            // Tooltip.SetDefault("Increases your max number of minions by 7\n" + "Max Life increased by 150");
         }
 
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enkidu");
-			Description.SetDefault("Enkidu will fight for you");
+			// DisplayName.SetDefault("Enkidu");
+			// Description.SetDefault("Enkidu will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

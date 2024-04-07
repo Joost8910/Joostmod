@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Snow Flake");
+            // DisplayName.SetDefault("Snow Flake");
         }
         public override void SetDefaults()
         {

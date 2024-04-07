@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pink Slime Helm");
+			// DisplayName.SetDefault("Pink Slime Helm");
 		}
 		public override void SetDefaults()
 		{

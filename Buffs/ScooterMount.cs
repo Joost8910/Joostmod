@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scooter");
-			Description.SetDefault("Scoot... Scoot...");
+			// DisplayName.SetDefault("Scooter");
+			// Description.SetDefault("Scoot... Scoot...");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

@@ -11,7 +11,7 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of Evil");
+            // DisplayName.SetDefault("Stone of Evil");
         }
         public override void SetDefaults()
         {

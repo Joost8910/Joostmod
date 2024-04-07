@@ -13,10 +13,10 @@ namespace JoostMod.Items.Weapons.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mighty Bamboo Shoot");
-            Tooltip.SetDefault("Left click to swing\n" +
+            // DisplayName.SetDefault("Mighty Bamboo Shoot");
+            /* Tooltip.SetDefault("Left click to swing\n" +
                 "Right click to charge a seed barrage\n" +
-                "Allows the collection of seeds for ammo");
+                "Allows the collection of seeds for ammo"); */
         }
         public override void SetDefaults()
         {

@@ -8,8 +8,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Richoshot");
-			Tooltip.SetDefault("'Bouncy!'");
+			// DisplayName.SetDefault("Richoshot");
+			// Tooltip.SetDefault("'Bouncy!'");
 		}
 		public override void SetDefaults()
 		{

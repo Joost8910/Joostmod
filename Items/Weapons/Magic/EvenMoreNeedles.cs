@@ -13,8 +13,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Needle Wrath");
-            Tooltip.SetDefault("Unleashes a Hurricane of needles");
+            // DisplayName.SetDefault("Needle Wrath");
+            // Tooltip.SetDefault("Unleashes a Hurricane of needles");
         }
         public override void SetDefaults()
         {

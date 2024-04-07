@@ -12,8 +12,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandstorm Kunai");
-            Tooltip.SetDefault("Throws a spread of multiple kunais");
+            // DisplayName.SetDefault("Sandstorm Kunai");
+            // Tooltip.SetDefault("Throws a spread of multiple kunais");
         }
         public override void SetDefaults()
         {

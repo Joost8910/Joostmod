@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -15,7 +16,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Dark Lance");
+            // DisplayName.SetDefault("True Dark Lance");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -42,12 +43,12 @@ namespace JoostMod.Projectiles.Melee
             height = 12;
             return true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(BuffID.CursedInferno, 300);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(BuffID.CursedInferno, 300);
@@ -119,7 +120,7 @@ namespace JoostMod.Projectiles.Melee
             }
             Lighting.AddLight(Projectile.Center, 0.11f, 0.82f, 0.01f);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 6; i++)
             {
@@ -151,56 +152,48 @@ namespace JoostMod.Projectiles.Melee
             Vector2 offset = Vector2.Normalize(Projectile.velocity);
 
 
-            int intended = Main.CurrentDrawnEntityShader; //Temporary until 1.4.4
-            int shader = GameShaders.Armor.GetShaderIdFromItemId(ModContent.ItemType<DarkLanceBeamShader>());
+            //int intended = Main.CurrentDrawnEntityShader; //Temporary until 1.4.4
+            //int shader = GameShaders.Armor.GetShaderIdFromItemId(ModContent.ItemType<DarkLanceBeamShader>());
 
-            Main.instance.PrepareDrawnEntityDrawing(Projectile, shader);
+            //Main.instance.PrepareDrawnEntityDrawing(Projectile, shader);
 
-            //DrawData data = new DrawData(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            
-            for (int k = 0; k < Projectile.oldPos.Length; k++)
-            {
-                Color c = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
-                Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
-                Main.EntitySpriteDraw(tex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
-            }
-            
-
-            Main.EntitySpriteDraw(tex, Projectile.Center - offset * 56 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            scale = Projectile.scale * 1.1f;
-            color = Color.White * ((255f - Projectile.alpha) / 255f);
-            //DrawData data2 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            Main.EntitySpriteDraw(tex, Projectile.Center - offset * 48 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            scale = Projectile.scale;
-            color = new Color(142, 210, 0) * ((255f - Projectile.alpha) / 255f);
-            //DrawData data3 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            Main.EntitySpriteDraw(tex, Projectile.Center - offset * 48 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-
-            Main.instance.PrepareDrawnEntityDrawing(Projectile, intended);
-
-
-
-            /* Wont work until 1.4.4
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
 
             MiscShaderData shaderData = GameShaders.Misc["TrueGungnirBeam"];
-            shaderData.UseColor(new Color(57, 115, 210));
-            shaderData.UseImage0(tex)
-            shaderData.Apply(new DrawData?());
+            shaderData.UseColor(new Color(0.7f, 0.21f, 0.79f));
+            shaderData.UseSecondaryColor(new Color(0.49f, 0.82f, 0f));
+            shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
+
+
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
+            {
+                Color c = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
+                Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
+                DrawData dataTrail = new DrawData(tex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+                shaderData.Apply(dataTrail);
+                dataTrail.Draw(Main.spriteBatch);
+            }
+
+            DrawData data = new DrawData(tex, Projectile.Center - offset * 56 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
-            shaderData.Apply(new DrawData?());
-            data2.Draw(Main.spriteBatch);
-            shaderData.Apply(new DrawData?());
-            data3.Draw(Main.spriteBatch);
+
+            scale = Projectile.scale * 1.1f;
+            color = Color.White * ((255f - Projectile.alpha) / 255f);
+
+            data = new DrawData(tex, Projectile.Center - offset * 48 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
+            scale = Projectile.scale;
+            color = new Color(142, 210, 0) * ((255f - Projectile.alpha) / 255f);
+            data = new DrawData(tex, Projectile.Center - offset * 48 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
-            */
             return false;
         }
 

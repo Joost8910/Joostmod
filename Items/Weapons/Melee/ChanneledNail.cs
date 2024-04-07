@@ -9,9 +9,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Channeled Nail");
-            Tooltip.SetDefault("Hold attack to charge a great slash!\n" +
-            "Unleash it forward while dashing for a long ranged dash slash!");
+            // DisplayName.SetDefault("Channeled Nail");
+            /* Tooltip.SetDefault("Hold attack to charge a great slash!\n" +
+            "Unleash it forward while dashing for a long ranged dash slash!"); */
         }
         public override void SetDefaults()
         {

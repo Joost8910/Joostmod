@@ -11,15 +11,15 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Spear");
+            // DisplayName.SetDefault("Terra Spear");
         }
         public override void SetDefaults()
         {
             Projectile.width = 54;
             Projectile.height = 54;
             Projectile.scale = 1.2f;
-            Projectile.aiStyle = 19;
-            Projectile.timeLeft = 90;
+            Projectile.aiStyle = -1;
+            Projectile.timeLeft = 190;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;

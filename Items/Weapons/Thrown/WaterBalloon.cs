@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Balloon");
-            Tooltip.SetDefault("'Splash!'");
+            // DisplayName.SetDefault("Water Balloon");
+            // Tooltip.SetDefault("'Splash!'");
         }
         public override void SetDefaults()
         {

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Rose");
-            Tooltip.SetDefault("Has a chain of damaging thorns");
+            // DisplayName.SetDefault("The Rose");
+            // Tooltip.SetDefault("Has a chain of damaging thorns");
         }
         public override void SetDefaults()
         {

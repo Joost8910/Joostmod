@@ -13,8 +13,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gooey Glove");
-			Tooltip.SetDefault("Flings multiple globules of bouncy pink gel");
+			// DisplayName.SetDefault("Gooey Glove");
+			// Tooltip.SetDefault("Flings multiple globules of bouncy pink gel");
 		}
 		public override void SetDefaults()
 		{

@@ -11,7 +11,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Moon");
+            // DisplayName.SetDefault("Blood Moon");
         }
         public override void SetDefaults()
         {

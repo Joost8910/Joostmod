@@ -10,11 +10,11 @@ namespace JoostMod.Items.Quest
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Extra Succulent Cactus");
-			Tooltip.SetDefault("Not actually a quest item\n" +  
+            // DisplayName.SetDefault("Extra Succulent Cactus");
+			/* Tooltip.SetDefault("Not actually a quest item\n" +  
             "If this is in your inventory something went wrong.\n" + 
             "It's meant to do a thing when picked up like hearts\n" + 
-            "Consume it for its effect since picking it up didn't work");
+            "Consume it for its effect since picking it up didn't work"); */
         }
 
         public override void SetDefaults()

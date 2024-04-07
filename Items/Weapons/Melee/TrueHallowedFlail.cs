@@ -12,7 +12,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Incandescence");
+            // DisplayName.SetDefault("True Incandescence");
         }
         public override void SetDefaults()
         {

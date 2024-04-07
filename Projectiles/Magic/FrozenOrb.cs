@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frozen Orb");
+            // DisplayName.SetDefault("Frozen Orb");
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace JoostMod.Projectiles.Magic
             height = 20;
             return true;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)
             {

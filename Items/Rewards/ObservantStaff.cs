@@ -12,8 +12,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Observant Staff");
-			Tooltip.SetDefault("Summons an ICU to fight for you");
+			// DisplayName.SetDefault("Observant Staff");
+			// Tooltip.SetDefault("Summons an ICU to fight for you");
 		}
 		public override void SetDefaults()
 		{

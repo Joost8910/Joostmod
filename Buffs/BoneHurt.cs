@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Your bones hurt");
-            Description.SetDefault("Losing life, amount lost increases over time");
+			// DisplayName.SetDefault("Your bones hurt");
+            // Description.SetDefault("Losing life, amount lost increases over time");
             Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

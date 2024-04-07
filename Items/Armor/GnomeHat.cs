@@ -9,8 +9,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gnome Hat");
-			Tooltip.SetDefault("'To show your loyalty to the Gnome God'");
+			// DisplayName.SetDefault("Gnome Hat");
+			// Tooltip.SetDefault("'To show your loyalty to the Gnome God'");
 			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 		public override void SetDefaults()

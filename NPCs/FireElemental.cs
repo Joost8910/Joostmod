@@ -17,19 +17,13 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire Elemental");
+            // DisplayName.SetDefault("Fire Elemental");
             Main.npcFrameCount[NPC.type] = 5;
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.OnFire,
-                    BuffID.ShadowFlame,
-                    BuffID.Poisoned,
-                    BuffID.Venom
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.ShadowFlame] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.CursedInferno] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Venom] = true;
         }
         public override void SetDefaults()
         {
@@ -82,26 +76,26 @@ namespace JoostMod.NPCs
             }
         }
         */
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (NPC.localAI[1] >= 40)
             {
                 //crit = true;
-                damage *= 2;
-                target.AddBuff(BuffID.OnFire, 900);
+                modifiers.FinalDamage *= 2;
+                target.AddBuff(BuffID.OnFire3, 900);
             }
             else
             {
                 target.AddBuff(BuffID.OnFire, 420);
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 127, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 127, 2.5f * (float)hit.HitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
@@ -111,14 +105,21 @@ namespace JoostMod.NPCs
             return !spawnInfo.PlayerInTown && spawnInfo.SpawnTileY >= Main.maxTilesY - 250 && Main.hardMode ? 0.06f : 0f;
 
         }
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             int sphereRate = Main.expertMode ? 270 : 330;
-            if ((knockback > 6 || crit) && NPC.ai[3] > sphereRate)
+            if (NPC.ai[3] > sphereRate && (hit.Knockback > 6 || hit.Crit))
             {
                 NPC.ai[3] = sphereRate / 2;
             }
-            return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
+        }
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
+        {
+            int sphereRate = Main.expertMode ? 270 : 330;
+            if (NPC.ai[3] > sphereRate && (hit.Knockback > 6 || hit.Crit))
+            {
+                NPC.ai[3] = sphereRate / 2;
+            }
         }
         public override void AI()
         {

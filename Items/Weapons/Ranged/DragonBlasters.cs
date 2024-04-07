@@ -12,10 +12,10 @@ namespace JoostMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Blasters");
-            Tooltip.SetDefault("Left and right click to fire each gun\n" +
+            // DisplayName.SetDefault("Dragon Blasters");
+            /* Tooltip.SetDefault("Left and right click to fire each gun\n" +
                 "Hold the attack down to charge a blast of fire\n" +
-                "35% chance to not consume ammo");
+                "35% chance to not consume ammo"); */
         }
         public override void SetDefaults()
         {

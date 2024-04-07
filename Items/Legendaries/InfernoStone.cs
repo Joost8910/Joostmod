@@ -11,9 +11,9 @@ namespace JoostMod.Items.Legendaries
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stone of Fire");
-            Tooltip.SetDefault("Grants warmth buff while placed or in inventory\n" +
-                "Found in hell");
+            // DisplayName.SetDefault("Stone of Fire");
+            /* Tooltip.SetDefault("Grants warmth buff while placed or in inventory\n" +
+                "Found in hell"); */
         }
         public override void SetDefaults()
         {

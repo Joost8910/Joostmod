@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Unicorn Lance");
+            // DisplayName.SetDefault("Unicorn Lance");
         }
         public override void SetDefaults()
         {
@@ -72,13 +72,13 @@ namespace JoostMod.Projectiles.Melee
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            double speed = player.velocity.Length();
-            damage = (int)(damage * speed * speed / 30);
+            float speed = player.velocity.Length();
+            modifiers.SourceDamage *= speed * speed / 30f;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.velocity.X * player.velocity.X > 0 && Math.Abs(Projectile.velocity.X) > 3)
@@ -90,13 +90,13 @@ namespace JoostMod.Projectiles.Melee
                 player.velocity.Y *= -1;
             }
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             Player player = Main.player[Projectile.owner];
-            double speed = player.velocity.Length();
-            damage = (int)(damage * speed * speed / 30);
+            float speed = player.velocity.Length();
+            modifiers.SourceDamage *= speed * speed / 30f;
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.velocity.X * player.velocity.X > 0 && Math.Abs(Projectile.velocity.X) > 3)

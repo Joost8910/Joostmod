@@ -11,10 +11,10 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soil Chakram");
-            Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" +
+            // DisplayName.SetDefault("Soil Chakram");
+            /* Tooltip.SetDefault("Does 1 more damage for every 666 blocks of dirt in your inventory\n" +
                 "Stacks up to 3\n" +
-                "Using this weapon dirt equal to 1/20th of the damage bonus");
+                "Using this weapon dirt equal to 1/20th of the damage bonus"); */
         }
         public override void SetDefaults()
         {

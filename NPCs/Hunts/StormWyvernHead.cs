@@ -18,8 +18,9 @@ namespace JoostMod.NPCs.Hunts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Wyvern");
+            // DisplayName.SetDefault("Storm Wyvern");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {
@@ -98,9 +99,9 @@ namespace JoostMod.NPCs.Hunts
             }
 
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale) + 1;
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance) + 1;
         }
         public override void BossHeadRotation(ref float rotation)
         {

@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mechanical Sphere");
+            // DisplayName.SetDefault("Mechanical Sphere");
         }
         public override void SetDefaults()
         {

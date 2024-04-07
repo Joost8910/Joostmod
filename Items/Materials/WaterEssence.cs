@@ -11,7 +11,7 @@ namespace JoostMod.Items.Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Water Essence");
+			// DisplayName.SetDefault("Water Essence");
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;

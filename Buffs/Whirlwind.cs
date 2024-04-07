@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Whirlwind");
-			Description.SetDefault("Defense increased by 20, featherfall");
+			// DisplayName.SetDefault("Whirlwind");
+			// Description.SetDefault("Defense increased by 20, featherfall");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;

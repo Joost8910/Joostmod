@@ -9,9 +9,9 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gust Amulet");
-			Tooltip.SetDefault("Increases movement speed by 10%\n" +
-                "Your summon attacks have a 10% chance to create a gust of wind");
+			// DisplayName.SetDefault("Gust Amulet");
+			/* Tooltip.SetDefault("Increases movement speed by 10%\n" +
+                "Your summon attacks have a 10% chance to create a gust of wind"); */
 		}
 		public override void SetDefaults()
 		{

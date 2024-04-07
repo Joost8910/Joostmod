@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bitter End");
+            // DisplayName.SetDefault("Bitter End");
             Main.projFrames[Projectile.type] = 18;
         }
         public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Magic
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int shootNum = 36;
             float shootSpread = 360f;

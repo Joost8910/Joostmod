@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Hammer");
+            // DisplayName.SetDefault("Earthen Hammer");
         }
         public override void SetDefaults()
         {

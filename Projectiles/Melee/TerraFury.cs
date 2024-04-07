@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Fury");
+            // DisplayName.SetDefault("Terra Fury");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -51,7 +51,7 @@ namespace JoostMod.Projectiles.Melee
                 if (offControl && player.ownedProjectileCounts[offType] == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item1, player.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_ItemUse(player.HeldItem), Projectile.Center, Projectile.velocity, offType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), Projectile.Center, Projectile.velocity, offType, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     player.ownedProjectileCounts[offType]++;
                 }
             }
@@ -128,7 +128,7 @@ namespace JoostMod.Projectiles.Melee
         public override string Texture => "JoostMod/Projectiles/Melee/TerraFury";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Fury");
+            // DisplayName.SetDefault("Terra Fury");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -167,15 +167,15 @@ namespace JoostMod.Projectiles.Melee
                 if (offControl && player.ownedProjectileCounts[offType] == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item1, player.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_ItemUse(player.HeldItem), Projectile.Center, Projectile.velocity, offType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), Projectile.Center, Projectile.velocity, offType, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     player.ownedProjectileCounts[offType]++;
                 }
             }
         }
         float damageMult = 0.75f;
-        public override void ModifyDamageScaling(ref float damageScale)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damageScale *= damageMult;
+            modifiers.SourceDamage *= damageMult;
         }
 
         int type = ModContent.ProjectileType<TerraFuryBeam>();

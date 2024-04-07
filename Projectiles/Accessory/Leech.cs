@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leechy Boi");
+            // DisplayName.SetDefault("Leechy Boi");
         }
         public override void SetDefaults()
         {
@@ -22,10 +22,10 @@ namespace JoostMod.Projectiles.Accessory
             Projectile.timeLeft = 300;
             AIType = ProjectileID.Bullet;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
-            float lifeStoled = damage * 0.05f;
+            float lifeStoled = damageDone * 0.05f;
             if (lifeStoled < 1)
             {
                 lifeStoled = 1;
@@ -36,10 +36,10 @@ namespace JoostMod.Projectiles.Accessory
             }
             SoundEngine.PlaySound(SoundID.NPCHit9, player.Center);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Player player = Main.player[Projectile.owner];
-            float lifeStoled = damage * 0.05f;
+            float lifeStoled = info.Damage * 0.05f;
             if (lifeStoled < 1)
             {
                 lifeStoled = 1;

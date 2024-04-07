@@ -9,8 +9,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hungering Arrow");
-			Tooltip.SetDefault("A homing arrow with a 35% chance to pierce enemies");
+			// DisplayName.SetDefault("Hungering Arrow");
+			// Tooltip.SetDefault("A homing arrow with a 35% chance to pierce enemies");
 		}
 		public override void SetDefaults()
 		{

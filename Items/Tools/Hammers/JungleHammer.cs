@@ -10,7 +10,7 @@ namespace JoostMod.Items.Tools.Hammers
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jungle Hammer");
+            // DisplayName.SetDefault("Jungle Hammer");
         }
         public override void SetDefaults()
         {

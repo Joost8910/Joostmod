@@ -9,7 +9,7 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Star Staff");
+            // DisplayName.SetDefault("Star Staff");
         }
         public override void SetDefaults()
         {

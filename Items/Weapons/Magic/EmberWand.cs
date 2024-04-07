@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ember Wand");
-            Tooltip.SetDefault("Fires a small flame");
+            // DisplayName.SetDefault("Ember Wand");
+            // Tooltip.SetDefault("Fires a small flame");
         }
         public override void SetDefaults()
         {

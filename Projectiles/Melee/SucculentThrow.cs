@@ -17,13 +17,13 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Succulent Throw");
+            // DisplayName.SetDefault("Succulent Throw");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 12f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 12f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 200f;
         }
         int enpc = -1;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!target.friendly && target.knockBackResist > 0 && target.type != NPCID.TargetDummy && Projectile.ai[0] > 0 && !Projectile.velocity.HasNaNs())
             {

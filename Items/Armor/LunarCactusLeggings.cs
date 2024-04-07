@@ -10,8 +10,8 @@ namespace JoostMod.Items.Armor
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lunar Cactus Leggings");
-			Tooltip.SetDefault("Allows the wearer to run super fast");
+			// DisplayName.SetDefault("Lunar Cactus Leggings");
+			// Tooltip.SetDefault("Allows the wearer to run super fast");
 			ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
 
 		}

@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earthen Hammer");
-            Tooltip.SetDefault("A mighty hammer that creates a shockwave on impact with the ground");
+            // DisplayName.SetDefault("Earthen Hammer");
+            // Tooltip.SetDefault("A mighty hammer that creates a shockwave on impact with the ground");
         }
         public override void SetDefaults()
         {

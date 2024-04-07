@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toxic Water");
+            // DisplayName.SetDefault("Toxic Water");
             Main.projFrames[Projectile.type] = 4;
         }
         public override void SetDefaults()
@@ -26,11 +26,11 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 600 + Main.rand.Next(600));
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Poisoned, 600 + Main.rand.Next(600));
         }
@@ -46,7 +46,7 @@ namespace JoostMod.Projectiles.Ranged
                 Projectile.Kill();
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();
             int numberProjectiles = 6;

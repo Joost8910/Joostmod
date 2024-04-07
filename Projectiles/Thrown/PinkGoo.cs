@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pink Slime");
+            // DisplayName.SetDefault("Pink Slime");
         }
         public override void SetDefaults()
         {

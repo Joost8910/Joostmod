@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Split End");
+            // DisplayName.SetDefault("Split End");
         }
         public override void SetDefaults()
         {

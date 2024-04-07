@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble Shield");
+            // DisplayName.SetDefault("Bubble Shield");
         }
         public override void SetDefaults()
         {

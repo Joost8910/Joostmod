@@ -7,7 +7,7 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Jumbo Cactuar Trophy");
+			// DisplayName.SetDefault("Jumbo Cactuar Trophy");
 		}
 		public override void SetDefaults()
 		{

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,14 +22,9 @@ namespace JoostMod.Tiles.Banners     //We need this to basically indicate the fo
             TileObjectData.newTile.StyleWrapLimit = 111;
             TileObjectData.addTile(Type);
             TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */ 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cactus Worm Banner");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Cactus Worm Banner");
             AddMapEntry(new Color(123, 44, 122), name); //this defines the color and the name when you see this tile on the map
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.CactusWormBanner>());//this defines what to drop when this tile is destroyed
         }
 
         public override void NearbyEffects(int i, int j, bool closer)   //this make so the banner give an effect to nearby players

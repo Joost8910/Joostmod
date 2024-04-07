@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sharpened Nail");
-            Tooltip.SetDefault("Hold attack to charge a great slash!");
+            // DisplayName.SetDefault("Sharpened Nail");
+            // Tooltip.SetDefault("Hold attack to charge a great slash!");
         }
         public override void SetDefaults()
         {

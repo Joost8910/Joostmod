@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Weather Star - Sandstorm");
+			// DisplayName.SetDefault("Weather Star - Sandstorm");
 		}
 		public override void SetDefaults()
 		{
@@ -35,7 +35,7 @@ namespace JoostMod.Projectiles
                 Projectile.Kill();
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
 		{
             Sandstorm.Happening = true;
             Sandstorm.TimeLeft = (int)(3600f * (8f + Main.rand.NextFloat() * 16f));

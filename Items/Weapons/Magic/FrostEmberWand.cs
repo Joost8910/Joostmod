@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frostfire Wand");
-            Tooltip.SetDefault("Fires a small frostflame");
+            // DisplayName.SetDefault("Frostfire Wand");
+            // Tooltip.SetDefault("Fires a small frostflame");
         }
         public override void SetDefaults()
         {

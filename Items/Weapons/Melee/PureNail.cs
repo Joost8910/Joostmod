@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pure Nail");
-            Tooltip.SetDefault("'Crafted to perfection, this ancient nail reveals its true form'\n" +
-                "Fires beams that deal half damage while at full health");
+            // DisplayName.SetDefault("Pure Nail");
+            /* Tooltip.SetDefault("'Crafted to perfection, this ancient nail reveals its true form'\n" +
+                "Fires beams that deal half damage while at full health"); */
         }
         public override void SetDefaults()
         {

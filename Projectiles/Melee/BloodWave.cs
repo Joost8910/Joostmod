@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Blood Breaker");
+            // DisplayName.SetDefault("True Blood Breaker");
         }
         public override void SetDefaults()
         {

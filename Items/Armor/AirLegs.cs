@@ -9,9 +9,9 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tornado Legs");
-            Tooltip.SetDefault("20% increased movement speed\n" +
-                "Increases your max number of minions");
+            // DisplayName.SetDefault("Tornado Legs");
+            /* Tooltip.SetDefault("20% increased movement speed\n" +
+                "Increases your max number of minions"); */
             ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
         }
         public override void SetDefaults()

@@ -11,12 +11,12 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gnome Staff");
-            Tooltip.SetDefault("'With silver beard and crimson hat the gnome warriors fight valiantly for their people'\n" +
+            // DisplayName.SetDefault("Gnome Staff");
+            /* Tooltip.SetDefault("'With silver beard and crimson hat the gnome warriors fight valiantly for their people'\n" +
                 "Summons a Gnome warrior\n" +
                 "Hold right click to direct the gnome warriors to block\n" +
                 "Gnome warriors cannot block projectiles with higher base damage than double their own damage\n" +
-                "Left click while they're blocking to direct them to shield bash");
+                "Left click while they're blocking to direct them to shield bash"); */
         }
         public override void SetDefaults()
         {

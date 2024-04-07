@@ -10,7 +10,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactus Worm");
+			// DisplayName.SetDefault("Cactus Worm");
         }
         public override void SetDefaults()
         {

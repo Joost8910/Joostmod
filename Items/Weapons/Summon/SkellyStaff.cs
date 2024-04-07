@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Skeleton Staff");
-            Tooltip.SetDefault("Summons a mini Skeleton to fight for you\n" +
-            "Mini Skeletons have a 20% chance to throw an empowered bone");
+            // DisplayName.SetDefault("Skeleton Staff");
+            /* Tooltip.SetDefault("Summons a mini Skeleton to fight for you\n" +
+            "Mini Skeletons have a 20% chance to throw an empowered bone"); */
         }
         public override void SetDefaults()
         {

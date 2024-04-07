@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pufferfish Minion");
-			Description.SetDefault("The pufferfish will fight for you");
+			// DisplayName.SetDefault("Pufferfish Minion");
+			// Description.SetDefault("The pufferfish will fight for you");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

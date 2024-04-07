@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Focus Souls");
+            // DisplayName.SetDefault("Focus Souls");
         }
         public override void SetDefaults()
         {

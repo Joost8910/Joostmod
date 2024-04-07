@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Worm");
+            // DisplayName.SetDefault("Cactus Worm");
         }
         public override void SetDefaults()
         {
@@ -32,7 +32,7 @@ namespace JoostMod.Projectiles.Summon
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4);
             Point pos = posi.ToTileCoordinates();

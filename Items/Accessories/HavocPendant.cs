@@ -9,8 +9,8 @@ namespace JoostMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Havoc Pendant");
-            Tooltip.SetDefault("Multiplies spawnrates by 5");
+            // DisplayName.SetDefault("Havoc Pendant");
+            // Tooltip.SetDefault("Multiplies spawnrates by 5");
         }
         public override void SetDefaults()
         {

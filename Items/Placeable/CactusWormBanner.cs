@@ -8,7 +8,7 @@ namespace JoostMod.Items.Placeable
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cactus Worm Banner");
+			// DisplayName.SetDefault("Cactus Worm Banner");
 		}
         public override void SetDefaults()
         {

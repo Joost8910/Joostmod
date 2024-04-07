@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pumpkin");
+            // DisplayName.SetDefault("Pumpkin");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -26,10 +26,10 @@ namespace JoostMod.Projectiles.Summon
             Projectile.timeLeft = 1801;
             Projectile.extraUpdates = 1;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            hitDirection = target.Center.X < player.Center.X ? -1 : 1;
+            modifiers.HitDirectionOverride = target.Center.X < player.Center.X ? -1 : 1;
         }
         public override void AI()
         {

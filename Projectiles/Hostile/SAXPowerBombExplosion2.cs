@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Power Bomb");
+            // DisplayName.SetDefault("Power Bomb");
         }
         public override void SetDefaults()
         {

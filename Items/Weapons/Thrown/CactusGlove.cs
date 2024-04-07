@@ -10,8 +10,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactus Glove");
-            Tooltip.SetDefault("Throws a cactus that explodes into thorns");
+            // DisplayName.SetDefault("Cactus Glove");
+            // Tooltip.SetDefault("Throws a cactus that explodes into thorns");
         }
         public override void SetDefaults()
         {

@@ -14,8 +14,9 @@ namespace JoostMod.NPCs.Hunts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rogue Tomato");
+            // DisplayName.SetDefault("Rogue Tomato");
             Main.npcFrameCount[NPC.type] = 10;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {
@@ -34,9 +35,9 @@ namespace JoostMod.NPCs.Hunts
             NPC.noGravity = false;
             NPC.netAlways = true;
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale + 1);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -56,7 +57,7 @@ namespace JoostMod.NPCs.Hunts
         {
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<EvilStone>(), 100));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             NPC.ai[0] += NPC.ai[0] < 1 ? 1 : 0;
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)

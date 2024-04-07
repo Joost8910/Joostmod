@@ -9,7 +9,7 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slime Leggings");
+            // DisplayName.SetDefault("Slime Leggings");
         }
         public override void SetDefaults()
         {

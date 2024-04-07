@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sand Wave");
+            // DisplayName.SetDefault("Sand Wave");
         }
         public override void SetDefaults()
         {
@@ -28,7 +28,7 @@ namespace JoostMod.Projectiles.Hostile
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 posi = new Vector2(Projectile.position.X, Projectile.position.Y + 4);
             Point pos = posi.ToTileCoordinates();

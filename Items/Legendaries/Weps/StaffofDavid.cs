@@ -16,11 +16,11 @@ namespace JoostMod.Items.Legendaries.Weps
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of David");
-            Tooltip.SetDefault("'Staff of the legendary David'\n" +
+            // DisplayName.SetDefault("Staff of David");
+            /* Tooltip.SetDefault("'Staff of the legendary David'\n" +
             "Does more damage as you kill bosses throughout the game\n" +
             "Unleashes a defense-ignoring, rapidly damaging laser\n" +
-            "Right click to fire three magical bolts");
+            "Right click to fire three magical bolts"); */
         }
         public override void SetDefaults()
         {

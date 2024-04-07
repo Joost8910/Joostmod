@@ -18,7 +18,7 @@ namespace JoostMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spectre");
+            // DisplayName.SetDefault("Spectre");
             Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetDefaults()
@@ -60,20 +60,20 @@ namespace JoostMod.NPCs
             return base.CanHitPlayer(target, ref cooldownSlot);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 92, 2.5f * (float)hitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 92, 2.5f * (float)hit.HitDirection, Main.rand.Next(-5, 5), 0, default(Color), 0.7f);
                 }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
-            return (tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44) && spawnInfo.PlanteraDefeated && spawnInfo.SpawnTileY >= Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(NPC.type) ? 0.0075f : 0f;
+            return (tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44) && NPC.downedPlantBoss && Main.hardMode && spawnInfo.SpawnTileY >= Main.rockLayer && Main.hardMode && !NPC.AnyNPCs(NPC.type) ? 0.0075f : 0f;
 
         }
         public override void AI()

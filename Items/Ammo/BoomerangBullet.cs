@@ -8,8 +8,8 @@ namespace JoostMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Boomerang Bullet");
-			Tooltip.SetDefault("'It really works!'\n" + "Has a 10% chance of returning to you");
+			// DisplayName.SetDefault("Boomerang Bullet");
+			// Tooltip.SetDefault("'It really works!'\n" + "Has a 10% chance of returning to you");
 		}
 		public override void SetDefaults()
 		{

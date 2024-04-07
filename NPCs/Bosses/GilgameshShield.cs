@@ -10,14 +10,15 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh");
+            // DisplayName.SetDefault("Gilgamesh");
+            NPCID.Sets.ImmuneToAllBuffs[Type] = true;
         }
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
             NPC.lifeMax = 1;
             NPC.damage = 0;
-            NPC.defense = 9000;
+            NPC.defense = 9999;
             NPC.knockBackResist = 0f;
             NPC.width = 106;
             NPC.height = 106;
@@ -32,12 +33,11 @@ namespace JoostMod.NPCs.Bosses
         {
             NPC.lifeRegen = 0;
         }
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            damage = 0;
-            return false;
+            modifiers.HideCombatText();
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (projectile.CanBeReflected())
             {

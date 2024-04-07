@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yin Yang Charm");
-            Tooltip.SetDefault("'Find your inner pieces'");
+            // DisplayName.SetDefault("Yin Yang Charm");
+            // Tooltip.SetDefault("'Find your inner pieces'");
         }
         public override void SetDefaults()
         {

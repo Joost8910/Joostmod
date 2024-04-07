@@ -11,8 +11,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Mustache");
-            Tooltip.SetDefault("'From the face of the Jumbo Cactuar'");
+            // DisplayName.SetDefault("The Mustache");
+            // Tooltip.SetDefault("'From the face of the Jumbo Cactuar'");
         }
         public override void SetDefaults()
         {

@@ -11,8 +11,8 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Succulent Cactus Meal");
-            Tooltip.SetDefault("Summons the Alpha Cactus Worm while in the underground desert");
+            // DisplayName.SetDefault("Succulent Cactus Meal");
+            // Tooltip.SetDefault("Summons the Alpha Cactus Worm while in the underground desert");
         }
         public override void SetDefaults()
         {

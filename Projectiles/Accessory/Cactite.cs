@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Accessory
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cactite");
+            // DisplayName.SetDefault("Cactite");
         }
         public override void SetDefaults()
         {

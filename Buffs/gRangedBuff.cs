@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ranged Mastery");
-			Description.SetDefault("Defense reduced to 0, ranged damage increased by 0.5% per defense point lost");
+			// DisplayName.SetDefault("Ranged Mastery");
+			// Description.SetDefault("Defense reduced to 0, ranged damage increased by 0.5% per defense point lost");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

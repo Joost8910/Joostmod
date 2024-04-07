@@ -10,7 +10,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infernal Chakram");
+            // DisplayName.SetDefault("Infernal Chakram");
         }
         public override void SetDefaults()
         {
@@ -69,7 +69,7 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.tileCollide = false;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 300);
             if (Projectile.aiStyle != 3)
@@ -77,7 +77,7 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.velocity *= -1;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.OnFire, 300);
             if (Projectile.aiStyle != 3)

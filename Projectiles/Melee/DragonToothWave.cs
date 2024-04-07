@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plunging Attack");
+            // DisplayName.SetDefault("Plunging Attack");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Melee
         {
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int grav = 1;
             if (Projectile.velocity.Y < 0)

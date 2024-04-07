@@ -9,9 +9,9 @@ namespace JoostMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Havel's Helmet");
-            Tooltip.SetDefault("8% increased melee crit Chance\n" +
-                "10% reduced movement speed");
+            // DisplayName.SetDefault("Havel's Helmet");
+            /* Tooltip.SetDefault("8% increased melee crit Chance\n" +
+                "10% reduced movement speed"); */
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
         public override void SetDefaults()

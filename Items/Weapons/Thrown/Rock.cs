@@ -8,8 +8,8 @@ namespace JoostMod.Items.Weapons.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rock");
-            Tooltip.SetDefault("'Sticks and stones may break my bones and give me a concussion'");
+            // DisplayName.SetDefault("Rock");
+            // Tooltip.SetDefault("'Sticks and stones may break my bones and give me a concussion'");
         }
         public override void SetDefaults()
         {

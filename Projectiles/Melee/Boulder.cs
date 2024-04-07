@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boulder");
+            // DisplayName.SetDefault("Boulder");
         }
         public override void SetDefaults()
         {
@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Melee
             }
             Projectile.rotation = Projectile.timeLeft * Projectile.direction * 0.0174f * Projectile.velocity.Y * 0.1f;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_0") with { Pitch = 1.1f }, Projectile.Center); //207, og 0.1f pitch, adaptation adds 1f
             //SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.1f), Projectile.Center);

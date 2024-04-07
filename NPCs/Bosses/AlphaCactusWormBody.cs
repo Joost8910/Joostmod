@@ -10,7 +10,8 @@ namespace JoostMod.NPCs.Bosses
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alpha Cactus Worm");
+            // DisplayName.SetDefault("Alpha Cactus Worm");
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {
@@ -33,7 +34,7 @@ namespace JoostMod.NPCs.Bosses
         {
             base.Init();
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
@@ -48,7 +49,7 @@ namespace JoostMod.NPCs.Bosses
             }
             return base.CanHitPlayer(target, ref cooldownSlot);
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.damage = (int)(NPC.damage * 0.7f);
         }

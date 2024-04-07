@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Firma");
+            // DisplayName.SetDefault("Terra Firma");
         }
         public override void SetDefaults()
         {

@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boomerang Bullet");
+            // DisplayName.SetDefault("Boomerang Bullet");
         }
         public override void SetDefaults()
         {
@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles.Ranged
             AIType = ProjectileID.Bullet;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.rand.NextBool(10))
             {

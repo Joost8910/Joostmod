@@ -7,7 +7,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bitter End");
+            // DisplayName.SetDefault("Bitter End");
         }
         public override void SetDefaults()
         {

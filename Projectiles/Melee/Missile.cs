@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Missile");
+            // DisplayName.SetDefault("Missile");
         }
         public override void SetDefaults()
         {
@@ -41,7 +41,7 @@ namespace JoostMod.Projectiles.Melee
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Explosion2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

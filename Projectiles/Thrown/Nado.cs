@@ -13,7 +13,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tornade");
+            // DisplayName.SetDefault("Tornade");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()

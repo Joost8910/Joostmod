@@ -10,7 +10,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clawed Gauntlet");
+            // DisplayName.SetDefault("Clawed Gauntlet");
         }
         public override void SetDefaults()
         {

@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plunging Attack");
+            // DisplayName.SetDefault("Plunging Attack");
         }
         public override void SetDefaults()
         {
@@ -33,14 +33,14 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.velocity.Y += 0.3f;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.knockBackResist > 0 && Projectile.velocity.Y < 0)
             {
                 target.velocity.Y -= Projectile.knockBack * target.knockBackResist;
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             if (!target.noKnockback && Projectile.velocity.Y < 0)
@@ -48,7 +48,7 @@ namespace JoostMod.Projectiles.Melee
                 target.velocity.Y -= Projectile.knockBack;
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int d = 0; d < 4; d++)
             {

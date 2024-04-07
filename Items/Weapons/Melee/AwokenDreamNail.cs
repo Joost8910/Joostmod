@@ -11,9 +11,9 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Awoken Dream Nail");
-            Tooltip.SetDefault("'Can break into even the most protected mind'\n" +
-            "Attacks ignore enemy defense");
+            // DisplayName.SetDefault("Awoken Dream Nail");
+            /* Tooltip.SetDefault("'Can break into even the most protected mind'\n" +
+            "Attacks ignore enemy defense"); */
         }
         public override void SetDefaults()
         {

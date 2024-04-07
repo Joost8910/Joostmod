@@ -10,7 +10,7 @@ namespace JoostMod.Items.Armor
 	{
 public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mug Mask");
+			// DisplayName.SetDefault("Mug Mask");
 		}
 		public override void SetDefaults()
 		{

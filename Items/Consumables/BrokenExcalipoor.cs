@@ -11,9 +11,9 @@ namespace JoostMod.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Broken Excalipoor");
+            // DisplayName.SetDefault("Broken Excalipoor");
             //Tooltip.SetDefault("Easily repairable");
-            Tooltip.SetDefault("Demand a rematch with Gilgamesh and Enkidu");
+            // Tooltip.SetDefault("Demand a rematch with Gilgamesh and Enkidu");
         }
         public override void SetDefaults()
         {

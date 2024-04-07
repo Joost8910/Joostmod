@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("DirtBolt");
+            // DisplayName.SetDefault("DirtBolt");
         }
         public override void SetDefaults()
         {

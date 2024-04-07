@@ -11,8 +11,8 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-            DisplayName.SetDefault("Roc Wings");
-            Tooltip.SetDefault("Allows short flight and gliding\n" + "Hold UP while not flying or using an item to glide\n" + "Hold left or right to angle your glide");
+            // DisplayName.SetDefault("Roc Wings");
+            // Tooltip.SetDefault("Allows short flight and gliding\n" + "Hold UP while not flying or using an item to glide\n" + "Hold left or right to angle your glide");
         }
 
 		public override void SetDefaults()

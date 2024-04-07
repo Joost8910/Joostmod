@@ -11,7 +11,7 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Iron Flail");
+            // DisplayName.SetDefault("Iron Flail");
         }
         public override void SetDefaults()
         {

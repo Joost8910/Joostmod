@@ -17,8 +17,8 @@ namespace JoostMod.Items.Weapons.Hybrid
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilgamesh's Weapon Set");
-            Tooltip.SetDefault("'Too bad you don't have 8 arms'");
+            // DisplayName.SetDefault("Gilgamesh's Weapon Set");
+            // Tooltip.SetDefault("'Too bad you don't have 8 arms'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(48, 7));
         }
         public override void SetDefaults()

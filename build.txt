@@ -5,5 +5,5 @@ homepage = http://forums.terraria.org/index.php?threads/the-joostmod.42879/
 includePDB = true
 hideCode = false
 includeSource = true
-buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, *.pdn
-weakReferences = UnuBattleRods@1.1, Fargowiltas@2.0.1.2
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, *.pdn, *.bak, *.bak2, *.bak3
+weakReferences = 

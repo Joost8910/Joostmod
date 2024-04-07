@@ -12,8 +12,8 @@ namespace JoostMod.Items.Tools.Rods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunar Rod");
-            Tooltip.SetDefault("Fires multiple fishing hooks\n" + "Can fish up Lunar Fragments");
+            // DisplayName.SetDefault("Lunar Rod");
+            // Tooltip.SetDefault("Fires multiple fishing hooks\n" + "Can fish up Lunar Fragments");
         }
         public override void SetDefaults()
         {

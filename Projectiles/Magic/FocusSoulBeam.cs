@@ -28,7 +28,7 @@ namespace JoostMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Focus Souls");
+            // DisplayName.SetDefault("Focus Souls");
         }
         public override void SetDefaults()
         {

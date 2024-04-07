@@ -10,7 +10,7 @@ namespace JoostMod.Items.Tools.Rods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Duke Fishrod");
+            // DisplayName.SetDefault("Duke Fishrod");
         }
         public override void SetDefaults()
         {

@@ -12,7 +12,7 @@ namespace JoostMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dash Slash");
+            // DisplayName.SetDefault("Dash Slash");
             Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()

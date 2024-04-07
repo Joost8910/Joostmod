@@ -12,8 +12,8 @@ namespace JoostMod.Items.Tools.Rods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Duke Fishgun");
-            Tooltip.SetDefault("Fires many fishing hooks");
+            // DisplayName.SetDefault("Duke Fishgun");
+            // Tooltip.SetDefault("Fires many fishing hooks");
         }
         public override void SetDefaults()
         {

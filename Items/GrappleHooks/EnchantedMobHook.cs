@@ -17,9 +17,9 @@ namespace JoostMod.Items.GrappleHooks
         
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Enchanted Grabby Swingy Hook");
-			Tooltip.SetDefault("Swings faster and extends longer than before!\n" + 
-                "Grabs onto enemies!");
+			// DisplayName.SetDefault("Enchanted Grabby Swingy Hook");
+			/* Tooltip.SetDefault("Swings faster and extends longer than before!\n" + 
+                "Grabs onto enemies!"); */
 		}
         public override void AddRecipes()  //How to craft this item
         {

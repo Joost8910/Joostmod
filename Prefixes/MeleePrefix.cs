@@ -30,7 +30,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Impractically Oversized");
+            // DisplayName.SetDefault("Impractically Oversized");
         }
         public override float damage => 0.15f;
         public override float speed => -0.5f;
@@ -45,7 +45,7 @@ namespace JoostMod.Prefixes
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Miniature");
+            // DisplayName.SetDefault("Miniature");
         }
         public override float damage => -0.2f;
         public override float speed => 0.333f;

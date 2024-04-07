@@ -10,8 +10,8 @@ namespace JoostMod.Items.Mounts
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scooter");
-			Tooltip.SetDefault("'Scoot around on this!'");
+			// DisplayName.SetDefault("Scooter");
+			// Tooltip.SetDefault("'Scoot around on this!'");
 		}
 		public override void SetDefaults()
 		{

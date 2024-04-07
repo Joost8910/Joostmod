@@ -8,8 +8,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sticky Slime");
-			Description.SetDefault("20% reduced damage. Sticks to enemies. Cannot use items.");
+			// DisplayName.SetDefault("Sticky Slime");
+			// Description.SetDefault("20% reduced damage. Sticks to enemies. Cannot use items.");
 			Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;

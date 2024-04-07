@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("TARDIS Chest");
-			Tooltip.SetDefault("'It's bigger on the inside!'\n" + "DISCLAIMER: Same size as regular chests");
+			// DisplayName.SetDefault("TARDIS Chest");
+			// Tooltip.SetDefault("'It's bigger on the inside!'\n" + "DISCLAIMER: Same size as regular chests");
 		}
 		public override void SetDefaults()
 		{

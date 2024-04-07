@@ -12,8 +12,8 @@ namespace JoostMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunar Cactus Booster");
-            Tooltip.SetDefault("Allows flight and slow fall\n" + "Hold UP while flying to quickly ascend\n" + "Hold DOWN while flying to quickly descend");
+            // DisplayName.SetDefault("Lunar Cactus Booster");
+            // Tooltip.SetDefault("Allows flight and slow fall\n" + "Hold UP while flying to quickly ascend\n" + "Hold DOWN while flying to quickly descend");
         }
 
         public override void SetDefaults()

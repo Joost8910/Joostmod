@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gnome Warrior's Hat");
+            // DisplayName.SetDefault("Gnome Warrior's Hat");
         }
         public override void SetDefaults()
         {

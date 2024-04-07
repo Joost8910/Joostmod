@@ -10,11 +10,11 @@ namespace JoostMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blazing Anklets");
-			Tooltip.SetDefault("Increases running speed by 25%\n" +
+			// DisplayName.SetDefault("Blazing Anklets");
+			/* Tooltip.SetDefault("Increases running speed by 25%\n" +
                 "For every 10mph you're running at, ranged crit chance increases by 1%\n" +
                 "Greatly increases running speed while on fire blocks\n" + 
-                "Grants immunity to fire blocks");
+                "Grants immunity to fire blocks"); */
 		}
 		public override void SetDefaults()
 		{

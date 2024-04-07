@@ -8,7 +8,7 @@ namespace JoostMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame");
+            // DisplayName.SetDefault("Flame");
         }
         public override void SetDefaults()
         {
@@ -33,13 +33,13 @@ namespace JoostMod.Projectiles.Magic
                 Projectile.Kill();
             }
         }
-        public override void OnHitNPC(NPC n, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player owner = Main.player[Projectile.owner];
-            n.AddBuff(24, 60);
+            target.AddBuff(24, 60);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)
                 Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Flame2>(), Projectile.damage, 0, Projectile.owner);

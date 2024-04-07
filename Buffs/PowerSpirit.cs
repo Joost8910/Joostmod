@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spirit of Power");
-			Description.SetDefault("The Spirit of Power will protect you\n" + "Max minions increased by 1");
+			// DisplayName.SetDefault("Spirit of Power");
+			// Description.SetDefault("The Spirit of Power will protect you\n" + "Max minions increased by 1");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

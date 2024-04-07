@@ -11,7 +11,7 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Balancerang");
+            // DisplayName.SetDefault("Balancerang");
         }
         public override void SetDefaults()
         {
@@ -52,7 +52,7 @@ namespace JoostMod.Projectiles.Thrown
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 16f, Main.rand.Next(-10, 11) * 1f, Main.rand.Next(-10, -5) * 1f, ModContent.ProjectileType<Balancerang2>(), (int)(Projectile.damage * 1f), 7, Projectile.owner);

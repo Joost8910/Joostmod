@@ -8,8 +8,8 @@ namespace JoostMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Smithas Sigil");
-			Tooltip.SetDefault("Can't really be used for impersonating youtubers, but ehhh whatever.");
+			// DisplayName.SetDefault("Smithas Sigil");
+			// Tooltip.SetDefault("Can't really be used for impersonating youtubers, but ehhh whatever.");
 		}
 		public override void SetDefaults()
 		{

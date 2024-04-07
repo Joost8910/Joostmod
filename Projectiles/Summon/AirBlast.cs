@@ -9,7 +9,7 @@ namespace JoostMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gust of Air");
+            // DisplayName.SetDefault("Gust of Air");
         }
         public override void SetDefaults()
         {
@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 12; i++)
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31);
@@ -41,11 +41,11 @@ namespace JoostMod.Projectiles.Summon
             height = 18;
             return true;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * Projectile.velocity.Length() / 10f);
+            modifiers.SourceDamage *= Projectile.velocity.Length() / 10f;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)

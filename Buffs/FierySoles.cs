@@ -7,8 +7,8 @@ namespace JoostMod.Buffs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fiery Soles");
-			Description.SetDefault("Hawt");
+			// DisplayName.SetDefault("Fiery Soles");
+			// Description.SetDefault("Hawt");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

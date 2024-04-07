@@ -9,8 +9,8 @@ namespace JoostMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Old Nail");
-            Tooltip.SetDefault("'Years of age and wear have blunted its blade'");
+            // DisplayName.SetDefault("Old Nail");
+            // Tooltip.SetDefault("'Years of age and wear have blunted its blade'");
         }
         public override void SetDefaults()
         {
