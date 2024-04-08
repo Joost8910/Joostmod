@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Drawing;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Melee
@@ -78,6 +80,26 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.rotation -= 1.57f;
             }
+            if (Main.rand.NextBool(3))
+            {
+                int num22 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 200, default(Color), 1.2f);
+                Main.dust[num22].velocity += Projectile.velocity * 0.3f;
+                Main.dust[num22].velocity *= 0.2f;
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TerraBlade, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TerraBlade, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
         }
         public override bool PreDraw(ref Color lightColor)
         {

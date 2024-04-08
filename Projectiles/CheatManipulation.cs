@@ -36,11 +36,16 @@ namespace JoostMod.Projectiles
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
-            modifiers.FinalDamage.Flat = target.lifeMax / 20;
             if (player.controlUp)
+            {
                 modifiers.DisableCrit();
+                modifiers.FinalDamage.Flat = target.lifeMax / 20;
+            }
             else
+            {
                 modifiers.SetCrit();
+                modifiers.FinalDamage.Flat = target.lifeMax / 10;
+            }
         }
         public override void AI()
         {

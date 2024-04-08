@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.GameContent.Drawing;
 
 namespace JoostMod.Projectiles.Melee
 {
@@ -62,7 +63,7 @@ namespace JoostMod.Projectiles.Melee
             if (Projectile.ai[1] == 0)
             {
                 if (Main.myPlayer == Projectile.owner)
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TrueGungnirBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TrueGungnirBeam>(), (int)(Projectile.damage * 0.8f), Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
                 Projectile.ai[1]++;
                 //SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
             }
@@ -83,6 +84,32 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.rotation -= 1.57f;
             }
+            if (Main.rand.NextBool(3))
+            {
+                int num22 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Enchanted_Gold, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 200, default(Color), 1.2f);
+                Main.dust[num22].velocity += Projectile.velocity * 0.3f;
+                Main.dust[num22].velocity *= 0.2f;
+            }
+            if (Main.rand.NextBool(4))
+            {
+                int num23 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TintableDustLighted, 0f, 0f, 254, default(Color), 0.3f);
+                Main.dust[num23].velocity += Projectile.velocity * 0.5f;
+                Main.dust[num23].velocity *= 0.5f;
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueExcalibur, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueExcalibur, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
         }
         public override bool PreDraw(ref Color lightColor)
         {

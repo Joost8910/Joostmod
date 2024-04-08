@@ -26,6 +26,10 @@ namespace JoostMod.Items.Rewards
             Item.DamageType = DamageClass.Throwing;
             Item.knockBack = 3;
         }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.ThrownVelocity += 0.05f;

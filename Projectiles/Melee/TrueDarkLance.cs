@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.GameContent.Drawing;
 
 namespace JoostMod.Projectiles.Melee
 {
@@ -74,10 +76,23 @@ namespace JoostMod.Projectiles.Melee
             if (player.itemAnimation < player.itemAnimationMax * 2f / 3f)
             {
                 Projectile.ai[0] -= stabMult * 0.5f;
+                if (Main.rand.NextBool(2))
+                {
+                    int num21 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, Projectile.velocity.X * 0.2f + (float)(Projectile.direction * 3), Projectile.velocity.Y * 0.2f, 100, default(Color), 1.2f);
+                    Main.dust[num21].noGravity = true;
+                    Main.dust[num21].velocity /= 2f;
+                    num21 = Dust.NewDust(Projectile.position - Projectile.velocity * 2f, Projectile.width, Projectile.height, DustID.Shadowflame, 0f, 0f, 150, default(Color), 1.4f);
+                    Main.dust[num21].velocity /= 5f;
+                }
             }
             else
             {
                 Projectile.ai[0] += stabMult;
+                int num21 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, Projectile.velocity.X * 0.2f + (float)(Projectile.direction * 3), Projectile.velocity.Y * 0.2f, 100, default(Color), 1.2f);
+                Main.dust[num21].noGravity = true;
+                Main.dust[num21].velocity /= 2f;
+                num21 = Dust.NewDust(Projectile.position - Projectile.velocity * 2f, Projectile.width, Projectile.height, DustID.Shadowflame, 0f, 0f, 150, default(Color), 1.4f);
+                Main.dust[num21].velocity /= 5f;
             }
             if (player.itemAnimation == 0)
             {
@@ -88,6 +103,24 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.rotation -= 1.57f;
             }
+            if (Main.rand.NextBool(5))
+            {
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Demonite, 0f, 0f, 150, default(Color), 1.4f);
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.NightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.NightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
         }
         public override bool PreDraw(ref Color lightColor)
         {

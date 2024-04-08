@@ -26,6 +26,10 @@ namespace JoostMod.Items.Accessories
 			Item.knockBack = 8f;
 		}
 
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {

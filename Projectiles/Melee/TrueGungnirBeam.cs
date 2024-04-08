@@ -10,6 +10,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using ReLogic.Content;
 using Terraria.Audio;
+using Terraria.GameContent.Drawing;
 
 namespace JoostMod.Projectiles.Melee
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 24;
+            Projectile.timeLeft = 30;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.alpha = 255;
@@ -62,7 +63,7 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.rotation = (float)Math.Atan2((double)spear.velocity.Y, (double)spear.velocity.X) + 0.785f;
                         Projectile.velocity = spear.velocity * Projectile.ai[1];
                         Projectile.netUpdate = true;
-                        Projectile.timeLeft = 24;
+                        Projectile.timeLeft = 30;
                         Projectile.alpha = (int)(255f * ((player.itemAnimation - max) / max));
                     }
                     else
@@ -77,7 +78,7 @@ namespace JoostMod.Projectiles.Melee
             }
             else
             {
-                Projectile.alpha += 10;
+                Projectile.alpha += 8;
             }
             /*
             if (Projectile.localAI[0] == 0f)
@@ -133,6 +134,20 @@ namespace JoostMod.Projectiles.Melee
                          1.5f
                          ).noGravity = true;
             }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueExcalibur, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueExcalibur, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override bool PreDraw(ref Color lightColor)
         {

@@ -149,7 +149,7 @@ namespace JoostMod.Projectiles.Melee
                             }
                         }
                         Projectile.localAI[1] += swingSpeed;
-                        Vector2 vector2 = new Vector2(0, player.gravDir).RotatedBy((double)(31.4159279f * (Projectile.localAI[1] / 60f) * player.direction * player.gravDir), default);
+                        Vector2 vector2 = new Vector2(player.direction).RotatedBy((double)(31.4159279f * (Projectile.localAI[1] / 60f) * player.direction * player.gravDir), default);
                         vector2.Y *= 0.8f;
                         if (vector2.Y * player.gravDir > 0f)
                         {

@@ -26,6 +26,10 @@ namespace JoostMod.Items.Rewards
             Item.DamageType = DamageClass.Magic;
             Item.knockBack = 3.5f;
         }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.manaCost -= 0.05f;

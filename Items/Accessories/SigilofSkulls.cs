@@ -24,7 +24,11 @@ namespace JoostMod.Items.Accessories
 			Item.damage = 125;
 			Item.DamageType = DamageClass.Summon;
 			Item.knockBack = 5.5f;
-		}
+        }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {

@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.Drawing;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -47,11 +48,19 @@ namespace JoostMod.Projectiles.Melee
         {
             target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(BuffID.CursedInferno, 300);
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueNightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(BuffID.CursedInferno, 300);
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueNightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override void AI()
         {

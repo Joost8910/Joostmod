@@ -27,6 +27,14 @@ namespace JoostMod.Items.Rewards
             Item.knockBack = 2;
             Item.shootSpeed = 6.6f;
         }
+        public override bool RangedPrefix()
+        {
+            return false;
+        }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
         public override bool? CanChooseAmmo(Item ammo, Player player)
         {
             return ammo.ammo == AmmoID.Arrow;

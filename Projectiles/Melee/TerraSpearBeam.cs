@@ -10,6 +10,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using ReLogic.Content;
 using Terraria.Audio;
+using Terraria.GameContent.Drawing;
 
 namespace JoostMod.Projectiles.Melee
 {
@@ -30,7 +31,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 24;
+            Projectile.timeLeft = 30;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.alpha = 255;
@@ -62,7 +63,7 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.rotation = (float)Math.Atan2((double)spear.velocity.Y, (double)spear.velocity.X) + 0.785f;
                         Projectile.velocity = spear.velocity * Projectile.ai[1] * 0.5f;
                         Projectile.netUpdate = true;
-                        Projectile.timeLeft = 24;
+                        Projectile.timeLeft = 30;
                         Projectile.alpha = (int)(255f * ((player.itemAnimation - max) / max));
                     }
                     else
@@ -73,7 +74,7 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA * 0.9f, ModContent.ProjectileType<TerraSpearBeam2>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], 12);
                         Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * 0.9f, ModContent.ProjectileType<TerraSpearBeam2>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], -12);
 
-                        SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
                         Projectile.ai[0] = -1;
                         Projectile.tileCollide = true;
                         Projectile.penetrate = 3;
@@ -83,7 +84,7 @@ namespace JoostMod.Projectiles.Melee
             }
             else
             {
-                Projectile.alpha += 10;
+                Projectile.alpha += 8;
             }
             int num1 = Dust.NewDust(
                      Projectile.position,
@@ -100,6 +101,20 @@ namespace JoostMod.Projectiles.Melee
             Main.dust[num1].noGravity = true;
             Main.dust[num1].velocity *= 0.1f;
             Lighting.AddLight(Projectile.Center, 0.325f, 1f, 0.157f);
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TerraBlade, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TerraBlade, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override void OnKill(int timeLeft)
         {
@@ -203,7 +218,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.timeLeft = 24;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.alpha = 128;
+            Projectile.alpha = 255;
             //Projectile.light = 0.5f;
             Projectile.extraUpdates = 1;
             Projectile.tileCollide = false;
@@ -238,7 +253,6 @@ namespace JoostMod.Projectiles.Melee
                         offset = offset.RotatedBy(Math.PI / 2);
                         Projectile.Center += offset + player.velocity;
 
-                        Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
                         Projectile.netUpdate = true;
                         Projectile.localAI[0] = 1;
                     }
@@ -246,7 +260,8 @@ namespace JoostMod.Projectiles.Melee
                     {
                         Projectile.ai[0] = -1;
                         Projectile.tileCollide = true;
-                        Projectile.penetrate = 3;
+                        Projectile.penetrate = 4;
+                        Projectile.alpha = 128;
                     }
                 }
             }
@@ -254,6 +269,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.alpha += 6;
             }
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
             if (Projectile.timeLeft % 2 == 0)
             {
                 int num1 = Dust.NewDust(
@@ -272,6 +288,20 @@ namespace JoostMod.Projectiles.Melee
                 Main.dust[num1].velocity *= 0.1f;
             }
             Lighting.AddLight(Projectile.Center, 0.162f, 0.5f, 0.078f);
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TerraBlade, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TerraBlade, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override void OnKill(int timeLeft)
         {

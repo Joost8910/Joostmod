@@ -1,5 +1,5 @@
 The Joostmod has to offer
-471 new items
+468 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -25,6 +25,11 @@ Glow-In-The-Dark Dye
 Gaussian Dye
 Ghostly Dye
 Team Outline Dye
+
+--- Removed ---
+Desertification Solution
+Temperate Solution
+Winter Solution
 
 --- Weapons ---
 1000 Needles

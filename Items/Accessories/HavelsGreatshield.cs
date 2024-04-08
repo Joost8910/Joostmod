@@ -29,8 +29,15 @@ namespace JoostMod.Items.Accessories
             Item.knockBack = 8;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
         }
-
-		public override void UpdateAccessory(Player player, bool hideVisual)
+        public override bool MeleePrefix()
+        {
+            return false;
+        }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
+        public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.moveSpeed *= 0.95f;
             player.maxRunSpeed *= 0.95f;
