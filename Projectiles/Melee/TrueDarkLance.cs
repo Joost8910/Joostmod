@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles.Melee
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 36f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee) * Projectile.scale;
+                speed = 36f / player.inventory[player.selectedItem].useTime / (float)Math.Sqrt(player.GetAttackSpeed(DamageClass.Melee)) * Projectile.scale;
                 Projectile.localNPCHitCooldown = (int)(10 / (speed / Projectile.scale));
                 Projectile.width = (int)(52 * Projectile.scale);
                 Projectile.height = (int)(52 * Projectile.scale);

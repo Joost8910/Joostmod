@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles.Melee
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 25f / player.inventory[player.selectedItem].useTime * Projectile.scale;
+                speed = 25f / player.inventory[player.selectedItem].useTime / (float)Math.Sqrt(player.GetAttackSpeed(DamageClass.Melee)) * Projectile.scale;
                 Projectile.localNPCHitCooldown = (int)(6 / (speed / Projectile.scale));
                 Projectile.width = (int)(54 * Projectile.scale);
                 Projectile.height = (int)(54 * Projectile.scale);
@@ -60,7 +60,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.ai[1] == 0 && Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TerraSpearBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TerraSpearBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
                 Projectile.ai[1]++;
             }
             if (player.itemAnimation < player.itemAnimationMax * 2f / 3f)

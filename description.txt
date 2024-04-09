@@ -84,6 +84,18 @@ Storm Wyvern Scroll
 The Rose
 - The chain now has its own damage hitbox, dealing 40% base damage
 
+Terra Spear
+- New sprite
+- New beam behavior
+
+True Gungnir
+- New sprite
+- New beam behavior
+
+True Dark Lance
+- New sprite
+- New beam behavior
+
 Warhammer of Grognak
 - Strong attack beam now has an additive -10% damage penalty per pierce, rather than a multiplicative -20%
 - Strong attack beam shockwave from striking a tile no longer suffers the piercing damage penalty

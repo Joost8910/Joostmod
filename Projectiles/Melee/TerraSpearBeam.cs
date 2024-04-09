@@ -61,7 +61,7 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.width = (int)(60 * Projectile.scale);
                         Projectile.height = (int)(60 * Projectile.scale);
                         Projectile.rotation = (float)Math.Atan2((double)spear.velocity.Y, (double)spear.velocity.X) + 0.785f;
-                        Projectile.velocity = spear.velocity * Projectile.ai[1] * 0.5f;
+                        Projectile.velocity = spear.velocity * Projectile.ai[1];
                         Projectile.netUpdate = true;
                         Projectile.timeLeft = 30;
                         Projectile.alpha = (int)(255f * ((player.itemAnimation - max) / max));
@@ -69,11 +69,14 @@ namespace JoostMod.Projectiles.Melee
                     else
                     {
                         SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
-                        Vector2 velA = Projectile.velocity.RotatedBy(24 * Math.PI / 180);
-                        Vector2 velB = Projectile.velocity.RotatedBy(-24 * Math.PI / 180);
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA * 0.9f, ModContent.ProjectileType<TerraSpearBeam2>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], 12);
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * 0.9f, ModContent.ProjectileType<TerraSpearBeam2>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], -12);
+                        for (int i = 1; i <= 2; i++)
+                        {
+                            Vector2 velA = Projectile.velocity.RotatedBy(12 * i * Math.PI / 180);
+                            Vector2 velB = Projectile.velocity.RotatedBy(-12 * i * Math.PI / 180);
 
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA * 0.9f, ModContent.ProjectileType<TerraSpearBeam2>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], 12);
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * 0.9f, ModContent.ProjectileType<TerraSpearBeam2>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.ai[0], -12);
+                        }
                         SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
                         Projectile.ai[0] = -1;
                         Projectile.tileCollide = true;
@@ -215,7 +218,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 24;
+            Projectile.timeLeft = 30;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.alpha = 255;
@@ -231,7 +234,11 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.SourceDamage *= 0.75f;
+            modifiers.FinalDamage *= 0.5f;
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            modifiers.FinalDamage *= 0.5f;
         }
         public override void AI()
         {

@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles.Melee
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(Projectile.Center, player.Center) > 900f)
+            if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(Projectile.Center, player.Center) > 1200f)
             {
                 Projectile.Kill();
                 return false;
@@ -149,7 +149,7 @@ namespace JoostMod.Projectiles.Melee
                             }
                         }
                         Projectile.localAI[1] += swingSpeed;
-                        Vector2 vector2 = new Vector2(player.direction).RotatedBy((double)(31.4159279f * (Projectile.localAI[1] / 60f) * player.direction * player.gravDir), default);
+                        Vector2 vector2 = new Vector2(player.direction, player.gravDir).RotatedBy((double)(Math.PI * (Projectile.localAI[1] / 6f) * player.direction * player.gravDir));
                         vector2.Y *= 0.8f;
                         if (vector2.Y * player.gravDir > 0f)
                         {

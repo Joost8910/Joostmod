@@ -159,7 +159,7 @@ namespace JoostMod.Projectiles.Melee
             }
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
 
-            Color color = new Color(79, 14, 74) * ((255f - Projectile.alpha) / 255f);
+            Color color = new Color(175, 142, 64) * ((255f - Projectile.alpha) / 255f);
             float scale = Projectile.scale * 1.1f;
             Vector2 offset = Vector2.Normalize(Projectile.velocity);
 
@@ -188,25 +188,38 @@ namespace JoostMod.Projectiles.Melee
                 dataTrail.Draw(Main.spriteBatch);
             }
 
-            DrawData data = new DrawData(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            scale = Projectile.scale;
+            color = new Color(224, 203, 108) * ((255f - Projectile.alpha) / 255f);
+            DrawData data = new DrawData(tex, Projectile.Center - offset * 78 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
+            color = new Color(255, 255, 146) * ((255f - Projectile.alpha) / 255f);
+            data = new DrawData(tex, Projectile.Center - offset * 74 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
             //Main.EntitySpriteDraw(tex, Projectile.Center - offset * 72 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
 
             scale = Projectile.scale * 1.1f;
+            color = new Color(166, 45, 80) * ((255f - Projectile.alpha) / 255f);
+            data = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
             color = Color.White * ((255f - Projectile.alpha) / 255f);
-            DrawData data2 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-            shaderData.Apply(data2);
-            data2.Draw(Main.spriteBatch);
+            data = new DrawData(tex, Projectile.Center - offset * 60 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
 
             //Main.EntitySpriteDraw(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
 
             scale = Projectile.scale;
-            color = new Color(231, 135, 223) * ((255f - Projectile.alpha) / 255f);
-            DrawData data3 = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
-            shaderData.Apply(data3);
-            data3.Draw(Main.spriteBatch);
+            color = new Color(255, 128, 218) * ((255f - Projectile.alpha) / 255f);
+            data = new DrawData(tex, Projectile.Center - offset * 60 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
 
             //Main.EntitySpriteDraw(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             //Main.instance.PrepareDrawnEntityDrawing(Projectile, intended);
