@@ -29,6 +29,7 @@ namespace JoostMod.Projectiles.Magic
         {
             Projectile.damage /= 2;
             Projectile.knockBack /= 2;
+            target.AddBuff(BuffID.Wet, 300);
         }
         public override void AI()
         {

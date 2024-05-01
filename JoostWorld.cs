@@ -36,7 +36,7 @@ namespace JoostMod
 
 
         public static List<int> activeQuest = new List<int>();
-        public override void OnWorldLoad()/* tModPorter Suggestion: Also override OnWorldUnload, and mirror your worldgen-sensitive data initialization in PreWorldGen */
+        public override void ClearWorld()
         {
             downedJumboCactuar = false;
             downedSAX = false;

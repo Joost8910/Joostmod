@@ -294,7 +294,7 @@ namespace JoostMod.NPCs.Bosses
             NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
             if (NPC.ai[3] == 0)
             {
-                Music = MusicID.Desert;
+                Music = -1;
                 NPC.ai[1] = 0;
                 speed = 5;
                 targetPos = NPC.Center + new Vector2((float)Math.Cos(NPC.rotation - 1.585f) * 160, (float)Math.Sin(NPC.rotation - 1.585f) * 160);
@@ -307,7 +307,7 @@ namespace JoostMod.NPCs.Bosses
                 {
                     targetPos = new Vector2(P.MountedCenter.X - 300, P.MountedCenter.Y - 300);
                     speed = 20;
-                    if (Vector2.Distance(targetPos, NPC.Center) < 40)
+                    if (Vector2.Distance(targetPos, NPC.Center) < 80)
                     {
                         NPC.ai[3] = 1;
                     }
@@ -723,7 +723,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("NPCs/Bosses/GrandCactusWormEyes").Value;
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Eyes");
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             int eyeFrame = 0;
             Color color = Color.YellowGreen;

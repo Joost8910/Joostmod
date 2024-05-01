@@ -42,7 +42,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_0") with { Pitch = 1.1f }, Projectile.Center); //207, og 0.1f pitch, adaptation adds 1f
+            SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_0").WithPitchOffset(0.1f), Projectile.Center); //207
             //SoundEngine.PlaySound(SoundID.Trackable.WithPitchOffset(0.1f), Projectile.Center);
             for (int d = 0; d < 20; d++)
             {

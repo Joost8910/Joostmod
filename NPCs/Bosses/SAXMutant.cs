@@ -59,7 +59,8 @@ namespace JoostMod.NPCs.Bosses
             NPC.noTileCollide = false;
             NPC.noGravity = true;
             if (!Main.dedServ)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSax");
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSAX");
+            SceneEffectPriority = SceneEffectPriority.BossHigh;
             NPC.frameCounter = 0;
             NPC.scale = 0.625f;
         }

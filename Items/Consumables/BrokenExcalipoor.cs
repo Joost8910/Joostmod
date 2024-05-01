@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Bosses;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -41,16 +42,16 @@ namespace JoostMod.Items.Consumables
         }
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Gilgamesh2").Type) && !NPC.AnyNPCs(Mod.Find<ModNPC>("Enkidu").Type);
+            return !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh>()) && !NPC.AnyNPCs(ModContent.NPCType<Gilgamesh2>()) && !NPC.AnyNPCs(ModContent.NPCType<Enkidu>());
         }
         public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             //NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Gilgamesh2"));
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X - 1500, (int)player.Center.Y - 200, Mod.Find<ModNPC>("Gilgamesh2").Type, 0, 610, 0, 0, 1);
+                NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X - 1500, (int)player.Center.Y - 200, ModContent.NPCType<Gilgamesh2>(), 0, 610, 0, 0, 1);
             }
-            NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("Enkidu").Type);
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Enkidu>());
             SoundEngine.PlaySound(SoundID.Roar, player.position);
             if (Main.netMode != NetmodeID.Server)
             {
@@ -58,7 +59,7 @@ namespace JoostMod.Items.Consumables
                 Main.NewText("Then let us skip phase 1 and jump right into the real fight!", 225, 25, 25);
                 Main.NewText("<Enkidu> You better hope you're good at dodging", 25, 225, 25);
             }
-            return null;
+            return true;
         }
     }
 }

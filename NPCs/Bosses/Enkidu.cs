@@ -189,12 +189,15 @@ namespace JoostMod.NPCs.Bosses
 
                 if (NPC.ai[1] % 4 == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item34, NPC.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         //TODO Center on player for future enkidu rework
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (Main.rand.Next(-15, 15) * 120), NPC.Center.Y - (120 * 8), Speed, Math.Abs(Speed), ModContent.ProjectileType<EnkiduWind>(), 50, 15f, Main.myPlayer);
                     }
+                }
+                if (NPC.ai[1] % 28 == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item34, NPC.position);
                 }
             }
             if (NPC.ai[1] >= 2000)

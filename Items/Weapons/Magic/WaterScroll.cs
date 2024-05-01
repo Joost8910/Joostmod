@@ -14,7 +14,7 @@ namespace JoostMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            Item.damage = 36;
+            Item.damage = 40;
             Item.DamageType = DamageClass.Magic;
             Item.width = 36;
             Item.height = 36;

@@ -398,7 +398,7 @@ namespace JoostMod.NPCs.Bosses
             armOffset = armOffset.RotatedBy(npc.rotation * npc.direction, Vector2.Zero);
             armRotation += npc.rotation;*/
 
-            Texture2D shoulderTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackShoulder").Value;
+            Texture2D shoulderTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_BackShoulder");
             int totalShoulderFrames = 1;
             int shoulderFrame = 0;
             float shoulderRotation = 0;
@@ -423,7 +423,7 @@ namespace JoostMod.NPCs.Bosses
                 shoulderOffset.X += 2;
             }
 
-            Texture2D forearmTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackForearm").Value;
+            Texture2D forearmTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_BackForearm");
             int totalForearmFrames = 1;
             int forearmFrame = 0;
             float forearmRotation = 0;
@@ -433,7 +433,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 forearmVect = new Vector2((float)forearmTex.Width / 2, (float)forearmTex.Height / (2 * totalForearmFrames));
 
 
-            Texture2D handTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_BackHand").Value;
+            Texture2D handTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_BackHand");
             int totalHandFrames = 3;
             int handFrame = 0;
             float handRotation = 0;
@@ -545,7 +545,7 @@ namespace JoostMod.NPCs.Bosses
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Texture2D shoulderTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontShoulder").Value;
+            Texture2D shoulderTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_FrontShoulder");
             int totalShoulderFrames = 1;
             int shoulderFrame = 0;
             float shoulderRotation = 0;
@@ -570,7 +570,7 @@ namespace JoostMod.NPCs.Bosses
                 shoulderOffset.X += 2;
             }
 
-            Texture2D forearmTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontForearm").Value;
+            Texture2D forearmTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_FrontForearm");
             int totalForearmFrames = 1;
             int forearmFrame = 0;
             float forearmRotation = 0;
@@ -580,7 +580,7 @@ namespace JoostMod.NPCs.Bosses
             Vector2 forearmVect = new Vector2((float)forearmTex.Width / 2, (float)forearmTex.Height / (2 * totalForearmFrames));
 
 
-            Texture2D handTex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_FrontHand").Value;
+            Texture2D handTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_FrontHand");
             int totalHandFrames = 3;
             int handFrame = 0;
             float handRotation = 0;
@@ -668,10 +668,10 @@ namespace JoostMod.NPCs.Bosses
 
             if (NPC.dontTakeDamage && NPC.ai[0] < 40)
             {
-                Texture2D tex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh_SpinToWin").Value;
+                Texture2D tex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_SpinToWin");
                 if (NPC.ai[0] < 20)
                 {
-                    tex = ModContent.Request<Texture2D>("NPCs/Bosses/Gilgamesh2_SpinToWin").Value;
+                    tex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}2_SpinToWin");
                 }
                 Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height * 0.5f) / 2);
                 for (int i = 0; i < NPC.oldPos.Length; i++)

@@ -45,21 +45,21 @@ namespace JoostMod.Projectiles.Melee
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 27f / player.inventory[player.selectedItem].useTime / (float)Math.Sqrt(player.GetAttackSpeed(DamageClass.Melee)) * Projectile.scale;
+                speed = 27f / player.itemAnimationMax * Projectile.scale;
                 Projectile.localNPCHitCooldown = (int)(6 / (speed / Projectile.scale));
                 Projectile.width = (int)(54 * Projectile.scale);
                 Projectile.height = (int)(54 * Projectile.scale);
                 Projectile.netUpdate = true;
             }
-            float stabMult = 3.3f;
-            Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
-            Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
-            Projectile.position += Projectile.velocity * Projectile.ai[0]; 
             if (Projectile.ai[0] == 0f)
             {
+                Projectile.velocity.Normalize();
                 Projectile.ai[0] = 3f;
                 Projectile.netUpdate = true;
             }
+            float stabMult = 23.1f;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
+            Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
             if (Projectile.ai[1] == 0)
             {
                 if (Main.myPlayer == Projectile.owner)

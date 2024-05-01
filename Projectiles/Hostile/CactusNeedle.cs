@@ -25,7 +25,8 @@ namespace JoostMod.Projectiles.Hostile
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             //player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = 10;
-            modifiers.FinalDamage.Flat = 10;
+            modifiers.ScalingArmorPenetration += 1f;
+            modifiers.SetMaxDamage(10);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {

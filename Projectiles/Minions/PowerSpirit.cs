@@ -155,7 +155,7 @@ namespace JoostMod.Projectiles.Minions
                                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
                                 Main.projectile[proj].netUpdate = true;
                                 Projectile.netUpdate = true;
-                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_book_staff_cast_2") with { Volume = scale * 0.3f, Pitch = 1.2f}, Projectile.Center); // 203
+                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_book_staff_cast_2").WithVolumeScale(scale * 0.3f).WithPitchOffset(0.2f), Projectile.Center); // 203
                             }
                             Projectile.localAI[0] = 0;
                             Projectile.ai[1] = 0f;
@@ -172,7 +172,7 @@ namespace JoostMod.Projectiles.Minions
                                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, shoot, (int)(Projectile.damage * damageMult * scale), Projectile.knockBack, Main.myPlayer, scale, 14 + 7 * scale);
                                 Main.projectile[proj].netUpdate = true;
                                 Projectile.netUpdate = true;
-                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_book_staff_cast_2") with { Volume = scale * 0.3f, Pitch = 1.2f }, Projectile.Center); // 203
+                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_book_staff_cast_2").WithVolumeScale(scale * 0.3f).WithPitchOffset(0.2f), Projectile.Center); // 203
                             }
                             Projectile.localAI[1]--;
                             if (Projectile.localAI[1] <= -rapidAmount * rapidRate * 2)

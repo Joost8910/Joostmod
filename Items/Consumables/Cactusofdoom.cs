@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JoostMod.NPCs.Bosses;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -42,7 +43,7 @@ namespace JoostMod.Items.Consumables
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ZoneDesert && !NPC.AnyNPCs(Mod.Find<ModNPC>("JumboCactuar").Type))
+            if (player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))
             {
                 return true;
             }
@@ -53,7 +54,7 @@ namespace JoostMod.Items.Consumables
         }
         public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
-            NPC.SpawnOnPlayer(player.whoAmI, Mod.Find<ModNPC>("JumboCactuar").Type);
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<JumboCactuar>());
             SoundEngine.PlaySound(SoundID.Roar, player.position);
 
             return true;

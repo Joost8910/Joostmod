@@ -8,6 +8,14 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Beta v2
+- Fixed Huntmaster UI
+- Fixed Empty Heart UI 
+- Fixed boss defeated checks carrying from one world to the next
+- Fixed Broken Excalipoor summons 14 more Gilgameshes and Enkidus than intended
+- Fixed Gilgamesh's death failing to load
+- Fixed SA-X's third phase failing to load
+
 Version 0.9.1
 --- New Additions ---
 Glow-In-The-Dark Contacts
@@ -65,6 +73,15 @@ Focus Souls
 
 Gnome Staff
 - Recipe now uses Garden Gnome instead of Ginger Beard and Silver Dye
+
+Personal Bubble
+- Damage bonus now applies to enemies with the wet debuff
+
+Scroll of Water
+- Increased damage from 36 to 40
+- Deals 25% reduced damage when held
+- Can now hit multiple targets with the strong hitbox when let go
+- Now applies the wet debuff
 
 Shroomite Bullet
 - Now has a random offset on when to spawn the mushrooms

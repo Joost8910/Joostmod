@@ -41,7 +41,6 @@ namespace JoostMod.Projectiles.Magic
             Projectile.height = (int)(60 * Projectile.scale);
             if (player.channel && !player.noItems && !player.CCed && !player.dead && Projectile.ai[1] <= 0)
             {
-                Projectile.penetrate = -1;
                 Projectile.timeLeft = Projectile.timeLeft <= 1192 ? 1200 : Projectile.timeLeft;
                 player.itemTime = 15;
                 player.itemAnimation = 15;
@@ -165,7 +164,11 @@ namespace JoostMod.Projectiles.Magic
             }
             else
             {
-                Projectile.penetrate = 1;
+                if (Projectile.localAI[1] == 0)
+                {
+                    Projectile.ResetLocalNPCHitImmunity();
+                    Projectile.localAI[1] = 1;
+                }
                 Projectile.ai[1] = 1;
                 if (Projectile.velocity.Y < 5)
                 {
@@ -246,6 +249,14 @@ namespace JoostMod.Projectiles.Magic
                 float mult = 1f + Projectile.ai[0] / 5;
                 modifiers.SourceDamage *= mult;
                 modifiers.Knockback *= mult;
+                target.AddBuff(BuffID.Wet, (int)(300 * mult));
+                if (Projectile.timeLeft > 4)
+                    Projectile.timeLeft = 4;
+            }
+            else
+            {
+                modifiers.FinalDamage *= 0.75f;
+                target.AddBuff(BuffID.Wet, 300);
             }
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
@@ -254,6 +265,14 @@ namespace JoostMod.Projectiles.Magic
             {
                 float mult = 1f + Projectile.ai[0] / 5;
                 modifiers.SourceDamage *= mult;
+                target.AddBuff(BuffID.Wet, (int)(300 * mult));
+                if (Projectile.timeLeft > 4)
+                    Projectile.timeLeft = 4;
+            }
+            else
+            {
+                modifiers.FinalDamage *= 0.75f;
+                target.AddBuff(BuffID.Wet, 300);
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

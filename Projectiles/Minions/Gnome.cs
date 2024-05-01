@@ -258,7 +258,7 @@ namespace JoostMod.Projectiles.Minions
             {
                 if ((int)Projectile.localAI[1] == shootCool + bashTime)
                 {
-                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_0") with { Volume = 0.9f, Pitch = 1.3f }, Projectile.Center); // 213
+                    SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_0").WithVolumeScale(0.9f).WithPitchOffset(0.3f), Projectile.Center); // 213
                 }
                 Projectile.tileCollide = true;
                 Projectile.localAI[1]--;

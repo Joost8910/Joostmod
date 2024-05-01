@@ -1104,7 +1104,7 @@ namespace JoostMod
         
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Projectile, consider using ModifyHitNPC instead */
         {
-            if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && (target.wet || target.HasBuff(BuffID.Wet)))
             {
                 modifiers.SourceDamage *= 1.15f;
                 modifiers.Knockback *= 1.15f;
@@ -1114,7 +1114,7 @@ namespace JoostMod
         }
         public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Item, consider using ModifyHitNPC instead */
         {
-            if (waterBubbleItem != null && item.CountsAsClass(DamageClass.Magic) && target.wet)
+            if (waterBubbleItem != null && item.CountsAsClass(DamageClass.Magic) && (target.wet || target.HasBuff(BuffID.Wet)))
             {
                 modifiers.SourceDamage *= 1.15f;
                 modifiers.Knockback *= 1.15f;

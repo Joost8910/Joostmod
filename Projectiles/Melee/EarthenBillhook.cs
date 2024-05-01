@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Melee
         {
             Projectile.width = 46;
             Projectile.height = 46;
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = -1;
             Projectile.timeLeft = 90;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
@@ -28,7 +28,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 25;
+            Projectile.localNPCHitCooldown = 16;
             Projectile.extraUpdates = 1;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
@@ -48,8 +48,8 @@ namespace JoostMod.Projectiles.Melee
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 36f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee) / 2 * Projectile.scale;
-                Projectile.localNPCHitCooldown = (int)(25 / (speed / Projectile.scale) * 0.667f);
+                speed = 36f / player.itemAnimationMax * Projectile.scale / 2;
+                Projectile.localNPCHitCooldown = (int)(16 / (speed / Projectile.scale));
                 Projectile.width = (int)(46 * Projectile.scale);
                 Projectile.height = (int)(46 * Projectile.scale);
                 Projectile.netUpdate = true;
@@ -58,11 +58,11 @@ namespace JoostMod.Projectiles.Melee
             player.direction = Projectile.direction;
             player.heldProj = Projectile.whoAmI;
             player.itemTime = player.itemAnimation;
-            Projectile.position.X = center.X - Projectile.width / 2;
-            Projectile.position.Y = center.Y - Projectile.height / 2;
+            Projectile.position = center - Projectile.Size / 2;
+            float stabMult = 7f;
             Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            Projectile.position += vel * 7 * Projectile.ai[1];
+            Projectile.position += vel * speed * Projectile.ai[1];
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 3f;
@@ -70,13 +70,13 @@ namespace JoostMod.Projectiles.Melee
             }
             if (player.itemAnimation < player.itemAnimationMax / 2)
             {
-                Projectile.ai[1] -= speed;
+                Projectile.ai[1] -= stabMult;
                 if (player.itemAnimation > player.itemAnimationMax / 3)
                     Projectile.velocity = Projectile.velocity.RotatedBy(2 * 0.0174f * player.direction * player.gravDir);
             }
             else
             {
-                Projectile.ai[1] += speed;
+                Projectile.ai[1] += stabMult;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile p = Main.projectile[i];

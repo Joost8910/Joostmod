@@ -43,7 +43,7 @@ namespace JoostMod.Projectiles.Melee
             if (player.inventory[player.selectedItem].shoot == ModContent.ProjectileType<EarthenBillhook>())
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 36f / player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Melee) / 2;
+                speed = 36f / player.inventory[player.selectedItem].useTime / 2;
                 Projectile.width = (int)(46 * Projectile.scale);
                 Projectile.height = (int)(46 * Projectile.scale);
                 Projectile.netUpdate = true;

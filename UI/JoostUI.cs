@@ -19,7 +19,7 @@ namespace JoostMod.UI
     {
         internal UserInterface huntUserInterface;
         internal HuntUI huntUI;
-        private GameTime _lastUpdateUiGameTime;
+        //private GameTime _lastUpdateUiGameTime;
 
         public override void Load()
         {
@@ -41,7 +41,7 @@ namespace JoostMod.UI
         }
         public override void UpdateUI(GameTime gameTime)
         {
-            _lastUpdateUiGameTime = gameTime;
+            //_lastUpdateUiGameTime = gameTime;
             if (huntUserInterface?.CurrentState != null)
             {
                 huntUserInterface.Update(gameTime);
@@ -61,14 +61,15 @@ namespace JoostMod.UI
                     "JoostMod: HuntInterface",
                     delegate
                     {
-                        if (_lastUpdateUiGameTime != null && huntUserInterface?.CurrentState != null)
+                        if (huntUserInterface?.CurrentState != null)
                         {
-                            huntUserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                            huntUserInterface.Draw(Main.spriteBatch, new GameTime());
                         }
                         return true;
                     },
                        InterfaceScaleType.UI));
             }
+            /*
             int i = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
             if (i != -1)
             {
@@ -82,15 +83,16 @@ namespace JoostMod.UI
                     InterfaceScaleType.UI)
                 );
             }
+            */
         }
-
+/*
         public void DrawEmptyHeart(SpriteBatch spriteBatch)
         {
             Mod mod = JoostMod.instance;
             Player player = Main.player[Main.myPlayer];
             if (player.GetModPlayer<JoostPlayer>().emptyHeart)
             {
-                Texture2D texHeart = ModContent.Request<Texture2D>("JoostMod/Items/EmptyHeart").Value;
+                Texture2D texHeart = ModContent.Request<Texture2D>("JoostMod/Items/Accessories/EmptyHeart").Value;
                 if (player.whoAmI == Main.myPlayer && player.active && !player.ghost)
                 {
                     float lifePerHeart = 1f;
@@ -136,5 +138,6 @@ namespace JoostMod.UI
                 }
             }
         }
+*/
     }
 }

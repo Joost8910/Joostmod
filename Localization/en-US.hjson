@@ -360,7 +360,7 @@ Mods: {
 				Tooltip:
 					'''
 					You always count as being in water
-					Your magic attacks deal 15% more damage to submerged enemies
+					Your magic attacks deal 15% more damage to wet enemies
 					Pushes back enemies; hide visual to disable
 					'''
 			}

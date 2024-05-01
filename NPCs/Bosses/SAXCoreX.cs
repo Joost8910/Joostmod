@@ -48,7 +48,8 @@ namespace JoostMod.NPCs.Bosses
             NPC.noTileCollide = true;
             //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = ModContent.ItemType<XBag>();
             if (!Main.dedServ)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSax");
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/VsSAX");
+            SceneEffectPriority = SceneEffectPriority.BossHigh;
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
@@ -464,7 +465,7 @@ namespace JoostMod.NPCs.Bosses
         {
             SpriteEffects effects = SpriteEffects.None;
             Color color = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
-            Texture2D tex = ModContent.Request<Texture2D>("NPCs/Bosses/IceCoreX").Value;
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Core");
             Rectangle rect = new Rectangle(0, (int)NPC.localAI[0] * 64, (tex.Width), (tex.Height / 8));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 16);
             float rotation = 0;

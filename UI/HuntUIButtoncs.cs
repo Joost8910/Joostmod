@@ -11,7 +11,7 @@ namespace JoostMod.UI
 {
     public class HuntUIButton : UIElement
     {
-        public static Texture2D bgTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll");
+        //public static Texture2D bgTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll");
         private HuntInfo hunt;
         private float scale = 1f;
         
@@ -19,12 +19,12 @@ namespace JoostMod.UI
         {
             hunt = h;
 
-            Width.Set(bgTex.Width * scale, 0);
-            Height.Set(bgTex.Height * scale, 0);
+            Width.Set(80 * scale, 0);
+            Height.Set(80 * scale, 0);
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            Texture2D scrollTex = bgTex;
+            Texture2D scrollTex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/Town/HuntScroll");
             CalculatedStyle dimensions = GetDimensions();
             Color bgColor = Color.LightGray * 0.5f;
             Color iconColor = Color.SandyBrown * 0.4f;
@@ -70,7 +70,7 @@ namespace JoostMod.UI
                 bgColor = Color.Black * 0.5f;
                 iconColor = Color.Black * 0.5f;
             }
-            spriteBatch.Draw(scrollTex, dimensions.Position(), null, bgColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(scrollTex, dimensions.Position(), scrollTex.Frame(), bgColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0);
             Main.instance.LoadNPC(hunt.NPC);
             Texture2D tex = TextureAssets.Npc[hunt.NPC].Value;
             Rectangle rect = tex.Frame(hunt.xFrameCount, Main.npcFrameCount[hunt.NPC], 0, 0); 

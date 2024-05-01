@@ -211,7 +211,7 @@ namespace JoostMod.Projectiles.Minions
                     }
                     if (Projectile.localAI[0] == max)
                     {
-                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_shot_0") with { Pitch = 0.7f }, Projectile.Center); // 226
+                        SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_sky_dragons_fury_shot_0").WithPitchOffset(-0.3f), Projectile.Center); // 226
                     }
                     if (Projectile.localAI[0] >= max && Projectile.localAI[0] < max+ aimWindow)
                     {
