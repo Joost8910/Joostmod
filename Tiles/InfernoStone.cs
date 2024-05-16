@@ -47,7 +47,9 @@ namespace JoostMod.Tiles
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            drawData.colorTint = new Color(255, (int)(Main.DiscoG * 0.7f), 0);
+            drawData.glowTexture = drawData.drawTexture;
+            drawData.glowSourceRect = new Rectangle((int)drawData.tileFrameX + drawData.addFrX, (int)drawData.tileFrameY + drawData.addFrY, drawData.tileWidth, drawData.tileHeight); ;
+            drawData.glowColor = new Color(255, (int)(Main.DiscoG * 0.7f), 0);
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

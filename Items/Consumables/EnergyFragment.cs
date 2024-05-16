@@ -17,6 +17,7 @@ namespace JoostMod.Items.Consumables
             "It's meant to do a thing when picked up like hearts\n" + 
             "Consume it for its effect since picking it up didn't work"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 3));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 

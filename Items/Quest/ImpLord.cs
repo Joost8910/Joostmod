@@ -12,6 +12,7 @@ namespace JoostMod.Items.Quest
 			// DisplayName.SetDefault("Fiery Imp Tail");
             // Tooltip.SetDefault("Quest item for the Hunt Master");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 

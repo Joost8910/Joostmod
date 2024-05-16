@@ -28,6 +28,7 @@ namespace JoostMod.Items.Armor
             player.moveSpeed *= 0.9f;
             player.maxRunSpeed *= 0.9f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.9f;
+            player.aggro += 250;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

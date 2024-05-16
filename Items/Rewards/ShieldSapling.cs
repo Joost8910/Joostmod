@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using JoostMod.Buffs;
+using Terraria.Localization;
 
 namespace JoostMod.Items.Rewards
 {
     [AutoloadEquip(EquipType.Back)]
     public class ShieldSapling : ModItem
     {
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)(30 * Main.GameModeInfo.EnemyDamageMultiplier));
+
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Sapling - Shield");

@@ -14,6 +14,7 @@ namespace JoostMod.Items.Materials
         {
             // DisplayName.SetDefault("Ice Core-X");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
         public override void SetDefaults()

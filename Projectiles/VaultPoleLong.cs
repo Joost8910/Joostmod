@@ -249,25 +249,40 @@ namespace JoostMod.Projectiles
                 if (Projectile.localAI[1] > 0)
                 {
                     player.fallStart = (int)player.position.Y / 16;
+                    player.RemoveAllGrapplingHooks();
                 }
+                bool colliding = false;
                 if (pVel == nCenter - Projectile.Center)
                 {
                     Projectile.localAI[0] += Projectile.localAI[1];
                     Projectile.localAI[1] += 0.5f;
                 }
-                else if (Projectile.localAI[1] < 0)
+                else
                 {
-                    Projectile.localAI[1] = 0.5f;
+                    colliding = true;
+                    if (Projectile.localAI[1] < 0)
+                    {
+                        Projectile.localAI[1] = 0.5f;
+                    }
                 }
 
                 if (Projectile.localAI[0] < 0)
                 {
                     Projectile.localAI[0] = 0;
                 }
-
-                Projectile.Center = point - Projectile.velocity * Projectile.localAI[0];
-                //player.MountedCenter = Projectile.Center;
-                player.velocity = Projectile.Center - pCenter;
+                
+                if (colliding)
+                {
+                    player.velocity = pVel;
+                    Projectile.velocity = point.DirectionFrom(pCenter + pVel);
+                    Projectile.localAI[0] = point.Distance(pCenter + pVel);
+                    Projectile.Center = pCenter + pVel;
+                }
+                else
+                {
+                    Projectile.Center = point - Projectile.velocity * Projectile.localAI[0];
+                    player.velocity = Projectile.Center - pCenter;
+                }
             }
             Projectile.rotation = Projectile.velocity.ToRotation() - 1.57f;
 
@@ -278,6 +293,7 @@ namespace JoostMod.Projectiles
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             SpriteEffects effects = SpriteEffects.None;
+            Vector2 scale = new Vector2(1f, 1f);
 			if (Projectile.spriteDirection == -1)
 			{
 				effects = SpriteEffects.FlipHorizontally;
@@ -312,11 +328,19 @@ namespace JoostMod.Projectiles
                 yOff = 168;
                 Projectile.frame = 5;
             }
+            scale.Y = Projectile.localAI[0] / (220 - yOff);
+            if (scale.Y < 0.25f)
+            {
+                scale.Y = 0.25f;
+                yOff = 220 - (int)(Projectile.localAI[0] / scale.Y);
+            }
+            scale.X = 1f + (1f - scale.Y) * 0.5f;
+            yOff -= 4;
 
             Vector2 drawOrigin = new Vector2(tex.Width / 2, yOff);
             Rectangle? rect = new Rectangle?(new Rectangle(0, (tex.Height / Main.projFrames[Projectile.type]) * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type]));
             Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16.0));
-			Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
+			Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rect, color, Projectile.rotation, drawOrigin, scale, effects, 0);
 			return false;
 		}
     }

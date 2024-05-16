@@ -8,6 +8,20 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Beta v3
+- Tail Whip is now a proper whip, with additional right click functionality
+- Havel's Set now increases aggro
+- Gilgamesh's Weapon set adjustments
+- Joostmod flails can once again be affected by size modifiers
+- Lord's flame now has audio cues for each charge level, as well as only consuming additional mana each charge level
+- Vaulting Poles now squish more smoothly
+- Vaulting Poles try better to get themselves unstuck
+- Vaulting Poles break grappling hooks on rebound
+- Fixed the legendary stones not rendering the correct color when placed in world
+- Fixed various animated items not animating outside of inventory
+- Fixed Cactus Boots 
+- Fixed Divine Mirror
+
 Beta v2
 - Fixed Huntmaster UI
 - Fixed Empty Heart UI 
@@ -74,6 +88,11 @@ Focus Souls
 Gnome Staff
 - Recipe now uses Garden Gnome instead of Ginger Beard and Silver Dye
 
+Gilgamesh's Weapon Set
+- Gunblade damage increased from 75% to 200%
+- Kunai damage increased from 80% to 100%
+- Tomahawk damage increased from 100% to 125%
+
 Personal Bubble
 - Damage bonus now applies to enemies with the wet debuff
 
@@ -97,6 +116,10 @@ Storm Wyvern Scroll
 - Increased lightning blast aim window from 1/2 to 3/4 of a second
 - During the aim window, holding right click will apply the minion targeting reticle
 (Let go of right click then to have the storm wyvern aim at that target instead of the mouse)
+
+Tail Whip
+- Reworked to be an actual whip weapon
+- Now has a right click move that can deflect projectiles
 
 The Rose
 - The chain now has its own damage hitbox, dealing 40% base damage
@@ -137,7 +160,11 @@ Personal bubble
 - Recipe no longer requires Bubble Shield
 
 --- Armor ---
-Zora Armor
+Havel's Set
+- All pieces now increase aggro by 250 each
+- Stone flesh increases aggro by 500
+
+Zora Set
 - Zora Spin sucks slightly less when out of water
 
 --- Grappling Hooks ---

@@ -14,6 +14,7 @@ namespace JoostMod.Items.Accessories
             // DisplayName.SetDefault("Spectral Orbs");
             // Tooltip.SetDefault("Creates spectral orbs that damage enemies");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 8));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
         public override void SetDefaults()

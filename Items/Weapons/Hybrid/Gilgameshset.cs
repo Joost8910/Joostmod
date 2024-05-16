@@ -97,26 +97,32 @@ namespace JoostMod.Items.Weapons.Hybrid
             }
             if (Gilgwep == 6)
             {
+                Item.useStyle = ItemUseStyleID.Shoot;
                 Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage * 3, knockback, player.whoAmI);
             }
             if (Gilgwep == 5)
             {
+                Item.useStyle = ItemUseStyleID.Swing;
                 Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2f, velocity.Y * 2f, ModContent.ProjectileType<Axe>(), damage * 2, knockback * 1.2f, player.whoAmI);
             }
             if (Gilgwep == 4)
             {
+                Item.useStyle = ItemUseStyleID.HiddenAnimation;
                 Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 4, velocity.Y * 4, ModContent.ProjectileType<GilgSetFlail>(), (int)(damage * 2.5f), knockback * 2, player.whoAmI);
             }
             if (Gilgwep == 3)
             {
+                Item.useStyle = ItemUseStyleID.Shoot;
                 Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BusterSword>(), (int)(damage * 2.5f), knockback * 3, player.whoAmI);
             }
             if (Gilgwep == 2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Gunblade>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(damage), knockback, player.whoAmI);
+                Item.useStyle = ItemUseStyleID.Shoot;
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Gunblade>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(damage * 2f), knockback, player.whoAmI);
             }
             if (Gilgwep == 1)
             {
+                Item.useStyle = ItemUseStyleID.Swing;
                 float spread = 25f * 0.0174f;
                 float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
                 double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
@@ -126,15 +132,15 @@ namespace JoostMod.Items.Weapons.Hybrid
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * i;
-                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, ModContent.ProjectileType<Kunai>(), (int)(damage * 0.8f), knockback / 2, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle) * 2, baseSpeed * (float)Math.Cos(offsetAngle) * 2, ModContent.ProjectileType<Kunai>(), damage, knockback / 2, player.whoAmI);
                 }
             }
             if (Gilgwep == 0)
             {
+                Item.useStyle = ItemUseStyleID.Swing;
                 float Speed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.5f, velocity.Y * 1.5f, ModContent.ProjectileType<Tomahawk>(), damage, knockback, player.whoAmI);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Tomahawk>(), damage, knockback, player.whoAmI, 1, Speed * 1.2f);
-
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.5f, velocity.Y * 1.5f, ModContent.ProjectileType<Tomahawk>(), (int)(damage * 1.25f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Tomahawk>(), (int)(damage * 1.25f), knockback, player.whoAmI, 1, Speed * 1.2f);
             }
             return false;
         }

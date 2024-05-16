@@ -14,6 +14,7 @@ namespace JoostMod.Items.Rewards
 			// DisplayName.SetDefault("Lord's Flame");
             // Tooltip.SetDefault("Hold attack to charge a bigger fireball");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 		public override void SetDefaults()

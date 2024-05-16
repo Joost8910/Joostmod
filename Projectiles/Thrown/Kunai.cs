@@ -26,6 +26,13 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.timeLeft = 300;
             AIType = ProjectileID.Shuriken;
         }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = 24;
+            hitbox.Height = 24;
+            hitbox.X -= (hitbox.Width - Projectile.width) / 2;
+            hitbox.Y -= (hitbox.Height - Projectile.height) / 2;
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;

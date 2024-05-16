@@ -12,6 +12,7 @@ namespace JoostMod.Items.Quest
 			// DisplayName.SetDefault("Storm Wyvern Soul");
             // Tooltip.SetDefault("Quest item for the Hunt Master");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 

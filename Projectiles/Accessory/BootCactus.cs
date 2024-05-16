@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Town;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -25,7 +26,7 @@ namespace JoostMod.Projectiles.Accessory
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
             Projectile.hide = true;
-            Projectile.aiStyle = 0;
+            Projectile.aiStyle = -1;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
         }
@@ -47,7 +48,7 @@ namespace JoostMod.Projectiles.Accessory
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.type != Mod.Find<ModNPC>("Cactus Person").Type && Projectile.ai[0] >= 24 && !target.friendly && (target.damage > 0 || Projectile.ai[1] <= 0))
+            if (target.type != ModContent.NPCType<CactusPerson>() && Projectile.ai[0] >= 24 && !target.friendly && (target.damage > 0 || Projectile.ai[1] <= 0))
             {
                 return base.CanHitNPC(target);
             }

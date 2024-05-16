@@ -39,11 +39,9 @@ namespace JoostMod.Projectiles.Magic
             bool channeling = player.channel && !player.noItems && !player.CCed && !player.dead;
             if (channeling)
             {
-                if (Projectile.ai[0] % 10 < 1 && Projectile.ai[0] < 60 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
-                {
-                    Projectile.Kill();
-                }
                 Projectile.ai[0]++;
+                if (Projectile.ai[0] == 30 && !player.CheckMana(player.HeldItem.mana * 2, true)) Projectile.Kill();
+                if (Projectile.ai[0] == 60 && !player.CheckMana(player.HeldItem.mana * 3, true)) Projectile.Kill();
                 if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor6 = 1f;
@@ -63,25 +61,27 @@ namespace JoostMod.Projectiles.Magic
             }
             else
             {
-                if (Projectile.ai[0] >= 60)
-                    Projectile.ai[0] = 100;
                 Projectile.Kill();
             }
-            if (Projectile.ai[0] % 6 == 0 && Projectile.ai[0] < 60)
+            if (Projectile.ai[0] % 6 == 0 && Projectile.ai[0] <= 60)
             {
                 Projectile.frame = (Projectile.frame + 1) % 12;
             }
-            if (Projectile.ai[0] >= 40)
+            if (Projectile.ai[0] == 31) SoundEngine.PlaySound(SoundID.Item20.WithPitchOffset(0.12f));
+            if (Projectile.ai[0] > 30)
             {
+                if (Projectile.ai[0] % 3 == 0) Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch).noGravity = true;
                 player.velocity *= 0.98f;
             }
-            if (Projectile.ai[0] >= 60)
+            if (Projectile.ai[0] == 61) SoundEngine.PlaySound(SoundID.Item20.WithPitchOffset(0.32f));
+            if (Projectile.ai[0] > 60)
             {
+                if (Projectile.ai[0] % 3 == 0) Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
                 player.velocity *= 0.98f;
-                if (Projectile.ai[0] % 3 == 0)
+                if (Projectile.ai[0] % 4 == 0)
                 {
                     Projectile.frame = Projectile.frame >= 17 ? 10 : Projectile.frame + 1;
-                    Projectile.ai[0] = 60;
+                    Projectile.ai[0] = 61;
                 }
             }
             float light = (Projectile.ai[0] > 60 ? 60 : Projectile.ai[0]) / 60f;
@@ -93,8 +93,8 @@ namespace JoostMod.Projectiles.Magic
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
-            player.itemTime = 15;
-            player.itemAnimation = 15;
+            player.itemTime = (int)(player.itemTimeMax * 0.75f);
+            player.itemAnimation = (int)(player.itemAnimationMax * 0.75f);
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
         }
 
@@ -110,17 +110,17 @@ namespace JoostMod.Projectiles.Magic
             }
             if (Main.myPlayer == Projectile.owner)
             {
-                if (Projectile.ai[0] < 40)
+                if (Projectile.ai[0] <= 30)
                 {
                     Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 5, dir.Y * 5, ModContent.ProjectileType<BurningSphere>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
                 }
-                else if (Projectile.ai[0] < 60)
+                else if (Projectile.ai[0] <= 60)
                 {
                     Projectile.NewProjectile(source, pos.X, pos.Y, dir.X * 12, dir.Y * 12, ModContent.ProjectileType<FireBolt>(), (int)(Projectile.damage * 2.5f), Projectile.knockBack * 3, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item45, Projectile.Center);
                 }
-                else if (Projectile.ai[0] == 100)
+                else
                 {
                     /*
                     if (Main.netMode != NetmodeID.MultiplayerClient)

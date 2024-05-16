@@ -27,14 +27,18 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.Kill();
                 return false;
             }
-            if (Main.myPlayer == Projectile.owner && Main.mapFullscreen)
-            {
-                Projectile.Kill();
-                return false;
-            }
+
             bool controlUseItem = isOffhand ? player.controlUseTile : player.controlUseItem;
             if (Main.myPlayer == Projectile.owner)
+            {
+                if (Main.mapFullscreen)
+                {
+                    Projectile.Kill();
+                    return false;
+                }
                 controlUseItem = isOffhand ? Main.mouseRight : Main.mouseLeft;
+            }
+            Projectile.scale = player.HeldItem.scale;
 
             Vector2 mountedCenter = player.MountedCenter;
 
@@ -125,6 +129,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = baseHitCD;
             switch ((int)Projectile.ai[0])
             {
+                case -1:
                 case 0: //Swinging in circle
                     {
                         tilesBlockHitCheck = true;
@@ -155,10 +160,12 @@ namespace JoostMod.Projectiles.Melee
                         {
                             vector2.Y *= 0.5f;
                         }
-                        Projectile.Center = mountedCenter + vector2 * 30f;
+                        Projectile.Center = mountedCenter + vector2 * 30f * Projectile.scale;
                         Projectile.velocity = Vector2.Zero;
                         Projectile.localNPCHitCooldown = swingHitCD;
                         SwingEffects();
+                        Projectile.ai[0] = -1; 
+                        //Since the colliding function is hard coded to set flails while spinning, i'm changing the ai value to circumvent it
                         break;
                     }
                 case 1: //Thrown out
@@ -367,6 +374,28 @@ namespace JoostMod.Projectiles.Melee
             Dust(doFastThrowDust);
             return false;
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (Projectile.ai[0] == -1f) //Modified collision code to accomodate larger flails
+            {
+                Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
+                Vector2 vector = targetHitbox.ClosestPointInRect(mountedCenter) - mountedCenter;
+                vector.Y /= 0.8f;
+                Rectangle hitbox = Projectile.Hitbox;
+                ProjectileLoader.ModifyDamageHitbox(Projectile, ref hitbox);
+                float num = hitbox.Width / 2 + 30f * Projectile.scale;
+                return vector.Length() <= num;
+            }
+            return base.Colliding(projHitbox, targetHitbox);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Projectile.ai[0] == -1) //Re-adding the spin damage multiplier due to changing spin ai to -1
+            {
+                modifiers.SourceDamage *= 1.2f;
+                modifiers.Knockback *= 0.25f;
+            }
+        }
         public virtual void CheckStats(ref float speedMult)
         {
 
@@ -457,7 +486,7 @@ namespace JoostMod.Projectiles.Melee
                     if ((double)vector2_4.Length() < (double)num1 + 1.0)
                     {
                         flag = false;
-                        sourceRectangle.Height = (int)(vector2_4.Length());
+                        sourceRectangle.Height = (int)(vector2_4.Length() / Projectile.scale);
                     }
                     Vector2 vector2_1 = vector2_4;
                     vector2_1.Normalize();

@@ -21,17 +21,18 @@ namespace JoostMod
         public static bool downedJumboCactuar = false;
         public static bool downedSAX = false;
         public static bool downedGilgamesh = false;
+
         public static bool downedPinkzor = false;
         public static bool downedRogueTomato = false;
         public static bool downedWoodGuardian = false;
         public static bool downedFloweringCactoid = false;
         public static bool downedICU = false;
-
         public static bool downedSporeSpawn = false;
         public static bool downedRoc = false;
         public static bool downedSkeletonDemoman = false;
         public static bool downedCactusWorm = false;
         public static bool downedImpLord = false;
+
         public static bool downedStormWyvern = false;
 
 

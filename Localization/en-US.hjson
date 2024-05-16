@@ -123,7 +123,7 @@ Mods: {
 
 			HavelBuff: {
 				DisplayName: Stone Flesh
-				Description: Reduces damage taken by 40%, mobility greatly reduced
+				Description: Reduces damage taken by 40%, mobility greatly reduced, enemies are more likely to target you
 			}
 
 			IceXMinionBuff: {
@@ -237,6 +237,11 @@ Mods: {
 			WindMinionBuff: {
 				DisplayName: Magic Tornado
 				Description: The Tornado will fight for you
+			}
+
+			TailWhipDebuff: {
+				Description: Summon Tag Damage
+				DisplayName: Tail Whip Debuff
 			}
 		}
 
@@ -835,6 +840,7 @@ Mods: {
 					Grants immunity to knockback
 					7% increased melee damage
 					10% reduced movement speed
+					Enemies are more likely to target you
 					'''
 			}
 
@@ -844,6 +850,7 @@ Mods: {
 					'''
 					8% increased melee crit Chance
 					10% reduced movement speed
+					Enemies are more likely to target you
 					'''
 			}
 
@@ -853,6 +860,7 @@ Mods: {
 					'''
 					6% increased melee damage
 					10% reduced movement speed
+					Enemies are more likely to target you
 					'''
 			}
 
@@ -1934,7 +1942,7 @@ Mods: {
 				Tooltip:
 					'''
 					Tries to block attackers behind you
-					Cannot block projectiles that have a base damage greater than 30
+					Cannot block projectiles that deal more than {0} damage
 					'''
 			}
 
@@ -1981,7 +1989,14 @@ Mods: {
 
 			TailWhip: {
 				DisplayName: Tail Whip
-				Tooltip: Envenoms struck targets
+				Tooltip:
+					'''
+					{$CommonItemTooltip.SummonTagDamage}
+					{$CommonItemTooltip.Whips}
+					Envenoms struck targets
+					Right click for a spinning attack that deflects projectiles
+					'''
+				MaxDeflectDamage: Cannot deflect projectiles that deal more than {0} damage
 			}
 
 			TheHive: {
@@ -3970,6 +3985,7 @@ Mods: {
 			VaultPole.DisplayName: Vaulting Pole
 			VaultPoleLong.DisplayName: Long Pole
 			WinterSolution.DisplayName: Winter Spray
+			TailWhip2.DisplayName: Tail Whip2
 		}
 
 		Tiles: {

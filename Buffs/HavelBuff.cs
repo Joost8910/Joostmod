@@ -15,5 +15,9 @@ namespace JoostMod.Buffs
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
             //canBeCleared/* tModPorter Note: Removed. Use BuffID.Sets.NurseCannotRemoveDebuff instead, and invert the logic */ = false;
 		}
-	}
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.aggro += 500;
+        }
+    }
 }

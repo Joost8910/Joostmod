@@ -24,6 +24,7 @@ namespace JoostMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.useTime = 28;
             Item.useAnimation = 28;
+            Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 9;
             Item.value = 10000000;
@@ -44,7 +45,7 @@ namespace JoostMod.Items.Weapons.Ranged
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRot);
             Vector2 origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, armRot);
             player.itemLocation = origin - heldItemFrame.Size() / 2f + player.itemRotation.ToRotationVector2() * -16 * player.direction;
-         }
+        }
 
 
         public override void AddRecipes()

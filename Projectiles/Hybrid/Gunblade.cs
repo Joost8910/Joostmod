@@ -140,7 +140,7 @@ namespace JoostMod.Projectiles.Hybrid
                     {
                         player.ConsumeItem(item.type);
                     }
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * vel, type, (int)(Projectile.damage * 0.75f) + item.damage, Projectile.knockBack + item.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * vel, type, Projectile.damage + item.damage, Projectile.knockBack + item.knockBack, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                 }
                 {

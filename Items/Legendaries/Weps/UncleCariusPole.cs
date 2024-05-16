@@ -240,8 +240,8 @@ namespace JoostMod.Items.Legendaries.Weps
                     (JoostWorld.downedSAX ? 4 : 0) +                    //35
                     (JoostWorld.downedGilgamesh ? 5 : 0);               //40
             int num = (int)fNum;
-            Main.NewText(fNum, Color.Violet);
-            Main.NewText(num, Color.LightSeaGreen);
+            //Main.NewText(fNum, Color.Violet);
+            //Main.NewText(num, Color.LightSeaGreen);
             if (player.altFunctionUse == 2)
             {
                 int numberProjectiles = 4 + Main.rand.Next(3);

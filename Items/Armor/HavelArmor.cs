@@ -38,6 +38,7 @@ namespace JoostMod.Items.Armor
             player.maxRunSpeed *= 0.9f;
             player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 0.9f;
             player.noKnockback = true;
+            player.aggro += 250;
         }
         public override void AddRecipes()
         {
