@@ -906,7 +906,7 @@ namespace JoostMod
             {
                 if (fireArmorIsActive)
                 {
-                    target.AddBuff(BuffID.OnFire, 600);
+                    target.AddBuff(BuffID.OnFire3, 600);
                 }
             }
             if (proj.minion)
@@ -994,7 +994,7 @@ namespace JoostMod
                 {
                     if (jPlayer.fireArmorIsActive)
                     {
-                        target.AddBuff(BuffID.OnFire, 600);
+                        target.AddBuff(BuffID.OnFire3, 600);
                     }
                 }
                 if (jPlayer.sandStorm && proj.CountsAsClass(DamageClass.Throwing))
@@ -2623,7 +2623,7 @@ namespace JoostMod
                     {
                         var source = Player.GetSource_FromThis("SetBonus_FireArmor");
                         int damage = (int)Player.GetDamage(DamageClass.Ranged).ApplyTo(25);
-                        Projectile.NewProjectile(source, (num + i * Player.direction) * 16, num2 * 16, 0, 0, ModContent.ProjectileType<Flame2>(), damage, 0, Player.whoAmI);
+                        Projectile.NewProjectile(source, (num + i * Player.direction) * 16, num2 * 16, 0, 0, ModContent.ProjectileType<ArmorFlame>(), damage, 0, Player.whoAmI);
                     }
                 }
             }

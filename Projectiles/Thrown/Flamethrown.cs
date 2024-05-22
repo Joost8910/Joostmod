@@ -41,6 +41,14 @@ namespace JoostMod.Projectiles.Thrown
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Flame2thrown>(), Projectile.damage, 0, Projectile.owner);
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire3, 600);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.OnFire3, 600);
+        }
 
     }
 }

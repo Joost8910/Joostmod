@@ -65,6 +65,14 @@ namespace JoostMod.Projectiles.Thrown
             }
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire3, 1200);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.OnFire3, 1200);
+        }
     }
 }
 

@@ -51,7 +51,7 @@ namespace JoostMod.Projectiles.Ranged
                 Projectile.scale = 0.75f;
             }
             Vector2 v = Main.OffsetsPlayerHeadgear[player.bodyFrame.Y / player.bodyFrame.Height];
-            v.Y -= 2f;
+            v.Y -= 2f * player.gravDir;
             origin += v * player.gravDir;
 
             Projectile.width = (int)(44f * Projectile.scale);
@@ -161,8 +161,9 @@ namespace JoostMod.Projectiles.Ranged
                             player.ConsumeItem(item.type);
                         }
                         */
+                        Vector2 vel = (Projectile.ai[0] == 0 ? Projectile.velocity : Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(3f))) * shootSpeed;
                         if (Main.myPlayer == Projectile.owner)
-                            Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), origin, Projectile.velocity * shootSpeed, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
+                            Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), origin, vel, type, damage + (Projectile.damage * (int)(Projectile.ai[1] / 30)), knockback + (int)(Projectile.ai[1] / 30), Projectile.owner);
                         SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
                     }
                     else
@@ -174,7 +175,7 @@ namespace JoostMod.Projectiles.Ranged
                 }
                 else
                 {
-                    Projectile.NewProjectile(source, origin + Projectile.velocity * 30 * Projectile.scale + Projectile.velocity * 24, Projectile.velocity * shootSpeed * 0.5f, ModContent.ProjectileType<DragonBlast>(), Projectile.damage * 7, Projectile.knockBack * 7, Projectile.owner);
+                    Projectile.NewProjectile(source, origin + Projectile.velocity * 30 * Projectile.scale + Projectile.velocity * 24, Projectile.velocity * shootSpeed * 0.5f, ModContent.ProjectileType<DragonBlast>(), Projectile.damage * 5, Projectile.knockBack * 5, Projectile.owner);
 
                     Vector2 dir = -Projectile.velocity;
                     dir.Normalize();
@@ -199,7 +200,7 @@ namespace JoostMod.Projectiles.Ranged
                 Projectile.localAI[1]--;
                 float len = Projectile.localAI[0] * speed;
                 float kick = Projectile.localAI[1] < len * 0.75f ? Projectile.localAI[1] / 3 : len - Projectile.localAI[1];
-                float rot = Projectile.velocity.ToRotation() - 7f * 0.0174f * Projectile.direction * kick;
+                float rot = Projectile.velocity.ToRotation() - 7f * 0.0174f * player.direction * kick;
                 Projectile.rotation = rot + (player.direction == -1 ? 3.14f : 0);
             }
             else
@@ -210,20 +211,21 @@ namespace JoostMod.Projectiles.Ranged
             {
                 Projectile.localAI[0] = 0;
             }
-            float rotate = (float)Math.Atan2((double)(Projectile.velocity.Y * Projectile.direction), (double)(Projectile.velocity.X * Projectile.direction));
-            float armRot = rotate - (float)(Math.PI / 2) * Projectile.direction;
+            float rotate = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
+            float armRot = rotate * player.gravDir - (float)(Math.PI / 2) * Projectile.direction + (float)(Math.PI / 12 * player.direction);
+            float posRot = armRot * player.gravDir + (player.gravDir < 0 ? (float)Math.PI : 0);
             if (Projectile.ai[0] == 0)
             {
                 player.heldProj = Projectile.whoAmI;
                 player.itemRotation = rotate;
                 player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRot);
-                origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, armRot);
+                origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, posRot);
                 origin += v * player.gravDir;
             }
             else
             {
                 player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armRot);
-                origin = player.GetBackHandPosition(Player.CompositeArmStretchAmount.Full, armRot);
+                origin = player.GetBackHandPosition(Player.CompositeArmStretchAmount.Full, posRot);
                 origin += v * player.gravDir;
             }
             Projectile.position = origin + Projectile.velocity * Projectile.scale - Projectile.Size / 2f;

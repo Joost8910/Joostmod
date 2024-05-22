@@ -14,6 +14,7 @@ namespace JoostMod.NPCs.Hunts
 			// DisplayName.SetDefault("Dead Man's Fire");
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
+            NPCID.Sets.ProjectileNPC[Type] = true;
         }
         public override void SetDefaults()
         {

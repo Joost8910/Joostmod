@@ -6,9 +6,9 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace JoostMod.Projectiles.Thrown
+namespace JoostMod.Projectiles.Ranged
 {
-    public class Flame2thrown : ModProjectile
+    public class ArmorFlame : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,9 +21,9 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.height = 18;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Throwing;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = false;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 2;
             Projectile.timeLeft = 90;
             Projectile.tileCollide = false;
             Projectile.alpha = 35;
@@ -60,10 +60,7 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.OnFire3, 300);
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
+            Player owner = Main.player[Projectile.owner];
             target.AddBuff(BuffID.OnFire3, 300);
         }
     }

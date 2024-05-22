@@ -8,6 +8,16 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+
+Beta v4
+- Further altered Vaulting Pole physics
+- Weapons made from Fire Essence now apply Hellfire instead of On Fire!
+- Volcanic Longbow has reduced spread when shooting 2-4 arrows
+- Dragon Blasters adjustments
+- Napalm Launcher adjustments
+- Fixed Cactus Person not spawning
+- Fixed Cactus Person shop not loading
+
 Beta v3
 - Tail Whip is now a proper whip, with additional right click functionality
 - Havel's Set now increases aggro
@@ -61,12 +71,19 @@ Actual Mace
 - Reduced charged attack damage from 60% bonus damage to 45% bonus damage
 
 Bone Hurting Juice
-- Reduced damage to 16
+- Damage decreased to 16
 - Recipe updated: now 20 water bottles, a blinkroot, and a deathweed; makes 20
 
 Brawler's Glove
 - Punching player velocity no longer scaled with knockback
 - Adjusted hitboxes
+
+Dragon Blasters
+- Increased damage from 24 to 30
+- Increased use time from 11 to 14
+- Fully charged shot damage reduced from 7x to 5x weapon damage
+- Fully charged shot now deals (multiplicitly) 20% less damage each consecutive hit
+- Reduced offhand blaster accuracy
 
 Eyeball Staff
 - Projectiles now bounce off tiles
@@ -93,11 +110,16 @@ Gilgamesh's Weapon Set
 - Kunai damage increased from 80% to 100%
 - Tomahawk damage increased from 100% to 125%
 
+Napalm Launcher
+- Increased damage from 30 to 32
+- Increased use time from 18 to 28
+- Halved direct contact damage of the Napalm bomb
+
 Personal Bubble
 - Damage bonus now applies to enemies with the wet debuff
 
 Scroll of Water
-- Increased damage from 36 to 40
+- Damage increased from 36 to 40
 - Deals 25% reduced damage when held
 - Can now hit multiple targets with the strong hitbox when let go
 - Now applies the wet debuff
@@ -135,6 +157,9 @@ True Gungnir
 True Dark Lance
 - New sprite
 - New beam behavior
+
+Volcanic Longbow
+- Reduced spread of firing 2-4 arrows
 
 Warhammer of Grognak
 - Strong attack beam now has an additive -10% damage penalty per pierce, rather than a multiplicative -20%

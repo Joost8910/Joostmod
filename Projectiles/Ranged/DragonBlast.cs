@@ -130,11 +130,13 @@ namespace JoostMod.Projectiles.Ranged
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.OnFire, 1200);
+            target.AddBuff(BuffID.OnFire3, 1800);
+            Projectile.damage = (int)(Projectile.damage * 0.8f);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
-            target.AddBuff(BuffID.OnFire, 1200);
+            target.AddBuff(BuffID.OnFire3, 1800);
+            Projectile.damage = (int)(Projectile.damage * 0.8f);
         }
         public override void OnKill(int timeLeft)
         {

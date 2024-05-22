@@ -30,8 +30,11 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Player owner = Main.player[Projectile.owner];
-            target.AddBuff(24, 180);
+            target.AddBuff(BuffID.OnFire3, 180);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.OnFire3, 180);
         }
         public override void AI()
         {

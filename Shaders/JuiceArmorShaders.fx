@@ -111,6 +111,10 @@ float4 OutlineShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOO
         color.rgb = luminosity * uColor.rgb;
         color *= sampleColor;
     }
+    if (cM.a != 0 && (pixCoords.x <= 2 || pixCoords.y <= 2 || pixCoords.x >= (uSourceRect.z - 2) || pixCoords.y >= (uSourceRect.w - 2)))
+    {
+        color.rgb = luminosity * uColor.rgb;
+    }
     return color;
 }
 float4 BlurShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0

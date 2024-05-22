@@ -147,10 +147,21 @@ namespace JoostMod.NPCs.Town
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
             int score = 0;
-            WorldGen.Housing_GetTestedRoomBounds(out int startX, out int startY, out int endX, out int endY);
-            for (int x = startX; x <= endX; x++)
+            int l = left - 80;
+            int r = right + 80;
+            int t = top - 44;
+            int b = bottom + 44;
+            if (l < 0)
+                l = 0;
+            if (r > Main.maxTilesX)
+                r = Main.maxTilesX;
+            if (t < 0)
+                t = 0;
+            if (b < Main.maxTilesY)
+                b = Main.maxTilesY;
+            for (int x = l; x <= r; x++)
             {
-                for (int y = startY; y <= endY; y++)
+                for (int y = t; y <= b; y++)
                 {
                     int type = Main.tile[x, y].TileType;
                     if (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.HallowSandstone || type == TileID.SandstoneBrick || type == TileID.SandStoneSlab)
@@ -159,11 +170,12 @@ namespace JoostMod.NPCs.Town
                     }
                     if (type == TileID.CactusBlock)
                     {
-                        score += 5;
+                        score += 10;
                     }
                 }
             }
-            return score > 800;
+            //Main.NewText(score);
+            return score > SceneMetrics.DesertTileThreshold;
         }
 
         public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
@@ -314,7 +326,8 @@ namespace JoostMod.NPCs.Town
                 .Add<EnhancedCactusHelmet>()
                 .Add<EnhancedCactusBreastplate>()
                 .Add<EnhancedCactusLeggings>()
-                .Add<JoostJuice>(new Condition("Mods.JoostMod.Conditions.DownedJumboCactuar", () => JoostWorld.downedJumboCactuar));  
+                .Add<JoostJuice>(new Condition("Mods.JoostMod.Conditions.DownedJumboCactuar", () => JoostWorld.downedJumboCactuar));
+            npcShop.Register();
         }
         /*
         public override void ModifyActiveShop(string shopName, Item[] items)

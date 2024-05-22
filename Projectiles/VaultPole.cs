@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Metrics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -48,10 +49,12 @@ namespace JoostMod.Projectiles
             }
             return false;
         }*/
+        private const int length = 136;
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
             Vector2 pCenter = player.MountedCenter;
+            Vector2 oCenter = Projectile.Center;
             if (player.channel && !player.noItems && !player.CCed)
             {
                 if (Main.myPlayer == Projectile.owner)
@@ -66,7 +69,7 @@ namespace JoostMod.Projectiles
                     {
                         Projectile.netUpdate = true;
                     }
-                    if (Projectile.localAI[0] < 136)
+                    if (Projectile.localAI[0] < length)
                     {
                         Vector2 point = new Vector2(Projectile.ai[0], Projectile.ai[1]);
                         Vector2 nCenter = point - dir * Projectile.localAI[0];
@@ -99,7 +102,7 @@ namespace JoostMod.Projectiles
             player.itemAnimation = 15;
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
 
-            if (Projectile.localAI[0] >= 136 || Projectile.localAI[0] == 0)
+            if (Projectile.localAI[0] >= length || Projectile.localAI[0] == 0)
             {
                 Vector2 unit = Projectile.velocity;
                 Vector2 start = pCenter;
@@ -124,22 +127,24 @@ namespace JoostMod.Projectiles
                 if (hit)
                 {
                     //Dust.NewDustPerfect(point, 206, Vector2.Zero).noGravity = true;
-
+                    
                     float dist = start.Distance(point);
                     Projectile.localAI[0] = dist;
                     Projectile.ai[0] = point.X;
                     Projectile.ai[1] = point.Y;
-                    Projectile.Center = point - Projectile.velocity * Projectile.localAI[0];
                     Vector2 vs = start + player.velocity;
                     float dist2 = vs.Distance(point);
                     Projectile.localAI[1] = dist2 - dist;
+                    if (Projectile.localAI[1] + 0.5f + Projectile.localAI[0] >= length)
+                        Projectile.localAI[0] = length;
+                    Projectile.Center = point - Projectile.velocity * Projectile.localAI[0];
 
                     player.velocity = Projectile.Center - pCenter;
                     //player.MountedCenter = Projectile.Center;
                 }
                 else
                 {
-                    Projectile.localAI[0] = 136;
+                    Projectile.localAI[0] = length;
                     Projectile.localAI[1] = 0;
                     Projectile.Center = pCenter;
                 }
@@ -243,8 +248,8 @@ namespace JoostMod.Projectiles
 
                 Vector2 nCenter = point - Projectile.velocity * (Projectile.localAI[0] + Projectile.localAI[1]);
                 Vector2 pVel = nCenter - Projectile.Center;
-                pVel = Collision.TileCollision(Projectile.Center - player.Size / 2, pVel, player.width, player.height);
-                Vector4 vect2 = Collision.SlopeCollision(Projectile.Center - player.Size/2, pVel, player.width, player.height);
+                pVel = Collision.TileCollision(nCenter - player.Size / 2, pVel, player.width, player.height);
+                Vector4 vect2 = Collision.SlopeCollision(nCenter - player.Size/2, pVel, player.width, player.height);
                 pVel = new Vector2(vect2.Z, vect2.W);
                 if (Projectile.localAI[1] > 0)
                 {
@@ -252,7 +257,7 @@ namespace JoostMod.Projectiles
                     player.RemoveAllGrapplingHooks();
                 }
                 bool colliding = false;
-                if (pVel == nCenter - Projectile.Center)
+                if (pVel == nCenter - Projectile.Center && !Collision.SolidCollision(nCenter - player.Size / 2, player.width, player.height))
                 {
                     Projectile.localAI[0] += Projectile.localAI[1];
                     Projectile.localAI[1] += 0.5f;
@@ -261,9 +266,9 @@ namespace JoostMod.Projectiles
                 {
                     colliding = true;
                     if (Projectile.localAI[1] < 0)
-                    {
                         Projectile.localAI[1] = 0.5f;
-                    }
+                    if (Projectile.localAI[1] < 10)
+                        Projectile.localAI[1] += 0.5f;
                 }
 
                 if (Projectile.localAI[0] < 0)
@@ -272,15 +277,18 @@ namespace JoostMod.Projectiles
                 }
                 if (colliding)
                 {
-                    player.velocity = pVel;
-                    Projectile.velocity = point.DirectionFrom(pCenter + pVel);
-                    Projectile.localAI[0] = point.Distance(pCenter + pVel);
-                    Projectile.Center = pCenter + pVel;
+                    Vector2 cVel = Collision.TileCollision(player.position, nCenter - oCenter - new Vector2(0, player.gravity), player.width, player.height);
+                    player.velocity = cVel;
+                    Projectile.velocity = point.DirectionFrom(pCenter + cVel);
+                    Projectile.localAI[0] = point.Distance(pCenter + cVel);
+                    Projectile.Center = pCenter + cVel;
                 }
                 else
                 {
                     Projectile.Center = point - Projectile.velocity * Projectile.localAI[0];
-                    player.velocity = Projectile.Center - pCenter;
+
+                    player.Center = Projectile.Center;
+                    player.velocity = Projectile.Center - oCenter;
                 }
             }
             Projectile.rotation = Projectile.velocity.ToRotation() - 1.57f;
@@ -297,7 +305,7 @@ namespace JoostMod.Projectiles
 				effects = SpriteEffects.FlipHorizontally;
             }
             int yOff = 0;
-            if (136 - Projectile.localAI[0] >= 4)
+            if (length - Projectile.localAI[0] >= 4)
             {
                 yOff = 4;
                 Projectile.frame = 1;
@@ -306,38 +314,38 @@ namespace JoostMod.Projectiles
             {
                 Projectile.frame = 0;
             }
-            if (136 - Projectile.localAI[0] >= 18)
+            if (length - Projectile.localAI[0] >= 18)
             {
                 yOff = 18;
                 Projectile.frame = 2;
             }
-            if (136 - Projectile.localAI[0] >= 38)
+            if (length - Projectile.localAI[0] >= 38)
             {
                 yOff = 38;
                 Projectile.frame = 3;
             }
-            if (136 - Projectile.localAI[0] >= 74)
+            if (length - Projectile.localAI[0] >= 74)
             {
                 yOff = 74;
                 Projectile.frame = 4;
             }
-            if (136 - Projectile.localAI[0] >= 100)
+            if (length - Projectile.localAI[0] >= 100)
             {
                 yOff = 100;
                 Projectile.frame = 5;
             }
-            scale.Y = Projectile.localAI[0] / (136 - yOff);
+            scale.Y = Projectile.localAI[0] / (length - yOff);
             if (scale.Y < 0.25f)
             {
                 scale.Y = 0.25f;
                 /*
-                scale.Y = Projectile.localAI[0] / (136 - yOff)
-                scale.Y * (136 - yOff) = Projectile.localAI[0]
-                136 - yOff = Projectile.localAI[0] / scale.Y
-                136 = Projectile.localAI[0] / scale.Y + yOff
-                136 - Projectile.localAI[0] / scale.Y = yOff
+                scale.Y = Projectile.localAI[0] / (length - yOff)
+                scale.Y * (length - yOff) = Projectile.localAI[0]
+                length - yOff = Projectile.localAI[0] / scale.Y
+                length = Projectile.localAI[0] / scale.Y + yOff
+                length - Projectile.localAI[0] / scale.Y = yOff
                 */
-                yOff = 136 - (int)(Projectile.localAI[0] / scale.Y);
+                yOff = length - (int)(Projectile.localAI[0] / scale.Y);
             }
             scale.X = 1f + (1f - scale.Y) * 0.5f;
             yOff -= 4;

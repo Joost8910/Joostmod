@@ -3986,6 +3986,8 @@ Mods: {
 			VaultPoleLong.DisplayName: Long Pole
 			WinterSolution.DisplayName: Winter Spray
 			TailWhip2.DisplayName: Tail Whip2
+			NapalmFire.DisplayName: Napalm Fire
+			ArmorFlame.DisplayName: Armor Flame
 		}
 
 		Tiles: {

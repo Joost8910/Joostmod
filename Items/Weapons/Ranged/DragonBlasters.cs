@@ -19,12 +19,12 @@ namespace JoostMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            Item.damage = 24;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 52;
             Item.height = 36;
-            Item.useTime = 11;
-            Item.useAnimation = 11;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
             Item.useStyle = ItemUseStyleID.HiddenAnimation;
             Item.knockBack = 3;
             Item.value = 250000;

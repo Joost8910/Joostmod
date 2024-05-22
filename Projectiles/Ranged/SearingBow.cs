@@ -182,7 +182,7 @@ namespace JoostMod.Projectiles.Ranged
                 {
                     if (Projectile.ai[1] > 0)
                     {
-                        float rotation = MathHelper.ToRadians(22.5f);
+                        float rotation = MathHelper.ToRadians(Projectile.ai[1] * 4.5f);
                         if (Main.myPlayer == Projectile.owner)
                         {
                             for (int i = 0; i < Projectile.ai[1]; i++)
@@ -276,7 +276,7 @@ namespace JoostMod.Projectiles.Ranged
                     }
                 }
 
-                float rotOff = MathHelper.ToRadians(22.5f);
+                float rotOff = MathHelper.ToRadians(4.5f * Projectile.ai[1]);
                 Vector2 vel = Projectile.velocity;
                 vel.Normalize();
                 float e = Projectile.ai[1] < 1 && player.bodyFrame.Y == player.bodyFrame.Height * 10 && Projectile.frame == 1 ? 1 : Projectile.ai[1];
