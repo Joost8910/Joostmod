@@ -18,7 +18,7 @@ namespace JoostMod.Items.Weapons.Thrown
         {
             Item.damage = 1;
             Item.DamageType = DamageClass.Throwing;
-            Item.maxStack = 999;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.width = 2;
             Item.height = 12;

@@ -3,7 +3,11 @@ Mods: {
 		Buffs: {
 			AirArmorBuff: {
 				DisplayName: Swirling Winds
-				Description: Greatly increased mobility and life regen
+				Description:
+					'''
+					Greatly increased mobility and life regen
+					Defense increased by 
+					'''
 			}
 
 			AirScooterMount: {
@@ -1094,6 +1098,15 @@ Mods: {
 			GrandCactusWormBag: {
 				DisplayName: Treasure Bag (Alpha Cactus Worm)
 				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+			}
+
+			GravebusterSeeds: {
+				DisplayName: Gravebuster Seeds
+				Tooltip:
+					'''
+					Destroys a selected grave
+					Use Smart Cursor to auto select onscreen graves
+					'''
 			}
 
 			GreaterRestorationPotion: {
@@ -3988,6 +4001,7 @@ Mods: {
 			TailWhip2.DisplayName: Tail Whip2
 			NapalmFire.DisplayName: Napalm Fire
 			ArmorFlame.DisplayName: Armor Flame
+			Gravebuster.DisplayName: Gravebuster
 		}
 
 		Tiles: {

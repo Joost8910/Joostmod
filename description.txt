@@ -1,5 +1,5 @@
 The Joostmod has to offer
-468 new items
+469 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -10,13 +10,28 @@ The Joostmod has to offer
 
 
 Beta v4
+- Added Gravebuster seeds, sold by the dryad in a graveyard
+- Increased various stack sizes to 9999
 - Further altered Vaulting Pole physics
+- Tweaked Blazing Anklet equip sprite
+- Updated Fire Armor visuals
+- Updated Wind Armor visuals
+- Fire Armor set bonus ability no longer persists through death
+- Wind Armor set bonus ability now grants 1 defense for each 2 seconds of time left on the buff
+- Blue X Parasites now inflicted chilled and (in expert mode) frozen
 - Weapons made from Fire Essence now apply Hellfire instead of On Fire!
 - Volcanic Longbow has reduced spread when shooting 2-4 arrows
+- Volcanic Longbow can no longer fire through adjacent tiles
 - Dragon Blasters adjustments
 - Napalm Launcher adjustments
+- Hurricane Windwheel adjustments
+- Chimes of the Wind adjustments
+- Roc Wings adjustments
 - Fixed Cactus Person not spawning
 - Fixed Cactus Person shop not loading
+- Fixed music being super quiet
+- Fixed Shield of Flesh receiving weapon prefixes instead of accessory prefixes
+- Fixed Shield of Flesh dash not functioning
 
 Beta v3
 - Tail Whip is now a proper whip, with additional right click functionality
@@ -57,6 +72,7 @@ Glow-In-The-Dark Dye
 Gaussian Dye
 Ghostly Dye
 Team Outline Dye
+Gravebuster Seeds
 
 --- Removed ---
 Desertification Solution
@@ -78,11 +94,15 @@ Brawler's Glove
 - Punching player velocity no longer scaled with knockback
 - Adjusted hitboxes
 
+Chimes of the Wind
+- Increased damage from 28 to 36
+- Now deals (multiplicitly) 10% less damage each pierce
+
 Dragon Blasters
 - Increased damage from 24 to 30
 - Increased use time from 11 to 14
 - Fully charged shot damage reduced from 7x to 5x weapon damage
-- Fully charged shot now deals (multiplicitly) 20% less damage each consecutive hit
+- Fully charged shot now deals (multiplicitly) 20% less damage each pierce
 - Reduced offhand blaster accuracy
 
 Eyeball Staff
@@ -109,6 +129,9 @@ Gilgamesh's Weapon Set
 - Gunblade damage increased from 75% to 200%
 - Kunai damage increased from 80% to 100%
 - Tomahawk damage increased from 100% to 125%
+
+Hurricane Windwheel
+- Doubled damage tick rate
 
 Napalm Launcher
 - Increased damage from 30 to 32
@@ -184,10 +207,21 @@ Hover Boots
 Personal bubble
 - Recipe no longer requires Bubble Shield
 
+Roc Wings
+- Wing stats now closer to that of Fledgling Wings
+- Tweaked physics to no longer give massive horizontal speed while at level rotation
+
 --- Armor ---
+Fire Set
+- Updated visuals
+
 Havel's Set
 - All pieces now increase aggro by 250 each
 - Stone flesh increases aggro by 500
+
+Wind Set
+- Updated visuals
+- Set bonus ability now grants defense based on the buff's remaining time
 
 Zora Set
 - Zora Spin sucks slightly less when out of water
@@ -256,3 +290,5 @@ Fire Elemental
 - Burning sphere firing animation can be interrupted by an attack with strong knockback or a crit
 Water, Earth, Fire, and Air Elementals
 - Now drop essences in several small stacks
+X Parasite (Ice)
+- Now applies Chilled debuff, and in expert also applies Frozen

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +30,7 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.alpha = 35;
             Projectile.light = 0.75f;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.idStaticNPCHitCooldown = 12;
         }
         public override void AI()
         {
@@ -55,6 +56,8 @@ namespace JoostMod.Projectiles.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            Player player = Main.player[Projectile.owner];
+            Main.instance.PrepareDrawnEntityDrawing(Projectile,player.cShoe, Main.Transform);
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(0f, Projectile.height * 1.5f), new Rectangle?(new Rectangle(0, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type])), Color.Yellow, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }

@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 420;
+            Projectile.timeLeft = 600;
             Projectile.alpha = 5;
             Projectile.extraUpdates = 1;
             Projectile.scale = 1.5f;

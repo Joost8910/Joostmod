@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Graphics.Shaders;
 
 namespace JoostMod.Mounts
 {
@@ -71,7 +72,7 @@ namespace JoostMod.Mounts
             {
                 if (player.velocity.X != 0)
                 {
-                    Dust.NewDustDirect(player.MountedCenter + new Vector2(player.velocity.X - 5, 26), 10, 4, 0, -player.velocity.X * 0.5f, Math.Abs(player.velocity.X) * -0.125f, 0, default, Main.rand.NextFloat() * 0.5f + 0.5f);
+                    Dust.NewDustDirect(player.MountedCenter + new Vector2(player.velocity.X - 5, 26), 10, 4, 0, -player.velocity.X * 0.5f, Math.Abs(player.velocity.X) * -0.125f, 0, default, Main.rand.NextFloat() * 0.5f + 0.5f).shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
                 }
                 float rotation = 0;
                 float rampVel = 0;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,6 +25,10 @@ namespace JoostMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetCritChance(DamageClass.Ranged) += 18;
+        }
+        public override void EquipFrameEffects(Player player, EquipType type)
+        {
+            player.GetModPlayer<JoostPlayer>().overHeadTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Flame");
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

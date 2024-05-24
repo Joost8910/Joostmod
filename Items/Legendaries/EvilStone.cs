@@ -15,7 +15,7 @@ namespace JoostMod.Items.Legendaries
         }
         public override void SetDefaults()
         {
-            Item.maxStack = 999;
+            Item.maxStack = 9999;
             Item.width = 32;
             Item.height = 32;
             Item.useTime = 10;

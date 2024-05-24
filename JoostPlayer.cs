@@ -30,6 +30,7 @@ using JoostMod.Items.Weapons.Ranged;
 using JoostMod.Items.Weapons.Magic;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Legendaries;
+using JoostMod.NPCs.Bosses;
 
 namespace JoostMod
 {
@@ -180,6 +181,7 @@ namespace JoostMod
 
         public Texture2D skirtTex = null;
         public Texture2D betterShoulderTex = null;
+        public Texture2D overHeadTex = null;
 
         public bool DrawOverArmor()
         {
@@ -287,6 +289,7 @@ namespace JoostMod
 
             skirtTex = null;
             betterShoulderTex = null;
+            overHeadTex = null;
         }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)/* tModPorter Suggestion: Return an Item array to add to the players starting items. Use ModifyStartingInventory for modifying them if needed */
         {
@@ -714,21 +717,27 @@ namespace JoostMod
                         }
                     }
                 }
-                if (fireArmor)
+                if (fireArmor && !Player.dead)
                 {
                     Player.AddBuff(ModContent.BuffType<FireArmorBuff>(), 2);
                     if (!fireArmorIsActive)
                     {
                         SoundEngine.PlaySound(new ("Terraria/Sounds/Custom/dd2_betsy_fireball_shot_1"), Player.Center); //198
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Torch, Player.velocity.X, Player.velocity.Y, 0, default, Main.rand.NextFloat() + 3).noGravity = true;
+                        {
+                            Dust d = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Torch, Player.velocity.X, Player.velocity.Y, 0, default, Main.rand.NextFloat() + 3);
+                            d.noGravity = true;
+                            d.shader = GameShaders.Armor.GetSecondaryShader(Player.cHead, Player);
+                        }
                         fireArmorIsActive = true;
                     }
                     else
                     {
                         SoundEngine.PlaySound(SoundID.Item13, Player.Center);
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
+                        {
+                            Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Smoke, 0, -1.5f, 0, new Color(0.2f, 0.1f, 0.15f), Main.rand.NextFloat() + 1);
+                        }
                         fireArmorIsActive = false;
                     }
                 }
@@ -743,7 +752,7 @@ namespace JoostMod
                             proj.Kill();
                             count += proj.minionSlots;
                             for (int d = 0; d < 10; d++)
-                                Dust.NewDust(proj.position, proj.width, proj.height, DustID.Smoke, 0, 0, 0, Color.White, Main.rand.NextFloat() + 1);
+                                Dust.NewDustDirect(proj.position, proj.width, proj.height, DustID.Smoke, 0, 0, 0, Color.White, Main.rand.NextFloat() + 1).shader = GameShaders.Armor.GetSecondaryShader(Player.cHead, Player);
                         }
                     }
                     int duration = (int)(count * 4 * 60);
@@ -759,7 +768,7 @@ namespace JoostMod
                         Player.AddBuff(ModContent.BuffType<AirArmorBuff>(), duration);
                         SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_book_staff_cast_2"), Player.Center); //203
                         for (int i = 0; i < 30; i++)
-                            Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, -4 * Player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1);
+                            Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Smoke, -4 * Player.direction, 0f, 0, Color.White, Main.rand.NextFloat() + 1).shader = GameShaders.Armor.GetSecondaryShader(Player.cHead, Player);
                     }
                 }
                 if (zoraArmor && Player.ownedProjectileCounts[ModContent.ProjectileType<ZoraSpin>()] < 1)
@@ -1407,7 +1416,8 @@ namespace JoostMod
                     Player.onFire = true;
                     Player.ClearBuff(BuffID.Chilled);
                     Player.ClearBuff(BuffID.Frozen);
-                    Dust.NewDust(Player.position, Player.width, Player.width, DustID.Torch, 0, 0, 0, default, Main.rand.NextFloat() + 1);
+                    Dust d = Dust.NewDustDirect(Player.position, Player.width, Player.width, DustID.Torch, 0, 0, 0, default, Main.rand.NextFloat() + 1);
+                    d.shader = GameShaders.Armor.GetSecondaryShader(Player.cHead, Player);
                 }
             }
             else
@@ -2358,7 +2368,7 @@ namespace JoostMod
                 Player.fullRotationOrigin = Player.Center - Player.position;
                 float speed = Player.velocity.Length();
                 Player.velocity.X = (float)Math.Cos(Player.fullRotation) * speed * Player.direction;
-                if (speed > Player.maxFallSpeed / 3 || rot > 0)
+                if (speed > Player.maxFallSpeed / 3 || rot >= 0)
                 {
                     Player.velocity.Y = ((float)Math.Sin(Player.fullRotation) * speed * Player.direction);
                     if (Player.velocity.Y * Player.gravDir >= 0 && Player.velocity.Y * Player.gravDir < Player.gravity)
@@ -2614,7 +2624,9 @@ namespace JoostMod
                         runAccelerationMult *= 2f;
                         accRunSpeedMult *= 2.5f;
                     }
-                    Dust.NewDustDirect(new Vector2(Player.position.X, num2 * 16 - 10 * Player.gravDir), Player.width, 10, DustID.Torch).noGravity = true;
+                    Dust d = Dust.NewDustDirect(new Vector2(Player.position.X, num2 * 16 - 10 * Player.gravDir), Player.width, 10, DustID.Torch);
+                    d.noGravity = true;
+                    d.shader = GameShaders.Armor.GetSecondaryShader(Player.cShoe, Player);
                 }
                 Player.GetCritChance(DamageClass.Ranged) += (int)Math.Round(Math.Abs(Player.velocity.X / 2));
                 if (fireArmorIsActive && Player.velocity.Y == 0 && Math.Abs(Player.velocity.X) > 5)
@@ -2636,7 +2648,7 @@ namespace JoostMod
                 Player.runSlowdown *= 3f;
                 Player.jumpSpeedBoost += 5f;
                 Player.noFallDmg = true;
-                Dust.NewDust(Player.position, Player.width, Player.height, DustID.Smoke, -4 * Player.direction, 0f, 0, Color.White, 1f);
+                Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Smoke, -4 * Player.direction, 0f, 0, Color.White, 1f).shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
             }
             if (airArmorDodgeTimer > 0)
             {
@@ -2650,7 +2662,11 @@ namespace JoostMod
                     SoundEngine.PlaySound(SoundID.Item7, Player.Center);
                 }
                 if (Main.rand.NextBool(2))
-                    Dust.NewDustPerfect(new Vector2(Player.Center.X, Player.Center.Y + (Player.height / 2 * Player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1).noGravity = true;
+                {
+                    Dust d = Dust.NewDustPerfect(new Vector2(Player.Center.X, Player.Center.Y + (Player.height / 2 * Player.gravDir)), 31, Vector2.Zero, 0, Color.White, 1);
+                    d.noGravity = true;
+                    d.shader = GameShaders.Armor.GetSecondaryShader(Player.cLegs, Player);
+                }
             }
             if (emptyHeart)
             {
@@ -3093,28 +3109,29 @@ namespace JoostMod
             }
             if (infectedBlue)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("IceXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<IceXParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<IceXParasite>());
                 infectedBlue = false;
             }
             if (infectedGreen)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("GreenXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<GreenXParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<GreenXParasite>());
                 infectedGreen = false;
             }
             if (infectedRed)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("RedXParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<RedXParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<RedXParasite>());
                 infectedRed = false;
             }
             if (infectedYellow)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, Mod.Find<ModNPC>("XParasite").Type);
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasite>());
                 infectedYellow = false;
             }
+            fireArmorIsActive = false;
         }
         public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
         {

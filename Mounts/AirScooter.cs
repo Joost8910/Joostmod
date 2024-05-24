@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Graphics.Shaders;
 
 namespace JoostMod.Mounts
 {
@@ -63,7 +64,7 @@ namespace JoostMod.Mounts
         {
             if (player.mount._flyTime > 0 || Main.rand.NextBool(5))
             {
-                Dust.NewDust(player.position + new Vector2(0, 40), player.width, 40, DustID.Smoke, 0, 0, 0, Color.White, Main.rand.NextFloat() * 0.5f + 0.25f);
+                Dust.NewDustDirect(player.position + new Vector2(0, 40), player.width, 40, DustID.Smoke, 0, 0, 0, Color.White, Main.rand.NextFloat() * 0.5f + 0.25f).shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
             }
         }
     }

@@ -30,6 +30,18 @@ namespace JoostMod.Projectiles.Summon
             height = 12;
             return true;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.9f);
+            if (Projectile.damage < 1 && Projectile.timeLeft > 25)
+                Projectile.timeLeft = 25;
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.9f);
+            if (Projectile.damage < 1 && Projectile.timeLeft > 25)
+                Projectile.timeLeft = 25;
+        }
         public override void AI()
         {
             Projectile.velocity.Y = 0;

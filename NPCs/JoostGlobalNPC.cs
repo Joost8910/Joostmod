@@ -75,6 +75,7 @@ namespace JoostMod.NPCs
                     break;
                 case NPCID.Dryad:
                     shop.Add(ItemID.JungleRose, Condition.InJungle);
+                    shop.Add<GravebusterSeeds>(Condition.InGraveyard);
                     break;
                 case NPCID.Truffle:
                     shop.Add<ShroomStaff>(Condition.DownedMechBossAny);

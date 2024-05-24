@@ -11,9 +11,10 @@ namespace JoostMod.Items.Rewards
 	{
 		public override void SetStaticDefaults()
 		{
-            // DisplayName.SetDefault("Roc Wings");
-            // Tooltip.SetDefault("Allows short flight and gliding\n" + "Hold UP while not flying or using an item to glide\n" + "Hold left or right to angle your glide");
-        }
+			// DisplayName.SetDefault("Roc Wings");
+			// Tooltip.SetDefault("Allows short flight and gliding\n" + "Hold UP while not flying or using an item to glide\n" + "Hold left or right to angle your glide");
+			ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats(30, 3f, 1f);
+		}
 
 		public override void SetDefaults()
 		{
@@ -28,7 +29,8 @@ namespace JoostMod.Items.Rewards
 			player.wingTimeMax = 30;
             player.GetModPlayer<JoostPlayer>().rocWings = true;
 		}
-		//TODO: Adjust stats to be a closer to fledgling wings
+		//old stats
+		/*
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
 			ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
@@ -44,6 +46,7 @@ namespace JoostMod.Items.Rewards
 			speed = 6.25f;
 			acceleration *= 1.25f;
         }
+		*/
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)

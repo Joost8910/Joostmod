@@ -16,7 +16,7 @@ namespace JoostMod.Items.Placeable
 		{
 			Item.width = 8;
 			Item.height = 10;
-			Item.maxStack = 999;
+			Item.maxStack = 9999;
 			Item.useTurn = true;
 			Item.autoReuse = true;
 			Item.useAnimation = 3;

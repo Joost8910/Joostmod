@@ -7,25 +7,17 @@ namespace JoostMod.Items.Placeable
 	{
 		  public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Music Box (Deorem/Mua Boss Fight)");
-			// Tooltip.SetDefault("From Metroid: Zero Mission");
+            // DisplayName.SetDefault("Music Box (Deorem/Mua Boss Fight)");
+            // Tooltip.SetDefault("From Metroid: Zero Mission");
 
+            ItemID.Sets.CanGetPrefixes[Type] = false;
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DeoremMua"), ModContent.ItemType<DeoremMuaMusicBox>(), ModContent.TileType<Tiles.DeoremMuaMusicBox>());
         }
         public override void SetDefaults()
-		{
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTurn = true;
-			Item.useAnimation = 15;
-			Item.useTime = 10;
-			Item.autoReuse = true;
-			Item.consumable = true;
-			Item.createTile = ModContent.TileType<Tiles.DeoremMuaMusicBox>();
-			Item.width = 24;
-			Item.height = 24;
-			Item.rare = ItemRarityID.Yellow;
+        {
+            Item.DefaultToMusicBox(ModContent.TileType<Tiles.DeoremMuaMusicBox>());
+            Item.rare = ItemRarityID.Yellow;
 			Item.value = 10000;
-			Item.accessory = true;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace JoostMod.PlayerLayers
     {
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            return drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().DrawOverArmor();
+            return drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().DrawOverArmor() || drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().overHeadTex != null;
         }
         public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
@@ -19,13 +19,33 @@ namespace JoostMod.PlayerLayers
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
+            Texture2D tex = drawInfo.drawPlayer.GetModPlayer<JoostPlayer>().overHeadTex;
             Rectangle frame = drawPlayer.bodyFrame;
             float rot = drawPlayer.headRotation;
             Vector2 drawPos = drawPlayer.headPosition;
             Vector2 origin = drawInfo.headVect;
             Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
 
+            if (tex == (Texture2D)ModContent.Request<Texture2D>($"JoostMod/Items/Armor/FireCrown_Flame") || tex == (Texture2D)ModContent.Request<Texture2D>($"JoostMod/Items/Armor/AirCrown_Tornado"))
+            {
+                int numFrames = 12;
+                int rate = 18;
+                if (tex == (Texture2D)ModContent.Request<Texture2D>($"JoostMod/Items/Armor/AirCrown_Tornado"))
+                {
+                    numFrames = 14;
+                    rate = 30;
+                }
+                int frameNum = (int)(Main.GlobalTimeWrappedHourly * rate) % numFrames;
+                frame = new Rectangle(0, frameNum * (tex.Height / numFrames), tex.Width, tex.Height / numFrames);
+                origin = new Vector2(tex.Width * 0.5f, (tex.Height / numFrames) * 0.5f);
+                Vector2 v = Main.OffsetsPlayerHeadgear[drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height];
+                v.Y -= 24 + 16 * drawPlayer.gravDir;
+                drawPos += v * drawPlayer.gravDir;
+            }
+            if (drawPlayer.GetModPlayer<JoostPlayer>().havelArmorActive)
+            {
+                tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/StoneFlesh_Head");
+            }
             if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
             {
                 tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/Buffs/PinkSlimeActive_Head");

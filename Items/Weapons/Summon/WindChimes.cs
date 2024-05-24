@@ -17,7 +17,7 @@ namespace JoostMod.Items.Weapons.Summon
         }
         public override void SetDefaults()
         {
-            Item.damage = 28;
+            Item.damage = 36;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 42;

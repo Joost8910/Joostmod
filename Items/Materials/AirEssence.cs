@@ -16,7 +16,7 @@ namespace JoostMod.Items.Materials
         }
 		public override void SetDefaults()
 		{
-			Item.maxStack = 999;
+			Item.maxStack = 9999;
 			Item.width = 22;
 			Item.height = 28;
 			Item.value = 10000;

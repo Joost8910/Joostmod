@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,12 +32,15 @@ namespace JoostMod.Items.Armor
         {
             return body.type == ModContent.ItemType<AirArmor>() && legs.type == ModContent.ItemType<AirLegs>();
         }
-
+        public override void EquipFrameEffects(Player player, EquipType type)
+        {
+            player.GetModPlayer<JoostPlayer>().overHeadTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Tornado");
+        }
         public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Press the Armor Ability key to sacrifice your minions\n" +
-                "You gain greatly increased mobility and life regen\n" +
-                "The duration is based on how many minions you sacrifice\n" +
+                "You gain greatly increased mobility, life regen, and defense\n" +
+                "Duration and defense are based on how many minions you sacrifice\n" +
                 "You also gain brief invulnerability on activation";
             player.GetModPlayer<JoostPlayer>().airArmor = true;
         }

@@ -13,7 +13,7 @@ namespace JoostMod.Items.Ammo
 		}
 		public override void SetDefaults()
 		{
-			Item.maxStack = 999;
+			Item.maxStack = 9999;
 			Item.DamageType = DamageClass.Ranged;
 			Item.damage = 8;
 			Item.width = 26;

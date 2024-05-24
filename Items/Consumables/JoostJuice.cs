@@ -17,7 +17,7 @@ namespace JoostMod.Items.Consumables
 		}
 		public override void SetDefaults()
 		{
-			Item.maxStack = 30;
+			Item.maxStack = 9999;
 			Item.consumable = true;
 			Item.width = 20;
 			Item.height = 26;

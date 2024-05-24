@@ -13,7 +13,7 @@ namespace JoostMod.Items.Ammo
 		}
 		public override void SetDefaults()
 		{
-			Item.maxStack = 999;
+			Item.maxStack = 9999;
 			Item.width = 14;
 			Item.height = 22;
 			Item.value = 50;

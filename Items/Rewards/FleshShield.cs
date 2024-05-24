@@ -28,12 +28,21 @@ namespace JoostMod.Items.Rewards
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
             //item.knockback = 9;
         }
+        public override bool MeleePrefix()
+        {
+            return false;
+        }
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<JoostPlayer>().fleshShieldItem = Item;
             player.GetModPlayer<JoostPlayer>().dashType = 1;
             player.GetModPlayer<JoostPlayer>().dashDamage = player.GetWeaponDamage(Item);
+            player.dashType = -1;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {

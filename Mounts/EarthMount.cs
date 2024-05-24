@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -67,10 +68,16 @@ namespace JoostMod.Mounts
         {
             if (player.velocity != Vector2.Zero)
             {
-                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 20, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1f).noGravity = true;
-                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 15, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1.5f).noGravity = true;
-                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 10, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 2f).noGravity = true;
-                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 15, 10), 30, 20, 1, -player.velocity.X * 0.5f, player.velocity.Y * -0.5f - 2, 0, default, Main.rand.NextFloat() + 1f);
+                Dust d = Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 20, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1f);
+                d.noGravity = true;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
+                d = Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 15, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 1.5f);
+                d.noGravity = true;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
+                d =Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 10, 10), 30, 20, 1, -player.velocity.X, player.velocity.Y * -0.5f, 0, default, 2f);
+                d.noGravity = true;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
+                Dust.NewDustDirect(player.Center + player.velocity + new Vector2(player.velocity.X - 15, 10), 30, 20, 1, -player.velocity.X * 0.5f, player.velocity.Y * -0.5f - 2, 0, default, Main.rand.NextFloat() + 1f).shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
             }
         }
         public override bool UpdateFrame(Player player, int state, Vector2 velocity)

@@ -208,8 +208,8 @@ namespace JoostMod.Projectiles.Ranged
                                 }
                                 Vector2 vel = Projectile.velocity * spd;
                                 Vector2 perturbedSpeed = Projectile.ai[1] <= 1 ? vel : vel.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (Projectile.ai[1] - 1)));
-
-                                Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Arrow), Projectile.Center, perturbedSpeed, arrowType, dmg, kb, Projectile.owner);
+                                Vector2 start = Collision.CanHitLine(player.MountedCenter, 1, 1, Projectile.Center + perturbedSpeed, 1, 1) ? Projectile.Center : player.MountedCenter;
+                                Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Arrow), start, perturbedSpeed, arrowType, dmg, kb, Projectile.owner);
                             }
                         }
                         //Projectile.NewProjectile(projectile.Center, projectile.velocity * shootSpeed, (int)projectile.ai[0], (projectile.damage + item.damage), projectile.knockback + item.knockback, projectile.owner);

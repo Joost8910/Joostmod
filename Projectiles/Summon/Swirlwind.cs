@@ -24,7 +24,7 @@ namespace JoostMod.Projectiles.Summon
             Projectile.DamageType = DamageClass.Summon;
             Projectile.alpha = 255;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 16;
+            Projectile.localNPCHitCooldown = 8;
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
         }
@@ -77,7 +77,7 @@ namespace JoostMod.Projectiles.Summon
                 Projectile.ai[1] += 0.25f;
             }
             Projectile.alpha = 255 - (int)(Projectile.ai[1] * 12);
-            Projectile.localNPCHitCooldown = 28 - (int)Projectile.ai[1];
+            Projectile.localNPCHitCooldown = 20 - (int)Projectile.ai[1];
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
             Projectile.velocity.X = Projectile.direction * 8;
             Projectile.velocity.Y = 0;

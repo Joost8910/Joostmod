@@ -57,6 +57,14 @@ namespace JoostMod.NPCs.Bosses
         {
             NPC.DeathSound = SoundID.NPCDeath19;
             target.AddBuff(ModContent.BuffType<InfectedBlue>(), 900);
+            if (Main.expertMode)
+            {
+                if (!target.HasBuff(BuffID.Frozen))
+                {
+                    target.AddBuff(BuffID.Frozen, 30, true);
+                }
+            }
+            target.AddBuff(BuffID.Chilled, 120, true);
             NPC.life = 0;
             NPC.checkDead();
             if (Main.netMode != 0)

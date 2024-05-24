@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -66,11 +67,15 @@ namespace JoostMod.Mounts
                 player.mount.Dismount(player);
             }
             if (Main.rand.NextBool(5))
-                Dust.NewDust(player.position + new Vector2(0, 40), player.width, 2, 6);
+                Dust.NewDustDirect(player.position + new Vector2(0, 40), player.width, 2, DustID.Torch).shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
             if ((player.mount._flyTime > 0 && player.velocity != Vector2.Zero) || Main.rand.NextBool(10))
             {
-                Dust.NewDustPerfect(player.MountedCenter + new Vector2(-1, 20), 6, player.velocity * -0.5f + new Vector2(0, 2), 0, default, 2).noGravity = true;
-                Dust.NewDustPerfect(player.MountedCenter + new Vector2(3, 20), 6, player.velocity * -0.5f + new Vector2(0, 2), 0, default, 2).noGravity = true;
+                Dust d = Dust.NewDustPerfect(player.MountedCenter + new Vector2(-1, 20), DustID.Torch, player.velocity * -0.5f + new Vector2(0, 2), 0, default, 2);
+                Dust d2 = Dust.NewDustPerfect(player.MountedCenter + new Vector2(3, 20), DustID.Torch, player.velocity * -0.5f + new Vector2(0, 2), 0, default, 2);
+                d.noGravity = true;
+                d2.noGravity = true;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
+                d2.shader = GameShaders.Armor.GetSecondaryShader(player.cMount, player);
             }
         }
         public override bool UpdateFrame(Player player, int state, Vector2 velocity)
