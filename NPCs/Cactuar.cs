@@ -302,10 +302,12 @@ namespace JoostMod.NPCs
                         SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
                     }
                     Vector2 dir = NPC.DirectionTo(P.Center);
+                    /*
                     if (Main.expertMode)
                     {
                         dir = NPC.DirectionTo(P.Center + (P.velocity * (NPC.Distance(P.Center) / speed)));
                     }
+                    */
                     Vector2 vel = new Vector2(dir.X, dir.Y).RotatedByRandom(MathHelper.ToRadians(3));
                     dir = vel * speed;
                     if (Main.netMode != NetmodeID.MultiplayerClient)

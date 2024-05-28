@@ -80,10 +80,6 @@ namespace JoostMod.NPCs
                 case NPCID.Truffle:
                     shop.Add<ShroomStaff>(Condition.DownedMechBossAny);
                     break;
-                case NPCID.TravellingMerchant:
-                    shop.Add<GrabGlove>();
-                    shop.Add<WonderWaffle>(Condition.MoonPhasesOdd);
-                    break;
                 case NPCID.DyeTrader:
                     shop.Add<TeamOutlineDye>(Condition.Multiplayer);
                     shop.Add<BlurryDye>(Condition.MoonPhasesHalf0);
@@ -91,6 +87,13 @@ namespace JoostMod.NPCs
                     shop.Add<GlowInTheDarkDye>(new Condition("Mods.JoostMod.Conditions.NightNotNewMoon", () => !Main.dayTime && Main.GetMoonPhase() != MoonPhase.Empty));
                     break;
             }
+        }
+        public override void SetupTravelShop(int[] shop, ref int nextSlot)
+        {
+            shop[nextSlot] = ModContent.ItemType<GrabGlove>();
+            nextSlot++;
+            shop[nextSlot] = ModContent.ItemType<WonderWaffle>(); //Inexplicably, checking for the moon phase causes an error that prevents the traveling merchant from spawning. Just gonna make the waffles always available like before
+            nextSlot++;
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
@@ -105,7 +108,7 @@ namespace JoostMod.NPCs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 20;
+                npc.lifeRegen -= 30;
                 damage = 1;
             }
             if (corruptSoul)

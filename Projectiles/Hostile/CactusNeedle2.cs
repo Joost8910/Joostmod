@@ -36,10 +36,8 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (!target.dead)
-            {
-                target.immuneTime = 1;
-            }
+            info.CooldownCounter = 3;
+            info.Dodgeable = false;
         }
         public override bool? CanHitNPC(NPC target)
         {

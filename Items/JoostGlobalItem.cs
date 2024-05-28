@@ -17,6 +17,10 @@ using JoostMod.Items.Tools.Rods;
 using JoostMod.Projectiles.Accessory;
 using JoostMod.Projectiles.Magic;
 using JoostMod.Projectiles.Melee;
+using JoostMod.Items.Accessories;
+using JoostMod.Items.Mounts;
+using JoostMod.Items.Tools;
+using JoostMod.Items.Weapons.Melee;
 
 namespace JoostMod.Items
 {
@@ -199,6 +203,17 @@ namespace JoostMod.Items
                 itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<BubbleKnife>(), 3, 750, 999));
                 itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DukeFishRod>(), 3));
                 itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Accessories.MegaBubbleShield>(), 3));
+            }
+            if (item.type == ItemID.WoodenCrate || item.type == ItemID.WoodenCrateHard)
+            {
+                int[] options =
+                [
+                    ModContent.ItemType<GlowingContacts>(),
+                    ModContent.ItemType<ClawedGauntlet>(),
+                    ModContent.ItemType<VaultingPole>(),
+                    ModContent.ItemType<DirtBoardItem>() 
+                ];
+                itemLoot.Add(ItemDropRule.OneFromOptions(20, options));
             }
         }
         /*

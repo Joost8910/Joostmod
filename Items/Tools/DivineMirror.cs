@@ -21,7 +21,7 @@ namespace JoostMod.Items.Tools
             Item.width = 28;
             Item.height = 30;
             Item.noMelee = true;
-            Item.mana = 40;
+            Item.mana = 20;
             Item.useTime = 60;
             Item.useAnimation = 60;
             Item.reuseDelay = 15;

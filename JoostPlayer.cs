@@ -31,6 +31,7 @@ using JoostMod.Items.Weapons.Magic;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Legendaries;
 using JoostMod.NPCs.Bosses;
+using JoostMod.Projectiles.Hostile;
 
 namespace JoostMod
 {
@@ -176,7 +177,6 @@ namespace JoostMod
         public int dashDamage = 0;
         private bool[] dashHit = new bool[200];
         private bool dashBounce = false;
-        //public int enemyIgnoreDefenseDamage = 0;
         private Vector2 oldVelocity = Vector2.Zero;
 
         public Texture2D skirtTex = null;
@@ -1110,7 +1110,15 @@ namespace JoostMod
                 }
             }
         }
-        
+        public override void PostHurt(Player.HurtInfo info)
+        {
+            if (info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle>() || info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle2>() || info.DamageSource.SourceProjectileType == ModContent.ProjectileType<GilgSword>())
+            {
+                Player.immuneTime = 1;
+                Player.hurtCooldowns[3] = 1;
+            }
+        }
+
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Projectile, consider using ModifyHitNPC instead */
         {
             if (waterBubbleItem != null && proj.CountsAsClass(DamageClass.Magic) && (target.wet || target.HasBuff(BuffID.Wet)))

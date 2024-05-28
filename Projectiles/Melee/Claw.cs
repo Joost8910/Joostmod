@@ -300,6 +300,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            modifiers.ArmorPenetration += 5;
             if (Projectile.ai[1] == 1)
             {
                 modifiers.SourceDamage *= 1.25f;
@@ -313,6 +314,7 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
+            modifiers.ArmorPenetration += 5;
             if (Projectile.ai[1] == 1)
             {
                 modifiers.SourceDamage *= 1.25f;

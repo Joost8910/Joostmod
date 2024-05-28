@@ -23,7 +23,7 @@ namespace JoostMod.Items.Consumables
 			Item.height = 26;
 			Item.useTime = 20;
 			Item.useAnimation = 20;
-			Item.useStyle = 2;
+			Item.useStyle = ItemUseStyleID.DrinkLiquid;
 			Item.knockBack = 5;
 			Item.value = 250000;
 			Item.rare = ItemRarityID.Cyan;

@@ -48,7 +48,7 @@ namespace JoostMod.NPCs.Bosses
 
 		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
 		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance)+1;
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance);
 			NPC.damage = (int)(NPC.damage * 0.7f);
 		}
 		public override void BossLoot(ref string name, ref int potionType)
@@ -396,17 +396,21 @@ namespace JoostMod.NPCs.Bosses
 				{
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        float rot = (MathHelper.PiOver2 * Main.rand.NextFloat()) + (MathHelper.PiOver2 * Main.rand.NextFloat());
+                        Vector2 offL = (rot - MathHelper.Pi / 6).ToRotationVector2() * 350;
+                        Vector2 off = rot.ToRotationVector2() * 350;
+                        Vector2 offR = (rot + MathHelper.Pi / 6).ToRotationVector2() * 350;
                         if (NPC.direction == -1)
                         {
-                            NPC.NewNPC(sauce, (int)NPC.position.X - 40, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, 100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, Main.rand.Next(-30, 30), 250f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 40, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X - 40, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offL.X - Main.rand.Next(70), offL.Y - Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, off.X + Main.rand.Next(-30, 30), off.Y + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 40, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offR.X + Main.rand.Next(70), offR.Y + Main.rand.Next(-50, 70), P.whoAmI);
                         }
                         else
                         {
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 160, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, 100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 200, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, Main.rand.Next(-30, 30), 250f + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 240, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, -100f + Main.rand.Next(-50, 50), 200f + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 160, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offL.X - Main.rand.Next(70), offL.Y + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 200, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, off.X + Main.rand.Next(-30, 30), off.Y + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 240, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offR.X + Main.rand.Next(70), offR.Y + Main.rand.Next(-50, 50), P.whoAmI);
                         }
                     }
                     NPC.ai[0] = 0;

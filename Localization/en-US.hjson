@@ -2617,7 +2617,8 @@ Mods: {
 				DisplayName: Brawler's Glove
 				Tooltip:
 					'''
-					Punches enemies with your bare hands
+					Punch enemies with your bare hands
+					Punches have 5 armor penetration
 					Hold right click to grab an enemy
 					Left click while grabbing to pummel
 					Release right click to throw
@@ -2782,7 +2783,11 @@ Mods: {
 
 			TwinClaws: {
 				DisplayName: Twin Claws
-				Tooltip: Right click for a powerful leaping slash
+				Tooltip:
+					'''
+					Has 5 armor penetration
+					Right click for a powerful leaping slash
+					'''
 			}
 
 			UnicornLance: {

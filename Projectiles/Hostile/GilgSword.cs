@@ -48,7 +48,8 @@ namespace JoostMod.Projectiles.Hostile
             {
                 target.velocity *= 0.95f;
             }
-            target.immuneTime = 1;
+            info.CooldownCounter = 3;
+            info.Dodgeable = false;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {

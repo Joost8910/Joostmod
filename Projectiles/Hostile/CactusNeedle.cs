@@ -30,7 +30,8 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.immuneTime = 1;
+            info.CooldownCounter = 3;
+            info.Dodgeable = false;
             Projectile.penetrate--;
             if (Projectile.penetrate <= 0)
             {

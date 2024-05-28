@@ -13,7 +13,7 @@ namespace JoostMod.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
-            Main.tileMoss[Type] = true;
+            //Main.tileMoss[Type] = true;
             //ItemDrop/* tModPorter Note: Removed. Tiles and walls will drop the item which places them automatically. Use Register//ItemDrop to alter the automatic drop if necessary. */ = ModContent.ItemType<Items.Legendaries.AncientStone>();
             AddMapEntry(new Color(18, 104, 60));
             DustType = 93;
@@ -26,16 +26,14 @@ namespace JoostMod.Tiles
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (fail)
+            noItem = true;
+            Main.tile[i, j].TileType = (ushort)ModContent.TileType<AncientStone>();
+            WorldGen.SquareTileFrame(i, j, true);
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                noItem = true;
-                Main.tile[i, j].TileType = (ushort)ModContent.TileType<AncientStone>();
-                WorldGen.SquareTileFrame(i, j, true);
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
-                }
+                NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
             }
+            fail = true;
 
         }
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -8,6 +8,28 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Beta v5
+- Staff of Degeneration debuff damage increased from 20 per second to 30 per second
+- Divine Mirror mana cost reduced from 40 to 20
+- Clawed Gauntlet damage increased from 8 to 10
+- Twin Claws now have 5 armor penetration
+- Brawler's Glove punches now have 5 armor penetration
+- Cactuar needles once again give no i frames
+- Cactuar's no longer lead their aim in expert mode
+- Altered behavior of the Giant Needles spawned by Jumbo Cactuar
+- Fixed Shrine of Legends not generating
+- Fixed Traveling Merchant not seeling Brawler's Glove and Wonder Waffle
+- Increased spawnchance of Glowing Contacts, Clawed Gauntlet, Vautling Pole, and Dirt Board from 1/12 to 1/10 each
+- Increased spawnchance of Staff of Degeneration, Divine Mirror, and Actual Mace from 1/9 to 1/8 each
+- Glowing Contacts, Clawed Gauntlet, Vautling Pole, and Dirt Board now have a 5% chance of one of them being obtained from Wooden Crates
+- Staff of Degeneration, Divine Mirror, and Actual Mace can now also be found in Mushroom, Marble, Granite, Rich Mahogany, and Dead Man's chests
+- Clawed Gauntlet now also as a 1/8 chance of spawning in underground chests
+- Succulent Cactus Meal now has a 1/20 chance of spawning in Sandstone Chests
+- Weather Stars now have chances of spawning in chests
+ (Wooden: Clear, 1/3)
+ (Water: Rain, 1/3)
+ (Sandstone: Sandstorm, 1/3)
+ (Underground: Slime, 1/5)
 
 Beta v4
 - Added Gravebuster seeds, sold by the dryad in a graveyard
@@ -251,7 +273,6 @@ The Knight's Mask
 
 --- Consumables ---
 Wonder Waffle
-- Now sold only when the moon is crescent or gibbous
 - Increased price from 15 silver to ~20 silver
 
 --- Mounts ---
