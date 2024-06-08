@@ -16,15 +16,15 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 47;
+            Item.damage = 52;
             Item.DamageType = DamageClass.Throwing;
             Item.width = 22;
             Item.height = 30;
-            Item.useTime = 22;
-            Item.useAnimation = 22;
-            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
-            Item.knockBack = 5;
+            Item.knockBack = 6;
             Item.value = 350000;
             Item.rare = ItemRarityID.Pink;
             Item.noUseGraphic = true;
@@ -39,19 +39,26 @@ namespace JoostMod.Items.Weapons.Thrown
             int wep = Main.rand.Next(4);
             if (wep == 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.8f, velocity.Y * 0.8f, ModContent.ProjectileType<Projectiles.Thrown.Fireball>(), (int)(damage * 0.8f), knockback * 0.2f, player.whoAmI);
+                //player.SetItemTime(player.itemTime + 8);
+                //player.SetItemAnimation(player.itemAnimation + 8);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.75f, velocity.Y * 0.75f, ModContent.ProjectileType<Projectiles.Thrown.Fireball>(), (int)(damage * 32f / Item.damage), knockback / Item.knockBack, player.whoAmI);
             }
             if (wep == 1)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Tornade>(), (int)(damage * 0.9f), knockback, player.whoAmI);
+                Item.reuseDelay = 0;
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.Tornade>(), (int)(damage * 38f / Item.damage), knockback * 4f / Item.knockBack, player.whoAmI);
             }
             if (wep == 2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.WaterBalloon>(), (int)(damage * 1f), knockback, player.whoAmI);
+                //player.SetItemTime(player.itemTime + 4);
+                //player.SetItemAnimation(player.itemAnimation + 4);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.5f, velocity.Y * 1.5f, ModContent.ProjectileType<Projectiles.Thrown.WaterBalloon>(), damage, knockback, player.whoAmI);
             }
             if (wep == 3)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Rock>(), (int)(damage * 3.5f), knockback * 2, player.whoAmI);
+                //player.SetItemTime(player.itemTime + 13);
+                //player.SetItemAnimation(player.itemAnimation + 13);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Rock>(), (int)(damage * 165f / Item.damage), knockback * 10f / Item.knockBack, player.whoAmI);
             }
             return false;
         }

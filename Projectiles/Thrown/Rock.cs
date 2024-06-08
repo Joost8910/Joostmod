@@ -23,10 +23,20 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.timeLeft = 600;
             AIType = ProjectileID.SpikyBall;
         }
+        public override void AI()
+        {
+            Projectile.ai[2]++;
+            if (Projectile.ai[2] > 20)
+            {
+                Projectile.velocity.Y += 0.2f;
+                Projectile.velocity.X *= 0.98f;
+            }
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.damage -= 30;
             Projectile.knockBack *= 0.8f;
+            Projectile.ai[2] = 0;
             if (Projectile.damage <= 0)
             {
                 Projectile.Kill();

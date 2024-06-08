@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.position,
                 Projectile.width,
                 Projectile.height,
-                51, //Dust ID
+                DustID.SnowBlock, //Dust ID
                 Main.rand.Next(5) - 2,
                 Main.rand.Next(5) - 2,
                 100, //alpha goes from 0 to 255
@@ -66,10 +66,58 @@ namespace JoostMod.Projectiles.Thrown
                     }
                 }
             }
+            if (Projectile.localAI[0] <= 0)
+            {
+                Projectile.localAI[0] = Projectile.velocity.Length();
+            }
+            float speed = Projectile.localAI[0];
             if (Projectile.timeLeft <= 1695)
             {
                 Projectile.aiStyle = 3;
                 Projectile.tileCollide = false;
+                if (player.Distance(Projectile.Center) < player.Distance(Projectile.oldPosition + Projectile.Size / 2) && Projectile.velocity.Length() < speed)
+                    Projectile.velocity = Projectile.DirectionTo(player.Center) * speed;
+            }
+            else
+            {
+                Vector2 move = Vector2.Zero;
+                float home = 8f;
+                if (Projectile.ai[1] > 0)
+                {
+                    NPC target = Main.npc[(int)Projectile.ai[1] - 1];
+                    if (target.active)
+                    {
+                        move = target.Center - Projectile.Center;
+                        if (move.Length() > speed)
+                        {
+                            move *= speed / move.Length();
+                        }
+                        Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
+                        Projectile.velocity *= speed / Projectile.velocity.Length();
+                    }
+                    else
+                    {
+                        Projectile.ai[1] = 0;
+                    }
+                }
+                if (Projectile.ai[2] > 0)
+                {
+                    Player target = Main.player[(int)Projectile.ai[2] - 1];
+                    if (target.active)
+                    {
+                        move = target.Center - Projectile.Center;
+                        if (move.Length() > speed)
+                        {
+                            move *= speed / move.Length();
+                        }
+                        Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
+                        Projectile.velocity *= speed / Projectile.velocity.Length();
+                    }
+                    else
+                    {
+                        Projectile.ai[2] = 0;
+                    }
+                }
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter >= 3)
@@ -82,8 +130,8 @@ namespace JoostMod.Projectiles.Thrown
                 NPC target = Main.npc[n];
                 if (Projectile.Colliding(Projectile.getRect(), target.getRect()))
                 {
-                    bool tooClose = player.Distance(Projectile.Center) < 80 && player.Distance(Projectile.Center) < player.Distance(Projectile.oldPosition + Projectile.Size / 2);
-                    if (target.active && !target.friendly && !target.dontTakeDamage && target.type != 488 && !target.boss && target.knockBackResist > 0)
+                    bool tooClose = player.Distance(Projectile.Center) < 160 && player.Distance(Projectile.Center) < player.Distance(Projectile.oldPosition + Projectile.Size / 2);
+                    if (target.active && !target.friendly && !target.dontTakeDamage && target.type != NPCID.TargetDummy && !target.boss && target.knockBackResist > 0)
                     {
                         if (target.knockBackResist > 1f - Projectile.knockBack / 10)
                         {
@@ -118,6 +166,20 @@ namespace JoostMod.Projectiles.Thrown
             width = 20;
             height = 20;
             return true;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Projectile.aiStyle != 3 && Projectile.ai[0] == 0)
+            {
+                Projectile.ai[1] = target.whoAmI + 1;
+            }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (Projectile.aiStyle != 3 && Projectile.ai[0] == 0)
+            {
+                Projectile.ai[2] = target.whoAmI + 1;
+            }
         }
         /*
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

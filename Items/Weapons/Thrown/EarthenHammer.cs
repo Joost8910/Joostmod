@@ -29,7 +29,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>();
-            Item.shootSpeed = 8f;
+            Item.shootSpeed = 10f;
         }
         public override bool CanUseItem(Player player)
         {

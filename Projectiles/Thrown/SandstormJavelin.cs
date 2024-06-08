@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 200;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Throwing;
             Projectile.usesIDStaticNPCImmunity = true;
@@ -46,6 +46,11 @@ namespace JoostMod.Projectiles.Thrown
             {
                 Projectile.timeLeft = 20;
             }
+            else
+            {
+                Projectile.timeLeft = 1200;
+            }
+            Projectile.localAI[0] = 0;
             return false;
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -178,7 +183,7 @@ namespace JoostMod.Projectiles.Thrown
                 if (Projectile.ai[0] <= 25)
                 {
                     Projectile.ai[0] += speed;
-                    Projectile.timeLeft = 600;
+                    Projectile.timeLeft = 200;
                 }
             }
             else

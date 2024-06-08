@@ -18,7 +18,7 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 38;
+            Item.damage = 32;
             Item.DamageType = DamageClass.Throwing;
             Item.maxStack = 9999;
             Item.consumable = true;

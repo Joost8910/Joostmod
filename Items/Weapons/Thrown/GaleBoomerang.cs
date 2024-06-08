@@ -1,4 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,7 +30,30 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>();
-            Item.shootSpeed = 7f;
+            Item.shootSpeed = 9.5f;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Rectangle rect = new Rectangle((int)Main.MouseWorld.X - 32, (int)Main.MouseWorld.Y - 32, 64, 64);
+            int t = 0;
+            for (int n = 0; n < 200; n++)
+            {
+                NPC target = Main.npc[n];
+                if (target.active && !target.friendly && !target.immortal && rect.Intersects(target.getRect()))
+                {
+                    t = n + 1;
+                    for (int d = 0; d < 12; d++)
+                    {
+                        Dust dust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.SnowBlock, 0, 0f, 50, default, 1.5f);
+                        dust.noGravity = true;
+                        dust.velocity = target.DirectionTo(dust.position) * 3;
+                        dust.position = target.Center;
+                    }
+                    break;
+                }
+            }
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, t, t);
+            return false;
         }
         public override bool CanUseItem(Player player)
         {

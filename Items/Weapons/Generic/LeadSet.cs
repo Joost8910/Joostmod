@@ -112,7 +112,16 @@ namespace JoostMod.Items.Weapons.Generic
             }
             if (wep == 3)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ProjectileID.Starfury, damage, knockback, player.whoAmI);
+                position = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                float speed = velocity.Length();
+                velocity = position.DirectionTo(Main.MouseWorld) * speed;
+                Vector2 targetPos = Main.MouseWorld;
+                Vector2 dir = (position - Main.MouseWorld).SafeNormalize(new Vector2(0f, -1f));
+                while (targetPos.Y > position.Y && WorldGen.SolidTile(targetPos.ToTileCoordinates()))
+                {
+                    targetPos += dir * 16f;
+                }
+                Projectile.NewProjectile(player.GetSource_ItemUse(Item), position, velocity, ModContent.ProjectileType<Projectiles.Magic.Star>(), damage, knockback, player.whoAmI, 0f, targetPos.Y, 1f);
             }
             if (wep == 0)
             {

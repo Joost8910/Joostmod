@@ -30,7 +30,8 @@ namespace JoostMod.Items.Armor
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Throwing weapons buffet enemies with sand";
+			player.setBonus = "Throwing weapons buffet enemies with sand\nImmunity to falling sand and suffocation";
+			player.buffImmune[BuffID.Suffocation] = true;
 			player.GetModPlayer<JoostPlayer>().sandStorm = true;
 
 		}

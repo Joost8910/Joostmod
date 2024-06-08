@@ -13,7 +13,6 @@ namespace JoostMod.Projectiles.Thrown
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tornade");
             Main.projFrames[Projectile.type] = 6;
         }
         public override void SetDefaults()
@@ -24,9 +23,9 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Throwing;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 150;
+            Projectile.timeLeft = 310;
             Projectile.tileCollide = false;
-            AIType = ProjectileID.Bullet;
+            Projectile.scale = 0;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 12;
         }
@@ -55,6 +54,14 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.frameCounter = 0;
                 Projectile.frame = (Projectile.frame + 1) % 6;
             }
+            if (Projectile.timeLeft > 300)
+            {
+                Projectile.scale = (311 - Projectile.timeLeft) * 0.1f;
+                Projectile.position.X = Projectile.Center.X - (int)(56 * Projectile.scale) / 2;
+                Projectile.position.Y = Projectile.Center.Y - (int)(56 * Projectile.scale) / 2;
+                Projectile.width = (int)(56 * Projectile.scale);
+                Projectile.height = (int)(56 * Projectile.scale);
+            }
             if (Projectile.timeLeft < 60)
             {
                 Projectile.scale = Projectile.timeLeft * 0.016f;
@@ -62,6 +69,45 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.position.Y = Projectile.Center.Y - (int)(56 * Projectile.scale) / 2;
                 Projectile.width = (int)(56 * Projectile.scale);
                 Projectile.height = (int)(56 * Projectile.scale);
+            }
+            Vector2 move = Vector2.Zero;
+            float speed = 2.5f;
+            float home = 9f;
+            if (Projectile.ai[1] > 0)
+            {
+                NPC target = Main.npc[(int)Projectile.ai[1]];
+                if (target.active)
+                {
+                    move = target.Center - Projectile.Center;
+                    if (move.Length() > speed)
+                    {
+                        move *= speed / move.Length();
+                    }
+                    Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
+                    Projectile.velocity *= speed / Projectile.velocity.Length();
+                }
+                else
+                {
+                    Projectile.ai[1] = 0;
+                }
+            }
+            else if (Projectile.ai[2] > 0)
+            {
+                Player target = Main.player[(int)Projectile.ai[2]];
+                if (target.active)
+                {
+                    move = target.Center - Projectile.Center;
+                    if (move.Length() > speed)
+                    {
+                        move *= speed / move.Length();
+                    }
+                    Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
+                    Projectile.velocity *= speed / Projectile.velocity.Length();
+                }
+                else
+                {
+                    Projectile.ai[2] = 0;
+                }
             }
         }
         public override bool PreDraw(ref Color lightColor)

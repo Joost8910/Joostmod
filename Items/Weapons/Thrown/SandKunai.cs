@@ -76,7 +76,7 @@ namespace JoostMod.Items.Weapons.Thrown
         {
             CreateRecipe(999)
                 .AddIngredient<Materials.DesertCore>()
-                .AddRecipeGroup(nameof(ItemID.AdamantiteBar))
+                .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 3)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

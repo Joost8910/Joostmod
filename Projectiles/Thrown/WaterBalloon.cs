@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -23,7 +24,12 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.timeLeft = 600;
             AIType = ProjectileID.Shuriken;
         }
-
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Projectile.velocity = oldVelocity;
+            Projectile.Kill();
+            return false;
+        }
         public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_Death();

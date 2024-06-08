@@ -8,6 +8,29 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
+Beta v6
+- Updated Giant Boot sprite
+- Star staff damage fixed
+- Tornade's tornado now slowly homes in on directly struck targets
+- Gale Boomerang now homes in on clicked or struck targets
+- Sand Shark mount can now be used while inside blocks
+- Sandstorm Armor now grants immunity to falling sand and suffocation
+- Sandstorm Javelin lasts longer when stuck into a tile at max charge, but only deals base damage when stuck
+- Sandstorm Javelin lasts less time in the air, slightly limiting its destruction
+- Sandstorm Kunai recipe now requires 3 bars
+- Increased Sandstorm glove damage from 28 to 33
+- Increased Sandstorm Javelin damage from 45 to 54
+- Increased Gale Boomerangs shootspeed from 7 to 9.5
+- Increased Water Balloon damage from 44 to 52
+- Increased Water Balloon's shootspeed from 11 to 15
+- Increased Tornade's shootspeed from 10 to 12
+- Increased how long the Tornade's tornado lasts
+- Reduced Tornade's damage from 42 to 38
+- Reduced Fireball's damage from 38 to 32
+- Reduced Chained-Chainsaw tickrate from 10 to 7.5 hits per second
+- Altered Rock physics, reducing its effective range
+- Altered Earthen Hammer physics
+
 Beta v5
 - Staff of Degeneration debuff damage increased from 20 per second to 30 per second
 - Divine Mirror mana cost reduced from 40 to 20
@@ -15,21 +38,21 @@ Beta v5
 - Twin Claws now have 5 armor penetration
 - Brawler's Glove punches now have 5 armor penetration
 - Cactuar needles once again give no i frames
-- Cactuar's no longer lead their aim in expert mode
+- Cactuars no longer lead their aim in expert mode
 - Altered behavior of the Giant Needles spawned by Jumbo Cactuar
 - Fixed Shrine of Legends not generating
 - Fixed Traveling Merchant not seeling Brawler's Glove and Wonder Waffle
-- Increased spawnchance of Glowing Contacts, Clawed Gauntlet, Vautling Pole, and Dirt Board from 1/12 to 1/10 each
-- Increased spawnchance of Staff of Degeneration, Divine Mirror, and Actual Mace from 1/9 to 1/8 each
+- Increased spawn chance of Glowing Contacts, Clawed Gauntlet, Vaulting Pole, and Dirt Board from 1/12 to 1/10 each
+- Increased spawn chance of Staff of Degeneration, Divine Mirror, and Actual Mace from 1/9 to 1/8 each
 - Glowing Contacts, Clawed Gauntlet, Vautling Pole, and Dirt Board now have a 5% chance of one of them being obtained from Wooden Crates
 - Staff of Degeneration, Divine Mirror, and Actual Mace can now also be found in Mushroom, Marble, Granite, Rich Mahogany, and Dead Man's chests
 - Clawed Gauntlet now also as a 1/8 chance of spawning in underground chests
 - Succulent Cactus Meal now has a 1/20 chance of spawning in Sandstone Chests
-- Weather Stars now have chances of spawning in chests
- (Wooden: Clear, 1/3)
- (Water: Rain, 1/3)
- (Sandstone: Sandstorm, 1/3)
- (Underground: Slime, 1/5)
+- Weather Stars now have a chance of spawning in chests
+ (Wooden: Clear, 1/3 chance)
+ (Water: Rain, 1/3 chance)
+ (Sandstone: Sandstorm, 1/3 chance)
+ (Underground: Slime, 1/5 chance)
 
 Beta v4
 - Added Gravebuster seeds, sold by the dryad in a graveyard
@@ -274,6 +297,13 @@ The Knight's Mask
 --- Consumables ---
 Wonder Waffle
 - Increased price from 15 silver to ~20 silver
+
+Weather Starts
+- Now have a chance of spawning in chests
+ (Wooden: Clear, 1/3 chance)
+ (Water: Rain, 1/3 chance)
+ (Sandstone: Sandstorm, 1/3 chance)
+ (Underground: Slime, 1/5 chance)
 
 --- Mounts ---
 Scooter

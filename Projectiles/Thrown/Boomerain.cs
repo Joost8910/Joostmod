@@ -26,6 +26,7 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
             Projectile.aiStyle = 3;
             //projectile.tileCollide = false;
             if (Projectile.timeLeft % 8 == 0)

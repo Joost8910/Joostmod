@@ -40,7 +40,7 @@ namespace JoostMod.Projectiles.Thrown
         {
             for (int i = 0; i < 12; i++)
             {
-                int dustIndex = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 100);
+                int dustIndex = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Sand);
                 Main.dust[dustIndex].noGravity = true;
             }
         }

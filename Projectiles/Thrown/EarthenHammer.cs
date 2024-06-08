@@ -21,8 +21,12 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.DamageType = DamageClass.Throwing;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1200;
-            Projectile.extraUpdates = 1;
-            AIType = ProjectileID.ThrowingKnife;
+            //Projectile.extraUpdates = 1;
+            AIType = ProjectileID.Shuriken;
+        }
+        public override void AI()
+        {
+            Projectile.velocity.Y += 0.3f;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {

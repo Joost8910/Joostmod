@@ -60,7 +60,6 @@ namespace JoostMod.Mounts
 				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
-
         public override void UpdateEffects(Player player)
         {
             Rectangle rect = new Rectangle((int)(player.position.X - 6), (int)(player.position.Y - 6), player.width + 12, player.height + MountData.heightBoost + 12);
@@ -144,6 +143,17 @@ namespace JoostMod.Mounts
                 else if (player.GetModPlayer<JoostPlayer>().sandSharkVel.Y < jumpSpeed)
                 {
                     player.GetModPlayer<JoostPlayer>().sandSharkVel.Y = (player.GetModPlayer<JoostPlayer>().sandSharkVel.Y + accel > jumpSpeed) ? jumpSpeed : player.GetModPlayer<JoostPlayer>().sandSharkVel.Y + accel;
+                }
+            }
+            for (int i = -2; i <= 4; i++)
+            {
+                for (int j = -1; j < 3; j++)
+                { 
+                    Vector2 p = player.MountedCenter + player.velocity + new Vector2(i * player.direction * 16, j * 16);
+                    if (Collision.SolidTiles(p, 1, 1))
+                    {
+                        Lighting.AddLight(p, 0.1f, 0.1f, 0.1f); 
+                    }
                 }
             }
             if (sand)

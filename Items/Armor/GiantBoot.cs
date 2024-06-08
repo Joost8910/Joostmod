@@ -11,6 +11,7 @@ namespace JoostMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			// DisplayName.SetDefault("Giant Boot");
+			//ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
 		}
 
 		public override void SetDefaults()

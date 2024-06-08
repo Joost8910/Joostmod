@@ -32,7 +32,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Boomerain>();
-            Item.shootSpeed = 7.5f;
+            Item.shootSpeed = 10f;
 
         }
         public override bool CanUseItem(Player player)
@@ -43,19 +43,19 @@ namespace JoostMod.Items.Weapons.Thrown
         {
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave1>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave2>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>(), (int)(damage * 1.44f), knockback * 2.16f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>(), (int)(damage * 1.44f), knockback * 2.16f, player.whoAmI);
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.95f, velocity.Y * 0.95f, ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>(), damage, knockback, player.whoAmI);
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.Boomerain>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 2, velocity.Y * 2, ModContent.ProjectileType<Projectiles.Thrown.Boomerain>(), (int)(damage * 0.65f), knockback * 1.16f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.4f, velocity.Y * 1.4f, ModContent.ProjectileType<Projectiles.Thrown.Boomerain>(), (int)(damage * 0.65f), knockback * 1.16f, player.whoAmI);
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DousedChakram>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.4f, velocity.Y * 1.4f, ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>(), (int)(damage * 0.75f), knockback, player.whoAmI);
             }
             return false;
         }

@@ -3159,7 +3159,11 @@ Mods: {
 
 			GaleBoomerang: {
 				DisplayName: Gale Boomerang
-				Tooltip: A piercing boomerang that picks up enemies and items
+				Tooltip:
+					'''
+					A piercing boomerang that picks up enemies and items
+					Homes in on a clicked or struck target
+					'''
 			}
 
 			GiantKnife: {
@@ -3961,7 +3965,7 @@ Mods: {
 			LunarShuriken.DisplayName: Lunar Shuriken
 			MechanicalSphere.DisplayName: Mechanical Sphere
 			MythrilChainedchainsaw.DisplayName: Mythril Chained-Chainsaw
-			Nado.DisplayName: Tornade
+			Nado.DisplayName: Grenado
 			NebulaGrenade.DisplayName: Nebula Grenade
 			Needle.DisplayName: Needle
 			OrichalcumChainedchainsaw.DisplayName: Orichalcum Chained-Chainsaw
@@ -3988,6 +3992,7 @@ Mods: {
 			Spikyballclump.DisplayName: Clump of Spiky Balls
 			StardustGrenade.DisplayName: Stardust Grenade
 			StardustGrenadeFragment.DisplayName: Stardust Grenade
+			Star.DisplayName: Star
 			Thorn.DisplayName: Thorn
 			ThornShower.DisplayName: Rose Weave
 			ThornyCactus.DisplayName: Thorny Cactus

@@ -14,7 +14,7 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 42;
+            Item.damage = 38;
             Item.DamageType = DamageClass.Throwing;
             Item.maxStack = 9999;
             Item.consumable = true;
@@ -31,7 +31,7 @@ namespace JoostMod.Items.Weapons.Thrown
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.Tornade>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 12f;
         }
         public override void AddRecipes()
         {

@@ -32,6 +32,8 @@ using JoostMod.Items.Consumables;
 using JoostMod.Items.Legendaries;
 using JoostMod.NPCs.Bosses;
 using JoostMod.Projectiles.Hostile;
+using JoostMod.Mounts;
+using JoostMod.Items.Mounts;
 
 namespace JoostMod
 {
@@ -182,6 +184,8 @@ namespace JoostMod
         public Texture2D skirtTex = null;
         public Texture2D betterShoulderTex = null;
         public Texture2D overHeadTex = null;
+
+        private bool releaseMount = true;
 
         public bool DrawOverArmor()
         {
@@ -855,6 +859,35 @@ namespace JoostMod
                     }
                 }
             }
+            Item item = Player.QuickMount_GetItemToUse();
+            if (item.type == ModContent.ItemType<SandySaddle>())
+            {
+                if (Player.controlMount)
+                {
+                    if (releaseMount)
+                    {
+                        if (Player.mount.Active)
+                        {
+                            Player.mount.Dismount(Player);
+                        }
+                        else
+                        {
+                            Player.mount.SetMount(item.mountType, Player, false);
+                            ItemLoader.UseItem(item, Player);
+                            if (item.UseSound.HasValue)
+                            {
+                                SoundEngine.PlaySound(item.UseSound, new Vector2?(Player.Center));
+                            }
+                        }
+                    }
+                    Player.controlMount = false;
+                    releaseMount = false;
+                }
+                else
+                {
+                    releaseMount = true;
+                }
+            }
         }
 
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)// tModPorter If you don't need the Item, consider using OnHitNPC instead 
@@ -1227,6 +1260,18 @@ namespace JoostMod
             {
                 modifiers.FinalDamage *= 0.8f;
             }
+        }
+        public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
+        {
+            if ((sandStorm || Player.mount.Type == ModContent.MountType<SandShark>()) && (
+                damageSource.SourceProjectileType == ProjectileID.SandBallFalling ||
+                damageSource.SourceProjectileType == ProjectileID.PearlSandBallFalling ||
+                damageSource.SourceProjectileType == ProjectileID.EbonsandBallFalling ||
+                damageSource.SourceProjectileType == ProjectileID.CrimsandBallFalling))
+            {
+                return true;
+            }
+            return base.ImmuneTo(damageSource, cooldownCounter, dodgeable);
         }
         public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
         {
