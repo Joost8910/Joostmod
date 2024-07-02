@@ -51,26 +51,6 @@ namespace JoostMod.Projectiles.Melee
             Projectile.velocity.Y = 0;
             Projectile.direction = player.direction * (int)player.gravDir;
             Projectile.velocity.X = Projectile.direction;
-            bool channeling = player.channel && player.active && !player.dead && !player.noItems && !player.CCed;
-            if (channeling && Main.myPlayer == Projectile.owner)
-            {
-                Vector2 vector13 = Main.MouseWorld - center;
-                vector13.Normalize();
-                if (vector13.HasNaNs())
-                {
-                    vector13 = Vector2.UnitX * player.direction;
-                }
-                if (vector13.X > 0)
-                {
-                    Projectile.direction = (int)player.gravDir;
-                    Projectile.netUpdate = true;
-                }
-                else
-                {
-                    Projectile.direction = -(int)player.gravDir;
-                    Projectile.netUpdate = true;
-                }
-            }
             player.ChangeDir(Projectile.direction * (int)player.gravDir);
             Projectile.spriteDirection = Projectile.direction;
             double rad = player.fullRotation - 1.83f + (Projectile.ai[1] - 20) * 0.0174f * Projectile.direction;
@@ -117,7 +97,7 @@ namespace JoostMod.Projectiles.Melee
                         Projectile.timeLeft = (int)(36 / (speed * 2));
                         bool foundTile = false;
                         Vector2 pos = new Vector2(center.X + 120 * Projectile.scale * Projectile.direction * player.gravDir, player.position.Y + player.height);
-                        float velY = -9;
+
                         if (player.velocity.Y == 0)
                         {
                             if (player.gravDir > 0)
@@ -127,7 +107,7 @@ namespace JoostMod.Projectiles.Melee
                                     if (Main.tile[pos.ToTileCoordinates().X, i].HasTile && Main.tileSolid[Main.tile[pos.ToTileCoordinates().X, i].TileType])
                                     {
                                         foundTile = true;
-                                        velY -= Math.Abs(pos.ToTileCoordinates().Y - i) * 0.3f;
+                                        //velY -= Math.Abs(pos.ToTileCoordinates().Y - i) * 0.3f;
                                         pos.Y = i * 16;
                                         break;
                                     }
@@ -148,6 +128,15 @@ namespace JoostMod.Projectiles.Melee
                         }
                         if (foundTile)
                         {
+                            Vector2 mouseoffset = new Vector2(center.X, center.Y - 120);
+                            if (Main.myPlayer == Projectile.owner)
+                            {
+                                mouseoffset.X = Math.Clamp(Main.MouseWorld.X, center.X - 120 * Projectile.scale, center.X + 120 * Projectile.scale);
+                                mouseoffset.Y = Math.Clamp(Main.MouseWorld.Y, center.Y - 300, center.Y) - 20 * Projectile.scale;
+                            }
+
+                            Vector2 vel = new Vector2((speed * 2 * (mouseoffset.X - pos.X) / 25) + player.velocity.X, -(float)Math.Sqrt(2 * 0.3f * Math.Abs(mouseoffset.Y - pos.Y)) * player.gravDir);
+
                             SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_miss_0"), pos); // 210
                             for (int d = 0; d < 15; d++)
                             {
@@ -155,7 +144,7 @@ namespace JoostMod.Projectiles.Melee
                             }
                             if (Main.netMode != NetmodeID.MultiplayerClient || Main.myPlayer == Projectile.owner)
                             {
-                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos, new Vector2(0, velY * player.gravDir), ModContent.ProjectileType<Boulder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<Boulder>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.scale);
                             }
                         }
                         else

@@ -8,6 +8,7 @@ using JoostMod.Items.Placeable;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Materials;
 using JoostMod.Projectiles.Hostile;
+using Terraria.GameContent;
 
 namespace JoostMod.NPCs
 {
@@ -25,7 +26,7 @@ namespace JoostMod.NPCs
             NPC.height = 104;
             NPC.damage = 60;
             NPC.defense = 32;
-            NPC.lifeMax = 2000;
+            NPC.lifeMax = 3000;
             NPC.HitSound = SoundID.NPCHit3;
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.value = Item.buyPrice(0, 5, 0, 0);
@@ -132,20 +133,20 @@ namespace JoostMod.NPCs
                     NPC.direction = (P.Center.X < NPC.Center.X ? -1 : 1);
                 }
                 NPC.ai[1]++;
-                if (NPC.life < NPC.lifeMax / 2)
+                if (NPC.life < NPC.lifeMax / 3)
                 {
                     NPC.ai[1]++;
-                    if (NPC.velocity.X * NPC.direction < 3f)
+                    if (NPC.velocity.X * NPC.direction < 2.5f)
                     {
                         NPC.velocity.X += NPC.direction * 0.09f;
                     }
-                    if (NPC.velocity.X > 2.5f && NPC.velocity.Y == 0)
+                    if (NPC.velocity.X > 2f && NPC.velocity.Y == 0)
                     {
-                        NPC.velocity.X = 2.5f;
+                        NPC.velocity.X = 2f;
                     }
-                    if (NPC.velocity.X < -2.5f && NPC.velocity.Y == 0)
+                    if (NPC.velocity.X < -2f && NPC.velocity.Y == 0)
                     {
-                        NPC.velocity.X = -2.5f;
+                        NPC.velocity.X = -2f;
                     }
                 }
                 else
@@ -175,9 +176,9 @@ namespace JoostMod.NPCs
                 }
             }
 
-            if (NPC.ai[3] == 1)
+            if (NPC.ai[3] == 1) //Sand Ball
             {
-                if (NPC.ai[1] == 14)
+                if (NPC.ai[1] == 28)
                 {
                     float Speed = 9f;
                     Vector2 vector8 = new Vector2(NPC.Center.X, NPC.position.Y + 26);
@@ -190,13 +191,13 @@ namespace JoostMod.NPCs
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                     }
                 }
-                if (NPC.ai[1] >= 20)
+                if (NPC.ai[1] >= 40)
                 {
                     NPC.ai[1] = 0;
                 }
             }
 
-            if (NPC.ai[3] == 2)
+            if (NPC.ai[3] == 2) //Shockwave
             {
                 NPC.knockBackResist = 0;
                 if (NPC.ai[2] < 15)
@@ -228,7 +229,8 @@ namespace JoostMod.NPCs
                     Vector2 pos = new Vector2(NPC.Center.X, NPC.position.Y + 26);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 4f * NPC.direction, 0, ModContent.ProjectileType<ShockWave>(), 75, 0f, Main.myPlayer);
+                        int damage = Main.expertMode ? 45 : 60;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 4f * NPC.direction, 0, ModContent.ProjectileType<ShockWave>(), damage, 0f, Main.myPlayer);
                     }
                     for (int i = 0; i < 100; i++)
                     {
@@ -279,9 +281,9 @@ namespace JoostMod.NPCs
                     NPC.frame.Y = 0;
                 }
             }
-            if (NPC.ai[3] == 1)
+            if (NPC.ai[3] == 1) //Sand Ball
             {
-                if (NPC.ai[1] < 7)
+                if (NPC.ai[1] < 14)
                 {
                     if (NPC.frame.Y < 104 * 7)
                     {
@@ -292,7 +294,7 @@ namespace JoostMod.NPCs
                         NPC.frame.Y = 104 * 10;
                     }
                 }
-                else if (NPC.ai[1] < 14)
+                else if (NPC.ai[1] < 28)
                 {
                     if (NPC.frame.Y < 104 * 8)
                     {
@@ -303,12 +305,12 @@ namespace JoostMod.NPCs
                         NPC.frame.Y = 104 * 11;
                     }
                 }
-                else if (NPC.ai[1] < 20)
+                else if (NPC.ai[1] < 40)
                 {
                     NPC.frame.Y = 104 * 9;
                 }
             }
-            if (NPC.ai[3] == 2)
+            if (NPC.ai[3] == 2) //Shockwave
             {
                 if (NPC.ai[2] < 15)
                 {

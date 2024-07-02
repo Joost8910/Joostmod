@@ -47,7 +47,7 @@ namespace JoostMod.Prefixes
         {
             // DisplayName.SetDefault("Miniature");
         }
-        public override float damage => -0.2f;
+        public override float damage => -0.1f;
         public override float speed => 0.333f;
         public override float knockback => -0.3f;
         public override float size => -0.5f;

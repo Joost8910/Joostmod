@@ -15,13 +15,13 @@ namespace JoostMod.Mounts
 			MountData.buff = ModContent.BuffType<Buffs.EarthMount>();
 			MountData.heightBoost = 14;
 			MountData.fallDamage = 0f;
-			MountData.runSpeed = 14.75f;
-			MountData.dashSpeed = 14.75f;
+			MountData.runSpeed = 9f;
+			MountData.dashSpeed = 14f;
 			MountData.flightTimeMax = 0;
 			MountData.fatigueMax = 0;
-			MountData.jumpHeight = 20;
+			MountData.jumpHeight = 15;
 			MountData.acceleration = 0.05f;
-			MountData.jumpSpeed = 8f;
+			MountData.jumpSpeed = 6f;
 			MountData.blockExtraJumps = false;
 			MountData.totalFrames = 8;
 			MountData.constantJump = true;

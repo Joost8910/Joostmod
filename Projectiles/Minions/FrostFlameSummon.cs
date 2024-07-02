@@ -36,6 +36,9 @@ namespace JoostMod.Projectiles.Minions
             {
                 Projectile.Kill();
             }
+            if (Projectile.timeLeft % 4 == 0)
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.IceTorch, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f).noGravity = true;
+
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

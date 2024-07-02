@@ -45,16 +45,16 @@ namespace JoostMod.Projectiles.Melee
         }
         private void JumpOff(Player player)
         {
-            if (player.velocity.X * player.direction > -6)
-                player.velocity.X = player.direction * -6;
-            if (player.velocity.Y * player.gravDir > -6)
-                player.velocity.Y = player.gravDir * -6;
+            if (player.velocity.X * player.direction > -9)
+                player.velocity.X = player.direction * -9;
+            if (player.velocity.Y * player.gravDir > -9)
+                player.velocity.Y = player.gravDir * -9;
             player.RefreshMovementAbilities();
-            if (player.immuneTime < 10)
+            if (player.immuneTime < 20)
             {
                 player.immune = true;
                 player.immuneNoBlink = false;
-                player.immuneTime = 10;
+                player.immuneTime = 20;
             }
             Projectile.ai[1] = 0;
             Projectile.ai[0] = -1;
@@ -106,10 +106,7 @@ namespace JoostMod.Projectiles.Melee
             if (Projectile.ai[1] == 1) //Grab
             {
                 Projectile.timeLeft = 3;
-                Projectile.ai[0] += 0.2f * speed;
-                Vector2 dir = Projectile.velocity;
-                dir.Normalize();
-                dir = dir * 10f * (Projectile.ai[1] + 0.75f) * speed;
+                Projectile.ai[0] += 0.2f;
                 if (Projectile.ai[0] > 2)
                 {
                     Projectile.ai[1] = -1;
@@ -222,7 +219,7 @@ namespace JoostMod.Projectiles.Melee
                                     netMessage.Send(-1, player.whoAmI);
                                 }
                                 if (Main.myPlayer == Projectile.owner)
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), (int)(Projectile.damage * 2f), Projectile.knockBack, Projectile.owner, target.whoAmI);
                                 if (player.immuneTime < 10)
                                 {
                                     player.immune = true;
@@ -448,31 +445,38 @@ namespace JoostMod.Projectiles.Melee
         {
             if (target.knockBackResist > 0 && (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3))
             {
-                modifiers.SetMaxDamage(target.life - 3);
+                modifiers.SetMaxDamage(target.life / 2);
             }
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             if (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3)
             {
-                modifiers.SetMaxDamage(target.statLife - 3);
+                modifiers.SetMaxDamage(target.statLife / 2);
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.ai[1] == 1 && target.life > 0 && target.knockBackResist > 0)
+            if (Projectile.ai[1] == 1 && target.life > 0)
             {
-                Projectile.timeLeft = 180;
-                Projectile.localAI[1] = target.whoAmI;
-                Projectile.ai[0] = -1;
-                Projectile.ai[1] = 2;
-                SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_2"), Projectile.Center); // 215
-                if (player.immuneTime < 20)
+                if (target.knockBackResist > 0)
                 {
-                    player.immune = true;
-                    player.immuneNoBlink = false;
-                    player.immuneTime = 20;
+                    Projectile.timeLeft = 180;
+                    Projectile.localAI[1] = target.whoAmI;
+                    Projectile.ai[0] = -1;
+                    Projectile.ai[1] = 2;
+                    SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_2"), Projectile.Center); // 215
+                    if (player.immuneTime < 20)
+                    {
+                        player.immune = true;
+                        player.immuneNoBlink = false;
+                        player.immuneTime = 20;
+                    }
+                }
+                else
+                {
+                    JumpOff(player);
                 }
             }
         }

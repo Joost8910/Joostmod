@@ -24,7 +24,14 @@ namespace JoostMod.Items.Rewards
             Item.damage = 18;
             Item.DamageType = DamageClass.Summon;
         }
-
+        public override bool WeaponPrefix()
+        {
+            return false;
+        }
+        public override bool MagicPrefix()
+        {
+            return false;
+        }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<JoostPlayer>().cactusBootsItem = Item;

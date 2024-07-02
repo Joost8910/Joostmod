@@ -112,10 +112,10 @@ namespace JoostMod.Projectiles.Melee
                     SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_3"), Projectile.Center); // 216
                     Projectile.soundDelay = -10;
                 }
-                Projectile.ai[1] += 0.2f * speed;
+                Projectile.ai[1] += 0.2f;
                 Vector2 dir = Projectile.velocity;
                 dir.Normalize();
-                dir = dir * 10f * (Projectile.ai[1] + 0.75f) * (55f / player.inventory[player.selectedItem].useTime) / player.GetAttackSpeed(DamageClass.Melee);
+                dir = dir * 10f * (Projectile.ai[1] + 0.75f) * speed;
                 if (Projectile.localAI[1] <= 0)
                 {
                     //player.velocity += dir * projectile.ai[0] * projectile.ai[0] * 0.05f;
@@ -135,10 +135,16 @@ namespace JoostMod.Projectiles.Melee
                     {
                         player.velocity.Y += dir.Y * Projectile.ai[0] * 0.05f;
                     }
+                    if (player.velocity.Y * player.gravDir > player.maxFallSpeed)
+                    {
+                        player.portalPhysicsFlag = true;
+                    }
                 }
             }
             if (Projectile.ai[1] > 2)
             {
+                player.portalPhysicsFlag = false;
+                player._portalPhysicsTime = 0;
                 Projectile.Kill();
             }
             Projectile.position = Projectile.velocity + vector - Projectile.Size / 2f;
@@ -192,24 +198,38 @@ namespace JoostMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.velocity.Y * player.gravDir > 0 && player.velocity.Y * player.gravDir > 0 && Math.Abs(Projectile.velocity.X) < 6 * Projectile.scale)
-            {
-                player.velocity.Y = Math.Abs(player.velocity.Y) < 15 * Projectile.ai[0] ? -15 * Projectile.ai[0] * player.gravDir : -player.velocity.Y;
-                Projectile.localAI[1] = 1;
-            }
             if (Projectile.ai[0] > 0.7f)
             {
                 SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_ground_impact_1"), Projectile.Center); // 208
-            }
-            if (Main.myPlayer == Projectile.owner && hit.Crit && target.knockBackResist > 0 && Projectile.ai[0] >= 1)
-            {
-                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, target.whoAmI);
             }
             for (int i = 0; i < (int)(Projectile.scale * Projectile.scale * 40); i++)
             {
                 Dust.NewDust(target.position, target.width, target.height, DustID.Stone);
             }
-            target.velocity += Projectile.velocity / 10 * hit.Knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
+            if (target.knockBackResist > 0)
+            {
+                if (Main.myPlayer == Projectile.owner && hit.Crit && Projectile.ai[0] >= 1)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, target.velocity, ModContent.ProjectileType<GrabThrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                }
+                target.velocity += Projectile.velocity / 10 * hit.Knockback * target.knockBackResist * Projectile.ai[0] * Projectile.ai[0];
+            }
+            else
+            {
+                player.velocity = player.DirectionFrom(target.Center) * 13;
+                if (player.immuneTime < 20)
+                {
+                    player.immune = true;
+                    player.immuneNoBlink = false;
+                    player.immuneTime = 20;
+                }
+                Projectile.localAI[1] = 1;
+            }
+            if (Projectile.velocity.Y * player.gravDir > 0 && player.velocity.Y * player.gravDir > 0 && Math.Abs(Projectile.velocity.X) < 6 * Projectile.scale)
+            {
+                player.velocity.Y = Math.Abs(player.velocity.Y) < 15 * Projectile.ai[0] ? -15 * Projectile.ai[0] * player.gravDir : -player.velocity.Y;
+                Projectile.localAI[1] = 1;
+            }
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {

@@ -14,14 +14,14 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 38;
+            Item.damage = 36;
             Item.DamageType = DamageClass.Throwing;
             Item.maxStack = 9999;
             Item.consumable = true;
             Item.width = 16;
             Item.height = 22;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.noUseGraphic = true;

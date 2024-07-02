@@ -691,7 +691,7 @@ namespace JoostMod.Projectiles.Melee
 
             if (target.knockBackResist > 0 && (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3))
             {
-                modifiers.SetMaxDamage(target.life - 3);
+                modifiers.SetMaxDamage(target.life / 2);
             }
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[1] == 0 && !player.controlLeft && !player.controlRight)
@@ -714,7 +714,7 @@ namespace JoostMod.Projectiles.Melee
             */
             if (Projectile.ai[1] == 1 || Projectile.localAI[0] == 3)
             {
-                modifiers.SetMaxDamage(target.statLife - 3);
+                modifiers.SetMaxDamage(target.statLife / 2);
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

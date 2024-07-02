@@ -117,13 +117,15 @@ namespace JoostMod.Projectiles.Accessory
             }
             else
             {
+                if (player.velocity.X * Projectile.direction > 0)
+                    player.velocity.X = 0;
                 if (target.velocity.X < 0 && Projectile.direction > 0 || target.velocity.X > 0 && Projectile.direction < 0)
                 {
-                    player.velocity.X = -Projectile.direction * (KB + Math.Abs(target.velocity.X));
+                    player.velocity.X += -Projectile.direction * (KB + Math.Abs(target.velocity.X));
                 }
                 else
                 {
-                    player.velocity.X = -Projectile.direction * KB;
+                    player.velocity.X += -Projectile.direction * KB;
                 }
                 Projectile.localAI[1] = 0;
                 if (player.immuneTime < 2)
@@ -201,7 +203,7 @@ namespace JoostMod.Projectiles.Accessory
                     else if (player.controlUseItem)
                     {
                         SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_monk_staff_swing_0"), Projectile.Center); // 213
-                        Projectile.localAI[0] = 30 * player.GetAttackSpeed(DamageClass.Melee);
+                        Projectile.localAI[0] = 30 / player.GetAttackSpeed(DamageClass.Melee);
                         Projectile.localAI[1] = 15;
                     }
                 }

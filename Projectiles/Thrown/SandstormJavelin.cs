@@ -25,7 +25,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Throwing;
             Projectile.usesIDStaticNPCImmunity = true;
@@ -46,7 +46,7 @@ namespace JoostMod.Projectiles.Thrown
             {
                 Projectile.timeLeft = 20;
             }
-            else
+            else if (Projectile.timeLeft < 1200)
             {
                 Projectile.timeLeft = 1200;
             }
@@ -183,7 +183,7 @@ namespace JoostMod.Projectiles.Thrown
                 if (Projectile.ai[0] <= 25)
                 {
                     Projectile.ai[0] += speed;
-                    Projectile.timeLeft = 200;
+                    Projectile.timeLeft = 600;
                 }
             }
             else
@@ -226,6 +226,7 @@ namespace JoostMod.Projectiles.Thrown
                     {
                         maxTileY = Main.maxTilesY;
                     }
+                    int t = 12;
                     for (int x = minTileX; x <= maxTileX; x++)
                     {
                         for (int y = minTileY; y <= maxTileY; y++)
@@ -233,42 +234,50 @@ namespace JoostMod.Projectiles.Thrown
                             if (Main.tile[x, y].HasTile)
                             {
                                 shoot = shoot.RotatedByRandom(30 * 0.0174f);
-                                if (Main.tile[x, y].TileType == TileID.Sand)
+
+                                int proj = ModContent.ProjectileType<SandBlock>();
+                                bool sand = true;
+                                switch(Main.tile[x, y].TileType)
                                 {
-                                    WorldGen.KillTile(x, y, false, false, true);
-                                    if (!Main.tile[x, y].HasTile && Main.netMode != 0)
-                                    {
-                                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
-                                    }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<SandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
-                                }   
-                                if (Main.tile[x, y].TileType == TileID.Ebonsand)
-                                {
-                                    WorldGen.KillTile(x, y, false, false, true);
-                                    if (!Main.tile[x, y].HasTile && Main.netMode != 0)
-                                    {
-                                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
-                                    }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<EbonSandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
+                                    case TileID.Sand:
+                                        break;
+                                    case TileID.Ebonsand:
+                                        ModContent.ProjectileType<EbonSandBlock>();
+                                        break;
+                                    case TileID.Pearlsand:
+                                        ModContent.ProjectileType<PearlSandBlock>();
+                                        break;
+                                    case TileID.Crimsand:
+                                        ModContent.ProjectileType<CrimSandBlock>();
+                                        break;
+                                    default:
+                                        sand = false; 
+                                        break;
                                 }
-                                if (Main.tile[x, y].TileType == TileID.Pearlsand)
+                                if (sand)
                                 {
+                                    Projectile.timeLeft -= t;
+                                    if (Main.tile[x, y - 1].TileType == TileID.Cactus)
+                                    {
+                                        WorldGen.KillTile(x, y - 1, false, false, true);
+                                        if (!Main.tile[x, y - 1].HasTile && Main.netMode != 0)
+                                        {
+                                            NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
+                                        }
+                                    }
+
                                     WorldGen.KillTile(x, y, false, false, true);
                                     if (!Main.tile[x, y].HasTile && Main.netMode != 0)
                                     {
                                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
                                     }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<PearlSandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, proj, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
                                 }
-                                if (Main.tile[x, y].TileType == TileID.Crimsand)
-                                {
-                                    WorldGen.KillTile(x, y, false, false, true);
-                                    if (!Main.tile[x, y].HasTile && Main.netMode != 0)
-                                    {
-                                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
-                                    }
-                                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), x * 16 - 8, y * 16 - 8, shoot.X * 12, shoot.Y * 12, ModContent.ProjectileType<CrimSandBlock>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1);
-                                }
+                            }
+                            if (Projectile.timeLeft <= 0)
+                            {
+                                Projectile.Kill();
+                                break;
                             }
                         }
                     }

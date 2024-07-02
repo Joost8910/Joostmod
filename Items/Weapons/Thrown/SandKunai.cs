@@ -17,7 +17,7 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 44;
+            Item.damage = 48;
             Item.DamageType = DamageClass.Throwing;
             Item.width = 28;
             Item.height = 30;

@@ -1,11 +1,8 @@
-//TODO: Make into 1.4 Summon Whip, but with a funky flail thing as a right click function
 using JoostMod.Buffs;
 using JoostMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.Localization;

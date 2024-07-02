@@ -23,7 +23,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.idStaticNPCHitCooldown = 8;
             Projectile.extraUpdates = 1;
         }
 

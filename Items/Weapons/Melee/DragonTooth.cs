@@ -17,7 +17,7 @@ namespace JoostMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.damage = 188;
-            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.DamageType = DamageClass.Melee;
             Item.width = 106;
             Item.height = 110;
             Item.useTime = 48;

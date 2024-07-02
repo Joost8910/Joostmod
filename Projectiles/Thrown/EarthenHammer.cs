@@ -23,6 +23,8 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.timeLeft = 1200;
             //Projectile.extraUpdates = 1;
             AIType = ProjectileID.Shuriken;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
         public override void AI()
         {

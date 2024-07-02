@@ -15,8 +15,8 @@ namespace JoostMod.Mounts
 			MountData.buff = ModContent.BuffType<Buffs.SandSharkMount>();
 			MountData.heightBoost = 4;
 			MountData.fallDamage = 0f;
-			MountData.runSpeed = 1.5f;
-			MountData.dashSpeed = 3f;
+			MountData.runSpeed = 1f;
+			MountData.dashSpeed = 6f;
 			MountData.flightTimeMax = 0;
 			MountData.fatigueMax = 0;
 			MountData.jumpHeight = 10;
@@ -66,6 +66,7 @@ namespace JoostMod.Mounts
             if (player.controlLeft)
             {
                 rect.X -= 16;
+                rect.Width += 16;
             }
             if (player.controlRight)
             {
@@ -77,13 +78,14 @@ namespace JoostMod.Mounts
             }
             if (player.controlDown)
             {
-                rect.Height += 16;
+                rect.Y += 16;
             }
             bool sand = false;
             for (int x = rect.X / 16; x <= (rect.X + rect.Width) / 16 && !sand; x++)
             {
                 for (int y = rect.Y / 16; y <= (rect.Y + rect.Height) / 16 && !sand; y++)
                 {
+                    //Lighting.AddLight(x, y, 0, 0.1f, 0);
                     int type = Main.tile[x, y].TileType;
                     if (Main.tile[x, y].HasUnactuatedTile && (type == TileID.Sand || type == TileID.Pearlsand || type == TileID.Ebonsand || type == TileID.Crimsand || type == TileID.Sandstone || type == TileID.HardenedSand || type == TileID.HallowHardenedSand || type == TileID.CorruptHardenedSand || type == TileID.CrimsonHardenedSand || type == TileID.HallowSandstone || type == TileID.CorruptSandstone || type == TileID.CrimsonSandstone || type == TileID.DesertFossil))
                     {
@@ -91,7 +93,7 @@ namespace JoostMod.Mounts
                     }
                 }
             }
-            float moveSpeed = MountData.dashSpeed * 2.5f * player.GetModPlayer<JoostPlayer>().accRunSpeedMult;
+            float moveSpeed = MountData.dashSpeed * 1.25f * player.GetModPlayer<JoostPlayer>().accRunSpeedMult;
             float jumpSpeed = MountData.jumpSpeed * 2;
             float accel = MountData.acceleration;
             if (player.controlRight && player.GetModPlayer<JoostPlayer>().sandSharkVel.X < moveSpeed)

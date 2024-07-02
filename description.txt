@@ -1,5 +1,5 @@
 The Joostmod has to offer
-469 new items
+470 new items
 14 new armor sets
 28 new placeable things (excluding banners)
 11 new prefixes
@@ -9,96 +9,124 @@ The Joostmod has to offer
 2 new town npcs
 
 Beta v6
+- Added Assassin's Kunai, throwing accessory sold by the skeleton merchant
 - Updated Giant Boot sprite
-- Star staff damage fixed
-- Tornade's tornado now slowly homes in on directly struck targets
-- Gale Boomerang now homes in on clicked or struck targets
+- Updated Boss Checklist Integration
+- Fixed Gust Amulet not activating on all summon attacks
+- Fixed Star staff damage
 - Sand Shark mount can now be used while inside blocks
 - Sandstorm Armor now grants immunity to falling sand and suffocation
-- Sandstorm Javelin lasts longer when stuck into a tile at max charge, but only deals base damage when stuck
-- Sandstorm Javelin lasts less time in the air, slightly limiting its destruction
-- Sandstorm Kunai recipe now requires 3 bars
-- Increased Sandstorm glove damage from 28 to 33
-- Increased Sandstorm Javelin damage from 45 to 54
-- Increased Gale Boomerangs shootspeed from 7 to 9.5
-- Increased Water Balloon damage from 44 to 52
-- Increased Water Balloon's shootspeed from 11 to 15
-- Increased Tornade's shootspeed from 10 to 12
-- Increased how long the Tornade's tornado lasts
-- Reduced Tornade's damage from 42 to 38
-- Reduced Fireball's damage from 38 to 32
-- Reduced Chained-Chainsaw tickrate from 10 to 7.5 hits per second
-- Altered Rock physics, reducing its effective range
-- Altered Earthen Hammer physics
 
-Beta v5
-- Staff of Degeneration debuff damage increased from 20 per second to 30 per second
-- Divine Mirror mana cost reduced from 40 to 20
-- Clawed Gauntlet damage increased from 8 to 10
-- Twin Claws now have 5 armor penetration
-- Brawler's Glove punches now have 5 armor penetration
-- Cactuar needles once again give no i frames
-- Cactuars no longer lead their aim in expert mode
-- Altered behavior of the Giant Needles spawned by Jumbo Cactuar
-- Fixed Shrine of Legends not generating
-- Fixed Traveling Merchant not seeling Brawler's Glove and Wonder Waffle
-- Increased spawn chance of Glowing Contacts, Clawed Gauntlet, Vaulting Pole, and Dirt Board from 1/12 to 1/10 each
-- Increased spawn chance of Staff of Degeneration, Divine Mirror, and Actual Mace from 1/9 to 1/8 each
-- Glowing Contacts, Clawed Gauntlet, Vautling Pole, and Dirt Board now have a 5% chance of one of them being obtained from Wooden Crates
-- Staff of Degeneration, Divine Mirror, and Actual Mace can now also be found in Mushroom, Marble, Granite, Rich Mahogany, and Dead Man's chests
-- Clawed Gauntlet now also as a 1/8 chance of spawning in underground chests
-- Succulent Cactus Meal now has a 1/20 chance of spawning in Sandstone Chests
-- Weather Stars now have a chance of spawning in chests
- (Wooden: Clear, 1/3 chance)
- (Water: Rain, 1/3 chance)
- (Sandstone: Sandstorm, 1/3 chance)
- (Underground: Slime, 1/5 chance)
+All Chained-Chainsaws
+- Reduced damage tickrate from 10 to 7.5 hits per second
 
-Beta v4
-- Added Gravebuster seeds, sold by the dryad in a graveyard
-- Increased various stack sizes to 9999
-- Further altered Vaulting Pole physics
-- Tweaked Blazing Anklet equip sprite
-- Updated Fire Armor visuals
-- Updated Wind Armor visuals
-- Fire Armor set bonus ability no longer persists through death
-- Wind Armor set bonus ability now grants 1 defense for each 2 seconds of time left on the buff
-- Blue X Parasites now inflicted chilled and (in expert mode) frozen
-- Weapons made from Fire Essence now apply Hellfire instead of On Fire!
-- Volcanic Longbow has reduced spread when shooting 2-4 arrows
-- Volcanic Longbow can no longer fire through adjacent tiles
-- Dragon Blasters adjustments
-- Napalm Launcher adjustments
-- Hurricane Windwheel adjustments
-- Chimes of the Wind adjustments
-- Roc Wings adjustments
-- Fixed Cactus Person not spawning
-- Fixed Cactus Person shop not loading
-- Fixed music being super quiet
-- Fixed Shield of Flesh receiving weapon prefixes instead of accessory prefixes
-- Fixed Shield of Flesh dash not functioning
+Sandstorm Glove
+- Increased damage from 28 to 33
 
-Beta v3
-- Tail Whip is now a proper whip, with additional right click functionality
-- Havel's Set now increases aggro
-- Gilgamesh's Weapon set adjustments
-- Joostmod flails can once again be affected by size modifiers
-- Lord's flame now has audio cues for each charge level, as well as only consuming additional mana each charge level
-- Vaulting Poles now squish more smoothly
-- Vaulting Poles try better to get themselves unstuck
-- Vaulting Poles break grappling hooks on rebound
-- Fixed the legendary stones not rendering the correct color when placed in world
-- Fixed various animated items not animating outside of inventory
-- Fixed Cactus Boots 
-- Fixed Divine Mirror
+Sandstorm Javelin
+- Increased damage from 45 to 56
+- Lasts longer when stuck into a tile at max charge, but only deals base damage when stuck
+- Has a cap to how much sand it can destroy: 50 initially and 100 when stuck to a tile
 
-Beta v2
-- Fixed Huntmaster UI
-- Fixed Empty Heart UI 
-- Fixed boss defeated checks carrying from one world to the next
-- Fixed Broken Excalipoor summons 14 more Gilgameshes and Enkidus than intended
-- Fixed Gilgamesh's death failing to load
-- Fixed SA-X's third phase failing to load
+Sandstorm Kunai
+- Increased damage from 44 to 48
+- Recipe now take 3 bars instead of 1
+
+Water Balloon
+- Increased damage from 44 to 52
+- Increased shootspeed from 11 to 15
+
+Rock
+- Increased damage from 165 to 180
+- Altered physics
+
+Fireball
+- Standardized area of effect's range
+
+Tornade
+- Increased shootspeed from 10 to 12
+- Increased usetime from 20 to 22
+- Reduced damage from 42 to 36
+- Tornado now slowly homes in on directly struck targets
+
+Boomerain 
+- Increased damage from 31 to 45
+
+Earthen Hammer
+- Reduced shockwave damage tickrate from 12 to 7.5 hits per second
+- Altered Physics
+
+Infernal Chakram
+- Reduced fireball spawnrate from every 30 ticks to every 40 ticks
+
+Gale Boomerang
+- Increased shootspeed from 7 to 9.5
+- Now homes in on clicked or struck targets
+- Reduced damage from 48 to 40
+- Reduced damage tickrate from 6.67 to 6 times per second
+
+Lesser Elemental Weapon Set
+- Increased use time from 22 to 26
+
+Greater Elemental Weapon Set
+- Increased use time from 22 to 26
+
+Havel's Greatshield
+- Should be easier to get unstuck from enemies while blocking
+- Fixed melee speed having reversed effect on it
+
+Dragon Tooth
+- Plunging attack now dramatically increases max fall speed
+- Plunging attack now cancels when moving upwards
+- Plunging attack now grants knockback immunity
+- Reduced Plunging attack recovery time from 110 to 90 frames
+
+Earthen Billhook 
+- Renamed to Roc's Beak
+- Updated sprite
+- Increased damage from 69 to 84
+- Boulder's launch height can be controlled with the mouse height
+- Boulder can now bounce off tiles, but loses damage each bounce similarly to the Rock
+- Boulder size now scales with the weapon
+
+Stone Fist
+- Now bounces off when hitting a knockback immune enemy
+- Active frames are no longer reduced by melee speed
+- Can now punch downwards a bit faster
+- Initial grab damage now maxes at half of enemy health
+- Increased throw damage from 100% to 200% fist damage
+
+Brawler's Glove
+- Initial grab damage now maxes at half of enemy health
+
+Water Tendril
+- Slapping Tendril damage multiplier cap reduced from 300% to 250% 
+
+Tornado Rod
+- Increased minion velocity
+
+Gnome Staff
+- Damage reduced from 42 to 38
+
+Sand Shark mount
+- Increased out of sand top speed to 30 mph so there's less slowdown when jumping out of sand
+
+Slabs of Stone
+- Reduced jump height
+- Reduced acceleration to top speed
+- Reduced top speed back down from 75mph to 71mph
+
+Desert Golem
+- Increased health from 2000 to 3000
+- Reduced shockwave damage from (150/300/450) to (120/180/270)
+- Reduced sandball attack rate
+- Reduced enraged movement speed
+- Now enrages below 1/3 health instead of 1/2
+
+Miniature Prefix
+- Damage reduction changed from -20% to -10%
+
+
 
 Version 0.9.1
 --- New Additions ---
@@ -131,13 +159,20 @@ Winter Solution
 Actual Mace
 - Reduced charged attack damage from 60% bonus damage to 45% bonus damage
 
+All Chained-Chainsaws
+- Reduced damage tickrate from 10 to 7.5 hits per second
+
 Bone Hurting Juice
 - Damage decreased to 16
 - Recipe updated: now 20 water bottles, a blinkroot, and a deathweed; makes 20
 
+Boomerain 
+- Increased damage from 31 to 45
+
 Brawler's Glove
 - Punching player velocity no longer scaled with knockback
 - Adjusted hitboxes
+- Initial grab damage now maxes at half of enemy health
 
 Chimes of the Wind
 - Increased damage from 28 to 36
@@ -150,12 +185,33 @@ Dragon Blasters
 - Fully charged shot now deals (multiplicitly) 20% less damage each pierce
 - Reduced offhand blaster accuracy
 
+Dragon Tooth
+- Plunging attack now dramatically increases max fall speed
+- Plunging attack now cancels when moving upwards
+- Plunging attack now grants knockback immunity
+- Reduced Plunging attack recovery time from 110 to 90 frames
+
+Earthen Billhook 
+- Renamed to Roc's Beak
+- Updated sprite
+- Increased damage from 69 to 84
+- Boulder's launch height can be controlled with the mouse height
+- Boulder can now bounce off tiles, but loses damage each bounce similarly to the Rock
+- Boulder size now scales with the weapon
+
+Earthen Hammer
+- Reduced shockwave damage tickrate from 12 to 7.5 hits per second
+- Altered Physics
+
 Eyeball Staff
 - Projectiles now bounce off tiles
 
 Ember Staff
 - Damage decreased from 6 to 5
 - Reduced minion attack rate from every ~100 ticks to every ~110 ticks
+
+Fireball
+- Standardized area of effect's range
 
 Frostfire Wand
 - Recipe changed to Ember Wand and 99 Ice Torches
@@ -167,16 +223,32 @@ Frostfire Staff
 Focus Souls
 - Increased charge time
 
+Gale Boomerang
+- Increased shootspeed from 7 to 9.5
+- Now homes in on clicked or struck targets
+- Reduced damage from 48 to 42
+- Reduced damage tickrate from 6.67 to 6 times per second
+
 Gnome Staff
 - Recipe now uses Garden Gnome instead of Ginger Beard and Silver Dye
+q- Damage reduced from 42 to 38
 
 Gilgamesh's Weapon Set
 - Gunblade damage increased from 75% to 200%
 - Kunai damage increased from 80% to 100%
 - Tomahawk damage increased from 100% to 125%
 
+Greater Elemental Weapon Set
+- Increased use time from 22 to 26
+
 Hurricane Windwheel
 - Doubled damage tick rate
+
+Infernal Chakram
+- Reduced fireball spawnrate from every 30 ticks to every 40 ticks
+
+Lesser Elemental Weapon Set
+- Increased use time from 22 to 26
 
 Napalm Launcher
 - Increased damage from 30 to 32
@@ -185,6 +257,22 @@ Napalm Launcher
 
 Personal Bubble
 - Damage bonus now applies to enemies with the wet debuff
+
+Rock
+- Increased damage from 165 to 180
+- Altered physics
+
+Sandstorm Glove
+- Increased damage from 28 to 32
+
+Sandstorm Javelin
+- Increased damage from 45 to 56
+- Lasts longer when stuck into a tile at max charge, but only deals base damage when stuck
+- Has a cap to how much sand it can destroy: 50 initially and 100 when stuck to a tile
+
+Sandstorm Kunai
+- Increased damage from 44 to 46
+- Recipe now take 3 bars instead of 1
 
 Scroll of Water
 - Damage increased from 36 to 40
@@ -201,6 +289,11 @@ Skeleton Staff
 Stone Fist
 - Left click now only applies impact throw on critical hits
 - Right click grab time limit increased from 2 to 3 seconds
+- Now bounces off when hitting a knockback immune enemy
+- Active frames are no longer reduced by melee speed
+- Can now punch downwards a bit faster
+- Initial grab damage now maxes at half of enemy health
+- Increased throw damage from 100% to 200% fist damage
 
 Storm Wyvern Scroll
 - Increased lightning blast aim window from 1/2 to 3/4 of a second
@@ -218,6 +311,12 @@ Terra Spear
 - New sprite
 - New beam behavior
 
+Tornade
+- Increased shootspeed from 10 to 12
+- Increased usetime from 20 to 22
+- Reduced damage from 42 to 36
+- Tornado now slowly homes in on directly struck targets
+
 True Gungnir
 - New sprite
 - New beam behavior
@@ -234,6 +333,13 @@ Warhammer of Grognak
 - Strong attack beam shockwave from striking a tile no longer suffers the piercing damage penalty
 - Reverse Gravity Shockwave damage mult increased from 50% to 85% of standard shockwave damage
 - Adjusted hitboxes
+
+Water Balloon
+- Increased damage from 44 to 52
+- Increased shootspeed from 11 to 15
+
+Water Tendril
+- Slapping Tendril damage multiplier cap reduced from 300% to 250% 
 
 Whirlwind
 - Now benefits from melee speed 
@@ -263,6 +369,9 @@ Fire Set
 Havel's Set
 - All pieces now increase aggro by 250 each
 - Stone flesh increases aggro by 500
+
+Sandstorm set
+- Set bonus now grants immunity to falling sand and suffocation
 
 Wind Set
 - Updated visuals
@@ -315,8 +424,12 @@ Water Board
 - Now has brief flight time of 0.75 secs instead of a large jump height
 - Now has special slope physics
 
+Sand Shark 
+- Can now be used while inside blocks
+
 Slabs of Stone
-- Increased max horizontal speed from 71 mph to 75 mph
+- Reduced jump height
+- Reduced acceleration to top speed
 
 Fiery Soles
 - Increased flight time from 1 second to 1.25 seconds
@@ -336,6 +449,12 @@ Plantera
 - Expert Life Fruit amount reduced from 2-5, to 1-5 
 Duke Fishron
 - Bubble Knife, Duke Fishrod, and Mega Bubble Shield drop chance reduced to 25% / 33%(Expert)
+Desert Golem
+- Increased health from 2000 to 3000
+- Reduced shockwave damage from (150/300/450) to (120/180/270)
+- Reduced sandball attack rate
+- Reduced enraged movement speed
+- Now enrages below 1/3 health instead of 1/2
 Fire Elemental
 - Increased fire rate of burning spheres
 - Burning sphere firing animation can be interrupted by an attack with strong knockback or a crit

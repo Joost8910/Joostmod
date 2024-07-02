@@ -31,6 +31,8 @@ namespace JoostMod.Projectiles.Thrown
             {
                 Projectile.Kill();
             }
+            if (Projectile.timeLeft % 4 == 0)
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f).noGravity = true;
         }
         public override bool? CanHitNPC(NPC target)
         {

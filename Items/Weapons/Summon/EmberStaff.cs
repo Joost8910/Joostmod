@@ -27,7 +27,7 @@ namespace JoostMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.knockBack = 0;
             Item.value = 100;
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.White;
             Item.UseSound = SoundID.Item44;
             Item.shoot = ModContent.ProjectileType<EmberMinion>();
             Item.shootSpeed = 7f;

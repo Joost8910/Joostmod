@@ -26,7 +26,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1800;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 9;
+            Projectile.idStaticNPCHitCooldown = 10;
             AIType = ProjectileID.Bullet;
         }
         public override void AI()
@@ -71,7 +71,14 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.localAI[0] = Projectile.velocity.Length();
             }
             float speed = Projectile.localAI[0];
-            if (Projectile.timeLeft <= 1695)
+            int t = 1755;
+            if (Projectile.ai[1] > 0)
+            {
+                t -= 50;
+                if (Projectile.ai[0] > 0)
+                    t -= 60;
+            }
+            if (Projectile.timeLeft <= t || Projectile.aiStyle == 3)
             {
                 Projectile.aiStyle = 3;
                 Projectile.tileCollide = false;
@@ -81,7 +88,7 @@ namespace JoostMod.Projectiles.Thrown
             else
             {
                 Vector2 move = Vector2.Zero;
-                float home = 8f;
+                float home = 5f;
                 if (Projectile.ai[1] > 0)
                 {
                     NPC target = Main.npc[(int)Projectile.ai[1] - 1];
@@ -142,7 +149,7 @@ namespace JoostMod.Projectiles.Thrown
                             else
                             {
                                 target.velocity = Projectile.velocity;
-                                target.velocity.Y -= target.noGravity || Projectile.aiStyle == 3 || player.Distance(Projectile.Center) < 80 ? 0 : 0.4f;
+                                target.velocity.Y -= target.noGravity || Projectile.aiStyle == 3 || player.Distance(Projectile.Center) < 160 ? 0 : 0.4f;
                             }
                         }
                         else
@@ -154,7 +161,7 @@ namespace JoostMod.Projectiles.Thrown
                             else
                             {
                                 target.velocity = Projectile.velocity * target.knockBackResist;
-                                target.velocity.Y -= target.noGravity || Projectile.aiStyle == 3 || player.Distance(Projectile.Center) < 80 ? 0 : 0.4f * target.knockBackResist;
+                                target.velocity.Y -= target.noGravity || Projectile.aiStyle == 3 || player.Distance(Projectile.Center) < 160 ? 0 : 0.4f * target.knockBackResist;
                             }
                         }
                     }

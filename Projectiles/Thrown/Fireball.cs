@@ -33,8 +33,7 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.Kill();
             }
             Projectile.rotation = Projectile.timeLeft * 6;
-            int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, Projectile.velocity.X / 10, Projectile.velocity.Y / 10, 100, default, 1f);
-            Main.dust[num1].noGravity = true;
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Flare, Projectile.velocity.X / 10, Projectile.velocity.Y / 10, 100, default, 1f).noGravity = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -53,7 +52,7 @@ namespace JoostMod.Projectiles.Thrown
             int shootNum = 12;
             float shootSpread = 360f;
             float spread = shootSpread * 0.0174f;
-            float baseSpeed = (float)Math.Sqrt(Projectile.velocity.X * Projectile.velocity.X + Projectile.velocity.Y * Projectile.velocity.Y);
+            float baseSpeed = 5f * Main.player[Projectile.owner].ThrownVelocity;
             double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / shootNum;
             double deltaAngle = spread / shootNum;
             double offsetAngle;

@@ -70,6 +70,10 @@ namespace JoostMod.Projectiles.Melee
                     Projectile.netUpdate = true;
                 }
             }
+            else if (player.dead)
+            {
+                Projectile.Kill();
+            }
             player.ChangeDir(Projectile.direction * (int)player.gravDir);
             Projectile.spriteDirection = Projectile.direction;
             double rad = player.fullRotation - 1.83f + (Projectile.ai[1] - 20) * 0.0174f * Projectile.direction;
@@ -107,7 +111,7 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.ai[0] = 30;
                 if (player.velocity.Y * player.gravDir > player.gravity)
                 {
-                    Projectile.localAI[1] = 1;
+                    Projectile.localAI[1] = 1; //Plunging attack flag
                 }
                 else
                 {
@@ -128,10 +132,11 @@ namespace JoostMod.Projectiles.Melee
                 Projectile.soundDelay = -10;
                 SoundEngine.PlaySound(new ("Terraria/Sounds/Custom/dd2_monk_staff_swing_1"), Projectile.Center); //214
             }
-            if (Projectile.timeLeft <= 120)
+            if (Projectile.timeLeft <= 120) 
             {
-                if (Projectile.localAI[1] > 0)
+                if (Projectile.localAI[1] > 0) //Plunging Attack
                 {
+                    player.GetModPlayer<JoostPlayer>().nextHitNoKB = true;
                     player.mount.Dismount(player);
                     if (Projectile.ai[1] > 150 && Projectile.localAI[1] < 10)
                     {
@@ -153,13 +158,21 @@ namespace JoostMod.Projectiles.Melee
                         }
                         else
                         {
-                            Projectile.timeLeft = 110;
+                            Projectile.timeLeft = 90;
                             Projectile.ai[1] = 150;
+                            if (player.velocity.Y * player.gravDir >= player.maxFallSpeed)
+                            {
+                                player.portalPhysicsFlag = true;
+                            }
+                            if (player.velocity.Y * player.gravDir < 0)
+                            {
+                                Projectile.localAI[1] = 0;
+                            }
                         }
                     }
                     else if (Projectile.ai[1] < 160)
                     {
-                        Projectile.timeLeft = 110;
+                        Projectile.timeLeft = 90;
                         Projectile.ai[1] += 10 * speed * (Projectile.localAI[0] + 1);
                     }
                     player.fullRotation = Projectile.ai[1] * 0.00174f * player.direction;
@@ -175,6 +188,7 @@ namespace JoostMod.Projectiles.Melee
                 }
                 else
                 {
+                    player.GetModPlayer<JoostPlayer>().nextHitNoKB = false;
                     if (Projectile.ai[1] < 180)
                     {
                         Projectile.timeLeft = 70;

@@ -86,6 +86,9 @@ namespace JoostMod.NPCs
                     shop.Add<GhostDye>(new Condition("Mods.JoostMod.Conditions.NightNewMoon", () => !Main.dayTime && Main.GetMoonPhase() == MoonPhase.Empty));
                     shop.Add<GlowInTheDarkDye>(new Condition("Mods.JoostMod.Conditions.NightNotNewMoon", () => !Main.dayTime && Main.GetMoonPhase() != MoonPhase.Empty));
                     break;
+                case NPCID.SkeletonMerchant:
+                    shop.Add<Items.Accessories.AssassinKunai>();
+                    break;
             }
         }
         public override void SetupTravelShop(int[] shop, ref int nextSlot)

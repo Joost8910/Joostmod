@@ -267,6 +267,17 @@ Mods: {
 					'''
 			}
 
+			AssassinKunai: {
+				DisplayName: Assassin's  Kunai
+				Tooltip:
+					'''
+					Empowered by Weapon Imbuement Flasks
+					Critical strikes with throwing weapons add a kunai to your offhand
+					Right click to throw the kunai
+					'''
+				KunaiMax: Maximum of {0} kunai
+			}
+
 			BlazingAnklet: {
 				DisplayName: Blazing Anklets
 				Tooltip:
@@ -2595,7 +2606,7 @@ Mods: {
 			}
 
 			EarthenBillhook: {
-				DisplayName: Earthen Billhook
+				DisplayName: Roc's Beak
 				Tooltip:
 					'''
 					Right click to swing, causing a boulder to launch upwards when grounded
@@ -3413,22 +3424,67 @@ Mods: {
 			AlphaCactusWormHead.DisplayName: Alpha Cactus Worm
 			AlphaCactusWormTail.DisplayName: Alpha Cactus Worm
 			CactusThorn.DisplayName: Cactus Thorn
-			Enkidu.DisplayName: Enkidu
+
+			Enkidu: {
+				DisplayName: Enkidu
+				BossChecklistIntegration.DespawnMessage: <Enkidu> WE win.
+			}
+
 			GiantNeedle.DisplayName: Giant Needle
-			Gilgamesh.DisplayName: Gilgamesh
-			Gilgamesh2.DisplayName: Gilgamesh
+
+			Gilgamesh: {
+				DisplayName: Gilgamesh
+
+				BossChecklistIntegration: {
+					SpawnInfo: Use an [i:JoostMod/Excalipoor] anywhere
+					DespawnMessage: <Gilgamesh> Hah! I won!
+					EntryName: Gilgamesh and Enkidu
+				}
+			}
+
+			Gilgamesh2: {
+				DisplayName: Gilgamesh
+				BossChecklistIntegration.DespawnMessage: <Gilgamesh> Hah! I won!
+			}
+
 			GilgameshShield.DisplayName: Gilgamesh
 			GrandCactusWormBody.DisplayName: The Grand Cactus Worm
 			GrandCactusWormHead.DisplayName: The Grand Cactus Worm
 			GrandCactusWormTail.DisplayName: The Grand Cactus Worm
 			GreenXParasite.DisplayName: X Parasite
 			IceXParasite.DisplayName: X Parasite
-			IdleCactusWorm.DisplayName: Alpha Cactus Worm
-			JumboCactuar.DisplayName: Jumbo Cactuar
+
+			IdleCactusWorm: {
+				DisplayName: Alpha Cactus Worm
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found in the underground desert. Or, use a [i:JoostMod/CactusBait] in the underground desert
+			}
+
+			JumboCactuar: {
+				DisplayName: Jumbo Cactuar
+				BossChecklistIntegration.SpawnInfo: Use a [i:JoostMod/Cactusofdoom] in the desert
+			}
+
 			RedXParasite.DisplayName: X Parasite
-			SAX.DisplayName: SA-X
-			SAXCoreX.DisplayName: SA-X
-			SAXMutant.DisplayName: SA-X
+
+			SAX: {
+				DisplayName: SA-X
+
+				BossChecklistIntegration: {
+					SpawnInfo: Use an [i:JoostMod/InfectedArmCannon] anywhere
+					DespawnMessage: The SA-X disappears into the unknown
+				}
+			}
+
+			SAXCoreX: {
+				DisplayName: SA-X
+				BossChecklistIntegration.DespawnMessage: The SA-X disappears into the unknown
+			}
+
+			SAXMutant: {
+				DisplayName: SA-X
+				BossChecklistIntegration.DespawnMessage: The SA-X disappears into the unknown
+			}
+
 			XParasite.DisplayName: X Parasite
 			Cactite.DisplayName: Cactite
 			Cactoid.DisplayName: Cactoid
@@ -3456,23 +3512,67 @@ Mods: {
 			HallowedCactuar.DisplayName: Cactuar
 			FireBall.DisplayName: Dead Man's Fire
 			FireBall2.DisplayName: Dead Man's Fire
-			FloweringCactoid.DisplayName: Flowering Cactoid
-			ICU.DisplayName: ICU
-			ImpLord.DisplayName: Imp Lord
-			Pinkzor.DisplayName: Pinkzor
-			Roc.DisplayName: Roc
-			RogueTomato.DisplayName: Rogue Tomato
-			SkeletonDemoman.DisplayName: Skeleton Demolitionist
+
+			FloweringCactoid: {
+				DisplayName: Flowering Cactoid
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found in the surface desert
+			}
+
+			ICU: {
+				DisplayName: ICU
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found on the surface during nighttime
+			}
+
+			ImpLord: {
+				DisplayName: Imp Lord
+				BossChecklistIntegration.SpawnInfo: Quest from the Huntmaster, found in hell
+			}
+
+			Pinkzor: {
+				DisplayName: Pinkzor
+				BossChecklistIntegration.SpawnInfo: Rarely found on the surface or underground. The Huntmaster will spawn after it is killed
+			}
+
+			Roc: {
+				DisplayName: Roc
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found in the sky
+			}
+
+			RogueTomato: {
+				DisplayName: Rogue Tomato
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found on the surface during daytime
+			}
+
+			SkeletonDemoman: {
+				DisplayName: Skeleton Demolitionist
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found in the dungeon
+			}
+
 			Spore.DisplayName: Spore
-			SporeSpawn.DisplayName: Spore Mother
+
+			SporeSpawn: {
+				DisplayName: Spore Mother
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found in the underground jungle
+			}
+
 			StormWyvernBody.DisplayName: Storm Wyvern
 			StormWyvernBody2.DisplayName: Storm Wyvern
 			StormWyvernBody3.DisplayName: Storm Wyvern
-			StormWyvernHead.DisplayName: Storm Wyvern
+
+			StormWyvernHead: {
+				DisplayName: Storm Wyvern
+				BossChecklistIntegration.SpawnInfo: Quest from the Huntmaster, found in the sky while it's raining
+			}
+
 			StormWyvernLegs.DisplayName: Storm Wyvern
 			StormWyvernTail.DisplayName: Storm Wyvern
 			StormWyvernWings.DisplayName: Storm Wyvern
-			WoodGuardian.DisplayName: Forest's Vengeance
+
+			WoodGuardian: {
+				DisplayName: Forest's Vengeance
+				BossChecklistIntegration.SpawnInfo: Quest from the Hunt Master, found in the forest
+			}
+
 			SandGolem.DisplayName: Desert Golem
 			Spectre.DisplayName: Spectre
 
@@ -3729,8 +3829,8 @@ Mods: {
 			DreamNail.DisplayName: Dream Nail
 			DreamNail2.DisplayName: Dream Nail
 			DreamSpinSlash.DisplayName: Dream Spin Slash
-			EarthenBillhook.DisplayName: Earthen Billhook
-			EarthenBillhook2.DisplayName: Earthen Billhook
+			EarthenBillhook.DisplayName: Roc's Beak
+			EarthenBillhook2.DisplayName: Roc's Beak
 			EggSack.DisplayName: Egg Sack
 			Explosion2.DisplayName: Explosion
 			GilgSetFlail.DisplayName: Flail
@@ -4012,6 +4112,7 @@ Mods: {
 			NapalmFire.DisplayName: Napalm Fire
 			ArmorFlame.DisplayName: Armor Flame
 			Gravebuster.DisplayName: Gravebuster
+			AssassinKunai.DisplayName: Assassin Kunai
 		}
 
 		Tiles: {

@@ -88,6 +88,16 @@ namespace JoostMod.Projectiles.Melee
                 hitbox = target.getRect();
             }
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float point = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.oldPosition + Projectile.Size / 2, Projectile.Center, 20 * Projectile.scale, ref point))
+            {
+                return true;
+            }
+
+            return base.Colliding(projHitbox, targetHitbox);
+        }
         public override bool? CanHitNPC(NPC target)
         {
             if (target.whoAmI == (int)Projectile.ai[0])

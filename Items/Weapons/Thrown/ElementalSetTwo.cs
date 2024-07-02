@@ -41,12 +41,12 @@ namespace JoostMod.Items.Weapons.Thrown
             {
                 //player.SetItemTime(player.itemTime + 8);
                 //player.SetItemAnimation(player.itemAnimation + 8);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.75f, velocity.Y * 0.75f, ModContent.ProjectileType<Projectiles.Thrown.Fireball>(), (int)(damage * 32f / Item.damage), knockback / Item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.75f, velocity.Y * 0.75f, ModContent.ProjectileType<Projectiles.Thrown.Fireball>(), (int)(damage * 38f / Item.damage), knockback / Item.knockBack, player.whoAmI);
             }
             if (wep == 1)
             {
                 Item.reuseDelay = 0;
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.Tornade>(), (int)(damage * 38f / Item.damage), knockback * 4f / Item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, ModContent.ProjectileType<Projectiles.Thrown.Tornade>(), (int)(damage * 36f / Item.damage), knockback * 4f / Item.knockBack, player.whoAmI);
             }
             if (wep == 2)
             {
@@ -58,7 +58,7 @@ namespace JoostMod.Items.Weapons.Thrown
             {
                 //player.SetItemTime(player.itemTime + 13);
                 //player.SetItemAnimation(player.itemAnimation + 13);
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.Rock>(), (int)(damage * 165f / Item.damage), knockback * 10f / Item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.3f, velocity.Y * 1.3f, ModContent.ProjectileType<Projectiles.Thrown.Rock>(), (int)(damage * 180f / Item.damage), knockback * 10f / Item.knockBack, player.whoAmI);
             }
             return false;
         }

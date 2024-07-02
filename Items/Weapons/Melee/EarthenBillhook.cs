@@ -1,4 +1,3 @@
-//TODO: Billhook is honestly kinda ugly, change to a cooler polearm
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -20,7 +19,7 @@ namespace JoostMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            Item.damage = 69;
+            Item.damage = 84;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
             Item.width = 92;
             Item.height = 90;

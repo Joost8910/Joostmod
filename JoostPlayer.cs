@@ -34,6 +34,7 @@ using JoostMod.NPCs.Bosses;
 using JoostMod.Projectiles.Hostile;
 using JoostMod.Mounts;
 using JoostMod.Items.Mounts;
+using Mono.Cecil;
 
 namespace JoostMod
 {
@@ -128,7 +129,11 @@ namespace JoostMod
         public Item waterBubbleItem = null;
         public bool hideBubble = false;
         public bool emptyHeart = false;
-        
+        public Item assKunaiItem = null;
+        public int assKunaiMax = 3;
+        private int assKunaiCount = 0;
+        private int assKunaiAnim = 0;
+
         public bool dirtArmor = false;
         public bool slimeArmor = false;
         public bool slimeActive = false;
@@ -171,12 +176,14 @@ namespace JoostMod
         public bool isSaitama = false;
         public int LegendCool = 0;
         public int spinTimer = 0;
+        public bool nextHitNoKB;
 
         public bool noHooks = false;
         public float runAccelerationMult = 1;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
         public int dashDamage = 0;
+
         private bool[] dashHit = new bool[200];
         private bool dashBounce = false;
         private Vector2 oldVelocity = Vector2.Zero;
@@ -283,6 +290,7 @@ namespace JoostMod
             fleshShieldItem = null;
             havelShieldItem = null;
             sporganItem = null;
+            assKunaiItem = null;
 
             noHooks = Player.ownedProjectileCounts[ModContent.ProjectileType<SwingyHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedSwingyHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<CactusHook>()] <= 0 && Player.grappling[0] == -1;
             accRunSpeedMult = 1;
@@ -506,6 +514,35 @@ namespace JoostMod
                         glowEyeDye = Player.dye[v - 10].dye;
                         break;
                     }
+                }
+            }
+            if (assKunaiAnim > 0)
+            {
+                float a = assKunaiAnim > 15 ? (18 - assKunaiAnim) / 3f : Math.Clamp(assKunaiAnim, 0, 10) / 10f;
+                float handrot = Utils.AngleLerp(-MathHelper.PiOver4, -MathHelper.PiOver4 * 3, a) * Player.direction;
+                Player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, handrot);
+            }
+            else if (assKunaiItem != null && assKunaiCount > 0)
+            {
+                float handrot = -MathHelper.PiOver4 * Player.direction;
+                Player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.ThreeQuarters, handrot);
+                Vector2 handPos = (Player.GetBackHandPosition(Player.CompositeArmStretchAmount.ThreeQuarters, handrot) - Player.MountedCenter);
+                handPos.Y *= Player.gravDir;
+                float m = Math.Max(assKunaiCount, assKunaiMax);
+                for (int i = 0; i < assKunaiCount; i++)
+                {
+                    Vector2 pos = Player.MountedCenter + handPos + new Vector2(MathHelper.Lerp(3, -3, i / m) * Player.direction, 2 * Player.gravDir).RotatedBy(handrot * Player.gravDir) - new Vector2(0.5f - Player.direction * 0.5f, 0);
+                    Dust d;
+                    if (assKunaiCount >= assKunaiMax)
+                    {
+                        d = Dust.NewDustPerfect(pos, 20, Vector2.Zero, 0, Color.Cyan, 0.75f);
+                    }
+                    else
+                    {
+                        d = Dust.NewDustPerfect(pos, 63, Vector2.Zero, 0, new Color(246, 216, 235), 0.75f);
+                        d.noLight = true;
+                    }
+                    d.noGravity = true;
                 }
             }
         }
@@ -860,7 +897,7 @@ namespace JoostMod
                 }
             }
             Item item = Player.QuickMount_GetItemToUse();
-            if (item.type == ModContent.ItemType<SandySaddle>())
+            if (item != null && item.type == ModContent.ItemType<SandySaddle>())
             {
                 if (Player.controlMount)
                 {
@@ -887,6 +924,10 @@ namespace JoostMod
                 {
                     releaseMount = true;
                 }
+            }
+            if (assKunaiAnim > 0)
+            {
+                Player.controlUseItem = false;
             }
         }
 
@@ -951,7 +992,7 @@ namespace JoostMod
                     target.AddBuff(BuffID.OnFire3, 600);
                 }
             }
-            if (proj.minion)
+            if (proj.CountsAsClass(DamageClass.Summon))
             {
                 if (airMedallion && proj.type != ModContent.ProjectileType<AirBlast>() && Main.rand.NextBool(10))
                 {
@@ -959,35 +1000,53 @@ namespace JoostMod
                     Projectile.NewProjectile(source, target.Center.X, target.position.Y + target.height, 0, -10f, ModContent.ProjectileType<AirBlast>(), (int)player.GetDamage(DamageClass.Summon).ApplyTo(25), 0, player.whoAmI);
                 }
             }
-            if (sandStorm && proj.CountsAsClass(DamageClass.Throwing))
+            if (proj.CountsAsClass(DamageClass.Throwing))
             {
-                int erg = 80;
-                if (Main.rand.NextBool(2))
+                if (sandStorm)
                 {
-                    erg = 80;
+                    int erg = 80;
+                    if (Main.rand.NextBool(2))
+                    {
+                        erg = 80;
+                    }
+                    else
+                    {
+                        erg = -80;
+                    }
+
+                    float xPos = proj.position.X + erg;
+                    Vector2 vector2 = new Vector2(xPos, proj.position.Y + Main.rand.Next(-80, 81));
+
+                    float num80 = xPos;
+                    Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
+                    float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
+                    dir = 10 / num80;
+                    velocity.X *= dir * 150 * player.ThrownVelocity;
+                    velocity.Y *= dir * 150 * player.ThrownVelocity;
+                    if (sandStormTimer <= 0)
+                    {
+                        Projectile.NewProjectile(player.GetSource_FromThis(), vector2.X, vector2.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Sand>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, proj.owner);
+                        sandStormTimer = 5;
+                    }
                 }
-                else
+                if (assKunaiItem != null && proj.type != ModContent.ProjectileType<Projectiles.Accessory.AssassinKunai>() && hit.Crit)
                 {
-                    erg = -80;
+                    if (assKunaiCount < assKunaiMax && assKunaiAnim <= 0)
+                    {
+                        assKunaiCount++;
+                        if (assKunaiCount == assKunaiMax)
+                        {
+                            SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Coin_3").WithPitchOffset(-0.44f), player.Center);
+
+
+                            float handrot = -MathHelper.PiOver4 * Player.direction;
+                            Vector2 handPos = (Player.GetBackHandPosition(Player.CompositeArmStretchAmount.ThreeQuarters, handrot) - Player.MountedCenter);
+                            handPos.Y *= Player.gravDir;
+                            Dust.NewDustPerfect(Player.MountedCenter + handPos, 91, new Vector2(-Player.direction, -Player.gravDir * 3), 0, Color.White, 1f);
+                        }
+                    }
                 }
-
-                float xPos = proj.position.X + erg;
-                Vector2 vector2 = new Vector2(xPos, proj.position.Y + Main.rand.Next(-80, 81));
-
-                float num80 = xPos;
-                Vector2 velocity = new(target.position.X - vector2.X, target.position.Y - vector2.Y);
-                float dir = (float)Math.Sqrt((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
-                dir = 10 / num80;
-                velocity.X *= dir * 150 * player.ThrownVelocity;
-                velocity.Y *= dir * 150 * player.ThrownVelocity;
-                if (sandStormTimer <= 0)
-                {
-                    Projectile.NewProjectile(source, vector2.X, vector2.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Sand>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(20), 1, proj.owner);
-                    sandStormTimer = 5;
-                }
-
             }
-
         }
         public override void OnHurt(Player.HurtInfo info)
         {
@@ -1259,6 +1318,11 @@ namespace JoostMod
             if (slimeActive)
             {
                 modifiers.FinalDamage *= 0.8f;
+            }
+            if (nextHitNoKB)
+            {
+                modifiers.Knockback *= 0;
+                nextHitNoKB = false;
             }
         }
         public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
@@ -2645,6 +2709,62 @@ namespace JoostMod
                 {
                     Player.velocity.X *= 0.93f;
                 }
+            }
+            switch (Player.meleeEnchant)
+            {
+                case 1: //Venom
+                    assKunaiMax = 11;
+                    break;
+                case 2: //Cursed Flames
+                    assKunaiMax = 9;
+                    break;
+                case 3: //Fire
+                    assKunaiMax = 5;
+                    break;
+                case 4: //Gold
+                    assKunaiMax = 7;
+                    break;
+                case 5: //Ichor
+                    assKunaiMax = 8;
+                    break;
+                case 6: //Nanites
+                    assKunaiMax = 16;
+                    break;
+                case 7: //Party
+                    assKunaiMax = 9;
+                    break;
+                case 8: //Poison
+                    assKunaiMax = 3;
+                    break;
+                default:
+                    assKunaiMax = 3;
+                    break;
+            }
+            if (assKunaiItem != null)
+            {
+                if (assKunaiCount > 0 && assKunaiAnim <= 0)
+                {
+                    if (Player.controlUseTile)
+                    {
+                        var source = Player.GetSource_Accessory(assKunaiItem);
+                        int damage = Player.GetWeaponDamage(assKunaiItem);
+                        float knockback = Player.GetWeaponKnockback(assKunaiItem);
+                        Vector2 vel = Player.DirectionTo(Main.MouseWorld) * 36f * Player.ThrownVelocity;
+                        float rotation = MathHelper.ToRadians(assKunaiCount * 1.5f);
+                        for (int i = 0; i < assKunaiCount; i++)
+                        {
+                            Vector2 perturbedSpeed = assKunaiCount <= 1 ? vel : vel.RotatedBy(Utils.AngleLerp(-rotation, rotation, i / (float)(assKunaiCount - 1)));
+                            Projectile.NewProjectile(source, Player.Center, perturbedSpeed, ModContent.ProjectileType<Projectiles.Accessory.AssassinKunai>(), damage, knockback, Player.whoAmI);
+                        }
+                        SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing.WithPitchOffset(1f));
+                        assKunaiCount = 0;
+                        assKunaiAnim = 18;
+                    }
+                }
+            }
+            if (assKunaiAnim > 0)
+            {
+                assKunaiAnim--;
             }
             if (blazeAnklet)
             {

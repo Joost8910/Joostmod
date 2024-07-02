@@ -36,7 +36,6 @@ namespace JoostMod.Projectiles.Thrown
         {
             Projectile.damage -= 30;
             Projectile.knockBack *= 0.8f;
-            Projectile.ai[2] = 0;
             if (Projectile.damage <= 0)
             {
                 Projectile.Kill();

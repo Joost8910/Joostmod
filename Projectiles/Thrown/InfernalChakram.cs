@@ -58,7 +58,7 @@ namespace JoostMod.Projectiles.Thrown
                 int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, Projectile.velocity.X / 10, Projectile.velocity.Y / 10, 100, default, 1f);
                 Main.dust[num1].noGravity = true;
             }
-            if (Projectile.timeLeft % 30 == 0)
+            if (Projectile.timeLeft % 40 == 0)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Fires>(), Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Fires2>(), Projectile.damage, Projectile.knockBack / 3, Projectile.owner, Projectile.whoAmI);

@@ -15,7 +15,7 @@ namespace JoostMod.Projectiles.Melee
         {
             Projectile.width = 30;
             Projectile.height = 30;
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = -1;
             Projectile.timeLeft = 90;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;

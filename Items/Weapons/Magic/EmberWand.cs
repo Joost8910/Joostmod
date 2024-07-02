@@ -26,7 +26,7 @@ namespace JoostMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 0;
             Item.value = 10;
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.White;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Flame>();

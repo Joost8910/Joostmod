@@ -17,12 +17,12 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 48;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Throwing;
             Item.width = 46;
             Item.height = 64;
-            Item.useTime = 22;
-            Item.useAnimation = 22;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 7;
@@ -41,21 +41,39 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave1>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave2>()] <= 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>(), (int)(damage * 1.44f), knockback * 2.16f, player.whoAmI);
-            }
-            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>()] <= 0)
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.95f, velocity.Y * 0.95f, ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>(), damage, knockback, player.whoAmI);
-            }
-            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.Boomerain>()] <= 0)
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.4f, velocity.Y * 1.4f, ModContent.ProjectileType<Projectiles.Thrown.Boomerain>(), (int)(damage * 0.65f), knockback * 1.16f, player.whoAmI);
+                Rectangle rect = new Rectangle((int)Main.MouseWorld.X - 32, (int)Main.MouseWorld.Y - 32, 64, 64);
+                int t = 0;
+                for (int n = 0; n < 200; n++)
+                {
+                    NPC target = Main.npc[n];
+                    if (target.active && !target.friendly && !target.immortal && rect.Intersects(target.getRect()))
+                    {
+                        t = n + 1;
+                        for (int d = 0; d < 12; d++)
+                        {
+                            Dust dust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.SnowBlock, 0, 0f, 50, default, 1.5f);
+                            dust.noGravity = true;
+                            dust.velocity = target.DirectionTo(dust.position) * 3;
+                            dust.position = target.Center;
+                        }
+                        break;
+                    }
+                }
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.95f, velocity.Y * 0.95f, ModContent.ProjectileType<Projectiles.Thrown.GaleBoomerang>(), (int)(damage * 40f / Item.damage), knockback, player.whoAmI, t, t);
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>()] + player.ownedProjectileCounts[ModContent.ProjectileType<DousedChakram>()] <= 0)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.InfernalChakram>(), (int)(damage * 36f / Item.damage), knockback, player.whoAmI);
+            }
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave1>()] + player.ownedProjectileCounts[ModContent.ProjectileType<EarthWave2>()] <= 0)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Thrown.EarthenHammer>(), (int)(damage * 69f / Item.damage), knockback * 2.16f, player.whoAmI);
+            }
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.Boomerain>()] <= 0)
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.4f, velocity.Y * 1.4f, ModContent.ProjectileType<Projectiles.Thrown.Boomerain>(), damage, knockback * 1.16f, player.whoAmI);
             }
             return false;
         }

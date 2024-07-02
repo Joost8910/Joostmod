@@ -63,16 +63,16 @@ namespace JoostMod.Projectiles.Magic
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             float mult = Vector2.Distance(Projectile.position, Projectile.oldPos[1]) * 0.05f;
-            if (mult > 3f)
-                mult = 3f;
+            if (mult > 2.5f)
+                mult = 2.5f;
             modifiers.SourceDamage *= mult;
             modifiers.DisableKnockback();
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             float mult = Vector2.Distance(Projectile.position, Projectile.oldPos[1]) * 0.05f;
-            if (mult > 3)
-                mult = 3f;
+            if (mult > 2.5f)
+                mult = 2.5f;
             modifiers.SourceDamage *= mult;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

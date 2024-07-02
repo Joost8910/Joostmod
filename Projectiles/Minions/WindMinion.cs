@@ -35,8 +35,9 @@ namespace JoostMod.Projectiles.Minions
 			inertia = 20f;
 			shootCool = 40f;
 			shoot = ModContent.ProjectileType<WindBall>();
-			shootSpeed = 12f;
+			shootSpeed = 15f;
             spacingMult = 0.8f;
+			chaseAccel = 11f;
 		}
 
 		public override void CheckActive()
