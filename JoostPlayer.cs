@@ -178,7 +178,12 @@ namespace JoostMod
         public int spinTimer = 0;
         public bool nextHitNoKB;
 
-        public bool noHooks = false;
+        public bool noHooks
+        {
+            get { return Player.ownedProjectileCounts[ModContent.ProjectileType<SwingyHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedSwingyHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<CactusHook>()] <= 0 && Player.grappling[0] == -1; }
+        }
+
+
         public float runAccelerationMult = 1;
         public float accRunSpeedMult = 1;
         public int dashType = 0;
@@ -292,7 +297,7 @@ namespace JoostMod
             sporganItem = null;
             assKunaiItem = null;
 
-            noHooks = Player.ownedProjectileCounts[ModContent.ProjectileType<SwingyHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<MobHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedSwingyHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<EnchantedMobHook>()] + Player.ownedProjectileCounts[ModContent.ProjectileType<CactusHook>()] <= 0 && Player.grappling[0] == -1;
+            
             accRunSpeedMult = 1;
             runAccelerationMult = 1;
             dashType = 0;
@@ -592,6 +597,7 @@ namespace JoostMod
                 }
             }
         }
+
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
             Player player = drawInfo.drawPlayer;
@@ -2330,7 +2336,7 @@ namespace JoostMod
             {
                 staffSaplingTimer = 37;
             }
-            if (fishingSaplingItem != null && Player.HeldItem.fishingPole > 0 && Player.ownedProjectileCounts[ModContent.ProjectileType<SaplingFishHook>()] < 1 && !Player.CCed && !Player.noItems && !Player.pulley && !Player.dead)
+            if (fishingSaplingItem != null && Player.HeldItem.type != 0 && Player.HeldItem.fishingPole > 0 && Player.ownedProjectileCounts[ModContent.ProjectileType<SaplingFishHook>()] < 1 && !Player.CCed && !Player.noItems && !Player.pulley && !Player.dead)
             {
                 var source = Player.GetSource_Accessory(fishingSaplingItem);
                 Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, -Player.direction * 2, 0, ModContent.ProjectileType<SaplingFishHook>(), 10, 0, Player.whoAmI);
@@ -2959,6 +2965,7 @@ namespace JoostMod
                     posX += (float)Player.width;
                 }
                 posX += (float)Player.slideDir;
+
                 float posY = Player.position.Y;
                 float ceilY = Player.position.Y - 1f;
                 if (Player.gravDir < 0f)
@@ -2966,19 +2973,40 @@ namespace JoostMod
                     posY = Player.position.Y + Player.height;
                     ceilY = Player.position.Y + (float)Player.height + 1f;
                 }
-                posX /= 16f;
-                posY /= 16f;
                 ceilY /= 16f;
                 ceilXL /= 16f;
                 ceilXC /= 16f;
                 ceilXR /= 16f;
-                if (WorldGen.SolidOrSlopedTile((int)posX, (int)posY) || WorldGen.SolidOrSlopedTile((int)posX, (int)posY + 1) || WorldGen.SolidOrSlopedTile((int)posX, (int)posY + 2))
-                {
-                    wall = true;
-                }
-                if (WorldGen.SolidOrSlopedTile((int)ceilXC, (int)ceilY) || (WorldGen.SolidOrSlopedTile((int)ceilXL, (int)ceilY) && !WorldGen.SolidOrSlopedTile((int)ceilXL, (int)(ceilY+Player.gravDir))) || (WorldGen.SolidOrSlopedTile((int)ceilXR, (int)ceilY) && !WorldGen.SolidTile((int)ceilXR, (int)(ceilY+Player.gravDir))))
+                bool cornerCheck = false;
+                if (WorldGen.SolidOrSlopedTile((int)ceilXC, (int)ceilY) || (WorldGen.SolidOrSlopedTile((int)ceilXL, (int)ceilY) && !WorldGen.SolidOrSlopedTile((int)ceilXL, (int)(ceilY + Player.gravDir))) || (WorldGen.SolidOrSlopedTile((int)ceilXR, (int)ceilY) && !WorldGen.SolidTile((int)ceilXR, (int)(ceilY + Player.gravDir))))
                 {
                     ceiling = true;
+
+                    if (Player.slideDir == 0 && (Player.controlUp || Player.controlDown))
+                    {
+                        SlopeType sl = Player.gravDir < 0 ? SlopeType.SlopeDownLeft : SlopeType.SlopeUpLeft;
+                        SlopeType sr = Player.gravDir < 0 ? SlopeType.SlopeDownRight : SlopeType.SlopeUpRight;
+                        if (Player.controlRight && !WorldGen.SolidOrSlopedTile((int)ceilXC, (int)ceilY) && Main.tile[(int)ceilXL, (int)ceilY].Slope != sl)
+                        {
+                            posX -= 2;
+                            cornerCheck = true;
+                            //Main.NewText(Main.tile[(int)ceilXL, (int)ceilY].Slope, Color.Red);
+                        }
+                        if (Player.controlLeft && !WorldGen.SolidOrSlopedTile((int)ceilXC, (int)ceilY) && Main.tile[(int)ceilXR, (int)ceilY].Slope != sr)
+                        {
+                            posX += (float)Player.width;
+                            posX += 2;
+                            cornerCheck = true;
+                            //Main.NewText(Main.tile[(int)ceilXR, (int)ceilY].Slope,Color.LightBlue);
+                        }
+                    }
+                }
+                
+                posX /= 16f;
+                posY /= 16f;
+                if (WorldGen.SolidOrSlopedTile((int)posX, (int)posY) || WorldGen.SolidOrSlopedTile((int)posX, (int)posY + (int)Player.gravDir) || WorldGen.SolidOrSlopedTile((int)posX, (int)posY + (int)Player.gravDir * 2))
+                {
+                    wall = true;
                 }
                 if (wall)
                 {
@@ -3023,11 +3051,15 @@ namespace JoostMod
                     }
                     else if (Player.controlUp)
                     {
-                        Player.velocity.Y = -speed * Player.gravDir;
+                        Player.velocity.Y = -(speed + grav) * Player.gravDir;
                     }
                     else
                     {
                         Player.velocity.Y = (-grav + 1E-05f) * Player.gravDir;
+                    }
+                    if (cornerCheck)
+                    {
+                        Player.velocity.X = 0;
                     }
                     slimeClimbWall = true;
                     Player.sliding = true;
@@ -3046,7 +3078,7 @@ namespace JoostMod
                             grav = Player.gravity / 3f * Player.gravDir;
                         }
                     }
-                    if (Player.velocity.Y >= 0)
+                    if (Player.velocity.Y >= 0 || Player.controlUp)
                     {
                         if (Player.controlLeft)
                         {
@@ -3095,6 +3127,7 @@ namespace JoostMod
                     slimeClimbCeiling = true;
                     Player.sliding = true;
                 }
+
             }
             else
             {

@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.height = 22;
             Projectile.aiStyle = 2;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Throwing;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 90;
             AIType = ProjectileID.Shuriken;

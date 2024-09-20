@@ -96,6 +96,8 @@ namespace JoostMod.Projectiles.Hostile
             for (Distance = MOVE_DISTANCE; Distance <= MAX_DISTANCE; Distance += 5f)
             {
                 start = owner.Center + Projectile.velocity * Distance;
+                if ((int)Distance % 10 == 0)
+                    Dust.NewDustDirect(owner.Center + Projectile.velocity * Distance - new Vector2(5, 5), 10, 10, 55).noGravity = true;
                 if (!Collision.CanHitLine(owner.Center, 1, 1, start, 1, 1))
                 {
                     Distance -= 5f;

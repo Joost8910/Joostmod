@@ -31,9 +31,9 @@ namespace JoostMod.Projectiles.Accessory
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            FishingAttempt fishingAttempt = default; //TODO: Figure out if this works
+            FishingAttempt fishingAttempt = default; 
             Projectile.timeLeft = 60;
-            if (player.HeldItem.fishingPole == 0 || player.CCed || player.noItems || player.pulley || player.dead || !player.active || player.GetModPlayer<JoostPlayer>().fishingSaplingItem == null)
+            if (player.HeldItem.type == 0 || player.HeldItem.fishingPole == 0 || player.CCed || player.noItems || player.pulley || player.dead || !player.active || player.GetModPlayer<JoostPlayer>().fishingSaplingItem == null)
             {
                 Projectile.Kill();
             }

@@ -64,15 +64,18 @@ namespace JoostMod.Tiles
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			if (Main.chest[chest].name == "")
+            if (chest < 0)
+            {
+                return Language.GetTextValue("LegacyChestType.0");
+            }
+
+            if (Main.chest[chest].name == "")
 			{
 				return name;
-			}
-			else
-			{
-				return name + ": " + Main.chest[chest].name;
-			}
-		}
+            }
+
+            return name + ": " + Main.chest[chest].name;
+        }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{

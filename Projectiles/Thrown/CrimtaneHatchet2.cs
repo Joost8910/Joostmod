@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.height = 28;
             Projectile.aiStyle = 3;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Throwing;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.usesIDStaticNPCImmunity = true;

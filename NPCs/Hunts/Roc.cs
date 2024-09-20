@@ -45,7 +45,7 @@ namespace JoostMod.NPCs.Hunts
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.SpawnTileY < Main.worldSurface*0.35f && !JoostWorld.downedRoc && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
+            return spawnInfo.Sky && !JoostWorld.downedRoc && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
         public override void OnKill()
 		{

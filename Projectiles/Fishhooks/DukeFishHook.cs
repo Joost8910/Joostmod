@@ -14,13 +14,9 @@ namespace JoostMod.Projectiles.Fishhooks
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.BobberGolden);
-
-        }
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("DukeFishHook");
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
+
         }
         public override bool? CanHitNPC(NPC target)
         {

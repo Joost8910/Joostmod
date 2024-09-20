@@ -37,9 +37,10 @@ namespace JoostMod.NPCs.Hunts
             NPC.value = 0;
             NPC.netAlways = true;
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.SpawnTileY < Main.worldSurface * 0.35f && Main.raining && !JoostWorld.downedStormWyvern && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
+            return spawnInfo.Sky && Main.raining && !JoostWorld.downedStormWyvern && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.35f : 0f;
         }
         public override void OnKill()
         {
@@ -158,13 +159,13 @@ namespace JoostMod.NPCs.Hunts
                     NPC.life = NPC.life < NPC.lifeMax ? NPC.life + 1 + (int)((float)NPC.lifeMax * 0.001f) : NPC.lifeMax;
                     if (NPC.localAI[3] > 0)
                     {
-                        NPC.localAI[3]--;
+                        NPC.localAI[3] -= 5;
                     }
                     if (NPC.Center.Y < 666 && NPC.velocity.Y < speed)
                     {
                         NPC.velocity.Y += turnSpeed * 2;
                     }
-                    if (NPC.Center.Y / 16 >= Main.worldSurface && NPC.velocity.Y > speed)
+                    if (NPC.Center.Y / 16 >= Main.worldSurface * 0.4f && NPC.velocity.Y > speed)
                     {
                         NPC.velocity.Y -= turnSpeed * 2;
                     }
@@ -253,7 +254,7 @@ namespace JoostMod.NPCs.Hunts
                     Vector2 targetPos = target.Center;
                     if (Main.expertMode)
                     {
-                        targetPos += target.velocity * (Vector2.Distance(NPC.Center, target.Center) / dashSpeed);
+                        targetPos.X += target.velocity.X * (Vector2.Distance(NPC.Center, target.Center) / dashSpeed);
                     }
                     NPC.velocity = NPC.DirectionTo(targetPos) * dashSpeed;
                 }
@@ -262,19 +263,20 @@ namespace JoostMod.NPCs.Hunts
                     Vector2 targetPos = target.Center;
                     if (Main.expertMode)
                     {
-                        targetPos += target.velocity * (Vector2.Distance(NPC.Center, target.Center) / NPC.velocity.Length());
+                        targetPos.X += target.velocity.X * (Vector2.Distance(NPC.Center, target.Center) / NPC.velocity.Length());
                     }
                     Vector2 direction = new Vector2(targetPos.X > NPC.Center.X ? 1 : -1, targetPos.Y > NPC.Center.Y ? 1 : -1);
+                    float spe = Main.expertMode ? turnSpeed * 4 : turnSpeed * 2;
                     if (Math.Abs(NPC.velocity.X) < speed)
                     {
-                        NPC.velocity.X += turnSpeed * direction.X;
+                        NPC.velocity.X += spe * direction.X;
                     }
                     if (Math.Abs(NPC.velocity.Y) < speed)
                     {
-                        NPC.velocity.Y += turnSpeed * direction.Y;
+                        NPC.velocity.Y += spe * direction.Y;
                     }
                 }
-                if (NPC.localAI[2] > 1500)
+                if (NPC.localAI[2] > 1500 && NPC.localAI[2] % 400 < 340 && Collision.CanHitLine(NPC.Center, 1, 1, target.Center, 1, 1) && Vector2.Distance(NPC.Center, target.Center) < 1000) //Do Lightning
                 {
                     NPC.localAI[2] = 0;
                     NPC.localAI[3] = 1;
