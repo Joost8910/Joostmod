@@ -26,7 +26,7 @@ namespace JoostMod.Items.Armor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.GetCritChance(DamageClass.Throwing) += 20;
+			player.GetCritChance(DamageClass.Throwing) += 15;
 			player.resistCold = true;
 		}
 

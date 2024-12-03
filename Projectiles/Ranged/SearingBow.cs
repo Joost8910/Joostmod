@@ -61,13 +61,13 @@ namespace JoostMod.Projectiles.Ranged
         public override bool PreAI()
         {
             Player player = Main.player[Projectile.owner];
-            float speed = 25;
+            float speed = 25f / player.GetAttackSpeed(DamageClass.Ranged);
             float shootSpeed = 13f;
 
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 shootSpeed = player.inventory[player.selectedItem].shootSpeed;
-                speed = player.inventory[player.selectedItem].useTime;
+                speed = (float)player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Ranged);
                 Projectile.netUpdate = true;
             }
             if (Main.myPlayer == Projectile.owner)

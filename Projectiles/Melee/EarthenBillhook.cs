@@ -86,19 +86,33 @@ namespace JoostMod.Projectiles.Melee
                 //Projectile.ai[1] += stabMult;
                 foreach(Projectile p in Main.ActiveProjectiles)
                 {
-                    if (p.active && p.type == ModContent.ProjectileType<Boulder>() && Projectile.Distance(p.Center) < 55 * Projectile.scale)
+                    if (p.active && Projectile.Distance(p.Center) < 55 * Projectile.scale)
                     {
-                        p.velocity = Projectile.velocity * 2f;
-                        p.damage = (int)(Projectile.damage * 3f);
-                        p.knockBack = Projectile.knockBack * 3f;
-                        p.owner = Projectile.owner;
-                        p.netUpdate = true;
-                        if (p.timeLeft <= 500)
+                        if (p.type == ModContent.ProjectileType<Boulder>() || p.type == ProjectileID.Boulder || p.type == ProjectileID.BouncyBoulder || p.type == ProjectileID.LifeCrystalBoulder || p.type == ProjectileID.MoonBoulder|| p.type == ProjectileID.MiniBoulder)
                         {
-                            SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.25f), p.Center);
-                            p.timeLeft = 540;
+                            p.velocity = Projectile.velocity * 2f;
+                            if (p.type == ModContent.ProjectileType<Boulder>())
+                            {
+                                p.damage = (int)(Projectile.damage * 3f);
+                                p.knockBack = Projectile.knockBack * 3f;
+                                p.owner = Projectile.owner;
+                                if (p.timeLeft <= 500)
+                                {
+                                    SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.25f), p.Center);
+                                    p.timeLeft = 540;
+                                }
+                            }
+                            else
+                            {
+                                if (p.hostile)
+                                {
+                                    SoundEngine.PlaySound(SoundID.Tink.WithPitchOffset(-0.25f), p.Center);
+                                    p.hostile = false;
+                                }
+                            }
+                            p.netUpdate = true;
+                            break; 
                         }
-                        break;
                     }
                 }
             }/*

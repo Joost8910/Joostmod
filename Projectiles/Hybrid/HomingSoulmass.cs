@@ -100,7 +100,7 @@ namespace JoostMod.Projectiles.Hybrid
                     {
                         move *= Projectile.localAI[0] / move.Length();
                     }
-                    float home = 15f;
+                    float home = 12f;
                     Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
                 }
                 if (Projectile.velocity.Length() < Projectile.localAI[0] && Projectile.localAI[0] > 0)

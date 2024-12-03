@@ -4,13 +4,21 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Projectiles.Minions;
+using JoostMod.Buffs;
+using Terraria.Localization;
+using System.Collections.Generic;
 
 namespace JoostMod.Items.Weapons.Summon
 {
     public class GnomeStaff : ModItem
     {
+        private int projDamageLimit;
+        public static LocalizedText MaxBlockDamageText { get; private set; }
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(TailWhipDebuff.TagDamage);
+
         public override void SetStaticDefaults()
         {
+            MaxBlockDamageText = this.GetLocalization("MaxBlockDamage");
             // DisplayName.SetDefault("Gnome Staff");
             /* Tooltip.SetDefault("'With silver beard and crimson hat the gnome warriors fight valiantly for their people'\n" +
                 "Summons a Gnome warrior\n" +
@@ -43,6 +51,14 @@ namespace JoostMod.Items.Weapons.Summon
             return true;
         }
 
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            projDamageLimit = (int)(damage.ApplyTo(Item.damage) * Main.GameModeInfo.EnemyDamageMultiplier * 2f);
+        }
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            list.Add(new TooltipLine(Mod, "MaxDamageCanBlock", MaxBlockDamageText.Format(projDamageLimit)));
+        }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.MouseWorld;

@@ -26,7 +26,7 @@ namespace JoostMod.Projectiles.Hybrid
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 1200;
             Projectile.alpha = 150;
             AIType = ProjectileID.Bullet;
             Projectile.arrow = true;
@@ -48,15 +48,18 @@ namespace JoostMod.Projectiles.Hybrid
             bool target = false;
             for (int k = 0; k < 200; k++)
             {
-                if (Main.npc[k].active && !Main.npc[k].dontTakeDamage && Main.npc[k].lifeMax > 5 && Main.npc[k].CanBeChasedBy(this, false) && Collision.CanHit(new Vector2(Projectile.Center.X, Projectile.Center.Y), 1, 1, Main.npc[k].position, Main.npc[k].width, Main.npc[k].height))
+                if (Main.myPlayer == Projectile.owner && Main.npc[k].active && !Main.npc[k].dontTakeDamage && Main.npc[k].lifeMax > 5 && Main.npc[k].CanBeChasedBy(this, false) && Collision.CanHit(new Vector2(Projectile.Center.X, Projectile.Center.Y), 1, 1, Main.npc[k].position, Main.npc[k].width, Main.npc[k].height))
                 {
                     Vector2 newMove = Main.npc[k].Center - Projectile.Center;
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
+                    if (Vector2.Distance(Main.npc[k].Center, Main.MouseWorld) <= 100f)
+                        distanceTo = Vector2.Distance(Main.npc[k].Center, Main.MouseWorld);
                     if (distanceTo < distance)
                     {
                         move = newMove;
                         distance = distanceTo;
                         target = true;
+                        Projectile.netUpdate = true;
                     }
                 }
             }
@@ -66,7 +69,7 @@ namespace JoostMod.Projectiles.Hybrid
                 {
                     move *= Projectile.localAI[0] / move.Length();
                 }
-                float home = 20f;
+                float home = 15f;
                 Projectile.velocity = ((home - 1f) * Projectile.velocity + move) / home;
             }
             if (Projectile.velocity.Length() < Projectile.localAI[0] && Projectile.localAI[0] > 0)

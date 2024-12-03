@@ -29,7 +29,7 @@ namespace JoostMod.Projectiles.Ranged
         {
             Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            Projectile.ai[1] = 1;
+            Projectile.ai[1] = 1 * player.GetAttackSpeed(DamageClass.Ranged);
             if (!player.noItems && !player.CCed)
             {
                 if (Main.myPlayer == Projectile.owner)
@@ -38,7 +38,7 @@ namespace JoostMod.Projectiles.Ranged
                     if (player.inventory[player.selectedItem].shoot == Projectile.type)
                     {
                         scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale * (player.archery ? 1.2f : 1);
-                        Projectile.ai[1] = 40f / player.inventory[player.selectedItem].useTime;
+                        Projectile.ai[1] = (40f / player.inventory[player.selectedItem].useTime) * player.GetAttackSpeed(DamageClass.Ranged);
                     }
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();

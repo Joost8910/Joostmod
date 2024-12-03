@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Melee
@@ -58,6 +60,20 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.rotation -= 1.57f;
             }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            SpriteEffects effects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+            {
+                effects = SpriteEffects.FlipHorizontally;
+            }
+            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);
+            Color color = lightColor;
+            Vector2 vel = Main.player[Projectile.owner].MountedCenter.DirectionTo(Projectile.Center);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 70 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
+            return false;
         }
     }
 }

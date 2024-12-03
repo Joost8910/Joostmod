@@ -30,7 +30,8 @@ namespace JoostMod.Items.Accessories
                 player.maxRunSpeed *= 1.15f;
                 player.GetModPlayer<JoostPlayer>().accRunSpeedMult *= 1.15f;
                 player.ThrownVelocity += 0.15f;
-                player.GetModPlayer<JoostModPlayer>().throwConsume *= 0.85f;
+                player.GetAttackSpeed(DamageClass.Throwing) += 0.15f;
+                //player.GetModPlayer<JoostModPlayer>().throwConsume *= 0.85f;
             }
         }
         public override void AddRecipes()

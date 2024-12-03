@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -29,6 +30,7 @@ namespace JoostMod.Projectiles.Ranged
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 16;
+            Projectile.extraUpdates = 1;
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -99,21 +101,21 @@ namespace JoostMod.Projectiles.Ranged
 
             if (Main.myPlayer == Projectile.owner && Main.mouseRight && Main.mouseRightRelease)
             {
-                Projectile.ai[1] = (Projectile.ai[1] + 1) % 3;
+                Projectile.ai[1] = (Projectile.ai[1] + 2) % 3; //Adds 2 since extraupdates causes it to tick twice, works cuz there's only 3 looping gears
                 SoundEngine.PlaySound(SoundID.Item23.WithPitchOffset(Projectile.ai[1] * 0.2f), Projectile.Center);
             }
 
             if (Main.myPlayer == Projectile.owner && Main.mouseLeft)
             {
-                int rate = Math.Max(8 - (int)Projectile.localAI[0] / 20, 2);
+                int rate = (int)Math.Max(Math.Round((16 - Projectile.localAI[0] / 10) / player.GetAttackSpeed(DamageClass.Ranged)), 2);
                 Projectile.localNPCHitCooldown = rate * 2;
                 if (Projectile.localAI[0] < 40 + Projectile.ai[1] * 40)
                 {
-                    Projectile.localAI[0] += 0.7f - Projectile.ai[1] * 0.25f;
+                    Projectile.localAI[0] += (0.7f - Projectile.ai[1] * 0.25f) * 0.5f;
                 }
                 else if (Projectile.localAI[0] >= 41 + Projectile.ai[1] * 40)
                 {
-                    Projectile.localAI[0]--;
+                    Projectile.localAI[0] -= 0.5f;
                 }
                 Projectile.localAI[1] = (Projectile.localAI[1] + 45f / rate) % 360;
 
@@ -174,7 +176,18 @@ namespace JoostMod.Projectiles.Ranged
                             damage = (int)(damage * 0.6f);
                         }
                         Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(player.HeldItem, AmmoID.Bullet), Projectile.Center + offSet, shootDir, type, damage, knockback, Projectile.owner);
-                        SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
+                        if (rate < 4)
+                        {
+                            if (Projectile.soundDelay == 0)
+                            {
+                                SoundEngine.PlaySound(SoundID.Item41.WithPitchOffset(rate == 3 ? 0.05f : 0.1f), Projectile.Center);
+                                Projectile.soundDelay = 2;
+                            }
+                        }
+                        else
+                        {
+                            SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
+                        }
                     }
                     else
                     {

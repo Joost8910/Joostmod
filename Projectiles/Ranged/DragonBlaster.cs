@@ -43,7 +43,7 @@ namespace JoostMod.Projectiles.Ranged
             Player player = Main.player[Projectile.owner];
             var source = Projectile.GetSource_FromAI();
             Vector2 origin = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.None, 0);
-            float speed = 11;
+            float speed = 11f / player.GetAttackSpeed(DamageClass.Ranged);
             float shootSpeed = 13f;
             if (Projectile.ai[0] == 1)
             {
@@ -60,7 +60,7 @@ namespace JoostMod.Projectiles.Ranged
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 shootSpeed = player.inventory[player.selectedItem].shootSpeed;
-                speed = player.inventory[player.selectedItem].useTime;
+                speed = (float)player.inventory[player.selectedItem].useTime / player.GetAttackSpeed(DamageClass.Ranged);
                 Projectile.netUpdate = true;
             }
             bool channelling = player.controlUseItem && Projectile.ai[0] == 0 || player.controlUseTile && Projectile.ai[0] == 1;

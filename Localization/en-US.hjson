@@ -82,7 +82,7 @@ Mods: {
 
 			FireArmorBuff: {
 				DisplayName: Overwhelming Fire
-				Description: Ranged damage and movement speed increased by 40%, rapidly losing life
+				Description: Ranged attack speed and movement speed increased by 40%, rapidly losing life
 			}
 
 			FishMinionBuff: {
@@ -102,7 +102,7 @@ Mods: {
 
 			gRangedBuff: {
 				DisplayName: Ranged Mastery
-				Description: Defense reduced to 0, ranged damage increased by 0.5% per defense point lost
+				Description: Defense reduced to 0, ranged damage and attack speed increased by 0.5% per defense point lost
 			}
 
 			gThrownBuff: {
@@ -391,7 +391,7 @@ Mods: {
 					'''
 					15% Increased throwing damage
 					While in a sandstorm gain 15% increased movement speed,
-					 throwing velocity, and chance to not consume thrown items
+					 throwing velocity, and throwing attack speed
 					'''
 			}
 
@@ -898,7 +898,7 @@ Mods: {
 				Tooltip:
 					'''
 					Throwing velocity increased by 35%
-					Reduces thrown item consumption by 50%
+					50% chance to not consume thrown items
 					'''
 			}
 
@@ -956,7 +956,7 @@ Mods: {
 				Tooltip:
 					'''
 					25% increased Throwing Damage
-					50% chance to not consume thrown items
+					33% chance to not consume thrown items
 					'''
 			}
 
@@ -1340,8 +1340,8 @@ Mods: {
 					'''
 					'Crazy Gun Contraption of the legendary Boook'
 					Does more damage as you kill bosses throughout the game
-					Fires a crazy amount of bullets
-					Right click to spin the barrel
+					Rapidly fires bullets
+					Right click to shift gears, increasing fire rate at the cost of accuracy
 					Deals 40% reduced damage when using homing ammunition
 					50% chance to not consume ammo
 					'''
@@ -1356,7 +1356,7 @@ Mods: {
 					Rapidly throws shurikens
 					Right click for an evasive jump that throws many shurikens
 					Hold UP during the jump to throw a giant shuriken
-					(4 Second Cooldown
+					(4 Second Cooldown)
 					'''
 			}
 
@@ -2968,9 +2968,9 @@ Mods: {
 					'With silver beard and crimson hat the gnome warriors fight valiantly for their people'
 					Summons a Gnome warrior
 					Hold right click to direct the gnome warriors to block
-					Gnome warriors cannot block projectiles with higher base damage than double their own damage
 					Left click while they're blocking to direct them to shield bash
 					'''
+				MaxBlockDamage: Gnome warriors cannot block projectiles that deal more than {0} damage
 			}
 
 			HarpyStaff: {

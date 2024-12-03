@@ -28,7 +28,7 @@ namespace JoostMod.PlayerLayers
             Vector2 compositeOffset_BackArm = new Vector2((float)(6 * ((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : -1)), (float)(2 * ((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically)) ? 1 : -1)));
             Vector2 origin = drawInfo.bodyVect + compositeOffset_BackArm;
             //drawPos += compositeOffset_BackArm;
-            Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+            Color color = drawInfo.colorArmorBody;//drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
 
             if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
             {

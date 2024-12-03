@@ -278,7 +278,8 @@ namespace JoostMod.Projectiles.Grappling
                 float xDist = Projectile.Center.X - player.Center.X;
                 float yDist = Projectile.Center.Y - player.Center.Y;
                 float num7 = ddist + player.gravity;
-                player.maxFallSpeed += 15;
+                //player.maxFallSpeed += 15;
+                player.GetModPlayer<JoostPlayer>().swingyHookGravCheck = true;
                 if ((player.controlLeft || player.controlRight) && player.velocity.X < 30f && player.velocity.X > -30f && player.velocity.Y != 0)
                 {
                     player.velocity.X *= swingSpeed;
@@ -328,9 +329,41 @@ namespace JoostMod.Projectiles.Grappling
                 xDist *= num8;
                 yDist *= num8;
                 Vector2 vect = new Vector2(xDist, yDist);
+                float d = Projectile.Distance(player.Center + player.velocity);
+                if (!float.IsNaN(d) && d >= 450)
+                {
+                    Vector2 v = Utils.SafeNormalize(Projectile.Center - player.Center, vect) * Math.Min(d - 450, 15);
+                    if (!v.HasNaNs())
+                    {
+                        player.velocity += v;
+                    }
+                }
                 if (up || down)
                 {
-                    player.velocity = vect;
+                    //player.velocity = vect;
+
+                    if (up)
+                    {
+                        if (dist <= 15 && !vect.HasNaNs())
+                        {
+                            player.velocity = vect;
+                        }
+                        if (-ddist < controlSpeed && dist > 15)
+                        {
+                            player.velocity += Utils.SafeNormalize(vect, Vector2.Zero) * Math.Abs(controlSpeed + ddist);
+                            if (player.velocity.Length() > 20f)
+                            {
+                                player.velocity *= 20f / player.velocity.Length();
+                            }
+                        }
+                    }
+                    else if (down)
+                    {
+                        if (ddist < -controlSpeed)
+                        {
+                            player.velocity += Utils.SafeNormalize(vect, Vector2.Zero) * Math.Abs(-controlSpeed - ddist);
+                        }
+                    }
                 }
                 else
                 {

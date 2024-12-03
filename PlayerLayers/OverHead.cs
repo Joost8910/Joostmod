@@ -24,7 +24,7 @@ namespace JoostMod.PlayerLayers
             float rot = drawPlayer.headRotation;
             Vector2 drawPos = drawPlayer.headPosition;
             Vector2 origin = drawInfo.headVect;
-            Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+            Color color = drawInfo.colorArmorHead;//drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
 
             if (tex == (Texture2D)ModContent.Request<Texture2D>($"JoostMod/Items/Armor/FireCrown_Flame") || tex == (Texture2D)ModContent.Request<Texture2D>($"JoostMod/Items/Armor/AirCrown_Tornado"))
             {

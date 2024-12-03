@@ -274,7 +274,7 @@ namespace JoostMod.Projectiles.Grappling
                 float xDist = Projectile.Center.X - player.Center.X;
                 float yDist = Projectile.Center.Y - player.Center.Y;
                 float num7 = ddist + player.gravity;
-                player.maxFallSpeed += 10;
+                //player.maxFallSpeed += 10;
                 if ((player.controlLeft || player.controlRight) && player.velocity.X < 15f && player.velocity.X > -15f && player.velocity.Y != 0)
                 {
                     player.velocity.X *= swingSpeed;
@@ -324,11 +324,35 @@ namespace JoostMod.Projectiles.Grappling
                 xDist *= num8;
                 yDist *= num8;
                 Vector2 vect = new Vector2(xDist, yDist);
-                if (up)
+                float d = Projectile.Distance(player.Center + player.velocity);
+                if (!float.IsNaN(d) && d >= 350)
                 {
-                    player.velocity = vect;
+                    Vector2 v = Utils.SafeNormalize(Projectile.Center - player.Center, vect) * Math.Min(d - 350, 10);
+                    if (!v.HasNaNs())
+                    {
+                        player.velocity += v;
+                    }
                 }
-                else if (!down)
+                if (up || down)
+                {
+                    //player.velocity = vect;
+                    if (up)
+                    {
+                        if (dist <= 10 && !vect.HasNaNs())
+                        {
+                            player.velocity = vect;
+                        }
+                        if (-ddist < controlSpeed && dist > 10)
+                        {
+                            player.velocity += Utils.SafeNormalize(vect, Vector2.Zero) * Math.Abs(controlSpeed + ddist);
+                            if (player.velocity.Length() > 15f)
+                            {
+                                player.velocity *= 15f / player.velocity.Length();
+                            }
+                        }
+                    }
+                }
+                else
                 {
                     controlSpeed = 0;
                     if (dist >= maxDist)

@@ -137,6 +137,7 @@ namespace JoostMod.Projectiles.Minions
                     }
                 }
             }
+            // Blocking
             if ((int)Projectile.localAI[0] > 0 && (int)Projectile.localAI[1] >= 0 && (int)Projectile.localAI[1] <= shootCool)
             {
                 SelectFrame(Vector2.Zero);
@@ -220,13 +221,12 @@ namespace JoostMod.Projectiles.Minions
                     }
                 }
                 Projectile.spriteDirection = -Projectile.direction;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
-                    Projectile proj = Main.projectile[i];
                     float colPoint = 0;
                     if (proj.active && proj.hostile && Collision.CheckAABBvLineCollision(Projectile.position, Projectile.Size, proj.Center, proj.Center + proj.velocity * (proj.extraUpdates + 1), (proj.width + proj.height) / 2, ref colPoint) /*proj.getRect().Intersects(projectile.getRect())*/)
                     {
-                        if (proj.damage <= Projectile.damage && (proj.aiStyle == 1 || proj.aiStyle == 2 || proj.aiStyle == 8 || proj.aiStyle == 21 || proj.aiStyle == 24 || proj.aiStyle == 28 || proj.aiStyle == 29 || proj.aiStyle == 131))
+                        if (proj.damage <= Projectile.damage && ProjCheck(proj))
                         {
                             proj.Kill();
                             if (Math.Sign(proj.velocity.X) != Projectile.direction)
@@ -276,6 +276,10 @@ namespace JoostMod.Projectiles.Minions
                 return false;
             }
             return base.PreAI();
+        }
+        public static bool ProjCheck(Projectile proj)
+        {
+            return (proj.aiStyle == 1 || proj.aiStyle == 2 || proj.aiStyle == 8 || proj.aiStyle == 14 || proj.aiStyle == 16 || proj.aiStyle == 21 || proj.aiStyle == 23 || proj.aiStyle == 24 || proj.aiStyle == 28 || proj.aiStyle == 29 || proj.aiStyle == 131 || proj.aiStyle == 45 || proj.aiStyle == 78 || proj.aiStyle == 82 || (proj.aiStyle == 83 && proj.ai[0] < 30));
         }
         public override bool MinionContactDamage()
         {

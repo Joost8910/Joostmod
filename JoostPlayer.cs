@@ -163,6 +163,7 @@ namespace JoostMod
         public bool gRangedIsActive = false;
         public bool gThrown = false;
         private int gThrownTimer = 1200;
+        public bool swingyHookGravCheck = false;
 
         public bool westStone = false;
         public bool eastStone = false;
@@ -1241,7 +1242,8 @@ namespace JoostMod
         {
             if (Player.HasBuff(ModContent.BuffType<gThrownDodge>()))
             {
-                Player.AddBuff(ModContent.BuffType<gThrownBuff>(), 200);
+                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_ghastly_glaive_pierce_0").WithPitchOffset(0.25f), Player.Center);
+                Player.AddBuff(ModContent.BuffType<gThrownBuff>(), 300);
                 Player.longInvince = true;
                 Player.ShadowDodge();
                 for (int j = 0; j < 80; j++)
@@ -1510,7 +1512,8 @@ namespace JoostMod
                 if (gRangedIsActive)
                 {
                     Player.AddBuff(ModContent.BuffType<gRangedBuff>(), 2);
-                    Player.GetDamage(DamageClass.Ranged) *= 1 + (Player.statDefense * 0.005f);
+                    Player.GetDamage(DamageClass.Ranged) *= 1f + (0.005f * (float)Player.statDefense);
+                    Player.GetAttackSpeed(DamageClass.Ranged) *= 1f + (0.005f * (float)Player.statDefense);
                     Player.statDefense *= 0;
                 }
             }
@@ -1529,7 +1532,8 @@ namespace JoostMod
                 if (fireArmorIsActive)
                 {
                     Player.AddBuff(ModContent.BuffType<FireArmorBuff>(), 2);
-                    Player.GetDamage(DamageClass.Ranged) *= 1.4f;
+                    //Player.GetDamage(DamageClass.Ranged) *= 1.4f;
+                    Player.GetAttackSpeed(DamageClass.Ranged) *= 1.4f;
                     Player.moveSpeed *= 1.4f;
                     Player.maxRunSpeed *= 1.4f;
                     if (Player.mount._type == ModContent.MountType<Mounts.FierySoles>())
@@ -2658,6 +2662,17 @@ namespace JoostMod
             {
                 Player.buffImmune[BuffID.Suffocation] = true;
             }
+            if (swingyHookGravCheck)
+            {
+                if (noHooks && Player.velocity.Y < Player.maxFallSpeed)
+                {
+                    swingyHookGravCheck = false;
+                }
+                else
+                {
+                    Player.maxFallSpeed *= 2;
+                }
+            }
             if (fleshShieldItem != null)
             {
                 fleshShieldTimer++;
@@ -2691,7 +2706,7 @@ namespace JoostMod
             }
             if (havelShieldItem != null && (Player.ownedProjectileCounts[ModContent.ProjectileType<HavelShield>()] > 0 || (Player.controlUseTile && Player.itemAnimation == 0 && !ItemLoader.AltFunctionUse(Player.HeldItem, Player))))
             {
-                Player.noItems = true;
+                Player.noItems = true; //This is what causes that player dimming, but for some reason it feels weird with it gone so i'm keeping it
                 havelBlocking = true;
                 if (Player.ownedProjectileCounts[ModContent.ProjectileType<HavelShield>()] < 1)
                 {

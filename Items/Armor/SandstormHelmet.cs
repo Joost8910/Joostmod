@@ -38,7 +38,7 @@ namespace JoostMod.Items.Armor
 		public override void UpdateEquip(Player player)
 		{
 			player.GetDamage(DamageClass.Throwing) += 0.25f;
-			player.ThrownCost50 = true;
+			player.ThrownCost33 = true;
 		}
 
 		public override void AddRecipes()

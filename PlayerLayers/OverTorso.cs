@@ -22,7 +22,7 @@ namespace JoostMod.PlayerLayers
             float rot = drawPlayer.bodyRotation;
             Vector2 drawPos = drawPlayer.bodyPosition;
             Vector2 origin = drawInfo.bodyVect;
-            Color color = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
+            Color color = drawInfo.colorArmorBody; //drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawPlayer.position.X + (double)drawPlayer.width * 0.5) / 16, (int)(((double)drawPlayer.position.Y + (double)drawPlayer.height * 0.25) / 16.0), Color.White), drawInfo.shadow);
 
             if (drawPlayer.GetModPlayer<JoostPlayer>().pinkSlimeActive)
             {
