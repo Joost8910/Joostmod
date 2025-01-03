@@ -26,6 +26,12 @@ namespace JoostMod.Items.Materials
         {
             return false;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddCustomShimmerResult(ModContent.ItemType<WaterEssence>())
+                .Register();
+        }
     }
 }
 

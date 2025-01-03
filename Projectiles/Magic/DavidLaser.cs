@@ -8,6 +8,8 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Enums;
+using Terraria.Graphics.Shaders;
+using Terraria.DataStructures;
 
 namespace JoostMod.Projectiles.Magic
 {
@@ -66,25 +68,44 @@ namespace JoostMod.Projectiles.Magic
             Vector2 origin = start;
             float r = unit.ToRotation() + rotation;
 
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+
+            MiscShaderData shaderData = GameShaders.Misc["JoostLaserBeam"];
+            shaderData.UseColor(Color.White);
+            shaderData.UseSecondaryColor(color);
+            shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
+            shaderData.UseOpacity(0.5f);
+
             #region Draw laser body
-            for (float i = transDist + 4; i <= Distance - step; i += step)
+            for (int i = transDist + 3; i <= Distance - step; i += (int)step)
             {
                 origin = start + i * unit;
-                Main.EntitySpriteDraw(texture, origin - Main.screenPosition,
-                    new Rectangle(0, 26, 30, 26), i < transDist ? Color.Transparent : color, r,
-                    new Vector2(30 / 2, 26 / 2), scale, 0, 0);
+
+                DrawData dataTrail = new DrawData(texture, origin - Main.screenPosition,
+                    new Rectangle(0, 26, 38, 10), i < transDist ? Color.Transparent : color, r,
+                    new Vector2(38 / 2, 0), scale, 0, 0);
+                shaderData.Apply(dataTrail);
+                dataTrail.Draw(Main.spriteBatch);
             }
             #endregion
 
             #region Draw laser tail
-            Main.EntitySpriteDraw(texture, start + unit * (transDist - step) - Main.screenPosition,
-                new Rectangle(0, 0, 30, 26), color, r, new Vector2(30 / 2, 26 / 2), scale, 0, 0);
+            DrawData data = new DrawData(texture, start + unit * (transDist - step) - Main.screenPosition,
+                new Rectangle(0, 0, 38, 26), color, r, new Vector2(38 / 2, 26 / 2), scale, 0, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
             #endregion
 
             #region Draw laser head
-            Main.EntitySpriteDraw(texture, start + (Distance - step) * unit - Main.screenPosition,
-                new Rectangle(0, 52, 30, 26), color, r, new Vector2(30 / 2, 26 / 2), scale, 0, 0);
+            data = new DrawData(texture, start + Distance * unit - Main.screenPosition,
+                new Rectangle(0, 54, 38, 30), color, r, new Vector2(38 / 2, 30 / 2), scale, 0, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
             #endregion
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
         }
 
         /// <summary>
@@ -206,9 +227,18 @@ namespace JoostMod.Projectiles.Magic
             for (Distance = MOVE_DISTANCE; Distance <= 2200f; Distance += 5f)
             {
                 start = player.Center + Projectile.velocity * Distance;
-                if (!Collision.CanHitLine(player.Center, 1, 1, start, 1, 1))
+                Vector2 collision = Collision.TileCollision(start - Projectile.velocity * 5, Projectile.velocity * 5, 1, 1);
+                float d = (float)Math.Round(collision.Length());
+                /*
+                if (d < 5)
                 {
-                    Distance -= 5f;
+                    Distance -= 5 - d;
+                    break;
+                
+                */
+                if (d < 5 || !Collision.CanHitLine(player.Center, 1, 1, start, 1, 1))
+                {
+                    Distance -= 5 - d;
                     break;
                 }
             }

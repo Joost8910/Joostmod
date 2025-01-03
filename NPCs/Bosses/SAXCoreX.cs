@@ -346,9 +346,7 @@ namespace JoostMod.NPCs.Bosses
                 if (NPC.ai[0] >= 56)
                 {
                     float speed = 24f;
-                    Vector2 predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(P.MountedCenter, NPC.Center) / speed));
-                    predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, NPC.Center) / speed));
-                    predictedPos = P.MountedCenter + P.velocity + (P.velocity * (Vector2.Distance(predictedPos, NPC.Center) / speed));
+                    Vector2 predictedPos = JoostFunctions.PredictPlayerPosition(NPC.Center, speed, P);
                     Vector2 dir = NPC.DirectionTo(predictedPos);
                     NPC.velocity = dir * moveSpeed;
                     NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
@@ -405,9 +403,10 @@ namespace JoostMod.NPCs.Bosses
                 if (NPC.ai[0] > 240)
                 {
                     NPC.ai[0] = -150;
-                    NPC.ai[3]++;
+                    NPC.ai[3] += 1 + Main.rand.Next(8);
                     if (NPC.ai[3] > 20)
                     {
+                        NPC.netUpdate = true;
                         NPC.ai[1] = 1;
                     }
                 }

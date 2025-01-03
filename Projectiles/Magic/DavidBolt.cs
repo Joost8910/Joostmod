@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +15,7 @@ namespace JoostMod.Projectiles.Magic
         {
             // DisplayName.SetDefault("Bolt of David");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
@@ -27,7 +29,6 @@ namespace JoostMod.Projectiles.Magic
             Projectile.alpha = 25;
             Projectile.extraUpdates = 1;
             Projectile.light = 0.3f;
-
         }
         public override void AI()
         {
@@ -85,7 +86,28 @@ namespace JoostMod.Projectiles.Magic
                 effects = SpriteEffects.FlipHorizontally;
             }
             Color color = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f));
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+
+            MiscShaderData shaderData = GameShaders.Misc["JoostBolt"];
+            shaderData.UseColor(Color.White);
+            shaderData.UseSecondaryColor(color);
+            shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
+            
+            for (int k = Projectile.oldPos.Length - 1; k >= 0; k--)
+            {
+                Color c = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
+                Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
+                DrawData dataTrail = new DrawData(tex, drawPos - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.oldRot[k], new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
+                shaderData.Apply(dataTrail);
+                dataTrail.Draw(Main.spriteBatch);
+            }
+            DrawData data = new DrawData(tex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale, effects, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
             return false;
         }
     }

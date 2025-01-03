@@ -24,6 +24,10 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.ignoreWater = true;
             AIType = ProjectileID.Bullet;
         }
+        public override bool? CanHitNPC(NPC target)
+        {
+            return false;
+        }
         public override bool CanHitPlayer(Player target)
         {
             return false;

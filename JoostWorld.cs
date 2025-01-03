@@ -24,6 +24,9 @@ namespace JoostMod
         public static bool downedSAX = false;
         public static bool downedGilgamesh = false;
 
+        public static bool downedEaterofWorlds = false;
+        public static bool downedBrainofCthulhu = false;
+
         public static bool downedPinkzor = false;
         public static bool downedRogueTomato = false;
         public static bool downedWoodGuardian = false;
@@ -44,6 +47,10 @@ namespace JoostMod
             downedJumboCactuar = false;
             downedSAX = false;
             downedGilgamesh = false;
+
+            downedEaterofWorlds = false;
+            downedBrainofCthulhu = false;
+
             downedPinkzor = false;
             downedRogueTomato = false;
             downedWoodGuardian = false;
@@ -64,6 +71,10 @@ namespace JoostMod
             if (downedJumboCactuar) tag["JumboCactuar"] = true;
             if (downedSAX) tag["SAX"] = true;
             if (downedGilgamesh) tag["Gilgamesh"] = true;
+
+            if (downedEaterofWorlds) tag["EaterofWorlds"] = true;
+            if (downedBrainofCthulhu) tag["BrainofCthulhu"] = true;
+
             if (downedPinkzor) tag["Pinkzor"] = true;
             if (downedRogueTomato) tag["RogueTomato"] = true;
             if (downedWoodGuardian) tag["WoodGuardian"] = true;
@@ -74,6 +85,7 @@ namespace JoostMod
             if (downedSkeletonDemoman) tag["SkeletonDemoMan"] = true;
             if (downedCactusWorm) tag["CactusWorm"] = true;
             if (downedImpLord) tag["ImpLord"] = true; ;
+
             if (downedStormWyvern) tag["StormWyvern"] = true;
         }
 
@@ -83,6 +95,10 @@ namespace JoostMod
             downedJumboCactuar = tag.ContainsKey("JumboCactuar");
             downedSAX = tag.ContainsKey("SAX");
             downedGilgamesh = tag.ContainsKey("Gilgamesh");
+
+            downedEaterofWorlds = tag.ContainsKey("EaterofWorlds");
+            downedBrainofCthulhu = tag.ContainsKey("BrainofCthulhu");
+
             downedPinkzor = tag.ContainsKey("Pinkzor");
             downedRogueTomato = tag.ContainsKey("RogueTomato");
             downedWoodGuardian = tag.ContainsKey("WoodGuardian");
@@ -93,6 +109,7 @@ namespace JoostMod
             downedSkeletonDemoman = tag.ContainsKey("SkeletonDemoMan");
             downedCactusWorm = tag.ContainsKey("CactusWorm");
             downedImpLord = tag.ContainsKey("ImpLord");
+
             downedStormWyvern = tag.ContainsKey("StormWyvern");
         }
         /*
@@ -145,6 +162,8 @@ namespace JoostMod
             flags2[3] = downedCactusWorm;
             flags2[4] = downedImpLord;
             flags2[5] = downedStormWyvern;
+            flags2[6] = downedEaterofWorlds;
+            flags2[7] = downedBrainofCthulhu;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -169,6 +188,8 @@ namespace JoostMod
             downedCactusWorm = flags2[3];
             downedImpLord = flags2[4];
             downedStormWyvern = flags2[5];
+            downedEaterofWorlds = flags2[6];
+            downedBrainofCthulhu = flags2[7];
         }
         public override void PostWorldGen()
         {

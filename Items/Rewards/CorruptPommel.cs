@@ -40,10 +40,15 @@ namespace JoostMod.Items.Rewards
         public override void AddRecipes()
         {
             //TODO: Replace this recipe with use of shimmer instead
+            /*
             CreateRecipe()
                 .AddIngredient<CrimsonPommel>()
                 .AddIngredient(ItemID.DemoniteBar, 5)
                 .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+            */
+            CreateRecipe()
+                .AddCustomShimmerResult(ModContent.ItemType<CrimsonPommel>())
                 .Register();
         }
     }

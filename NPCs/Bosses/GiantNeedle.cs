@@ -23,7 +23,7 @@ namespace JoostMod.NPCs.Bosses
 			NPC.height = 26;
 			NPC.damage = 80;
 			NPC.defense = 50;
-			NPC.lifeMax = 750;
+			NPC.lifeMax = 1000;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.value = 0f;
@@ -38,6 +38,12 @@ namespace JoostMod.NPCs.Bosses
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("GiantNeedle").Type);
             }
+        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+			if (NPC.ai[1] < 105)
+				return false;
+            return base.CanHitPlayer(target, ref cooldownSlot);
         }
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
@@ -73,26 +79,36 @@ namespace JoostMod.NPCs.Bosses
 			}*/
 
 			NPC.ai[1] += 1;
-			
+
 			if (NPC.ai[1] < 80)
-            {
-                NPC.rotation = NPC.ai[1] / 2;
-                NPC.velocity = NPC.DirectionTo(P.Center + new Vector2(NPC.ai[2], NPC.ai[3])) * 20;
-            }
+			{
+				NPC.rotation = NPC.ai[1] / 2;
+				NPC.velocity = NPC.DirectionTo(P.Center + new Vector2(NPC.ai[2], NPC.ai[3])) * 20;
+			}
 			else if (NPC.ai[1] < 105)
-            {
+			{
 				NPC.velocity = Vector2.Zero;
 				if (NPC.ai[1] < 85)
-					NPC.rotation = (P.Center + (P.velocity * 15) - NPC.Center).ToRotation() + MathHelper.PiOver2;
+				{
+                    Vector2 predictedPos = JoostFunctions.PredictPlayerPosition(NPC.Center, 50, P, 20);
+                    //P.Center + (P.velocity * 26)
+                    NPC.rotation = (predictedPos - NPC.Center).ToRotation() + MathHelper.PiOver2;
+				}
+				else if (NPC.ai[1] < 95)
+				{
+					NPC.localAI[0] += 0.15f;
+				}
 				else
-					NPC.localAI[0] += 0.1f;
+				{
+					NPC.localAI[0] -= 0.225f;
+				}
             }
             else
             {
 				NPC.velocity = (NPC.rotation - MathHelper.PiOver2).ToRotationVector2() * 50;
-                NPC.localAI[0] -= 0.25f;
+                //NPC.localAI[0] -= 0.25f;
             }
-            if (NPC.ai[1] >= 120)
+            if (NPC.ai[1] >= 130)
             {
                 NPC.ai[1] = 0;
 				NPC.ai[2] *= -1;

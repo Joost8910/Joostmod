@@ -1,5 +1,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
+using JoostMod.Items.Materials;
 
 namespace JoostMod.Items.Placeable
 {
@@ -18,6 +19,12 @@ namespace JoostMod.Items.Placeable
             Item.DefaultToMusicBox(ModContent.TileType<Tiles.DecisiveBattleMusicBox>());
             Item.rare = ItemRarityID.Yellow;
             Item.value = 500000;
-		}
-	}
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddCustomShimmerResult(ModContent.ItemType<DontBeAfraidMusicBox>())
+                .Register();
+        }
+    }
 }

@@ -275,15 +275,17 @@ namespace JoostMod.NPCs
             {
                 CommonCode.DropItemForEachInteractingPlayerOnThePlayer(npc, ModContent.ItemType<EyeOfCthulhu>(), Main.rand, 1, 1, 1, false);
             }
-            if (npc.type == NPCID.BrainofCthulhu && !NPC.downedBoss2)
+            if (npc.type == NPCID.BrainofCthulhu && !JoostWorld.downedBrainofCthulhu)
             {
                 CommonCode.DropItemForEachInteractingPlayerOnThePlayer(npc, ModContent.ItemType<BrainOfCthulhu>(), Main.rand, 1, 1, 1, false);
+                JoostWorld.downedBrainofCthulhu = true;
             }
             if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
             {
-                if (npc.boss && !NPC.downedBoss2)
+                if (npc.boss && !JoostWorld.downedEaterofWorlds)
                 {
                     CommonCode.DropItemForEachInteractingPlayerOnThePlayer(npc, ModContent.ItemType<EaterOfWorlds>(), Main.rand, 1, 1, 1, false);
+                    JoostWorld.downedEaterofWorlds = true;
                 }
             }
             if (npc.type == NPCID.QueenBee && !NPC.downedQueenBee)

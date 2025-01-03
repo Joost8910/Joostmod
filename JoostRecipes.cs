@@ -48,10 +48,10 @@ namespace JoostMod
 
         public override void AddRecipes()
         {
-            //TODO: Add a material drop from Empress of Light to this recipe.
             Recipe.Create(ItemID.RodofDiscord)
                 .AddIngredient(ItemID.HallowedBar, 15)
                 .AddIngredient(ItemID.SoulofLight, 25)
+                .AddIngredient(ItemID.HallowBossDye)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
             Recipe.Create(ItemID.MoneyTrough)

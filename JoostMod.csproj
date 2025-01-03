@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Projectiles\Hostile\JumboCactuarWave2.png" />
     <None Remove="Projectiles\Ranged\ArmorFlame.png" />
     <None Remove="Shaders\GaussianBlurShader.fx" />
   </ItemGroup>

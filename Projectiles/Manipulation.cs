@@ -48,6 +48,18 @@ namespace JoostMod.Projectiles
                 Projectile.position = Main.MouseWorld;
                 Projectile.netUpdate = true;
             }
+            for (int i = 0; i < Main.item.Length; i++)
+            {
+                if (Main.item[i].active)
+                {
+                    Item I = Main.item[i];
+                    if (Projectile.Hitbox.Intersects(I.Hitbox) || Projectile.oldPosition == I.Center - I.velocity)
+                    {
+                        I.velocity = Vector2.Zero;
+                        I.position = Projectile.position - I.Size / 2;
+                    }
+                }
+            }
             if (enpc >= 0)
             {
                 NPC target = Main.npc[enpc];

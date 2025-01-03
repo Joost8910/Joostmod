@@ -4,6 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using JoostMod.Items.Rewards;
 
 namespace JoostMod.Items.Materials
 {
@@ -28,7 +29,12 @@ namespace JoostMod.Items.Materials
         {
             return false;
         }
-
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddCustomShimmerResult(ModContent.ItemType<EarthEssence>())
+                .Register();
+        }
     }
 }
 

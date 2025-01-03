@@ -38,10 +38,15 @@ namespace JoostMod.Items.Rewards
         }
         public override void AddRecipes()
         {
+            /*
             CreateRecipe()
                 .AddIngredient<CorruptPommel>()
                 .AddIngredient(ItemID.CrimtaneBar, 5)
                 .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+            */
+            CreateRecipe()
+                .AddCustomShimmerResult(ModContent.ItemType<CorruptPommel>())
                 .Register();
         }
     }

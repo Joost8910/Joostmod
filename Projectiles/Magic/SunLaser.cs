@@ -7,6 +7,8 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Enums;
+using Terraria.Graphics.Shaders;
+using Terraria.DataStructures;
 
 namespace JoostMod.Projectiles.Magic
 {
@@ -51,7 +53,7 @@ namespace JoostMod.Projectiles.Magic
             {
                 Vector2 unit = Projectile.velocity;
                 DrawLaser(TextureAssets.Projectile[Projectile.type].Value,
-                    Projectile.Center, unit, 10, Projectile.damage,
+                    Projectile.Center, unit, 54, Projectile.damage,
                     -1.57f, 1f, 1000f, Color.White, (int)MOVE_DISTANCE);
             }
             return false;
@@ -61,32 +63,64 @@ namespace JoostMod.Projectiles.Magic
         /// <summary>
         /// The core function of drawing a laser
         /// </summary>
-        public void DrawLaser(Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default, int transDist = 50)
+        public void DrawLaser(Texture2D texture, Vector2 start, Vector2 unit, int step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default, int transDist = 50)
         {
             Vector2 origin = start;
             float r = unit.ToRotation() + rotation;
 
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+
+            MiscShaderData shaderData = GameShaders.Misc["JoostLaserBeam"];
+            shaderData.UseColor(color);
+            shaderData.UseSecondaryColor(color);
+            shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
+            shaderData.UseOpacity(2.5f);
+            float dist = Distance + 3;
+
             #region Draw laser body
-            for (float i = transDist + 4; i <= Distance; i += step)
+            for (int i = transDist + 9; i <= dist; i += step)
             {
                 Color c = Color.White;
                 origin = start + i * unit;
+                /*
                 Main.EntitySpriteDraw(texture, origin - Main.screenPosition,
                     new Rectangle(0, 154, 138, 16), i < transDist ? Color.Transparent : c, r,
                     new Vector2(138 / 2, 16 / 2), scale, 0, 0);
+                */
+                DrawData dataTrail = new DrawData(texture, origin - Main.screenPosition,
+                    new Rectangle(0, 182, 138, i >= dist - step ? (int)(dist - i) : (int)step), i < transDist ? Color.Transparent : c, r,
+                    new Vector2(138 / 2, 0), scale, 0, 0);
+                shaderData.Apply(dataTrail);
+                dataTrail.Draw(Main.spriteBatch);
             }
             #endregion
 
-            Color c2 = Color.White;
             #region Draw laser tail
+            /*
             Main.EntitySpriteDraw(texture, start + unit * (transDist - step) - Main.screenPosition,
                 new Rectangle(0, 0, 138, 154), c2, r, new Vector2(138 / 2, 154 / 2), scale, 0, 0);
+            */
+            DrawData data = new DrawData(texture, start + new Vector2(0, -36) + unit * transDist - Main.screenPosition,
+                new Rectangle(0, 94, 138, 90), color, r, new Vector2(138 / 2, 90 / 2), scale, 0, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
             #endregion
 
-            #region Draw laser head
-            Main.EntitySpriteDraw(texture, start + (Distance + step) * unit - Main.screenPosition,
-                new Rectangle(0, 170, 138, 26), c2, r, new Vector2(138 / 2, 26 / 2), scale, 0, 0);
+            #region Draw sun
+            shaderData = GameShaders.Misc["TrueGungnirBeam"];
+            shaderData.UseColor(new Color(1f, 0.97f, 0.47f));
+            shaderData.UseSecondaryColor(color);
+            shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
+
+            data = new DrawData(texture, start + new Vector2(0, -42) + unit * transDist - Main.screenPosition,
+                new Rectangle(24, 2, 90, 90), color, r, new Vector2(90 / 2, 90 / 2), scale, SpriteEffects.FlipHorizontally, 0);
+            shaderData.Apply(data);
+            data.Draw(Main.spriteBatch);
             #endregion
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
         }
 
         /// <summary>
@@ -113,22 +147,26 @@ namespace JoostMod.Projectiles.Magic
         /// </summary>
         public override void AI()
         {
-
-            Vector2 mousePos = Main.MouseWorld;
             Player player = Main.player[Projectile.owner];
 
             #region Set projectile position
             if (Projectile.owner == Main.myPlayer) // Multiplayer support
             {
+                Vector2 mousePos = Main.MouseWorld;
                 Projectile.velocity = new Vector2(0, 1);
                 Projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
+                if (Projectile.Distance(mousePos) > 5)
+                {
+                    Projectile.position = Projectile.position + Projectile.DirectionTo(mousePos) * 5;
+                }
+                else
+                {
+                    Projectile.Center = mousePos;
+                }
                 Projectile.netUpdate = true;
             }
             //projectile.position = (mousePos + projectile.velocity * MOVE_DISTANCE) - new Vector2(projectile.width/2, projectile.height/2);
-            if (Projectile.Distance(mousePos) > 5)
-            {
-                Projectile.position = Projectile.position + Projectile.DirectionTo(mousePos) * 5;
-            }
+
             Projectile.timeLeft = 2;
             int dir = Projectile.direction;
             player.ChangeDir(dir);
@@ -198,9 +236,11 @@ namespace JoostMod.Projectiles.Magic
             for (Distance = MOVE_DISTANCE; Distance <= 2200f; Distance += 5f)
             {
                 start = Projectile.Center + Projectile.velocity * Distance;
-                if (!Collision.CanHitLine(Projectile.Center, 1, 1, start, 1, 1))
+                Vector2 collision = Collision.TileCollision(start - Projectile.velocity * 5, Projectile.velocity * 5, 1, 1);
+                float d = collision.Length();
+                if (d < 5)
                 {
-                    Distance -= 5f;
+                    Distance -= 5 - (float)Math.Round(d);
                     break;
                 }
             }

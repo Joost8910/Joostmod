@@ -38,14 +38,14 @@ namespace JoostMod.Items.Tools
         {
             CreateRecipe()
             .AddIngredient(ItemID.Book)
-            .AddIngredient(ItemID.FallenStar)
-            .AddIngredient(ItemID.GoldBar)
+            .AddIngredient(ItemID.FallenStar, 3)
+            .AddIngredient(ItemID.GoldBar, 3)
             .AddTile(TileID.WorkBenches)
             .Register();
             CreateRecipe()
             .AddIngredient(ItemID.Book)
-            .AddIngredient(ItemID.FallenStar)
-            .AddIngredient(ItemID.PlatinumBar)
+            .AddIngredient(ItemID.FallenStar, 3)
+            .AddIngredient(ItemID.PlatinumBar, 3)
             .AddTile(TileID.WorkBenches)
             .Register();
         }

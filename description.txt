@@ -7,41 +7,19 @@ The Joostmod has to offer
 4 new bosses
 2 new town npcs
 
-Beta v7
-- Fixed duke fishgun not applying iframes
-- Fixed Sapling - Fishing Rod launching the bobber with an empty hand
-- Fixed Cactus Spears drawing incorrectly
-- Fixed Crimson Genji Armor set bonus not granting damage bonus
-Storm Wyvern
-- Expert mode dash no longer aims ahead of your vertical velocity
-- Now only shoots lightning when it has clear line-of-sight
-- Increased spawnrate
-Roc's Beak
-- Left click now reflects boulder traps' boulders
-Soul Arrow
-- Increased homing accuracy
-- Now prioritizes enemies near the cursor
-- Increased lifetime from 5 seconds to 20 seconds
-Homing Soulmass
-- Increased homing accuracy
-Gnome Staff
-- Blocking ability can now block Spazmatism's eye fire
-All Swingy Hooks
-- Improved physics to allow swinging and reeling simultaneously
-Sandstorm Medallion
-- Increases thrown attack speed during sandstorm
-- No longer grants a chance to not consume thrown items
-Crimson Genji Set
-- Set Bonus ability now also increases ranged attack speed
-Veridian Genji Set
-- Counter attack buff time increased from 3.33 seconds to 5 seconds
-- Counter attack buff now also increases thrown attack speed
-Smoldering Set
-- Set Bonus ability now increases ranged attack speed instead of damage
-Sandstorm Set
-- Helmet chance to not consume thrown items reduced from 50% to 33%
-- Breastplate throwing crit chance reduced from 20% to 15%
-
+Beta v8
+- Fixed junk sword shrines not dropping old nail consistently 
+- Hunt master now gives both Eater of Worlds and Brain of Cthulhu quests in the drunk world seed
+- Rod of Discord recipe now require prismatic dye
+- Corrupt and Crimson Pommel recipes are replaced with using shimmer to turn the items into one another
+- Water, Earth, Fire, and Air Essences can be exchanged for another using shimmer
+- Tome of Manipulation can now grab items
+- Tome of Manipulation recipe now uses 3 fallen stars and 3 bars 
+- SA-X now plays Escape From The SA-X in the first phase
+- Jumbo Cactuar now plays Don't be Afraid in the drunk world seed
+- Giant Needle base health increased from 750 to 1000
+- Updated Sun Fish visuals
+- Updated Staff of David visuals
 
 Version 0.9.1
 --- New Additions ---

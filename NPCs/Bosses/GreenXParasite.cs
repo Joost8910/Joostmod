@@ -71,10 +71,6 @@ namespace JoostMod.NPCs.Bosses
             NPC.life = 0;
             NPC.checkDead();
         }
-        public override bool PreKill()
-        {
-            return false;
-        }
         public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)

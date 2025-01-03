@@ -22,6 +22,10 @@ namespace JoostMod.Projectiles.Hostile
             AIType = ProjectileID.Bullet;
             Projectile.extraUpdates = 1;
         }
+        public override bool? CanHitNPC(NPC target)
+        {
+            return false;
+        }
         public override bool CanHitPlayer(Player target)
         {
             return false;

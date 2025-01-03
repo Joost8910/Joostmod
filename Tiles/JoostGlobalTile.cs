@@ -12,7 +12,7 @@ namespace JoostMod.Tiles
 	{
 		public override void Drop(int i, int j, int type)/* tModPorter Suggestion: Use CanDrop to decide if items can drop, use this method to drop additional items. See documentation. */
 		{
-			if (type == 186 && ((Main.tile[i, j].TileFrameX >= 828 && Main.tile[i, j].TileFrameX <= 844)||(Main.tile[i, j].TileFrameX >= 342 && Main.tile[i, j].TileFrameX <= 358)) && Main.tile[i, j].TileFrameY <= 16)//variant 15 for fake sword shrine, 6 for the sword in the skeleton, just the sword part so you dont get 6 at once
+			if (type == TileID.LargePiles && ((Main.tile[i, j].TileFrameX >= 810 && Main.tile[i, j].TileFrameX < 846)||(Main.tile[i, j].TileFrameX >= 324 && Main.tile[i, j].TileFrameX < 360)))//variant 15 for fake sword shrine, 6 for the sword in the skeleton
 			{
 				Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<OldNail>());
 			}

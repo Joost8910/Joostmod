@@ -43,7 +43,8 @@ namespace JoostMod.Items.Consumables
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<JumboCactuar>()));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<CactuarShield>()));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Cactustoken>(), 1, 1, 3));
-            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DecisiveBattleMusicBox>()));
+            itemLoot.Add(ItemDropRule.ByCondition(new Conditions.DrunkWorldIsNotUp(), ModContent.ItemType<DecisiveBattleMusicBox>()));
+            itemLoot.Add(ItemDropRule.ByCondition(new Conditions.DrunkWorldIsUp(), ModContent.ItemType<DecisiveBattleMusicBox>()));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<JumboCactuarMask>(), 4));
         }
         /*

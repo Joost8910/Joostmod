@@ -4,9 +4,12 @@ using JoostMod.Items.Consumables;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
 using JoostMod.Projectiles.Hostile;
+using JoostMod.Projectiles.Thrown;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +27,7 @@ namespace JoostMod.NPCs.Bosses
         }
 		public override void SetDefaults()
 		{
-			NPC.width = 200;
+			NPC.width = 150;
 			NPC.height = 300;
 			NPC.scale = 2f;
 			NPC.damage = 150;
@@ -39,11 +42,11 @@ namespace JoostMod.NPCs.Bosses
 			NPC.aiStyle = 0;
 			NPC.frameCounter = 0;
             if (!Main.dedServ)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/TheDecisiveBattle");
+                Music = Main.drunkWorld ? MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DontBeAfraid") : MusicLoader.GetMusicSlot(Mod, "Sounds/Music/TheDecisiveBattle");
             //bossBag/* tModPorter Note: Removed. Spawn the treasure bag alongside other loot via npcLoot.Add(ItemDropRule.BossBag(type)) */ = ModContent.ItemType<JumboCactuarBag>();
             NPC.noTileCollide = true;
 			NPC.noGravity = true;
-            SceneEffectPriority = SceneEffectPriority.BossMedium;
+            SceneEffectPriority = SceneEffectPriority.BossHigh;
         }
 
 		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
@@ -54,6 +57,43 @@ namespace JoostMod.NPCs.Bosses
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.SuperHealingPotion;
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            if (NPC.ai[3] >= 510 && NPC.ai[3] < 520)
+            {
+                target.velocity.Y = target.maxFallSpeed;
+                if (Main.expertMode)
+                    target.AddBuff(BuffID.Dazed, 120);
+                if (target.position.Y > NPC.Center.Y)
+                    target.position.Y = NPC.position.Y + NPC.height + 32;
+            }
+        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            if (NPC.ai[3] >= 360 && NPC.ai[3] < 510)
+            {
+                return false;
+            }
+            cooldownSlot = ImmunityCooldownID.Bosses;
+            return base.CanHitPlayer(target, ref cooldownSlot);
+        }
+        public override bool ModifyCollisionData(Rectangle victimHitbox, ref int immunityCooldownSlot, ref MultipliableFloat damageMultiplier, ref Rectangle npcHitbox)
+        {
+            if (NPC.ai[3] >= 510 && NPC.ai[3] < 520)
+            {
+                Rectangle stompBox = new Rectangle(0, 0, 108, 232);
+                stompBox.X = (int)(NPC.position.X + (NPC.direction < 0 ? -stompBox.Width : NPC.width));
+                stompBox.Y = (int)(NPC.position.Y + NPC.height - stompBox.Height);
+                if (victimHitbox.Intersects(stompBox))
+                {
+                    npcHitbox = stompBox;
+                    immunityCooldownSlot = 2;
+                    damageMultiplier *= 1.25f;
+                }
+
+            }
+            return base.ModifyCollisionData(victimHitbox, ref immunityCooldownSlot, ref damageMultiplier, ref npcHitbox);
         }
         public override void FindFrame(int frameHeight)
 		{
@@ -66,7 +106,7 @@ namespace JoostMod.NPCs.Bosses
 					NPC.frameCounter = 0;	
 					NPC.frame.Y = (NPC.frame.Y + 384);		
 				}
-				if (NPC.frame.Y >= 768)
+				if (NPC.frame.Y >= 768 || NPC.ai[3] >= 300)
 				{
 					NPC.frame.Y = 0;	
 				}
@@ -88,7 +128,23 @@ namespace JoostMod.NPCs.Bosses
 				}
 			}
 		}
-		public override void HitEffect(NPC.HitInfo hit)
+        /*
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = TextureAssets.Npc[NPC.type].Value;
+            Rectangle rect = NPC.frame;
+            Vector2 origin = NPC.frame.Size() / 2;
+            Vector2 drawPos = NPC.Center - screenPos + new Vector2(0f, NPC.gfxOffY);
+            SpriteEffects effects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+            {
+                effects = SpriteEffects.FlipHorizontally;
+            }
+            spriteBatch.Draw(tex, drawPos, new Rectangle?(rect), drawColor, NPC.rotation, origin, NPC.scale, effects, 0);
+            return false;
+        }
+        */
+        public override void HitEffect(NPC.HitInfo hit)
 		{
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
@@ -140,20 +196,23 @@ namespace JoostMod.NPCs.Bosses
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<JumboCactuarTrophy>(), 10));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FifthAnniversary>(), 10));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Cactustoken>(), 1, 1, 2));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<DecisiveBattleMusicBox>(), 4));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<JumboCactuarMask>(), 7));
+
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+            notExpertRule.OnSuccess(ItemDropRule.ByCondition(new Conditions.DrunkWorldIsNotUp(), ModContent.ItemType<DecisiveBattleMusicBox>(), 4));
+            notExpertRule.OnSuccess(ItemDropRule.ByCondition(new Conditions.DrunkWorldIsUp(), ModContent.ItemType<DontBeAfraidMusicBox>(), 4));
         }
         public override void AI()
 		{
             var sauce = NPC.GetSource_FromAI();
 			NPC.netUpdate = true;
-			Player P = Main.player[NPC.target];
-			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+			Player target = Main.player[NPC.target];
+			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active || NPC.ai[3] == 300)
 			{
 				NPC.TargetClosest(false);
-				P = Main.player[NPC.target];
+				target = Main.player[NPC.target];
             }
-            if (!P.active || P.dead)
+            if (!target.active || target.dead)
             {
                 if (NPC.timeLeft > 200)
                 {
@@ -164,24 +223,59 @@ namespace JoostMod.NPCs.Bosses
             {
                 NPC.timeLeft = 750;
             }
-            bool desert = P.ZoneDesert;
-            bool corrupt = P.ZoneCorrupt;
-            bool crimson = P.ZoneCrimson;
-            bool hallow = P.ZoneHallow;
-            if (NPC.velocity.Y == 0 && P.Center.Y < NPC.position.Y)
+
+            #region Pushbox
+            foreach (Player P in Main.ActivePlayers)
+            {
+                if (P.active && !P.dead && P.Hitbox.Intersects(NPC.Hitbox))
+                {
+                    int dirX = P.Center.X - NPC.Center.X > 0 ? 1 : -1;
+                    int dirY = 0;
+                    if (P.Center.Y < NPC.position.Y)
+                    {
+                        dirY = -1;
+                    }
+                    Vector2 push = new Vector2((NPC.Center.X + (NPC.width / 2 * dirX)) - (P.Center.X + (P.width / 2 * -dirX)), 0);
+                    if (dirY != 0)
+                    {
+                        push = new Vector2(0, (NPC.Center.Y + (NPC.height / 2 * dirY)) - (P.Center.Y + (P.height / 2 * -dirY)) - P.gravity);
+                    }
+
+                    if (Collision.CanHitLine(P.position, P.width, P.height, P.position + push, P.width, P.height))
+                    {
+                        Vector2 collide = Collision.TileCollision(P.position, push, P.width, P.height);
+                        P.position += collide;
+                    }
+                }
+            }
+            #endregion
+
+            bool desert = target.ZoneDesert;
+            bool corrupt = target.ZoneCorrupt;
+            bool crimson = target.ZoneCrimson;
+            bool hallow = target.ZoneHallow;
+            if (NPC.velocity.Y == 0 && target.Center.Y < NPC.position.Y)
             {
                 NPC.velocity.Y = -20f;
             }
-            if (P.position.Y > NPC.position.Y + NPC.height && Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+
+            #region Tile Collision
+            if (target.position.Y > NPC.position.Y + NPC.height && Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
             {
+                float maxSpeed = 8f;
                 NPC.velocity.Y += 0.2f;
+                if (NPC.ai[3] >= 360 && NPC.ai[3] < 505)
+                {
+                    NPC.velocity.Y += 0.8f;
+                    maxSpeed = 15f;
+                }
                 if (NPC.velocity.Y < 0)
                 {
                     NPC.velocity.Y = 0;
                 }
-                if (NPC.velocity.Y > 8f)
+                if (NPC.velocity.Y > maxSpeed)
                 {
-                    NPC.velocity.Y = 8f;
+                    NPC.velocity.Y = maxSpeed;
                 }
             }
             else
@@ -200,20 +294,33 @@ namespace JoostMod.NPCs.Bosses
                 {
                     if (NPC.velocity.Y > 0f)
                     {
-                        NPC.velocity.Y = 0f;
-                        if (P.position.Y < NPC.position.Y - 500)
+                        if (NPC.ai[3] >= 360 && NPC.ai[3] < 510 && target.Center.Y > NPC.position.Y + NPC.height)
                         {
-                            NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs(P.position.Y - (NPC.position.Y + NPC.height)));
+                            NPC.velocity.Y += 1f;
+                        }
+                        else
+                        {
+                            NPC.velocity.Y = 0f;
+                        }
+                        if (target.position.Y < NPC.position.Y - 500)
+                        {
+                            NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.3f * Math.Abs(target.position.Y - (NPC.position.Y + NPC.height)));
                         }
                     }
                     else
                     {
-                        NPC.velocity.Y -= 0.125f;
-                        if (NPC.velocity.Y < -3f)
+                        float maxSpeed = 3f;
+                        if (NPC.ai[3] >= 360 && NPC.ai[3] < 510 && target.Center.Y < NPC.position.Y + NPC.height)
                         {
-                            NPC.velocity.Y = -3f;
+                            NPC.velocity.Y -= 0.5f;
+                            maxSpeed = 10f;
                         }
-                        if (P.position.Y < NPC.position.Y - 400 && NPC.velocity.Y > -8)
+                        NPC.velocity.Y -= 0.125f;
+                        if (NPC.velocity.Y < -maxSpeed)
+                        {
+                            NPC.velocity.Y = -maxSpeed;
+                        }
+                        if (target.position.Y < NPC.position.Y - 400 && NPC.velocity.Y > -8)
                         {
                             NPC.velocity.Y = -8f;
                         }
@@ -228,18 +335,20 @@ namespace JoostMod.NPCs.Bosses
                     NPC.velocity.Y += 0.5f;
                 }
             }
-			if (NPC.velocity.Y > 20f)
+            #endregion
+
+            if (NPC.velocity.Y > 20f)
 			{
 				NPC.velocity.Y = 20f;
 			}
 			
-			if (NPC.ai[2] <= 0)
+			if (NPC.ai[2] <= 0 && NPC.ai[3] < 300) //Not using 10000 needles or stomp
 			{
-				if(P.Center.X < NPC.position.X && NPC.velocity.X > -25.4f)
+				if(target.Center.X < NPC.position.X && NPC.velocity.X > -25.4f)
 				{
 					NPC.velocity.X -= 0.4f;
 				}
-				if(P.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < 25.4f) 
+				if(target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < 25.4f) 
 				{
 					NPC.velocity.X += 0.4f;
 				}
@@ -253,7 +362,7 @@ namespace JoostMod.NPCs.Bosses
 				}
 				//npc.position.X += npc.velocity.X;
 			}
-			if (NPC.ai[2] < 15)
+			if (NPC.ai[2] < 15 && (NPC.ai[3] < 300 || NPC.ai[1] % 400 >= 380))
 			{
 				NPC.ai[1]++;
 			}
@@ -266,36 +375,177 @@ namespace JoostMod.NPCs.Bosses
 			{
                 NPC.localAI[0] = 0;
 			}
-			if (NPC.localAI[0] > 300)
-			{
-				NPC.rotation += 10 * NPC.direction;
-				NPC.damage = 300;
+
+            if (NPC.localAI[0] > 300) //Enraged
+            {
+                NPC.rotation += 10 * NPC.direction;
+                NPC.damage = 300;
                 NPC.defense = (int)(NPC.localAI[0] / 2);
-				NPC.velocity = NPC.DirectionTo(P.Center) * (NPC.localAI[0] / 20f);
-				//npc.noTileCollide = true;
-				NPC.ai[3] = 0;
+                NPC.velocity = NPC.DirectionTo(target.Center) * (NPC.localAI[0] / 20f);
+                //npc.noTileCollide = true;
+                NPC.ai[3] = 0;
                 if (NPC.localAI[3] == 0)
                 {
-					if (Main.netMode != NetmodeID.Server)
-						Main.NewText("The Jumbo Cactuar enrages as you leave the desert!", Color.DarkOliveGreen);
-                    
-					NPC.localAI[3] = 1;
+                    if (Main.netMode != NetmodeID.Server)
+                        Main.NewText("The Jumbo Cactuar enrages as you leave the desert!", Color.DarkOliveGreen);
+
+                    NPC.localAI[3] = 1;
                 }
-			}
-			else
-			{
-				NPC.rotation = 0;
-				NPC.damage = 150;
+            }
+            else
+            {
+                NPC.rotation = 0;
+                NPC.damage = 150;
                 NPC.defense = 30;
-                //npc.noTileCollide = false;
-                if (NPC.ai[2] <= 0 && Vector2.Distance(P.Center, NPC.Center) > 500)
+
+                // NPC.ai[2] is above 0 when using 10000 needles
+                #region Stomp
+                if (NPC.ai[2] <= 0)
+                {
+                    if (NPC.ai[3] < 300)
+                    {
+                        NPC.ai[3]++;
+                        if (Math.Abs(target.Center.X - NPC.Center.X) > 2000)
+                        {
+                            NPC.ai[3] = 300;
+                        }
+                        else if (Math.Abs(target.Center.X - NPC.Center.X) > 1000)
+                        {
+                            NPC.ai[3]++;
+                        }
+                    }
+                }
+                else
+                {
+                    NPC.ai[3] = 0;
+                }
+                if (NPC.ai[1] % 400 < 380) // Standard needles check
+                {
+                    if (NPC.ai[3] >= 300)
+                    {
+                        NPC.ai[3]++;
+                        float rot = 0;
+                        if (NPC.ai[3] < 360)
+                        {
+                            NPC.velocity.X = 0;
+                            rot = NPC.ai[3] - 300;
+                        }
+                        else if (NPC.ai[3] < 500)
+                        {
+                            if (target.position.Y + target.velocity.Y - 40 < NPC.Center.Y && (NPC.velocity.Y >= 0 || Collision.SolidCollision(NPC.position, NPC.width, NPC.height)))
+                            {
+                                NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.5f * Math.Abs(target.position.Y - (NPC.position.Y + NPC.height)));
+                            }
+                            rot = 60;
+                            float maxSpeed = 35f;
+                            float accel = 2.4f;
+                            if (target.Center.X < NPC.position.X && NPC.velocity.X > -maxSpeed && NPC.velocity.X <= 0.5)
+                            {
+                                NPC.velocity.X -= accel;
+                            }
+                            if (target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < maxSpeed && NPC.velocity.X >= -0.5)
+                            {
+                                NPC.velocity.X += accel;
+                            }
+                            if (NPC.velocity.X < -maxSpeed)
+                            {
+                                NPC.velocity.X = -maxSpeed;
+                            }
+                            if (NPC.velocity.X > maxSpeed)
+                            {
+                                NPC.velocity.X = maxSpeed;
+                            }
+                            if (Math.Sign(NPC.velocity.X) * (target.Center.X - NPC.Center.X) > 1600)
+                            {
+                                NPC.ai[3] = 360;
+                            }
+
+                            if (Math.Abs(target.Center.X - NPC.Center.X) < 180 + Math.Abs(NPC.velocity.X) && target.Center.Y < NPC.position.Y + NPC.height && target.Center.Y > NPC.position.Y)
+                            {
+                                NPC.ai[3] = 500;
+                            }
+                        }
+                        else if (NPC.ai[3] < 510)
+                        {
+                            NPC.velocity.X *= 0.5f;
+                            if (NPC.ai[3] < 507)
+                            {
+                                rot = 60;
+                            }
+                            else
+                            {
+                                rot = 60 - ((NPC.ai[3] - 507) * 10);
+                                if (NPC.velocity.Y < 10)
+                                {
+                                    NPC.velocity.Y = 10;
+                                }
+                            }
+                            if (NPC.ai[3] == 507)
+                            {
+                                SoundEngine.PlaySound(new SoundStyle("Terraria/Sounds/Custom/dd2_monk_staff_swing_0").WithVolumeScale(0.8f).WithPitchOffset(-0.2f), NPC.Center); // 216
+                            }
+                        }
+                        else
+                        {
+                            NPC.velocity.X = 0f;
+                            if (NPC.ai[3] == 510)
+                            {
+                                if (Collision.SolidCollision(NPC.position + new Vector2(0, NPC.height), NPC.width, 160))
+                                {
+                                    if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        int damage = 50;
+                                        Vector2 pos = new Vector2(NPC.Center.X + (NPC.width / 2 + 100) * NPC.direction, NPC.position.Y + NPC.height);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 12f * NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage, 10);
+                                    }
+                                    for (int i = 0; i < 100; i++)
+                                    {
+                                        int dustType = 32;
+                                        int dustIndex = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType);
+                                        Dust dust = Main.dust[dustIndex];
+                                        dust.velocity.X = dust.velocity.X + Main.rand.Next(-20, 20);
+                                        dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-20, -5);
+                                    }
+                                    SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
+                                }
+                            }
+                            if (NPC.ai[3] < 570)
+                            {
+                                rot = 30;
+                            }
+                            else
+                            {
+                                rot = 30 - (NPC.ai[3] - 570);
+                            }
+                            if (NPC.ai[3] >= 600)
+                            {
+                                NPC.ai[3] = 0;
+                            }
+                        }
+                        if (rot <= 30)
+                        {
+                            NPC.gfxOffY = rot * 1.2f;
+                        }
+                        else if (rot <= 60)
+                        {
+                            NPC.gfxOffY = 36 - (rot - 30) * 0.8f;
+                        }
+                        NPC.rotation = MathHelper.ToRadians(rot) * -NPC.direction;
+
+                    }
+                    //Main.NewText(NPC.velocity.X);
+                }
+                #endregion
+
+                /* Old jump code
+                if (NPC.ai[2] <= 0 && Vector2.Distance(target.Center, NPC.Center) > 500)
 				{
 					NPC.ai[3] += 1+Main.rand.Next(3);
-					if (Vector2.Distance(P.Center, NPC.Center) > 2000)
+					if (Vector2.Distance(target.Center, NPC.Center) > 2000)
 					{
 						NPC.ai[3] = NPC.ai[3] < 600 ? 600 : 0;
 					}
-					else if (Vector2.Distance(P.Center, NPC.Center) > 1000)
+					else if (Vector2.Distance(target.Center, NPC.Center) > 1000)
 					{
 						NPC.ai[3] += NPC.ai[3] < 600 ? 2 : 0;
 					}
@@ -306,7 +556,7 @@ namespace JoostMod.NPCs.Bosses
 				}
 				if (NPC.ai[3] >= 600 && NPC.ai[3] < 900)
 				{
-					Vector2 jumpos = P.Center + new Vector2(0f, -900f);
+					Vector2 jumpos = target.Center + new Vector2(0f, -900f);
 					NPC.velocity = NPC.DirectionTo(jumpos) * 30;
 					//npc.noTileCollide = true;
 					if (Math.Abs(NPC.Center.X - jumpos.X) < 150 && Math.Abs(NPC.Center.Y - jumpos.Y) < 200)
@@ -316,23 +566,22 @@ namespace JoostMod.NPCs.Bosses
 				}
 				if (NPC.ai[3] >= 1000 && NPC.ai[3] < 1100)
 				{
-					NPC.velocity = NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * 20, 0f)) * 20;
+					NPC.velocity = NPC.DirectionTo(target.Center + new Vector2(target.velocity.X * 20, 0f)) * 20;
 					//npc.noTileCollide = false;
 				}
-			}
-			if (NPC.ai[3] >= 1100)
-			{
-				NPC.ai[3] = 0;
-			}
-			NPC.ai[0]++;
+                */
+            }
+
+            #region Minion Summons
+            NPC.ai[0]++;
 			if (Main.expertMode && NPC.ai[0] >= 700)
 			{
 				if (Main.rand.NextBool(4)&& NPC.localAI[2] <= 0)
 				{
                     NPC.localAI[2]++;
 				}
-				if (NPC.localAI[2] > 0)
-				{
+				if (NPC.localAI[2] > 0) //Cactuars
+                {
                     NPC.localAI[2]++;
 					if (NPC.localAI[2] % 15 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -340,49 +589,49 @@ namespace JoostMod.NPCs.Bosses
 						if (corrupt)
 						{
                             int yOff = Main.rand.Next(100);
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X - spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, ModContent.NPCType<CorruptCactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X - spwn, (int)target.position.Y - yOff, ModContent.NPCType<CorruptCactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X + spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, ModContent.NPCType<CorruptCactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X + spwn, (int)target.position.Y - yOff, ModContent.NPCType<CorruptCactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
                         }
 						else if (crimson)
                         {
                             int yOff = Main.rand.Next(100);
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X - spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, ModContent.NPCType<CrimsonCactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X - spwn, (int)target.position.Y - yOff, ModContent.NPCType<CrimsonCactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X + spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, ModContent.NPCType<CrimsonCactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X + spwn, (int)target.position.Y - yOff, ModContent.NPCType<CrimsonCactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
                         }
 						else if (hallow)
                         {
                             int yOff = Main.rand.Next(100);
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X - spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, ModContent.NPCType<HallowedCactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X - spwn, (int)target.position.Y - yOff, ModContent.NPCType<HallowedCactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X + spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, ModContent.NPCType<HallowedCactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X + spwn, (int)target.position.Y - yOff, ModContent.NPCType<HallowedCactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
                         }
 						else
                         {
                             int yOff = Main.rand.Next(100);
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X - spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X - spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X - spwn, (int)P.position.Y - yOff, ModContent.NPCType<Cactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X - spwn, (int)target.position.Y - yOff, ModContent.NPCType<Cactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
-                            if (!Collision.SolidCollision(new Vector2(P.Center.X + spwn, P.position.Y - yOff) - new Vector2(9, 20), 18, 40))
+                            if (!Collision.SolidCollision(new Vector2(target.Center.X + spwn, target.position.Y - yOff) - new Vector2(9, 20), 18, 40))
                             {
-                                NPC.NewNPC(sauce, (int)P.Center.X + spwn, (int)P.position.Y - yOff, ModContent.NPCType<Cactuar>(), 0, 0f, 0f, 0, 0, P.whoAmI);
+                                NPC.NewNPC(sauce, (int)target.Center.X + spwn, (int)target.position.Y - yOff, ModContent.NPCType<Cactuar>(), 0, 0f, 0f, 0, 0, target.whoAmI);
                             }
                         }
 					}
@@ -392,7 +641,7 @@ namespace JoostMod.NPCs.Bosses
                         NPC.ai[0] = 0;
 					}
 				}
-				else
+				else // Giant Needles
 				{
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -402,42 +651,48 @@ namespace JoostMod.NPCs.Bosses
                         Vector2 offR = (rot + MathHelper.Pi / 6).ToRotationVector2() * 350;
                         if (NPC.direction == -1)
                         {
-                            NPC.NewNPC(sauce, (int)NPC.position.X - 40, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offL.X - Main.rand.Next(70), offL.Y - Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, off.X + Main.rand.Next(-30, 30), off.Y + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 40, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offR.X + Main.rand.Next(70), offR.Y + Main.rand.Next(-50, 70), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X - 40, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offL.X - Main.rand.Next(70), offL.Y - Main.rand.Next(-50, 50), target.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 5f, off.X + Main.rand.Next(-30, 30), off.Y + Main.rand.Next(-50, 50), target.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 40, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 10f, offR.X + Main.rand.Next(70), offR.Y + Main.rand.Next(-50, 70), target.whoAmI);
                         }
                         else
                         {
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 160, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offL.X - Main.rand.Next(70), offL.Y + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 200, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, off.X + Main.rand.Next(-30, 30), off.Y + Main.rand.Next(-50, 50), P.whoAmI);
-                            NPC.NewNPC(sauce, (int)NPC.position.X + 240, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offR.X + Main.rand.Next(70), offR.Y + Main.rand.Next(-50, 50), P.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 160, (int)NPC.position.Y - 110, ModContent.NPCType<GiantNeedle>(), 0, 0f, 0f, offL.X - Main.rand.Next(70), offL.Y + Main.rand.Next(-50, 50), target.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 200, (int)NPC.position.Y - 100, ModContent.NPCType<GiantNeedle>(), 0, 0f, 5f, off.X + Main.rand.Next(-30, 30), off.Y + Main.rand.Next(-50, 50), target.whoAmI);
+                            NPC.NewNPC(sauce, (int)NPC.position.X + 240, (int)NPC.position.Y - 70, ModContent.NPCType<GiantNeedle>(), 0, 0f, 10f, offR.X + Main.rand.Next(70), offR.Y + Main.rand.Next(-50, 50), target.whoAmI);
                         }
                     }
                     NPC.ai[0] = 0;
 				}
 			}
-			if (NPC.ai[1] < 1500)
+            #endregion
+
+            #region Needles    
+            if (NPC.ai[1] < 1500)
 			{
 				if (NPC.ai[2] >= 15)
 				{
 					NPC.ai[1] = 0;
 				}
 				NPC.ai[2] = 0;
-				if (NPC.ai[1] % 400 >= 380)
+				if (NPC.ai[1] % 400 >= 380 && NPC.ai[3] < 300)
 				{
 					float Speed = 8f;
 					Vector2 vector8 = new Vector2(NPC.Center.X + (Main.rand.Next(-15, 15) * 15), NPC.Center.Y + (Main.rand.Next(-20, 15) * 15));
 					int damage = 10;
 					int type = ModContent.ProjectileType<CactusNeedle>();
 					SoundEngine.PlaySound(SoundID.Item1, NPC.position);
-					float rotation = (float)Math.Atan2(vector8.Y - P.Center.Y, vector8.X - P.Center.X);
+					float rotation = (float)Math.Atan2(vector8.Y - target.Center.Y, vector8.X - target.Center.X);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile(sauce, vector8.X, vector8.Y, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                     }
 				}
 			}
-			if (NPC.ai[1] >= 1500 && NPC.ai[1] % 17 == 0)
+            #endregion
+
+            #region 10000 Needles
+            if (NPC.ai[1] >= 1500 && NPC.ai[1] % 17 == 0)
 			{
 				NPC.ai[2]++;
 			}
@@ -462,13 +717,15 @@ namespace JoostMod.NPCs.Bosses
 				int damage = 10;
 				int type = ModContent.ProjectileType<CactusNeedle>();
 				SoundEngine.PlaySound(SoundID.Item1, NPC.position);
-				float rotation = (float)Math.Atan2(NPC.Center.Y - P.Center.Y, NPC.Center.X - P.Center.X);
+				float rotation = (float)Math.Atan2(NPC.Center.Y - target.Center.Y, NPC.Center.X - target.Center.X);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Projectile.NewProjectile(sauce, NPC.Center.X + (Main.rand.Next(-20, 20) * 20), NPC.Center.Y + (Main.rand.Next(-20, 15) * 30), (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, Main.myPlayer);
                 }
                 NPC.ai[1]--;
             }
+            #endregion
+
             NPC.scale = 2;
             if (NPC.timeLeft <= 200)
             {

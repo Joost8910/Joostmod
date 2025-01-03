@@ -3416,6 +3416,16 @@ Mods: {
 				DisplayName: Water Balloon
 				Tooltip: "'Splash!'"
 			}
+
+			SAXChaseMusicBox: {
+				Tooltip: ""
+				DisplayName: Music Box (Escape From The SA-X)
+			}
+
+			DontBeAfraidMusicBox: {
+				Tooltip: From Final Fantasy VIII
+				DisplayName: Music Box (Dont Be Afraid)
+			}
 		}
 
 		NPCs: {
@@ -4113,6 +4123,9 @@ Mods: {
 			ArmorFlame.DisplayName: Armor Flame
 			Gravebuster.DisplayName: Gravebuster
 			AssassinKunai.DisplayName: Assassin Kunai
+			JumboCactuarWave2.DisplayName: Jumbo Cactuar Wave2
+			JumboCactuarWave1.DisplayName: Jumbo Cactuar Wave1
+			JumboCactuarWave.DisplayName: Jumbo Cactuar Wave
 		}
 
 		Tiles: {
@@ -4163,6 +4176,9 @@ Mods: {
 			SpongeStationLava.MapEntry: Lava Absorbtion Pump
 			SpongeStationWater.MapEntry: Water Absorbtion Pump
 			ThirdAnniversary.MapEntry: Joostmod's Third Anniversary
+			SAXChaseMusicBox.MapEntry: S A X Chase Music Box
+			ForceYourWayMusicBox.MapEntry: Force Your Way Music Box
+			DontBeAfraidMusicBox.MapEntry: Dont Be Afraid Music Box
 		}
 
 		Conditions: {
