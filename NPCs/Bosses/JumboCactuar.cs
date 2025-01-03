@@ -19,7 +19,9 @@ namespace JoostMod.NPCs.Bosses
 	[AutoloadBossHead]
 	public class JumboCactuar : ModNPC
 	{
-		public override void SetStaticDefaults()
+        Point STOMP_HITBOX = new Point(108, 260);
+        Point HEAD_HITBOX = new Point(192, 192);
+        public override void SetStaticDefaults()
 		{
 			// DisplayName.SetDefault("Jumbo Cactuar");
 			Main.npcFrameCount[NPC.type] = 5;
@@ -63,15 +65,15 @@ namespace JoostMod.NPCs.Bosses
             if (NPC.ai[3] >= 510 && NPC.ai[3] < 520)
             {
                 target.velocity.Y = target.maxFallSpeed;
-                if (Main.expertMode)
-                    target.AddBuff(BuffID.Dazed, 120);
-                if (target.position.Y > NPC.Center.Y)
-                    target.position.Y = NPC.position.Y + NPC.height + 32;
+                target.AddBuff(BuffID.Dazed, 120);
+
+                if (Main.expertMode && target.position.Y > NPC.Center.Y)
+                    target.position.Y = NPC.position.Y + NPC.height + 18;
             }
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (NPC.ai[3] >= 360 && NPC.ai[3] < 510)
+            if (NPC.ai[3] >= 360 && NPC.ai[3] < 510 && target.position.Y + target.height > NPC.position.Y + NPC.height - STOMP_HITBOX.Y)
             {
                 return false;
             }
@@ -80,21 +82,89 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool ModifyCollisionData(Rectangle victimHitbox, ref int immunityCooldownSlot, ref MultipliableFloat damageMultiplier, ref Rectangle npcHitbox)
         {
+            Rectangle headBox = new Rectangle(0, 0, HEAD_HITBOX.X, HEAD_HITBOX.Y);
+            /*
+            headBox.X = (int)(NPC.position.X + (NPC.direction < 0 ? -106 : NPC.width - HEAD_HITBOX.X + 106));
+            headBox.Y = (int)(NPC.position.Y - 140);
+            headBox.X += (int)(Math.Clamp(MathHelper.ToDegrees(NPC.rotation), -60, 60) * 4.5f);
+            */
+            Vector2 rotPoint = new Vector2(NPC.Center.X, NPC.Center.Y - 84 + NPC.gfxOffY);
+            Vector2 centerPoint = rotPoint + new Vector2(156 * NPC.direction, -256).RotatedBy(NPC.rotation);
+            headBox.X = (int)(centerPoint.X + 16*NPC.direction - headBox.Width / 2);
+            headBox.Y = (int)(centerPoint.Y - headBox.Height / 2);
+
+            if (victimHitbox.Intersects(headBox))
+            {
+                npcHitbox = headBox;
+                if (victimHitbox.Y < headBox.Center.Y)
+                    damageMultiplier *= 1.25f;
+            }
+
+
             if (NPC.ai[3] >= 510 && NPC.ai[3] < 520)
             {
-                Rectangle stompBox = new Rectangle(0, 0, 108, 232);
+                Rectangle stompBox = new Rectangle(0, 0, STOMP_HITBOX.X, STOMP_HITBOX.Y);
                 stompBox.X = (int)(NPC.position.X + (NPC.direction < 0 ? -stompBox.Width : NPC.width));
                 stompBox.Y = (int)(NPC.position.Y + NPC.height - stompBox.Height);
                 if (victimHitbox.Intersects(stompBox))
                 {
                     npcHitbox = stompBox;
                     immunityCooldownSlot = 2;
-                    damageMultiplier *= 1.25f;
+                    damageMultiplier *= 1.5f;
                 }
-
             }
             return base.ModifyCollisionData(victimHitbox, ref immunityCooldownSlot, ref damageMultiplier, ref npcHitbox);
         }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            bool showHitbox = true;
+            if (showHitbox)
+            {
+                Texture2D tex = TextureAssets.Npc[NPC.type].Value;
+                Rectangle rect = new Rectangle(92, 64, 2, 2);
+                Vector2 drawOrigin = rect.Size() / 2;
+                Color color = Color.Red;
+
+                Rectangle headBox = new Rectangle(0, 0, HEAD_HITBOX.X, HEAD_HITBOX.Y);
+
+                Vector2 rotPoint = new Vector2(NPC.Center.X, NPC.Center.Y - 84 + NPC.gfxOffY);
+                Vector2 centerPoint = rotPoint + new Vector2(156 * NPC.direction, -256).RotatedBy(NPC.rotation);
+                headBox.X = (int)(centerPoint.X + 16 * NPC.direction - headBox.Width / 2);
+                headBox.Y = (int)(centerPoint.Y - headBox.Height / 2);
+
+
+                for (int i = 0; i < headBox.Width; i += 2)
+                {
+                    Main.EntitySpriteDraw(tex, headBox.TopLeft() + new Vector2(i, 0) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                    Main.EntitySpriteDraw(tex, headBox.BottomLeft() + new Vector2(i, 0) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                }
+                for (int j = 0; j < headBox.Height; j += 2)
+                {
+                    Main.EntitySpriteDraw(tex, headBox.TopLeft() + new Vector2(0, j) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                    Main.EntitySpriteDraw(tex, headBox.TopRight() + new Vector2(0, j) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                }
+
+                if (NPC.ai[3] >= 510 && NPC.ai[3] < 520)
+                {
+                    Rectangle stompBox = new Rectangle(0, 0, STOMP_HITBOX.X, STOMP_HITBOX.Y);
+                    stompBox.X = (int)(NPC.position.X + (NPC.direction < 0 ? -stompBox.Width : NPC.width));
+                    stompBox.Y = (int)(NPC.position.Y + NPC.height - stompBox.Height);
+
+                    for (int i = 0; i < stompBox.Width; i += 2)
+                    {
+                        Main.EntitySpriteDraw(tex, stompBox.TopLeft() + new Vector2(i, 0) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                        Main.EntitySpriteDraw(tex, stompBox.BottomLeft() + new Vector2(i, 0) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                    }
+                    for (int j = 0; j < stompBox.Height; j += 2)
+                    {
+                        Main.EntitySpriteDraw(tex, stompBox.TopLeft() + new Vector2(0, j) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                        Main.EntitySpriteDraw(tex, stompBox.TopRight() + new Vector2(0, j) - screenPos, new Rectangle?(rect), color, 0f, drawOrigin, 1f, SpriteEffects.None);
+                    }
+                }
+            }
+        }
+
         public override void FindFrame(int frameHeight)
 		{
 			NPC.spriteDirection = NPC.direction;
@@ -104,28 +174,28 @@ namespace JoostMod.NPCs.Bosses
 				if (NPC.frameCounter >= 8)
 				{
 					NPC.frameCounter = 0;	
-					NPC.frame.Y = (NPC.frame.Y + 384);		
+					NPC.frame.Y = (NPC.frame.Y + frameHeight);		
 				}
-				if (NPC.frame.Y >= 768 || NPC.ai[3] >= 300)
+				if (NPC.frame.Y >= frameHeight * 2 || NPC.ai[3] >= 300)
 				{
 					NPC.frame.Y = 0;	
 				}
 			}
 			if (NPC.ai[2] > 0 && NPC.ai[2] < 15)
 			{
-				NPC.frame.Y = 768;
+				NPC.frame.Y = frameHeight * 2;
 			}
 			if (NPC.ai[2] >= 15 || (NPC.ai[1] % 400 >= 380 && NPC.ai[1] < 1500))
 			{
 				if (NPC.frameCounter >= 4)
 				{
 					NPC.frameCounter = 0;	
-					NPC.frame.Y = (NPC.frame.Y + 384);		
+					NPC.frame.Y = (NPC.frame.Y == 0 ? frameHeight * 3 : 0);		
 				}
-				if (NPC.frame.Y >= 1920 || NPC.frame.Y < 1152)
-				{
-					NPC.frame.Y = 1152;	
-				}
+                if (NPC.frame.Y == frameHeight * 2 || NPC.frame.Y == frameHeight)
+                {
+                    NPC.frame.Y = frameHeight * 3;
+                }
 			}
 		}
         /*
@@ -399,7 +469,6 @@ namespace JoostMod.NPCs.Bosses
                 NPC.defense = 30;
 
                 // NPC.ai[2] is above 0 when using 10000 needles
-                #region Stomp
                 if (NPC.ai[2] <= 0)
                 {
                     if (NPC.ai[3] < 300)
@@ -421,8 +490,20 @@ namespace JoostMod.NPCs.Bosses
                 }
                 if (NPC.ai[1] % 400 < 380) // Standard needles check
                 {
-                    if (NPC.ai[3] >= 300)
+                    if (NPC.ai[3] >= 1300)
                     {
+                        #region Ker Plunk
+                        NPC.ai[3]++;
+                        float rot = 0;
+                        if (NPC.ai[3] < 1360)
+                        {
+                        }
+                        NPC.rotation = MathHelper.ToRadians(rot) * -NPC.direction;
+                        #endregion
+                    }
+                    else if (NPC.ai[3] >= 300)
+                    {
+                        #region Stomp
                         NPC.ai[3]++;
                         float rot = 0;
                         if (NPC.ai[3] < 360)
@@ -495,20 +576,24 @@ namespace JoostMod.NPCs.Bosses
                                     if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
                                     {
                                         int damage = 50;
-                                        Vector2 pos = new Vector2(NPC.Center.X + (NPC.width / 2 + 100) * NPC.direction, NPC.position.Y + NPC.height);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 12f * NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage, 10);
+                                        Vector2 pos = new Vector2(NPC.Center.X + (NPC.width / 2 + STOMP_HITBOX.X) * NPC.direction, NPC.position.Y + NPC.height);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 12f * NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage, 10, -1, 90, 1f, 1f);
                                     }
                                     for (int i = 0; i < 100; i++)
                                     {
                                         int dustType = 32;
-                                        int dustIndex = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType);
+                                        Vector2 pos = new Vector2(NPC.Center.X - (NPC.width / 2 + STOMP_HITBOX.X) * NPC.direction, NPC.position.Y + NPC.height - 16);
+                                        int dustIndex = Dust.NewDust(pos, NPC.width + STOMP_HITBOX.X, 32, dustType);
                                         Dust dust = Main.dust[dustIndex];
                                         dust.velocity.X = dust.velocity.X + Main.rand.Next(-20, 20);
                                         dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-20, -5);
                                     }
+
                                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
                                 }
+
                             }
+
                             if (NPC.ai[3] < 570)
                             {
                                 rot = 30;
@@ -524,18 +609,18 @@ namespace JoostMod.NPCs.Bosses
                         }
                         if (rot <= 30)
                         {
-                            NPC.gfxOffY = rot * 1.2f;
+                            NPC.gfxOffY = rot * 2.33f;
                         }
                         else if (rot <= 60)
                         {
                             NPC.gfxOffY = 36 - (rot - 30) * 0.8f;
                         }
                         NPC.rotation = MathHelper.ToRadians(rot) * -NPC.direction;
-
+                        #endregion
                     }
+
                     //Main.NewText(NPC.velocity.X);
                 }
-                #endregion
 
                 /* Old jump code
                 if (NPC.ai[2] <= 0 && Vector2.Distance(target.Center, NPC.Center) > 500)
@@ -740,11 +825,11 @@ namespace JoostMod.NPCs.Bosses
                 if (NPC.timeLeft <= 0)
                 {
                     NPC.active = false;
-                    if (Main.netMode == 2)
+                    if (Main.netMode == NetmodeID.Server)
                     {
                         NPC.netSkip = -1;
                         NPC.life = 0;
-                        NetMessage.SendData(23, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }

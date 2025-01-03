@@ -20,12 +20,11 @@ namespace JoostMod.Projectiles.Hostile
         {
             Projectile.width = 1;
             Projectile.height = 1;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = 0;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 100;
             Projectile.tileCollide = false;
-            AIType = ProjectileID.Bullet;
         }
         public override bool CanHitPlayer(Player target)
         {
@@ -43,16 +42,25 @@ namespace JoostMod.Projectiles.Hostile
                 Projectile.spriteDirection = Projectile.direction;
                 Projectile.velocity = Vector2.Zero;
                 Projectile.localAI[0] = 10;
+                Projectile.localAI[1] = Projectile.ai[1];
+                Projectile.localAI[2] = Projectile.ai[2];
+                Projectile.timeLeft = (int)Projectile.ai[0];
             }
-            Projectile.scale = Projectile.timeLeft * 0.02f;
-            Projectile.position.X += Projectile.scale * 16 * Projectile.spriteDirection;
+            if (Projectile.timeLeft < 30)
+            {
+                //Projectile.scale = Projectile.timeLeft * (Projectile.ai[0] / 30f);
+                Projectile.ai[1] = Projectile.timeLeft * (Projectile.localAI[1] / 30f);
+                Projectile.ai[2] = Projectile.timeLeft * (Projectile.localAI[2] / 30f);
+            }
+            //Projectile.scale = Projectile.timeLeft * 0.02f;
+            Projectile.position.X += Projectile.ai[1] * 16 * Projectile.spriteDirection;
             if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                Projectile.position.Y -= 16 * Projectile.scale;
+                Projectile.position.Y -= 16 * Projectile.ai[2];
             }
 
             if (Main.myPlayer == Projectile.owner)
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.position.X, Projectile.position.Y, 0, 15f, ModContent.ProjectileType<JumboCactuarWave1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.spriteDirection, Projectile.scale);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.position.X, Projectile.position.Y, 0, 15f, ModContent.ProjectileType<JumboCactuarWave1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.spriteDirection, Projectile.ai[1], Projectile.ai[2]);
         }
     }
     public class JumboCactuarWave1 : ModProjectile
@@ -66,13 +74,12 @@ namespace JoostMod.Projectiles.Hostile
         {
             Projectile.width = 2;
             Projectile.height = 2;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = 0;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 120;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
-            AIType = ProjectileID.Bullet;
             Projectile.extraUpdates = 1;
         }
         public override bool CanHitPlayer(Player target)
@@ -107,7 +114,7 @@ namespace JoostMod.Projectiles.Hostile
                         dust.velocity.X = 0;
                     }
                     SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 32 + (int)(-56 * Projectile.ai[1]), 0, 0, ModContent.ProjectileType<JumboCactuarWave2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 32 + (int)(-56 * Projectile.ai[2]), 0, 0, ModContent.ProjectileType<JumboCactuarWave2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1], Projectile.ai[2]);
                 }
             }
         }
@@ -130,30 +137,29 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.penetrate = -1;
             Projectile.timeLeft = 11;
             Projectile.tileCollide = false;
-            AIType = ProjectileID.Bullet;
         }
         public override bool PreAI()
         {
             Projectile.direction = (int)Projectile.ai[0];
-            Projectile.scale = Projectile.ai[1];
+            //Projectile.scale = Projectile.ai[1];
             Projectile.spriteDirection = Projectile.direction;
-            Projectile.width = (int)(18 * Projectile.scale);
+            Projectile.width = (int)(18 * Projectile.ai[1]);
             if (Projectile.timeLeft > 10)
             {
                 Projectile.frame = 0;
-                Projectile.height = (int)(56 * Projectile.scale);
+                Projectile.height = (int)(56 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 10)
             {
-                Projectile.position.Y = Projectile.position.Y - 26 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y - 26 * Projectile.ai[2];
                 Projectile.frame = 1;
-                Projectile.height = (int)(82 * Projectile.scale);
+                Projectile.height = (int)(82 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 9)
             {
-                Projectile.position.Y = Projectile.position.Y - 6 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y - 6 * Projectile.ai[2];
                 Projectile.frame = 2;
-                Projectile.height = (int)(88 * Projectile.scale);
+                Projectile.height = (int)(88 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 8)
             {
@@ -161,39 +167,39 @@ namespace JoostMod.Projectiles.Hostile
             }
             if (Projectile.timeLeft == 7)
             {
-                Projectile.position.Y = Projectile.position.Y + 6 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y + 6 * Projectile.ai[2];
                 Projectile.frame = 4;
-                Projectile.height = (int)(82 * Projectile.scale);
+                Projectile.height = (int)(82 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 6)
             {
-                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.ai[2];
                 Projectile.frame = 5;
-                Projectile.height = (int)(66 * Projectile.scale);
+                Projectile.height = (int)(66 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 5)
             {
-                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.ai[2];
                 Projectile.frame = 6;
-                Projectile.height = (int)(50 * Projectile.scale);
+                Projectile.height = (int)(50 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 4)
             {
-                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.ai[2];
                 Projectile.frame = 7;
-                Projectile.height = (int)(34 * Projectile.scale);
+                Projectile.height = (int)(34 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft == 3)
             {
-                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y + 16 * Projectile.ai[2];
                 Projectile.frame = 8;
-                Projectile.height = (int)(18 * Projectile.scale);
+                Projectile.height = (int)(18 * Projectile.ai[2]);
             }
             if (Projectile.timeLeft <= 2)
             {
-                Projectile.position.Y = Projectile.position.Y + 8 * Projectile.scale;
+                Projectile.position.Y = Projectile.position.Y + 8 * Projectile.ai[2];
                 Projectile.frame = 9;
-                Projectile.height = (int)(10 * Projectile.scale);
+                Projectile.height = (int)(10 * Projectile.ai[2]);
             }
             return base.PreAI();
         }
@@ -228,8 +234,9 @@ namespace JoostMod.Projectiles.Hostile
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Rectangle rectangle = new Rectangle(0, Projectile.frame * 90, texture.Width, texture.Height / Main.projFrames[Projectile.type]);
             Vector2 vector = new Vector2(texture.Width / 2f, texture.Height / Main.projFrames[Projectile.type] / 2f);
+            Vector2 scale = new Vector2(Projectile.ai[1], Projectile.ai[2]);
 
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rectangle, color, Projectile.rotation, vector, Projectile.scale, effects, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rectangle, color, Projectile.rotation, vector, scale, effects, 0);
             return false;
         }
     }
