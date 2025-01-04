@@ -4123,9 +4123,9 @@ Mods: {
 			ArmorFlame.DisplayName: Armor Flame
 			Gravebuster.DisplayName: Gravebuster
 			AssassinKunai.DisplayName: Assassin Kunai
-			JumboCactuarWave2.DisplayName: Jumbo Cactuar Wave2
-			JumboCactuarWave1.DisplayName: Jumbo Cactuar Wave1
-			JumboCactuarWave.DisplayName: Jumbo Cactuar Wave
+			JumboCactuarWave2.DisplayName: Jumbo Cactuar Shockwave
+			JumboCactuarWave1.DisplayName: Jumbo Cactuar Shockwave
+			JumboCactuarWave.DisplayName: Jumbo Cactuar Shockwave
 		}
 
 		Tiles: {
