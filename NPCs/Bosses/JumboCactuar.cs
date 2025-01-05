@@ -42,7 +42,7 @@ namespace JoostMod.NPCs.Bosses
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.value = Item.buyPrice(7, 50, 0, 0);
 			NPC.knockBackResist = 0f;
-			NPC.aiStyle = 0;
+			NPC.aiStyle = -1;
 			NPC.frameCounter = 0;
             if (!Main.dedServ)
                 Music = Main.drunkWorld ? MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DontBeAfraid") : MusicLoader.GetMusicSlot(Mod, "Sounds/Music/TheDecisiveBattle");
@@ -65,7 +65,6 @@ namespace JoostMod.NPCs.Bosses
         {
             if (NPC.ai[3] >= 510 && NPC.ai[3] < 520)
             {
-                target.velocity.Y = target.maxFallSpeed;
                 target.AddBuff(BuffID.Dazed, 120);
 
                 if (Main.expertMode && target.position.Y > NPC.Center.Y)
@@ -327,13 +326,21 @@ namespace JoostMod.NPCs.Bosses
         public override void AI()
 		{
             var sauce = NPC.GetSource_FromAI();
-			NPC.netUpdate = true;
+            float maxFallSpeed = 20f;
+            //NPC.netUpdate = true;
+            bool faceTarget = NPC.ai[3] < 1360 && !(NPC.ai[3] >= 510 && NPC.ai[3] < 600);
 			Player target = Main.player[NPC.target];
-			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active || NPC.ai[3] == 300)
+			if (!NPC.HasValidTarget || NPC.ai[3] == 300 || NPC.ai[3] == 1300)
 			{
-				NPC.TargetClosest(false);
+				NPC.TargetClosestUpgraded(faceTarget);
 				target = Main.player[NPC.target];
             }
+            if (faceTarget)
+            {
+                NPC.targetRect = target.getRect();
+                NPC.FaceTarget();
+            }
+            //Main.NewText(NPC.targetRect);
             if (!target.active || target.dead)
             {
                 if (NPC.timeLeft > 200)
@@ -394,22 +401,18 @@ namespace JoostMod.NPCs.Bosses
             }
 
             #region Tile Collision
-            if (target.position.Y > NPC.position.Y + NPC.height && Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+            if (target.position.Y >= NPC.position.Y + NPC.height - 2 && Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
             {
-                float maxSpeed = 8f;
+                maxFallSpeed = 8f;
                 NPC.velocity.Y += 0.2f;
                 if (NPC.ai[3] >= 360 && NPC.ai[3] < 505)
                 {
                     NPC.velocity.Y += 0.8f;
-                    maxSpeed = 15f;
+                    maxFallSpeed = 15f;
                 }
                 if (NPC.velocity.Y < 0)
                 {
                     NPC.velocity.Y = 0;
-                }
-                if (NPC.velocity.Y > maxSpeed)
-                {
-                    NPC.velocity.Y = maxSpeed;
                 }
             }
             else
@@ -424,7 +427,7 @@ namespace JoostMod.NPCs.Bosses
                         collide++;
                     }
                 }
-                if (collide > 6)
+                if (collide > 5)
                 {
                     if (NPC.velocity.Y > 0f)
                     {
@@ -443,7 +446,7 @@ namespace JoostMod.NPCs.Bosses
                     }
                     else if (NPC.ai[3] < 1300)
                     {
-                        float maxSpeed = 3f;
+                        float maxSpeed = 6f;
                         if (NPC.ai[3] >= 360 && NPC.ai[3] < 510 && target.Center.Y < NPC.position.Y + NPC.height)
                         {
                             NPC.velocity.Y -= 0.5f;
@@ -470,25 +473,31 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
             #endregion
-            float maxFallSpeed = 20f;
 			
 			if (NPC.ai[2] <= 0 && NPC.ai[3] < 300) //Not using 10000 needles or stomp
 			{
-				if(target.Center.X < NPC.position.X && NPC.velocity.X > -25.4f)
+                float runSpeed = 5.6f;
+				if(target.Center.X < NPC.position.X && NPC.velocity.X > -runSpeed)
 				{
 					NPC.velocity.X -= 0.4f;
+                    NPC.FaceTarget();
 				}
-				if(target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < 25.4f) 
+				else if(target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < runSpeed) 
 				{
 					NPC.velocity.X += 0.4f;
-				}
-				if(NPC.velocity.X < -25.4f)
+                    NPC.FaceTarget();
+                }
+                else
+                {
+                    NPC.velocity.X *= 0.9f;
+                }
+				if(NPC.velocity.X < -runSpeed)
 				{
-					NPC.velocity.X = -25.4f;
+					NPC.velocity.X = -runSpeed;
 				}
-				if(NPC.velocity.X > 25.4f)
+				if(NPC.velocity.X > runSpeed)
 				{
-					NPC.velocity.X = 25.4f;
+					NPC.velocity.X = runSpeed;
 				}
 				//npc.position.X += npc.velocity.X;
 			}
@@ -568,10 +577,12 @@ namespace JoostMod.NPCs.Bosses
                             NPC.velocity.X = 0;
                         }
                         NPC.ai[3]++;
+                        if (NPC.ai[3] > 1330)
+                            NPC.localAI[0]--;
                         float rot = 0;
                         if (NPC.ai[3] < 1330) //Tilt back
                         {
-                            if (NPC.velocity.Y != 0 || !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                            if (NPC.ai[3] <= 1303 && (NPC.velocity.Y != 0 || !Collision.SolidCollision(NPC.position, NPC.width, NPC.height)))
                             {
                                 NPC.ai[3] = 1300;
                                 NPC.velocity.Y += 0.5f;
@@ -611,13 +622,25 @@ namespace JoostMod.NPCs.Bosses
                             {
                                 float maxSpeed = 35f;
                                 float accel = 2.4f;
-                                if (target.Center.X < NPC.position.X && NPC.velocity.X > -maxSpeed && NPC.velocity.X <= 0.5)
+                                if (target.Center.X < NPC.position.X - FALL_HITBOX.X && NPC.velocity.X > -maxSpeed && NPC.velocity.X <= 0.5)
                                 {
                                     NPC.velocity.X -= accel;
+                                    if (NPC.velocity.X < 0)
+                                    {
+                                        NPC.direction = -1;
+                                    }
                                 }
-                                if (target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < maxSpeed && NPC.velocity.X >= -0.5)
+                                else if (target.Center.X > NPC.position.X + NPC.width + FALL_HITBOX.X && NPC.velocity.X < maxSpeed && NPC.velocity.X >= -0.5)
                                 {
                                     NPC.velocity.X += accel;
+                                    if (NPC.velocity.X > 0) 
+                                    {
+                                        NPC.direction = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    NPC.velocity.X *= 0.7f;
                                 }
                                 if (NPC.velocity.X < -maxSpeed)
                                 {
@@ -657,7 +680,7 @@ namespace JoostMod.NPCs.Bosses
                             }
                             if (NPC.ai[3] == 1439)
                             {
-                                SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
+                                SoundEngine.PlaySound(SoundID.Item88.WithPitchOffset(-0.5f), NPC.Center);
                                 for (int i = 0; i < 100; i++)
                                 {
                                     int dustType = 32;
@@ -668,11 +691,12 @@ namespace JoostMod.NPCs.Bosses
                                     dust.velocity.Y = dust.velocity.Y + Main.rand.Next(-20, -5);
                                 }
                                 int damage = 60;
+
                                 Vector2 pos = new Vector2(NPC.Center.X + (NPC.width / 2) * NPC.direction, NPC.position.Y + NPC.height);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 12f * NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage, 10, -1, 80, 2f, 10f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, 12f * NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage, 10, -1, 80, 2f, Main.expertMode ? 10f : 6f);
 
                                 Vector2 pos2 = new Vector2(NPC.Center.X + (NPC.width / 2) - NPC.direction, NPC.position.Y + NPC.height);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos2.X, pos2.Y, 12f * -NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage - 10, 10, -1, 80, 1.5f, 3f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos2.X, pos2.Y, 12f * -NPC.direction, 0, ModContent.ProjectileType<JumboCactuarWave>(), damage - 10, 10, -1, 80, 1.5f, Main.expertMode ? 7f : 5f);
                             }
                         }
                         else
@@ -721,15 +745,19 @@ namespace JoostMod.NPCs.Bosses
                                 NPC.velocity.Y = -(float)Math.Sqrt(2 * 0.5f * Math.Abs(target.position.Y - (NPC.position.Y + NPC.height)));
                             }
                             rot = 60;
-                            float maxSpeed = 35f;
-                            float accel = 2.4f;
+                            float maxSpeed = 30f;
+                            float accel = 1.9f;
                             if (target.Center.X < NPC.position.X && NPC.velocity.X > -maxSpeed && NPC.velocity.X <= 0.5)
                             {
                                 NPC.velocity.X -= accel;
                             }
-                            if (target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < maxSpeed && NPC.velocity.X >= -0.5)
+                            else if (target.Center.X > NPC.position.X + NPC.width && NPC.velocity.X < maxSpeed && NPC.velocity.X >= -0.5)
                             {
                                 NPC.velocity.X += accel;
+                            }
+                            else
+                            {
+                                NPC.velocity.X *= 0.9f;
                             }
                             if (NPC.velocity.X < -maxSpeed)
                             {

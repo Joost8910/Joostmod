@@ -1,6 +1,7 @@
 using JoostMod.NPCs.Bosses;
 using JoostMod.NPCs.Town;
 using Microsoft.Xna.Framework;
+using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,12 +34,18 @@ namespace JoostMod.Projectiles.Hostile
         {
             modifiers.SetMaxDamage(1);
             modifiers.Knockback *= 0;
+            modifiers.ModifyHurtInfo += (ref Player.HurtInfo hurtInfo) =>
+            {
+                hurtInfo.Dodgeable = false;
+            };
         }
+        /*
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             info.CooldownCounter = 3;
             info.Dodgeable = false;
         }
+        */
         public override bool? CanHitNPC(NPC target)
         {
             if (target.type == ModContent.NPCType<CactusPerson>() && !NPC.AnyNPCs(ModContent.NPCType<JumboCactuar>()))

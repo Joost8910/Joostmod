@@ -1214,7 +1214,7 @@ namespace JoostMod
             if (info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle>() || info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle2>() || info.DamageSource.SourceProjectileType == ModContent.ProjectileType<GilgSword>())
             {
                 Player.immuneTime = 1;
-                Player.hurtCooldowns[3] = 1;
+                //Player.hurtCooldowns[3] = 1;
             }
         }
 
@@ -1343,6 +1343,7 @@ namespace JoostMod
             {
                 return true;
             }
+            
             return base.ImmuneTo(damageSource, cooldownCounter, dodgeable);
         }
         public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)

@@ -48,13 +48,16 @@ namespace JoostMod.Projectiles.Hostile
             {
                 target.velocity *= 0.95f;
             }
-            info.CooldownCounter = 3;
-            info.Dodgeable = false;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             modifiers.ScalingArmorPenetration += 1f;
             modifiers.SetMaxDamage(Projectile.damage);
+
+            modifiers.ModifyHurtInfo += (ref Player.HurtInfo hurtInfo) =>
+            {
+                hurtInfo.Dodgeable = false;
+            };
         }
         public override void AI()
         {
