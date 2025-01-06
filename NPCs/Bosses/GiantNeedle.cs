@@ -51,14 +51,19 @@ namespace JoostMod.NPCs.Bosses
 		}
 
         public override void AI()
-		{
-			if (NPC.ai[0] < 1)
+        {
+            if (NPC.ai[0] <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                NPC.netUpdate = true;
+            }
+
+            if (NPC.ai[0] < 1)
 				NPC.ai[0] += 0.004f;
 			Player P = Main.player[NPC.target];
-			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+			if (!NPC.HasValidTarget)
 			{
 				NPC.TargetClosest(true);
-				if ((NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active))
+				if (!NPC.HasValidTarget)
 				{
 					NPC.velocity.Y += 1f;
 					if (NPC.timeLeft > 10)
@@ -68,7 +73,7 @@ namespace JoostMod.NPCs.Bosses
                     return;
                 }
 			}
-			NPC.netUpdate = true;
+			//NPC.netUpdate = true;
 			/*if(npc.Center.X < P.Center.X)
 			{
 				npc.velocity.X = 10f;

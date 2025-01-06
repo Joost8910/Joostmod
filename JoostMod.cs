@@ -358,10 +358,12 @@ namespace JoostMod
             if (Main.netMode != NetmodeID.Server)
             {
                 Ref<Effect> projShaderRef = new Ref<Effect>(this.Assets.Request<Effect>("Shaders/JuiceProjectileShaders", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> npcShaderRef = new Ref<Effect>(this.Assets.Request<Effect>("Shaders/JuiceNPCShaders", AssetRequestMode.ImmediateLoad).Value);
 
                 GameShaders.Misc["TrueGungnirBeam"] = new MiscShaderData(projShaderRef, "GungnirBeamShaderPass");
                 GameShaders.Misc["JoostLaserBeam"] = new MiscShaderData(projShaderRef, "LaserShaderPass");
                 GameShaders.Misc["JoostBolt"] = new MiscShaderData(projShaderRef, "BoltShaderPass");
+                GameShaders.Misc["JoostMeteor"] = new MiscShaderData(npcShaderRef, "JuiceMeteorShaderPass");
 
             }
         }

@@ -9,8 +9,6 @@ namespace JoostMod.Projectiles.Hostile
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Sand Ball");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
@@ -33,8 +31,21 @@ namespace JoostMod.Projectiles.Hostile
                 Main.dust[num1].noGravity = true;
                 Main.dust[num1].velocity *= 0.1f;
             }
+            Projectile.rotation = Projectile.direction * -0.5f * Projectile.timeLeft;
+            if (Projectile.ai[0] > 0)
+            {
+                if (Projectile.velocity.Y < 10)
+                    Projectile.velocity.Y += 0.15f;
+            }
         }
-
+        public override void OnKill(int timeLeft)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 32, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1f);
+                d.velocity = Projectile.DirectionTo(d.position) * 2;
+            }
+        }
 
     }
 }

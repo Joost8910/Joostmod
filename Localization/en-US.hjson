@@ -4126,6 +4126,9 @@ Mods: {
 			JumboCactuarWave2.DisplayName: Jumbo Cactuar Shockwave
 			JumboCactuarWave1.DisplayName: Jumbo Cactuar Shockwave
 			JumboCactuarWave.DisplayName: Jumbo Cactuar Shockwave
+			SandClump.DisplayName: Sand Clump
+			JumboCactuarFireball2.DisplayName: Jumbo Cactuar Fireball2
+			JumboCactuarFireball.DisplayName: Jumbo Cactuar Fireball
 		}
 
 		Tiles: {

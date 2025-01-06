@@ -137,6 +137,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.penetrate = -1;
             Projectile.timeLeft = 11;
             Projectile.tileCollide = false;
+            CooldownSlot = 1;
         }
         public override bool PreAI()
         {

@@ -11,5 +11,6 @@
     <None Remove="Shaders\GaussianBlurShader.fx" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="shaders\JuiceNPCShaders.fx" />
   </ItemGroup>
 </Project>
