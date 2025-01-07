@@ -15,30 +15,41 @@ namespace JoostMod.Projectiles.Hostile
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Sand Ball");
+            Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
         {
             Projectile.width = 100;
             Projectile.height = 100;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = -1;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 90;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
-            AIType = ProjectileID.Bullet;
             CooldownSlot = 1;
         }
         public override void AI()
         {
-            if (Projectile.timeLeft % 5 == 0)
+            //Dust.NewDustPerfect(Projectile.Center, 130, Vector2.Zero, 0, default, 10f).noGravity = true;
+            if (Projectile.timeLeft % 2 == 0)
             {
-                int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
+                int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 2.5f);
 
                 Main.dust[num1].noGravity = true;
                 Main.dust[num1].velocity *= 0.1f;
             }
+            if (Projectile.timeLeft % 4 == 0)
+            {
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+            }
             Lighting.AddLight(Projectile.Center, 1f, 0.25f, 0.1f);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(150);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            int time = (int)(300 * Main.GameModeInfo.DebuffTimeMultiplier);
+            target.AddBuff(BuffID.OnFire3, time);
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -46,11 +57,11 @@ namespace JoostMod.Projectiles.Hostile
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
 
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-            Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
+            Rectangle rect = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, tex.Height / Main.projFrames[Projectile.type]);
             Vector2 origin = rect.Size() / 2;
             Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             SpriteEffects effects = SpriteEffects.None;
-            float rot = Projectile.rotation + MathHelper.ToRadians(120);
+            float rot = Projectile.rotation;
 
             MiscShaderData shaderData = GameShaders.Misc["JoostMeteor"];
 
@@ -73,7 +84,7 @@ namespace JoostMod.Projectiles.Hostile
                 d.velocity = Projectile.DirectionTo(d.position) * 10;
             }
             var source = Projectile.GetSource_Death();
-            float numberProjectiles = 3;
+            float numberProjectiles = 4;
             float rotation = MathHelper.ToRadians(45);
             float damageMult = 0.8f;
             for (int i = 0; i < numberProjectiles; i++)
@@ -95,18 +106,22 @@ namespace JoostMod.Projectiles.Hostile
         {
             Projectile.width = 30;
             Projectile.height = 30;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = -1;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
-            AIType = ProjectileID.Bullet;
             CooldownSlot = 1;
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            int time = (int)(200 * Main.GameModeInfo.DebuffTimeMultiplier);
         }
         public override void AI()
         {
-            if (Projectile.timeLeft % 5 == 0)
+            //Dust.NewDustPerfect(Projectile.Center, 130, Vector2.Zero, 0, default, 5f).noGravity = true;
+            if (Projectile.timeLeft % 2 == 0)
             {
                 int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1f);
 
@@ -117,6 +132,7 @@ namespace JoostMod.Projectiles.Hostile
             {
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
             }
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
             Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0.01f);
 
             if (Projectile.velocity.Y > 0)

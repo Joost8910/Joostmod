@@ -41,7 +41,7 @@ namespace JoostMod.NPCs.Bosses
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-			if (NPC.ai[1] < 105)
+			if (NPC.ai[1] < 115)
 				return false;
             return base.CanHitPlayer(target, ref cooldownSlot);
         }
@@ -90,22 +90,22 @@ namespace JoostMod.NPCs.Bosses
 				NPC.rotation = NPC.ai[1] / 2;
 				NPC.velocity = NPC.DirectionTo(P.Center + new Vector2(NPC.ai[2], NPC.ai[3])) * 20;
 			}
-			else if (NPC.ai[1] < 105)
+			else if (NPC.ai[1] < 115)
 			{
 				NPC.velocity = Vector2.Zero;
 				if (NPC.ai[1] < 85)
 				{
-                    Vector2 predictedPos = JoostFunctions.PredictPlayerPosition(NPC.Center, 50, P, 20);
+                    Vector2 predictedPos = JoostFunctions.PredictPlayerPosition(NPC.Center, 50, P, 30);
                     //P.Center + (P.velocity * 26)
                     NPC.rotation = (predictedPos - NPC.Center).ToRotation() + MathHelper.PiOver2;
 				}
-				else if (NPC.ai[1] < 95)
+				else if (NPC.ai[1] < 100)
 				{
-					NPC.localAI[0] += 0.15f;
+					NPC.localAI[0] += 0.1f;
 				}
 				else
 				{
-					NPC.localAI[0] -= 0.225f;
+					NPC.localAI[0] -= 0.15f;
 				}
             }
             else
@@ -113,7 +113,7 @@ namespace JoostMod.NPCs.Bosses
 				NPC.velocity = (NPC.rotation - MathHelper.PiOver2).ToRotationVector2() * 50;
                 //NPC.localAI[0] -= 0.25f;
             }
-            if (NPC.ai[1] >= 130)
+            if (NPC.ai[1] >= 140)
             {
                 NPC.ai[1] = 0;
 				NPC.ai[2] *= -1;

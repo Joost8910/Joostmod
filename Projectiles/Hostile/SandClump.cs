@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Hostile
@@ -15,24 +14,23 @@ namespace JoostMod.Projectiles.Hostile
         {
             Projectile.width = 40;
             Projectile.height = 40;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = -1;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 900;
+            Projectile.timeLeft = 600;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 2;
-            AIType = ProjectileID.Bullet;
             CooldownSlot = 1;
         }
         public override void AI()
         {
+            //Dust.NewDustPerfect(Projectile.Center, 133, Vector2.Zero, 0, default, 8f).noGravity = true; 
             Projectile.rotation = Projectile.direction * -0.5f * Projectile.timeLeft;
             if (Projectile.velocity.Y > 0)
                 Projectile.tileCollide = true;
-            if (Projectile.velocity.Y < 5)
-                Projectile.velocity.Y += 0.1f;
-            Projectile.velocity.X *= 0.999f;
+            if (Projectile.velocity.Y < 15)
+                Projectile.velocity.Y += 0.3f;
+            Projectile.velocity.X *= 0.99f;
         }
         public override void OnKill(int timeLeft)
         {

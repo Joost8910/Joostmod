@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using JoostMod.Items.Rewards;
 
 namespace JoostMod.Items.Materials
 {
@@ -16,6 +13,7 @@ namespace JoostMod.Items.Materials
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<EarthEssence>();
         }
 		public override void SetDefaults()
 		{
@@ -28,12 +26,6 @@ namespace JoostMod.Items.Materials
         public override bool CanStackInWorld(Item item2)
         {
             return false;
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddCustomShimmerResult(ModContent.ItemType<EarthEssence>())
-                .Register();
         }
     }
 }

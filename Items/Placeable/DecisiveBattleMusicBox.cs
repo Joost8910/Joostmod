@@ -1,6 +1,5 @@
 using Terraria.ModLoader;
 using Terraria.ID;
-using JoostMod.Items.Materials;
 
 namespace JoostMod.Items.Placeable
 {
@@ -12,6 +11,7 @@ namespace JoostMod.Items.Placeable
             // Tooltip.SetDefault("From Final Fantasy VI");
 
             ItemID.Sets.CanGetPrefixes[Type] = false;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<DontBeAfraidMusicBox>();
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/TheDecisiveBattle"), ModContent.ItemType<DecisiveBattleMusicBox>(), ModContent.TileType<Tiles.DecisiveBattleMusicBox>());
 		}
         public override void SetDefaults()
@@ -19,12 +19,6 @@ namespace JoostMod.Items.Placeable
             Item.DefaultToMusicBox(ModContent.TileType<Tiles.DecisiveBattleMusicBox>());
             Item.rare = ItemRarityID.Yellow;
             Item.value = 500000;
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddCustomShimmerResult(ModContent.ItemType<DontBeAfraidMusicBox>())
-                .Register();
         }
     }
 }

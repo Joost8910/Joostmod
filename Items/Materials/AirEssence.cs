@@ -13,6 +13,7 @@ namespace JoostMod.Items.Materials
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 6));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<WaterEssence>();
         }
 		public override void SetDefaults()
 		{
@@ -25,12 +26,6 @@ namespace JoostMod.Items.Materials
         public override bool CanStackInWorld(Item item2)
         {
             return false;
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddCustomShimmerResult(ModContent.ItemType<WaterEssence>())
-                .Register();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace JoostMod.Items.Rewards
             // DisplayName.SetDefault("Crimson Pommel");
             /* Tooltip.SetDefault("Striking an enemy with a melee weapon inflicts Life Rend\n" +
                 "Killing an enemy with Life Rend will heal you for 4% of the enemy's max life"); */
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<CorruptPommel>();
         }
         public override void SetDefaults()
         {
@@ -35,19 +36,6 @@ namespace JoostMod.Items.Rewards
                     line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
-        }
-        public override void AddRecipes()
-        {
-            /*
-            CreateRecipe()
-                .AddIngredient<CorruptPommel>()
-                .AddIngredient(ItemID.CrimtaneBar, 5)
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
-            */
-            CreateRecipe()
-                .AddCustomShimmerResult(ModContent.ItemType<CorruptPommel>())
-                .Register();
         }
     }
 }

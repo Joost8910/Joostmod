@@ -3426,6 +3426,11 @@ Mods: {
 				Tooltip: From Final Fantasy VIII
 				DisplayName: Music Box (Dont Be Afraid)
 			}
+
+			JumboCactuarRelic: {
+				Tooltip: ""
+				DisplayName: Jumbo Cactuar Relic
+			}
 		}
 
 		NPCs: {
@@ -4118,7 +4123,7 @@ Mods: {
 			VaultPole.DisplayName: Vaulting Pole
 			VaultPoleLong.DisplayName: Long Pole
 			WinterSolution.DisplayName: Winter Spray
-			TailWhip2.DisplayName: Tail Whip2
+			TailWhip2.DisplayName: Tail Whip
 			NapalmFire.DisplayName: Napalm Fire
 			ArmorFlame.DisplayName: Armor Flame
 			Gravebuster.DisplayName: Gravebuster
@@ -4126,9 +4131,9 @@ Mods: {
 			JumboCactuarWave2.DisplayName: Jumbo Cactuar Shockwave
 			JumboCactuarWave1.DisplayName: Jumbo Cactuar Shockwave
 			JumboCactuarWave.DisplayName: Jumbo Cactuar Shockwave
-			SandClump.DisplayName: Sand Clump
-			JumboCactuarFireball2.DisplayName: Jumbo Cactuar Fireball2
-			JumboCactuarFireball.DisplayName: Jumbo Cactuar Fireball
+			SandClump.DisplayName: Sand Chunk
+			JumboCactuarFireball2.DisplayName: Ball of Fire
+			JumboCactuarFireball.DisplayName: Great Ball of Fire
 		}
 
 		Tiles: {

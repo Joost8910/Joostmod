@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace JoostMod.Projectiles.Hostile
 {
@@ -24,6 +25,7 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void AI()
         {
+            //Dust.NewDustPerfect(Projectile.Center, 133, Vector2.Zero, 0, default, 4f).noGravity = true;
             if (Projectile.timeLeft % 5 == 0)
             {
                 int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 32, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f);

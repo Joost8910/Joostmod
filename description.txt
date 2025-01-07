@@ -8,7 +8,9 @@ The Joostmod has to offer
 2 new town npcs
 
 Beta v8
+- Jumbo Cactuar revamped! Experience new attacks and improvements to old moves!
 - Fixed junk sword shrines not dropping old nail consistently 
+- Added Jumbo Cactuar Relic
 - Hunt master now gives both Eater of Worlds and Brain of Cthulhu quests in the drunk world seed
 - Rod of Discord recipe now require prismatic dye
 - Corrupt and Crimson Pommel recipes are replaced with using shimmer to turn the items into one another
@@ -17,7 +19,6 @@ Beta v8
 - Tome of Manipulation recipe now uses 3 fallen stars and 3 bars 
 - SA-X now plays Escape From The SA-X in the first phase
 - Jumbo Cactuar now plays Don't be Afraid in the drunk world seed
-- Giant Needle base health increased from 750 to 1000
 - Updated Sun Fish visuals
 - Updated Staff of David visuals
 

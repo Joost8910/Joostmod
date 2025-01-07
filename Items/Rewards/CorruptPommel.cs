@@ -14,6 +14,7 @@ namespace JoostMod.Items.Rewards
             /* Tooltip.SetDefault("Striking an enemy with a melee weapon inflicts Corrupted Soul, dealing damage over time\n" +
                                "Enemies that die with Corrupted Soul damages a nearby enemy for 25% \n" +
                                "of the corrupted enemy's max life (capping at 9999) and inflicts Corrupted Soul\n"); */
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<CrimsonPommel>();
         }
         public override void SetDefaults()
         {
@@ -36,20 +37,6 @@ namespace JoostMod.Items.Rewards
                     line2.OverrideColor = new Color(230, 204, 128);
                 }
             }
-        }
-        public override void AddRecipes()
-        {
-            //TODO: Replace this recipe with use of shimmer instead
-            /*
-            CreateRecipe()
-                .AddIngredient<CrimsonPommel>()
-                .AddIngredient(ItemID.DemoniteBar, 5)
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
-            */
-            CreateRecipe()
-                .AddCustomShimmerResult(ModContent.ItemType<CrimsonPommel>())
-                .Register();
         }
     }
 }

@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
@@ -15,6 +13,7 @@ namespace JoostMod.Items.Materials
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 7));
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<FireEssence>();
         }
 		public override void SetDefaults()
 		{
@@ -27,12 +26,6 @@ namespace JoostMod.Items.Materials
         public override bool CanStackInWorld(Item item2)
         {
             return false;
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddCustomShimmerResult(ModContent.ItemType<FireEssence>())
-                .Register();
         }
 
     }
