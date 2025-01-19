@@ -31,19 +31,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Justin\\.nuget\\packages\\": {}
+    "C:\\Users\\blued\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\JoostMod.csproj",
+      "projectUniqueName": "C:\\Users\\blued\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\JoostMod.csproj",
       "projectName": "JoostMod",
-      "projectPath": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\JoostMod.csproj",
-      "packagesPath": "C:\\Users\\Justin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Justin\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\obj\\",
+      "projectPath": "C:\\Users\\blued\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\JoostMod.csproj",
+      "packagesPath": "C:\\Users\\blued\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\blued\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JoostMod\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Justin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\blued\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -68,7 +73,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -95,7 +101,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

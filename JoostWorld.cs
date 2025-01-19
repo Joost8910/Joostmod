@@ -14,6 +14,9 @@ using JoostMod.Items.Weapons.Magic;
 using Terraria.WorldBuilding;
 using JoostMod.Tiles;
 using JoostMod.Items.Consumables;
+using Microsoft.VisualBasic;
+using Terraria.DataStructures;
+using System.Linq;
 
 namespace JoostMod
 {
@@ -40,6 +43,7 @@ namespace JoostMod
 
         public static bool downedStormWyvern = false;
 
+        public static PosData<Point16>[] graveLocations = new PosData<Point16>[6]; 
 
         public static List<int> activeQuest = new List<int>();
         public override void ClearWorld()
@@ -65,6 +69,7 @@ namespace JoostMod
             downedStormWyvern = false;
 
             activeQuest = new List<int>();
+            graveLocations = new PosData<Point16>[6];
         }
         public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
         {
@@ -84,9 +89,18 @@ namespace JoostMod
             if (downedRoc) tag["Roc"] = true;
             if (downedSkeletonDemoman) tag["SkeletonDemoMan"] = true;
             if (downedCactusWorm) tag["CactusWorm"] = true;
-            if (downedImpLord) tag["ImpLord"] = true; ;
+            if (downedImpLord) tag["ImpLord"] = true;
 
             if (downedStormWyvern) tag["StormWyvern"] = true;
+
+            if (graveLocations.Length > 0)
+            {
+                tag["GraveLocations"] = graveLocations.Select(info => new TagCompound
+                {
+                    ["pos"] = info.pos,
+                    ["value"] = info.value
+                }).ToList();
+            }
         }
 
         public override void LoadWorldData(TagCompound tag)
@@ -111,6 +125,17 @@ namespace JoostMod
             downedImpLord = tag.ContainsKey("ImpLord");
 
             downedStormWyvern = tag.ContainsKey("StormWyvern");
+
+
+            List<PosData<Point16>> list = new List<PosData<Point16>>(6);
+            foreach (var entry in tag.GetList<TagCompound>("GraveLocations"))
+            {
+                list.Add(new PosData<Point16>(
+                    entry.GetInt("pos"),
+                    entry.Get<Point16>("value")
+                ));
+            }
+            graveLocations = list.ToArray();
         }
         /*
         public override void LoadLegacy(BinaryReader reader)
@@ -193,51 +218,88 @@ namespace JoostMod
         }
         public override void PostWorldGen()
         {
-            LegendShrine(Main.maxTilesX / 2, Main.maxTilesY / 2);
-            bool flag = true;
-            while (flag)
+            int centerX = Main.maxTilesX / 2;
+            int centerY = Main.maxTilesY / 2;
+            LegendShrine(centerX, centerY, Main.zenithWorld);
+            if (Main.zenithWorld)
             {
-                int i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.6), (int)((double)Main.maxTilesX * 0.975));
-                if (GenVars.dungeonX > Main.maxTilesX / 2)
+                GraverobberOutpost(centerX + 7, centerY - 6);
+                LegendGrave(Main.dungeonX + 4, Main.dungeonY - 5, 0); //David
+
+                bool placed = false;
+                int uc = GenVars.dungeonSide < 0 ? 1 : 0;
+                for (int i = 95; i > 55; i--)
                 {
-                    i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.025), (int)((double)Main.maxTilesX * 0.4));
-                }
-                int j = WorldGen.genRand.Next((int)Main.worldSurface + 20, (int)Main.rockLayer);
-                if (Main.tile[i, j + 5].TileType == TileID.JungleGrass && !Main.tile[i, j + 4].HasTile)
-                { 
-                    flag = false;
-                    StoneShrine(i, j, TileID.IridescentBrick, WallID.JungleUnsafe3, ModContent.TileType<JungleStone>(), 4);
-                }
-            }
-            bool flag2 = true;
-            while (flag2)
-            {
-                int x = GenVars.dungeonX + WorldGen.genRand.Next(200) - 100;
-                int y = (int)Main.worldSurface + WorldGen.genRand.Next(400) + 10;
-                if (!Main.tile[x - 1, y + 2].HasTile && Main.tile[x, y + 5].HasTile && Main.wallDungeon[Main.tile[x - 1, y + 2].WallType] && Main.tileDungeon[Main.tile[x, y + 5].TileType])
-                {
-                    flag2 = false;
-                    int wallType = WallID.BlueDungeon;
-                    if (Main.tile[x, y + 5].TileType == TileID.GreenDungeonBrick)
+                    if (placed)
+                        break;
+                    int num = i;
+                    if (uc == 1)
                     {
-                        wallType = WallID.GreenDungeon;
+                        num = Main.maxTilesX - i;
                     }
-                    if (Main.tile[x, y + 5].TileType == TileID.PinkDungeonBrick)
+                    for (int num2 = centerY; num2 > 0; num2--)
                     {
-                        wallType = WallID.PinkDungeon;
+                        if (Main.tile[num, num2].TileType == TileID.Sand || Main.tile[num, num2].TileType == TileID.Ebonsand || Main.tile[num, num2].TileType == TileID.Crimsand)
+                        {
+                            if (Main.tile[num, num2 - 1].LiquidAmount >= 255)
+                            {
+                                LegendGrave(num, num2 - 5, 5); // Uncle Carius
+                                placed = true;
+                                break;
+                            }
+                        }
                     }
-                    StoneShrine(x, y, Main.tile[x, y + 5].TileType, wallType, ModContent.TileType<SkullStone>(), 19);
                 }
+
+
             }
-            bool flag3 = true;
-            while (flag3)
+            else
             {
-                int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int b = Main.maxTilesY - 150 + WorldGen.genRand.Next(50);
-                if (Main.tile[a, b + 5].HasTile && Main.tileSolid[Main.tile[a, b + 5].TileType] && !Main.tile[a, b + 4].HasTile)
+                bool flag = true;
+                while (flag)
                 {
-                    flag3 = false;
-                    StoneShrine(a, b, TileID.HellstoneBrick, WallID.HellstoneBrickUnsafe, ModContent.TileType<InfernoStone>(), 2);
+                    int i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.6), (int)((double)Main.maxTilesX * 0.975));
+                    if (GenVars.dungeonX > Main.maxTilesX / 2)
+                    {
+                        i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.025), (int)((double)Main.maxTilesX * 0.4));
+                    }
+                    int j = WorldGen.genRand.Next((int)Main.worldSurface + 20, (int)Main.rockLayer);
+                    if (Main.tile[i, j + 5].TileType == TileID.JungleGrass && !Main.tile[i, j + 4].HasTile)
+                    {
+                        flag = false;
+                        StoneShrine(i, j, TileID.IridescentBrick, WallID.JungleUnsafe3, ModContent.TileType<JungleStone>(), 4);
+                    }
+                }
+                bool flag2 = true;
+                while (flag2)
+                {
+                    int x = GenVars.dungeonX + WorldGen.genRand.Next(200) - 100;
+                    int y = (int)Main.worldSurface + WorldGen.genRand.Next(400) + 10;
+                    if (!Main.tile[x - 1, y + 2].HasTile && Main.tile[x, y + 5].HasTile && Main.wallDungeon[Main.tile[x - 1, y + 2].WallType] && Main.tileDungeon[Main.tile[x, y + 5].TileType])
+                    {
+                        flag2 = false;
+                        int wallType = WallID.BlueDungeon;
+                        if (Main.tile[x, y + 5].TileType == TileID.GreenDungeonBrick)
+                        {
+                            wallType = WallID.GreenDungeon;
+                        }
+                        if (Main.tile[x, y + 5].TileType == TileID.PinkDungeonBrick)
+                        {
+                            wallType = WallID.PinkDungeon;
+                        }
+                        StoneShrine(x, y, Main.tile[x, y + 5].TileType, wallType, ModContent.TileType<SkullStone>(), 19);
+                    }
+                }
+                bool flag3 = true;
+                while (flag3)
+                {
+                    int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
+                    int b = Main.maxTilesY - 150 + WorldGen.genRand.Next(50);
+                    if (Main.tile[a, b + 5].HasTile && Main.tileSolid[Main.tile[a, b + 5].TileType] && !Main.tile[a, b + 4].HasTile)
+                    {
+                        flag3 = false;
+                        StoneShrine(a, b, TileID.HellstoneBrick, WallID.HellstoneBrickUnsafe, ModContent.TileType<InfernoStone>(), 2);
+                    }
                 }
             }
 
@@ -373,18 +435,21 @@ namespace JoostMod
             WorldGen.paintTile(x + 5, y + 1, color);
             WorldGen.PlaceObject(x + 2, y + 3, stone);
         }
-        private void LegendShrine(int x, int y)
+        private void LegendShrine(int x, int y, bool isBroken = false)
         {
             int stoneType = ModContent.TileType<AncientMossyStone>();
             for (int i = x - 3; i <= x + 4; i++)
             {
                 WorldGen.KillTile(i, y + 3);
                 WorldGen.PlaceTile(i, y + 3, stoneType);
-                //WorldGen.paintTile(i, y + 3, 18);
 
                 WorldGen.KillTile(i, y - 3);
                 WorldGen.PlaceTile(i, y - 3, stoneType);
-                //WorldGen.paintTile(i, y - 3, 18);
+                if (isBroken)
+                { 
+                    WorldGen.paintTile(i, y + 3, PaintID.BrownPaint);
+                    WorldGen.paintTile(i, y - 3, PaintID.BrownPaint);
+                }
 
                 for (int j = y - 2; j <= y + 2; j++)
                 {
@@ -395,58 +460,144 @@ namespace JoostMod
                     ti.IsHalfBlock = false;
                     WorldGen.KillWall(i, j);
                     WorldGen.PlaceWall(i, j, 54);
-                    WorldGen.paintWall(i, j, 18);
+
+                    WorldGen.paintWall(i, j, isBroken ? PaintID.OrangePaint : PaintID.DeepTealPaint);
                 }
             }
             WorldGen.KillTile(x - 4, y + 3);
             WorldGen.PlaceTile(x - 4, y + 3, stoneType);
-            //WorldGen.paintTile(x - 4, y + 3, 18);
 
             WorldGen.KillTile(x + 5, y + 3);
             WorldGen.PlaceTile(x + 5, y + 3, stoneType);
-            //WorldGen.paintTile(x + 5, y + 3, 18);
 
             WorldGen.KillTile(x - 3, y - 2);
             WorldGen.KillWall(x - 3, y - 2);
             WorldGen.PlaceTile(x - 3, y - 2, stoneType);
-            //WorldGen.paintTile(x - 3, y - 2, 18);
             Tile t = Main.tile[x - 3, y - 2];
             t.Slope = SlopeType.SlopeUpLeft;
 
             WorldGen.KillTile(x + 4, y - 2);
             WorldGen.KillWall(x + 4, y - 2);
             WorldGen.PlaceTile(x + 4, y - 2, stoneType);
-            //WorldGen.paintTile(x + 4, y - 2, 18);
             t = Main.tile[x + 4, y - 2];
             t.Slope = SlopeType.SlopeUpRight;
 
             WorldGen.KillTile(x - 4, y - 2);
             WorldGen.PlaceTile(x - 4, y - 2, stoneType);
-            //WorldGen.paintTile(x - 4, y - 2, 18);
             t = Main.tile[x - 4, y - 2];
             t.Slope = SlopeType.SlopeDownRight;
 
             WorldGen.KillTile(x - 4, y - 1);
             WorldGen.PlaceTile(x - 4, y - 1, stoneType);
-            //WorldGen.paintTile(x - 4, y - 1, 18);
 
             t= Main.tile[x - 3, y - 3];
             t.Slope = SlopeType.SlopeDownRight;
 
             WorldGen.KillTile(x + 5, y - 2);
             WorldGen.PlaceTile(x + 5, y - 2, stoneType);
-            //WorldGen.paintTile(x + 5, y - 2, 18);
             t = Main.tile[x + 5, y - 2];
             t.Slope = SlopeType.SlopeDownLeft;
 
             WorldGen.KillTile(x + 5, y - 1);
             WorldGen.PlaceTile(x + 5, y - 1, stoneType);
-            //WorldGen.paintTile(x + 5, y - 1, 18);
 
             t = Main.tile[x + 4, y - 3];
             t.Slope = SlopeType.SlopeDownLeft;
 
-            WorldGen.PlaceObject(x, y + 2, ModContent.TileType<ShrineOfLegends>());
+            if (isBroken)
+            {
+                WorldGen.paintTile(x - 4, y + 3, PaintID.BrownPaint);
+                WorldGen.paintTile(x + 5, y + 3, PaintID.BrownPaint);
+                WorldGen.paintTile(x - 3, y - 2, PaintID.BrownPaint);
+                WorldGen.paintTile(x + 4, y - 2, PaintID.BrownPaint);
+                WorldGen.paintTile(x - 4, y - 2, PaintID.BrownPaint);
+                WorldGen.paintTile(x - 4, y - 1, PaintID.BrownPaint);
+                WorldGen.paintTile(x + 5, y - 2, PaintID.BrownPaint);
+                WorldGen.paintTile(x + 5, y - 1, PaintID.BrownPaint);
+            }
+
+            int type = isBroken ? ModContent.TileType<BrokenShrine>() : ModContent.TileType<ShrineOfLegends>();
+
+            WorldGen.PlaceObject(x, y + 2, type);
+        }
+
+        private void GraverobberOutpost(int x, int y)
+        {
+            Rectangle current = new Rectangle(x, y, 16, 10);
+            ushort tileType = TileID.WoodBlock;
+            ushort wallType = WallID.Planked;
+            WorldUtils.Gen(new Point(current.X, current.Y), new Shapes.Rectangle(current.Width, current.Height), Actions.Chain(new GenAction[]
+            {
+                new Actions.SetTileKeepWall(tileType, false, true),
+                new Actions.SetFrames(true)
+            }));
+            WorldUtils.Gen(new Point(current.X + 1, current.Y + 1), new Shapes.Rectangle(current.Width - 2, current.Height - 2), Actions.Chain(new GenAction[]
+            {
+                new Actions.ClearTile(true),
+                new Actions.PlaceWall(wallType, true)
+            }));
+
+            int doorY = current.Y + current.Height - 4;
+            WorldUtils.Gen(new Point(current.X - 2, doorY), new Shapes.Rectangle(3, 3), new Actions.ClearTile(true));
+            WorldGen.PlaceTile(current.X, doorY, TileID.ClosedDoor, true, true, -1, 0);
+
+            WorldUtils.Gen(new Point(current.X + 15, doorY), new Shapes.Rectangle(1, 3), new Actions.ClearTile(true));
+
+            for (int i = 0; i < 20; i++)
+            {
+                Point p = new Point(current.X + 16 + i, doorY);
+                if (Main.tile[p] != null)
+                {
+                    WorldUtils.Gen(p, new Shapes.Rectangle(1, 3), new Actions.ClearTile(true));
+                }
+                else
+                {
+                    break;
+                }
+            }
+            WorldUtils.Gen(new Point(current.X + 15, doorY), new Shapes.Rectangle(13, 3), Actions.Chain(new GenAction[]
+            {
+                new Actions.ClearTile(true)
+            }));
+
+            WorldGen.PlaceTile(current.X + 15, doorY, TileID.ClosedDoor, true, true, -1, 0);
+            WorldGen.PlaceTile(current.X + current.Width, current.Y + current.Height, TileID.Platforms, true);
+            WorldGen.PlaceTile(current.X - 1, current.Y + current.Height, TileID.Platforms, true);
+
+            WorldGen.PlaceObject(current.X + 5, current.Y + 4, ModContent.TileType<GraverobberMap>(), true);
+
+            WorldGen.PlaceObject(current.X + 3, current.Y + current.Height - 2, TileID.Anvils, true);
+            WorldGen.PlaceObject(current.X + 6, current.Y + current.Height - 2, TileID.Furnaces, true);
+            WorldGen.PlaceObject(current.X + 8, current.Y + current.Height - 2, TileID.Chairs, true, 0, 0, -1, 1);
+            WorldGen.PlaceObject(current.X + 9, current.Y + current.Height - 2, TileID.WorkBenches, true);
+            WorldGen.AddBuriedChest(new Point(current.X + 12, current.Y + current.Height - 1));
+        }
+
+        private void LegendGrave(int x, int y, int graveType)
+        {
+            WorldUtils.Gen(new Point(x + 1, y), new Shapes.Rectangle(4, 1), Actions.Chain(new GenAction[]
+            {
+                new Actions.ClearTile(true)
+            }));
+            WorldUtils.Gen(new Point(x, y + 1), new Shapes.Rectangle(6, 4), Actions.Chain(new GenAction[]
+            {
+                new Actions.ClearTile(true)
+            }));
+
+            ushort type = (ushort)ModContent.TileType<AncientStone>();
+            WorldUtils.Gen(new Point(x + 1, y + 3), new Shapes.Rectangle(4, 1), Actions.Chain(new GenAction[]
+            {
+                new Actions.PlaceTile(type),
+                new Actions.SetFrames(true)
+            }));
+            WorldUtils.Gen(new Point(x, y + 4), new Shapes.Rectangle(6, 1), Actions.Chain(new GenAction[]
+            {
+                new Actions.PlaceTile(type),
+                new Actions.SetFrames(true)
+            }));
+
+            WorldGen.PlaceObject(x + 2, y + 2, ModContent.TileType<LegendGrave>(), true, graveType);
+            graveLocations[graveType] = new PosData<Point16>(graveType, new Point16(x + 2, y + 2));
         }
     }
 }

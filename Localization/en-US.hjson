@@ -3431,6 +3431,16 @@ Mods: {
 				Tooltip: ""
 				DisplayName: Jumbo Cactuar Relic
 			}
+
+			BrokenShrine: {
+				Tooltip: ""
+				DisplayName: Broken Shrine
+			}
+
+			GraverobberMap: {
+				DisplayName: Graverobber Map
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -4187,6 +4197,9 @@ Mods: {
 			SAXChaseMusicBox.MapEntry: S A X Chase Music Box
 			ForceYourWayMusicBox.MapEntry: Force Your Way Music Box
 			DontBeAfraidMusicBox.MapEntry: Dont Be Afraid Music Box
+			LegendGrave.MapEntry: Legend Grave
+			BrokenShrine.MapEntry: Broken Shrine
+			GraverobberMap.MapEntry: Graverobber Map
 		}
 
 		Conditions: {
