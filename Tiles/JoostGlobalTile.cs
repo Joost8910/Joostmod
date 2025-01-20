@@ -24,5 +24,17 @@ namespace JoostMod.Tiles
                 }
             }
 		}
-	}
+        public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
+        {
+            if (Main.tile[i, j-1].TileType == ModContent.TileType<ShrineOfLegends>() || Main.tile[i, j-1].TileType == ModContent.TileType<LegendGrave>())
+            {
+                if (Main.tile[i, j].TileType != ModContent.TileType<ShrineOfLegends>() && Main.tile[i, j].TileType != ModContent.TileType<LegendGrave>())
+                {
+                    return false;
+                }
+            }
+
+            return base.CanKillTile(i, j, type, ref blockDamaged);
+        }
+    }
 }

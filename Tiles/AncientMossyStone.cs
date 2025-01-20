@@ -13,6 +13,8 @@ namespace JoostMod.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
+            Main.tileStone[Type] = true;
+            TileID.Sets.CanBeClearedDuringGeneration[Type] = false;
             //Main.tileMoss[Type] = true;
             //ItemDrop/* tModPorter Note: Removed. Tiles and walls will drop the item which places them automatically. Use Register//ItemDrop to alter the automatic drop if necessary. */ = ModContent.ItemType<Items.Legendaries.AncientStone>();
             AddMapEntry(new Color(18, 104, 60));

@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Enums;
 
 namespace JoostMod.Tiles
 {
@@ -20,7 +21,12 @@ namespace JoostMod.Tiles
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.FlattenAnchors = true;
+            TileObjectData.newTile.LavaPlacement = LiquidPlacement.Allowed;
             TileObjectData.addTile(Type);
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true;
+            TileID.Sets.CanBeClearedDuringGeneration[Type] = false;
             TileID.Sets.DisableSmartCursor[Type] = true;/* tModPorter Note: Removed. Use TileID.Sets.TileID.Sets.DisableSmartCursor[Type] = true; instead */
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Shrine of Legends");

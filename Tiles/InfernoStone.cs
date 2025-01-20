@@ -21,6 +21,7 @@ namespace JoostMod.Tiles
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.AnchorWall = true;
             TileObjectData.newTile.LavaDeath = false;
+            TileID.Sets.CanBeClearedDuringGeneration[Type] = false;
             TileObjectData.addTile(Type);
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Stone of Fire");

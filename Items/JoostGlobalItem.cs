@@ -357,7 +357,7 @@ namespace JoostMod.Items
             return true;
         }
     }
-    public class grab : GlobalItem
+    public class Grab : GlobalItem
     {
         public override void GrabRange(Item item, Player player, ref int grabRange)
         {

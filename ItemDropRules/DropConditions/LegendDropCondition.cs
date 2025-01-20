@@ -1,4 +1,5 @@
-﻿using Terraria.GameContent.ItemDropRules;
+﻿using Terraria;
+using Terraria.GameContent.ItemDropRules;
 
 namespace JoostMod.ItemDropRules.DropConditions
 {
@@ -7,7 +8,7 @@ namespace JoostMod.ItemDropRules.DropConditions
         public bool CanDrop(DropAttemptInfo info)
         {
             JoostPlayer modPlayer = info.player.GetModPlayer<JoostPlayer>();
-            return modPlayer.isLegend && !modPlayer.legendOwn && !info.npc.SpawnedFromStatue;
+            return modPlayer.isLegend && !modPlayer.legendOwn && !info.npc.SpawnedFromStatue && !Main.zenithWorld;
         }
 
         public bool CanShowItemDropInUI()
@@ -24,7 +25,7 @@ namespace JoostMod.ItemDropRules.DropConditions
     {
         public bool CanDrop(DropAttemptInfo info)
         {
-            return !info.npc.SpawnedFromStatue;
+            return !info.npc.SpawnedFromStatue && !Main.zenithWorld;
         }
 
         public bool CanShowItemDropInUI()

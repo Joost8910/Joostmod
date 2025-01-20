@@ -4209,5 +4209,11 @@ Mods: {
 		}
 
 		"Keybinds.Armor Ability.DisplayName": Armor  Ability
+
+		WorldGen: {
+			JoostGenerationPassMessage: Mods.JoostMod.WorldGen.JoostGenerationPassMessage
+			LegendGravesGenPassMessage: Burying Legends
+			LegendShrineGenPassMessage: Building Shrines of Legend
+		}
 	}
 }
