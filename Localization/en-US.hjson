@@ -3441,6 +3441,36 @@ Mods: {
 				DisplayName: Graverobber Map
 				Tooltip: ""
 			}
+
+			BrokenStaff: {
+				Tooltip: ""
+				DisplayName: Broken Staff
+			}
+
+			BrokenHammer: {
+				DisplayName: Broken Hammer
+				Tooltip: ""
+			}
+
+			BrokenTome: {
+				DisplayName: Broken Tome
+				Tooltip: ""
+			}
+
+			BrokenGlove: {
+				DisplayName: Broken Glove
+				Tooltip: ""
+			}
+
+			BrokenFishingPole: {
+				Tooltip: ""
+				DisplayName: Broken Fishing Pole
+			}
+
+			BrokenBulletHell: {
+				DisplayName: Broken Bullet Hell
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -4144,6 +4174,9 @@ Mods: {
 			SandClump.DisplayName: Sand Chunk
 			JumboCactuarFireball2.DisplayName: Ball of Fire
 			JumboCactuarFireball.DisplayName: Great Ball of Fire
+			BrokenLaser.DisplayName: Broken Laser
+			BrokenHammer.DisplayName: Broken Hammer
+			BrokenFishHook.DisplayName: Broken Fish Hook
 		}
 
 		Tiles: {

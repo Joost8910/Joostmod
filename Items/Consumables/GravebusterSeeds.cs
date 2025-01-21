@@ -1,3 +1,4 @@
+using JoostMod.Tiles;
 using Microsoft.Build.Tasks.Deployment.ManifestUtilities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -100,7 +101,7 @@ namespace JoostMod.Items.Consumables
                 }
             }
             Tile tile = Main.tile[tPos.X, tPos.Y];
-            if (tile.TileType == TileID.Tombstones)
+            if (tile.TileType == TileID.Tombstones || tile.TileType == ModContent.TileType<LegendGrave>())
             {
                 if (tile.TileFrameX % 36 < 18)
                 {

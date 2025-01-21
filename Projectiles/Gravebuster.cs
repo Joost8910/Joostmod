@@ -1,3 +1,4 @@
+using JoostMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -42,7 +43,7 @@ namespace JoostMod.Projectiles
         public override void OnKill(int timeLeft)
         {
             Point tPos = Projectile.Center.ToTileCoordinates();
-            if (Main.tile[tPos.X, tPos.Y].TileType == TileID.Tombstones)
+            if (Main.tile[tPos.X, tPos.Y].TileType == TileID.Tombstones || Main.tile[tPos.X, tPos.Y].TileType == ModContent.TileType<LegendGrave>())
             {
                 Main.player[Projectile.owner].PickTile(tPos.X, tPos.Y, 999);
             }

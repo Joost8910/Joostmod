@@ -34,7 +34,7 @@
 
 //            int centerY = Main.maxTilesY / 2;
 //            //LegendShrine(x, y);
-//            UncleCariusCave(x, y);
+//            UncleCariusCave(x, y, TileID.Sandstone);
 //        }
 //        private static void LegendShrine(int x, int y, bool isBroken = false)
 //        {
@@ -122,7 +122,8 @@
 //            WorldGen.PlaceObject(x, y + 2, type);
 //        }
 
-//        private void UncleCariusCave(int i, int j)
+
+//        public static void UncleCariusCave(int i, int j, ushort sandID)
 //        {
 //            if (GenVars.numOceanCaveTreasure >= GenVars.maxOceanCaveTreasure)
 //            {
@@ -142,8 +143,12 @@
 //            }
 //            vector2D2.Y = 0.4 + WorldGen.genRand.NextDouble() * 0.25;
 //            ushort num = 264;
-//            ushort sandType = TileID.Sandstone;
+//            ushort sandType = sandID;
 //            ushort hardSandType = TileID.HardenedSand;
+//            if (sandID != TileID.Sand)
+//            {
+//                hardSandType = sandID == TileID.Ebonsand ? TileID.CorruptHardenedSand : TileID.CrimsonHardenedSand;
+//            }
 //            double num4 = (double)WorldGen.genRand.Next(17, 25);
 //            double num5 = (double)WorldGen.genRand.Next(500, 700);
 //            double num6 = 4.0;
@@ -158,6 +163,7 @@
 //                    num4 *= 0.96;
 //                    num5 *= 0.96;
 //                }
+
 //                if (num4 < num6 + 2.0 || num5 < 20.0)
 //                {
 //                    flag4 = false;
@@ -199,108 +205,114 @@
 //                        if (!BadOceanCaveTiles(k, l))
 //                        {
 //                            double num11 = new Vector2D(Math.Abs((double)k - vector2D.X), Math.Abs((double)l - vector2D.Y)).Length();
-//                            if (flag4 && num11 < num4 * 0.5 + 1.0)
+//                            if (Main.tile[k, l].TileType != TileID.Stone)
 //                            {
-//                                Main.tile[k, l].TileType = num;
-//                                Main.tile[k, l].ClearTile();
-//                            }
-//                            else if (num11 < num4 * 1.5 + 1.0 && Main.tile[k, l].TileType != num)
-//                            {
+//                                if (flag4 && num11 < num4 * 0.5 + 1.0)
+//                                {
+//                                    Main.tile[k, l].TileType = num;
+//                                    Main.tile[k, l].ClearTile();
+//                                }
+//                                else if (num11 < num4 * 1.5 + 1.0 && Main.tile[k, l].TileType != num)
+//                                {
 
-//                                if ((double)l < vector2D.Y)
-//                                {
-//                                    if ((vector2D2.X < 0.0 && (double)k < vector2D.X) || (vector2D2.X > 0.0 && (double)k > vector2D.X))
+//                                    if ((double)l < vector2D.Y)
 //                                    {
-//                                        if (num11 < num4 * 1.1 + 1.0)
+//                                        if ((vector2D2.X < 0.0 && (double)k < vector2D.X) || (vector2D2.X > 0.0 && (double)k > vector2D.X))
 //                                        {
-//                                            Main.tile[k, l].TileType = hardSandType;
-//                                            if (Main.tile[k, l].LiquidAmount == 255)
+//                                            if (num11 < num4 * 1.1 + 1.0)
 //                                            {
-//                                                Main.tile[k, l].WallType = 0;
+//                                                Main.tile[k, l].TileType = hardSandType;
+//                                                if (Main.tile[k, l].LiquidAmount == 255)
+//                                                {
+//                                                    Main.tile[k, l].WallType = 0;
+//                                                }
+//                                            }
+//                                            else if (Main.tile[k, l].TileType != hardSandType)
+//                                            {
+//                                                Main.tile[k, l].TileType = sandType;
 //                                            }
 //                                        }
-//                                        else if (Main.tile[k, l].TileType != hardSandType)
-//                                        {
-//                                            Main.tile[k, l].TileType = sandType;
-//                                        }
 //                                    }
-//                                }
-//                                else if ((vector2D2.X < 0.0 && k < i) || (vector2D2.X > 0.0 && k > i))
-//                                {
-//                                    if (Main.tile[k, l].LiquidAmount == 255)
+//                                    else if ((vector2D2.X < 0.0 && k < i) || (vector2D2.X > 0.0 && k > i))
 //                                    {
-//                                        Main.tile[k, l].TileType = 0;
-//                                    }
-//                                    WorldGen.PlaceTile(k, l, sandType, true, true);
-//                                    //Main.tile[k, l].TileType = num2;
-//                                    //Main.tile[k, l].active(true);
-//                                    if (k == (int)vector2D.X & flag2)
-//                                    {
-//                                        flag2 = false;
-//                                        int num12 = 30 + WorldGen.genRand.Next(3);
-//                                        int num13 = 23 + WorldGen.genRand.Next(3);
-//                                        int num14 = 10 + WorldGen.genRand.Next(3);
-//                                        int num15 = k;
-//                                        int num16 = k + num14;
-//                                        if (vector2D2.X < 0.0)
+//                                        if (Main.tile[k, l].LiquidAmount == 255)
 //                                        {
-//                                            num15 = k - num14;
-//                                            num16 = k;
+//                                            Main.tile[k, l].TileType = 0;
 //                                        }
-//                                        if (num5 < 100.0)
+//                                        WorldGen.PlaceTile(k, l, sandType, true, true);
+//                                        //Main.tile[k, l].TileType = num2;
+//                                        //Main.tile[k, l].active(true);
+//                                        if (k == (int)vector2D.X & flag2)
 //                                        {
-//                                            num12 = (int)((double)num12 * (num5 / 100.0));
-//                                            num13 = (int)((double)num13 * (num5 / 100.0));
-//                                            num14 = (int)((double)num14 * (num5 / 100.0));
-//                                        }
-//                                        if (num4 < num6 + 5.0)
-//                                        {
-//                                            double num17 = (num4 - num6) / 5.0;
-//                                            num12 = (int)((double)num12 * num17);
-//                                            num13 = (int)((double)num13 * num17);
-//                                            num14 = (int)((double)num14 * num17);
-//                                        }
-//                                        for (int m = num15; m <= num16; m++)
-//                                        {
-//                                            int num18 = l;
-//                                            while (num18 < l + num12 && !BadOceanCaveTiles(m, num18))
+//                                            flag2 = false;
+//                                            int num12 = 30 + WorldGen.genRand.Next(3);
+//                                            int num13 = 23 + WorldGen.genRand.Next(3);
+//                                            int num14 = 10 + WorldGen.genRand.Next(3);
+//                                            int num15 = k;
+//                                            int num16 = k + num14;
+//                                            if (vector2D2.X < 0.0)
 //                                            {
-//                                                if (num18 > l + num13)
+//                                                num15 = k - num14;
+//                                                num16 = k;
+//                                            }
+//                                            if (num5 < 100.0)
+//                                            {
+//                                                num12 = (int)((double)num12 * (num5 / 100.0));
+//                                                num13 = (int)((double)num13 * (num5 / 100.0));
+//                                                num14 = (int)((double)num14 * (num5 / 100.0));
+//                                            }
+//                                            if (num4 < num6 + 5.0)
+//                                            {
+//                                                double num17 = (num4 - num6) / 5.0;
+//                                                num12 = (int)((double)num12 * num17);
+//                                                num13 = (int)((double)num13 * num17);
+//                                                num14 = (int)((double)num14 * num17);
+//                                            }
+//                                            for (int m = num15; m <= num16; m++)
+//                                            {
+//                                                int num18 = l;
+//                                                while (num18 < l + num12 && !BadOceanCaveTiles(m, num18))
 //                                                {
-//                                                    if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+//                                                    if (Main.tile[m, num18].TileType != TileID.Stone)
 //                                                    {
-//                                                        break;
+//                                                        if (num18 > l + num13)
+//                                                        {
+//                                                            if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+//                                                            {
+//                                                                break;
+//                                                            }
+//                                                            //Main.tile[m, num18].TileType = num3;
+//                                                            WorldGen.PlaceTile(m, num18, hardSandType, true, true);
+//                                                        }
+//                                                        else
+//                                                        {
+//                                                            //Main.tile[m, num18].TileType = num2;
+//                                                            WorldGen.PlaceTile(m, num18, sandType, true, true);
+//                                                        }
+//                                                        //Main.tile[m, num18].active(true);
+//                                                        if (WorldGen.genRand.Next(3) == 0)
+//                                                        {
+//                                                            //*Main.tile[m - 1, num18].type = num2;
+//                                                            //Main.tile[m - 1, num18].active(true);
+//                                                            WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
+//                                                        }
+//                                                        if (WorldGen.genRand.Next(3) == 0)
+//                                                        {
+//                                                            //*Main.tile[m + 1, num18].type = num2;
+//                                                            //Main.tile[m + 1, num18].active(true);
+//                                                            WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
+//                                                        }
 //                                                    }
-//                                                    //Main.tile[m, num18].TileType = num3;
-//                                                    WorldGen.PlaceTile(m, num18, hardSandType, true, true);
+//                                                    num18++;
 //                                                }
-//                                                else
-//                                                {
-//                                                    //Main.tile[m, num18].TileType = num2;
-//                                                    WorldGen.PlaceTile(m, num18, sandType, true, true);
-//                                                }
-//                                                //Main.tile[m, num18].active(true);
-//                                                if (WorldGen.genRand.Next(3) == 0)
-//                                                {
-//                                                    //*Main.tile[m - 1, num18].type = num2;
-//                                                    //Main.tile[m - 1, num18].active(true);
-//                                                    WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
-//                                                }
-//                                                if (WorldGen.genRand.Next(3) == 0)
-//                                                {
-//                                                    //*Main.tile[m + 1, num18].type = num2;
-//                                                    //Main.tile[m + 1, num18].active(true);
-//                                                    WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
-//                                                }
-//                                                num18++;
 //                                            }
 //                                        }
 //                                    }
 //                                }
-//                            }
-//                            if (num11 < num4 * 1.3 + 1.0 && l > j - 10)
-//                            {
-//                                Main.tile[k, l].LiquidAmount = 255;
+//                                if (num11 < num4 * 1.3 + 1.0 && l > j - 10)
+//                                {
+//                                    Main.tile[k, l].LiquidAmount = 255;
+//                                }
 //                            }
 //                            if (flag3 && k == (int)vector2D.X && (double)l > vector2D.Y)
 //                            {
@@ -313,7 +325,10 @@
 //                                    {
 //                                        if (!BadOceanCaveTiles(n, num21))
 //                                        {
-//                                            Main.tile[n, num21].LiquidAmount = 255;
+//                                            if (Main.tile[n, num21].TileType != TileID.Stone && num21 < l + 60)
+//                                            {
+//                                                Main.tile[n, num21].LiquidAmount = 255;
+//                                            }
 //                                        }
 //                                        else
 //                                        {
@@ -416,7 +431,7 @@
 //                {
 //                    for (int l = num9; l < num10; l++)
 //                    {
-//                        if (!BadOceanCaveTiles(k, l))
+//                        if (!BadOceanCaveTiles(k, l) && Main.tile[k, l].TileType != TileID.Stone)
 //                        {
 //                            double num11 = new Vector2D(Math.Abs((double)k - vector2D.X), Math.Abs((double)l - vector2D.Y)).Length();
 //                            if (num11 < num4 * 0.5 + 1.0)
@@ -485,32 +500,35 @@
 //                                            int num18 = l;
 //                                            while (num18 < l + num12 && !BadOceanCaveTiles(m, num18))
 //                                            {
-//                                                if (num18 > l + num13)
+//                                                if (Main.tile[m, num18].TileType != TileID.Stone)
 //                                                {
-//                                                    if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+//                                                    if (num18 > l + num13)
 //                                                    {
-//                                                        break;
+//                                                        if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+//                                                        {
+//                                                            break;
+//                                                        }
+//                                                        //Main.tile[m, num18].TileType = num3;
+//                                                        WorldGen.PlaceTile(m, num18, hardSandType, true, true);
 //                                                    }
-//                                                    //Main.tile[m, num18].TileType = num3;
-//                                                    WorldGen.PlaceTile(m, num18, hardSandType, true, true);
-//                                                }
-//                                                else
-//                                                {
-//                                                    //Main.tile[m, num18].TileType = num2;
-//                                                    WorldGen.PlaceTile(m, num18, sandType, true, true);
-//                                                }
-//                                                //Main.tile[m, num18].active(true);
-//                                                if (WorldGen.genRand.Next(3) == 0)
-//                                                {
-//                                                    //*Main.tile[m - 1, num18].type = num2;
-//                                                    //Main.tile[m - 1, num18].active(true);
-//                                                    WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
-//                                                }
-//                                                if (WorldGen.genRand.Next(3) == 0)
-//                                                {
-//                                                    //*Main.tile[m + 1, num18].type = num2;
-//                                                    //Main.tile[m + 1, num18].active(true);
-//                                                    WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
+//                                                    else
+//                                                    {
+//                                                        //Main.tile[m, num18].TileType = num2;
+//                                                        WorldGen.PlaceTile(m, num18, sandType, true, true);
+//                                                    }
+//                                                    //Main.tile[m, num18].active(true);
+//                                                    if (WorldGen.genRand.Next(3) == 0)
+//                                                    {
+//                                                        //*Main.tile[m - 1, num18].type = num2;
+//                                                        //Main.tile[m - 1, num18].active(true);
+//                                                        WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
+//                                                    }
+//                                                    if (WorldGen.genRand.Next(3) == 0)
+//                                                    {
+//                                                        //*Main.tile[m + 1, num18].type = num2;
+//                                                        //Main.tile[m + 1, num18].active(true);
+//                                                        WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
+//                                                    }
 //                                                }
 //                                                num18++;
 //                                            }
@@ -525,13 +543,13 @@
 //                            if (flag3 && k == (int)vector2D.X && (double)l > vector2D.Y)
 //                            {
 //                                flag3 = false;
-//                                int num19 = 100;
+//                                int num19 = 40;
 //                                int num20 = 2;
 //                                for (int n = k - num20; n <= k + num20; n++)
 //                                {
 //                                    for (int num21 = l; num21 < l + num19; num21++)
 //                                    {
-//                                        if (!BadOceanCaveTiles(n, num21))
+//                                        if (!BadOceanCaveTiles(n, num21) && Main.tile[n, num21].TileType != TileID.Stone)
 //                                        {
 //                                            Main.tile[n, num21].LiquidAmount = 255;
 //                                        }
@@ -569,11 +587,12 @@
 
 //            LegendGrave((int)vector2D.X, (int)vector2D.Y, 5);
 //        }
+
 //        private static bool BadOceanCaveTiles(int x, int y)
 //        {
 //            return Main.wallDungeon[(int)(Main.tile[x, y].WallType)] || Main.tile[x, y].TileType == TileID.Stone || Main.tile[x, y].LiquidType == LiquidID.Shimmer || Main.tileDungeon[(int)(Main.tile[x, y].TileType)] || Main.tile[x, y].TileType == TileID.DemonAltar || Main.tile[x, y].TileType == TileID.ShadowOrbs;
 //        }
-//        private void LegendGrave(int x, int y, int graveType)
+//        private static void LegendGrave(int x, int y, int graveType)
 //        {
 //            WorldUtils.Gen(new Point(x + 1, y), new Shapes.Rectangle(4, 1), Actions.Chain(new GenAction[]
 //            {

@@ -114,24 +114,23 @@ namespace JoostMod.Items.Legendaries.Weps
                                 slotAmount++;
                             }
                             proj.Kill();
-                            Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI).minionSlots = slotAmount;
+                            Projectile newProj = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                            newProj.minionSlots = slotAmount;
+                            newProj.originalDamage = damage;
                             break;
                         }
                     }
                 }
                 return false;
             }
-            return player.altFunctionUse != 2;
+            if (player.altFunctionUse != 2)
+            {
+                player.SpawnMinionOnCursor(source, player.whoAmI, type, damage, knockback);
+            }
+            return false;
+            //return player.altFunctionUse != 2;
         }
 
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim(false);
-            }
-            return null;
-        }
 
     }
 }

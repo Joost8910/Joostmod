@@ -233,37 +233,21 @@ namespace JoostMod
         }
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
-            int buriedChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Buried Chests"));
-            if (buriedChestIndex != -1)
+            int finalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
+            if (finalIndex != -1)
             {
-                tasks.Insert(buriedChestIndex - 1, new LegendShrinesGenPass("Placing Shrines of Legend", 100f));
+                tasks.Insert(finalIndex + 1, new LegendShrinesGenPass("Placing Shrines of Legend", 100f));
             }
             if (Main.remixWorld)
             {
-                int finalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
                 if (finalIndex != -1)
                 {
                     tasks.Insert(finalIndex + 1, new LegendGravesGenPass("Burying Legends", 100f));
                 }
             }
-            else
-            {
-                int JungleWallIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Muds Walls In Jungle"));
-                if (JungleWallIndex != -1)
-                {
-                    tasks.Insert(JungleWallIndex + 1, new LegendShrinesGenPass("Placing Shrine of Overgrowth", 100f));
-                }
-            }
         }
         public override void PostWorldGen()
         {
-            if (Main.remixWorld)
-            {
-            }
-            else
-            {
-            }
-
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
@@ -369,6 +353,21 @@ namespace JoostMod
 
                 }
             }
+        }
+        public static bool IsChestHere(int x, int y, int width, int height)
+        {
+            for (int i = x; i < x + width; i++)
+            {
+                for (int j = y; j < y + height; j++)
+                {
+                    Tile tileSafely = Framing.GetTileSafely(i, j);
+                    if (tileSafely.HasTile && TileID.Sets.BasicChest[tileSafely.TileType])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         public static void StoneShrine(int x, int y, int tile, int wall, int stone, byte color)
         {
@@ -575,11 +574,11 @@ namespace JoostMod
             if (graveType == 0) //David's Gnomes
             {
                 WorldGen.KillTile(x -1, y + 4);
-                WorldGen.PlaceObject(x - 1, y + 4, TileID.GardenGnome, true, 0, 0, 1, 1);
-                WorldGen.PlaceObject(x, y + 3, TileID.GardenGnome, true, 0, 0, -1, 1);
-                WorldGen.PlaceObject(x + 5, y + 3, TileID.GardenGnome, true);
+                WorldGen.PlaceObject(x - 1, y + 4, TileID.GardenGnome, true, 0, 0, WorldGen.genRand.Next(3), 1);
+                WorldGen.PlaceObject(x, y + 3, TileID.GardenGnome, true, 0, 0, WorldGen.genRand.Next(3), 1);
+                WorldGen.PlaceObject(x + 5, y + 3, TileID.GardenGnome, true, 0, 0, WorldGen.genRand.Next(3));
                 WorldGen.KillTile(x + 6, y + 4);
-                WorldGen.PlaceObject(x + 6, y + 4, TileID.GardenGnome, true);
+                WorldGen.PlaceObject(x + 6, y + 4, TileID.GardenGnome, true, 0, 0, WorldGen.genRand.Next(3));
             }
             WorldGen.PlaceObject(x + 1, y + 2, ModContent.TileType<BrokenPick>(), true, graveType);
             graveLocations[graveType] = new PosData<Point16>(graveType, new Point16(x + 2, y + 2));
@@ -667,108 +666,114 @@ namespace JoostMod
                         if (!BadOceanCaveTiles(k, l))
                         {
                             double num11 = new Vector2D(Math.Abs((double)k - vector2D.X), Math.Abs((double)l - vector2D.Y)).Length();
-                            if (flag4 && num11 < num4 * 0.5 + 1.0)
+                            if (Main.tile[k, l].TileType != TileID.Stone)
                             {
-                                Main.tile[k, l].TileType = num;
-                                Main.tile[k, l].ClearTile();
-                            }
-                            else if (num11 < num4 * 1.5 + 1.0 && Main.tile[k, l].TileType != num)
-                            {
+                                if (flag4 && num11 < num4 * 0.5 + 1.0)
+                                {
+                                    Main.tile[k, l].TileType = num;
+                                    Main.tile[k, l].ClearTile();
+                                }
+                                else if (num11 < num4 * 1.5 + 1.0 && Main.tile[k, l].TileType != num)
+                                {
 
-                                if ((double)l < vector2D.Y)
-                                {
-                                    if ((vector2D2.X < 0.0 && (double)k < vector2D.X) || (vector2D2.X > 0.0 && (double)k > vector2D.X))
+                                    if ((double)l < vector2D.Y)
                                     {
-                                        if (num11 < num4 * 1.1 + 1.0)
+                                        if ((vector2D2.X < 0.0 && (double)k < vector2D.X) || (vector2D2.X > 0.0 && (double)k > vector2D.X))
                                         {
-                                            Main.tile[k, l].TileType = hardSandType;
-                                            if (Main.tile[k, l].LiquidAmount == 255)
+                                            if (num11 < num4 * 1.1 + 1.0)
                                             {
-                                                Main.tile[k, l].WallType = 0;
+                                                Main.tile[k, l].TileType = hardSandType;
+                                                if (Main.tile[k, l].LiquidAmount == 255)
+                                                {
+                                                    Main.tile[k, l].WallType = 0;
+                                                }
+                                            }
+                                            else if (Main.tile[k, l].TileType != hardSandType)
+                                            {
+                                                Main.tile[k, l].TileType = sandType;
                                             }
                                         }
-                                        else if (Main.tile[k, l].TileType != hardSandType)
-                                        {
-                                            Main.tile[k, l].TileType = sandType;
-                                        }
                                     }
-                                }
-                                else if ((vector2D2.X < 0.0 && k < i) || (vector2D2.X > 0.0 && k > i))
-                                {
-                                    if (Main.tile[k, l].LiquidAmount == 255)
+                                    else if ((vector2D2.X < 0.0 && k < i) || (vector2D2.X > 0.0 && k > i))
                                     {
-                                        Main.tile[k, l].TileType = 0;
-                                    }
-                                    WorldGen.PlaceTile(k, l, sandType, true, true);
-                                    //Main.tile[k, l].TileType = num2;
-                                    //Main.tile[k, l].active(true);
-                                    if (k == (int)vector2D.X & flag2)
-                                    {
-                                        flag2 = false;
-                                        int num12 = 30 + WorldGen.genRand.Next(3);
-                                        int num13 = 23 + WorldGen.genRand.Next(3);
-                                        int num14 = 10 + WorldGen.genRand.Next(3);
-                                        int num15 = k;
-                                        int num16 = k + num14;
-                                        if (vector2D2.X < 0.0)
+                                        if (Main.tile[k, l].LiquidAmount == 255)
                                         {
-                                            num15 = k - num14;
-                                            num16 = k;
+                                            Main.tile[k, l].TileType = 0;
                                         }
-                                        if (num5 < 100.0)
+                                        WorldGen.PlaceTile(k, l, sandType, true, true);
+                                        //Main.tile[k, l].TileType = num2;
+                                        //Main.tile[k, l].active(true);
+                                        if (k == (int)vector2D.X & flag2)
                                         {
-                                            num12 = (int)((double)num12 * (num5 / 100.0));
-                                            num13 = (int)((double)num13 * (num5 / 100.0));
-                                            num14 = (int)((double)num14 * (num5 / 100.0));
-                                        }
-                                        if (num4 < num6 + 5.0)
-                                        {
-                                            double num17 = (num4 - num6) / 5.0;
-                                            num12 = (int)((double)num12 * num17);
-                                            num13 = (int)((double)num13 * num17);
-                                            num14 = (int)((double)num14 * num17);
-                                        }
-                                        for (int m = num15; m <= num16; m++)
-                                        {
-                                            int num18 = l;
-                                            while (num18 < l + num12 && !BadOceanCaveTiles(m, num18))
+                                            flag2 = false;
+                                            int num12 = 30 + WorldGen.genRand.Next(3);
+                                            int num13 = 23 + WorldGen.genRand.Next(3);
+                                            int num14 = 10 + WorldGen.genRand.Next(3);
+                                            int num15 = k;
+                                            int num16 = k + num14;
+                                            if (vector2D2.X < 0.0)
                                             {
-                                                if (num18 > l + num13)
+                                                num15 = k - num14;
+                                                num16 = k;
+                                            }
+                                            if (num5 < 100.0)
+                                            {
+                                                num12 = (int)((double)num12 * (num5 / 100.0));
+                                                num13 = (int)((double)num13 * (num5 / 100.0));
+                                                num14 = (int)((double)num14 * (num5 / 100.0));
+                                            }
+                                            if (num4 < num6 + 5.0)
+                                            {
+                                                double num17 = (num4 - num6) / 5.0;
+                                                num12 = (int)((double)num12 * num17);
+                                                num13 = (int)((double)num13 * num17);
+                                                num14 = (int)((double)num14 * num17);
+                                            }
+                                            for (int m = num15; m <= num16; m++)
+                                            {
+                                                int num18 = l;
+                                                while (num18 < l + num12 && !BadOceanCaveTiles(m, num18))
                                                 {
-                                                    if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+                                                    if (Main.tile[m, num18].TileType != TileID.Stone)
                                                     {
-                                                        break;
+                                                        if (num18 > l + num13)
+                                                        {
+                                                            if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+                                                            {
+                                                                break;
+                                                            }
+                                                            //Main.tile[m, num18].TileType = num3;
+                                                            WorldGen.PlaceTile(m, num18, hardSandType, true, true);
+                                                        }
+                                                        else
+                                                        {
+                                                            //Main.tile[m, num18].TileType = num2;
+                                                            WorldGen.PlaceTile(m, num18, sandType, true, true);
+                                                        }
+                                                        //Main.tile[m, num18].active(true);
+                                                        if (WorldGen.genRand.Next(3) == 0)
+                                                        {
+                                                            //*Main.tile[m - 1, num18].type = num2;
+                                                            //Main.tile[m - 1, num18].active(true);
+                                                            WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
+                                                        }
+                                                        if (WorldGen.genRand.Next(3) == 0)
+                                                        {
+                                                            //*Main.tile[m + 1, num18].type = num2;
+                                                            //Main.tile[m + 1, num18].active(true);
+                                                            WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
+                                                        }
                                                     }
-                                                    //Main.tile[m, num18].TileType = num3;
-                                                    WorldGen.PlaceTile(m, num18, hardSandType, true, true);
+                                                    num18++;
                                                 }
-                                                else
-                                                {
-                                                    //Main.tile[m, num18].TileType = num2;
-                                                    WorldGen.PlaceTile(m, num18, sandType, true, true);
-                                                }
-                                                //Main.tile[m, num18].active(true);
-                                                if (WorldGen.genRand.Next(3) == 0)
-                                                {
-                                                    //*Main.tile[m - 1, num18].type = num2;
-                                                    //Main.tile[m - 1, num18].active(true);
-                                                    WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
-                                                }
-                                                if (WorldGen.genRand.Next(3) == 0)
-                                                {
-                                                    //*Main.tile[m + 1, num18].type = num2;
-                                                    //Main.tile[m + 1, num18].active(true);
-                                                    WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
-                                                }
-                                                num18++;
                                             }
                                         }
                                     }
                                 }
-                            }
-                            if (num11 < num4 * 1.3 + 1.0 && l > j - 10)
-                            {
-                                Main.tile[k, l].LiquidAmount = 255;
+                                if (num11 < num4 * 1.3 + 1.0 && l > j - 10)
+                                {
+                                    Main.tile[k, l].LiquidAmount = 255;
+                                }
                             }
                             if (flag3 && k == (int)vector2D.X && (double)l > vector2D.Y)
                             {
@@ -781,7 +786,10 @@ namespace JoostMod
                                     {
                                         if (!BadOceanCaveTiles(n, num21))
                                         {
-                                            Main.tile[n, num21].LiquidAmount = 255;
+                                            if (Main.tile[n, num21].TileType != TileID.Stone && num21 < l + 60)
+                                            {
+                                                Main.tile[n, num21].LiquidAmount = 255;
+                                            }
                                         }
                                         else
                                         {
@@ -884,7 +892,7 @@ namespace JoostMod
                 {
                     for (int l = num9; l < num10; l++)
                     {
-                        if (!BadOceanCaveTiles(k, l))
+                        if (!BadOceanCaveTiles(k, l) && Main.tile[k, l].TileType != TileID.Stone)
                         {
                             double num11 = new Vector2D(Math.Abs((double)k - vector2D.X), Math.Abs((double)l - vector2D.Y)).Length();
                             if (num11 < num4 * 0.5 + 1.0)
@@ -953,32 +961,35 @@ namespace JoostMod
                                             int num18 = l;
                                             while (num18 < l + num12 && !BadOceanCaveTiles(m, num18))
                                             {
-                                                if (num18 > l + num13)
+                                                if (Main.tile[m, num18].TileType != TileID.Stone)
                                                 {
-                                                    if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+                                                    if (num18 > l + num13)
                                                     {
-                                                        break;
+                                                        if (WorldGen.SolidTile(m, num18, false) && Main.tile[m, num18].TileType != sandType)
+                                                        {
+                                                            break;
+                                                        }
+                                                        //Main.tile[m, num18].TileType = num3;
+                                                        WorldGen.PlaceTile(m, num18, hardSandType, true, true);
                                                     }
-                                                    //Main.tile[m, num18].TileType = num3;
-                                                    WorldGen.PlaceTile(m, num18, hardSandType, true, true);
-                                                }
-                                                else
-                                                {
-                                                    //Main.tile[m, num18].TileType = num2;
-                                                    WorldGen.PlaceTile(m, num18, sandType, true, true);
-                                                }
-                                                //Main.tile[m, num18].active(true);
-                                                if (WorldGen.genRand.Next(3) == 0)
-                                                {
-                                                    //*Main.tile[m - 1, num18].type = num2;
-                                                    //Main.tile[m - 1, num18].active(true);
-                                                    WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
-                                                }
-                                                if (WorldGen.genRand.Next(3) == 0)
-                                                {
-                                                    //*Main.tile[m + 1, num18].type = num2;
-                                                    //Main.tile[m + 1, num18].active(true);
-                                                    WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
+                                                    else
+                                                    {
+                                                        //Main.tile[m, num18].TileType = num2;
+                                                        WorldGen.PlaceTile(m, num18, sandType, true, true);
+                                                    }
+                                                    //Main.tile[m, num18].active(true);
+                                                    if (WorldGen.genRand.Next(3) == 0)
+                                                    {
+                                                        //*Main.tile[m - 1, num18].type = num2;
+                                                        //Main.tile[m - 1, num18].active(true);
+                                                        WorldGen.PlaceTile(m - 1, num18, hardSandType, true, true);
+                                                    }
+                                                    if (WorldGen.genRand.Next(3) == 0)
+                                                    {
+                                                        //*Main.tile[m + 1, num18].type = num2;
+                                                        //Main.tile[m + 1, num18].active(true);
+                                                        WorldGen.PlaceTile(m + 1, num18, hardSandType, true, true);
+                                                    }
                                                 }
                                                 num18++;
                                             }
@@ -993,13 +1004,13 @@ namespace JoostMod
                             if (flag3 && k == (int)vector2D.X && (double)l > vector2D.Y)
                             {
                                 flag3 = false;
-                                int num19 = 100;
+                                int num19 = 40;
                                 int num20 = 2;
                                 for (int n = k - num20; n <= k + num20; n++)
                                 {
                                     for (int num21 = l; num21 < l + num19; num21++)
                                     {
-                                        if (!BadOceanCaveTiles(n, num21))
+                                        if (!BadOceanCaveTiles(n, num21) && Main.tile[n, num21].TileType != TileID.Stone)
                                         {
                                             Main.tile[n, num21].LiquidAmount = 255;
                                         }
@@ -1062,12 +1073,29 @@ namespace JoostMod
         }
 
     }
-    public class JungleStoneShrineGenPass(string name, float loadWeight) : GenPass(name, loadWeight)
+
+    public class LegendShrinesGenPass(string name, float loadWeight) : GenPass(name, loadWeight)
     {
         protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
         {
             progress.Message = JoostWorld.LegendShrineGenPassMessage.Value;
 
+            int centerX = Main.maxTilesX / 2;
+            int centerY = Main.maxTilesY / 2;
+            bool solFlag = true;
+            while (solFlag)
+            {
+                if (!JoostWorld.IsChestHere(centerX - 3, centerY - 2, 3 + 4, 2 + 2))
+                {
+                    JoostWorld.LegendShrine(centerX, centerY, Main.remixWorld);
+                    solFlag = false;
+                }
+                else
+                {
+                    centerY++;
+                }
+            }
+            JoostMod.instance.Logger.Info("Placed Shrine of Legends");
             if (!Main.remixWorld)
             {
                 bool flag = true;
@@ -1079,7 +1107,8 @@ namespace JoostMod
                         i = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.025), (int)((double)Main.maxTilesX * 0.4));
                     }
                     int j = WorldGen.genRand.Next((int)Main.worldSurface + 20, (int)Main.rockLayer);
-                    if (Main.tile[i, j + 5].TileType == TileID.JungleGrass && !Main.tile[i, j + 4].HasTile)
+                    if (Main.tile[i, j + 5].TileType == TileID.JungleGrass && !Main.tile[i, j + 4].HasTile
+                        && !JoostWorld.IsChestHere(i, j, 6, 6))
                     {
                         flag = false;
                         JoostWorld.StoneShrine(i, j, TileID.IridescentBrick, WallID.JungleUnsafe3, ModContent.TileType<JungleStone>(), 4);
@@ -1087,27 +1116,13 @@ namespace JoostMod
                         JoostMod.instance.Logger.Info("Placed Overgrowth Shrine");
                     }
                 }
-            }
-        }
-    }
-    public class LegendShrinesGenPass(string name, float loadWeight) : GenPass(name, loadWeight)
-    {
-        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
-        {
-            progress.Message = JoostWorld.LegendShrineGenPassMessage.Value;
-
-            int centerX = Main.maxTilesX / 2;
-            int centerY = Main.maxTilesY / 2;
-            JoostWorld.LegendShrine(centerX, centerY, Main.remixWorld);
-            JoostMod.instance.Logger.Info("Placed Shrine of Legends");
-            if (!Main.remixWorld)
-            {
                 bool flag2 = true;
                 while (flag2)
                 {
                     int x = GenVars.dungeonX + WorldGen.genRand.Next(200) - 100;
                     int y = (int)Main.worldSurface + WorldGen.genRand.Next(400) + 10;
-                    if (!Main.tile[x - 1, y + 2].HasTile && Main.tile[x, y + 5].HasTile && Main.wallDungeon[Main.tile[x - 1, y + 2].WallType] && Main.tileDungeon[Main.tile[x, y + 5].TileType])
+                    if (!Main.tile[x - 1, y + 2].HasTile && Main.tile[x, y + 5].HasTile && Main.wallDungeon[Main.tile[x - 1, y + 2].WallType] && Main.tileDungeon[Main.tile[x, y + 5].TileType]
+                        && !JoostWorld.IsChestHere(x, y, 6, 6))
                     {
                         flag2 = false;
                         int wallType = WallID.BlueDungeon;
@@ -1129,7 +1144,8 @@ namespace JoostMod
                 {
                     int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
                     int b = Main.maxTilesY - 150 + WorldGen.genRand.Next(50);
-                    if (Main.tile[a, b + 5].HasTile && Main.tileSolid[Main.tile[a, b + 5].TileType] && !Main.tile[a, b + 4].HasTile)
+                    if (Main.tile[a, b + 5].HasTile && Main.tileSolid[Main.tile[a, b + 5].TileType] && !Main.tile[a, b + 4].HasTile
+                        && !JoostWorld.IsChestHere(a, b, 6, 6))
                     {
                         flag3 = false;
                         JoostWorld.StoneShrine(a, b, TileID.HellstoneBrick, WallID.HellstoneBrickUnsafe, ModContent.TileType<InfernoStone>(), 2);
@@ -1162,8 +1178,9 @@ namespace JoostMod
                     a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.7f), (int)(Main.maxTilesX * 0.95f));
                 }
                 int b = Main.maxTilesY - 150 + WorldGen.genRand.Next(50);
-                if (Main.tile[a, b].HasTile && Main.tile[a, b + 5].HasTile && 
-                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a, b + 5].TileType] && 
+
+                if (Main.tile[a, b].HasTile && Main.tile[a + 5, b].HasTile && 
+                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a + 5, b].TileType] && 
                     (!Main.tile[a, b - 1].HasTile || !Main.tile[a + 5, b - 1].HasTile) && 
                     Main.tile[a + 2, b - 3].LiquidType != LiquidID.Lava && Main.tile[a + 3, b - 2].LiquidType != LiquidID.Lava)
                 {
@@ -1178,9 +1195,10 @@ namespace JoostMod
             {
                 int b = (Main.maxTilesY - 250) - WorldGen.genRand.Next(160, 200);
                 int a = WorldGen.genRand.Next(GenVars.snowMinX[b], GenVars.snowMaxX[b]);
+
                 if (TileID.Sets.SnowBiome[Main.tile[a, b].TileType] > 0 && 
-                    Main.tile[a, b].HasTile && Main.tile[a, b + 5].HasTile &&
-                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a, b + 5].TileType] &&
+                    Main.tile[a, b].HasTile && Main.tile[a + 5, b].HasTile &&
+                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a + 5, b].TileType] &&
                     (!Main.tile[a, b - 1].HasTile || !Main.tile[a + 5, b - 1].HasTile) &&
                     Main.tile[a + 2, b - 3].LiquidType != LiquidID.Lava && Main.tile[a + 3, b - 2].LiquidType != LiquidID.Lava)
                 {
@@ -1193,11 +1211,16 @@ namespace JoostMod
             bool placedBoook = false;
             while (!placedBoook) // Boook
             {
+                int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.45f));
+                if (Main.rand.NextBool(2))
+                {
+                    a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.55f), (int)(Main.maxTilesX * 0.8f));
+                }
                 int b = WorldGen.genRand.Next((int)Main.rockLayer - 60, Main.maxTilesY - 250);
-                int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
+
                 if (Main.tile[a, b].TileType == TileID.Grass && 
-                    Main.tile[a, b].HasTile && Main.tile[a, b + 5].HasTile &&
-                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a, b + 5].TileType] &&
+                    Main.tile[a, b].HasTile && Main.tile[a + 5, b].HasTile &&
+                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a + 5, b].TileType] &&
                     (!Main.tile[a, b - 1].HasTile || !Main.tile[a + 5, b - 1].HasTile) &&
                     Main.tile[a + 2, b - 3].LiquidType != LiquidID.Lava && Main.tile[a + 3, b - 2].LiquidType != LiquidID.Lava)
                 {
@@ -1210,11 +1233,16 @@ namespace JoostMod
             bool placedGrognak = false;
             while (!placedGrognak) // Grognak
             {
+                int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.4f));
+                if (Main.rand.NextBool(2))
+                {
+                    a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.6f), (int)(Main.maxTilesX * 0.85f));
+                }
                 int b = WorldGen.genRand.Next((int)Main.worldSurface + 150, (int)Main.rockLayer - 80);
-                int a = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.85f));
+
                 if (Main.tile[a, b].TileType == TileID.Stone && 
-                    Main.tile[a, b].HasTile && Main.tile[a, b + 5].HasTile &&
-                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a, b + 5].TileType] &&
+                    Main.tile[a, b].HasTile && Main.tile[a + 5, b].HasTile &&
+                    Main.tileSolid[Main.tile[a, b].TileType] && Main.tileSolid[Main.tile[a + 5, b].TileType] &&
                     (!Main.tile[a, b - 1].HasTile || !Main.tile[a + 5, b - 1].HasTile) &&
                     Main.tile[a + 2, b - 3].LiquidType != LiquidID.Lava && Main.tile[a + 3, b - 2].LiquidType != LiquidID.Lava)
                 {

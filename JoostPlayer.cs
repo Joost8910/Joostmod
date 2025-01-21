@@ -415,6 +415,10 @@ namespace JoostMod
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GnunderGlove", EquipType.HandsOn);
             }
+            if (Player.HeldItem.type == ModContent.ItemType<BrokenGlove>())
+            {
+                Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "BrokenGlove", EquipType.HandsOn);
+            }
             if (Player.HeldItem.type == ModContent.ItemType<GooGlove>())
             {
                 Player.handon = (sbyte)EquipLoader.GetEquipSlot(Mod, "GooGlove", EquipType.HandsOn);

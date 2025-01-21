@@ -13,22 +13,22 @@ using Terraria.DataStructures;
 
 namespace JoostMod.Projectiles.Magic
 {
-    public class DavidLaser : ModProjectile
+    public class BrokenLaser : ModProjectile
     {
         private const int MAX_CHARGE = 50;
-        private const float MOVE_DISTANCE = 100f;       //The distance charge particle from the player center
+        private const float MOVE_DISTANCE = 85f;       //The distance charge particle from the player center
         private int sound = 0;
         public float Distance
         {
             get { return Projectile.ai[0]; }
             set { Projectile.ai[0] = value; }
         }
-
         public float WidthScale
         {
             get { return Projectile.ai[1]; }
             set { Projectile.ai[1] = value; }
         }
+
         public float Charge
         {
             get { return Projectile.localAI[0]; }
@@ -56,10 +56,12 @@ namespace JoostMod.Projectiles.Magic
         {
             if (Charge == MAX_CHARGE)
             {
+                Color c = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f));
+                c *= 0.5f;
                 Vector2 unit = Projectile.velocity;
                 DrawLaser(TextureAssets.Projectile[Projectile.type].Value,
                     Main.player[Projectile.owner].Center, unit, 10, Projectile.damage,
-                    -1.57f, 1f, 1000f, new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f)), (int)MOVE_DISTANCE);
+                    -1.57f, 1f, 1000f, c, (int)MOVE_DISTANCE);
             }
             return false;
 
@@ -153,14 +155,14 @@ namespace JoostMod.Projectiles.Magic
 
             Vector2 mousePos = Main.MouseWorld;
             Player player = Main.player[Projectile.owner];
-            Color dustColor = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f));
+            Color dustColor = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f)) * 0.5f;
 
             #region Set projectile position
             if (Projectile.owner == Main.myPlayer) // Multiplayer support
             {
                 Vector2 diff = mousePos - player.Center;
                 diff.Normalize();
-                float home = Charge >= MAX_CHARGE ? 12f : 8f;
+                float home = Charge >= MAX_CHARGE ? 36f : 12f;
                 Projectile.velocity = ((home - 1f) * Projectile.velocity + diff) / home;
                 Projectile.velocity.Normalize();
                 Projectile.direction = Main.MouseWorld.X > player.Center.X ? 1 : -1;
@@ -184,26 +186,11 @@ namespace JoostMod.Projectiles.Magic
             }
             else
             {
-                if (Projectile.ai[2] > 0)
-                {
-                    if (player.CheckMana(player.inventory[player.selectedItem].mana, true))
-                    {
-                        Projectile.ai[2] = 0;
-                    }
-                    WidthScale -= 0.05f;
-                    if (WidthScale <= 0) 
-                    { 
-                        Projectile.Kill(); 
-                    }
-                }
-                else
-                {
-                    if (Projectile.localAI[1] % 60 == 59 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
-                    {
-                        Projectile.ai[2]++;
-                        //Projectile.Kill();
-                    }
-                }
+                //Projectile.localAI[1]++;
+                //if (Projectile.localAI[1] % 60 < 1 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
+                //{
+                //    Projectile.Kill();
+                //}
                 Vector2 offset = Projectile.velocity;
                 offset *= MOVE_DISTANCE - 20;
                 Vector2 pos = player.Center + offset - new Vector2(10, 10);
@@ -217,34 +204,44 @@ namespace JoostMod.Projectiles.Magic
                 }
                 if (Charge >= MAX_CHARGE)
                 {
-                    Projectile.localAI[1]++;
-                    if (WidthScale < 1 && Projectile.ai[2] == 0)
-                    {
-                        WidthScale += 0.2f;
-                    }
                     if (sound == 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item15.WithPitchOffset(0.2f).WithVolumeScale(1.2f), Projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item15.WithPitchOffset(-0.15f), Projectile.position);
                     }
                     sound++;
-                }
-                if (sound >= 16)
-                {
-                    SoundEngine.PlaySound(SoundID.Item15.WithPitchOffset(0.1f), Projectile.position);
-                    sound = 1;
+                    if (Projectile.localAI[1] <= 0)
+                    {
+                        WidthScale += 0.2f;
+                        if (WidthScale >= 1)
+                        {
+                            Projectile.localAI[1] = 1;
+                        }
+                    }
+                    else
+                    {
+                        WidthScale -= 0.025f;
+                    }
+                    if (WidthScale <= 0)
+                    {
+                        Projectile.Kill();
+                    }
+
                 }
                 int chargeFact = (int)(Charge / 20f);
                 Vector2 dustVelocity = Vector2.UnitX * 18f;
                 dustVelocity = dustVelocity.RotatedBy(Projectile.rotation - 1.57f, default);
                 Vector2 spawnPos = Projectile.Center + dustVelocity;
-                for (int k = 0; k < chargeFact + 1; k++)
+                if (Main.rand.NextBool(2))
                 {
-                    Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - chargeFact * 2);
-                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, DustID.BubbleBurst_Green, Projectile.velocity.X / 2f,
-                        Projectile.velocity.Y / 2f, 0, dustColor, 1f)];
-                    dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
-                    dust.noGravity = true;
-                    dust.scale = Main.rand.Next(10, 20) * 0.05f;
+                    for (int k = 0; k < chargeFact + 1; k++)
+                    {
+                        Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - chargeFact * 2);
+                        Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, DustID.BubbleBurst_Green, Projectile.velocity.X / 2f,
+                            Projectile.velocity.Y / 2f, 120, dustColor, 1f)];
+                        dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
+                        dust.noGravity = true;
+                        dust.scale = Main.rand.Next(10, 20) * 0.05f;
+                    }
                 }
             }
             #endregion
@@ -275,11 +272,8 @@ namespace JoostMod.Projectiles.Magic
             }
 
             Vector2 dustPos = player.Center + Projectile.velocity * Distance;
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 1; ++i)
             {
-                /*float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
-				float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
-				Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);*/
                 Vector2 dustVel = unit;
                 Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.BubbleBurst_Green, dustVel.X, dustVel.Y, 0, dustColor, 1f)];
                 dust.noGravity = true;
@@ -291,7 +285,7 @@ namespace JoostMod.Projectiles.Magic
                 dust.fadeIn = 0f;
                 dust.scale = 0.88f;
             }
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(8))
             {
                 Vector2 offset = Projectile.velocity.RotatedBy(1.57f, new Vector2()) * ((float)Main.rand.NextDouble() - 0.5f) * Projectile.width;
                 Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, DustID.Smoke, 0.0f, 0.0f, 100, dustColor, 1.5f)];

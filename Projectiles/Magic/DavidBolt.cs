@@ -1,3 +1,4 @@
+using JoostMod.Projectiles.Thrown;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -75,6 +76,18 @@ namespace JoostMod.Projectiles.Magic
             }
             Projectile.timeLeft -= 100;
             return false;
+        }
+        public override void OnKill(int timeLeft)
+        {
+            Color dustColor = new Color(90, 255, (int)(51 + Main.DiscoG * 0.75f));
+            for (int k = 0; k < 20; k++)
+            {
+                Vector2 spawn = Projectile.Center + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * 12f;
+                Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BubbleBurst_Green, 
+                    Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 0, dustColor, 1f)];
+                dust.noGravity = true;
+                dust.scale = Main.rand.Next(8, 20) * 0.1f;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -62,11 +62,11 @@ namespace JoostMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] == 0)
             {
-                Projectile.ai[0] = 1 / player.GetAttackSpeed(DamageClass.Melee);
+                Projectile.ai[0] = player.GetAttackSpeed(DamageClass.Melee);
             }
             if (Projectile.ai[1] == 0)
             {
-                Projectile.timeLeft += (int)((1 + Projectile.extraUpdates) * 10 * player.GetAttackSpeed(DamageClass.Melee));
+                Projectile.timeLeft += (int)((1 + Projectile.extraUpdates) * 10 / player.GetAttackSpeed(DamageClass.Melee));
                 Projectile.ai[1] += player.gravDir;
                 Projectile.spriteDirection = Projectile.velocity.X > 0 ? 1 : -1;
             }
@@ -104,7 +104,7 @@ namespace JoostMod.Projectiles.Melee
                     {
                         type = ModContent.ProjectileType<GrogWaveFlipped1>();
                     }
-                    if (Projectile.timeLeft <= 180 - 40 * player.GetAttackSpeed(DamageClass.Melee))
+                    if (Projectile.timeLeft <= 180 - 40 / player.GetAttackSpeed(DamageClass.Melee))
                     {
                         Vector2 pos = Projectile.Center;
                         for (int i = 0; i < 10; i++)
@@ -124,9 +124,9 @@ namespace JoostMod.Projectiles.Melee
                         }
                         Projectile.Kill();
                     }
-                    else if (Projectile.timeLeft > 180 - 20 * player.GetAttackSpeed(DamageClass.Melee))
+                    else if (Projectile.timeLeft > 180 - 20 / player.GetAttackSpeed(DamageClass.Melee))
                     {
-                        Projectile.timeLeft = 180 - (int)(20 * player.GetAttackSpeed(DamageClass.Melee));
+                        Projectile.timeLeft = 180 - (int)(20 / player.GetAttackSpeed(DamageClass.Melee));
                         SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
                         float rot = (Projectile.spriteDirection > 0 ? Projectile.ai[1] : -Projectile.ai[1] + 180) * (float)Math.PI / 180;
                         Vector2 rPos = rot.ToRotationVector2();

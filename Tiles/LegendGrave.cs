@@ -16,7 +16,7 @@ namespace JoostMod.Tiles
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
-            Main.tileOreFinderPriority[Type] = 660;
+            Main.tileOreFinderPriority[Type] = 900;
             Main.tileSpelunker[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = false;
@@ -33,12 +33,12 @@ namespace JoostMod.Tiles
             DustType = 42;
             MinPick = 100;
             MineResist = 3f;
-            RegisterItemDrop(ModContent.ItemType<StaffofDavid>(), 0);
-            RegisterItemDrop(ModContent.ItemType<LarkusTome>(), 1);
-            RegisterItemDrop(ModContent.ItemType<GnunderGlove>(), 2);
-            RegisterItemDrop(ModContent.ItemType<BoookBulletHell>(), 3);
-            RegisterItemDrop(ModContent.ItemType<GrognakHammer>(), 4);
-            RegisterItemDrop(ModContent.ItemType<UncleCariusPole>(), 5);
+            RegisterItemDrop(ModContent.ItemType<BrokenStaff>(), 0);
+            RegisterItemDrop(ModContent.ItemType<BrokenTome>(), 1);
+            RegisterItemDrop(ModContent.ItemType<BrokenGlove>(), 2);
+            RegisterItemDrop(ModContent.ItemType<BrokenBulletHell>(), 3);
+            RegisterItemDrop(ModContent.ItemType<BrokenHammer>(), 4);
+            RegisterItemDrop(ModContent.ItemType<BrokenFishingPole>(), 5);
         }
         public override bool CanExplode(int i, int j)
         {

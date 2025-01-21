@@ -13,8 +13,9 @@ namespace JoostMod.Projectiles.Thrown
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Gnunderson's Shuriken");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            Main.projFrames[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 4;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetDefaults()
         {
@@ -38,6 +39,14 @@ namespace JoostMod.Projectiles.Thrown
                 Projectile.velocity.Y += 0.2f;
                 Projectile.velocity.X *= 0.98f;
             }
+            if (Projectile.ai[1] == 1)
+            {
+                Projectile.frame = 1;
+            }
+            else
+            {
+                Projectile.frame = 0;
+            }
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.02f * Projectile.direction;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -54,7 +63,7 @@ namespace JoostMod.Projectiles.Thrown
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(tex.Width / 2, tex.Height / 2);
+            Vector2 drawOrigin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[Projectile.type]) / 2);
             for (int k = 1; k < Projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(Projectile.width / 2, Projectile.height / 2);

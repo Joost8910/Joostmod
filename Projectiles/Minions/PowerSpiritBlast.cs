@@ -77,6 +77,14 @@ namespace JoostMod.Projectiles.Minions
             }
             return false;
         }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.HitDirectionOverride = target.Center.X > Projectile.Center.X ? 1 : -1;
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            modifiers.HitDirectionOverride = target.Center.X > Projectile.Center.X ? 1 : -1;
+        }
         public bool Collides(Vector2 ellipsePos, Vector2 ellipseDim, Vector2 boxPos, Vector2 boxDim)
         {
             Vector2 ellipseCenter = ellipsePos + 0.5f * ellipseDim;

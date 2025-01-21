@@ -16,6 +16,8 @@ namespace JoostMod.Tiles
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileLighted[Type] = true;
+            Main.tileOreFinderPriority[Type] = 900;
+            Main.tileSpelunker[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.AnchorTop = AnchorData.Empty;
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
