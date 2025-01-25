@@ -3433,43 +3433,79 @@ Mods: {
 			}
 
 			BrokenShrine: {
-				Tooltip: ""
-				DisplayName: Broken Shrine
+				Tooltip:
+					'''
+					The broken remants of an ancient altar
+					Eons ago it shimmered with mystic power
+					Could there be a way to revert it to its former glory...?
+					'''
+				DisplayName: Dilapidated Shrine
 			}
 
 			GraverobberMap: {
-				DisplayName: Graverobber Map
-				Tooltip: ""
+				DisplayName: Graverobber's Map
+				Tooltip:
+					'''
+					'I've finally found them! 
+					The final resting places of the 5 orc brothers (plus their eccentric uncle)
+					But every damn time I try busting open one of their graves I end up breaking my pick!
+					I marked their locations on this map for whoever wants to attempt looting 'em themself.
+					I've had my fill of this accursed island...'
+					'''
 			}
 
 			BrokenStaff: {
-				Tooltip: ""
-				DisplayName: Broken Staff
+				DisplayName: Decayed Staff
+				Tooltip:
+					'''
+					An ancient staff that once shimmered with zealotry
+					Even now, remnants of it's former glory still linger...
+					'''
 			}
 
 			BrokenHammer: {
-				DisplayName: Broken Hammer
-				Tooltip: ""
+				DisplayName: Decayed Hammer
+				Tooltip:
+					'''
+					An ancient hammer that once shimmered with valor
+					Even now, remnants of it's former glory still linger...
+					'''
 			}
 
 			BrokenTome: {
-				DisplayName: Broken Tome
-				Tooltip: ""
+				DisplayName: Torn Tome
+				Tooltip:
+					'''
+					An ancient tome that once shimmered with power
+					Even now, remnants of it's former glory still linger...
+					'''
 			}
 
 			BrokenGlove: {
-				DisplayName: Broken Glove
-				Tooltip: ""
+				DisplayName: Torn Glove
+				Tooltip:
+					'''
+					An ancient glove that once shimmered with agility
+					Even now, remnants of it's former glory still linger...
+					'''
 			}
 
 			BrokenFishingPole: {
-				Tooltip: ""
-				DisplayName: Broken Fishing Pole
+				DisplayName: Rusted Fishing Pole
+				Tooltip:
+					'''
+					An ancient rod that once shimmered with fortune
+					Even now, remnants of it's former glory still linger...
+					'''
 			}
 
 			BrokenBulletHell: {
-				DisplayName: Broken Bullet Hell
-				Tooltip: ""
+				DisplayName: Rusted Firearm
+				Tooltip:
+					'''
+					An ancient contraption that once shimmered with ingenuity
+					Even now, remnants of it's former glory still linger...
+					'''
 			}
 		}
 
@@ -4227,12 +4263,12 @@ Mods: {
 			SpongeStationLava.MapEntry: Lava Absorbtion Pump
 			SpongeStationWater.MapEntry: Water Absorbtion Pump
 			ThirdAnniversary.MapEntry: Joostmod's Third Anniversary
-			SAXChaseMusicBox.MapEntry: S A X Chase Music Box
+			SAXChaseMusicBox.MapEntry: SA-X Chase Music Box
 			ForceYourWayMusicBox.MapEntry: Force Your Way Music Box
 			DontBeAfraidMusicBox.MapEntry: Dont Be Afraid Music Box
-			LegendGrave.MapEntry: Legend Grave
-			BrokenShrine.MapEntry: Broken Shrine
-			GraverobberMap.MapEntry: Graverobber Map
+			LegendGrave.MapEntry: Grave of a Legend
+			BrokenShrine.MapEntry: Dilapitated Shrine
+			GraverobberMap.MapEntry: Graverobber's Map
 		}
 
 		Conditions: {

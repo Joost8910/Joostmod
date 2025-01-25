@@ -22,11 +22,21 @@ namespace JoostMod.Projectiles.Magic
             get { return Projectile.ai[0]; }
             set { Projectile.ai[0] = value; }
         }
+        public float WidthScale
+        {
+            get { return Projectile.ai[1]; }
+            set { Projectile.ai[1] = value; }
+        }
 
         public float Charge
         {
             get { return Projectile.localAI[0]; }
             set { Projectile.localAI[0] = value; }
+        }
+        public float ManaCounter
+        {
+            get { return Projectile.localAI[1]; }
+            set { Projectile.localAI[1] = value; }
         }
 
         public override void SetStaticDefaults()
@@ -78,6 +88,8 @@ namespace JoostMod.Projectiles.Magic
             shaderData.UseOpacity(2.5f);
             float dist = Distance + 3;
 
+            Vector2 scale2D = new Vector2(WidthScale, scale);
+
             #region Draw laser body
             for (int i = transDist + 9; i <= dist; i += step)
             {
@@ -90,7 +102,7 @@ namespace JoostMod.Projectiles.Magic
                 */
                 DrawData dataTrail = new DrawData(texture, origin - Main.screenPosition,
                     new Rectangle(0, 182, 138, i >= dist - step ? (int)(dist - i) : (int)step), i < transDist ? Color.Transparent : c, r,
-                    new Vector2(138 / 2, 0), scale, 0, 0);
+                    new Vector2(138 / 2, 0), scale2D, 0, 0);
                 shaderData.Apply(dataTrail);
                 dataTrail.Draw(Main.spriteBatch);
             }
@@ -102,7 +114,7 @@ namespace JoostMod.Projectiles.Magic
                 new Rectangle(0, 0, 138, 154), c2, r, new Vector2(138 / 2, 154 / 2), scale, 0, 0);
             */
             DrawData data = new DrawData(texture, start + new Vector2(0, -36) + unit * transDist - Main.screenPosition,
-                new Rectangle(0, 94, 138, 90), color, r, new Vector2(138 / 2, 90 / 2), scale, 0, 0);
+                new Rectangle(0, 94, 138, 90), color, r, new Vector2(138 / 2, 90 / 2), scale2D, 0, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
             #endregion
@@ -133,7 +145,7 @@ namespace JoostMod.Projectiles.Magic
                 Player p = Main.player[Projectile.owner];
                 Vector2 unit = Projectile.velocity;
                 float point = 0f;
-                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + unit * Distance, 138, ref point))
+                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + unit * Distance, 138 * WidthScale, ref point))
                 {
                     return true;
                 }
@@ -183,9 +195,26 @@ namespace JoostMod.Projectiles.Magic
             }
             else
             {
-                if (Main.time % 16 < 1 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
+
+                if (Projectile.ai[2] > 0)
                 {
-                    Projectile.Kill();
+                    if (player.CheckMana(player.inventory[player.selectedItem].mana, true))
+                    {
+                        Projectile.ai[2] = 0;
+                    }
+                    WidthScale -= 0.03f;
+                    if (WidthScale <= 0)
+                    {
+                        Projectile.Kill();
+                    }
+                }
+                else
+                {
+                    if (ManaCounter % 16 == 15 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
+                    {
+                        Projectile.ai[2]++;
+                        //Projectile.Kill();
+                    }
                 }
                 Vector2 offset = Projectile.velocity;
                 offset *= MOVE_DISTANCE - 20;
@@ -204,11 +233,16 @@ namespace JoostMod.Projectiles.Magic
                 }
                 if (Charge >= MAX_CHARGE)
                 {
+                    ManaCounter++;
                     sound++;
+                    if (WidthScale < 1 && Projectile.ai[2] == 0)
+                    {
+                        WidthScale += 0.1f;
+                    }
                 }
                 if (sound >= 16)
                 {
-                    SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item15.WithPitchOffset(0.2f), Projectile.position);
                     sound = 0;
                 }
                 int chargeFact = (int)(Charge / 20f);

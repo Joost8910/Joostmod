@@ -37,7 +37,7 @@ namespace JoostMod.Items.Legendaries.Weps
             Item.useStyle = ItemUseStyleID.Swing;
             Item.value = 0;
             Item.rare = ItemRarityID.Gray;
-            Item.knockBack = 6;
+            Item.knockBack = 0;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = false;
             Item.shoot = ModContent.ProjectileType<BrokenFishHook>();

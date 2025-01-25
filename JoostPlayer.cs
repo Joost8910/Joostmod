@@ -1440,7 +1440,7 @@ namespace JoostMod
                     }
                 }
             }
-            if (Main.rand.NextBool(Math.Max(100, 50000 / power)) && inWater)
+            if (Main.rand.NextBool(Math.Max(100, 50000 / power)) && inWater && !Main.remixWorld)
             {
                 if (Player.position.X / 16 < 350 && !westStone)
                 {

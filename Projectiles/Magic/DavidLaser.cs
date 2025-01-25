@@ -34,6 +34,11 @@ namespace JoostMod.Projectiles.Magic
             get { return Projectile.localAI[0]; }
             set { Projectile.localAI[0] = value; }
         }
+        public float ManaCounter
+        {
+            get { return Projectile.localAI[1]; }
+            set { Projectile.localAI[1] = value; }
+        }
 
         public override void SetStaticDefaults()
         {
@@ -75,6 +80,9 @@ namespace JoostMod.Projectiles.Magic
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+
+            //color = Main.hslToRgb((ManaCounter * 0.01f) % 1f, 1f, 0.5f, 255);
+            //color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
             MiscShaderData shaderData = GameShaders.Misc["JoostLaserBeam"];
             shaderData.UseColor(Color.White);
@@ -198,7 +206,7 @@ namespace JoostMod.Projectiles.Magic
                 }
                 else
                 {
-                    if (Projectile.localAI[1] % 60 == 59 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
+                    if (ManaCounter % 60 == 59 && !player.CheckMana(player.inventory[player.selectedItem].mana, true))
                     {
                         Projectile.ai[2]++;
                         //Projectile.Kill();
@@ -217,7 +225,7 @@ namespace JoostMod.Projectiles.Magic
                 }
                 if (Charge >= MAX_CHARGE)
                 {
-                    Projectile.localAI[1]++;
+                    ManaCounter++;
                     if (WidthScale < 1 && Projectile.ai[2] == 0)
                     {
                         WidthScale += 0.2f;

@@ -59,7 +59,11 @@ namespace JoostMod.Items.Legendaries.Weps
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return player.altFunctionUse != 2;
+            if (player.altFunctionUse != 2)
+            {
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0.75f);
+            }
+            return false;
         }
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
