@@ -63,6 +63,10 @@ namespace JoostMod.Items.Rewards
         }
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
+            if (Main.remixWorld)
+            {
+                damage *= 0.5f;
+            }
             projDamageLimit = (int)(damage.ApplyTo(Item.damage) * Main.GameModeInfo.EnemyDamageMultiplier * 2f);
         }
         public override void ModifyTooltips(List<TooltipLine> list)

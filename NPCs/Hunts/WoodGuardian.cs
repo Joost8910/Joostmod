@@ -50,7 +50,9 @@ namespace JoostMod.NPCs.Hunts
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
-            return (tile.TileType == 2 || tile.TileType == 3 || tile.TileType == 5) && spawnInfo.SpawnTileY <= Main.worldSurface && !spawnInfo.Sky && !JoostWorld.downedWoodGuardian && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
+            bool heightCheck = Main.remixWorld ? true: (spawnInfo.SpawnTileY <= Main.worldSurface);
+            bool tileCheck = (tile.TileType == TileID.Grass || tile.TileType == 3 || tile.TileType == TileID.Trees);
+            return tileCheck && heightCheck && !spawnInfo.Sky && !JoostWorld.downedWoodGuardian && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {

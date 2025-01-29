@@ -42,7 +42,8 @@ namespace JoostMod.NPCs.Hunts
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.Player.ZoneBeach && spawnInfo.Player.ZoneDesert && spawnInfo.SpawnTileY <= Main.worldSurface && !JoostWorld.downedFloweringCactoid && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
+            bool heightCheck = spawnInfo.SpawnTileY <= (Main.remixWorld ? Main.UnderworldLayer : Main.worldSurface);
+            return !spawnInfo.Player.ZoneBeach && spawnInfo.Player.ZoneDesert && heightCheck && !JoostWorld.downedFloweringCactoid && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

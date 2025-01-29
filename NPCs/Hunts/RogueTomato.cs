@@ -22,13 +22,13 @@ namespace JoostMod.NPCs.Hunts
         {
             NPC.width = 30;
             NPC.height = 48;
-            NPC.damage = 20;
-            NPC.defense = 8;
-            NPC.lifeMax = 650;
+            NPC.damage = Main.remixWorld ? 40 : 20;
+            NPC.defense = Main.remixWorld ? 16 : 8;
+            NPC.lifeMax = Main.remixWorld ? 3000 : 650;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.value = 0;
-            NPC.knockBackResist = 0.01f;
+            NPC.knockBackResist = Main.remixWorld ? 0 : 0.01f;
             NPC.aiStyle = -1;
             NPC.frameCounter = 0;
             NPC.noTileCollide = false;
@@ -41,7 +41,7 @@ namespace JoostMod.NPCs.Hunts
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return Main.dayTime && !spawnInfo.Sky && spawnInfo.SpawnTileY <= Main.worldSurface && !JoostWorld.downedRogueTomato && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
+            return (Main.remixWorld || Main.dayTime) && !spawnInfo.Sky && spawnInfo.SpawnTileY <= Main.worldSurface && !JoostWorld.downedRogueTomato && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
         public override void FindFrame(int frameHeight)
         {
@@ -124,15 +124,17 @@ namespace JoostMod.NPCs.Hunts
                     NPC.velocity.Y = -6;
                     NPC.noTileCollide = true;
                 }
-                if (NPC.velocity.X * NPC.direction < 4)
+                float topSpeed = Main.remixWorld ? 8 : 4;
+                float accel = Main.remixWorld ? 0.1f : 0.081f;
+                if (NPC.velocity.X * NPC.direction < topSpeed)
                 {
-                    NPC.velocity.X += NPC.direction * 0.081f;
+                    NPC.velocity.X += NPC.direction * accel;
                 }
-                if (NPC.velocity.X > 4 && NPC.velocity.Y == 0)
+                if (NPC.velocity.X > topSpeed && NPC.velocity.Y == 0)
                 {
-                    NPC.velocity.X = 4;
+                    NPC.velocity.X = topSpeed;
                 }
-                if (NPC.velocity.X < -4 && NPC.velocity.Y == 0)
+                if (NPC.velocity.X < -topSpeed && NPC.velocity.Y == 0)
                 {
                     NPC.velocity.X = -4;
                 }

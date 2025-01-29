@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Legendaries;
 using JoostMod.Projectiles.Hostile;
+using JoostMod.Projectiles.Magic;
 
 namespace JoostMod.NPCs.Hunts
 {
@@ -25,8 +26,8 @@ namespace JoostMod.NPCs.Hunts
 			NPC.width = 24;
 			NPC.height = 46;
 			NPC.damage = 30;
-			NPC.defense = 16;
-			NPC.lifeMax = 3000;
+			NPC.defense = Main.remixWorld ? 8 : 16;
+			NPC.lifeMax = Main.remixWorld ? 900 : 3000;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.value = 0;
@@ -45,7 +46,7 @@ namespace JoostMod.NPCs.Hunts
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
-            return spawnInfo.SpawnTileY >= Main.maxTilesY - 250 && !JoostWorld.downedImpLord && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
+            return spawnInfo.SpawnTileY >= Main.UnderworldLayer && (!Main.remixWorld || spawnInfo.SpawnTileX <= Main.maxTilesX * 0.39 + 50.0 || spawnInfo.SpawnTileX >= Main.maxTilesX * 0.61) && !JoostWorld.downedImpLord && JoostWorld.activeQuest.Contains(NPC.type) && !NPC.AnyNPCs(NPC.type) ? 0.15f : 0f;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
@@ -56,7 +57,36 @@ namespace JoostMod.NPCs.Hunts
             JoostWorld.downedImpLord = true;
             CommonCode.DropItemForEachInteractingPlayerOnThePlayer(NPC, ModContent.ItemType<Items.Quest.ImpLord>(), Main.rand, 1, 1, 1, false);
         }
-		public override void HitEffect(NPC.HitInfo hit)
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            return NPC.ai[1] >= 0;
+        }
+        public override bool CanHitNPC(NPC target)
+        {
+            return NPC.ai[1] >= 0;
+        }
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
+        {
+            if (NPC.ai[1] < 0)
+            {
+                modifiers.SetCrit();
+            }
+        }
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            if (NPC.ai[1] < 0 && Main.player[projectile.owner].heldProj == projectile.whoAmI)
+            {
+                modifiers.SetCrit();
+            }
+        }
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        {
+            if (projectile.type == ModContent.ProjectileType<FireballExplosion>())
+            {
+                NPC.ai[1] = -250;
+            }
+        }
+        public override void HitEffect(NPC.HitInfo hit)
 		{
             if (NPC.ai[0] == 0)
             {
@@ -86,9 +116,9 @@ namespace JoostMod.NPCs.Hunts
 					NPC.ai[0] = 0;
 				}
 			}
-			if (NPC.ai[0] < 1)
+            if (NPC.ai[0] < 1)
             {
-                if (Main.rand.Next(100) == 0)
+                if (Main.rand.NextBool(100))
                 {
                     NPC.direction *= -1;
                 }
@@ -96,7 +126,8 @@ namespace JoostMod.NPCs.Hunts
                 {
                     NPC.velocity.X += NPC.direction * 0.2f;
                 }
-                NPC.velocity.Y = 0;
+                NPC.rotation = MathHelper.ToRadians(NPC.velocity.X);
+                NPC.velocity.Y = (float)Math.Sin(NPC.position.X / 60);
                 NPC.ai[1] = 0;
                 NPC.ai[2] = 0;
                 NPC.ai[3] = 0;
@@ -106,48 +137,84 @@ namespace JoostMod.NPCs.Hunts
                     NPC.ai[0]++;
                 }
             }
-			else
-			{
-                NPC.direction = P.Center.X < NPC.Center.X ? -1 : 1;
-                if (P.position.Y > NPC.position.Y + 250)
+            else
+            {
+                if (NPC.ai[1] < 0)
                 {
-                    dir = 1;
+                    if (NPC.ai[1] == -250)
+                    {
+                        NPC.velocity.X = NPC.direction * -5f;
+                    }
+                    if (NPC.ai[1] < -20)
+                    {
+                        NPC.rotation += MathHelper.ToRadians(NPC.velocity.X);
+                        if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                        {
+                            NPC.velocity.Y = 0;
+                            NPC.velocity.X *= 0.95f;
+                        }
+                        else
+                        {
+                            if (NPC.velocity.Y < 10)
+                            {
+                                NPC.velocity.Y += 0.3f;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        NPC.rotation *= 0.86f;
+                        NPC.velocity.Y -= 0.1f;
+                    }
                 }
-                if (P.position.Y < NPC.position.Y - 150)
+                else
                 {
-                    dir = -1;
-                }
-                if (P.Center.X < NPC.Center.X - 250)
-                {
-                    dirx = -1;
-                }
-                if (P.Center.X > NPC.Center.X + 250)
-                {
-                    dirx = 1;
+                    NPC.direction = P.Center.X < NPC.Center.X ? -1 : 1;
+                    if (P.position.Y > NPC.position.Y + 250)
+                    {
+                        dir = 1;
+                    }
+                    if (P.position.Y < NPC.position.Y - 150)
+                    {
+                        dir = -1;
+                    }
+                    if (P.Center.X < NPC.Center.X - 250)
+                    {
+                        dirx = -1;
+                    }
+                    if (P.Center.X > NPC.Center.X + 250)
+                    {
+                        dirx = 1;
+                    }
+
+                    if (NPC.velocity.X * dirx < (Main.remixWorld ? 5 : 6))
+                    {
+                        NPC.velocity.X += dirx * 0.3f;
+                    }
+                    if (NPC.velocity.Y * dir < (Main.remixWorld ? 3 : 4))
+                    {
+                        NPC.velocity.Y += dir * 0.3f;
+                    }
+                    NPC.rotation = MathHelper.ToRadians(NPC.velocity.X);
                 }
 
-                if (NPC.velocity.X * dirx < 6)
-                {
-                    NPC.velocity.X += dirx * 0.3f;
-                }
-                if (NPC.velocity.Y * dir < 4)
-                {
-                    NPC.velocity.Y += dir * 0.3f;
-                }
                 NPC.ai[1]++;
-                if (NPC.ai[1] == 20 && Main.rand.Next(5) < 3)
+                int rate = Main.remixWorld ? 32 : 20;
+                if (NPC.ai[1] == rate && Main.rand.Next(5) < 3)
                 {
                     NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.BurningSphere);
                     SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
                     NPC.ai[2] = 1;
                 }
-                if (NPC.ai[1] == 40 && (Main.rand.Next(5) < 4 || Vector2.Distance(NPC.Center, P.Center) > 600 || NPC.Center.Y >= P.position.Y))
+                if (NPC.ai[1] == 2 * rate && (Main.rand.Next(5) < 4 || Vector2.Distance(NPC.Center, P.Center) > 600 || NPC.Center.Y >= P.position.Y))
                 {
-                    Projectile.NewProjectile(source, NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / 12), 0)) * 12, ModContent.ProjectileType<ImpFireBolt>(), 20, 5, Main.myPlayer);
+                    int damage = Main.remixWorld ? 15 : 20;
+                    float shootSpeed = Main.remixWorld ? 9.5f : 12;
+                    Projectile.NewProjectile(source, NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / shootSpeed), 0)) * shootSpeed, ModContent.ProjectileType<ImpFireBolt>(), damage, 5, Main.myPlayer);
                     SoundEngine.PlaySound(SoundID.Item45, NPC.Center);
                     NPC.ai[2] = 1;
                 }
-                if (NPC.ai[1] >= 60)
+                if (NPC.ai[1] >= 3 * rate)
                 {
                     NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<FireBall>());
                     SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
@@ -167,9 +234,9 @@ namespace JoostMod.NPCs.Hunts
                 bool fireball = false;
                 if (NPC.AnyNPCs(ModContent.NPCType<FireBall>()))
                 {
-                    for (i = 0; i < 200; i++)
+                    foreach (NPC n in Main.ActiveNPCs)
                     {
-                        f = Main.npc[i];
+                        f = n;
                         if (f.type == ModContent.NPCType<FireBall>())
                         {
                             if (f.friendly)
@@ -182,7 +249,7 @@ namespace JoostMod.NPCs.Hunts
                     NPC.velocity = Vector2.Zero;
                     NPC.ai[1] = 0;
                 }
-                if (NPC.ai[3] < 1 && (Vector2.Distance(P.Center, NPC.Center) < 70 || (fireball && Vector2.Distance(f.Center + f.velocity*9, NPC.Center) < 80)))
+                if (NPC.ai[3] < 1 && NPC.ai[1] >= 0 && (Vector2.Distance(P.Center, NPC.Center) < 70 || (fireball && Vector2.Distance(f.Center + f.velocity*9, NPC.Center) < 80)))
                 {
                     NPC.ai[3]++;
                     Projectile.NewProjectile(source, NPC.Center, NPC.velocity, ModContent.ProjectileType<ImpTail>(), 15, 8, 0, NPC.whoAmI);
@@ -193,7 +260,7 @@ namespace JoostMod.NPCs.Hunts
                     NPC.ai[3]++;
                     if (NPC.ai[3] > 16)
                     {
-                        if (!NPC.AnyNPCs(ModContent.NPCType<FireBall>()))
+                        if (!NPC.AnyNPCs(ModContent.NPCType<FireBall>()) && NPC.ai[1] >= 0)
                         {
                             Vector2 targetPos = new Vector2((P.Center.X - 250) + Main.rand.Next(500), (P.position.Y - 150) + Main.rand.Next(300));
                             NPC.Teleport(targetPos, 1);
@@ -244,14 +311,14 @@ namespace JoostMod.NPCs.Hunts
                             NPC.frameCounter = 0;
                             NPC.frame.Y += frameHeight;
                         }
-                        if (NPC.frame.Y > 3 * frameHeight)
+                        if (NPC.frame.Y > 3 * frameHeight || NPC.ai[1] < -10)
                         {
                             NPC.frame.Y = 0;
                         }
                     }
                     else
                     {
-                        if (NPC.frameCounter >= 5)
+                        if (NPC.frameCounter >= (Main.remixWorld ? 8 : 5))
                         {
                             NPC.frameCounter = 0;
                             NPC.frame.Y += frameHeight;

@@ -29,6 +29,10 @@ namespace JoostMod.Projectiles.Summon
         {
             Projectile.scale = Main.player[Projectile.owner].HeldItem.scale;
             Projectile.WhipSettings.RangeMultiplier = Projectile.scale;
+            if (Main.remixWorld)
+            {
+                Projectile.WhipSettings.RangeMultiplier *= 0.85f;
+            }
             return base.PreAI();
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

@@ -39,7 +39,14 @@ namespace JoostMod.Items.Rewards
 			Item.shoot = ModContent.ProjectileType<Projectiles.Magic.ImpLordFlame>();
 			Item.shootSpeed = 12f;
             Item.useTurn = true;
-		}
+        }
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            if (Main.remixWorld)
+            {
+                damage *= 0.4f;
+            }
+        }
         public override bool CanUseItem(Player player)
         {
             if (player.ownedProjectileCounts[Item.shoot] > 0)

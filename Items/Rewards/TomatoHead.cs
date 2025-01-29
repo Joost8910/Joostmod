@@ -36,6 +36,13 @@ namespace JoostMod.Items.Rewards
 			Item.shootSpeed = 10f;
         }
 
+		public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+		{
+			if (Main.remixWorld)
+			{
+				damage *= 3f;
+			}
+		}
         public override bool MeleePrefix()
         {
             return true;

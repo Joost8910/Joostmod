@@ -1,5 +1,6 @@
 using System;
 using JoostMod.Buffs;
+using JoostMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,8 +22,8 @@ namespace JoostMod.NPCs.Hunts
             NPC.width = 68;
             NPC.height = 68;
             NPC.defense = 9999;
-            NPC.lifeMax = 6;
-            NPC.damage = 50;
+            NPC.lifeMax = 6 + (Main.getGoodWorld ? 2 : 0) + (Main.expertMode ? 2 : 0);
+            NPC.damage = Main.remixWorld ? 40 : 50;
             NPC.HitSound = SoundID.NPCHit3;
             NPC.DeathSound = SoundID.Item74;
             NPC.value = Item.buyPrice(0, 0, 0, 0);
@@ -124,25 +125,29 @@ namespace JoostMod.NPCs.Hunts
             if (target.type != NPCID.BurningSphere)
             {
                 NPC.life = 0;
-                Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage, 20, NPC.target);
+                Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FireballExplosion>(), NPC.damage * 5, 20, NPC.target);
+            }
+            if (target.type == ModContent.NPCType<ImpLord>())
+            {
+                target.ai[1] = -250;
             }
             NPC.ai[2] = 0;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             NPC.life = 0;
-            Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 30, 20);
+            Projectile.NewProjectile(NPC.GetSource_OnHit(target), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, Main.remixWorld ? 15 : 20, 20);
             NPC.ai[2] = 0;
         }
         public override bool CheckDead()
         {
             if (NPC.friendly)
             {
-                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileID.InfernoFriendlyBlast, NPC.damage*5, 20, NPC.target);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FireballExplosion>(), NPC.damage * 5, 20, NPC.target);
             }
             else
             {
-                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, 25, 20);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileID.InfernoHostileBlast, Main.remixWorld ? 15 : 20, 20);
             }
             return true;
         }

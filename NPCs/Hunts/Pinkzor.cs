@@ -40,12 +40,14 @@ namespace JoostMod.NPCs.Hunts
 		}
 		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
 		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance + 1);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-            //Main.NewText("NotDownedPinkzor " + !JoostWorld.downedPinkzor);
-            return !spawnInfo.Sky && !spawnInfo.PlayerInTown && Math.Abs(spawnInfo.SpawnTileX - Main.spawnTileX) > 500 && spawnInfo.SpawnTileY < Main.maxTilesY - 450 && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(ModContent.NPCType<HuntMaster>()) ? 0.006f : 0f;
+			//Main.NewText("NotDownedPinkzor " + !JoostWorld.downedPinkzor);
+			bool heightCheck = spawnInfo.SpawnTileY < (Main.remixWorld ? Main.UnderworldLayer : Main.rockLayer);
+			bool widthCheck = Main.remixWorld ? true : Math.Abs(spawnInfo.SpawnTileX - Main.spawnTileX) > 500;
+            return !spawnInfo.Sky && heightCheck && widthCheck && !spawnInfo.PlayerInTown && !JoostWorld.downedPinkzor && !NPC.AnyNPCs(NPC.type) && !NPC.AnyNPCs(ModContent.NPCType<HuntMaster>()) ? 0.006f : 0f;
         }
         public override void OnKill()
         {
