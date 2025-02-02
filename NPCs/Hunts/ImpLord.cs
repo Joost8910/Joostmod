@@ -20,6 +20,8 @@ namespace JoostMod.NPCs.Hunts
 			// DisplayName.SetDefault("Imp Lord");
 			Main.npcFrameCount[NPC.type] = 24;
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire3] = true;
         }
 		public override void SetDefaults()
 		{
@@ -31,13 +33,12 @@ namespace JoostMod.NPCs.Hunts
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.value = 0;
-			NPC.knockBackResist = 0;
+			NPC.knockBackResist = 0.25f;
 			NPC.aiStyle = -1;
 			NPC.frameCounter = 0;
 			NPC.noTileCollide = true;
 			NPC.noGravity = true;
             NPC.netAlways = true;
-            NPC.buffImmune[BuffID.OnFire] = true;
         }
 		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
 		{
@@ -71,12 +72,31 @@ namespace JoostMod.NPCs.Hunts
             {
                 modifiers.SetCrit();
             }
+            if (modifiers.DamageType == DamageClass.Melee)
+            {
+                modifiers.Knockback += 5f;
+            }
+            else if (!Main.remixWorld)
+            {
+                modifiers.DisableKnockback();
+            }
         }
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            if (NPC.ai[1] < 0 && Main.player[projectile.owner].heldProj == projectile.whoAmI)
+            bool heldProj = Main.player[projectile.owner].heldProj == projectile.whoAmI;
+            if (heldProj || projectile.type == ProjectileID.NightsEdge)
             {
-                modifiers.SetCrit();
+                modifiers.Knockback += 2.5f;
+                if (NPC.ai[1] < 0) 
+                    modifiers.SetCrit();
+            }
+            if (modifiers.DamageType == DamageClass.Melee)
+            {
+                modifiers.Knockback += 2.5f;
+            }
+            else if (!Main.remixWorld && !heldProj)
+            {
+                modifiers.DisableKnockback();
             }
         }
         public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
@@ -202,7 +222,8 @@ namespace JoostMod.NPCs.Hunts
                 int rate = Main.remixWorld ? 32 : 20;
                 if (NPC.ai[1] == rate && Main.rand.Next(5) < 3)
                 {
-                    NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.BurningSphere);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.BurningSphere);
                     SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
                     NPC.ai[2] = 1;
                 }
@@ -210,13 +231,15 @@ namespace JoostMod.NPCs.Hunts
                 {
                     int damage = Main.remixWorld ? 15 : 20;
                     float shootSpeed = Main.remixWorld ? 9.5f : 12;
-                    Projectile.NewProjectile(source, NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / shootSpeed), 0)) * shootSpeed, ModContent.ProjectileType<ImpFireBolt>(), damage, 5, Main.myPlayer);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Projectile.NewProjectile(source, NPC.Center, NPC.DirectionTo(P.Center + new Vector2(P.velocity.X * (Vector2.Distance(P.Center, NPC.Center) / shootSpeed), 0)) * shootSpeed, ModContent.ProjectileType<ImpFireBolt>(), damage, 5, Main.myPlayer);
                     SoundEngine.PlaySound(SoundID.Item45, NPC.Center);
                     NPC.ai[2] = 1;
                 }
                 if (NPC.ai[1] >= 3 * rate)
                 {
-                    NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<FireBall>());
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<FireBall>());
                     SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
                     NPC.ai[2] = 1;
                 }
@@ -252,7 +275,8 @@ namespace JoostMod.NPCs.Hunts
                 if (NPC.ai[3] < 1 && NPC.ai[1] >= 0 && (Vector2.Distance(P.Center, NPC.Center) < 70 || (fireball && Vector2.Distance(f.Center + f.velocity*9, NPC.Center) < 80)))
                 {
                     NPC.ai[3]++;
-                    Projectile.NewProjectile(source, NPC.Center, NPC.velocity, ModContent.ProjectileType<ImpTail>(), 15, 8, 0, NPC.whoAmI);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Projectile.NewProjectile(source, NPC.Center, NPC.velocity, ModContent.ProjectileType<ImpTail>(), 15, 8, 0, NPC.whoAmI);
                     SoundEngine.PlaySound(new("Terraria/Sounds/Custom/dd2_sky_dragons_fury_swing_1"), NPC.Center); //230
                 }
                 if (NPC.ai[3] > 0)
@@ -262,7 +286,8 @@ namespace JoostMod.NPCs.Hunts
                     {
                         if (!NPC.AnyNPCs(ModContent.NPCType<FireBall>()) && NPC.ai[1] >= 0)
                         {
-                            Vector2 targetPos = new Vector2((P.Center.X - 250) + Main.rand.Next(500), (P.position.Y - 150) + Main.rand.Next(300));
+                            int x = Main.rand.NextBool() ? -250 + Main.rand.Next(200) : 50 + Main.rand.Next(200);
+                            Vector2 targetPos = new Vector2(P.Center.X + x, (P.position.Y - 150) + Main.rand.Next(200));
                             NPC.Teleport(targetPos, 1);
                         }
                         NPC.ai[3] = 0;

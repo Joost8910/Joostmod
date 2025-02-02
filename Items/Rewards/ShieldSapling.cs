@@ -26,7 +26,7 @@ namespace JoostMod.Items.Rewards
             Item.value = 20000;
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
-            //item.defense = 4;
+            Item.defense = 1;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

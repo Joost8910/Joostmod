@@ -114,6 +114,10 @@ namespace JoostMod.NPCs.Hunts
         }
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
+            if (projectile.type == ProjectileID.NightsEdge)
+            {
+                return base.CanBeHitByProjectile(projectile);
+            }
             if (Main.player[projectile.owner].heldProj != projectile.whoAmI && projectile.friendly)
             {
                 return false;

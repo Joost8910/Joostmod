@@ -225,7 +225,7 @@ namespace JoostMod.NPCs.Hunts
                 {
                     NPC.ai[2]++;
                 }
-                if (NPC.ai[1] > 0)
+                if (NPC.ai[1] > 0 && NPC.ai[2] <= 1000)
                 {
                     NPC.noGravity = true;
                     NPC.noTileCollide = true;
@@ -234,10 +234,6 @@ namespace JoostMod.NPCs.Hunts
                     if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, P.position, P.width, P.height) && NPC.Distance(P.Center) < 100 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                     {
                         NPC.ai[1] = 0;
-                    }
-                    if (NPC.ai[2] > 1000)
-                    {
-                        NPC.ai[2] = 1000;
                     }
                 }
                 else
@@ -262,7 +258,11 @@ namespace JoostMod.NPCs.Hunts
                         }
                         NPC.ai[3] = 0;
                     }
-                    if (NPC.ai[2] > 1000 && NPC.ai[2] % 17 == 0 && NPC.ai[1] < 1 && Main.netMode != NetmodeID.MultiplayerClient)
+                    else
+                    {
+                        NPC.ai[1] = 0;
+                    }
+                    if (NPC.ai[2] > 1000 && NPC.ai[2] % 17 == 0 && NPC.ai[1] < 1)
                     {
                         NPC.ai[3]++;
                     }

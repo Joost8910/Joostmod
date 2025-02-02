@@ -8,12 +8,15 @@ The Joostmod has to offer
 2 new town npcs
 
 Beta v9
-- Imp Lord and Rogue Tomato swap progression in dontdigup and getfixedboi seeds
-- Imp Lord now gets knocked down when hit by Dead Man's Fire
-- Added a new way to obtain the legendaries available in the dontdigup and getfixedboi seeds, enjoy
+- Added a new way to obtain the legendaries available in the dontdigup and getfixedboi seeds, enjoy!
 - Staff of David now aims faster while charging up
 - Staff of David and Sunfish now only consume additional mana after they've finished charging
-- Fixed Warhammer of Grognak right click attack's beam colliding inconsistently with high melee speed
+- Sapling - Shield now grants 1 defense
+- Imp Lord and Rogue Tomato swap progression in dontdigup and getfixedboi seeds
+- Imp Lord now gets knocked down when hit by Dead Man's Fire
+- Imp Lord now receives knockback from melee weapons
+- Fixed Dead Man's Fire not getting hit by Night's Edge
+- Fixed Warhammer of Grognak right click attack's beam having inconsistent colllision with high melee speed
 - Fixed Larkus's Tome not properly applying progression scaling
 
 Version 0.9.1
