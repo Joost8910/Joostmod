@@ -3507,6 +3507,11 @@ Mods: {
 					Even now, remnants of it's former glory still linger...
 					'''
 			}
+
+			SAXAppearsMusicBox: {
+				Tooltip: From Metroid Fusion
+				DisplayName: Music Box (The SA-X Approaches)
+			}
 		}
 
 		NPCs: {
@@ -3680,6 +3685,8 @@ Mods: {
 					LikeNPC_Princess: I like {NPCName}.
 					Princess_LovesNPC: I like {NPCName}.
 				}
+
+				Census.SpawnCondition: Conditions unknown
 			}
 
 			HuntMaster: {
@@ -3695,6 +3702,8 @@ Mods: {
 					LikeNPC_Princess: I like {NPCName}.
 					Princess_LovesNPC: I like {NPCName}.
 				}
+
+				Census.SpawnCondition: Conditions unknown
 			}
 
 			TreasureGoblin.DisplayName: Treasure Goblin
@@ -4213,6 +4222,7 @@ Mods: {
 			BrokenLaser.DisplayName: Broken Laser
 			BrokenHammer.DisplayName: Broken Hammer
 			BrokenFishHook.DisplayName: Broken Fish Hook
+			DeltaruneExplosion.DisplayName: Deltarune Explosion
 		}
 
 		Tiles: {
@@ -4249,7 +4259,7 @@ Mods: {
 			InfernoStone.MapEntry: Stone of Fire
 			JungleStone.MapEntry: Stone of Overgrowth
 			SandstoneFurnace.MapEntry: Sandstone Furnace
-			SAXMusicBox.MapEntry: Music Box
+			SAXMusicBox.MapEntry: SA-X Music Box
 			SeaStoneDeep.MapEntry: Stone of the Deep Sea
 			SeaStoneEast.MapEntry: Stone of the East Sea
 			SeaStoneHigh.MapEntry: Stone of the High Sea
@@ -4269,6 +4279,7 @@ Mods: {
 			LegendGrave.MapEntry: Grave of a Legend
 			BrokenShrine.MapEntry: Dilapitated Shrine
 			GraverobberMap.MapEntry: Graverobber's Map
+			SAXAppearsMusicBox.MapEntry: SA-X Appears Music Box
 		}
 
 		Conditions: {

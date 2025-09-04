@@ -10,16 +10,55 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Buffs;
 using JoostMod.Projectiles.Hostile;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace JoostMod.NPCs.Bosses
 {
     [AutoloadBossHead]
     public class SAX : ModNPC
     {
+        private float STATE
+        {
+            get { return NPC.ai[0]; }
+            set { NPC.ai[0] = value; }
+        }
+        private float AI_Counter
+        {
+            get { return NPC.ai[1]; }
+            set { NPC.ai[1] = value; }
+        }
+        private float AI_SubState
+        {
+            get { return NPC.ai[2]; }
+            set { NPC.ai[2] = value; }
+        }
+        private float ARMCANNON_ROT
+        {
+            get { return NPC.ai[3]; }
+            set { NPC.ai[3] = value; }
+        }
+        private enum StateID : int
+        {
+            Spawn,
+            Search,
+            Chase,
+            MutantTrans,
+            Mutant,
+            CoreTrans,
+            Core
+        }
+        private enum Search_Substate : int
+        {
+            Walking,
+            HeadTurn,
+            TurnAround,
+            MorphBall
+        }
+
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("SA-X");
-            Main.npcFrameCount[NPC.type] = 22;
+            Main.npcFrameCount[NPC.type] = 20;
             NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedYellow>()] = true;
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Frostburn] = true;
@@ -27,11 +66,11 @@ namespace JoostMod.NPCs.Bosses
         }
         public override void SetDefaults()
         {
-            NPC.width = 36;
-            NPC.height = 78;
+            NPC.width = 32;
+            NPC.height = 72;
             NPC.damage = 100;
             NPC.defense = 50;
-            NPC.lifeMax = 200000;
+            NPC.lifeMax = 400000;
             NPC.boss = true;
             NPC.lavaImmune = true;
             NPC.HitSound = SoundID.NPCHit1;
@@ -40,11 +79,12 @@ namespace JoostMod.NPCs.Bosses
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             if (!Main.dedServ)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SAXChase");
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SAXAppears");
             SceneEffectPriority = SceneEffectPriority.BossHigh;
             NPC.frameCounter = 0;
             NPC.noGravity = true;
         }
+
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
         {
@@ -55,41 +95,326 @@ namespace JoostMod.NPCs.Bosses
         {
             return false;
         }
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (NPC.ai[1] >= 1)
-            {
-                modifiers.FinalDamage /= 2;
-                modifiers.DisableCrit();
-            }
-        }
-        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
-        {
-            if (NPC.ai[1] >= 1)
-            {
-                modifiers.FinalDamage /= 2;
-                modifiers.DisableCrit();
-            }
-        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((int)NPC.width);
             writer.Write((int)NPC.height);
-            writer.Write((int)NPC.localAI[0]);
-            writer.Write((int)NPC.localAI[1]);
-            writer.Write((int)NPC.localAI[2]);
-            writer.Write((int)NPC.localAI[3]);
+            //writer.Write((int)NPC.localAI[0]);
+            //writer.Write((int)NPC.localAI[1]);
+            //writer.Write((int)NPC.localAI[2]);
+            //writer.Write((int)NPC.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             NPC.width = reader.ReadInt32();
             NPC.height = reader.ReadInt32();
-            NPC.localAI[0] = reader.ReadInt32();
-            NPC.localAI[1] = reader.ReadInt32();
-            NPC.localAI[2] = reader.ReadInt32();
-            NPC.localAI[3] = reader.ReadInt32();
+            //NPC.localAI[0] = reader.ReadInt32();
+            //NPC.localAI[1] = reader.ReadInt32();
+            //NPC.localAI[2] = reader.ReadInt32();
+            //NPC.localAI[3] = reader.ReadInt32();
         }
+        public override void FindFrame(int frameHeight)
+        {
+            int frameWidth = 72;
+            if (STATE == (int)StateID.Spawn)
+            {
+                NPC.frame.Y = 15 * frameHeight;
+            }
+            if (STATE == (int)StateID.Search)
+            {
+                if (AI_Counter == 0)
+                {
+                    NPC.frameCounter = 0;
+                }
+                if (AI_SubState == (int)Search_Substate.MorphBall)
+                {
+                    if (AI_Counter < 10 || AI_Counter >= 20)
+                    {
+                        NPC.frame.X = 3 * frameWidth;
+                        if (NPC.velocity.Y == 0)
+                            NPC.frame.Y = 15 * frameHeight;
+                        else
+                            NPC.frame.Y = 14 * frameHeight;
+                    }
+                    else
+                    {
+                        NPC.frame.X = frameWidth;
+                        NPC.frameCounter++;
+                        if (NPC.frameCounter >= 5)
+                        {
+                            NPC.frameCounter = 0;
+                            NPC.frame.Y += frameHeight;
+                        }
+                        if (NPC.frame.Y > 17 * frameHeight)
+                        {
+                            NPC.frame.Y = 10 * frameHeight;
+                        }
+                    }
+                }
+                else
+                {
+                    NPC.frame.X = 0 * frameWidth;
+                    if (NPC.velocity.Y >= 0 && NPC.velocity.Y < 4f)
+                    {
+                        if (NPC.velocity.X == 0)
+                        {
+                            if (NPC.frame.Y <= 10 * frameHeight)
+                            {
+                                NPC.frameCounter = 0;
+                                NPC.frame.Y = 10 * frameHeight;
+                            }
+                            if (AI_SubState == (int)Search_Substate.HeadTurn)
+                            {
+                                NPC.frame.X = 0;
+                                switch ((int)AI_Counter / 10)
+                                {
+                                    case 0:
+                                    case 8:
+                                        NPC.frame.Y = 10 * frameHeight;
+                                        break;
+                                    case 1:
+                                    case 7:
+                                        NPC.frame.Y = 11 * frameHeight;
+                                        break;
+                                    case 2:
+                                    case 6:
+                                        NPC.frame.Y = 12 * frameHeight;
+                                        break;
+                                    default:
+                                        NPC.frame.Y = 13 * frameHeight;
+                                        break;
+                                }
+                            }
+                            if (AI_SubState == (int)Search_Substate.TurnAround)
+                            {
+                                if (AI_Counter < 10 || AI_Counter >= 20)
+                                {
+                                    NPC.frame.X = 0;
+                                    NPC.frame.Y = 14 * frameHeight;
+                                }
+                                else
+                                {
+                                    NPC.frame.Y = 15 * frameHeight;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            NPC.frameCounter++;
+                            if (NPC.frameCounter >= 6)
+                            {
+                                NPC.frameCounter = 0;
+                                NPC.frame.Y += frameHeight;
+                            }
+                            if (NPC.frame.Y > 9 * frameHeight)
+                            {
+                                NPC.frame.Y = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (NPC.frame.Y <= 16 * frameHeight)
+                        {
+                            NPC.frameCounter = 0;
+                            NPC.frame.Y = 16 * frameHeight;
+                        }
+                        NPC.frameCounter++;
+                        if (NPC.frameCounter >= 6)
+                        {
+                            NPC.frame.Y = 17 * frameHeight;
+                        }
+                    }
+                }
+            }
+        }
+        public override void AI()
+        {
+            if (STATE == (int)StateID.Spawn)
+            {
+                AI_Counter++;
+                if (AI_Counter == 40) // Spawning in
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(),NPC.Center, Vector2.Zero, ModContent.ProjectileType<DeltaruneExplosion>(), 100, 0); // Placeholder
+                    NPC.direction = Main.rand.NextBool(2) ? 1 : -1;
+                }
+                if (AI_Counter >= 120)
+                {
+                    AI_Counter = 21;
+                    STATE = (int)StateID.Search;
+                    AI_SubState = (int)Search_Substate.TurnAround;
+                }
+            }
+            if (STATE == (int)StateID.Search)
+            {
+                //Main.NewText(AI_SubState);
+                int frameHeight = 78;
+                if ((NPC.frame.Y == frameHeight * 3 || NPC.frame.Y == frameHeight * 8))
+                {
+                    if (NPC.soundDelay == 0)
+                    {
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXFootstep"), NPC.Center);
+                        NPC.soundDelay = 10;
+                    }
+                }
+                else
+                {
+                    NPC.soundDelay = 0;
+                }
+
+                ARMCANNON_ROT = 0;
+                if (AI_SubState == (int)Search_Substate.Walking)
+                {
+                    if (AI_Counter == 0)
+                    {
+                        NPC.velocity.X = 1.5f * NPC.direction;
+                    }
+                    if (NPC.velocity.Y == 0)
+                    {
+                        AI_Counter++;
+                        if (AI_Counter >= 300)
+                        {
+                            AI_Counter = 0;
+                            AI_SubState = (int)Search_Substate.HeadTurn;
+                        }
+                        if (NPC.velocity.X == 0)
+                        {
+                            Vector2 morphCheckPos = new Vector2(NPC.Center.X + (NPC.width / 2 + 16) * NPC.direction, NPC.position.Y + NPC.height - 16) + new Vector2(-16, -16);
+                            if (!Collision.SolidCollision(morphCheckPos, 32, 32))
+                            {
+                                AI_Counter = 0;
+                                AI_SubState = (int)Search_Substate.MorphBall;
+                            }
+                            else
+                            {
+                                AI_Counter = 0;
+                                AI_SubState = (int)Search_Substate.TurnAround;
+                            }
+                        }
+                    }
+                }
+                if (AI_SubState == (int)Search_Substate.HeadTurn)
+                {
+                    NPC.velocity.X = 0;
+                    AI_Counter++;
+                    if (AI_Counter == 30)
+                    {
+                        if (!Main.rand.NextBool(3))
+                        {
+                            AI_Counter = 0;
+                            AI_SubState = (int)Search_Substate.TurnAround;
+                        }
+                    }
+                    if (AI_Counter >= 90)
+                    {
+                        AI_Counter = 0;
+                        AI_SubState = (int)Search_Substate.Walking;
+                    }
+                }
+                if (AI_SubState == (int)Search_Substate.TurnAround)
+                {
+                    AI_Counter++;
+                    if (AI_Counter == 20)
+                    {
+                        NPC.direction *= -1;
+                    }
+                    if (AI_Counter >= 30)
+                    {
+                        AI_Counter = 0;
+                        AI_SubState = (int)Search_Substate.Walking;
+                    }
+                }
+                if (AI_SubState == (int)Search_Substate.MorphBall)
+                {
+                    //Main.NewText(AI_Counter);
+                    if (AI_Counter < 10) // Crouching
+                    {
+                        if (NPC.velocity.Y == 0)
+                        {
+                            if (AI_Counter == 0)
+                            {
+                                NPC.position.Y += (NPC.height - 58);
+                            }
+                            NPC.height = 58;
+                        }
+                        else
+                        {
+                            ARMCANNON_ROT = MathHelper.PiOver2 * NPC.direction;
+                        }
+                        AI_Counter++;
+                    }
+                    else if (AI_Counter < 20) // Morphball
+                    {
+                        if (AI_Counter == 10)
+                        {
+                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MorphBall"), NPC.Center);
+                            NPC.position.Y += (NPC.height - 32);
+                            NPC.velocity.X = 2.5f * NPC.direction;
+                        }
+
+                        if (AI_Counter < 15)
+                            AI_Counter++;
+                        NPC.height = 32;
+                        if (NPC.velocity.X == 0 && NPC.velocity.Y == 0)
+                        {
+                            NPC.direction *= -1;
+                            NPC.velocity.X = 2 * NPC.direction;
+                        }
+                        if (NPC.velocity.Y == 0 && AI_Counter >= 15)
+                        {
+                            Vector2 unMorphCheckPos = new Vector2(NPC.position.X, NPC.position.Y - (72 - NPC.height));
+                            if (!Collision.SolidCollision(unMorphCheckPos, 32, 72))
+                            {
+                                AI_Counter = 20;
+                            }
+                        }
+                    }
+                    if (AI_Counter >= 20) //Unmorph
+                    {
+                        AI_Counter++;
+                        if (AI_Counter <= 30)
+                        {
+                            if (NPC.velocity.Y == 0)
+                            {
+                                if (AI_Counter == 21)
+                                {
+                                    NPC.position.Y -= (58 - NPC.height);
+                                }
+                                NPC.velocity.X = 0;
+                                NPC.height = 58;
+                            }
+                            else
+                            {
+                                if (AI_Counter == 21)
+                                {
+                                    NPC.position.Y -= (72 - NPC.height);
+                                }
+                                NPC.height = 72;
+                                ARMCANNON_ROT = MathHelper.PiOver2 * NPC.direction;
+                            }
+                        }
+                        else
+                        {
+                            AI_Counter = 0;
+                            AI_SubState = (int)Search_Substate.Walking;
+
+                            NPC.position.Y -= (72 - NPC.height);
+                            NPC.height = 72;
+                            NPC.velocity.X = 1.5f * NPC.direction;
+                        }
+                    }
+                }
+
+                NPC.velocity.Y += NPC.gravity;
+            }
+
+            if (STATE == (int)StateID.Chase)
+            {
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SAXChase");
+            }
+        }
+        /* AI
         public override void AI()
         {
             if (NPC.localAI[3] <= 0)
@@ -487,6 +812,7 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
+        */
         private void PredictiveAim(float speed, Vector2 origin)
         {
             Player P = Main.player[NPC.target];
@@ -512,6 +838,91 @@ namespace JoostMod.NPCs.Bosses
             }
             NPC.ai[3] = (float)Math.Atan2(origin.Y - predictedPos.Y, origin.X - predictedPos.X);
         }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (STATE == (int)StateID.Spawn && AI_Counter < 60) // Hide before spawn explosion
+            {
+                return false;
+            }
+            SpriteEffects effects = SpriteEffects.None;
+            if (NPC.direction == 1)
+            {
+                effects = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                effects = SpriteEffects.None;
+            }
+            if (STATE == (int)StateID.Spawn || STATE == (int)StateID.Search || STATE == (int)StateID.Chase)
+            {
+                Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+                Texture2D visorTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Visor");
+                int xFrameCount = 4;
+                int frameHeight = texture.Height / Main.npcFrameCount[NPC.type];
+                int frameWidth = texture.Width / xFrameCount;
+                Rectangle rectangle = new Rectangle(NPC.frame.X, NPC.frame.Y, (texture.Width / xFrameCount), (texture.Height / Main.npcFrameCount[NPC.type]));
+                Vector2 origin = new Vector2(((texture.Width / xFrameCount) / 2f), ((texture.Height / Main.npcFrameCount[NPC.type]) / 2f));
+
+                Color lightColor = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
+
+                if (!(NPC.frame.X == 0 && NPC.frame.Y >= 14 * frameHeight && NPC.frame.Y <= 17 * frameHeight) &&                // Turnaround and falling
+                    !(NPC.frame.X == 4 * frameWidth && NPC.frame.Y == 17) &&                                                    // Shinespark
+                    !(NPC.frame.X == 1 * frameWidth && NPC.frame.Y >= 10 * frameHeight && NPC.frame.Y <= 17 * frameHeight) &&   // Morphball
+                    !(NPC.frame.X == 2 * frameWidth && NPC.frame.Y >= 10 * frameHeight && NPC.frame.Y <= 17 * frameHeight))     // Screw Attack
+                {
+                    Texture2D cannonTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_ArmCannon");
+                    Rectangle cannonRect = new Rectangle(0, 0, (cannonTex.Width), (cannonTex.Height / 2));
+                    Vector2 cannonOrigin = new Vector2((float)cannonTex.Width / 2, (float)cannonTex.Height / 4);
+                    float rotation = ARMCANNON_ROT;
+
+                    int xOff = -2;
+                    int yOff = -4;
+                    switch (NPC.frame.Y / frameHeight)
+                    {
+                        case 1:
+                        case 2:
+                        case 6:
+                        case 7:
+                            yOff -= 2;
+                            break;
+                    }
+                    if (NPC.frame.X == 3 * frameWidth && NPC.frame.Y == 15 * frameHeight)
+                    {
+                        yOff = 4;
+                    }
+                    if (NPC.frame.X == 3 * frameWidth && NPC.frame.Y == 14 * frameHeight)
+                    {
+                        yOff -= 23;
+                        xOff += 7;
+                    }
+                    spriteBatch.Draw(cannonTex, NPC.Center - Main.screenPosition + new Vector2(NPC.scale * NPC.direction * xOff, NPC.scale * yOff), new Rectangle?(cannonRect), lightColor, rotation, cannonOrigin, NPC.scale, effects, 0f);
+                }
+                spriteBatch.Draw(texture, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + origin.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - frameHeight + 4f + origin.Y), new Rectangle?(rectangle), lightColor, NPC.rotation, origin, NPC.scale, effects, 0f);
+                spriteBatch.Draw(visorTex, new Vector2(NPC.position.X - Main.screenPosition.X + (float)(NPC.width / 2) - (float)(texture.Width / xFrameCount) / 2f + origin.X, NPC.position.Y - Main.screenPosition.Y + (float)NPC.height - frameHeight + 4f + origin.Y), new Rectangle?(rectangle), Color.White, NPC.rotation, origin, NPC.scale, effects, 0f);
+            }
+            return false;
+        }
+
+        /* ModifyHitBy
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            if (NPC.ai[1] >= 1) // Screw Attacking
+            {
+                modifiers.FinalDamage /= 2;
+                modifiers.DisableCrit();
+            }
+        }
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
+        {
+            if (NPC.ai[1] >= 1)
+            {
+                modifiers.FinalDamage /= 2;
+                modifiers.DisableCrit();
+            }
+        }
+        */
+        /* OnHitPlayer
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (NPC.ai[1] >= 1)
@@ -528,6 +939,8 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
+        */
+        /* CanHit
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             if ((Math.Abs(target.MountedCenter.Y - NPC.Center.Y) < (target.height / 2) + 25 && Math.Abs(target.MountedCenter.X - NPC.Center.X) < (target.width / 2) + 25) && NPC.localAI[1] <= 0)
@@ -536,7 +949,7 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
-        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
+        public override bool CanHitNPC(NPC target)
         {
             if ((Math.Abs(target.Center.Y - NPC.Center.Y) < (target.height / 2) + 25 && Math.Abs(target.Center.X - NPC.Center.X) < (target.width / 2) + 25) && NPC.localAI[1] <= 0)
             {
@@ -544,6 +957,8 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
+        */
+        /* FindFrame
         public override void FindFrame(int frameHeight)
         {
             NPC.frame.X = 0;
@@ -747,6 +1162,8 @@ namespace JoostMod.NPCs.Bosses
                 }
             }
         }
+        */
+        /* PreDraw
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
@@ -852,6 +1269,8 @@ namespace JoostMod.NPCs.Bosses
             }
             return false;
         }
+        */
+        /* CheckDead
         public override bool CheckDead()
         {
             //Main.NewText("The SA-X enlarges and mutates!", 175, 75, 225);
@@ -879,6 +1298,7 @@ namespace JoostMod.NPCs.Bosses
             }
             return true;
         }
+        */
     }
 }
 

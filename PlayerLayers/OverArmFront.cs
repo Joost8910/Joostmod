@@ -26,8 +26,8 @@ namespace JoostMod.PlayerLayers
             vector2.Y -= 2f;
             drawPos += vector2 * (float)(-(float)drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically).ToDirectionInt());
             Vector2 origin = drawInfo.bodyVect;
-            //Vector2 compositeOffset_FrontArm = new Vector2((float)(-5 * ((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : -1)), 0f);
-            //origin += compositeOffset_FrontArm;
+            Vector2 compositeOffset_FrontArm = new Vector2((float)(-5 * ((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : -1)), 0f);
+            origin += compositeOffset_FrontArm;
             //drawPos += compositeOffset_FrontArm;
             Vector2 shoulderPos = drawPos + drawInfo.frontShoulderOffset;
 
