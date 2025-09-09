@@ -30,11 +30,10 @@ using JoostMod.Items.Weapons.Ranged;
 using JoostMod.Items.Weapons.Magic;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Legendaries;
-using JoostMod.NPCs.Bosses;
 using JoostMod.Projectiles.Hostile;
 using JoostMod.Mounts;
 using JoostMod.Items.Mounts;
-using Mono.Cecil;
+using JoostMod.NPCs.Bosses.SAX;
 
 namespace JoostMod
 {
@@ -51,6 +50,10 @@ namespace JoostMod
         public bool infectedBlue = false;
         public bool infectedYellow = false;
         public bool sap = false;
+        public bool XInfected
+        {
+            get => (infectedRed || infectedGreen || infectedBlue || infectedYellow); 
+        }
 
         public bool stormy = false;
 
@@ -1215,7 +1218,11 @@ namespace JoostMod
         }
         public override void PostHurt(Player.HurtInfo info)
         {
-            if (info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle>() || info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle2>() || info.DamageSource.SourceProjectileType == ModContent.ProjectileType<GilgSword>())
+            if (info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle>() || 
+                info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle2>() ||
+                info.DamageSource.SourceProjectileType == ModContent.ProjectileType<SAXPowerBombExplosion>() ||
+                info.DamageSource.SourceProjectileType == ModContent.ProjectileType<SAXPowerBombExplosion2>() ||
+                info.DamageSource.SourceProjectileType == ModContent.ProjectileType<GilgSword>())
             {
                 Player.immuneTime = 1;
                 //Player.hurtCooldowns[3] = 1;

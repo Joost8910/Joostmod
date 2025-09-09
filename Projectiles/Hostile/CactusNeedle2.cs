@@ -1,4 +1,4 @@
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.JumboCactuar;
 using JoostMod.NPCs.Town;
 using Microsoft.Xna.Framework;
 using System.Runtime.CompilerServices;

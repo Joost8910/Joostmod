@@ -12,7 +12,7 @@ using JoostMod.Items.Tools.Rods;
 using JoostMod.Items.Weapons.Melee;
 using JoostMod.Items.Weapons.Summon;
 using JoostMod.Items.Weapons.Thrown;
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.SAX;
 using JoostMod.Projectiles.Accessory;
 using Microsoft.Xna.Framework;
 using System.Data;

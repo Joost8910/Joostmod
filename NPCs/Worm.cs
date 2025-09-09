@@ -4,8 +4,9 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System.IO;
-using JoostMod.NPCs.Bosses;
 using JoostMod.NPCs.Hunts;
+using JoostMod.NPCs.Bosses.GrandCactusWorm;
+using JoostMod.NPCs.Mobs;
 
 namespace JoostMod.NPCs
 {

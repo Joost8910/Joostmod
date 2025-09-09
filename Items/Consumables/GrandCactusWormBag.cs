@@ -3,7 +3,7 @@ using JoostMod.Items.Armor;
 using JoostMod.Items.GrappleHooks;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.GrandCactusWorm;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Items.Consumables
 {
-	public class GrandCactusWormBag : ModItem
+    public class GrandCactusWormBag : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

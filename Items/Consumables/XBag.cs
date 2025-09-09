@@ -10,7 +10,7 @@ using JoostMod.Items.Weapons;
 using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Placeable;
 using JoostMod.Items.Accessories;
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.SAX;
 
 namespace JoostMod.Items.Consumables
 {

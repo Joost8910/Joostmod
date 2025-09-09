@@ -1,10 +1,10 @@
-using JoostMod.NPCs;
+using JoostMod.NPCs.Mobs;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace JoostMod.Buffs
 {
-	public class CactoidFriend : ModBuff
+    public class CactoidFriend : ModBuff
 	{
 		public override void SetStaticDefaults()
 		{

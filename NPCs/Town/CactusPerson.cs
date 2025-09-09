@@ -2,6 +2,7 @@ using JoostMod.Items.Armor;
 using JoostMod.Items.Consumables;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Weapons.Melee;
+using JoostMod.NPCs.Mobs;
 using JoostMod.Projectiles.Accessory;
 using JoostMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -83,7 +84,7 @@ namespace JoostMod.NPCs.Town
         }
         public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
-            if (target.type == ModContent.NPCType<Cactite>() || target.type == ModContent.NPCType<Cactoid>() || target.type == ModContent.NPCType<Cactuar>() || target.type == ModContent.NPCType<HallowedCactuar>())
+            if (target.type == ModContent.NPCType<Mobs.Cactite>() || target.type == ModContent.NPCType<Mobs.Cactoid>() || target.type == ModContent.NPCType<Cactuar>() || target.type == ModContent.NPCType<HallowedCactuar>())
             {
                 return false;
             }

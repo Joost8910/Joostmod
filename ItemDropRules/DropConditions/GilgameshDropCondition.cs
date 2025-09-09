@@ -1,4 +1,4 @@
-﻿using JoostMod.NPCs.Bosses;
+﻿using JoostMod.NPCs.Bosses.Gilgamesh;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;

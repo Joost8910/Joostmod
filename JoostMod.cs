@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 using System.IO;
-using JoostMod.NPCs.Bosses;
 using JoostMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria.UI;
@@ -19,6 +18,10 @@ using Terraria.Graphics.Shaders;
 using ReLogic.Content;
 using JoostMod.NPCs.Hunts;
 using JoostMod.Items.Rewards;
+using JoostMod.NPCs.Bosses.GrandCactusWorm;
+using JoostMod.NPCs.Bosses.Gilgamesh;
+using JoostMod.NPCs.Bosses.SAX;
+using JoostMod.NPCs.Bosses.JumboCactuar;
 
 namespace JoostMod
 {

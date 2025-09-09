@@ -1,4 +1,4 @@
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.Gilgamesh;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;

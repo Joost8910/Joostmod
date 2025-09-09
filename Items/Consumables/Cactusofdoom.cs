@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.JumboCactuar;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;

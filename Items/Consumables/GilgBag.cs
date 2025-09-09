@@ -5,9 +5,9 @@ using Terraria.GameContent.ItemDropRules;
 using JoostMod.Items.Placeable;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Armor;
-using JoostMod.NPCs.Bosses;
 using JoostMod.Items.Weapons.Hybrid;
 using JoostMod.Items.Legendaries;
+using JoostMod.NPCs.Bosses.Gilgamesh;
 
 namespace JoostMod.Items.Consumables
 {

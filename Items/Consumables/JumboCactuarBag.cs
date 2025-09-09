@@ -2,7 +2,7 @@ using JoostMod.Items.Accessories;
 using JoostMod.Items.Armor;
 using JoostMod.Items.Materials;
 using JoostMod.Items.Placeable;
-using JoostMod.NPCs.Bosses;
+using JoostMod.NPCs.Bosses.JumboCactuar;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;

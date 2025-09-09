@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using JoostMod.NPCs.Bosses.SAX;
 
 namespace JoostMod.Projectiles.Hostile
 {
@@ -20,9 +21,12 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.aiStyle = -1;
             Projectile.timeLeft = 55;
             Projectile.hostile = true;
+            Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.ignoreWater = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 1;
         }
         public override void AI()
         {
@@ -34,8 +38,28 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.height = (int)Math.Round(500 * Projectile.scale);
             Lighting.AddLight(Projectile.Center, 10f, 10f, 10f);
         }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            //player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = 10;
+            modifiers.ScalingArmorPenetration += 1f;
+            modifiers.SetMaxDamage(Main.expertMode ? 10 : 5);
+            modifiers.ModifyHurtInfo += (ref Player.HurtInfo hurtInfo) =>
+            {
+                hurtInfo.Dodgeable = false;
+            };
+            //modifiers.Cancel();
+            //target.Hurt(modifiers.inf);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SetMaxDamage(Main.expertMode ? 10 : 5);
+        }
         public override bool? CanHitNPC(NPC target)
         {
+            if (target.type == ModContent.NPCType<SAX>() || target.type == ModContent.NPCType<XParasite>())
+            {
+                return false;
+            }
             if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitNPC(target);
@@ -47,14 +71,6 @@ namespace JoostMod.Projectiles.Hostile
             if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
                 return base.CanHitPlayer(target);
-            }
-            return false;
-        }
-        public override bool CanHitPvp(Player target)
-        {
-            if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
-            {
-                return base.CanHitPvp(target);
             }
             return false;
         }
