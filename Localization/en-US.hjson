@@ -4223,6 +4223,7 @@ Mods: {
 			BrokenHammer.DisplayName: Broken Hammer
 			BrokenFishHook.DisplayName: Broken Fish Hook
 			DeltaruneExplosion.DisplayName: Deltarune Explosion
+			SAXSuperExplosion.DisplayName: S A X Super Explosion
 		}
 
 		Tiles: {

@@ -257,7 +257,7 @@ namespace JoostMod.NPCs.Mobs
             {
                 effects = SpriteEffects.None;
             }
-            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>("JoostMod/NPCs/EarthElemental_Pupils");
+            Texture2D tex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Pupils");
             Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
             Vector2 drawOrigin = new Vector2(tex.Width / 2, tex.Height / 2);
             Vector2 offSet = NPC.DirectionTo(Main.player[NPC.target].Center) * 2;

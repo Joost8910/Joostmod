@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Ranged
         public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0, Projectile.velocity.Y * 0, ModContent.ProjectileType<Explosion>(), (int)(Projectile.damage * 1f), Projectile.knockBack, Projectile.owner);
-            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileExplode"), Projectile.Center);
+            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SuperMissileExplosion"), Projectile.Center);
         }
     }
 }

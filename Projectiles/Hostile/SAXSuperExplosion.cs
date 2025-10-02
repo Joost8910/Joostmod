@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace JoostMod.Projectiles.Hostile
 {
-    public class SAXExplosion2 : ModProjectile
+    public class SAXSuperExplosion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -13,8 +13,8 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void SetDefaults()
         {
-            Projectile.width = 64;
-            Projectile.height = 64;
+            Projectile.width = 184;
+            Projectile.height = 184;
             Projectile.aiStyle = 0;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
@@ -29,11 +29,11 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.OnFire3, 600);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.OnFire3, 600);
         }
         public override void AI()
         {
@@ -44,7 +44,5 @@ namespace JoostMod.Projectiles.Hostile
                 Projectile.frame = (Projectile.frame + 1) % 6;
             }
         }
-
-
     }
 }
