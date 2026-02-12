@@ -281,10 +281,20 @@ namespace JoostMod.NPCs.Bosses.SAX
         }
         public override void AI()
         {
+            if (!(State == (int)StateID.Spawn && AI_Counter < 60)) // Hide before spawn explosion
+            {
+                Lighting.AddLight(new Vector2(NPC.Center.X, NPC.position.Y), 0f, 0.2f, 0f);
+            }
+
             if (State == (int)StateID.Spawn)
             {
                 AI_Counter++;
-                if (AI_Counter == 40) // Spawning in
+                if (AI_Counter == 1) //Muzzle Flash
+                {
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXMuzzleFlash>(), Vector2.Zero);
+                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot").WithVolumeScale(0.15f), NPC.Center);
+                }
+                if (AI_Counter == 40) //Explosion
                 {
                     //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DeltaruneExplosion>(), 100, 0); // Placeholder
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SAXSuperExplosion>(), 1, 10);
@@ -296,13 +306,13 @@ namespace JoostMod.NPCs.Bosses.SAX
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXExplosion"), NPC.Center);
                     NPC.direction = Main.rand.NextBool(2) ? 1 : -1;
                 }
-                if (AI_Counter == 65)
+                if (AI_Counter == 65) //Smoke Clouds
                 {
                     Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(-1, 0), 255);
                     Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), Vector2.Zero, 255);
                     Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(1, 0), 255);
                 }
-                if (AI_Counter >= 50 && AI_Counter <= 90 && AI_Counter % 3 == 0)
+                if (AI_Counter >= 50 && AI_Counter <= 90 && AI_Counter % 3 == 0) //Secondary Explosions
                 {
                     Vector2 exPos = NPC.Center + new Vector2(Main.rand.Next(-25, 26), Main.rand.Next(-40, 31));
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), exPos, Vector2.Zero, ModContent.ProjectileType<SAXExplosion>(), 1, 1);
@@ -312,7 +322,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         Dust.NewDust(exPos + new Vector2(-30, -30), 60, 60, DustID.Smoke, 0, -2, 0, default, 1f + Main.rand.NextFloat());
                     }
                 }
-                if (AI_Counter >= 70 && AI_Counter <= 100)
+                if (AI_Counter >= 70 && AI_Counter <= 100) //Tertiary Explosions and Smoke
                 {
                     if (AI_Counter % 2 == 0)
                     {
@@ -334,7 +344,6 @@ namespace JoostMod.NPCs.Bosses.SAX
             if (State == (int)StateID.Search)
             {
                 //Main.NewText(AI_SubState);
-
                 ArmCannon_Rot = 0;
                 if (AI_SubState == (int)Search_Substate.Walking)
                 {
@@ -1041,16 +1050,16 @@ namespace JoostMod.NPCs.Bosses.SAX
             {
                 ledgePos.Y -= 16;
                 jumpStrength += 0.5f;
-                for (int d = 0; d < 10; d++)
-                {
-                    Dust.NewDustDirect(ledgePos, NPC.width + 16, NPC.height, DustID.BlueFairy).velocity = Vector2.Zero;
-                }
+                //for (int d = 0; d < 10; d++)
+                //{
+                //    Dust.NewDustDirect(ledgePos, NPC.width + 16, NPC.height, DustID.BlueFairy).velocity = Vector2.Zero;
+                //}
                 if (!Collision.SolidCollision(ledgePos, NPC.width + 16, BASE_HEIGHT))
                 {
-                    for (int d = 0; d < 20; d++)
-                    {
-                        Dust.NewDustDirect(ledgePos, NPC.width + 16, NPC.height, DustID.GreenFairy).velocity = Vector2.Zero;
-                    }
+                    //for (int d = 0; d < 20; d++)
+                    //{
+                    //    Dust.NewDustDirect(ledgePos, NPC.width + 16, NPC.height, DustID.GreenFairy).velocity = Vector2.Zero;
+                    //}
                     if (!Collision.SolidCollision(new Vector2(NPC.position.X, ledgePos.Y), NPC.width, (int)(NPC.position.Y - ledgePos.Y)))
                     {
                         aboveLedgeCheck = true;
@@ -1085,7 +1094,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 if (foundTarget)
                 {
                     SetTargetTrackingValues(false, realDist, -1);
-                    Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.AncientLight, Vector2.Zero, 0, default, 2f).noGravity = true;
+                    //Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.AncientLight, Vector2.Zero, 0, default, 2f).noGravity = true;
                 }
                 return foundTarget;
             }
@@ -1109,7 +1118,7 @@ namespace JoostMod.NPCs.Bosses.SAX
             if (foundTarget)
             {
                 SetTargetTrackingValues(false, realDist, -1);
-                Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.AmberBolt, Vector2.Zero, 0, default, 2f).noGravity = true;
+                //Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.AmberBolt, Vector2.Zero, 0, default, 2f).noGravity = true;
             }
             return foundTarget;
         }
@@ -1282,11 +1291,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                                         TileCollides(tile6)
                                         && !(tile6.IsHalfBlock && slabCheck < 3))
                                     {
-                                        Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.PinkTorch).noGravity = true;
+                                        //Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.PinkTorch).noGravity = true;
                                         return false;
                                     }
                                     int d = tile6.IsHalfBlock && slabCheck < 3 ? DustID.WhiteTorch : DustID.GreenTorch;
-                                    Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), d).noGravity = true;
+                                    //Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), d).noGravity = true;
                                     if (xDistCur == 0 && yDistCur == 0)
                                     {
                                         flag = true;
@@ -1328,10 +1337,10 @@ namespace JoostMod.NPCs.Bosses.SAX
                                         //(tile2.HasUnactuatedTile && tile2.HasTile && Main.tileSolid[tile2.TileType] && !Main.tileSolidTop[tile2.TileType]) ||
                                         TileCollides(tile3))
                                     {
-                                        Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.PinkTorch).noGravity = true;
+                                        //Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.PinkTorch).noGravity = true;
                                         return false;
                                     }
-                                    Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.GreenTorch).noGravity = true;
+                                    //Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.GreenTorch).noGravity = true;
 
                                     if (xDistCur == 0 && yDistCur == 0)
                                     {
@@ -1359,11 +1368,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                     Tile tile7 = Main.tile[x, y];
                     if (TileCollides(tile7) && !(tile7.IsHalfBlock && slabCheck < 3))
                     {
-                        Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.RedTorch).noGravity = true;
+                        //Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), DustID.RedTorch).noGravity = true;
                         return false;
                     }
                     int dustType = tile7.IsHalfBlock && slabCheck < 3 ? DustID.WhiteTorch : DustID.BlueTorch;
-                    Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), dustType).noGravity = true;
+                    //Dust.NewDustPerfect(new Vector2(x * 16 + 8, y * 16 + 8), dustType).noGravity = true;
 
                 } while (!(flag || flag2));
 

@@ -8,7 +8,6 @@ namespace JoostMod.Dusts
 {
 	public class SAXSmokePuff : ModDust
     {
-        private int frameCounter = 0;
         public override void OnSpawn(Dust dust)
 		{
 			dust.noGravity = true;
@@ -17,12 +16,13 @@ namespace JoostMod.Dusts
 
 		public override bool Update(Dust dust)
         {
-            frameCounter++;
-            if (frameCounter % 5 == 0)
+            dust.fadeIn++;
+            if (dust.fadeIn >= 5)
             {
-                dust.frame.Y = (dust.frame.Y + 40);
+                dust.fadeIn = 0;
+                dust.frame.Y += 40;
             }
-			if (dust.frame.Y > 40 * 4)
+            if (dust.frame.Y >= 40 * 4)
 			{
 				dust.active = false;
 			}
@@ -37,7 +37,7 @@ namespace JoostMod.Dusts
         public override bool PreDraw(Dust dust)
         {
             Texture2D tex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}");
-            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height * 0.5f) / 2);
+            Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, (tex.Height * 0.5f) / 4);
             Color color = Lighting.GetColor(dust.position.ToTileCoordinates());
             color *= (255 - dust.alpha) / 255f;
             Main.EntitySpriteDraw(tex, dust.position - Main.screenPosition, new Rectangle?(dust.frame), color, dust.rotation, drawOrigin, dust.scale, SpriteEffects.None, 0);
