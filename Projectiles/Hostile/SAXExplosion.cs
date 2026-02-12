@@ -18,11 +18,10 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.aiStyle = 0;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 30;
+            Projectile.timeLeft = 24;
             Projectile.tileCollide = false;
             Projectile.light = 0.95f;
             Projectile.ignoreWater = true;
-            Projectile.extraUpdates = 1;
             AIType = ProjectileID.Bullet;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -38,10 +37,10 @@ namespace JoostMod.Projectiles.Hostile
         public override void AI()
         {
             Projectile.frameCounter++;
-            if (Projectile.frameCounter >= 5)
+            if (Projectile.frameCounter >= 4)
             {
                 Projectile.frameCounter = 0;
-                Projectile.frame = (Projectile.frame + 1) % 6;
+                Projectile.frame++;
             }
         }
 

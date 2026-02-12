@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Buffs;
 using JoostMod.Projectiles.Hostile;
+using JoostMod.Dusts;
 
 namespace JoostMod.NPCs.Bosses.SAX
 {
@@ -54,8 +55,10 @@ namespace JoostMod.NPCs.Bosses.SAX
             MorphBall,
             ScrewAttack
         }
-        const int BASE_WIDTH = 32;
+        const int BASE_WIDTH = 28;
         const int BASE_HEIGHT = 62;
+        const int CROUCH_HEIGHT = 52;
+        const int BALL_HEIGHT = 28;
         const float WALK_SPEED = 1.5f;
 
         public override void SetStaticDefaults()
@@ -283,15 +286,49 @@ namespace JoostMod.NPCs.Bosses.SAX
                 AI_Counter++;
                 if (AI_Counter == 40) // Spawning in
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DeltaruneExplosion>(), 100, 0); // Placeholder
+                    //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DeltaruneExplosion>(), 100, 0); // Placeholder
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SAXSuperExplosion>(), 1, 10);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Dust.NewDust(NPC.Center + new Vector2(-90, -90), 180, 180, DustID.Smoke, 0, -2, 0, Color.DarkGray, 2f + Main.rand.NextFloat());
+                    }
+
+                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXExplosion"), NPC.Center);
                     NPC.direction = Main.rand.NextBool(2) ? 1 : -1;
                 }
-                if (AI_Counter >= 120)
+                if (AI_Counter == 65)
+                {
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(-1, 0), 255);
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), Vector2.Zero, 255);
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(1, 0), 255);
+                }
+                if (AI_Counter >= 50 && AI_Counter <= 90 && AI_Counter % 3 == 0)
+                {
+                    Vector2 exPos = NPC.Center + new Vector2(Main.rand.Next(-25, 26), Main.rand.Next(-40, 31));
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), exPos, Vector2.Zero, ModContent.ProjectileType<SAXExplosion>(), 1, 1);
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Dust.NewDust(exPos + new Vector2(-30, -30), 60, 60, DustID.Smoke, 0, -2, 0, default, 1f + Main.rand.NextFloat());
+                    }
+                }
+                if (AI_Counter >= 70 && AI_Counter <= 100)
+                {
+                    if (AI_Counter % 2 == 0)
+                    {
+                        Dust.NewDust(NPC.Center + new Vector2(-30, -40), 60, 50, ModContent.DustType<SAXMiniBoom>());
+                    }
+                    else
+                    {
+                        Dust.NewDust(NPC.Center + new Vector2(-30, -AI_Counter + 20), 60, 30, ModContent.DustType<SAXSmokePuff>());
+                    }
+                }
+                if (AI_Counter >= 150)
                 {
                     NPC.dontTakeDamage = false;
-                    AI_Counter = 21;
                     State = (int)StateID.Search;
                     AI_SubState = (int)Search_Substate.TurnAround;
+                    AI_Counter = 21; // Puts SA-X right at the end of the turnaround animation
                 }
             }
             if (State == (int)StateID.Search)
@@ -348,9 +385,9 @@ namespace JoostMod.NPCs.Bosses.SAX
                                 AI_SubState = (int)Search_Substate.MorphBall;
                                 NPC.netUpdate = true;
                             }
-                            else
+                            else // Check height of wall and jump accordingly
                             {
-                                bool aboveLedgeCheck = false;
+                                /*bool aboveLedgeCheck = false;
                                 float jumpStrength = 5.5f;
                                 Vector2 ledgePos = new Vector2(NPC.direction < 0 ? NPC.position.X - 16 : NPC.position.X, NPC.position.Y - 18);
                                 for (int i = 0; i < 17; i++)
@@ -373,8 +410,8 @@ namespace JoostMod.NPCs.Bosses.SAX
                                         }
                                         break;
                                     }   
-                                }
-                                if (aboveLedgeCheck)
+                                }*/
+                                if (AboveLedgeCheck(out float jumpStrength))
                                 {
                                     NPC.velocity.Y = -jumpStrength;
                                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXJump").WithVolumeScale(0.5f), NPC.Center);
@@ -425,7 +462,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                     AI_Counter++;
                     if (AI_Counter == 30)
                     {
-                        if (!Main.rand.NextBool(3))
+                        if (!Main.rand.NextBool(3)) // 2/3 chance
                         {
                             AI_Counter = 0;
                             AI_SubState = (int)Search_Substate.TurnAround;
@@ -460,9 +497,9 @@ namespace JoostMod.NPCs.Bosses.SAX
                         {
                             if (AI_Counter == 0)
                             {
-                                NPC.position.Y += NPC.height - 58;
+                                NPC.position.Y += NPC.height - CROUCH_HEIGHT;
                             }
-                            NPC.height = 58;
+                            NPC.height = CROUCH_HEIGHT;
                         }
                         else
                         {
@@ -475,13 +512,13 @@ namespace JoostMod.NPCs.Bosses.SAX
                         if (AI_Counter == 10)
                         {
                             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/Morph"), NPC.Center);
-                            NPC.position.Y += NPC.height - 32;
+                            NPC.position.Y += NPC.height - BALL_HEIGHT;
                             NPC.velocity.X = 2.5f * NPC.direction;
                         }
 
                         if (AI_Counter < 15)
                             AI_Counter++;
-                        NPC.height = 32;
+                        NPC.height = BALL_HEIGHT;
                         if (NPC.velocity.X == 0 && NPC.velocity.Y == 0)
                         {
                             NPC.direction *= -1;
@@ -490,7 +527,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         if (NPC.velocity.Y == 0 && AI_Counter >= 15)
                         {
                             Vector2 unMorphCheckPos = new Vector2(NPC.position.X, NPC.position.Y - (BASE_HEIGHT - NPC.height));
-                            if (!Collision.SolidCollision(unMorphCheckPos, 32, BASE_HEIGHT))
+                            if (!Collision.SolidCollision(unMorphCheckPos, BASE_WIDTH, BASE_HEIGHT))
                             {
                                 AI_Counter = 20;
                             }
@@ -507,11 +544,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                             {
                                 if (AI_Counter == 21)
                                 {
-                                    NPC.position.Y -= 58 - NPC.height;
+                                    NPC.position.Y -= CROUCH_HEIGHT - NPC.height;
                                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/UnMorph"), NPC.Center);
                                 }
                                 NPC.velocity.X = 0;
-                                NPC.height = 58;
+                                NPC.height = CROUCH_HEIGHT;
                             }
                             else
                             {
@@ -995,7 +1032,34 @@ namespace JoostMod.NPCs.Bosses.SAX
             }
             ArmCannon_Rot = (float)Math.Atan2(origin.Y - predictedPos.Y, origin.X - predictedPos.X);
         }
-
+        private bool AboveLedgeCheck(out float jumpStrength, int tileHeight = 17)
+        {
+            bool aboveLedgeCheck = false;
+            jumpStrength = 5.5f;
+            Vector2 ledgePos = new Vector2(NPC.direction < 0 ? NPC.position.X - 16 : NPC.position.X, NPC.position.Y - 18);
+            for (int i = 0; i < tileHeight; i++)
+            {
+                ledgePos.Y -= 16;
+                jumpStrength += 0.5f;
+                for (int d = 0; d < 10; d++)
+                {
+                    Dust.NewDustDirect(ledgePos, NPC.width + 16, NPC.height, DustID.BlueFairy).velocity = Vector2.Zero;
+                }
+                if (!Collision.SolidCollision(ledgePos, NPC.width + 16, BASE_HEIGHT))
+                {
+                    for (int d = 0; d < 20; d++)
+                    {
+                        Dust.NewDustDirect(ledgePos, NPC.width + 16, NPC.height, DustID.GreenFairy).velocity = Vector2.Zero;
+                    }
+                    if (!Collision.SolidCollision(new Vector2(NPC.position.X, ledgePos.Y), NPC.width, (int)(NPC.position.Y - ledgePos.Y)))
+                    {
+                        aboveLedgeCheck = true;
+                    }
+                    break;
+                }
+            }
+            return aboveLedgeCheck;
+        }
         private bool SightCheck(bool isMorphed = false)
         {
             float num = 0f;
