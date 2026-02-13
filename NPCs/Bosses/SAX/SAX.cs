@@ -61,6 +61,33 @@ namespace JoostMod.NPCs.Bosses.SAX
         const int BALL_HEIGHT = 28;
         const float WALK_SPEED = 1.5f;
 
+        public static int mutantHeadSlot = -1;
+        public static int coreHeadSlot = -1;
+        public override void Load()
+        {
+            string texMutant = BossHeadTexture + "_Mutant";
+            string texCore = BossHeadTexture + "_Core";
+            mutantHeadSlot = Mod.AddBossHeadTexture(texMutant);
+            coreHeadSlot = Mod.AddBossHeadTexture(texCore);
+        }
+        public override void BossHeadSlot(ref int index)
+        {
+            int slotM = mutantHeadSlot;
+            int slotC = coreHeadSlot;
+            if (State == (int)StateID.Mutant)
+            {
+                index = slotM;
+            }
+            else if (State == (int)StateID.Core)
+            {
+                index = slotC;
+            }
+            else if (State != (int)StateID.Chase)
+            {
+                index = -1;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("SA-X");
@@ -281,7 +308,7 @@ namespace JoostMod.NPCs.Bosses.SAX
         }
         public override void AI()
         {
-            if (!(State == (int)StateID.Spawn && AI_Counter < 60)) // Hide before spawn explosion
+            if (!(State == (int)StateID.Spawn && AI_Counter < 100)) // Hide before spawn explosion
             {
                 Lighting.AddLight(new Vector2(NPC.Center.X, NPC.position.Y), 0f, 0.2f, 0f);
             }
@@ -289,15 +316,20 @@ namespace JoostMod.NPCs.Bosses.SAX
             if (State == (int)StateID.Spawn)
             {
                 AI_Counter++;
-                if (AI_Counter == 1) //Muzzle Flash
+                if (AI_Counter == 30) //Muzzle Flash
                 {
-                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXMuzzleFlash>(), Vector2.Zero);
+                    //Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXMuzzleFlash>(), Vector2.Zero);
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot").WithVolumeScale(0.15f), NPC.Center);
                 }
-                if (AI_Counter == 40) //Explosion
+                if (AI_Counter >= 30 && AI_Counter < 42)
+                {
+                    float l = (42 - AI_Counter) / 12f * 0.25f;
+                    Lighting.AddLight(NPC.Center, l, l, l);
+                }
+                if (AI_Counter == 90) //Explosion
                 {
                     //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DeltaruneExplosion>(), 100, 0); // Placeholder
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SAXSuperExplosion>(), 1, 10);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SAXSuperExplosion>(), 10, 10);
                     for (int i = 0; i < 30; i++)
                     {
                         Dust.NewDust(NPC.Center + new Vector2(-90, -90), 180, 180, DustID.Smoke, 0, -2, 0, Color.DarkGray, 2f + Main.rand.NextFloat());
@@ -306,23 +338,23 @@ namespace JoostMod.NPCs.Bosses.SAX
                     SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXExplosion"), NPC.Center);
                     NPC.direction = Main.rand.NextBool(2) ? 1 : -1;
                 }
-                if (AI_Counter == 65) //Smoke Clouds
-                {
-                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(-1, 0), 255);
-                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), Vector2.Zero, 255);
-                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(1, 0), 255);
-                }
-                if (AI_Counter >= 50 && AI_Counter <= 90 && AI_Counter % 3 == 0) //Secondary Explosions
+                if (AI_Counter >= 95 && AI_Counter <= 140 && AI_Counter % 3 == 0) //Secondary Explosions
                 {
                     Vector2 exPos = NPC.Center + new Vector2(Main.rand.Next(-25, 26), Main.rand.Next(-40, 31));
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), exPos, Vector2.Zero, ModContent.ProjectileType<SAXExplosion>(), 1, 1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), exPos, Vector2.Zero, ModContent.ProjectileType<SAXExplosion>(), 5, 1);
 
                     for (int i = 0; i < 5; i++)
                     {
                         Dust.NewDust(exPos + new Vector2(-30, -30), 60, 60, DustID.Smoke, 0, -2, 0, default, 1f + Main.rand.NextFloat());
                     }
                 }
-                if (AI_Counter >= 70 && AI_Counter <= 100) //Tertiary Explosions and Smoke
+                if (AI_Counter == 115) //Smoke Clouds
+                {
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(-1, 0), 255);
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), Vector2.Zero, 255);
+                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SAXSmokeCloud>(), new Vector2(1, 0), 255);
+                }
+                if (AI_Counter >= 115 && AI_Counter <= 150) //Tertiary Explosions and Smoke
                 {
                     if (AI_Counter % 2 == 0)
                     {
@@ -330,10 +362,10 @@ namespace JoostMod.NPCs.Bosses.SAX
                     }
                     else
                     {
-                        Dust.NewDust(NPC.Center + new Vector2(-30, -AI_Counter + 20), 60, 30, ModContent.DustType<SAXSmokePuff>());
+                        Dust.NewDust(NPC.Center + new Vector2(-30, -AI_Counter + 50), 60, 50, ModContent.DustType<SAXSmokePuff>());
                     }
                 }
-                if (AI_Counter >= 150)
+                if (AI_Counter >= 200)
                 {
                     NPC.dontTakeDamage = false;
                     State = (int)StateID.Search;
@@ -1429,8 +1461,23 @@ namespace JoostMod.NPCs.Bosses.SAX
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (State == (int)StateID.Spawn && AI_Counter < 60) // Hide before spawn explosion
+            if (State == (int)StateID.Spawn && AI_Counter < 100) // Hide before spawn explosion
             {
+                if (AI_Counter >= 30 && AI_Counter < 52)
+                {
+                    Texture2D flashTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_MuzzleFlash");
+                    int flashFrameCount = 5;
+                    int flashFrame = Math.Min(4, (int)((AI_Counter - 30) / 3f));
+                    Color flashColor = Color.White;
+                    if (AI_Counter > 42)
+                    {
+                        flashColor *= (52 - AI_Counter) * 0.1f;
+                    }    
+                    Rectangle flashRect = new Rectangle(0, flashFrame * flashTex.Height / flashFrameCount, flashTex.Width, flashTex.Height / flashFrameCount);
+                    Vector2 flashOrigin = new Vector2(flashTex.Width / 2, flashTex.Height / flashFrameCount / 2);
+                    Vector2 flashPos = new Vector2(NPC.Center.X - Main.screenPosition.X, NPC.Center.Y - Main.screenPosition.Y);
+                    spriteBatch.Draw(flashTex, flashPos, new Rectangle?(flashRect), flashColor, NPC.rotation, flashOrigin, NPC.scale, SpriteEffects.None, 0f);
+                }
                 return false;
             }
             SpriteEffects effects = SpriteEffects.None;
