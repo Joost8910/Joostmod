@@ -42,11 +42,33 @@ float4 MeteorShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOOR
     color.a *= sampleColor.a;
     return color;
 }
+float4 XTransformShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 pixCoords = coords * uImageSize0 - uSourceRect.xy;
+    
+    float t = uIntensity + 2;
+    float offset = (uIntensity * 1.5);
+    
+    float stretch = t; //stretch size in pixels
+    float2 pCoords = pixCoords;
+    float shift = (pCoords.x + offset) % stretch;
+    pCoords.x += stretch - shift;
+    float2 coordsFromPix = (pCoords + uSourceRect.xy) / uImageSize0;
+    float4 color = tex2D(uImage0, coordsFromPix);
+    
+    
+    //float4 r = float4(shift / stretch, 0, 0, 1);
+    return color;
+}
 
 technique Technique1
 {
     pass JuiceMeteorShaderPass
     {
         PixelShader = compile ps_2_0 MeteorShaderFunction();
+    }
+    pass JuiceXTransformShaderPass
+    {
+        PixelShader = compile ps_2_0 XTransformShaderFunction();
     }
 }

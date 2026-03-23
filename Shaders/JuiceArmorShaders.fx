@@ -122,7 +122,7 @@ float4 BlurShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0
     float4 color5 = tex2D(uImage0, coords);
     float2 pixCoords = coords * uImageSize0 - uSourceRect.xy;
     
-    float s = 2;
+    float s = 2; //pixel size
     float2 pCoords = pixCoords;
     pCoords.x -= s;
     pCoords.y += s;
