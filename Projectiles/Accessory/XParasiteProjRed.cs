@@ -9,7 +9,7 @@ using JoostMod.Buffs;
 
 namespace JoostMod.Projectiles.Accessory
 {
-    public class XParasiteRed : ModProjectile
+    public class XParasiteProjRed : ModProjectile
     {
         public override void SetStaticDefaults()
         {

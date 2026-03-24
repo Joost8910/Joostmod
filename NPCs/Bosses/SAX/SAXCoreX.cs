@@ -419,16 +419,16 @@ namespace JoostMod.NPCs.Bosses.SAX
                     switch (Main.rand.Next(4))
                     {
                         case 1:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<GreenXParasite>());
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<XParasiteGreen>());
                             break;
                         case 2:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<RedXParasite>());
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<XParasiteRed>());
                             break;
                         case 3:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<IceXParasite>());
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<XParasiteIce>());
                             break;
                         default:
-                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<XParasite>());
+                            NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<XParasiteYellow>());
                             break;
                     }
 

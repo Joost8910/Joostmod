@@ -251,7 +251,7 @@ namespace JoostMod.NPCs.Bosses.JumboCactuar
                 data.Draw(spriteBatch);
 
                 spriteBatch.End();
-                spriteBatch.Begin();
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
             }
             else
             {

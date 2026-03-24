@@ -206,13 +206,13 @@ namespace JoostMod.NPCs
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
                 if (npc.friendly)
                 {
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<RedXParasite>());
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<RedXParasite>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteRed>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteRed>());
                 }
                 else
                 {
-                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteRed>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(300), 3, player.whoAmI);
-                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteRed>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteProjRed>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteProjRed>(), (int)player.GetDamage(DamageClass.Ranged).ApplyTo(300), 3, player.whoAmI);
                 }
                 Item.NewItem(source, npc.Center, ItemID.Heart);
                 Item.NewItem(source, npc.Center, ItemID.Heart);
@@ -222,13 +222,13 @@ namespace JoostMod.NPCs
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
                 if (npc.friendly)
                 {
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<GreenXParasite>());
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<GreenXParasite>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteGreen>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteGreen>());
                 }
                 else
                 {
-                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteGreen>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(300), 3, player.whoAmI);
-                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteGreen>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteProjGreen>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteProjGreen>(), (int)player.GetDamage(DamageClass.Throwing).ApplyTo(300), 3, player.whoAmI);
                 }
                 Item.NewItem(source, npc.Center, ModContent.ItemType<EnergyFragment>());
             }
@@ -237,13 +237,13 @@ namespace JoostMod.NPCs
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
                 if (npc.friendly)
                 {
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<IceXParasite>());
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<IceXParasite>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteIce>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteIce>());
                 }
                 else
                 {
-                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteIce>(), (int)player.GetDamage(DamageClass.Magic).ApplyTo(300), 3, player.whoAmI);
-                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteIce>(), (int)player.GetDamage(DamageClass.Magic).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteProjIce>(), (int)player.GetDamage(DamageClass.Magic).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteProjIce>(), (int)player.GetDamage(DamageClass.Magic).ApplyTo(300), 3, player.whoAmI);
                 }
                 Item.NewItem(source, npc.Center, ItemID.Star);
                 Item.NewItem(source, npc.Center, ItemID.Star);
@@ -253,13 +253,13 @@ namespace JoostMod.NPCs
                 Vector2 dir = Utils.ToRotationVector2(Main.rand.Next(360));
                 if (npc.friendly)
                 {
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasite>());
-                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasite>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteYellow>());
+                    NPC.NewNPC(source, (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<XParasiteYellow>());
                 }
                 else
                 {
-                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteYellow>(), (int)player.GetDamage(DamageClass.Melee).ApplyTo(300), 3, player.whoAmI);
-                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteYellow>(), (int)player.GetDamage(DamageClass.Melee).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, dir, ModContent.ProjectileType<XParasiteProjYellow>(), (int)player.GetDamage(DamageClass.Melee).ApplyTo(300), 3, player.whoAmI);
+                    Projectile.NewProjectile(source, npc.Center, -dir, ModContent.ProjectileType<XParasiteProjYellow>(), (int)player.GetDamage(DamageClass.Melee).ApplyTo(300), 3, player.whoAmI);
                 }
                 Item.NewItem(source, npc.Center, ItemID.GoldCoin, 1 + (int)(npc.value / 10000f));
             }

@@ -1822,7 +1822,7 @@ namespace JoostMod
                 XShieldTimer--;
                 if (XShieldTimer < 0)
                 {
-                    int type = ModContent.ProjectileType<XParasiteIce>();
+                    int type = ModContent.ProjectileType<XParasiteProjIce>();
                     int damage = (int)Player.GetDamage(DamageClass.Generic).ApplyTo(300);
 
                     int summon = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(300);
@@ -1851,22 +1851,22 @@ namespace JoostMod
                         }
                         if (maxValue == melee)
                         {
-                            type = ModContent.ProjectileType<XParasiteYellow>();
+                            type = ModContent.ProjectileType<XParasiteProjYellow>();
                             damage = melee;
                         }
                         if (maxValue == ranged)
                         {
-                            type = ModContent.ProjectileType<XParasiteRed>();
+                            type = ModContent.ProjectileType<XParasiteProjRed>();
                             damage = ranged;
                         }
                         if (maxValue == magic)
                         {
-                            type = ModContent.ProjectileType<XParasiteIce>();
+                            type = ModContent.ProjectileType<XParasiteProjIce>();
                             damage = magic;
                         }
                         if (maxValue == thrown)
                         {
-                            type = ModContent.ProjectileType<XParasiteGreen>();
+                            type = ModContent.ProjectileType<XParasiteProjGreen>();
                             damage = thrown;
                         }
                         if (maxValue == summon)
@@ -1879,19 +1879,19 @@ namespace JoostMod
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = ModContent.ProjectileType<XParasiteYellow>();
+                                type = ModContent.ProjectileType<XParasiteProjYellow>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
-                                type = ModContent.ProjectileType<XParasiteGreen>();
+                                type = ModContent.ProjectileType<XParasiteProjGreen>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
-                                type = ModContent.ProjectileType<XParasiteRed>();
+                                type = ModContent.ProjectileType<XParasiteProjRed>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
-                                type = ModContent.ProjectileType<XParasiteIce>();
+                                type = ModContent.ProjectileType<XParasiteProjIce>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
@@ -1906,19 +1906,19 @@ namespace JoostMod
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = ModContent.ProjectileType<XParasiteYellow>();
+                                type = ModContent.ProjectileType<XParasiteProjYellow>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
-                                type = ModContent.ProjectileType<XParasiteGreen>();
+                                type = ModContent.ProjectileType<XParasiteProjGreen>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
-                                type = ModContent.ProjectileType<XParasiteRed>();
+                                type = ModContent.ProjectileType<XParasiteProjRed>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
-                                type = ModContent.ProjectileType<XParasiteIce>();
+                                type = ModContent.ProjectileType<XParasiteProjIce>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
@@ -1930,19 +1930,19 @@ namespace JoostMod
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = ModContent.ProjectileType<XParasiteYellow>();
+                                type = ModContent.ProjectileType<XParasiteProjYellow>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
-                                type = ModContent.ProjectileType<XParasiteGreen>();
+                                type = ModContent.ProjectileType<XParasiteProjGreen>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
-                                type = ModContent.ProjectileType<XParasiteRed>();
+                                type = ModContent.ProjectileType<XParasiteProjRed>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
-                                type = ModContent.ProjectileType<XParasiteIce>();
+                                type = ModContent.ProjectileType<XParasiteProjIce>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
@@ -1955,19 +1955,19 @@ namespace JoostMod
                         switch (Main.rand.Next(4))
                         {
                             case 1:
-                                type = ModContent.ProjectileType<XParasiteYellow>();
+                                type = ModContent.ProjectileType<XParasiteProjYellow>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(melee);
                                 break;
                             case 2:
-                                type = ModContent.ProjectileType<XParasiteGreen>();
+                                type = ModContent.ProjectileType<XParasiteProjGreen>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(thrown);
                                 break;
                             case 3:
-                                type = ModContent.ProjectileType<XParasiteRed>();
+                                type = ModContent.ProjectileType<XParasiteProjRed>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(ranged);
                                 break;
                             default:
-                                type = ModContent.ProjectileType<XParasiteIce>();
+                                type = ModContent.ProjectileType<XParasiteProjIce>();
                                 damage = (int)Player.GetDamage(DamageClass.Summon).ApplyTo(magic);
                                 break;
                         }
@@ -3342,26 +3342,26 @@ namespace JoostMod
             }
             if (infectedBlue)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<IceXParasite>());
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<IceXParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteIce>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteIce>());
                 infectedBlue = false;
             }
             if (infectedGreen)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<GreenXParasite>());
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<GreenXParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteGreen>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteGreen>());
                 infectedGreen = false;
             }
             if (infectedRed)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<RedXParasite>());
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<RedXParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteRed>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteRed>());
                 infectedRed = false;
             }
             if (infectedYellow)
             {
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasite>());
-                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasite>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteYellow>());
+                NPC.NewNPC(source, (int)Player.MountedCenter.X, (int)Player.MountedCenter.Y, ModContent.NPCType<XParasiteYellow>());
                 infectedYellow = false;
             }
             fireArmorIsActive = false;

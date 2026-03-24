@@ -225,7 +225,7 @@ namespace JoostMod.Projectiles.Melee
             //Main.instance.PrepareDrawnEntityDrawing(Projectile, intended);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
             
             return false;
         }

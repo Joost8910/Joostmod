@@ -369,6 +369,7 @@ namespace JoostMod
                 GameShaders.Misc["JoostLaserBeam"] = new MiscShaderData(projShaderRef, "LaserShaderPass");
                 GameShaders.Misc["JoostBolt"] = new MiscShaderData(projShaderRef, "BoltShaderPass");
                 GameShaders.Misc["JoostMeteor"] = new MiscShaderData(npcShaderRef, "JuiceMeteorShaderPass");
+                GameShaders.Misc["JoostXTransform"] = new MiscShaderData(npcShaderRef, "XTransformShaderPass");
 
             }
         }

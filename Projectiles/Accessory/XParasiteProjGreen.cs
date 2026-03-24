@@ -9,7 +9,7 @@ using JoostMod.Buffs;
 
 namespace JoostMod.Projectiles.Accessory
 {
-    public class XParasiteYellow : ModProjectile
+    public class XParasiteProjGreen : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace JoostMod.Projectiles.Accessory
             Projectile.height = 28;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Throwing;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -34,9 +34,9 @@ namespace JoostMod.Projectiles.Accessory
         {
             Projectile.localAI[1] = target.whoAmI + 1;
         }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(ModContent.BuffType<InfectedYellow>(), 900);
+            target.AddBuff(ModContent.BuffType<InfectedGreen>(), 900);
             Projectile.Kill();
         }
         public override void OnKill(int timeLeft)
@@ -44,7 +44,7 @@ namespace JoostMod.Projectiles.Accessory
             if (Projectile.localAI[1] > 0)
             {
                 NPC target = Main.npc[(int)Projectile.localAI[1] - 1];
-                target.AddBuff(ModContent.BuffType<InfectedYellow>(), 18000);
+                target.AddBuff(ModContent.BuffType<InfectedGreen>(), 18000);
                 SoundEngine.PlaySound(SoundID.NPCDeath19, Projectile.Center);
             }
         }

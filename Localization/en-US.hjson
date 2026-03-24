@@ -3547,8 +3547,6 @@ Mods: {
 			GrandCactusWormBody.DisplayName: The Grand Cactus Worm
 			GrandCactusWormHead.DisplayName: The Grand Cactus Worm
 			GrandCactusWormTail.DisplayName: The Grand Cactus Worm
-			GreenXParasite.DisplayName: X Parasite
-			IceXParasite.DisplayName: X Parasite
 
 			IdleCactusWorm: {
 				DisplayName: Alpha Cactus Worm
@@ -3559,8 +3557,6 @@ Mods: {
 				DisplayName: Jumbo Cactuar
 				BossChecklistIntegration.SpawnInfo: Use a [i:JoostMod/Cactusofdoom] in the desert
 			}
-
-			RedXParasite.DisplayName: X Parasite
 
 			SAX: {
 				DisplayName: SA-X
@@ -3581,7 +3577,10 @@ Mods: {
 				BossChecklistIntegration.DespawnMessage: The SA-X disappears into the unknown
 			}
 
-			XParasite.DisplayName: X Parasite
+			XParasiteRed.DisplayName: X Parasite
+			XParasiteYellow.DisplayName: X Parasite
+			XParasiteGreen.DisplayName: X Parasite
+			XParasiteIce.DisplayName: X Parasite
 			Cactite.DisplayName: Cactite
 			Cactoid.DisplayName: Cactoid
 			Cactuar.DisplayName: Cactuar
@@ -3744,10 +3743,6 @@ Mods: {
 			ShieldSapling.DisplayName: Sapling - Shield
 			Skull.DisplayName: Skull
 			SpectreOrb.DisplayName: Spectral Orb
-			XParasiteGreen.DisplayName: X Parasite
-			XParasiteIce.DisplayName: X Parasite
-			XParasiteRed.DisplayName: X Parasite
-			XParasiteYellow.DisplayName: X Parasite
 			BlackHole.DisplayName: Black Hole
 			CheatManipulation.DisplayName: Tome of Greater Manipulation
 			ClearStar.DisplayName: Weather Star - Clear
@@ -4224,6 +4219,10 @@ Mods: {
 			BrokenFishHook.DisplayName: Broken Fish Hook
 			DeltaruneExplosion.DisplayName: Deltarune Explosion
 			SAXSuperExplosion.DisplayName: S A X Super Explosion
+			XParasiteProjYellow.DisplayName: X Parasite
+			XParasiteProjRed.DisplayName: X Parasite
+			XParasiteProjIce.DisplayName: X Parasite
+			XParasiteProjGreen.DisplayName: X Parasite
 		}
 
 		Tiles: {

@@ -8,7 +8,7 @@ using JoostMod.Buffs;
 
 namespace JoostMod.Projectiles.Accessory
 {
-    public class XParasiteIce : ModProjectile
+    public class XParasiteProjIce : ModProjectile
     {
         public override void SetStaticDefaults()
         {

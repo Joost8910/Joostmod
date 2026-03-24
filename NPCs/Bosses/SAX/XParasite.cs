@@ -5,16 +5,26 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Buffs;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
+using JoostMod.Items.Consumables;
 
 namespace JoostMod.NPCs.Bosses.SAX
 {
-    public class XParasite : ModNPC
+    public abstract class XParasite : ModNPC
     {
+        protected int infectionBuffID = ModContent.BuffType<InfectedYellow>();
+        protected int spriteFrameHeight = 34;
+
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("X Parasite");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedYellow>()] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedBlue>()] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedGreen>()] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][ModContent.BuffType<InfectedRed>()] = true;
         }
         public override void SetDefaults()
         {
@@ -34,16 +44,36 @@ namespace JoostMod.NPCs.Bosses.SAX
         }
         public override void FindFrame(int frameHeight)
         {
+            frameHeight = spriteFrameHeight;
             NPC.frameCounter++;
             if (NPC.frameCounter >= 6)
             {
                 NPC.frameCounter = 0;
-                NPC.frame.Y = NPC.frame.Y + 34;
+                NPC.frame.Y += frameHeight;
             }
-            if (NPC.frame.Y >= 204)
+            if (NPC.frame.Y >= frameHeight * 6)
             {
                 NPC.frame.Y = 0;
             }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(infectionBuffID, 1800);
+
+            NPC.DeathSound = SoundID.NPCDeath19;
+            NPC.life = 0;
+            NPC.checkDead();
+            if (Main.netMode != NetmodeID.SinglePlayer)
+            {
+                ModPacket netMessage = GetPacket();
+                netMessage.Send();
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
+        {
+            target.AddBuff(infectionBuffID, 1800);
+            NPC.life = 0;
+            NPC.checkDead();
         }
         private ModPacket GetPacket()
         {
@@ -52,24 +82,119 @@ namespace JoostMod.NPCs.Bosses.SAX
             packet.Write(NPC.whoAmI);
             return packet;
         }
-        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        private void SetStats()
         {
-            NPC.DeathSound = SoundID.NPCDeath19;
-            target.AddBuff(ModContent.BuffType<InfectedYellow>(), 900);
-            NPC.life = 0;
-            NPC.checkDead();
-            if (Main.netMode != 0)
+            NPC.scale = 0.7f + Main.rand.Next(9) * 0.05f;
+            NPC.Size *= NPC.scale;
+            NPC.damage = NPC.defDamage = (int)(NPC.damage * NPC.scale);
+            NPC.life = NPC.lifeMax = (int)(NPC.life * NPC.scale);
+            NPC.value = (int)(NPC.value * NPC.scale);
+            NPC.npcSlots *= NPC.scale;
+        }
+        private ref float HomingStrength => ref NPC.ai[1];
+        private ref float Speed => ref NPC.ai[2];
+        private ref float TransShaderIntensity => ref NPC.localAI[0];
+
+        public override void AI()
+        {
+            if (NPC.ai[0] == 0)
             {
-                ModPacket netMessage = GetPacket();
-                netMessage.Send();
+                SetStats();
+                Speed = 3f;
+                NPC.velocity = (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * Speed;
+                HomingStrength = 16f + Main.rand.NextFloat() * 12f;
+                NPC.netUpdate = true;
+            }
+            if (NPC.ai[0] < 45)
+            {
+                if (NPC.ai[0] % 2 == 0)
+                {
+                    TransShaderIntensity = (45 - NPC.ai[0]) * Main.rand.NextFloat() * 1.5f;
+                }
+                NPC.ai[0]++;
+            }
+            Player P = Main.player[NPC.target];
+            if (!NPC.HasValidTarget)
+            {
+                NPC.TargetClosest(true);
+            }
+
+            if (NPC.ai[0] > 30)
+            {
+                if (NPC.HasValidTarget)
+                {
+                    Vector2 move = P.MountedCenter - NPC.Center;
+                    if (Speed < 10f * (1 + (1 - NPC.scale)))
+                    {
+                        Speed += 0.1f;
+                    }
+                    float effectiveSpeed = Speed;
+                    if (NPC.Distance(P.MountedCenter) > 600)
+                    {
+                        effectiveSpeed = Speed + MathHelper.Min(12, (NPC.Distance(P.MountedCenter) - 600) / 60);
+                    }
+                    if (move.Length() > effectiveSpeed && effectiveSpeed > 0)
+                    {
+                        move *= effectiveSpeed / move.Length();
+                    }
+                    float home = HomingStrength;
+                    NPC.velocity = ((home - 1f) * NPC.velocity + move) / home;
+
+                    if (NPC.velocity.Length() < effectiveSpeed && effectiveSpeed > 0)
+                    {
+                        NPC.velocity *= 1.02f;
+                    }
+                    if (NPC.velocity.Length() > effectiveSpeed)
+                    {
+                        NPC.velocity.Normalize();
+                        NPC.velocity *= effectiveSpeed;
+                    }
+                }
             }
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            target.AddBuff(ModContent.BuffType<InfectedYellow>(), 900);
-            NPC.life = 0;
-            NPC.checkDead();
+            SpriteEffects effects = SpriteEffects.None;
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            int frameHeight = texture.Height / Main.npcFrameCount[NPC.type];
+            int frameWidth = texture.Width;
+            Rectangle rectangle = new Rectangle(NPC.frame.X, NPC.frame.Y, texture.Width, texture.Height / Main.npcFrameCount[NPC.type]);
+            Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / Main.npcFrameCount[NPC.type] / 2f);
+            Vector2 drawPos = new Vector2(NPC.position.X - Main.screenPosition.X + NPC.width / 2 - texture.Width / 2f + origin.X, NPC.position.Y - Main.screenPosition.Y + NPC.height - frameHeight + origin.Y + NPC.gfxOffY);
+
+            Color lightColor = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
+
+
+            DrawData data = new DrawData(texture, drawPos, new Rectangle?(rectangle), lightColor, NPC.rotation, origin, NPC.scale, effects, 0f);
+            if (NPC.ai[0] < 45)
+            {
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+
+                MiscShaderData shaderData = GameShaders.Misc["JoostXTransform"];
+
+                shaderData.UseImage0(TextureAssets.Npc[NPC.type]);
+                shaderData.UseImage1(TextureAssets.Npc[NPC.type]);
+                float intensity = TransShaderIntensity;
+                shaderData.UseOpacity(intensity);
+
+                shaderData.Apply(data);
+                data.Draw(spriteBatch);
+
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+            }
+            else
+            {
+                data.Draw(spriteBatch);
+            }
+
+            return false;
         }
+    }
+
+    public class XParasiteYellow : XParasite
+    {
         public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
@@ -85,75 +210,83 @@ namespace JoostMod.NPCs.Bosses.SAX
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.GoldCoin));
         }
-        public override void AI()
+        
+    }
+    public class XParasiteRed : XParasite
+    {
+        public override void SetDefaults()
         {
-            if (NPC.ai[0] == 0)
+            base.SetDefaults();
+            infectionBuffID = ModContent.BuffType<InfectedRed>();
+        }
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                NPC.scale = 0.7f + Main.rand.Next(9) * 0.05f;
-                NPC.width = (int)(28 * NPC.scale);
-                NPC.height = (int)(28 * NPC.scale);
-                NPC.damage = (int)(50 * NPC.scale * (Main.expertMode ? 2 : 1));
-                NPC.life = (int)(1000 * NPC.scale * (Main.expertMode ? 2 : 1));
-                NPC.lifeMax = NPC.life;
-                NPC.velocity = new Vector2(Main.rand.Next(11) - 5, Main.rand.Next(11) - 5);
-                NPC.ai[0]++;
-                NPC.netUpdate = true;
-            }
-            Player P = Main.player[NPC.target];
-            if (NPC.target < 0 || NPC.target == 255 || P.dead || !P.active)
-            {
-                NPC.TargetClosest(true);
-            }
-            NPC.ai[1]++;
-            if (NPC.ai[1] > 30)
-            {
-                Vector2 move = P.MountedCenter - NPC.Center;
-                NPC.localAI[1] = 10f * (1 + (1 - NPC.scale));
-                if (NPC.Distance(P.MountedCenter) > 400)
+                var sauce = NPC.GetSource_Death();
+                for (int i = 0; i < 4; i++)
                 {
-                    NPC.localAI[1] = 10 * (1 + (1 - NPC.scale)) + (NPC.Distance(P.MountedCenter) - 400) / 40 * (1 + (1 - NPC.scale));
-                }
-                if (move.Length() > NPC.localAI[1] && NPC.localAI[1] > 0)
-                {
-                    move *= NPC.localAI[1] / move.Length();
-                }
-                float home = 10f;
-                NPC.velocity = ((home - 1f) * NPC.velocity + move) / home;
-                if (NPC.velocity.Length() < NPC.localAI[1] && NPC.localAI[1] > 0)
-                {
-                    NPC.velocity *= NPC.localAI[1] / NPC.velocity.Length();
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("RedXParasite").Type);
                 }
             }
-            else if (NPC.velocity.Length() > 12)
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Heart));
+        }
+    }
+    public class XParasiteGreen : XParasite
+    {
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            infectionBuffID = ModContent.BuffType<InfectedGreen>();
+        }
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
             {
-                NPC.velocity.Normalize();
-                NPC.velocity *= 12;
-            }
-            if (NPC.ai[1] > 90)
-            {
-                NPC.ai[1] = 0;
-            }/*
-            if (npc.ai[2] > 10)
-            {
-                npc.DeathSound = SoundID.NPCDeath19;
-                npc.damage = 0;
-                npc.dontTakeDamage = true;
-                npc.position = P.MountedCenter - new Vector2(npc.width / 2, 28 - npc.scale * 14);
-                npc.velocity = P.velocity;
-                npc.ai[0] -= 0.05f;
-                npc.scale = npc.ai[0];
-                if (npc.ai[0] <= 0.1f)
+                var sauce = NPC.GetSource_Death();
+                for (int i = 0; i < 4; i++)
                 {
-                    P.AddBuff(mod.BuffType("InfectedYellow"), 900);
-                    npc.life = 0;
-                    npc.active = false;
-                    npc.checkDead();
-                    if (Main.netMode != 0)
-                    {
-                        NetMessage.SendData(23, -1, -1, null, npc.whoAmI);
-                    }
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("GreenXParasite").Type);
                 }
-            }*/
+            }
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnergyFragment>()));
+        }
+    }
+    public class XParasiteIce : XParasite
+    {
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            NPC.width = 42;
+            NPC.height = 42;
+            NPC.damage = 70;
+            NPC.defense = 15;
+            NPC.lifeMax = 2000;
+            NPC.knockBackResist = 0.1f;
+            NPC.coldDamage = true;
+            infectionBuffID = ModContent.BuffType<InfectedBlue>();
+            spriteFrameHeight = 50;
+        }
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                var sauce = NPC.GetSource_Death();
+                for (int i = 0; i < 4; i++)
+                {
+                    Gore.NewGore(sauce, NPC.position, NPC.velocity, Mod.Find<ModGore>("IceXParasite").Type);
+                }
+            }
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Star));
         }
     }
 }

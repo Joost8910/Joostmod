@@ -11,32 +11,20 @@ using Terraria.ModLoader;
 using JoostMod.Buffs;
 using JoostMod.Projectiles.Hostile;
 using JoostMod.Dusts;
+using Terraria.Graphics.Shaders;
 
 namespace JoostMod.NPCs.Bosses.SAX
 {
     [AutoloadBossHead]
     public class SAX : ModNPC
     {
-        private float State
-        {
-            get { return NPC.ai[0]; }
-            set { NPC.ai[0] = value; }
-        }
-        private float AI_Counter
-        {
-            get { return NPC.ai[1]; }
-            set { NPC.ai[1] = value; }
-        }
-        private float AI_SubState
-        {
-            get { return NPC.ai[2]; }
-            set { NPC.ai[2] = value; }
-        }
-        private float Aiming_Rotation
-        {
-            get { return NPC.ai[3]; }
-            set { NPC.ai[3] = value; }
-        }
+        private ref float State => ref NPC.ai[0];
+        private ref float AI_Counter => ref NPC.ai[1];
+        private ref float AI_SubState => ref NPC.ai[2];
+        private ref float Aiming_Rotation => ref NPC.ai[3];
+        private ref float TransShaderIntensity => ref NPC.localAI[0];
+
+        private int Unstuck_Check = 0;
         private enum StateID : int
         {
             Spawn,
@@ -54,7 +42,8 @@ namespace JoostMod.NPCs.Bosses.SAX
             TurnAround,
             MorphBall,
             ScrewAttack,
-            XRayScope
+            XRayScope,
+            UnstuckTransform
         }
         const int BASE_WIDTH = 28;
         const int BASE_HEIGHT = 62;
@@ -62,8 +51,8 @@ namespace JoostMod.NPCs.Bosses.SAX
         const int BALL_HEIGHT = 28;
         const float WALK_SPEED = 1.5f;
 
-        public static int mutantHeadSlot = -1;
-        public static int coreHeadSlot = -1;
+        private static int mutantHeadSlot = -1;
+        private static int coreHeadSlot = -1;
         public override void Load()
         {
             string texMutant = BossHeadTexture + "_Mutant";
@@ -142,6 +131,7 @@ namespace JoostMod.NPCs.Bosses.SAX
         {
             writer.Write(NPC.width);
             writer.Write(NPC.height);
+            writer.Write(Unstuck_Check);
             //writer.Write((int)NPC.localAI[0]);
             //writer.Write((int)NPC.localAI[1]);
             //writer.Write((int)NPC.localAI[2]);
@@ -152,6 +142,7 @@ namespace JoostMod.NPCs.Bosses.SAX
         {
             NPC.width = reader.ReadInt32();
             NPC.height = reader.ReadInt32();
+            Unstuck_Check = reader.ReadInt32();
             //NPC.localAI[0] = reader.ReadInt32();
             //NPC.localAI[1] = reader.ReadInt32();
             //NPC.localAI[2] = reader.ReadInt32();
@@ -187,7 +178,56 @@ namespace JoostMod.NPCs.Bosses.SAX
                 {
                     NPC.frameCounter = 0;
                 }
-                if (AI_SubState == (int)Search_Substate.MorphBall)
+                if (AI_SubState == (int)Search_Substate.UnstuckTransform)
+                {
+                    if (AI_Counter < 120 || AI_Counter >= 420)
+                    {
+                        if (AI_Counter >= 420)
+                        {
+                            NPC.frame.Y = 16 * frameHeight;
+                            NPC.frame.X = 0;
+                        }
+                        else
+                        {
+                            if (AI_Counter < 40)
+                            {
+                                if (NPC.velocity.Y == 0)
+                                {
+                                    if (AI_Counter > 30)
+                                    {
+                                        NPC.frame.X = 3 * frameWidth;
+                                        NPC.frame.Y = 15 * frameHeight;
+                                    }
+                                }
+                                else
+                                {
+                                    NPC.frame.X = 0;
+                                    NPC.frame.Y = 16 * frameHeight;
+                                }
+                            }
+                            else //First frame of transform animation
+                            {
+                                NPC.frame.X = 0;
+                                NPC.frame.Y = 0;
+                            }
+                        }
+                    }
+                    else //Core X
+                    {
+                        NPC.frame.X = 0;
+                        NPC.frameCounter++;
+                        if (NPC.frameCounter >= 5)
+                        {
+                            NPC.frameCounter = 0;
+                            NPC.frame.Y += 64;
+                        }
+                        if (NPC.frame.Y >= 8 * 64)
+                        {
+                            NPC.frame.Y = 0;
+                        }
+                    }
+                }
+                else if (AI_SubState == (int)Search_Substate.MorphBall)
                 {
                     if (AI_Counter % 50 < 10 || AI_Counter % 50 >= 20)
                     {
@@ -334,6 +374,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         {
                             NPC.frameCounter = 0;
                             NPC.frame.Y = 16 * frameHeight;
+                            NPC.frame.X = 0;
                         }
                         /*NPC.frameCounter++;
                         if (NPC.frameCounter >= 6)
@@ -536,6 +577,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                             AI_Counter -= AI_Counter % 25;
                                             AI_SubState = (int)Search_Substate.TurnAround;
                                         }
+                                        Unstuck_Check += 300;
                                     }
                                 }
                                 NPC.netUpdate = true;
@@ -598,7 +640,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         NPC.velocity.X = WALK_SPEED * NPC.direction;
                         if (AI_Counter % 600 > 400)
                         {
-                            AI_Counter += 200;
+                            AI_Counter += 250;
                         }
                     }
                 }
@@ -637,6 +679,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         {
                             NPC.direction *= -1;
                             NPC.velocity.X = 2 * NPC.direction;
+                            Unstuck_Check += 400;
                         }
                         if (NPC.velocity.Y == 0 && AI_Counter % 50 >= 15)
                         {
@@ -711,6 +754,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                     if (NPC.velocity.X == 0 && AI_Counter % 250 < 200)
                     {
                         NPC.direction *= -1;
+                        Unstuck_Check += 100;
                     }
                     NPC.velocity.X = 6 * NPC.direction;
                     if (NPC.velocity.Y == 0 && NPC.oldVelocity.Y > 0)
@@ -767,9 +811,106 @@ namespace JoostMod.NPCs.Bosses.SAX
                         Aiming_Rotation = 0;
                     }
                 }
+                if (Unstuck_Check > 0)
+                {
+                    Unstuck_Check--;
+                }
+                if (Unstuck_Check > 1000)
+                {
+                    AI_SubState = (int)Search_Substate.UnstuckTransform;
+                    AI_Counter = 0;
+                    Unstuck_Check = 0;
+                    Aiming_Rotation = 0;
+                }
 
             }
-            //Main.NewText(AI_Counter);
+            if (AI_SubState == (int)Search_Substate.UnstuckTransform)
+            {
+                if (AI_Counter < 150)
+                {
+                    NPC.velocity.X = 0;
+                }
+                if (AI_Counter < 200 || AI_Counter >= 300)
+                {
+                    AI_Counter++;
+                }
+                if (AI_Counter >= 60) //Begin transform
+                {
+                    NPC.height = BASE_HEIGHT;
+                    if (AI_Counter == 60)
+                    {
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/XTransform"), NPC.Center);
+                    }
+                    if (AI_Counter >= 90)
+                    {
+                        NPC.noGravity = true;
+                        NPC.dontTakeDamage = true;
+                        NPC.noTileCollide = true;
+                    }
+                    if (AI_Counter < 120)
+                    {
+                        if (AI_Counter % 2 == 0)
+                        {
+                            TransShaderIntensity = (AI_Counter - 60) / 2 * Main.rand.NextFloat();
+                        }
+                    }
+                    else if (AI_Counter < 150) // Core
+                    {
+                        if (AI_Counter % 2 == 0)
+                        {
+                            TransShaderIntensity = (150 - AI_Counter) * Main.rand.NextFloat();
+                        }
+                    }
+                }
+                if (AI_Counter == 150)
+                {
+                    NPC.velocity = (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 5f;
+                }
+                if (AI_Counter >= 200 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height)) // Terrain Check (WIP)
+                {
+                    NPC.velocity = Vector2.Zero;
+                    if (AI_Counter < 330)
+                    {
+                        AI_Counter = 330;
+                    }
+                }
+                if (AI_Counter >= 360) //Untransform
+                {
+                    if (AI_Counter == 360)
+                    {
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/XTransform"), NPC.Center);
+                    }
+                    if (AI_Counter < 420)
+                    {
+                        if (AI_Counter % 2 == 0)
+                        {
+                            TransShaderIntensity = (AI_Counter - 360) / 2 * Main.rand.NextFloat();
+                        }
+                    }
+                    else if (AI_Counter < 450)
+                    {
+                        if (AI_Counter % 2 == 0)
+                        {
+                            TransShaderIntensity = (450 - AI_Counter) * Main.rand.NextFloat();
+                        }
+                    }
+                    else
+                    {
+                        NPC.dontTakeDamage = false;
+                        NPC.noGravity = false;
+                        NPC.noTileCollide = false;
+                        AI_Counter = 0;
+                        AI_SubState = (int)Search_Substate.Walking;
+                        NPC.velocity.Y = 4f;
+                        Aiming_Rotation = 0;
+                    }
+                }
+                //if (AI_Counter >= 200)
+                //{
+                //    AI_Counter = 0;
+                //}
+            }
+            Main.NewText(Unstuck_Check);
 
             if (State == (int)StateID.Chase)
             {
@@ -1627,9 +1768,9 @@ namespace JoostMod.NPCs.Bosses.SAX
             }
             if (State == (int)StateID.Spawn || State == (int)StateID.Search || State == (int)StateID.Chase)
             {
+                Color lightColor = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
+
                 Texture2D texture = TextureAssets.Npc[NPC.type].Value;
-                Texture2D visorTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Visor");
-                Color visorColor = Color.White;
 
                 int xFrameCount = 4;
                 int frameHeight = texture.Height / Main.npcFrameCount[NPC.type];
@@ -1638,7 +1779,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 Vector2 origin = new Vector2(texture.Width / xFrameCount / 2f, texture.Height / Main.npcFrameCount[NPC.type] / 2f);
                 Vector2 drawPos = new Vector2(NPC.position.X - Main.screenPosition.X + NPC.width / 2 - texture.Width / xFrameCount / 2f + origin.X, NPC.position.Y - Main.screenPosition.Y + NPC.height - frameHeight + 4f + origin.Y + NPC.gfxOffY);
 
-                Color lightColor = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16));
+                DrawData mainData = new DrawData(texture, drawPos, new Rectangle?(rectangle), lightColor, NPC.rotation, origin, NPC.scale, effects, 0f);
 
 
                 float cannonRotation = Aiming_Rotation;
@@ -1648,60 +1789,170 @@ namespace JoostMod.NPCs.Bosses.SAX
                     cannonRotation = 0;
                 }
 
-                if (!(NPC.frame.X == 0 && NPC.frame.Y >= 14 * frameHeight && NPC.frame.Y <= 17 * frameHeight) &&            // Turnaround and falling
-                !(NPC.frame.X == 4 * frameWidth && NPC.frame.Y == 17) &&                                                    // Shinespark
-                !(NPC.frame.X == 1 * frameWidth && NPC.frame.Y >= 10 * frameHeight && NPC.frame.Y <= 17 * frameHeight) &&   // Morphball
-                !(NPC.frame.X == 2 * frameWidth && NPC.frame.Y >= 10 * frameHeight && NPC.frame.Y <= 17 * frameHeight))     // Screw Attack
+                Texture2D cannonTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_ArmCannon");
+                Rectangle cannonRect = new Rectangle(0, 0, cannonTex.Width, cannonTex.Height / 2);
+                Vector2 cannonOrigin = new Vector2((float)cannonTex.Width / 2, (float)cannonTex.Height / 4);
+
+                int xOff = -2;
+                int yOff = -8;
+                switch (NPC.frame.Y / frameHeight)
                 {
-                    Texture2D cannonTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_ArmCannon");
-                    Rectangle cannonRect = new Rectangle(0, 0, cannonTex.Width, cannonTex.Height / 2);
-                    Vector2 cannonOrigin = new Vector2((float)cannonTex.Width / 2, (float)cannonTex.Height / 4);
-
-                    int xOff = -2;
-                    int yOff = -8;
-                    switch (NPC.frame.Y / frameHeight)
-                    {
-                        case 1:
-                        case 2:
-                        case 6:
-                        case 7:
-                            yOff -= 2;
-                            break;
-                    }
-                    if (NPC.frame.X == 3 * frameWidth && NPC.frame.Y == 15 * frameHeight)
-                    {
-                        yOff = 4;
-                    }
-                    if (NPC.frame.X == 3 * frameWidth && NPC.frame.Y == 14 * frameHeight)
-                    {
-                        yOff -= 23;
-                        xOff += 7;
-                    }
-                    spriteBatch.Draw(cannonTex, NPC.Center - Main.screenPosition + new Vector2(NPC.scale * NPC.direction * xOff, NPC.scale * yOff + NPC.gfxOffY), new Rectangle?(cannonRect), lightColor, cannonRotation, cannonOrigin, NPC.scale, effects, 0f);
+                    case 1:
+                    case 2:
+                    case 6:
+                    case 7:
+                        yOff -= 2;
+                        break;
                 }
-                spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), lightColor, NPC.rotation, origin, NPC.scale, effects, 0f);
+                if (NPC.frame.X == 3 * frameWidth && NPC.frame.Y == 15 * frameHeight)
+                {
+                    yOff = 4;
+                }
+                if (NPC.frame.X == 3 * frameWidth && NPC.frame.Y == 14 * frameHeight)
+                {
+                    yOff -= 23;
+                    xOff += 7;
+                }
+                
+                DrawData cannonData = new DrawData(cannonTex, NPC.Center - Main.screenPosition + new Vector2(NPC.scale * NPC.direction * xOff, NPC.scale * yOff + NPC.gfxOffY), new Rectangle?(cannonRect), lightColor, cannonRotation, cannonOrigin, NPC.scale, effects, 0f);
 
+                Color scopeColor = AI_Counter % 2 == 0 ? Color.White * 0.75f : Color.White * 0.5f;
+                Texture2D scopeTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Scope");
+                Vector2 scopePos = new Vector2(NPC.Center.X - Main.screenPosition.X, NPC.Center.Y - 32 - Main.screenPosition.Y + NPC.gfxOffY);
+                if (NPC.frame.Y != frameHeight * 15)
+                {
+                    scopePos.X += 6 * NPC.direction;
+                }
+                Vector2 scopeOrigin = new Vector2(0, scopeTex.Height / 2);
+                Rectangle scopeRect = scopeTex.Bounds;
+                Vector2 scopeScale = new Vector2(1f, Math.Min(1f, AI_Counter / 20f)) * 0.5f;
+                float scopeRot = Aiming_Rotation;
+
+                DrawData scopeData = new DrawData(scopeTex, scopePos, new Rectangle?(scopeRect), scopeColor, scopeRot, scopeOrigin, scopeScale, SpriteEffects.None, 0f);
+
+
+                Texture2D visorTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Visor");
+                Color visorColor = Color.White;
                 if (State == (int)StateID.Search && AI_SubState == (int)Search_Substate.XRayScope)
                 {
                     visorTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_VisorWhite");
                     visorColor = AI_Counter % 2 == 0 ? Color.Yellow : new Color(0.6f, 0.6f, 0f);
-                    Color scopeColor = AI_Counter % 2 == 0 ? Color.White * 0.75f : Color.White * 0.5f;
-                    Texture2D scopeTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Scope");
-                    Vector2 scopePos = new Vector2(NPC.Center.X - Main.screenPosition.X, NPC.Center.Y - 32 - Main.screenPosition.Y + NPC.gfxOffY);
-                    if (NPC.frame.Y != frameHeight * 15)
-                    {
-                        scopePos.X += 6 * NPC.direction;
-                    }
-                    
-                    Vector2 scopeOrigin = new Vector2(0, scopeTex.Height / 2);
-                    Rectangle scopeRect = scopeTex.Bounds;
-                    Vector2 scopeScale = new Vector2(1f, Math.Min(1f, AI_Counter / 20f)) * 0.5f;
-                    float scopeRot = Aiming_Rotation;
-
-                    spriteBatch.Draw(scopeTex, scopePos, new Rectangle?(scopeRect), scopeColor, scopeRot, scopeOrigin, scopeScale, SpriteEffects.None, 0f);
                 }
 
-                spriteBatch.Draw(visorTex, drawPos, new Rectangle?(rectangle), visorColor, NPC.rotation, origin, NPC.scale, effects, 0f);
+                DrawData visorData = new DrawData(visorTex, drawPos, new Rectangle?(rectangle), visorColor, NPC.rotation, origin, NPC.scale, effects, 0f);
+
+
+                Texture2D deathTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Death");
+                int deathFrameCount = 10;
+                int deathFrameHeight = deathTex.Height / deathFrameCount;
+                Rectangle deathRect = new Rectangle(0, NPC.frame.Y, deathTex.Width, deathFrameHeight);
+                Vector2 deathOrigin = new Vector2(deathTex.Width / 2f, deathFrameHeight / 2f);
+                Vector2 deathDrawPos = new Vector2(NPC.Center.X - Main.screenPosition.X, NPC.position.Y - Main.screenPosition.Y + 3f + NPC.gfxOffY);
+
+                DrawData deathData = new DrawData(deathTex, deathDrawPos, new Rectangle?(deathRect), lightColor, NPC.rotation, deathOrigin, NPC.scale, effects, 0f);
+
+
+                Texture2D coreTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}CoreX_Core");
+                int coreFrameCount = 8;
+                int coreFrameHeight = coreTex.Height / coreFrameCount;
+                Rectangle coreRect = new Rectangle(0, NPC.frame.Y, coreTex.Width, coreFrameHeight);
+                Vector2 coreOrigin = new Vector2(coreTex.Width / 2f, coreFrameHeight / 2f);
+                Vector2 coreDrawPos = new Vector2(NPC.Center.X - Main.screenPosition.X, NPC.Center.Y - Main.screenPosition.Y + NPC.gfxOffY);
+
+                DrawData coreData = new DrawData(coreTex, coreDrawPos, new Rectangle?(coreRect), lightColor, NPC.rotation, coreOrigin, NPC.scale, effects, 0f);
+
+
+                bool useTransformShader = (State == (int)StateID.Search && AI_SubState == (int)Search_Substate.UnstuckTransform)
+                    && ((AI_Counter >= 60 && AI_Counter < 150) || (AI_Counter >= 360 && AI_Counter < 450));
+
+                bool isRawCore = (State == (int)StateID.Search && AI_SubState == (int)Search_Substate.UnstuckTransform)
+                    && AI_Counter >= 120 && AI_Counter < 420;
+
+                bool useTransformAnim = (State == (int)StateID.Search && AI_SubState == (int)Search_Substate.UnstuckTransform)
+                    && AI_Counter >= 40 && AI_Counter < 120;
+
+                if (useTransformShader)
+                {
+                    spriteBatch.End();
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+
+                    float intensity = TransShaderIntensity;
+                    MiscShaderData shaderData = GameShaders.Misc["JoostXTransform"];
+                    shaderData.UseOpacity(intensity);
+
+
+                    if (isRawCore)
+                    {
+                        if (AI_Counter >= 390)
+                        {
+                            shaderData.UseImage0(ModContent.Request<Texture2D>($"{Texture}CoreX_Core"));
+                            shaderData.UseImage1(TextureAssets.Npc[NPC.type]);
+                            shaderData.Apply(coreData);
+                        }
+                        else
+                        {
+                            shaderData.UseImage0(ModContent.Request<Texture2D>($"{Texture}CoreX_Core"));
+                            shaderData.UseImage1(ModContent.Request<Texture2D>($"{Texture}CoreX_Core"));
+                            shaderData.Apply(coreData);
+                        }
+                    }
+                    else
+                    {
+                        if (AI_Counter >= 420)
+                        {
+                            shaderData.UseImage0(TextureAssets.Npc[NPC.type]);
+                            shaderData.UseImage1(TextureAssets.Npc[NPC.type]);
+                            shaderData.Apply(mainData);
+                            mainData.Draw(spriteBatch);
+                        }
+                        else if (AI_Counter < 90)
+                        {
+                            shaderData.UseImage0(ModContent.Request<Texture2D>($"{Texture}_Death"));
+                            shaderData.UseImage1(ModContent.Request<Texture2D>($"{Texture}_Death"));
+                            shaderData.Apply(deathData);
+                        }
+                        else
+                        {
+                            shaderData.UseImage0(ModContent.Request<Texture2D>($"{Texture}_Death"));
+                            shaderData.UseImage1(ModContent.Request<Texture2D>($"{Texture}CoreX_Core"));
+                            shaderData.Apply(deathData);
+                        }
+                    }
+                }
+                
+                if (useTransformAnim)
+                {
+                    deathData.Draw(spriteBatch);
+                }
+                else if (isRawCore)
+                {
+                    coreData.Draw(spriteBatch);
+                }
+                else if (!useTransformShader)
+                {
+                    if (!(NPC.frame.X == 0 && NPC.frame.Y >= 14 * frameHeight && NPC.frame.Y <= 17 * frameHeight) &&            // Turnaround and falling
+                    !(NPC.frame.X == 4 * frameWidth && NPC.frame.Y == 17) &&                                                    // Shinespark
+                    !(NPC.frame.X == 1 * frameWidth && NPC.frame.Y >= 10 * frameHeight && NPC.frame.Y <= 17 * frameHeight) &&   // Morphball
+                    !(NPC.frame.X == 2 * frameWidth && NPC.frame.Y >= 10 * frameHeight && NPC.frame.Y <= 17 * frameHeight))     // Screw Attack
+                    {
+                        cannonData.Draw(spriteBatch);
+                    }
+
+                    mainData.Draw(spriteBatch);
+
+                    if (State == (int)StateID.Search && AI_SubState == (int)Search_Substate.XRayScope)
+                    {
+                        scopeData.Draw(spriteBatch);
+                    }
+
+                    visorData.Draw(spriteBatch);
+                }
+
+                if (useTransformShader)
+                {
+                    spriteBatch.End();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+                }
             }
             return false;
         }

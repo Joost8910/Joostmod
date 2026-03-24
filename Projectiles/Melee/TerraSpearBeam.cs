@@ -193,7 +193,7 @@ namespace JoostMod.Projectiles.Melee
             data.Draw(Main.spriteBatch);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
 
             //Main.instance.PrepareDrawnEntityDrawing(Projectile, intended);
 

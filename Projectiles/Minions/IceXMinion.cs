@@ -69,7 +69,7 @@ namespace JoostMod.Projectiles.Minions
         {
             SpriteEffects effects = SpriteEffects.None;
             Color color = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16));
-            Texture2D tex = TextureAssets.Projectile[ModContent.ProjectileType<XParasiteIce>()].Value;
+            Texture2D tex = TextureAssets.Projectile[ModContent.ProjectileType<XParasiteProjIce>()].Value;
             Rectangle rect = new Rectangle(0, (int)(Projectile.frameCounter / 6) * 34, (tex.Width), (tex.Height / 6));
             Vector2 vect = new Vector2((float)tex.Width / 2, (float)tex.Height / 12);
             float rotation = 0;
