@@ -507,17 +507,18 @@ namespace JoostMod.NPCs.Bosses.SAX
                                 AI_SubState = (int)Search_Substate.HeadTurn;
                             }
                         }
-                        if (NPC.velocity.X == 0)
+                        if (NPC.velocity.X == 0) //Hit wall
                         {
                             //Check for morph tunnel 
+                            //NPC.height - 14 - (NPC.position.Y % 16)
                             Vector2 morphCheckPos = new Vector2(NPC.Center.X + (NPC.width / 2 + 14) * NPC.direction, NPC.position.Y + NPC.height - 16) + new Vector2(-14, -16);
-                            //for(int i = 0; i < 7; i++)
-                            //{
-                            //    for (int j = 0; j < 7; j++)
-                            //    {
-                            //        Dust.NewDustPerfect(morphCheckPos + new Vector2(i * 4, j * 4), DustID.BlueFairy, Vector2.Zero);
-                            //    }
-                            //}
+                            for (int i = 1; i <= 7; i++)
+                            {
+                                for (int j = 1; j <= 7; j++)
+                                {
+                                    Dust.NewDustPerfect(morphCheckPos + new Vector2(i * 4, j * 4), DustID.BlueFairy, Vector2.Zero);
+                                }
+                            }
                             if (Collision.SolidCollision(morphCheckPos + new Vector2(0, -32), 32, 32) && !Collision.SolidCollision(morphCheckPos, 28, 28) && !Main.rand.NextBool(3)) // 2/3 chance
                             {
                                 AI_Counter -= AI_Counter % 50;
@@ -564,6 +565,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                         NPC.velocity.X = 6 * NPC.direction;
                                         AI_SubState = (int)Search_Substate.ScrewAttack;
                                         AI_Counter -= AI_Counter % 250;
+                                        Unstuck_Check += 250;
                                     }
                                     else
                                     {
@@ -577,7 +579,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                             AI_Counter -= AI_Counter % 25;
                                             AI_SubState = (int)Search_Substate.TurnAround;
                                         }
-                                        Unstuck_Check += 300;
+                                        Unstuck_Check += 900;
                                     }
                                 }
                                 NPC.netUpdate = true;
@@ -679,7 +681,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         {
                             NPC.direction *= -1;
                             NPC.velocity.X = 2 * NPC.direction;
-                            Unstuck_Check += 400;
+                            Unstuck_Check += 1200;
                         }
                         if (NPC.velocity.Y == 0 && AI_Counter % 50 >= 15)
                         {
@@ -754,7 +756,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                     if (NPC.velocity.X == 0 && AI_Counter % 250 < 200)
                     {
                         NPC.direction *= -1;
-                        Unstuck_Check += 100;
+                        Unstuck_Check += 200;
                     }
                     NPC.velocity.X = 6 * NPC.direction;
                     if (NPC.velocity.Y == 0 && NPC.oldVelocity.Y > 0)
@@ -815,7 +817,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 {
                     Unstuck_Check--;
                 }
-                if (Unstuck_Check > 1000)
+                if (Unstuck_Check > 4000)
                 {
                     AI_SubState = (int)Search_Substate.UnstuckTransform;
                     AI_Counter = 0;
@@ -865,13 +867,58 @@ namespace JoostMod.NPCs.Bosses.SAX
                 if (AI_Counter == 150)
                 {
                     NPC.velocity = (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 5f;
+                    NPC.netUpdate = true;
                 }
-                if (AI_Counter >= 200 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height)) // Terrain Check (WIP)
+                if (AI_Counter == 200) //Loop back to search again
                 {
-                    NPC.velocity = Vector2.Zero;
-                    if (AI_Counter < 330)
+                    AI_Counter = 151;
+                }
+                if (AI_Counter == 175) //Search for open spot
+                {
+                    NPC.netUpdate = true;
+                    bool foundSpot = false;
+                    for (int i = -60; i < 60; i += 6) //Terrain Check
                     {
-                        AI_Counter = 330;
+                        for (int j = -60; j < 60; j += 6)
+                        {
+                            Vector2 pos = new Vector2(i * 16, j * 16) + NPC.Center + (NPC.velocity * Main.rand.Next(200, 400));
+                            Rectangle rect = new Rectangle((int)pos.X - 100, (int)pos.Y - 40, 200, 80);
+                            if (!Collision.SolidCollision(rect.TopLeft(), rect.Width, rect.Height))
+                            {
+                                NPC.targetRect = rect;
+                                foundSpot = true;
+                            }
+                        }
+                    }
+                    if (foundSpot)
+                    {
+                        AI_Counter = 201;
+                    }
+                    //Main.NewText(foundSpot);
+                }
+                //Main.NewText(NPC.targetRect.Center());
+                if (AI_Counter > 200)
+                {
+                    //Dust.NewDustDirect(NPC.targetRect.TopLeft(), NPC.targetRect.Width, NPC.targetRect.Height, DustID.PinkFairy, 0, 0, 0, default, 3);
+
+                    if (NPC.Distance(NPC.targetRect.Center()) < 250 && Collision.CanHitLine(NPC.Center, 1, 1, NPC.targetRect.TopLeft(), NPC.targetRect.Width, NPC.targetRect.Height) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                    {
+                        NPC.velocity *= 0.95f;
+                        if (AI_Counter < 330)
+                        {
+                            AI_Counter += 10;
+                        }
+                    }
+                    else
+                    {
+                        Vector2 move = NPC.targetRect.Center() - NPC.Center;
+                        float speed = 5f;
+                        if (move.Length() > speed && speed > 0)
+                        {
+                            move *= speed / move.Length();
+                        }
+                        float home = 40f;
+                        NPC.velocity = ((home - 1f) * NPC.velocity + move) / home;
                     }
                 }
                 if (AI_Counter >= 360) //Untransform
@@ -905,12 +952,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                         Aiming_Rotation = 0;
                     }
                 }
-                //if (AI_Counter >= 200)
-                //{
-                //    AI_Counter = 0;
-                //}
             }
-            Main.NewText(Unstuck_Check);
+            //if (Unstuck_Check > 0 && Unstuck_Check % 10 == 0)
+            //{
+            //    Main.NewText(Unstuck_Check);
+            //}
 
             if (State == (int)StateID.Chase)
             {
