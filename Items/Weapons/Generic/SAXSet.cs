@@ -97,7 +97,7 @@ namespace JoostMod.Items.Weapons.Generic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int wep = Main.rand.Next(4);
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBomb>()] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBombExplosion>()] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBombExplosion2>()] >= 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBomb>()] + player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Thrown.PowerBombExplosion>()] >= 1)
             {
                 wep = Main.rand.Next(3);
             }

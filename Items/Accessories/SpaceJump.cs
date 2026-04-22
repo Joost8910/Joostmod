@@ -22,13 +22,15 @@ namespace JoostMod.Items.Accessories
 
 		public override void AddRecipes()
 		{
-			CreateRecipe()
-				.AddIngredient(ItemID.HallowedBar, 8)
-				.AddIngredient(ItemID.MeteoriteBar, 8)
-				.AddIngredient(ItemID.BundleofBalloons)
-				.AddTile(TileID.MythrilAnvil)
-				.Register();
-
+			if (!JoostFunctions.MetroidModActive())
+            {
+                CreateRecipe()
+                    .AddIngredient(ItemID.HallowedBar, 8)
+                    .AddIngredient(ItemID.MeteoriteBar, 8)
+                    .AddIngredient(ItemID.BundleofBalloons)
+                    .AddTile(TileID.MythrilAnvil)
+                    .Register();
+            }
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{

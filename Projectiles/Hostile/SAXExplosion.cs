@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Bosses.SAX;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,6 +34,18 @@ namespace JoostMod.Projectiles.Hostile
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.OnFire3, 300);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SourceDamage *= JoostFunctions.GameDamageMult() * 2;
+        }
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (!(target.type == ModContent.NPCType<SAX>() || target.type == ModContent.NPCType<XParasite>()))
+            {
+                return true;
+            }
+            return base.CanHitNPC(target);
         }
         public override void AI()
         {

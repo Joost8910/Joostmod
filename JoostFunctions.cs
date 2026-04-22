@@ -2,11 +2,27 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using System;
+using Terraria.GameContent.Creative;
 
 namespace JoostMod
 {
     public class JoostFunctions : ModSystem
     {
+        public static float GameDamageMult()
+        {
+            if (Main.GameModeInfo.IsJourneyMode)
+            {
+                CreativePowers.DifficultySliderPower power = CreativePowerManager.Instance.GetPower<CreativePowers.DifficultySliderPower>();
+                if (power != null && power.GetIsUnlocked())
+                {
+                    return power.StrengthMultiplierToGiveNPCs;
+                }
+            }
+            return Main.GameModeInfo.EnemyDamageMultiplier;
+        }
+        public static bool MetroidModActive() => ModLoader.TryGetMod("MetroidMod", out _);
         public static Vector2 PredictPlayerPosition(Vector2 startPos, float shootSpeed, Player P, int extraTime = 0)
         {
             Vector2 tileVel = Collision.TileCollision(P.position, P.velocity, P.width, P.height);

@@ -36,7 +36,7 @@ namespace JoostMod.Items.Weapons.Thrown
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<PowerBombExplosion>()] + player.ownedProjectileCounts[ModContent.ProjectileType<PowerBombExplosion2>()] >= 1)
+            if (player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<PowerBombExplosion>()] >= 1)
             {
                 return false;
             }

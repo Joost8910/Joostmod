@@ -18,7 +18,7 @@ namespace JoostMod.Projectiles.Thrown
             Projectile.width = 1000;
             Projectile.height = 500;
             Projectile.aiStyle = -1;
-            Projectile.timeLeft = 55;
+            Projectile.timeLeft = 110;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Throwing;
             Projectile.tileCollide = false;
@@ -29,13 +29,24 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override void AI()
         {
-            int size = 56 - Projectile.timeLeft;
-            Projectile.scale = size * 0.036f;
-            Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
-            Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
-            Projectile.width = (int)Math.Round(1000 * Projectile.scale);
-            Projectile.height = (int)Math.Round(500 * Projectile.scale);
-            Lighting.AddLight(Projectile.Center, 10f, 10f, 10f);
+            if (Projectile.timeLeft < 55)
+            {
+                Projectile.scale = Projectile.timeLeft * 0.036f;
+                Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
+                Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
+                Projectile.width = (int)Math.Round(1000 * Projectile.scale);
+                Projectile.height = (int)Math.Round(500 * Projectile.scale);
+            }
+            else
+            {
+                int size = 110 - Projectile.timeLeft;
+                Projectile.scale = size * 0.036f;
+                Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
+                Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
+                Projectile.width = (int)Math.Round(1000 * Projectile.scale);
+                Projectile.height = (int)Math.Round(500 * Projectile.scale);
+                Lighting.AddLight(Projectile.Center, 10f, 10f, 10f);
+            }
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -88,17 +99,19 @@ namespace JoostMod.Projectiles.Thrown
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-            //Texture2D tex2 = Main.projectileTexture[mod.ProjectileType("PowerBombExplosion2")];
-            Color color = Color.Black;
-            //Main.EntitySpriteDraw(tex2, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex2.Width, tex2.Height)), Color.Black, projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), 7.92f, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 2, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 8, SpriteEffects.None, 0);
+            if (Projectile.timeLeft < 55)
+            {
+                Texture2D tex2 = (Texture2D)ModContent.Request<Texture2D>($"{Texture}2");
+                Main.EntitySpriteDraw(tex2, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex2.Width, tex2.Height)), Color.Black, Projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), Projectile.scale, SpriteEffects.None, 0);
+            }
+            else
+            {
+                Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+                Color color = Color.Black;
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 2, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 8, SpriteEffects.None, 0);
+            }
             return false;
-        }
-        public override void OnKill(int timeLeft)
-        {
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<PowerBombExplosion2>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner);
         }
     }
 }

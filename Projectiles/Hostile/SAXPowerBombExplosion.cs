@@ -19,7 +19,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.width = 1000;
             Projectile.height = 500;
             Projectile.aiStyle = -1;
-            Projectile.timeLeft = 55;
+            Projectile.timeLeft = 110;
             Projectile.hostile = true;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
@@ -30,19 +30,37 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void AI()
         {
-            int size = 56 - Projectile.timeLeft;
-            Projectile.scale = size * 0.036f;
-            Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
-            Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
-            Projectile.width = (int)Math.Round(1000 * Projectile.scale);
-            Projectile.height = (int)Math.Round(500 * Projectile.scale);
-            Lighting.AddLight(Projectile.Center, 10f, 10f, 10f);
+            if (Projectile.timeLeft < 55)
+            {
+                Projectile.scale = Projectile.timeLeft * 0.036f;
+                Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
+                Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
+                Projectile.width = (int)Math.Round(1000 * Projectile.scale);
+                Projectile.height = (int)Math.Round(500 * Projectile.scale);
+            }
+            else
+            {
+                int size = 110 - Projectile.timeLeft;
+                Projectile.scale = size * 0.036f;
+                Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
+                Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
+                Projectile.width = (int)Math.Round(1000 * Projectile.scale);
+                Projectile.height = (int)Math.Round(500 * Projectile.scale);
+                Lighting.AddLight(Projectile.Center, 10f, 10f, 10f);
+            }
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             //player.GetModPlayer<JoostPlayer>().enemyIgnoreDefenseDamage = 10;
             modifiers.ScalingArmorPenetration += 1f;
-            modifiers.SetMaxDamage(Main.expertMode ? 10 : 5);
+            if (Projectile.timeLeft < 55)
+            {
+                modifiers.SetMaxDamage((int)(2.5 * JoostFunctions.GameDamageMult()));
+            }
+            else
+            {
+                modifiers.SetMaxDamage((int)(5 * JoostFunctions.GameDamageMult()));
+            }
             modifiers.ModifyHurtInfo += (ref Player.HurtInfo hurtInfo) =>
             {
                 hurtInfo.Dodgeable = false;
@@ -52,7 +70,16 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.SetMaxDamage(Main.expertMode ? 10 : 5);
+            modifiers.ScalingArmorPenetration += 1f;
+            if (Projectile.timeLeft < 55)
+            {
+                modifiers.SetMaxDamage((int)(2.5 * JoostFunctions.GameDamageMult()));
+
+            }
+            else
+            {
+                modifiers.SetMaxDamage((int)(5 * JoostFunctions.GameDamageMult()));
+            }
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -62,7 +89,7 @@ namespace JoostMod.Projectiles.Hostile
             }
             if (Collides(Projectile.position, Projectile.Size, target.position, target.Size))
             {
-                return base.CanHitNPC(target);
+                return true;
             }
             return false;
         }
@@ -101,17 +128,23 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-            //Texture2D tex2 = Main.projectileTexture[mod.ProjectileType("PowerBombExplosion2")];
-            Color color = Color.Black;
-            //Main.EntitySpriteDraw(tex2, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex2.Width, tex2.Height)), Color.Black, projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), 7.92f, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 2, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 8, SpriteEffects.None, 0);
+            if (Projectile.timeLeft < 55)
+            {
+                Texture2D tex2 = (Texture2D)ModContent.Request<Texture2D>($"{Texture}2");
+                Main.EntitySpriteDraw(tex2, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex2.Width, tex2.Height)), Color.Black, Projectile.rotation, new Vector2(tex2.Width / 2, tex2.Height / 2), Projectile.scale, SpriteEffects.None, 0);
+            }
+            else
+            {
+                Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+                Color color = Color.Black;
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 2, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 2), Projectile.scale * 8, SpriteEffects.None, 0);
+            }
             return false;
         }
-        public override void OnKill(int timeLeft)
-        {
-            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<SAXPowerBombExplosion2>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack);
-        }
+        //public override void OnKill(int timeLeft)
+        //{
+        //    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<SAXPowerBombExplosion2>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack);
+        //}
     }
 }

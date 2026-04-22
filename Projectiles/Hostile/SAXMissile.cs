@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Bosses.SAX;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -50,6 +51,18 @@ namespace JoostMod.Projectiles.Hostile
                 target.velocity.Y = 10;
             }
             Projectile.Kill();
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SourceDamage *= JoostFunctions.GameDamageMult() * 2;
+        }
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (!(target.type == ModContent.NPCType<SAX>() || target.type == ModContent.NPCType<XParasite>()))
+            {
+                return true;
+            }
+            return base.CanHitNPC(target);
         }
         public override void OnKill(int timeLeft)
         {

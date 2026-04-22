@@ -1,3 +1,4 @@
+using JoostMod.NPCs.Bosses.SAX;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,6 +28,8 @@ namespace JoostMod.Projectiles.Hostile
             //projectile.light = 0.75f;
             Projectile.coldDamage = true;
             AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -38,15 +41,35 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (Main.expertMode)
+            int chance = Main.masterMode ? 4 : Main.expertMode ? 3 : 2; //chance out of 4 to freeze
+            if (!target.HasBuff(BuffID.Frozen) && Main.rand.Next(4) < chance)
             {
-                if (!target.HasBuff(BuffID.Frozen) && Main.rand.Next(4) < 3)
+                target.AddBuff(BuffID.Frozen, 30, true);
+            }
+            target.AddBuff(BuffID.Frostburn2, 600, true);
+            target.AddBuff(BuffID.Chilled, 300, true);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.SourceDamage *= JoostFunctions.GameDamageMult() * 2;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (JoostFunctions.MetroidModActive())
+            {
+                if (ModContent.TryFind("MetroidMod", "InstantFreeze", out ModBuff InstantFreeze))
                 {
-                    target.AddBuff(BuffID.Frozen, 30, true);
+                    target.AddBuff(InstantFreeze.Type, 150);
                 }
             }
-            target.AddBuff(BuffID.Frostburn, 300, true);
-            target.AddBuff(BuffID.Chilled, 100, true);
+        }
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (!(target.type == ModContent.NPCType<SAX>() || target.type == ModContent.NPCType<XParasite>()))
+            {
+                return true;
+            }
+            return base.CanHitNPC(target);
         }
         public override void AI()
         {

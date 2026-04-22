@@ -1221,7 +1221,6 @@ namespace JoostMod
             if (info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle>() || 
                 info.DamageSource.SourceProjectileType == ModContent.ProjectileType<CactusNeedle2>() ||
                 info.DamageSource.SourceProjectileType == ModContent.ProjectileType<SAXPowerBombExplosion>() ||
-                info.DamageSource.SourceProjectileType == ModContent.ProjectileType<SAXPowerBombExplosion2>() ||
                 info.DamageSource.SourceProjectileType == ModContent.ProjectileType<GilgSword>())
             {
                 Player.immuneTime = 1;
