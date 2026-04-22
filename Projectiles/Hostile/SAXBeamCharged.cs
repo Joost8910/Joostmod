@@ -61,6 +61,7 @@ namespace JoostMod.Projectiles.Hostile
                     target.AddBuff(InstantFreeze.Type, 300);
                 }
             }
+            target.AddBuff(BuffID.Frostburn2, 1200, true);
         }
         public override bool? CanHitNPC(NPC target)
         {

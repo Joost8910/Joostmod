@@ -515,6 +515,13 @@ namespace JoostMod.NPCs.Bosses.SAX
                     NPC.direction = Math.Sign(projDirEstimate.X - NPC.Center.X);
                     if (Main.rand.NextBool(10))
                     {
+                        foreach (Projectile p in Main.ActiveProjectiles)
+                        {
+                            if (p.active && (p.type == ModContent.ProjectileType<SAXPowerBomb>() || p.type == ModContent.ProjectileType<SAXPowerBombExplosion>()))
+                            {
+                                return;
+                            }
+                        }
                         AI_Counter -= AI_Counter % 60;
                         AI_Counter += 11;
                         AI_SubState = (int)Search_Substate.PowerBomb;
@@ -543,6 +550,13 @@ namespace JoostMod.NPCs.Bosses.SAX
                     NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
                     if (Main.rand.NextBool(10))
                     {
+                        foreach (Projectile p in Main.ActiveProjectiles)
+                        {
+                            if (p.active && (p.type == ModContent.ProjectileType<SAXPowerBomb>() || p.type == ModContent.ProjectileType<SAXPowerBombExplosion>()))
+                            {
+                                return;
+                            }
+                        }
                         AI_Counter -= AI_Counter % 60;
                         AI_Counter += 11;
                         AI_SubState = (int)Search_Substate.PowerBomb;
@@ -2053,8 +2067,8 @@ namespace JoostMod.NPCs.Bosses.SAX
                 float cannonRotation = Aiming_Rotation;
 
                 Texture2D cannonTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_ArmCannon");
-                Rectangle cannonRect = new Rectangle(0, 0, cannonTex.Width, cannonTex.Height / 2);
-                Vector2 cannonOrigin = new Vector2((float)cannonTex.Width / 2, (float)cannonTex.Height / 4);
+                int cannonFrame = 0;
+                int cannonFrameCount = 6;
 
                 Vector2 cannonOffset = CannonOffset();
                 int xOff = (int)cannonOffset.X;
@@ -2068,9 +2082,11 @@ namespace JoostMod.NPCs.Bosses.SAX
 
                 if (State == (int)StateID.Search && AI_SubState == (int)Search_Substate.PanicShot && AI_Counter >= 30)
                 {
-                    cannonRect.Y = cannonTex.Height / 2; //Missile State
+                    cannonFrame = 1; //Missile State
                 }
 
+                Rectangle cannonRect = new Rectangle(0, cannonFrame * cannonTex.Height / cannonFrameCount, cannonTex.Width, cannonTex.Height / cannonFrameCount);
+                Vector2 cannonOrigin = new Vector2((float)cannonTex.Width / 2, (float)(cannonTex.Height / cannonFrameCount) / 2);
 
                 DrawData cannonData = new DrawData(cannonTex, NPC.Center - Main.screenPosition + new Vector2(NPC.scale * NPC.direction * xOff, NPC.scale * yOff + NPC.gfxOffY), new Rectangle?(cannonRect), lightColor, cannonRotation, cannonOrigin, NPC.scale, effects, 0f);
 
