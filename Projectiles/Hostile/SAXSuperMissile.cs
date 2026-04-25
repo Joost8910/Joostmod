@@ -1,3 +1,4 @@
+using JoostMod.Buffs;
 using JoostMod.NPCs.Bosses.SAX;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -46,7 +47,8 @@ namespace JoostMod.Projectiles.Hostile
                 target.wingTime = 0;
                 target.rocketTime = 0;
                 target.mount.Dismount(target);
-                target.velocity.Y = 10;
+                //target.velocity.Y = 10;
+                target.AddBuff(ModContent.BuffType<ClippedWings>(), 120);
             }
             Projectile.Kill();
         }

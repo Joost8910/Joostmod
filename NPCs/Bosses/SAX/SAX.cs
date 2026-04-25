@@ -50,12 +50,26 @@ namespace JoostMod.NPCs.Bosses.SAX
             PanicShot,
             PowerBomb
         }
+        private enum Chase_Substate : int
+        {
+            RunNGun,
+            TurnAround,
+            MorphBall,
+            PowerBomb,
+            ScrewAttack,
+            ShineSpark,
+            ZeroLaser,
+            UnstuckTransform
+        }
         const int BASE_WIDTH = 28;
         const int BASE_HEIGHT = 62;
         const int CROUCH_HEIGHT = 52;
         const int BALL_HEIGHT = 28;
         const float WALK_SPEED = 1.5f;
         const float RUN_SPEED = 8f;
+        const float SPEEDBOOST_START = 12f;
+        const float SPEEDBOOST_MAX = 18f;
+        const float SHINESPARK_SPEED = 24f;
 
         private static int mutantHeadSlot = -1;
         private static int coreHeadSlot = -1;
@@ -661,6 +675,27 @@ namespace JoostMod.NPCs.Bosses.SAX
                 }
             }
         }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            // Screw Attacking
+            if ((State == (int)StateID.Search && AI_Substate == (int)Search_Substate.ScrewAttack) ||
+                (State == (int)StateID.Chase && AI_Substate == (int)Search_Substate.ScrewAttack)) 
+            {
+                modifiers.FinalDamage /= 2;
+                modifiers.DisableCrit();
+            }
+        }
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
+        {
+            // Screw Attacking
+            if ((State == (int)StateID.Search && AI_Substate == (int)Search_Substate.ScrewAttack) ||
+                (State == (int)StateID.Chase && AI_Substate == (int)Search_Substate.ScrewAttack))
+            {
+                modifiers.FinalDamage /= 2;
+                modifiers.DisableCrit();
+            }
+        }
         public override void AI()
         {
             if (!(State == (int)StateID.Spawn && AI_Counter < 100)) // Hide before spawn explosion
@@ -733,6 +768,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 //Main.NewText(AI_SubState);
                 //Aiming_Rotation = 0;
                 //Main.NewText(AI_Counter);
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SAXAppears");
 
                 if (AI_Counter >= 10000) //Investigating
                 {
@@ -740,34 +776,34 @@ namespace JoostMod.NPCs.Bosses.SAX
                     {
                         NPC.targetRect.Y += 4;
                     }
-                    //if (Collision.SolidCollision(NPC.targetRect.Center(), 4, 4))
-                    //{
-                    //    bool foundSpace = false;
-                    //    for (int i = -100; i < 100; i += BASE_WIDTH)
-                    //    {
-                    //        for (int j = -100; j < 100; j += BASE_HEIGHT)
-                    //        {
-                    //            Vector2 pos = NPC.targetRect.Center() + new Vector2(i, j);
-                    //            if (!Collision.SolidCollision(pos, BASE_WIDTH, BASE_HEIGHT))
-                    //            {
-                    //                NPC.targetRect.X += i;
-                    //                NPC.targetRect.Y += j;
-                    //                NPC.targetRect.Width = BASE_WIDTH;
-                    //                NPC.targetRect.Width = BASE_HEIGHT;
-                    //                foundSpace = true;
-                    //                break;
-                    //            }
-                    //        }
-                    //    }
-                    //    if (!foundSpace)
-                    //    {
-                    //        int dir = NPC.Center.X < NPC.targetRect.Center().X ? -1 : 1;
-                    //        int dirY = NPC.Center.Y < NPC.targetRect.Center().Y ? -1 : 1;
-                    //        NPC.targetRect.X += dir * 16;
-                    //        NPC.targetRect.Y += dirY * 16;
-                    //    }
-                    //}
-
+                    //Ideally i'd have an actual pathfinding code here, but that's complex af
+                    /*if (Collision.SolidCollision(NPC.targetRect.Center(), 4, 4))
+                    {
+                        bool foundSpace = false;
+                        for (int i = -100; i < 100; i += BASE_WIDTH)
+                        {
+                            for (int j = -100; j < 100; j += BASE_HEIGHT)
+                            {
+                                Vector2 pos = NPC.targetRect.Center() + new Vector2(i, j);
+                                if (!Collision.SolidCollision(pos, BASE_WIDTH, BASE_HEIGHT))
+                                {
+                                    NPC.targetRect.X += i;
+                                    NPC.targetRect.Y += j;
+                                    NPC.targetRect.Width = BASE_WIDTH;
+                                    NPC.targetRect.Width = BASE_HEIGHT;
+                                    foundSpace = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!foundSpace)
+                        {
+                            int dir = NPC.Center.X < NPC.targetRect.Center().X ? -1 : 1;
+                            int dirY = NPC.Center.Y < NPC.targetRect.Center().Y ? -1 : 1;
+                            NPC.targetRect.X += dir * 16;
+                            NPC.targetRect.Y += dirY * 16;
+                        }
+                    }*/
 
                     if (!LineOfSight(NPC.Center, NPC.targetRect.Center()))
                     {
@@ -777,7 +813,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         NPC.targetRect.Y += dirY;
                     }
 
-                    Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.PinkTorch, Vector2.Zero, 0, default, 2.5f).noGravity = true;
+                    Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.PinkTorch, Vector2.Zero, 0, default, 4f).noGravity = true;
                 }
 
                 if (AI_Substate == (int)Search_Substate.Walking)
@@ -1153,7 +1189,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 }
                 else if (AI_Substate != (int)Search_Substate.XRayScope)
                 {
-                    bool check = SightCheck();
+                    bool check = SightCheck((AI_Substate == (int)Search_Substate.UnstuckTransform));
                     if (check && NPC.HasNPCTarget)
                     {
                         NPC n = Main.npc[NPC.TranslatedTargetIndex];
@@ -1387,11 +1423,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                             }
 
                             Aiming_Rotation = rotation;
-                            //Main.NewText(MathHelper.ToDegrees(Aiming_Rotation));
                             if (NPC.direction < 0)
                             {
                                 Aiming_Rotation -= MathHelper.Pi;
                             }
+                            //Main.NewText(MathHelper.ToDegrees(Aiming_Rotation));
                         }
 
                         if (AI_Counter == 8) //Shoot Ice Beam
@@ -1500,7 +1536,8 @@ namespace JoostMod.NPCs.Bosses.SAX
                 }
             }
             #region Unstuck Transform
-            if (State == (int)StateID.Search && AI_Substate == (int)Search_Substate.UnstuckTransform)
+            if (State == (int)StateID.Search && AI_Substate == (int)Search_Substate.UnstuckTransform ||
+                State == (int)StateID.Chase && AI_Substate == (int)Chase_Substate.UnstuckTransform)
             {
                 if (AI_Counter < 150)
                 {
@@ -1640,9 +1677,16 @@ namespace JoostMod.NPCs.Bosses.SAX
                         NPC.noGravity = false;
                         NPC.noTileCollide = false;
                         AI_Counter = 0;
-                        AI_Substate = (int)Search_Substate.Walking;
                         NPC.velocity.Y = 4f;
                         Aiming_Rotation = 0;
+                        if (State == (int)StateID.Search)
+                        {
+                            AI_Substate = (int)Search_Substate.Walking;
+                        }
+                        if (State == (int)StateID.Chase)
+                        {
+                            AI_Substate = (int)Chase_Substate.RunNGun;
+                        }
                     }
                 }
             }
@@ -1655,9 +1699,193 @@ namespace JoostMod.NPCs.Bosses.SAX
             if (State == (int)StateID.Chase)
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SAXChase");
+
+                int frameHeight = 78;
+                if (NPC.frame.Y == frameHeight * 3 || NPC.frame.Y == frameHeight * 8)
+                {
+                    if (NPC.soundDelay == 0)
+                    {
+                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXFootstep"), NPC.Center);
+                        NPC.soundDelay = 10;
+                    }
+                }
+                else
+                {
+                    NPC.soundDelay = 0;
+                }
+                if (AI_Substate == (int)Chase_Substate.RunNGun)
+                {
+                    AI_Counter++;
+                    if (NPC.direction == 0)
+                    {
+                        NPC.direction = -1;
+                    }
+                    if (NPC.velocity.X * NPC.direction < RUN_SPEED)
+                    {
+                        NPC.velocity.X += 0.25f * NPC.direction;
+                    }
+                    if (NPC.HasPlayerTarget && NPC.HasValidTarget)
+                    {
+                        Player player = Main.player[NPC.target];
+                        Vector2 headPos = NPC.Center + new Vector2(0, -27);
+                        Vector2 gunPos = NPC.Center + CannonOffset();
+                        if (LineOfSight(headPos, player.MountedCenter))
+                        {
+                            float rotation = (JoostFunctions.PredictPlayerPosition(gunPos, 12f, player, 1)).ToRotation();
+
+                            if (AI_Counter % 30 == 20) // Shoot Ice Beam
+                            {
+                                int damage = 50; //100 normal, 200 expert, 300 master
+                                float vel = 12f;
+                                int type = ModContent.ProjectileType<SAXBeam>();
+                                Vector2 aim = rotation.ToRotationVector2();
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
+                                }
+                            }
+                            if (AI_Counter % 150 > 120)
+                            {
+                                rotation = (JoostFunctions.PredictPlayerPosition(gunPos, 14f, player, 1)).ToRotation();
+
+                                if (AI_Counter % 150 == 130)
+                                {
+                                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), NPC.Center);
+                                }
+
+                                if (AI_Counter % 150 == 148) //Shoot Super Missile
+                                {
+                                    float vel = 14f;
+                                    int damage = 75; //150 normal, 300 expert, 450 master
+                                    int type = ModContent.ProjectileType<SAXSuperMissile>();
+                                    Vector2 aim = rotation.ToRotationVector2();
+                                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot"), NPC.Center);
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                    }
+                                }
+                            }
+
+                            Aiming_Rotation = rotation;
+                            if (NPC.direction < 0)
+                            {
+                                Aiming_Rotation -= MathHelper.Pi;
+                            }
+                            if ((player.MountedCenter.X - NPC.Center.X) * NPC.direction < 0)
+                            {
+                                AI_Counter -= AI_Counter % 10;
+                                AI_Substate = (int)Chase_Substate.TurnAround;
+                            }
+                        }
+                        else
+                        {
+                            bool check = SightCheck(false, false, 2);
+                            if (!check)
+                            {
+                                Unstuck_Check += 50;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        bool check = SightCheck(false, false, 2);
+                        if (!check)
+                        {
+                            Unstuck_Check += 40;
+                        }
+                        if (Unstuck_Check > 4000)
+                        {
+                            State = (int)StateID.Search;
+                            AI_Substate = (int)Search_Substate.UnstuckTransform;
+                            Vector2 tPos = NPC.Center + (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 250f;
+                            NPC.targetRect = new Rectangle((int)tPos.X, (int)tPos.Y, 1, 1); 
+                            NPC.netUpdate = true;
+                            AI_Counter = 0;
+                            Unstuck_Check = 0;
+                            Aiming_Rotation = 0;
+                        }
+                    }
+                    if (Unstuck_Check > 0)
+                    {
+                        Unstuck_Check--;
+                    }
+                    if (Unstuck_Check > 5000)
+                    {
+                        AI_Substate = (int)Chase_Substate.UnstuckTransform;
+                        Vector2 tPos = NPC.Center + (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 250f;
+                        NPC.targetRect = new Rectangle((int)tPos.X, (int)tPos.Y, 1, 1);
+                        NPC.netUpdate = true;
+                        AI_Counter = 0;
+                        Unstuck_Check = 0;
+                        Aiming_Rotation = 0;
+                    }
+
+                    Point point2 = NPC.Center.ToTileCoordinates();
+                    if (WorldGen.InWorld(point2.X, point2.Y, 5) && !NPC.noGravity) // Step up stairs
+                    {
+                        Vector2 vector16;
+                        int width;
+                        int height;
+                        NPC.GetTileCollisionParameters(out vector16, out width, out height);
+                        Vector2 vector17 = NPC.position - vector16;
+                        Collision.StepUp(ref vector16, ref NPC.velocity, width, height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+                        NPC.position = vector16 + vector17;
+                    }
+
+                    /*if (NPC.velocity.X == 0) //Hit wall
+                    {
+                        //Check for morph tunnel 
+                        bool canMorph = MorphCheck(out Vector2 morphCheckPos, out int morphTunnelHeight, 16);
+                        if (canMorph && Collision.SolidCollision(morphCheckPos + new Vector2(0, -32), 56, 32) && !Main.rand.NextBool(5)) // 4/5 chance
+                        {
+                            AI_Counter -= AI_Counter % 60;
+                            AI_Substate = (int)Chase_Substate.MorphBall;
+                            if (morphTunnelHeight > 6)
+                            {
+                                NPC.velocity.Y = -(morphTunnelHeight * 0.5f + 5.5f);
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXJump").WithVolumeScale(0.5f), NPC.Center);
+
+                            }
+                            NPC.netUpdate = true;
+                        }
+                        else // Check height of wall and jump accordingly
+                        {
+                            if (AboveLedgeCheck(out float jumpStrength))
+                            {
+                                NPC.velocity.Y = -jumpStrength;
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXJump").WithVolumeScale(0.5f), NPC.Center);
+                            }
+                            else
+                            {
+                                NPC.velocity.Y = -8;
+                                AI_Substate = (int)Chase_Substate.ScrewAttack;
+                                AI_Counter += 350 - (AI_Counter % 350);
+                            }
+                        }
+                    }*/
+                }
+                if (AI_Substate == (int)Chase_Substate.TurnAround)
+                {
+                    AI_Counter++;
+                    if (AI_Counter % 10 == 6)
+                    {
+                        NPC.direction *= -1;
+                    }
+                    if (AI_Counter % 10 >= 9)
+                    {
+                        //AI_Counter = 0;
+                        AI_Substate = (int)Chase_Substate.RunNGun;
+                        NPC.velocity.X = WALK_SPEED * NPC.direction;
+                    }
+                }
+
             }
         }
-        private void PredictiveAim(float speed, Vector2 origin)
+        /*private void PredictiveAim(float speed, Vector2 origin)
         {
             Player P = Main.player[NPC.target];
             Vector2 vel = Math.Abs(NPC.Center.Y - P.MountedCenter.Y) < 200 ? new Vector2(P.velocity.X, 0) : P.velocity;
@@ -1681,7 +1909,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 NPC.direction = 1;
             }
             Aiming_Rotation = (float)Math.Atan2(origin.Y - predictedPos.Y, origin.X - predictedPos.X);
-        }
+        }*/
         private bool MorphCheck(out Vector2 morphCheckPos, out int morphTunnelHeight, int maxTileHeight = 13, int dir = 0)
         { 
             if (dir == 0)
@@ -1792,20 +2020,20 @@ namespace JoostMod.NPCs.Bosses.SAX
             }
             return aboveLedgeCheck;
         }
-        private bool SightCheck(bool isMorphed = false, bool xRayScope = false)
+        private bool SightCheck(bool isMorphed = false, bool xRayScope = false, float distMult = 1f)
         {
             float num = 0f;
             float realDist = 0f;
             bool flag = false;
             int tankTarget = -1;
             bool foundTarget = false;
-            if (isMorphed || (State == (int)StateID.Search && AI_Substate == (int)Search_Substate.UnstuckTransform))
+            if (isMorphed)
             {
                 foreach (Player P in Main.ActivePlayers)
                 {
                     if (P.active && !P.dead && !P.ghost && (P.GetModPlayer<JoostPlayer>().XInfected || LineOfSight(NPC.Center, P.Center)))
                     {
-                        float dist = P.invis ? Math.Max(300 + P.aggro, 0) : 300 + P.aggro / 2;
+                        float dist = P.invis ? Math.Max(300 * distMult + P.aggro, 0) : 300 * distMult + P.aggro / 2;
                         //Main.NewText((int)Vector2.Distance(NPC.Center, P.Center));
                         if (Vector2.Distance(NPC.Center, P.Center) < dist)
                         {
@@ -1856,7 +2084,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 {
                     if (P.active && !P.dead && !P.ghost && (xRayScope || P.GetModPlayer<JoostPlayer>().XInfected || LineOfSight(headPos, P.Center)))
                     {
-                        float dist = P.invis ? Math.Max(750 + P.aggro, 0) : Math.Max(800 + P.aggro, 200);
+                        float dist = P.invis ? Math.Max(750 * distMult + P.aggro, 0) : Math.Max(800 * distMult + P.aggro, 200);
                         if (xRayScope)
                         {
                             dist = 300f;
@@ -1993,7 +2221,7 @@ namespace JoostMod.NPCs.Bosses.SAX
 
         private bool LineOfSight(Vector2 start, Vector2 end)
         {
-            //NPC is a copy of Collision.CanHitLine but with a couple checks commented out so the line works in tight spaces
+            //This is a copy of Collision.CanHitLine but with a couple checks commented out so the line works in tight spaces
             //Also ignores halfbricks while checking sideways and within 3 tiles
             int x = Math.Max((int)(start.X / 16), 1);
             int y = Math.Max((int)(start.Y / 16), 1);
@@ -2509,24 +2737,6 @@ namespace JoostMod.NPCs.Bosses.SAX
             return false;
         }
 
-        /* ModifyHitBy
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (NPC.ai[1] >= 1) // Screw Attacking
-            {
-                modifiers.FinalDamage /= 2;
-                modifiers.DisableCrit();
-            }
-        }
-        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
-        {
-            if (NPC.ai[1] >= 1)
-            {
-                modifiers.FinalDamage /= 2;
-                modifiers.DisableCrit();
-            }
-        }
-        */
         /* OnHitPlayer
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
