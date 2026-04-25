@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,9 +42,10 @@ namespace JoostMod.Projectiles.Hostile
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (!target.HasBuff(BuffID.Frozen))
+            if (!target.HasBuff(BuffID.Frozen) && !target.buffImmune[BuffID.Frozen])
             {
                 target.AddBuff(BuffID.Frozen, 100, true);
+                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceFreeze"), target.Center);
             }
             target.AddBuff(BuffID.Frostburn2, 1200, true);
             target.AddBuff(BuffID.Chilled, 600, true);
@@ -56,9 +58,10 @@ namespace JoostMod.Projectiles.Hostile
         {
             if (JoostFunctions.MetroidModActive())
             {
-                if (ModContent.TryFind("MetroidMod", "InstantFreeze", out ModBuff InstantFreeze))
+                if (ModContent.TryFind("MetroidMod", "InstantFreeze", out ModBuff InstantFreeze) && !target.buffImmune[InstantFreeze.Type])
                 {
                     target.AddBuff(InstantFreeze.Type, 300);
+                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceFreeze"), target.Center);
                 }
             }
             target.AddBuff(BuffID.Frostburn2, 1200, true);
