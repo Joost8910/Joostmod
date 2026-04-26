@@ -26,9 +26,16 @@ namespace JoostMod
         public static Vector2 PredictPlayerPosition(Vector2 startPos, float shootSpeed, Player P, int extraTime = 0)
         {
             Vector2 tileVel = Collision.TileCollision(P.position, P.velocity, P.width, P.height);
-            Vector2 predictedPos = P.MountedCenter + P.velocity + (tileVel * (extraTime + Vector2.Distance(P.MountedCenter, startPos) / shootSpeed));
-            predictedPos = P.MountedCenter + P.velocity + (tileVel * (extraTime + Vector2.Distance(predictedPos, startPos) / shootSpeed));
-            predictedPos = P.MountedCenter + P.velocity + (tileVel * (extraTime + Vector2.Distance(predictedPos, startPos) / shootSpeed));
+            Vector2 predictedPos = P.position + tileVel;
+            int t = extraTime + (int)(Vector2.Distance(predictedPos, startPos) / shootSpeed);
+            for (int i = 0; i < t; i++)
+            {
+                predictedPos += Collision.TileCollision(predictedPos, P.velocity, P.width, P.height);
+            }
+            predictedPos += P.Size / 2;
+            //Vector2 predictedPos = P.MountedCenter + P.velocity + (tileVel * (extraTime + Vector2.Distance(P.MountedCenter, startPos) / shootSpeed));
+            //predictedPos = P.MountedCenter + P.velocity + (tileVel * (extraTime + Vector2.Distance(predictedPos, startPos) / shootSpeed));
+            //predictedPos = P.MountedCenter + P.velocity + (tileVel * (extraTime + Vector2.Distance(predictedPos, startPos) / shootSpeed));
             return predictedPos;
         }
         public void PredictNPCPosition(Vector2 startPos, float shootSpeed, NPC npc, ref Vector2 targetPos, ref float targetDist)

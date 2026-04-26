@@ -31,6 +31,7 @@ namespace JoostMod.Projectiles.Hostile
             AIType = ProjectileID.Bullet;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
         public override bool PreDraw(ref Color lightColor)
         {

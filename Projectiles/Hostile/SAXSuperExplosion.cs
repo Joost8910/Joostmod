@@ -26,6 +26,7 @@ namespace JoostMod.Projectiles.Hostile
             AIType = ProjectileID.Bullet;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

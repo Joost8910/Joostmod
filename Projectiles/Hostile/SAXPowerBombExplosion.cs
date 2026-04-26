@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using JoostMod.NPCs.Bosses.SAX;
+using Terraria.ID;
 
 namespace JoostMod.Projectiles.Hostile
 {
@@ -27,6 +28,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.ignoreWater = true;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 1;
+            CooldownSlot = ImmunityCooldownID.DD2OgreKnockback;
         }
         public override void AI()
         {

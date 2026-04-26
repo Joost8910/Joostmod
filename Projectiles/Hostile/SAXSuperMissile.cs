@@ -26,6 +26,7 @@ namespace JoostMod.Projectiles.Hostile
             Projectile.timeLeft = 1500;
             Projectile.extraUpdates = 1;
             AIType = ProjectileID.Bullet;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
         public override void AI()
         {

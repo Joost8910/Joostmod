@@ -247,6 +247,11 @@ Mods: {
 				Description: Summon Tag Damage
 				DisplayName: Tail Whip Debuff
 			}
+
+			ClippedWings: {
+				DisplayName: Clipped Wings
+				Description: Mods.JoostMod.Buffs.ClippedWings.Description
+			}
 		}
 
 		DamageClasses: {
