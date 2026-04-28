@@ -1508,6 +1508,12 @@ namespace JoostMod
             {
                 isSaitama = true;
             }
+            if (Player.HasBuff<ClippedWings>())
+            {
+                Player.wingsLogic = 0;
+                rocWings = false;
+            }
+
             if (waterBubbleItem != null)
             {
                 Player.wet = true;

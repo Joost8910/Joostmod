@@ -35,6 +35,7 @@ namespace JoostMod.Projectiles.Hostile
             if (Projectile.timeLeft < 55)
             {
                 Projectile.scale = Projectile.timeLeft * 0.036f;
+                Projectile.scale *= 2;
                 Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
                 Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
                 Projectile.width = (int)Math.Round(1000 * Projectile.scale);
@@ -44,6 +45,7 @@ namespace JoostMod.Projectiles.Hostile
             {
                 int size = 110 - Projectile.timeLeft;
                 Projectile.scale = size * 0.036f;
+                Projectile.scale *= 2;
                 Projectile.position.X = Projectile.Center.X - (float)(1000 * Projectile.scale / 2f);
                 Projectile.position.Y = Projectile.Center.Y - (float)(500 * Projectile.scale / 2f);
                 Projectile.width = (int)Math.Round(1000 * Projectile.scale);

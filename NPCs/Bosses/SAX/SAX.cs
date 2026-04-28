@@ -26,8 +26,12 @@ namespace JoostMod.NPCs.Bosses.SAX
         private ref float Aiming_Rotation => ref NPC.ai[3];
         private ref float TransShaderIntensity => ref NPC.localAI[0];
 
-
         private int Unstuck_Check = 0;
+
+        private int AI_AltCounter = 0;
+
+        private int Chase_TurnCounter = 0;
+        private bool IsSpeedBoosting => (NPC.velocity.X * NPC.direction >= SPEEDBOOST_START);
         private enum StateID : int
         {
             Spawn,
@@ -47,10 +51,13 @@ namespace JoostMod.NPCs.Bosses.SAX
             ScrewAttack,
             XRayScope,
             UnstuckTransform,
-            PanicShot,
+            PowerBomb, 
             ShineSpark,
-            ZeroLaser,
-            PowerBomb
+            ShootBeam,
+            ShootChargeBeam,
+            ShootSuperMissile,
+            ShootMissileBarrage,
+            ZeroLaser
         }
 
         const int BASE_WIDTH = 28;
@@ -59,9 +66,9 @@ namespace JoostMod.NPCs.Bosses.SAX
         const int BALL_HEIGHT = 28;
         const float WALK_SPEED = 1.5f;
         const float RUN_SPEED = 8f;
-        const float SPEEDBOOST_START = 12f;
-        const float SPEEDBOOST_MAX = 18f;
-        const float SHINESPARK_SPEED = 24f;
+        const float SPEEDBOOST_START = 16f;
+        const float SPEEDBOOST_MAX = 24f;
+        const float SHINESPARK_SPEED = 32f;
 
         private static int mutantHeadSlot = -1;
         private static int coreHeadSlot = -1;
@@ -145,10 +152,8 @@ namespace JoostMod.NPCs.Bosses.SAX
             writer.Write(NPC.width);
             writer.Write(NPC.height);
             writer.Write(Unstuck_Check);
-            //writer.Write((int)NPC.localAI[0]);
-            //writer.Write((int)NPC.localAI[1]);
-            //writer.Write((int)NPC.localAI[2]);
-            //writer.Write((int)NPC.localAI[3]);
+            writer.Write(AI_AltCounter);
+            writer.Write(Chase_TurnCounter);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -156,10 +161,8 @@ namespace JoostMod.NPCs.Bosses.SAX
             NPC.width = reader.ReadInt32();
             NPC.height = reader.ReadInt32();
             Unstuck_Check = reader.ReadInt32();
-            //NPC.localAI[0] = reader.ReadInt32();
-            //NPC.localAI[1] = reader.ReadInt32();
-            //NPC.localAI[2] = reader.ReadInt32();
-            //NPC.localAI[3] = reader.ReadInt32();
+            AI_AltCounter = reader.ReadInt32();
+            Chase_TurnCounter = reader.ReadInt32();
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
@@ -330,15 +333,16 @@ namespace JoostMod.NPCs.Bosses.SAX
                 else
                 {
                     NPC.frame.X = 0 * frameWidth;
-                    if (AI_Substate == (int)Main_Substate.PanicShot || 
-                        (State == (int)StateID.Chase && AI_Substate == (int)Main_Substate.Walking && 
-                        (NPC.velocity.X == 0 || NPC.velocity.Y != 0)))
+                    if ((AI_Substate >= (int)Main_Substate.ShootBeam || 
+                        (State == (int)StateID.Chase && AI_Substate == (int)Main_Substate.Walking)) && 
+                        (NPC.velocity.X == 0 || NPC.velocity.Y != 0))
                     {
                         if (NPC.velocity.Y == 0) //Grounded
                         {
-                            if (AI_Counter < 0)
+                            if (AI_AltCounter < 0 || Chase_TurnCounter < 0)
                             {
-                                if (AI_Counter < -6 || AI_Counter >= -3) //Turnaround
+                                int c = Math.Min(Chase_TurnCounter, AI_AltCounter);
+                                if (c < -6 || c >= -3) //Turnaround
                                 {
                                     NPC.frame.X = 0;
                                     NPC.frame.Y = 14 * frameHeight;
@@ -350,9 +354,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                             }
                             else //Shooting
                             {
-                                if (AI_Counter % 40 >= 8 && AI_Counter % 40 < 16) //Kickback
+                                if ((AI_Substate == (int)Main_Substate.ShootBeam && AI_AltCounter >= 8 && AI_AltCounter < 16) ||
+                                    (AI_Substate == (int)Main_Substate.ShootSuperMissile && AI_AltCounter >= 28 && AI_AltCounter < 36) ||
+                                    (AI_Substate == (int)Main_Substate.ShootMissileBarrage && AI_AltCounter >= 24 && AI_AltCounter < 80))
                                 {
-                                    NPC.frame.Y = 19 * frameHeight;
+                                    NPC.frame.Y = 19 * frameHeight; //Kickback
                                 }
                                 else
                                 {
@@ -389,39 +395,36 @@ namespace JoostMod.NPCs.Bosses.SAX
                         }
                         else //Aerial
                         {
-                            if (AI_Substate == (int)Main_Substate.PanicShot)
+                            NPC.frame.X = frameWidth * 3;
+                            float aim = MathHelper.ToDegrees(Aiming_Rotation); //Direction of rotation
+                            if (NPC.direction < 0)
                             {
-                                NPC.frame.X = frameWidth * 3;
-                                float aim = MathHelper.ToDegrees(Aiming_Rotation); //Direction of rotation
-                                if (NPC.direction < 0)
-                                {
-                                    aim *= -1;
-                                }
-                                if (aim > 180)
-                                {
-                                    aim -= 360;
-                                }
-                                //Main.NewText(aim, Color.Red);
-                                if (aim > 70f)
-                                {
-                                    NPC.frame.Y = frameHeight * 14;
-                                }
-                                else if (aim > 22.5f)
-                                {
-                                    NPC.frame.Y = frameHeight * 13;
-                                }
-                                else if (aim > -15)
-                                {
-                                    NPC.frame.Y = frameHeight * 10;
-                                }
-                                else if (aim > -60)
-                                {
-                                    NPC.frame.Y = frameHeight * 11;
-                                }
-                                else
-                                {
-                                    NPC.frame.Y = frameHeight * 12;
-                                }
+                                aim *= -1;
+                            }
+                            if (aim > 180)
+                            {
+                                aim -= 360;
+                            }
+                            //Main.NewText(aim, Color.Red);
+                            if (aim > 70f)
+                            {
+                                NPC.frame.Y = frameHeight * 14;
+                            }
+                            else if (aim > 22.5f)
+                            {
+                                NPC.frame.Y = frameHeight * 13;
+                            }
+                            else if (aim > -15)
+                            {
+                                NPC.frame.Y = frameHeight * 10;
+                            }
+                            else if (aim > -60)
+                            {
+                                NPC.frame.Y = frameHeight * 11;
+                            }
+                            else
+                            {
+                                NPC.frame.Y = frameHeight * 12;
                             }
                         }
                     }
@@ -585,7 +588,21 @@ namespace JoostMod.NPCs.Bosses.SAX
         }
         public override bool ModifyCollisionData(Rectangle victimHitbox, ref int immunityCooldownSlot, ref MultipliableFloat damageMultiplier, ref Rectangle npcHitbox)
         {
+            if ((State == (int)StateID.Search || State == (int)StateID.Chase) && 
+                AI_Substate == (int)Main_Substate.ScrewAttack)
+            {
+                npcHitbox = new Rectangle((int)NPC.Center.X - 24, (int)NPC.Center.Y - 24, 48, 48);
+                immunityCooldownSlot = ImmunityCooldownID.Bosses;
+            }
             return base.ModifyCollisionData(victimHitbox, ref immunityCooldownSlot, ref damageMultiplier, ref npcHitbox);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            if ((State == (int)StateID.Search || State == (int)StateID.Chase) &&
+                AI_Substate == (int)Main_Substate.ScrewAttack)
+            {
+                target.AddBuff(ModContent.BuffType<ClippedWings>(), 300);
+            }
         }
 
         public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
@@ -597,11 +614,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                     AI_Substate == (int)Main_Substate.TurnAround ||
                     AI_Substate == (int)Main_Substate.XRayScope ||
                     AI_Substate == (int)Main_Substate.ScrewAttack ||
-                    (AI_Substate == (int)Main_Substate.PanicShot && AI_Counter > 8))
+                    (AI_Substate == (int)Main_Substate.ShootBeam && AI_Counter > 8))
                 {
                     Vector2 projDirEstimate = projectile.Center + projectile.velocity * -90;
                     AI_Counter = 0;
-                    AI_Substate = (int)Main_Substate.PanicShot;
+                    AI_Substate = (int)Main_Substate.ShootBeam;
                     Unstuck_Check += 300;
                     if (Unstuck_Check > 5000)
                     {
@@ -669,11 +686,11 @@ namespace JoostMod.NPCs.Bosses.SAX
                     AI_Substate == (int)Main_Substate.TurnAround ||
                     AI_Substate == (int)Main_Substate.XRayScope ||
                     AI_Substate == (int)Main_Substate.ScrewAttack ||
-                    (AI_Substate == (int)Main_Substate.PanicShot && AI_Counter > 8))
+                    (AI_Substate == (int)Main_Substate.ShootBeam && AI_Counter > 8))
                 {
                     NPC.targetRect = player.getRect();
                     AI_Counter = 0;
-                    AI_Substate = (int)Main_Substate.PanicShot;
+                    AI_Substate = (int)Main_Substate.ShootBeam;
                 }
                 if (AI_Substate == (int)Main_Substate.MorphBall)
                 {
@@ -933,6 +950,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                         else
                                         {
                                             AI_Counter -= AI_Counter % 25;
+                                            //AI_AltCounter = 0;
                                             AI_Substate = (int)Main_Substate.TurnAround;
                                         }
                                         Unstuck_Check += 900;
@@ -954,6 +972,12 @@ namespace JoostMod.NPCs.Bosses.SAX
                                 if (NPC.velocity.X * NPC.direction < RUN_SPEED)
                                 {
                                     NPC.velocity.X += 0.25f * NPC.direction;
+                                }
+                                if (!Collision.SolidTiles(NPC.position, NPC.width, NPC.height + 16, false) && 
+                                    NPC.targetRect.Center().Y > NPC.position.Y + NPC.height && NPC.velocity.Y == 0)
+                                {
+                                    NPC.position.Y++;
+                                    NPC.velocity.Y++;
                                 }
                             }
                             else if (NPC.velocity.X * NPC.direction < WALK_SPEED)// Standard Searching
@@ -986,6 +1010,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                             if (NPC.velocity.Y == 0) //Grounded
                             {
                                 AI_Counter += 25 - (AI_Counter % 25);
+                                //AI_AltCounter = 0;
                                 NPC.velocity.X = 0;
                                 AI_Substate = (int)Main_Substate.TurnAround;
                             }
@@ -1050,10 +1075,10 @@ namespace JoostMod.NPCs.Bosses.SAX
                     }
                     if (AI_Counter % 25 >= 18)
                     {
-                        //AI_Counter = 0;
+                        AI_Counter +=  25 -(AI_Counter % 25);
                         AI_Substate = (int)Main_Substate.Walking;
                         NPC.velocity.X = WALK_SPEED * NPC.direction;
-                        if (AI_Counter % 600 > 400)
+                        if (AI_Counter % 600 > 400) // Prevent too frequent turnaround after hitting wall
                         {
                             AI_Counter += 250;
                         }
@@ -1237,7 +1262,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                 AI_Substate == (int)Main_Substate.XRayScope))
                             {
                                 AI_Counter = 0;
-                                AI_Substate = (int)Main_Substate.PanicShot;
+                                AI_Substate = (int)Main_Substate.ShootBeam;
                             }
                         }
                     }
@@ -1354,13 +1379,23 @@ namespace JoostMod.NPCs.Bosses.SAX
                     if (AI_Counter >= 20)
                     {
                         bool check = SightCheck(false, true);
-                        if (check && NPC.HasNPCTarget)
+                        if (check)
                         {
-                            NPC n = Main.npc[NPC.TranslatedTargetIndex];
-                            if (n.active && !n.dontTakeDamage && !n.immortal)
+                            if (NPC.HasPlayerTarget && NPC.HasValidTarget)
                             {
+                                State = (int)StateID.Chase;
                                 AI_Counter = 0;
-                                AI_Substate = (int)Main_Substate.PanicShot;
+                                AI_AltCounter = 0;
+                                AI_Substate = (int)Main_Substate.ShootBeam;
+                            }
+                            else if (NPC.HasNPCTarget)
+                            {
+                                NPC n = Main.npc[NPC.TranslatedTargetIndex];
+                                if (n.active && !n.dontTakeDamage && !n.immortal)
+                                {
+                                    AI_Counter = 0;
+                                    AI_Substate = (int)Main_Substate.ShootBeam;
+                                }
                             }
                         }
                     }
@@ -1396,7 +1431,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                 }
                 #endregion
                 #region Panic Shot
-                if (AI_Substate == (int)Main_Substate.PanicShot)
+                if (AI_Substate == (int)Main_Substate.ShootBeam || AI_Substate == (int)Main_Substate.ShootSuperMissile)
                 {
                     //Dust.NewDustPerfect(NPC.targetRect.Center(), DustID.Flare, Vector2.Zero, 0, default, 2.5f).noGravity = true;
                     Vector2 gunPos = NPC.Center + CannonOffset();
@@ -1407,12 +1442,12 @@ namespace JoostMod.NPCs.Bosses.SAX
                         NPC.velocity.X = 0;
                     }
 
-                    AI_Counter++;
-                    if (AI_Counter == -3)
+                    AI_AltCounter++;
+                    if (AI_AltCounter == -3)
                     {
                         NPC.direction *= -1;
                     }
-                    if (AI_Counter >= 0)
+                    if (AI_AltCounter >= 0)
                     {
                         bool targettingNPC = false;
                         if (NPC.HasNPCTarget)
@@ -1426,7 +1461,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                             }
                         }
                         
-                        if (targettingNPC && AI_Counter < 8)
+                        if (targettingNPC && AI_Substate == (int)Main_Substate.ShootBeam && AI_AltCounter < 8)
                         {
                             if (JoostFunctions.MetroidModActive())
                             {
@@ -1436,11 +1471,14 @@ namespace JoostMod.NPCs.Bosses.SAX
                                         Main.npc[NPC.TranslatedTargetIndex].HasBuff(InstantFreeze.Type))
                                     {
                                         AI_Counter = 25;
+                                        AI_AltCounter = 0;
+                                        AI_Substate = (int)Main_Substate.ShootSuperMissile;
                                     }
                                 }
                             }
                         }
-                        if (AI_Counter < 8 || (AI_Counter >= 25 && AI_Counter < 48))
+                        if ((AI_Substate == (int)Main_Substate.ShootBeam && AI_AltCounter < 8) || 
+                            (AI_Substate == (int)Main_Substate.ShootSuperMissile && AI_AltCounter < 48))
                         {
                             if (MathHelper.ToDegrees(rotation) > 70 && MathHelper.ToDegrees(rotation) < 110 && NPC.velocity.Y == 0)
                             {
@@ -1452,7 +1490,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                             {
                                 if (NPC.velocity.Y == 0)
                                 {
-                                    AI_Counter = -9;
+                                    AI_AltCounter = -9;
                                 }
                                 else
                                 {
@@ -1468,43 +1506,62 @@ namespace JoostMod.NPCs.Bosses.SAX
                             //Main.NewText(MathHelper.ToDegrees(Aiming_Rotation));
                         }
 
-                        if (AI_Counter == 8) //Shoot Ice Beam
+                        if (AI_Substate == (int)Main_Substate.ShootBeam)
                         {
-                            int damage = 50; //100 normal, 200 expert, 300 master
-                            float vel = 12f;
-                            int type = ModContent.ProjectileType<SAXBeam>();
-                            Vector2 aim = rotation.ToRotationVector2();
-                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            if (AI_AltCounter == 8) //Shoot Ice Beam
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
+                                int damage = 50; //100 normal, 200 expert, 300 master
+                                float vel = 12f;
+                                int type = ModContent.ProjectileType<SAXBeam>();
+                                Vector2 aim = rotation.ToRotationVector2();
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
+                                }
+                            }
+                            if (AI_AltCounter >= 24)
+                            {
+                                AI_Counter = 64;
+                                AI_AltCounter = 0;
+                            }
+
+                        }
+                        if (AI_Substate == (int)Main_Substate.ShootSuperMissile)
+                        {
+                            if (AI_AltCounter == 10)
+                            {
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), NPC.Center);
+                            }
+
+                            if (AI_AltCounter == 28) //Shoot Super Missile
+                            {
+                                float vel = 14f;
+                                int damage = 75; //150 normal, 300 expert, 450 master
+                                int type = ModContent.ProjectileType<SAXSuperMissile>();
+                                Vector2 aim = rotation.ToRotationVector2();
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot"), NPC.Center);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                }
+                            }
+                            if (AI_AltCounter >= 44)
+                            {
+                                AI_Counter = 64;
+                                AI_AltCounter = 0;
                             }
                         }
 
-                        if (AI_Counter == 30)
-                        {
-                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), NPC.Center);
-                        }
-
-                        if (AI_Counter == 48) //Shoot Super Missile
-                        {
-                            float vel = 14f;
-                            int damage = 75; //150 normal, 300 expert, 450 master
-                            int type = ModContent.ProjectileType<SAXSuperMissile>();
-                            Vector2 aim = rotation.ToRotationVector2(); 
-                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SuperMissileShoot"), NPC.Center);
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
-                            }
-                        }
-                        if (AI_Counter == 24 || AI_Counter >= 64)
+                        if (AI_Counter >= 64)
                         {
                             if (targettingNPC)
                             {
                                 AI_Counter = 0;
+                                AI_AltCounter = 0;
+                                AI_Substate = (int)Main_Substate.ShootBeam;
                             }
                             else
                             {
@@ -1517,6 +1574,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                     AI_Substate = (int)Main_Substate.Walking;
                                     NPC.velocity.X = WALK_SPEED * NPC.direction;
                                 }
+                                AI_AltCounter = 0;
                                 AI_Counter = 10000;
                                 NPC.netUpdate = true;
                                 Aiming_Rotation = 0;
@@ -1544,6 +1602,26 @@ namespace JoostMod.NPCs.Bosses.SAX
                                     NPC.targetRect = new Rectangle((int)hitPos.X, (int)hitPos.Y, 1, 1);
                                     //int dir = (NPC.Center.X < NPC.targetRect.Center().X) ? -1 : 1;
                                     //NPC.targetRect.X += dir * 16;
+                                }
+                                else
+                                {
+                                    bool hitTile = false;
+                                    Vector2 hitPos2 = new Vector2();
+                                    p1 = new Vector2(NPC.Center.X, NPC.position.Y).ToTileCoordinates();
+                                    for (int i = 0; i < 4; i++)
+                                    {
+                                        Collision.TupleHitLine(p1.X, p1.Y, p2.X, p2.Y, 0, 0, ignore, out Tuple<int, int> collisions);
+                                        //Collision.TupleHitLine(p2.X, p2.Y, p1.X, p1.Y, 0, 0, ignore, out Tuple<int, int> collisions);
+                                        hitPos2 = new Point(collisions.Item1, collisions.Item2).ToWorldCoordinates();
+                                        hitTile = Collision.IsWorldPointSolid(hitPos, true);
+                                        p1.Y++;
+                                        if (hitTile)
+                                        {
+                                            //Dust.NewDustPerfect(hitPos2, DustID.RedTorch, Vector2.Zero, 0, default, 2f);
+                                            break;
+                                        }
+                                    }
+                                    NPC.targetRect = new Rectangle((int)hitPos2.X, (int)hitPos2.Y, 1, 1);
                                 }
                             }
                         }
@@ -1629,11 +1707,20 @@ namespace JoostMod.NPCs.Bosses.SAX
                 {
                     NPC.velocity = NPC.DirectionTo(NPC.targetRect.Center()) * 5f;
                     //NPC.velocity = (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 5f;
-                    NPC.netUpdate = true;
+                    //NPC.netUpdate = true;
                 }
                 if (AI_Counter == 200) //Loop back to search again
                 {
                     AI_Counter = 151;
+                }
+                if (State == (int)StateID.Chase && AI_Counter > 150 && NPC.life < NPC.lifeMax * 0.8f && NPC.HasPlayerTarget && NPC.HasValidTarget)
+                {
+                    NPC.targetRect = Main.player[NPC.target].Hitbox;
+                    NPC.velocity = NPC.DirectionTo(NPC.targetRect.Center()) * 7.5f;
+                    if (!LineOfSight(NPC.Center, NPC.targetRect.Center()))
+                    {
+                        AI_Counter = 160;
+                    }
                 }
                 if (AI_Counter == 175) //Search for open spot
                 {
@@ -1730,84 +1817,118 @@ namespace JoostMod.NPCs.Bosses.SAX
             //    Main.NewText(Unstuck_Check);
             //}
             #endregion
-
             if (State == (int)StateID.Chase)
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SAXChase");
 
-                int frameHeight = 78;
-                if (NPC.frame.Y == frameHeight * 3 || NPC.frame.Y == frameHeight * 8)
+                
+                if (AI_Substate == (int)Main_Substate.Walking || 
+                    AI_Substate >= (int)Main_Substate.ShootBeam) // Main Phase
                 {
-                    if (NPC.soundDelay == 0)
+                    int frameHeight = 78;
+                    if (NPC.frame.Y == frameHeight * 3 || NPC.frame.Y == frameHeight * 8)
                     {
-                        SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXFootstep"), NPC.Center);
-                        NPC.soundDelay = 10;
+                        if (NPC.soundDelay == 0)
+                        {
+                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXFootstep"), NPC.Center);
+                            NPC.soundDelay = 10;
+                        }
                     }
-                }
-                else
-                {
-                    NPC.soundDelay = 0;
-                }
-                if (AI_Substate == (int)Main_Substate.Walking) // Main Phase
-                {
+                    else
+                    {
+                        NPC.soundDelay = 0;
+                    }
                     AI_Counter++;
                     if (NPC.direction == 0)
                     {
                         NPC.direction = -1;
                     }
                     Dust.NewDustDirect(NPC.targetRect.Center(), 1, 1, DustID.AncientLight);
-                    if (Math.Abs(NPC.targetRect.Center().X - NPC.Center.X) > 200)
-                    {
-                        if (NPC.velocity.X * NPC.direction < RUN_SPEED)
-                        {
-                            NPC.velocity.X += 0.25f * NPC.direction;
-                        }
-                    }
-                    else if (NPC.velocity.Y == 0)
-                    {
-                        NPC.velocity.X = 0;
-                    }
+                    bool canTurn = true;
+                    bool hasLOS = false;
                     if (NPC.HasPlayerTarget && NPC.HasValidTarget)
                     {
                         Player player = Main.player[NPC.target];
                         Vector2 headPos = NPC.Center + new Vector2(0, -27);
                         Vector2 gunPos = NPC.Center + CannonOffset();
                         Vector2 targetPos = NPC.targetRect.Center();
-                        if (LineOfSight(headPos, player.MountedCenter))
+                        hasLOS = LineOfSight(headPos, player.MountedCenter);
+                        if (hasLOS)
                         {
-                            Vector2 aimPos = JoostFunctions.PredictPlayerPosition(gunPos, 12f * 2, player);
-                            if (AI_Counter % 150 > 120)
-                            {
-                                aimPos = JoostFunctions.PredictPlayerPosition(gunPos, 14f * 2, player);
-                            }
-                            if (Math.Abs(aimPos.X - NPC.Center.X) > 120)
-                            {
-                                targetPos = aimPos;
-                            }
                             SetTargetTrackingValues(false, 0f, -1);
-
-                            Dust.NewDustPerfect(targetPos, DustID.PinkFairy, Vector2.Zero);
                         }
                         else
                         {
                             bool check = SightCheck(false, false, 2);
                             if (!check)
                             {
-                                Unstuck_Check += 20;
+                                Unstuck_Check += 50;
                             }
                         }
                         
                         float rotation = NPC.DirectionTo(targetPos).ToRotation();
 
-                        if (AI_Counter % 150 > 120)
-                        {
 
-                            if (AI_Counter % 150 == 130)
+                        if (AI_Substate == (int)Main_Substate.ShootMissileBarrage) //Shoot Missile Barrage
+                        { 
+                            AI_AltCounter++;
+                            NPC.velocity.X = 0;
+                            if (AI_AltCounter == 10)
                             {
                                 SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), NPC.Center);
                             }
 
-                            if (AI_Counter % 150 == 148) //Shoot Super Missile
+                            if (hasLOS)
+                            {
+                                targetPos = player.MountedCenter;
+                            }
+                            if (AI_AltCounter > 24)
+                            {
+                                targetPos = JoostFunctions.PredictPlayerPosition(gunPos, 10f * 2, player, (int)(AI_AltCounter - 24));
+                            }
+                            rotation = NPC.DirectionTo(targetPos).ToRotation();
+
+                            if (AI_AltCounter >= 24)
+                            {
+                                //canTurn = false;
+                                //if ((rotation.ToRotationVector2().X < 0 && NPC.direction > 0) ||
+                                //    (rotation.ToRotationVector2().X > 0 && NPC.direction < 0))
+                                //{
+                                //    rotation = MathHelper.ToRadians(-90);
+                                //}
+                                if (AI_AltCounter % 8 == 0 && AI_AltCounter <= 80)
+                                {
+                                    float vel = 10f;
+                                    int damage = 50; //100 normal, 200 expert, 300 master
+                                    int type = ModContent.ProjectileType<SAXMissile>();
+                                    Vector2 aim = rotation.ToRotationVector2();
+                                    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileShoot"), NPC.Center);
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, 300);
+                                    }
+                                }
+                            }
+                            if (AI_AltCounter >= 100)
+                            {
+                                AI_Substate = (int)Main_Substate.Walking;
+                                AI_AltCounter = 0;
+                            }
+                        }
+                        if(AI_Substate == (int)Main_Substate.ShootSuperMissile) //Shoot Super Missile
+                        {
+                            AI_AltCounter++;
+                            Vector2 aimPos = JoostFunctions.PredictPlayerPosition(gunPos, 14f * 2, player);
+                            if (AI_AltCounter <= 28 && Math.Abs(aimPos.X - NPC.Center.X) > 120)
+                            {
+                                targetPos = aimPos;
+                            }
+                            if (AI_AltCounter == 10)
+                            {
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileClick"), NPC.Center);
+                            }
+
+                            if (AI_AltCounter == 28)
                             {
                                 float vel = 14f;
                                 int damage = 75; //150 normal, 300 expert, 450 master
@@ -1819,20 +1940,91 @@ namespace JoostMod.NPCs.Bosses.SAX
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
                                 }
                             }
-                        }
-                        else if (AI_Counter % 30 == 20) // Shoot Ice Beam
-                        {
-                            int damage = 50; //100 normal, 200 expert, 300 master
-                            float vel = 12f;
-                            int type = ModContent.ProjectileType<SAXBeam>();
-                            Vector2 aim = rotation.ToRotationVector2();
-                            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            if (AI_AltCounter >= 40)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
+                                AI_Substate = (int)Main_Substate.Walking;
+                                AI_AltCounter = 0;
                             }
+                        }
+                        if (AI_Substate == (int)Main_Substate.ShootBeam)
+                        {
+                            AI_AltCounter++;
+                            Vector2 aimPos = JoostFunctions.PredictPlayerPosition(gunPos, 12f * 2, player);
+                            if (AI_AltCounter <= 8 && Math.Abs(aimPos.X - NPC.Center.X) > 120)
+                            {
+                                targetPos = aimPos;
+                            }
+                            if (AI_AltCounter == 8) // Shoot Ice Beam
+                            {
+                                AI_AltCounter++;
+                                int damage = 50; //100 normal, 200 expert, 300 master
+                                float vel = 12f;
+                                int type = ModContent.ProjectileType<SAXBeam>();
+                                Vector2 aim = rotation.ToRotationVector2();
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/IceBeam"), NPC.Center);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, 1);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), gunPos + (aim * 10 * NPC.scale), aim * vel, type, damage, 0f, Main.myPlayer, -1);
+                                }
+                            }
+                            if (AI_AltCounter >= 16)
+                            {
+                                AI_AltCounter = 0;
+                                AI_Substate = (int)Main_Substate.Walking;
+                            }
+                        }
+                        if (AI_Substate == (int)Main_Substate.Walking)
+                        {
+                            if (player.HasBuff(BuffID.Frozen) && hasLOS)
+                            {
+                                AI_Substate = (int)Main_Substate.ShootSuperMissile;
+                                AI_AltCounter = 0;
+                                //Main.NewText("ShootSuperMissile", Color.Green);
+                            }
+                            else if (AI_Counter % 300 == 0 && hasLOS)
+                            {
+                                AI_Substate = (int)Main_Substate.ShootMissileBarrage;
+                                AI_AltCounter = 0;
+                                //Main.NewText("ShootMissileBarrage", Color.Red);
+                            }
+                            else if (AI_Counter % 150 == 0 && hasLOS)
+                            {
+                                AI_Substate = (int)Main_Substate.ShootSuperMissile;
+                                AI_AltCounter = 0;
+                                //Main.NewText("ShootSuperMissile", Color.Green);
+                            }
+                            else if (AI_Counter % 30 == 0)
+                            {
+                                AI_Substate = (int)Main_Substate.ShootBeam;
+                                AI_AltCounter = 0;
+                                //Main.NewText("ShootBeam", Color.Cyan);
+                            }
+                            float dist = hasLOS ? 160 : 480;
+                            if (NPC.targetRect.Center().Y < NPC.Center.Y - dist)
+                            {
+                                //NPC.targetRect.Y += 4;
+                                if (NPC.velocity.Y == 0 && (Math.Abs(NPC.Center.X - NPC.targetRect.Center().X) > 160 || !hasLOS))
+                                {
+                                    NPC.velocity.Y = -12;
+                                    AI_Substate = (int)Main_Substate.ScrewAttack;
+                                    AI_Counter += 350 - (AI_Counter % 350);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Main.NewText(AI_AltCounter, Color.Pink);
+                        }
+                        if (Chase_TurnCounter < 0)
+                        {
+                            Chase_TurnCounter++;
+                            if (Chase_TurnCounter == -3)
+                            {
+                                NPC.direction *= -1;
+                            }
+                            NPC.velocity.X = 0;
                         }
 
                         Aiming_Rotation = rotation;
@@ -1840,18 +2032,37 @@ namespace JoostMod.NPCs.Bosses.SAX
                         {
                             Aiming_Rotation -= MathHelper.Pi;
                         }
-                        Main.NewText(AI_Counter);
+                        //Main.NewText(MathHelper.ToDegrees(rotation), Color.Pink);
                         //Main.NewText(rotation.ToRotationVector2().X);
-                        if (rotation.ToRotationVector2().X * NPC.direction < -0.2f) //Allows slight aiming behind
+                        if (canTurn && Chase_TurnCounter >= 0 && 
+                            rotation.ToRotationVector2().X * NPC.direction < -0.2f) //Allows slight aiming behind
                         {
-                            AI_Counter += 100 - (AI_Counter % 25);
-                            AI_Substate = (int)Main_Substate.TurnAround;
+                            if (NPC.velocity.Y == 0)
+                            {
+                                if (AI_Substate == (int)Main_Substate.Walking)
+                                {
+                                    AI_Substate = (int)Main_Substate.TurnAround;
+                                }
+                                else
+                                {
+                                    Chase_TurnCounter = -9;
+                                }
+                                AI_Counter += 100 - AI_Counter % 25;
+                            }
+                            else
+                            {
+                                NPC.direction *= -1;
+                            }
+                            //Main.NewText(AI_Counter, Color.Purple);
                         }
-                        if (AI_Counter >= 1500)
+                        if (AI_Counter >= 2000 && NPC.Distance(player.Center) <= 300)
                         {
                             AI_Counter = 0;
                             AI_Substate = (int)Main_Substate.PowerBomb;
+                            //Main.NewText("PowerBomb", Color.Yellow);
                         }
+
+                        Dust.NewDustPerfect(targetPos, DustID.PinkFairy, Vector2.Zero);
                     }
                     else
                     {
@@ -1872,6 +2083,40 @@ namespace JoostMod.NPCs.Bosses.SAX
                             Aiming_Rotation = 0;
                         }
                     }
+
+                    if (Math.Abs(NPC.targetRect.Center().X - NPC.Center.X) > 200 || !hasLOS)
+                    {
+                        if (NPC.velocity == Vector2.Zero && Chase_TurnCounter >= 0)
+                        {
+                            if (Collision.SolidCollision(NPC.position + new Vector2(NPC.width * NPC.direction, 0), NPC.width, NPC.height) &&
+                                AboveLedgeCheck(out float jumpStrength))
+                            {
+                                NPC.velocity.Y = -jumpStrength;
+                                SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXJump").WithVolumeScale(0.5f), NPC.Center);
+                            }
+                        }
+                        if (NPC.velocity.X * NPC.direction < RUN_SPEED)
+                        {
+                            NPC.velocity.X += 0.25f * NPC.direction;
+                        }
+                        else if (NPC.velocity.X * NPC.direction < SPEEDBOOST_START)
+                        {
+                            NPC.velocity.X += 0.05f * NPC.direction;
+                            //if (IsSpeedBoosting)
+                            //{
+                            //    SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SpeedBoostStart"), NPC.Center);
+                            //}
+                        }
+                        else if (NPC.velocity.X * NPC.direction < SPEEDBOOST_MAX)
+                        {
+                            NPC.velocity.X += 0.15f * NPC.direction;
+                        }
+                    }
+                    else if (NPC.velocity.Y == 0)
+                    {
+                        NPC.velocity.X = 0;
+                    }
+                    //Main.NewText(Unstuck_Check);
                     if (Unstuck_Check > 0)
                     {
                         Unstuck_Check -= 10;
@@ -1879,8 +2124,16 @@ namespace JoostMod.NPCs.Bosses.SAX
                     if (Unstuck_Check > 5000)
                     {
                         AI_Substate = (int)Main_Substate.UnstuckTransform;
-                        Vector2 tPos = NPC.Center + (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 250f;
-                        NPC.targetRect = new Rectangle((int)tPos.X, (int)tPos.Y, 1, 1);
+                        if (NPC.life < NPC.lifeMax * 0.8f && NPC.HasPlayerTarget && NPC.HasValidTarget)
+                        {
+                            NPC.targetRect = Main.player[NPC.target].Hitbox;
+                        }
+                        else
+                        {
+                            State = (int)StateID.Search;
+                            Vector2 tPos = NPC.Center + (Main.rand.NextFloat() * MathHelper.TwoPi).ToRotationVector2() * 250f;
+                            NPC.targetRect = new Rectangle((int)tPos.X, (int)tPos.Y, 1, 1);
+                        }
                         NPC.netUpdate = true;
                         AI_Counter = 0;
                         Unstuck_Check = 0;
@@ -1938,14 +2191,14 @@ namespace JoostMod.NPCs.Bosses.SAX
                 }
                 if (AI_Substate == (int)Main_Substate.TurnAround)
                 {
-                    AI_Counter++;
-                    AI_Counter++;
+                    AI_Counter += 2;
                     if (AI_Counter % 25 == 12)
                     {
                         NPC.direction *= -1;
                     }
                     if (AI_Counter % 25 >= 18)
                     {
+                        AI_Counter += 25 - (AI_Counter % 25);
                         AI_Substate = (int)Main_Substate.Walking;
                         NPC.velocity.X = WALK_SPEED * NPC.direction;
                     }
@@ -1996,6 +2249,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         {
                             if (AI_Substate == (int)Main_Substate.PowerBomb)
                             {
+                                NPC.velocity.X = 0;
                                 if (aiSlice == 30)
                                 {
                                     int damage = 150;
@@ -2106,7 +2360,29 @@ namespace JoostMod.NPCs.Bosses.SAX
                 }
                 if (AI_Substate == (int)Main_Substate.ScrewAttack)
                 {
+                    float speed = Math.Max(Math.Abs(NPC.velocity.X), RUN_SPEED * 1.5f);
                     float aiSlice = AI_Counter % 350;
+                    if (NPC.HasPlayerTarget && NPC.HasValidTarget)
+                    {
+                        Player player = Main.player[NPC.target];
+                        bool hasLOS = LineOfSight(NPC.Center, player.MountedCenter);
+                        if (hasLOS)
+                        {
+                            SetTargetTrackingValues(false, 0f, -1);
+                            if (Unstuck_Check > 0)
+                            {
+                                Unstuck_Check -= 10;
+                            }
+                        }
+                        else
+                        {
+                            bool check = SightCheck(false, false, 2);
+                            if (!check)
+                            {
+                                Unstuck_Check += 20;
+                            }
+                        }
+                    }
                     //Main.NewText(aiSlice);
                     if (aiSlice < 340 && (AI_Counter % 35 < 30 || aiSlice == 0))
                     {
@@ -2121,11 +2397,15 @@ namespace JoostMod.NPCs.Bosses.SAX
                         NPC.soundDelay = 16;
                         SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXScrewAttack"), NPC.Center);
                     }
-                    if (NPC.velocity.Y > 4 && aiSlice < 340 && !Collision.SolidCollision(new Vector2(NPC.position.X, NPC.position.Y - NPC.height), NPC.width, NPC.height * 2))
+                    if (NPC.velocity.Y > 2 && aiSlice < 340 && !Collision.SolidCollision(new Vector2(NPC.position.X, NPC.position.Y - NPC.height), NPC.width, NPC.height * 2))
                     {
                         if (NPC.targetRect.Center().Y < NPC.Center.Y)
                         {
-                            NPC.velocity.Y = -RUN_SPEED;
+                            NPC.velocity.Y = -speed;
+                            if (NPC.targetRect.Center().X - NPC.Center.X > 160)
+                            {
+                                NPC.velocity.X = speed * Math.Sign(NPC.targetRect.Center().X - NPC.Center.X);
+                            }
                         }
                     }
                     if (NPC.velocity.X == 0 && NPC.velocity.Y > -3 && aiSlice < 315 && AI_Counter % 35 < 30) //Hit Wall
@@ -2144,7 +2424,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                         NPC.velocity.Y = 0;
                         if ((AI_Counter % 35) == 30)
                         {
-                            NPC.velocity.X = RUN_SPEED * NPC.direction;
+                            NPC.velocity.X = speed * NPC.direction;
                             SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/SAXWallJump").WithVolumeScale(0.5f), NPC.Center);
                             if (MorphCheck(out Vector2 morphCheckPos, out int morphTunnelHeight) && Collision.SolidCollision(morphCheckPos + new Vector2(0, -32), 56, 32) && morphTunnelHeight > 3) //Alcatraz Escape
                             {
@@ -2164,7 +2444,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                             }
                             else
                             {
-                                NPC.velocity.Y = -RUN_SPEED;
+                                NPC.velocity.Y = -speed;
                             }
                             AI_Counter += 5;
                         }
@@ -2176,9 +2456,9 @@ namespace JoostMod.NPCs.Bosses.SAX
                             NPC.direction *= -1;
                         }
 
-                        if (NPC.velocity.X * NPC.direction < RUN_SPEED)
+                        if (NPC.velocity.X * NPC.direction < speed)
                         {
-                            NPC.velocity.X += 0.25f * NPC.direction;
+                            NPC.velocity.X += 0.75f * NPC.direction;
                             if (NPC.velocity.X == 0)
                             {
                                 NPC.velocity.X += 0.05f * NPC.direction;
@@ -2196,11 +2476,6 @@ namespace JoostMod.NPCs.Bosses.SAX
                 if (AI_Substate == (int)Main_Substate.XRayScope)
                 {
                     AI_Counter = 0;
-                    AI_Substate = (int)Main_Substate.Walking;
-                    NPC.velocity.X = WALK_SPEED * NPC.direction;
-                }
-                if (AI_Substate == (int)Main_Substate.PanicShot)
-                {
                     AI_Substate = (int)Main_Substate.Walking;
                     NPC.velocity.X = WALK_SPEED * NPC.direction;
                 }
@@ -2882,8 +3157,9 @@ namespace JoostMod.NPCs.Bosses.SAX
                     cannonRotation = 0;
                 }
 
-                if (State == (int)StateID.Search && AI_Substate == (int)Main_Substate.PanicShot && AI_Counter >= 30 || 
-                    State == (int)StateID.Chase && AI_Substate == (int)Main_Substate.Walking && AI_Counter % 150 > 120)
+                if ((AI_Substate == (int)Main_Substate.ShootSuperMissile || 
+                    AI_Substate == (int)Main_Substate.ShootMissileBarrage)
+                    && AI_AltCounter >= 10)
                 {
                     cannonFrame = 1; //Missile State
                 }

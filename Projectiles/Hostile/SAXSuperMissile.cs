@@ -45,9 +45,9 @@ namespace JoostMod.Projectiles.Hostile
         {
             if (Main.expertMode)
             {
-                target.wingTime = 0;
-                target.rocketTime = 0;
-                target.mount.Dismount(target);
+                //target.wingTime = 0;
+                //target.rocketTime = 0;
+                //target.mount.Dismount(target);
                 //target.velocity.Y = 10;
                 target.AddBuff(ModContent.BuffType<ClippedWings>(), 120);
             }
