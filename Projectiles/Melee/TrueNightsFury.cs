@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Drawing;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static System.Net.Mime.MediaTypeNames;
@@ -53,6 +54,30 @@ namespace JoostMod.Projectiles.Melee
             Projectile.width = (int)(30 * Projectile.scale);
             Projectile.height = (int)(30 * Projectile.scale);
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.NightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
+            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            {
+                FireBeam(num);
+            }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.NightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));
+            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            {
+                FireBeam(num);
+            }
+        }
         readonly float beamDamageMult = 1f;
         readonly int type = ModContent.ProjectileType<TrueNightsFuryBeam>();
         readonly int maxBeams = 4;
@@ -79,15 +104,6 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SwingEffects()
         {
-            /*if (Main.myPlayer == Projectile.owner && Projectile.localAI[1] >= 30)
-            {
-                Projectile.localAI[1] -= 24;
-                int damage = (int)(Projectile.damage * beamDamageMult);
-                float kb = Projectile.knockBack * 0.5f;
-                float shootSpeed = 26f;
-                Vector2 dir = Projectile.Center.DirectionTo(Main.MouseWorld).SafeNormalize(Vector2.UnitX * Projectile.direction);
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, dir * shootSpeed, type, damage, kb, Projectile.owner);
-            }*/
             Projectile.localAI[0]++;
             if ((int)Projectile.localAI[0] <= BeamFreq() * maxBeams)
             {
@@ -101,15 +117,6 @@ namespace JoostMod.Projectiles.Melee
         {
             int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
             FireBeam(num);
-            /*if (Main.myPlayer == Projectile.owner)
-            {
-                int damage = (int)(Projectile.damage * beamDamageMult);
-                float kb = Projectile.knockBack * 0.5f;
-                float shootSpeed = 26f;
-                Vector2 dir = Projectile.velocity;
-                dir.Normalize();
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, dir * shootSpeed, type, damage, kb, Projectile.owner);
-            }*/
 
         }
         public override void DoDust(bool doFastThrowDust)
@@ -152,46 +159,10 @@ namespace JoostMod.Projectiles.Melee
                     SoundEngine.PlaySound(SoundID.Item20.WithVolumeScale(0.8f), Projectile.Center);
                 }
             }
-            if (Projectile.ai[0] == 5)
+            if (Projectile.ai[0] == 5 || Projectile.ai[0] == 4) //Hitting Tile or returning after held
             {
                 FireBeam(num);
             }
-            /*if (Projectile.ai[0] == 6)
-            {
-                flag = false;
-                float maxDist = 600f;
-                NPC nPC = null;
-                if (Projectile.owner == Main.myPlayer)
-                {
-                    if (Projectile.localAI[0] * swingSpeed >= 360f)
-                    {
-                        Projectile.localAI[0] = 0;
-                        for (int i = 0; i < 200; i++)
-                        {
-                            NPC nPC2 = Main.npc[i];
-                            if (nPC2.CanBeChasedBy(Projectile, false))
-                            {
-                                float dist = Projectile.Distance(nPC2.Center);
-                                if (dist < maxDist && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, nPC2.position, nPC2.width, nPC2.height))
-                                {
-                                    nPC = nPC2;
-                                    maxDist = dist;
-                                }
-                            }
-                        }
-                    }
-                    if (nPC != null)
-                    {
-                        Projectile.localAI[0] = 0f;
-                        float shootSpeed = 24f;
-                        Vector2 center = Projectile.Center;
-                        Vector2 velocity = center.DirectionTo(nPC.Center) * shootSpeed;
-                        int damage = (int)(Projectile.damage * beamDamageMult);
-                        float kb = Projectile.knockBack * 0.5f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), center, velocity, type, damage, kb, Main.myPlayer, 0f, 0f);
-                    }
-                }
-            }*/
         }
         public override void PostDraw(Color lightColor)
         {

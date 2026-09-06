@@ -16,7 +16,7 @@ namespace JoostMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            Item.damage = 136;
+            Item.damage = 140;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -48,7 +48,7 @@ namespace JoostMod.Items.Weapons.Melee
         {
             CreateRecipe()
                 .AddIngredient<HallowedFlail>()
-                .AddIngredient<Materials.BrokenHeroFlail>()
+                .AddIngredient(ItemID.ChlorophyteBar, 24)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

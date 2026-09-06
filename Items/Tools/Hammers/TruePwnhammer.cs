@@ -51,7 +51,7 @@ namespace JoostMod.Items.Tools.Hammers
         {
             CreateRecipe()
                 .AddIngredient(ItemID.Pwnhammer)
-                .AddIngredient<Materials.BrokenHeroHammer>()
+                .AddIngredient(ItemID.ChlorophyteBar, 24)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

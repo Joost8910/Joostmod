@@ -15,7 +15,7 @@ namespace JoostMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            Item.damage = 144;
+            Item.damage = 130;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -47,7 +47,9 @@ namespace JoostMod.Items.Weapons.Melee
         {
             CreateRecipe()
                 .AddIngredient<NightsFury>()
-                .AddIngredient<Materials.BrokenHeroFlail>()
+                .AddIngredient(ItemID.SoulofMight, 20)
+                .AddIngredient(ItemID.SoulofSight, 20)
+                .AddIngredient(ItemID.SoulofFright, 20)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

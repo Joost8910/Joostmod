@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using System.Collections.Generic;
 using System;
+using Terraria.GameContent.Drawing;
 
 namespace JoostMod.Projectiles.Melee
 {
@@ -43,10 +44,18 @@ namespace JoostMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.damage =(int)(Projectile.damage * 0.75f);
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueNightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.damage = (int)(Projectile.damage * 0.75f);
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueNightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
+            }, default(int?));
         }
         public override void AI()
         {

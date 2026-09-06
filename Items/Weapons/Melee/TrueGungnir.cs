@@ -43,7 +43,7 @@ namespace JoostMod.Items.Weapons.Melee
         {
             CreateRecipe()
                 .AddIngredient(ItemID.Gungnir)
-                .AddIngredient<Materials.BrokenHeroSpear>()
+                .AddIngredient(ItemID.ChlorophyteBar, 24)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

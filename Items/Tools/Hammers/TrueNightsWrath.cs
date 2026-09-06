@@ -51,7 +51,9 @@ namespace JoostMod.Items.Tools.Hammers
         {
             CreateRecipe()
                 .AddIngredient<NightsWrath>()
-                .AddIngredient<Materials.BrokenHeroHammer>()
+                .AddIngredient(ItemID.SoulofMight, 20)
+                .AddIngredient(ItemID.SoulofSight, 20)
+                .AddIngredient(ItemID.SoulofFright, 20)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

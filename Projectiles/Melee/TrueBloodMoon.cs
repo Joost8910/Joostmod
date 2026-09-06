@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Drawing;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -53,6 +54,42 @@ namespace JoostMod.Projectiles.Melee
             }
             Projectile.width = (int)(30 * Projectile.scale);
             Projectile.height = (int)(30 * Projectile.scale);
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {/*
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.NightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));*/
+            for (int i = 0; i < 8; i++)
+            {
+                Dust.NewDustDirect(target.Hitbox.ClosestPointInRect(Projectile.Center), 0, 0, DustID.RedTorch).noGravity = true;
+                float rot = MathHelper.ToRadians(i * (360f / 8));
+                Dust.NewDustPerfect(target.Hitbox.ClosestPointInRect(Projectile.Center), DustID.PortalBoltTrail, rot.ToRotationVector2() * 3, 0, Color.Red, 2f).noGravity = true;
+            }
+            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            {
+                FireBeam(num);
+            }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {/*
+            ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.NightsEdge, new ParticleOrchestraSettings
+            {
+                PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
+            }, default(int?));*/
+            for (int i = 0; i < 8; i++)
+            {
+                Dust.NewDustDirect(target.Hitbox.ClosestPointInRect(Projectile.Center), 0, 0, DustID.RedTorch).noGravity = true;
+                float rot = MathHelper.ToRadians(i * (360f / 8));
+                Dust.NewDustPerfect(target.Hitbox.ClosestPointInRect(Projectile.Center), DustID.PortalBoltTrail, rot.ToRotationVector2() * 3, 0, Color.Red, 2f).noGravity = true;
+            }
+            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            {
+                FireBeam(num);
+            }
         }
         readonly float beamDamageMult = 1f;
         readonly int type = ModContent.ProjectileType<TrueBloodMoonBeam>();
@@ -134,7 +171,7 @@ namespace JoostMod.Projectiles.Melee
                     SoundEngine.PlaySound(SoundID.Item20.WithVolumeScale(0.8f), Projectile.Center);
                 }
             }
-            if (Projectile.ai[0] == 5)
+            if (Projectile.ai[0] == 5 || Projectile.ai[0] == 4) //Hitting Tile or returning after held
             {
                 FireBeam(num);
             }
