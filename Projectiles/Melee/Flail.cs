@@ -371,7 +371,7 @@ namespace JoostMod.Projectiles.Melee
             }
 
             //Projectile.AI_015_Flails_Dust(doFastThrowDust);
-            Dust(doFastThrowDust);
+            DoDust(doFastThrowDust);
             return false;
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -416,7 +416,7 @@ namespace JoostMod.Projectiles.Melee
         {
 
         }
-        public virtual void Dust(bool doFastThrowDust)
+        public virtual void DoDust(bool doFastThrowDust)
         {
             
         }

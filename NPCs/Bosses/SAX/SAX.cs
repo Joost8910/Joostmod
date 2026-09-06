@@ -31,7 +31,7 @@ namespace JoostMod.NPCs.Bosses.SAX
         private int AI_AltCounter = 0;
 
         private int Chase_TurnCounter = 0;
-        private bool IsSpeedBoosting => (NPC.velocity.X * NPC.direction >= SPEEDBOOST_START);
+        private bool IsSpeedBoosting => (Math.Abs(NPC.velocity.X) >= SPEEDBOOST_START);
         private enum StateID : int
         {
             Spawn,
@@ -1030,7 +1030,7 @@ namespace JoostMod.NPCs.Bosses.SAX
                                 AI_Counter += 350 - (AI_Counter % 350);
                             }
                         }
-                        if (NPC.Distance(NPC.targetRect.Center()) < 200 && NPC.velocity.Y == 0)
+                        if (Math.Abs(NPC.targetRect.Center().Y - NPC.Center.Y) < 200 && Math.Abs(NPC.targetRect.Center().Y - NPC.Center.Y) < 50 && NPC.velocity.Y == 0)
                         {
                             AI_Counter = 0;
                             AI_Substate = (int)Main_Substate.XRayScope;
