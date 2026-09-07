@@ -28,9 +28,10 @@ namespace JoostMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
-            Projectile.timeLeft = 120;
-            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 180;
+            Projectile.extraUpdates = 3;
             Projectile.alpha = 75;
+            Projectile.tileCollide = false;
             //Projectile.light = 0.5f;
 
         }
@@ -83,27 +84,28 @@ namespace JoostMod.Projectiles.Melee
             }
             Lighting.AddLight(Projectile.Center, 0.5f, 0.8f, 0.25f);
             //Projectile.rotation += Projectile.timeLeft * -Projectile.direction * 0.0174f * 5;
-            if (Projectile.timeLeft == 120)
+
+            if (Projectile.timeLeft == 180)
             {
                 Projectile.localAI[0] = Projectile.Center.X;
                 Projectile.localAI[1] = Projectile.Center.Y;
                 Projectile.direction = Math.Sign(Projectile.ai[0]);
                 Projectile.spriteDirection = Projectile.direction;
                 //Main.NewText(Projectile.ai[0]);
-                Projectile.ai[1] = 1f;
-                Projectile.scale = 0.5f;
+                Projectile.ai[2] = 1f;
+                Projectile.scale = 0.5f * Projectile.ai[1];
             }
             float updateScale = 1f / (Projectile.extraUpdates + 1);
             Vector2 origin = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
             double rad = Projectile.ai[0];
-            double dist = 180 - (Projectile.timeLeft * 1.5f) + 24;
+            double dist = (180 - (Projectile.timeLeft) + 24) * Projectile.ai[1];
             Projectile.position.X = origin.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
             Projectile.position.Y = origin.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
             Projectile.rotation = Projectile.spriteDirection > 0 ? (float)rad : (float)(rad + Math.PI);
-            Projectile.ai[0] += MathHelper.ToRadians(11) * Projectile.spriteDirection * Projectile.ai[1] * updateScale;
+            Projectile.ai[0] += MathHelper.ToRadians(11) * Projectile.spriteDirection * Projectile.ai[2] * updateScale;
 
             Projectile.scale += 0.01f * updateScale;
-            Projectile.ai[1] += 0.01f;
+            Projectile.ai[2] += 0.01f;
         }
         public override void OnKill(int timeLeft)
         {

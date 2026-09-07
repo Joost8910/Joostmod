@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.ownerHitCheck = true;
             Projectile.hide = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
                 speed = 36f / player.itemAnimationMax * Projectile.scale;
-                Projectile.localNPCHitCooldown = (int)(10 / (speed / Projectile.scale));
+                //Projectile.localNPCHitCooldown = (int)(10 / (speed / Projectile.scale));
                 Projectile.width = (int)(52 * Projectile.scale);
                 Projectile.height = (int)(52 * Projectile.scale);
                 Projectile.netUpdate = true;
@@ -68,7 +68,7 @@ namespace JoostMod.Projectiles.Melee
                     Vector2 velB = Projectile.velocity.RotatedBy(-9 * Math.PI / 180);
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velA * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, 22);
                     */
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), (int)(Projectile.damage * 0.8f), Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI);
                     //Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velB * speed * stabMult, ModContent.ProjectileType<TrueDarkLanceBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, -22);
                 }
                 Projectile.ai[1]++;

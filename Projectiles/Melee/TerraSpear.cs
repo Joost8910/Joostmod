@@ -31,7 +31,7 @@ namespace JoostMod.Projectiles.Melee
             Projectile.ownerHitCheck = true;
             Projectile.hide = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -45,7 +45,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
                 speed = 25f / player.itemAnimationMax * Projectile.scale;
-                Projectile.localNPCHitCooldown = (int)(6 / (speed / Projectile.scale));
+                //Projectile.localNPCHitCooldown = (int)(6 / (speed / Projectile.scale));
                 Projectile.width = (int)(54 * Projectile.scale);
                 Projectile.height = (int)(54 * Projectile.scale);
                 Projectile.netUpdate = true;
@@ -61,7 +61,7 @@ namespace JoostMod.Projectiles.Melee
             float stabMult = 24f;
             if (Projectile.ai[1] == 0 && Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TerraSpearBeam>(), Projectile.damage, Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TerraSpearBeam>(), (int)(Projectile.damage * 0.9f), Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
                 Projectile.ai[1]++;
             }
             if (player.itemAnimation < player.itemAnimationMax * 2f / 3f)

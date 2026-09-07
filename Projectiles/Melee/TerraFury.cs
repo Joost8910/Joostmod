@@ -29,10 +29,10 @@ namespace JoostMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
-            outTime = 10;
-            throwSpeed = 34f;
-            returnSpeed = 36f;
-            returnSpeedAfterHeld = 40f;
+            outTime = 14;
+            throwSpeed = 28f;
+            returnSpeed = 30f;
+            returnSpeedAfterHeld = 36f;
             chainTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Chain");
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
@@ -80,8 +80,8 @@ namespace JoostMod.Projectiles.Melee
             {
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
-            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
+            if (Projectile.ai[0] <= 1 && num > 0) // Swing or throw
             {
                 FireBeam(num);
             }
@@ -92,8 +92,8 @@ namespace JoostMod.Projectiles.Melee
             {
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
-            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
+            if (Projectile.ai[0] <= 1 && num > 0) // Swing or throw
             {
                 FireBeam(num);
             }
@@ -114,37 +114,38 @@ namespace JoostMod.Projectiles.Melee
             }
         }
 
-        readonly float beamDamageMult = 1f;
+        readonly float beamDamageMult = 1.5f;
         readonly int type = ModContent.ProjectileType<TerraFuryBeam>();
         readonly int maxBeams = 4;
         readonly float shineTime = 30f;
         private int BeamFreq()
         {
-            return (int)(30f / Main.player[Projectile.owner].GetAttackSpeed(DamageClass.Melee));
+            float speed = 44f / Main.player[Projectile.owner].itemAnimationMax;
+            return (int)(30f / speed);
         }
         private void FireBeam(int num)
         {
             Player player = Main.player[Projectile.owner];
             int damage = (int)(Projectile.damage * beamDamageMult);
             float kb = Projectile.knockBack * 0.5f;
-            float rot = (float)(Math.PI * ((Projectile.localAI[0] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
+            float rot = (float)(Math.PI * ((Projectile.ai[2] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
             if (num > 0)
             {
                 for (int i = 0; i < num; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, type, damage, kb, Projectile.owner, rot);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, type, damage, kb, Projectile.owner, rot, Projectile.scale);
                     rot += (MathHelper.ToRadians(360f / num));
                 }
                 SoundEngine.PlaySound(SoundID.Item20.WithPitchOffset(0.2f), Projectile.Center);
             }
-            Projectile.localAI[0] = 0;
+            Projectile.ai[2] = 0;
         }
         public override void SwingEffects()
         {
-            Projectile.localAI[0]++;
-            if ((int)Projectile.localAI[0] <= BeamFreq() * maxBeams)
+            Projectile.ai[2]++;
+            if ((int)Projectile.ai[2] <= BeamFreq() * maxBeams)
             {
-                if ((int)Projectile.localAI[0] % BeamFreq() == 0)
+                if ((int)Projectile.ai[2] % BeamFreq() == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item20.WithVolumeScale(0.8f), Projectile.Center);
                 }
@@ -152,18 +153,18 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ReachedPeakEffects()
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             FireBeam(num);
             SoundEngine.PlaySound(SoundID.Item4.WithPitchOffset(0.25f).WithVolumeScale(0.7f), Projectile.Center);
 
         }
         public override void DoDust(bool doFastThrowDust)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
-            if (Projectile.localAI[0] >= BeamFreq() && Projectile.localAI[0] % 3 == 0)
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
+            if (Projectile.ai[2] >= BeamFreq() && Projectile.ai[2] % 3 == 0)
             {
                 Player player = Main.player[Projectile.owner];
-                float rot = (float)(Math.PI * ((Projectile.localAI[0] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
+                float rot = (float)(Math.PI * ((Projectile.ai[2] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
 
                 for (int i = 0; i < num; i++)
                 {
@@ -185,14 +186,15 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ExtraBehavior(ref bool flag)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             if (Projectile.ai[0] == 6) // Held in place
             {
-                if (num >= maxBeams && (int)Projectile.localAI[0] == BeamFreq() * (maxBeams + 1))
+                Projectile.ai[2]++;
+                if (num >= maxBeams && (int)Projectile.ai[2] == BeamFreq() * (maxBeams + 1))
                 {
                     FireBeam(num);
                 }
-                if ((int)Projectile.localAI[0] % BeamFreq() == 0 && Projectile.localAI[0] > 0)
+                if ((int)Projectile.ai[2] % BeamFreq() == 0 && Projectile.ai[2] > 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item20.WithVolumeScale(0.8f), Projectile.Center);
                 }
@@ -207,6 +209,7 @@ namespace JoostMod.Projectiles.Melee
             }
             else if (Projectile.localAI[2] > 0)
             {
+                Lighting.AddLight(Projectile.Center, new Vector3(0.17f, 0.85f, 0f) * 2f * (Projectile.localAI[2] / shineTime));
                 Projectile.localAI[2]--;
             }
         }
@@ -217,7 +220,7 @@ namespace JoostMod.Projectiles.Melee
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, false, false);
 
             Vector2 center = Projectile.Center + Projectile.DirectionFrom(vector2) * 50f;
-            Rectangle r = Utils.CenteredRectangle(center, new Vector2(40, 40));
+            Rectangle r = Utils.CenteredRectangle(center, new Vector2(40, 40) * Projectile.scale);
 
             SpriteEffects effects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -250,9 +253,9 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void PostDraw(Color lightColor)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             Player player = Main.player[Projectile.owner];
-            float rot = (float)(Math.PI * ((Projectile.localAI[0] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
+            float rot = (float)(Math.PI * ((Projectile.ai[2] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
             SpriteEffects effects = SpriteEffects.None;
             if (rot < 0)
             {
@@ -264,7 +267,7 @@ namespace JoostMod.Projectiles.Melee
                 for (int i = 0; i < num; i++)
                 {
                     Texture2D orbTex = ModContent.Request<Texture2D>($"{Texture}Beam").Value;
-                    Vector2 offset = rot.ToRotationVector2() * 24;
+                    Vector2 offset = rot.ToRotationVector2() * (24 * Projectile.scale);
                     Main.EntitySpriteDraw(orbTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + offset, new Rectangle?(new Rectangle(0, 0, orbTex.Width, orbTex.Height)), color, rot + (float)Math.PI, new Vector2(orbTex.Width / 2, orbTex.Height / 2), Projectile.scale * 0.5f, effects, 0);
                     rot += (MathHelper.ToRadians(360f / num));
                 }
@@ -291,9 +294,9 @@ namespace JoostMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
-            outTime = 10;
-            throwSpeed = 30f;
-            returnSpeed = 32f;
+            outTime = 14;
+            throwSpeed = 26f;
+            returnSpeed = 28f;
             returnSpeedAfterHeld = 34f;
             chainTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Chain");
             isOffhand = true;
@@ -353,7 +356,7 @@ namespace JoostMod.Projectiles.Melee
             }
         }
         readonly float damageMult = 0.75f;
-        readonly float beamDamageMult = 0.75f;
+        readonly float beamDamageMult = 1f;
         readonly int type = ModContent.ProjectileType<TerraFuryBeam>();
         readonly int maxBeams = 4;
         readonly float shineTime = 24f;
@@ -367,47 +370,48 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
-            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
+            if (Projectile.ai[0] <= 1 && num > 0) // Swing or throw
             {
                 FireBeam(num);
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
-            if (Projectile.ai[0] <= 0 && num > 0) // Swing
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
+            if (Projectile.ai[0] <= 1 && num > 0) // Swing or throw
             {
                 FireBeam(num);
             }
         }
         private int BeamFreq()
         {
-            return (int)(30f / Main.player[Projectile.owner].GetAttackSpeed(DamageClass.Melee));
+            float speed = 44f / Main.player[Projectile.owner].itemAnimationMax;
+            return (int)(30f / speed);
         }
         private void FireBeam(int num)
         {
             Player player = Main.player[Projectile.owner];
             int damage = (int)(Projectile.damage * beamDamageMult);
             float kb = Projectile.knockBack * 0.5f;
-            float rot = (float)(Math.PI * ((Projectile.localAI[0] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
+            float rot = (float)(Math.PI * ((Projectile.ai[2] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
             if (num > 0)
             {
                 for (int i = 0; i < num; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, type, damage, kb, Projectile.owner, rot);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, type, damage, kb, Projectile.owner, rot, Projectile.scale);
                     rot += (MathHelper.ToRadians(360f / num));
                 }
                 SoundEngine.PlaySound(SoundID.Item20.WithPitchOffset(0.2f), Projectile.Center);
             }
-            Projectile.localAI[0] = 0;
+            Projectile.ai[2] = 0;
         }
         public override void SwingEffects()
         {
-            Projectile.localAI[0]++;
-            if ((int)Projectile.localAI[0] <= BeamFreq() * maxBeams)
+            Projectile.ai[2]++;
+            if ((int)Projectile.ai[2] <= BeamFreq() * maxBeams)
             {
-                if ((int)Projectile.localAI[0] % BeamFreq() == 0)
+                if ((int)Projectile.ai[2] % BeamFreq() == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item20.WithVolumeScale(0.8f), Projectile.Center);
                 }
@@ -415,18 +419,18 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ReachedPeakEffects()
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             FireBeam(num);
             SoundEngine.PlaySound(SoundID.Item4.WithPitchOffset(0.25f).WithVolumeScale(0.7f), Projectile.Center);
 
         }
         public override void DoDust(bool doFastThrowDust)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
-            if (Projectile.localAI[0] >= BeamFreq() && Projectile.localAI[0] % 3 == 0)
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
+            if (Projectile.ai[2] >= BeamFreq() && Projectile.ai[2] % 3 == 0)
             {
                 Player player = Main.player[Projectile.owner];
-                float rot = (float)(Math.PI * ((Projectile.localAI[0] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
+                float rot = (float)(Math.PI * ((Projectile.ai[2] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
 
                 for (int i = 0; i < num; i++)
                 {
@@ -448,14 +452,15 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ExtraBehavior(ref bool flag)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             if (Projectile.ai[0] == 6) // Held in place
             {
-                if (num >= maxBeams && (int)Projectile.localAI[0] == BeamFreq() * (maxBeams + 1))
+                Projectile.ai[2]++;
+                if (num >= maxBeams && (int)Projectile.ai[2] == BeamFreq() * (maxBeams + 1))
                 {
                     FireBeam(num);
                 }
-                if ((int)Projectile.localAI[0] % BeamFreq() == 0 && Projectile.localAI[0] > 0)
+                if ((int)Projectile.ai[2] % BeamFreq() == 0 && Projectile.ai[2] > 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item20.WithVolumeScale(0.8f), Projectile.Center);
                 }
@@ -470,6 +475,7 @@ namespace JoostMod.Projectiles.Melee
             }
             else if (Projectile.localAI[2] > 0)
             {
+                Lighting.AddLight(Projectile.Center, new Vector3(0.17f, 0.85f, 0f) * 2f * (Projectile.localAI[2] / shineTime));
                 Projectile.localAI[2]--;
             }
         }
@@ -479,7 +485,7 @@ namespace JoostMod.Projectiles.Melee
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, false, false);
 
             Vector2 center = Projectile.Center + Projectile.DirectionFrom(vector2) * 50f;
-            Rectangle r = Utils.CenteredRectangle(center, new Vector2(40, 40));
+            Rectangle r = Utils.CenteredRectangle(center, new Vector2(40, 40) * Projectile.scale);
 
             SpriteEffects effects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -512,9 +518,9 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void PostDraw(Color lightColor)
         {
-            int num = Math.Min(maxBeams, (int)Projectile.localAI[0] / BeamFreq());
+            int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             Player player = Main.player[Projectile.owner];
-            float rot = (float)(Math.PI * ((Projectile.localAI[0] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
+            float rot = (float)(Math.PI * ((Projectile.ai[2] + Projectile.ai[1]) / 11f) * player.direction * player.gravDir);
             SpriteEffects effects = SpriteEffects.None;
             if (rot < 0)
             {
@@ -526,7 +532,7 @@ namespace JoostMod.Projectiles.Melee
                 for (int i = 0; i < num; i++)
                 {
                     Texture2D orbTex = ModContent.Request<Texture2D>($"{Texture}Beam").Value;
-                    Vector2 offset = rot.ToRotationVector2() * 24;
+                    Vector2 offset = rot.ToRotationVector2() * (24 * Projectile.scale);
                     Main.EntitySpriteDraw(orbTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + offset, new Rectangle?(new Rectangle(0, 0, orbTex.Width, orbTex.Height)), color, rot + (float)Math.PI, new Vector2(orbTex.Width / 2, orbTex.Height / 2), Projectile.scale * 0.5f, effects, 0);
                     rot += (MathHelper.ToRadians(360f / num));
                 }

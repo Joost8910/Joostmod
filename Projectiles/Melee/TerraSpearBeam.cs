@@ -111,6 +111,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
+            Projectile.damage = (int)(Projectile.damage * 0.75f);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
@@ -118,6 +119,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
+            Projectile.damage = (int)(Projectile.damage * 0.75f);
         }
         public override void OnKill(int timeLeft)
         {
@@ -234,11 +236,11 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.FinalDamage *= 0.5f;
+            modifiers.FinalDamage *= 0.6f;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            modifiers.FinalDamage *= 0.5f;
+            modifiers.FinalDamage *= 0.6f;
         }
         public override void AI()
         {
@@ -302,6 +304,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
+            Projectile.damage = (int)(Projectile.damage * 0.75f);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
@@ -309,6 +312,7 @@ namespace JoostMod.Projectiles.Melee
             {
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
+            Projectile.damage = (int)(Projectile.damage * 0.75f);
         }
         public override void OnKill(int timeLeft)
         {

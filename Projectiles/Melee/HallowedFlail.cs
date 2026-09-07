@@ -33,7 +33,7 @@ namespace JoostMod.Projectiles.Melee
             swingSpeed = 1.2f;
             swingHitCD = 10;
             baseHitCD = 8;
-            outTime = 8;
+            outTime = 10;
             throwSpeed = 30f;
             returnSpeed = 30f;
             returnSpeedAfterHeld = 30f;
@@ -41,10 +41,8 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            float num4 = Utils.Remap(Projectile.localAI[2], shineTime, shineTime / 3f, 0f, 1f, true);
-            float num5 = Utils.Remap(num4, 0f, 0.3f, 0f, 1f, true) * Utils.Remap(num4, 0.3f, 1f, 1f, 0f, true);
-            num5 = 1f - (1f - num5) * (1f - num5);
-            float scale = Projectile.scale + num5 * 3;
+            float num5 = Utils.Remap(Projectile.localAI[2], shineTime / 3, shineTime, 0f, 1f, true);
+            float scale = Projectile.scale + num5 * 4;
             hitbox.Width = (int)(38 * scale);
             hitbox.Height = (int)(38 * scale);
             hitbox.X -= (hitbox.Width - Projectile.width) / 2;
@@ -106,7 +104,7 @@ namespace JoostMod.Projectiles.Melee
                 PositionInWorld = target.Hitbox.ClosestPointInRect(Projectile.Center)
             }, default(int?));
         }
-        readonly float shineTime = 18f;
+        readonly float shineTime = 30f;
         public override void ReachedPeakEffects()
         {
             //Projectile.localAI[2] = 18;
@@ -120,6 +118,7 @@ namespace JoostMod.Projectiles.Melee
             }
             else if (Projectile.localAI[2] > 0)
             {
+                Lighting.AddLight(Projectile.Center, new Vector3(1f, 0.92f, 0.55f) * 2f * (Projectile.localAI[2] / shineTime));
                 Projectile.localAI[2]--;
             }
         }
@@ -129,7 +128,7 @@ namespace JoostMod.Projectiles.Melee
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, false, false);
 
             Vector2 center = Projectile.Center + Projectile.DirectionFrom(vector2) * 50f;
-            Rectangle r = Utils.CenteredRectangle(center, new Vector2(30, 30));
+            Rectangle r = Utils.CenteredRectangle(center, new Vector2(40, 30) * Projectile.scale);
 
             SpriteEffects effects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -139,10 +138,7 @@ namespace JoostMod.Projectiles.Melee
             float num = Projectile.DirectionFrom(vector2).SafeNormalize(Vector2.Zero).ToRotation() + 2.355f;
             float num3 = r.Size().Length() / Projectile.Hitbox.Size().Length();
 
-            float num4 = Utils.Remap(Projectile.localAI[2], shineTime, shineTime / 3f, 0f, 1f, true);
-            float num5 = Utils.Remap(num4, 0f, 0.3f, 0f, 1f, true) * Utils.Remap(num4, 0.3f, 1f, 1f, 0f, true);
-            num5 = 1f - (1f - num5) * (1f - num5);
-
+            float num5 = Utils.Remap(Projectile.localAI[2], shineTime / 3, shineTime, 0f, 1f, true);
 
             Vector2 vector3 = r.Center.ToVector2() + new Vector2(0f, Projectile.gfxOffY);
             Vector2.Lerp(vector2, vector3, 1.1f);
