@@ -267,7 +267,7 @@ namespace JoostMod.Projectiles.Melee
                 for (int i = 0; i < num; i++)
                 {
                     Texture2D orbTex = ModContent.Request<Texture2D>($"{Texture}Beam").Value;
-                    Vector2 offset = rot.ToRotationVector2() * (24 * Projectile.scale);
+                    Vector2 offset = rot.ToRotationVector2() * (14 * Projectile.scale);
                     Main.EntitySpriteDraw(orbTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + offset, new Rectangle?(new Rectangle(0, 0, orbTex.Width, orbTex.Height)), color, rot + (float)Math.PI, new Vector2(orbTex.Width / 2, orbTex.Height / 2), Projectile.scale * 0.5f, effects, 0);
                     rot += (MathHelper.ToRadians(360f / num));
                 }
@@ -532,7 +532,7 @@ namespace JoostMod.Projectiles.Melee
                 for (int i = 0; i < num; i++)
                 {
                     Texture2D orbTex = ModContent.Request<Texture2D>($"{Texture}Beam").Value;
-                    Vector2 offset = rot.ToRotationVector2() * (24 * Projectile.scale);
+                    Vector2 offset = rot.ToRotationVector2() * (14 * Projectile.scale);
                     Main.EntitySpriteDraw(orbTex, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + offset, new Rectangle?(new Rectangle(0, 0, orbTex.Width, orbTex.Height)), color, rot + (float)Math.PI, new Vector2(orbTex.Width / 2, orbTex.Height / 2), Projectile.scale * 0.5f, effects, 0);
                     rot += (MathHelper.ToRadians(360f / num));
                 }

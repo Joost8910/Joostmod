@@ -4228,6 +4228,8 @@ Mods: {
 			XParasiteProjRed.DisplayName: X Parasite
 			XParasiteProjIce.DisplayName: X Parasite
 			XParasiteProjGreen.DisplayName: X Parasite
+			NightsFuryBeam.DisplayName: Nights Fury Beam
+			BloodMoonBeam.DisplayName: Blood Moon Beam
 		}
 
 		Tiles: {

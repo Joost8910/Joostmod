@@ -163,7 +163,8 @@ namespace JoostMod.Projectiles.Melee
             int num = Math.Min(maxBeams, (int)Projectile.ai[2] / BeamFreq());
             if (Projectile.ai[0] == 6) // Held in place
             {
-                if (num >= 4 && (int)Projectile.ai[2] == BeamFreq() * (maxBeams + 1))
+                Projectile.ai[2]++;
+                if (num >= maxBeams && (int)Projectile.ai[2] == BeamFreq() * (maxBeams + 1))
                 {
                     FireBeam(num);
                 }
