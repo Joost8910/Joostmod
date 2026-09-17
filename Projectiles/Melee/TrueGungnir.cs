@@ -18,8 +18,8 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.width = 54;
-            Projectile.height = 54;
+            Projectile.width = 34;
+            Projectile.height = 34;
             Projectile.scale = 1.2f;
             Projectile.aiStyle = -1;
             Projectile.timeLeft = 190;
@@ -35,45 +35,50 @@ namespace JoostMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = -1;
         }
 
+        readonly float timePoint = 0.6f;
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
             player.direction = Projectile.direction;
             player.heldProj = Projectile.whoAmI;
             player.itemTime = player.itemAnimation;
-            float speed = player.GetAttackSpeed(DamageClass.Melee);
+            //float speed = player.GetAttackSpeed(DamageClass.Melee);
             if (player.inventory[player.selectedItem].shoot == Projectile.type)
             {
                 Projectile.scale = player.inventory[player.selectedItem].scale;
-                speed = 27f / player.itemAnimationMax * Projectile.scale;
+                //speed = 27f / player.itemAnimationMax * Projectile.scale;
                 //Projectile.localNPCHitCooldown = (int)(6 / (speed / Projectile.scale));
-                Projectile.width = (int)(54 * Projectile.scale);
-                Projectile.height = (int)(54 * Projectile.scale);
+                Projectile.width = (int)(34 * Projectile.scale);
+                Projectile.height = (int)(34 * Projectile.scale);
                 Projectile.netUpdate = true;
             }
+            //Projectile.localNPCHitCooldown = player.itemAnimationMax / 2;
+            float length = 180f * Projectile.scale;
+            float lengthBase = Projectile.width;
+            float stabAmount = length / (player.itemAnimationMax * timePoint);
             if (Projectile.ai[0] == 0f)
             {
                 Projectile.velocity.Normalize();
-                Projectile.ai[0] = 3f;
+                Projectile.ai[0] = lengthBase;
                 Projectile.netUpdate = true;
             }
-            float stabMult = 23.1f;
+            //float stabMult = 23.1f;
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter) - Projectile.Size / 2;
-            Projectile.position += Projectile.velocity * speed * Projectile.ai[0];
+            Projectile.position += Projectile.velocity * Projectile.ai[0];
             if (Projectile.ai[1] == 0)
             {
                 if (Main.myPlayer == Projectile.owner)
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * speed * stabMult * 0.75f, ModContent.ProjectileType<TrueGungnirBeam>(), (int)(Projectile.damage * 1f), Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, speed * stabMult * 0.75f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * stabAmount * 0.75f, ModContent.ProjectileType<TrueGungnirBeam>(), (int)(Projectile.damage * 1f), Projectile.knockBack / 2, Projectile.owner, Projectile.whoAmI, stabAmount * 0.75f);
                 Projectile.ai[1]++;
                 //SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
             }
-            if (player.itemAnimation < player.itemAnimationMax  * 2f / 3f)
+            if (player.itemAnimation < player.itemAnimationMax * (1f - timePoint))
             {
-                Projectile.ai[0] -= stabMult * 0.5f;
+                Projectile.ai[0] -= stabAmount;
             }
             else
             {
-                Projectile.ai[0] += stabMult;
+                Projectile.ai[0] += stabAmount;
             }
             if (player.itemAnimation == 0)
             {
@@ -96,6 +101,15 @@ namespace JoostMod.Projectiles.Melee
                 Main.dust[num23].velocity += Projectile.velocity * 0.5f;
                 Main.dust[num23].velocity *= 0.5f;
             }
+        }
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            if (player.itemAnimation > player.itemAnimationMax * (1f - timePoint))
+            {
+                return false;
+            }
+            return base.CanDamage();
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -123,7 +137,7 @@ namespace JoostMod.Projectiles.Melee
             Color color = lightColor;
             Vector2 vel = Projectile.velocity;
             vel.Normalize();
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 90 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition - vel * 110 * Projectile.scale, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0);
             return false;
         }
     }

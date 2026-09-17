@@ -23,8 +23,8 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.width = 42;
-            Projectile.height = 42;
+            Projectile.width = 36;
+            Projectile.height = 36;
             Projectile.scale = 1.1f;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
@@ -62,6 +62,18 @@ namespace JoostMod.Projectiles.Melee
                 PositionInWorld = Main.rand.NextVector2FromRectangle(target.Hitbox)
             }, default(int?));
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            Vector2 unit = Projectile.velocity;
+            unit.Normalize();
+            Vector2 startVector = Projectile.Center;
+            float point = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), startVector, startVector + unit * Projectile.width * 1.5f, Projectile.width / 2, ref point))
+            {
+                return true;
+            }
+            return base.Colliding(projHitbox, targetHitbox);
+        }
         public override void AI()
         {
             if (Projectile.ai[0] > 0)
@@ -70,23 +82,23 @@ namespace JoostMod.Projectiles.Melee
                 Projectile spear = Main.projectile[(int)Projectile.ai[0]];
                 if (spear.type == ModContent.ProjectileType<TrueDarkLance>() && spear.owner == Projectile.owner)
                 {
-                    float max = player.itemAnimationMax * 2f / 3f;
+                    float max = player.itemAnimationMax * 0.4f;
                     if (player.itemAnimation >= max || Projectile.localAI[0] == 0)
                     {
                         Vector2 size = Projectile.Size;
                         Projectile.scale = spear.scale;
-                        Projectile.width = (int)(42 * Projectile.scale);
-                        Projectile.height = (int)(42 * Projectile.scale);
+                        Projectile.width = (int)(36 * Projectile.scale);
+                        Projectile.height = (int)(36 * Projectile.scale);
                         Projectile.position -= (Projectile.Size / 2) - (size / 2);
 
                         Vector2 offset = Vector2.Normalize(spear.velocity) * spear.scale * Projectile.ai[1];
                         offset = offset.RotatedBy(Math.PI / 2);
-                        Projectile.Center = (Projectile.ai[1] == 0 ? spear.Center + Projectile.velocity * 3 : Projectile.Center + offset) + player.velocity;
+                        Projectile.Center = (Projectile.ai[1] == 0 ? spear.Center + Projectile.velocity : Projectile.Center + offset) + player.velocity;
 
                         Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
                         Projectile.netUpdate = true;
-                        Projectile.timeLeft = 24;
-                        Projectile.alpha = 127 + (int)(128f * ((player.itemAnimation - max) / max));
+                        Projectile.timeLeft = 32;
+                        Projectile.alpha = 127 + (int)(128f * ((player.itemAnimation - (int)max) / (float)(player.itemAnimationMax - max)));
                         Projectile.localAI[0] = 1;
                     }
                     else
@@ -102,13 +114,13 @@ namespace JoostMod.Projectiles.Melee
                         
                         Projectile.ai[0] = -1;
                         Projectile.tileCollide = true;
-                        Projectile.penetrate = 3;
+                        Projectile.penetrate = 1;
                     }
                 }
             }
             else
             {
-                Projectile.alpha += 6;
+                Projectile.alpha += 4;
             }
             if (Projectile.timeLeft % 2 == 0)
             {
@@ -173,31 +185,32 @@ namespace JoostMod.Projectiles.Melee
             shaderData.UseColor(new Color(0.7f, 0.21f, 0.79f));
             shaderData.UseSecondaryColor(new Color(0.49f, 0.82f, 0f));
             shaderData.UseImage0(TextureAssets.Projectile[Projectile.type]);
+            float offsetValue = 34f;
 
 
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 Color c = color * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
                 Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
-                DrawData dataTrail = new DrawData(tex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+                DrawData dataTrail = new DrawData(tex, drawPos - offset * offsetValue - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
                 shaderData.Apply(dataTrail);
                 dataTrail.Draw(Main.spriteBatch);
             }
 
-            DrawData data = new DrawData(tex, Projectile.Center - offset * 56 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            DrawData data = new DrawData(tex, Projectile.Center - offset * (offsetValue - 8) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
             scale = Projectile.scale * 1.1f;
             color = Color.White * ((255f - Projectile.alpha) / 255f);
 
-            data = new DrawData(tex, Projectile.Center - offset * 48 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            data = new DrawData(tex, Projectile.Center - offset * (offsetValue - 16) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
             scale = Projectile.scale;
             color = new Color(142, 210, 0) * ((255f - Projectile.alpha) / 255f);
-            data = new DrawData(tex, Projectile.Center - offset * 48 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            data = new DrawData(tex, Projectile.Center - offset * (offsetValue - 16) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 

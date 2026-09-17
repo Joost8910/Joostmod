@@ -24,8 +24,8 @@ namespace JoostMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = 64;
+            Projectile.height = 64;
             Projectile.scale = 1.2f;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
@@ -53,18 +53,18 @@ namespace JoostMod.Projectiles.Melee
                 Projectile spear = Main.projectile[(int)Projectile.ai[0]];
                 if (spear.type == ModContent.ProjectileType<TrueGungnir>() && spear.owner == Projectile.owner)
                 {
-                    float max = player.itemAnimationMax * 2f / 3f;
+                    float max = player.itemAnimationMax * 0.4f;
                     if (player.itemAnimation >= max)
                     {
                         Projectile.scale = spear.scale;
                         Projectile.Center = spear.Center + player.velocity;
-                        Projectile.width = (int)(60 * Projectile.scale);
-                        Projectile.height = (int)(60 * Projectile.scale);
+                        Projectile.width = (int)(64 * Projectile.scale);
+                        Projectile.height = (int)(64 * Projectile.scale);
                         Projectile.rotation = (float)Math.Atan2((double)spear.velocity.Y, (double)spear.velocity.X) + 0.785f;
                         Projectile.velocity = spear.velocity * Projectile.ai[1];
                         Projectile.netUpdate = true;
                         Projectile.timeLeft = 30;
-                        Projectile.alpha = (int)(255f * ((player.itemAnimation - max) / max));
+                        Projectile.alpha = (int)(255f * ((player.itemAnimation - (int)max) / (float)(player.itemAnimationMax - max)));
                     }
                     else
                     {
@@ -135,6 +135,18 @@ namespace JoostMod.Projectiles.Melee
                          ).noGravity = true;
             }
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            Vector2 unit = Projectile.velocity;
+            unit.Normalize();
+            Vector2 startVector = Projectile.Center;
+            float point = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), startVector, startVector + unit * Projectile.width * 1.5f, Projectile.width / 2, ref point))
+            {
+                return true;
+            }
+            return base.Colliding(projHitbox, targetHitbox);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             ParticleOrchestrator.RequestParticleSpawn(false, ParticleOrchestraType.TrueExcalibur, new ParticleOrchestraSettings
@@ -162,6 +174,7 @@ namespace JoostMod.Projectiles.Melee
             Color color = new Color(175, 142, 64) * ((255f - Projectile.alpha) / 255f);
             float scale = Projectile.scale * 1.1f;
             Vector2 offset = Vector2.Normalize(Projectile.velocity);
+            float offsetValue = 18;
 
 
             //int intended = Main.CurrentDrawnEntityShader; //Temporary until 1.4.4
@@ -183,19 +196,19 @@ namespace JoostMod.Projectiles.Melee
                 Vector2 drawPos = Projectile.oldPos[k] + new Vector2(Projectile.width / 2, Projectile.height / 2);
                 Texture2D trailTex = (Texture2D)ModContent.Request<Texture2D>($"{Texture}_Trail");
                 //Main.EntitySpriteDraw(trailTex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
-                DrawData dataTrail = new DrawData(trailTex, drawPos - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
+                DrawData dataTrail = new DrawData(trailTex, drawPos - offset * offsetValue - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), c, Projectile.rotation, drawOrigin, scale, effects, 0);
                 shaderData.Apply(dataTrail);
                 dataTrail.Draw(Main.spriteBatch);
             }
 
             scale = Projectile.scale;
             color = new Color(224, 203, 108) * ((255f - Projectile.alpha) / 255f);
-            DrawData data = new DrawData(tex, Projectile.Center - offset * 78 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            DrawData data = new DrawData(tex, Projectile.Center - offset * (offsetValue + 14) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
             color = new Color(255, 255, 146) * ((255f - Projectile.alpha) / 255f);
-            data = new DrawData(tex, Projectile.Center - offset * 74 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            data = new DrawData(tex, Projectile.Center - offset * (offsetValue + 10) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
@@ -203,12 +216,12 @@ namespace JoostMod.Projectiles.Melee
 
             scale = Projectile.scale * 1.1f;
             color = new Color(166, 45, 80) * ((255f - Projectile.alpha) / 255f);
-            data = new DrawData(tex, Projectile.Center - offset * 64 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            data = new DrawData(tex, Projectile.Center - offset * offsetValue - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
             color = Color.White * ((255f - Projectile.alpha) / 255f);
-            data = new DrawData(tex, Projectile.Center - offset * 60 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            data = new DrawData(tex, Projectile.Center - offset * (offsetValue - 4) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
@@ -217,7 +230,7 @@ namespace JoostMod.Projectiles.Melee
 
             scale = Projectile.scale;
             color = new Color(255, 128, 218) * ((255f - Projectile.alpha) / 255f);
-            data = new DrawData(tex, Projectile.Center - offset * 60 - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
+            data = new DrawData(tex, Projectile.Center - offset * (offsetValue - 4) - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height)), color, Projectile.rotation, drawOrigin, scale, effects, 0);
             shaderData.Apply(data);
             data.Draw(Main.spriteBatch);
 
