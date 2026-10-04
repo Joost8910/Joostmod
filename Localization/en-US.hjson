@@ -4230,6 +4230,7 @@ Mods: {
 			XParasiteProjGreen.DisplayName: X Parasite
 			NightsFuryBeam.DisplayName: Nights Fury Beam
 			BloodMoonBeam.DisplayName: Blood Moon Beam
+			NightEcho.DisplayName: Night Echo
 		}
 
 		Tiles: {
