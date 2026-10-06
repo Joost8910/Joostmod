@@ -3,6 +3,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using JoostMod.Projectiles.Melee;
+using JoostMod.Items.Materials;
 
 namespace JoostMod.Items.Tools.Hammers
 {
@@ -16,17 +17,17 @@ namespace JoostMod.Items.Tools.Hammers
         {
             Item.damage = 140;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
-            Item.width = 64;
-            Item.height = 58;
-            Item.useTime = 5;
+            Item.width = 92;
+            Item.height = 84;
+            Item.useTime = 6;
             Item.useAnimation = 25;
             Item.knockBack = 11;
             Item.value = 1000000;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item1;
-            Item.hammer = 120;
+            Item.hammer = 110;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.tileBoost = 7;
+            Item.tileBoost = 5;
             Item.autoReuse = true;
             Item.useTurn = true;
         }
@@ -56,11 +57,13 @@ namespace JoostMod.Items.Tools.Hammers
             CreateRecipe()
                 .AddIngredient<TrueNightsWrath>()
                 .AddIngredient<TruePwnhammer>()
+                .AddIngredient<BrokenHeroHammer>()
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
             CreateRecipe()
                 .AddIngredient<TrueBloodBreaker>()
                 .AddIngredient<TruePwnhammer>()
+                .AddIngredient<BrokenHeroHammer>()
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
 

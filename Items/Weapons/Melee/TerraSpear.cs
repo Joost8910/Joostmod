@@ -1,3 +1,4 @@
+using JoostMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,6 +46,7 @@ namespace JoostMod.Items.Weapons.Melee
             CreateRecipe()
                 .AddIngredient<TrueDarkLance>()
                 .AddIngredient<TrueGungnir>()
+                .AddIngredient<BrokenHeroSpear>()
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

@@ -98,7 +98,7 @@ namespace JoostMod
             {
                 ["spawnItems"] = ModContent.ItemType<InfectedArmCannon>(),
                 ["customPortrait"] = (SpriteBatch spriteBatch, Rectangle rect, Color color) => {
-                    Texture2D texture = ModContent.Request<Texture2D>("JoostMod/NPCs/Bosses/SAXBossLog").Value;
+                    Texture2D texture = ModContent.Request<Texture2D>("JoostMod/NPCs/Bosses/SAX/SAXBossLog").Value;
                     Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
                     spriteBatch.Draw(texture, centered, color);
                 }
@@ -107,7 +107,7 @@ namespace JoostMod
             {
                 ["spawnItems"] = ModContent.ItemType<Excalipoor>(),
                 ["customPortrait"] = (SpriteBatch spriteBatch, Rectangle rect, Color color) => {
-                    Texture2D texture = ModContent.Request<Texture2D>("JoostMod/NPCs/Bosses/GilgameshAndEnkiduBossLog").Value;
+                    Texture2D texture = ModContent.Request<Texture2D>("JoostMod/NPCs/Bosses/Gilgamesh/GilgameshAndEnkiduBossLog").Value;
                     Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
                     spriteBatch.Draw(texture, centered, color);
                 }

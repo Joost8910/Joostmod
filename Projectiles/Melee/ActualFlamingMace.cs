@@ -276,7 +276,7 @@ namespace JoostMod.Projectiles.Melee
             }
             if (Projectile.localAI[1] != 0)
             {
-                tex = ModContent.Request<Texture2D>("Items/Weapons/ActualMace").Value;
+                tex = ModContent.Request<Texture2D>("Items/Weapons/Melee/ActualMace").Value;
             }
             Color color = lightColor;
             Vector2 drawOrigin = new Vector2(tex.Width * 0.5f, tex.Height * 0.5f);

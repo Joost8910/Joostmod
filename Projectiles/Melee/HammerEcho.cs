@@ -16,7 +16,7 @@ namespace JoostMod.Projectiles.Melee
         //public override string Texture => "JoostMod/Projectiles/Melee/HammerEcho";
 
         protected int dustId = -1;
-        protected int maxTime = 15;
+        protected int maxTime = 25;
         protected Color echoColor = Color.White;
         protected float recursionDamageScaling = 0.5f;
         protected float recursionSizeScaling = 0.5f;
@@ -95,7 +95,10 @@ namespace JoostMod.Projectiles.Melee
                 }
             }
 
-            Projectile.scale += (MaxScale / maxTime);
+            //Projectile.scale += (MaxScale / maxTime);
+            Projectile.scale = Utils.Remap((maxTime - Projectile.timeLeft), 0, maxTime, Projectile.scale * 0.8f, MaxScale);
+            //Main.NewText(Projectile.scale);
+
 
             /*Rectangle hitbox = Projectile.Hitbox;
             hitbox.Width = (int)(Projectile.width * Projectile.scale);
@@ -124,11 +127,11 @@ namespace JoostMod.Projectiles.Melee
 
             Color color = echoColor;
 
-            if (Projectile.timeLeft < 5)
+            if (Projectile.timeLeft < 10)
             {
-                color *= Projectile.timeLeft / 5f;
+                color *= Projectile.timeLeft / 10f;
             }
-            float scale = (MaxScale / maxTime) * (maxTime - Projectile.timeLeft);
+            float scale = Projectile.scale;//(MaxScale / maxTime) * (maxTime - Projectile.timeLeft);
 
             Vector2 drawOrigin = new Vector2(tex.Width / 2, tex.Height / 2);
             Rectangle? drawRect = new Rectangle?(new Rectangle(0, 0, tex.Width, tex.Height));

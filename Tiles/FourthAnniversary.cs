@@ -45,7 +45,7 @@ namespace JoostMod.Tiles
             }
             Color paintColor = WorldGen.paintColor(Main.tile[i, j].TileColor);
             Color color = Lighting.GetColor(i, j, paintColor);
-            zero.Y += 2;
+            //zero.Y += 2;
             float alpha = 1000;
             if (Main.eclipse)
             {
@@ -58,7 +58,7 @@ namespace JoostMod.Tiles
                 color.A = (byte)((int)(255f * (alpha / 1000f)));
                 if (alpha > 0)
                 {
-                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_Eclipse").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>($"{Texture}_SolarEclipse").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 

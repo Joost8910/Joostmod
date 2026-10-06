@@ -60,7 +60,7 @@ namespace JoostMod.Projectiles.Ranged
                 offsetAngle = startAngle + deltaAngle * i;
                 Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<Kerbal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileExplode"), Projectile.Center);
+            SoundEngine.PlaySound(new SoundStyle("JoostMod/Sounds/Custom/MissileExplosion"), Projectile.Center);
 
         }
     }

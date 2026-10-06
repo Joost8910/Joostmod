@@ -16,9 +16,9 @@ namespace JoostMod.Items.Tools.Hammers
         {
             Item.damage = 90;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
-            Item.width = 54;
-            Item.height = 52;
-            Item.useTime = 8;
+            Item.width = 68;
+            Item.height = 68;
+            Item.useTime = 12;
             Item.useAnimation = 24;
             Item.knockBack = 9;
             Item.value = 500000;
@@ -26,7 +26,7 @@ namespace JoostMod.Items.Tools.Hammers
             Item.UseSound = SoundID.Item1;
             Item.hammer = 100;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.tileBoost = 2;
+            Item.tileBoost = 1;
             Item.autoReuse = true;
             Item.useTurn = true;
         }

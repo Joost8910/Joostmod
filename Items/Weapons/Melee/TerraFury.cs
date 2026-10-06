@@ -1,3 +1,4 @@
+using JoostMod.Items.Materials;
 using JoostMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -55,11 +56,13 @@ namespace JoostMod.Items.Weapons.Melee
             CreateRecipe()
                 .AddIngredient<TrueHallowedFlail>()
                 .AddIngredient<TrueNightsFury>()
+                .AddIngredient<BrokenHeroFlail>()
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
             CreateRecipe()
                 .AddIngredient<TrueHallowedFlail>()
                 .AddIngredient<TrueBloodMoon>()
+                .AddIngredient<BrokenHeroFlail>()
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
 
