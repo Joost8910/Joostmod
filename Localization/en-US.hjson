@@ -2071,17 +2071,17 @@ Mods: {
 			}
 
 			AquaHammer: {
-				DisplayName: Aqua Hammer
+				DisplayName: Hammer of the Waves
 				Tooltip: ""
 			}
 
 			BloodBreaker: {
-				DisplayName: Blood Breaker
+				DisplayName: Phlebotomizer
 				Tooltip: ""
 			}
 
 			JungleHammer: {
-				DisplayName: Jungle Hammer
+				DisplayName: Leaf Smasher
 				Tooltip: ""
 			}
 
@@ -2096,7 +2096,7 @@ Mods: {
 			}
 
 			TrueBloodBreaker: {
-				DisplayName: True Blood Breaker
+				DisplayName: True Phlebotomizer
 				Tooltip: ""
 			}
 

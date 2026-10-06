@@ -13,10 +13,10 @@ namespace JoostMod.Items.Tools.Hammers
         }
         public override void SetDefaults()
         {
-            Item.damage = 16;
+            Item.damage = 19;
             Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
-            Item.width = 42;
-            Item.height = 46;
+            Item.width = 48;
+            Item.height = 48;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.knockBack = 3;
